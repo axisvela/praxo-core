@@ -28,15 +28,20 @@ Capabilities not demonstrated by a specific tutorial, such as streaming, HITL or
 
 ## Language and runtime fit
 
-Haskell fits research and formal-tooling environments that already use GHC and typed interfaces.
+Haskell offers strong static types, purity and equational reasoning, and is used for compilers, parsers, formal tooling and research prototypes.
 
-- Typed callbacks and explicit error results keep the Core seam visible.
-- Examples cover literature review, policy simulation and test generation.
+Language and ecosystem traits:
 
-Trade-offs and limits:
+- Algebraic data types and exhaustive pattern matching.
+- Purity and explicit effects aid reasoning and refactoring.
+- Mature parser/compiler libraries and GHC tooling.
 
-- Types do not prove scientific or policy validity.
-- No parsing, formal verification or performance advantage is claimed.
+Trade-offs:
+
+- Learning curve and laziness can complicate operational reasoning.
+- Smaller industry hiring and application ecosystem.
+
+Praxo-specific fit: The Core seam fits existing Haskell research tools; the tutorial does not turn types into proof or establish literature-review quality.
 
 ## Evidence and limits
 

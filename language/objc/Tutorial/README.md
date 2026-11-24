@@ -26,15 +26,20 @@ Capabilities not demonstrated by a specific tutorial, such as streaming, HITL or
 
 ## Language and runtime fit
 
-Objective-C fits existing macOS and iOS applications that should keep the review in-process and Foundation-only.
+Objective-C remains relevant for existing Apple platform code, with direct access to Foundation, Cocoa and the mature iOS/macOS runtime.
 
-- The privacy example classifies a fixed message fixture.
-- A deletion request is drafted without account access.
+Language and ecosystem traits:
 
-Trade-offs and limits:
+- Deep Foundation/Cocoa and platform API integration.
+- Dynamic runtime and long-established Apple tooling.
+- Large body of existing macOS/iOS application code.
 
-- No mailbox, password or real deletion path is exercised.
-- No App Store packaging or platform-privacy guarantee.
+Trade-offs:
+
+- Swift is the forward direction for most new Apple development.
+- Verbose syntax and manual memory/ARC conventions add maintenance cost.
+
+Praxo-specific fit: The Core seam fits existing Objective-C apps; the privacy fixture does not exercise account access, deletion or platform privacy guarantees.
 
 ## Evidence and limits
 

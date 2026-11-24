@@ -27,15 +27,20 @@ Capabilities not demonstrated by a specific tutorial, such as streaming, HITL or
 
 ## Language and runtime fit
 
-COBOL fits existing batch and transaction estates where rewriting the business flow in another language would add risk.
+COBOL persists in banking, insurance and government batch/transaction estates where decimal arithmetic and existing operational knowledge matter.
 
-- The review worker sits beside the existing batch rather than replacing it.
-- Unavailable and timeout outcomes leave exceptions for later review.
+Language and ecosystem traits:
 
-Trade-offs and limits:
+- Strong fixed/decimal data handling for business records.
+- Readable record layouts and long-lived batch conventions.
+- Deep integration with existing mainframe operations and staff skills.
 
-- The fixture is local; no mainframe, scheduler or core-banking integration.
-- No production COBOL runtime or operational SLA is verified.
+Trade-offs:
+
+- Tooling, testing and hiring are narrower than modern general-purpose stacks.
+- Refactoring and web/API integration usually need surrounding systems.
+
+Praxo-specific fit: The Core is useful only as a governed review beside an existing COBOL flow; the tutorial deliberately keeps the batch and worker in place.
 
 ## Evidence and limits
 

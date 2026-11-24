@@ -27,15 +27,20 @@ Capabilities not demonstrated by a specific tutorial, such as streaming, HITL or
 
 ## Language and runtime fit
 
-PowerShell fits Windows operations where administrators already work and where read-only diagnostics are preferable to a new agent service.
+PowerShell's object pipeline and cmdlets make it the standard automation shell for Windows administration and Microsoft infrastructure.
 
-- Fixture mode reads services and disks without live access.
-- The published module provides a C# Core bridge.
+Language and ecosystem traits:
 
-Trade-offs and limits:
+- Structured object pipelines instead of text-only shell output.
+- Deep Windows/service/AD management integration.
+- Readable automation for operators and runbooks.
 
-- No live service changes, repair, elevation or remote administration.
-- No monitoring-platform or compliance guarantee.
+Trade-offs:
+
+- Windows-centric assumptions and performance limits on huge data.
+- Cross-platform support is real but less deep than on Windows.
+
+Praxo-specific fit: The Core seam fits existing Windows runbooks; the fixture does not change services, elevate privileges or administer remote hosts.
 
 ## Evidence and limits
 

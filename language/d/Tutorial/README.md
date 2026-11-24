@@ -30,15 +30,20 @@ Capabilities not demonstrated by a specific tutorial, such as streaming, HITL or
 
 ## Language and runtime fit
 
-D fits existing native tooling that wants an embedded Core without moving logic into a managed service.
+D targets native systems programming with optional safety checks, fast compilation and straightforward C interoperability.
 
-- Native compilation and application-owned checks stay close to the data.
-- Examples cover quantitative risk, operations briefs, forecasts and maps.
+Language and ecosystem traits:
 
-Trade-offs and limits:
+- Compile-time metaprogramming and optional memory-safety features.
+- Native code generation with C ABI access.
+- Fast edit/compile cycles compared with some native toolchains.
 
-- All inputs are fixtures; no market feed, dispatch or latency evidence.
-- Policy error naming differs from Go and is documented per tutorial.
+Trade-offs:
+
+- Smaller ecosystem, library choice and hiring pool.
+- Toolchain and runtime conventions differ across teams.
+
+Praxo-specific fit: The Core seam suits existing native D tools; the tutorial does not claim a general D advantage over Go, C++ or Python for business orchestration.
 
 ## Evidence and limits
 

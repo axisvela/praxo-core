@@ -34,15 +34,20 @@ Capabilities not demonstrated by a specific tutorial, such as streaming, HITL or
 
 ## Language and runtime fit
 
-R fits statistics, analytics and forecasting where calculations already belong in an R workflow.
+R is built for statistics and data analysis, with data frames, modeling packages, visualization and a research-oriented CRAN ecosystem.
 
-- Native R computes the metrics before the model drafts a review.
-- Examples cover risk, wealth, quality, budgets, forecasts and anomalies.
+Language and ecosystem traits:
 
-Trade-offs and limits:
+- First-class statistical modeling and data frames.
+- Extensive CRAN packages and visualization.
+- Strong fit for exploratory and publication-oriented analysis.
 
-- Inputs are small fixed fixtures; no market, ledger or sensor feed.
-- No statistical validation, advice or production reporting claim.
+Trade-offs:
+
+- General-purpose performance and software engineering are weaker.
+- Production service patterns require additional tooling.
+
+Praxo-specific fit: The Core seam fits existing R analysis; fixed fixtures do not establish statistical validity, advice or production reporting.
 
 ## Evidence and limits
 

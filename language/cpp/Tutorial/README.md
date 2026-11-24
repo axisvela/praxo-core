@@ -27,15 +27,20 @@ Capabilities not demonstrated by a specific tutorial, such as streaming, HITL or
 
 ## Language and runtime fit
 
-C++ fits industrial, desktop and simulation hosts that already own device SDKs, numerical code or performance-sensitive infrastructure.
+C++ is used for industrial software, engines, simulation and latency-sensitive systems that need zero-overhead abstractions and native library access.
 
-- Interfaces and ownership stay in the host; the Core does not impose a service.
-- Examples cover device review, scheduling, materials, EDA and routing shapes.
+Language and ecosystem traits:
 
-Trade-offs and limits:
+- RAII and deterministic lifetimes for device and resource management.
+- Templates and inline abstractions without a managed runtime.
+- Mature native libraries, compilers and platform SDK integration.
 
-- Most examples use in-process fixtures, not fieldbus or solver libraries.
-- No timing, binary-size or safety-certification claim is established.
+Trade-offs:
+
+- Large language surface and build complexity increase review burden.
+- Memory safety and ABI issues remain application responsibilities.
+
+Praxo-specific fit: The native Core seam fits hosts that already manage device or numerical resources; it does not make C++ preferable for simple business workflows.
 
 ## Evidence and limits
 

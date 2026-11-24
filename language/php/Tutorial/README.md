@@ -44,15 +44,20 @@ Capabilities not demonstrated by a specific tutorial, such as streaming, HITL or
 
 ## Language and runtime fit
 
-PHP fits web portals and back-office applications that want the Agent inside their existing request and deployment model.
+PHP dominates shared web hosting and powers many portals and back-office applications, with a fast request lifecycle and a large Composer ecosystem.
 
-- The native Core is used directly with source loading in these examples.
-- Examples cover service desks, approvals, integrations, procurement and content review.
+Language and ecosystem traits:
 
-Trade-offs and limits:
+- Ubiquitous web hosting and straightforward deployment.
+- Large framework/CMS ecosystem and fast iteration.
+- Strong fit for request-scoped portal and admin workflows.
 
-- All upstream systems are fixtures; no portal or agency integration.
-- No production identity, filing, send or compliance decision.
+Trade-offs:
+
+- Long-running concurrency and CPU-heavy workloads need extra care.
+- Historical type and API inconsistencies affect large codebases.
+
+Praxo-specific fit: The Core seam fits existing PHP portals; the tutorials use fixtures and do not establish production identity, filing or compliance decisions.
 
 ## Evidence and limits
 

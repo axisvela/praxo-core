@@ -25,15 +25,20 @@ Capabilities not demonstrated by a specific tutorial, such as streaming, HITL or
 
 ## Language and runtime fit
 
-Elixir fits existing OTP services where concurrent events and supervised application structure already exist.
+Elixir brings functional programming onto the BEAM, whose supervision trees and lightweight processes target concurrent, fault-tolerant services.
 
-- The Core runs inside an Elixir process without a sidecar service.
-- The knowledge example exercises a fixed diff and review draft.
+Language and ecosystem traits:
 
-Trade-offs and limits:
+- BEAM supervision and process isolation for failure containment.
+- Concurrent request/event handling with immutable data.
+- Phoenix and OTP conventions support maintainable service structure.
 
-- No supervision restart, concurrency or distribution test is included.
-- No Wiki, durable state or BEAM-specific performance claim.
+Trade-offs:
+
+- Dynamic typing and a smaller numerical/ML ecosystem.
+- Fault tolerance depends on designing supervision, not just using the runtime.
+
+Praxo-specific fit: The Core seam fits existing Elixir/OTP services; the tutorial does not exercise supervision or concurrency, so it cannot support a BEAM-advantage claim.
 
 ## Evidence and limits
 

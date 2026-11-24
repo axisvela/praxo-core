@@ -26,15 +26,20 @@ Capabilities not demonstrated by a specific tutorial, such as streaming, HITL or
 
 ## Language and runtime fit
 
-V fits small native tools that want a compact compiled deployment without a managed runtime.
+V targets simple, fast-compiled native programs with a small language surface and safety-oriented defaults.
 
-- The production example ranks a fixed queue and drafts instructions.
-- Policy and failure paths are exercised in the compiled binary.
+Language and ecosystem traits:
 
-Trade-offs and limits:
+- Simple syntax and very fast compilation.
+- Native binaries without a heavy runtime.
+- C interoperability and optional safety checks.
 
-- No MES/ERP integration, solver or AGV dispatch.
-- No measured binary-size or throughput advantage.
+Trade-offs:
+
+- Young ecosystem, libraries and tooling stability.
+- Limited evidence for large-scale production adoption.
+
+Praxo-specific fit: The Core seam fits small native V tools; the example does not establish MES integration or performance advantage.
 
 ## Evidence and limits
 

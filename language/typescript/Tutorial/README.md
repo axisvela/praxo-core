@@ -41,15 +41,20 @@ Capabilities not demonstrated by a specific tutorial, such as streaming, HITL or
 
 ## Language and runtime fit
 
-TypeScript fits Node services and web-adjacent tooling that want the Agent beside existing API and streaming code.
+TypeScript adds static typing to the JavaScript ecosystem, covering Node services and browser code while retaining npm reach and tooling.
 
-- The SDK is exercised with async tools, policy and optional SSE.
-- Examples cover support, retail, travel, localization and planning.
+Language and ecosystem traits:
 
-Trade-offs and limits:
+- Static types over the huge JavaScript/npm ecosystem.
+- One language for Node services and browser clients.
+- Strong editor, refactoring and framework support.
 
-- No browser UI, payment, inventory write or live crawl.
-- The workspace example is not a TypeScript type-checking or build sandbox.
+Trade-offs:
+
+- Types are erased at runtime; boundaries still need validation.
+- Build tooling, dependencies and runtime behavior vary by platform.
+
+Praxo-specific fit: The Core seam fits existing Node/web products; the tutorials are CLI or local SSE demos, not browser UI or payment/ticketing integrations.
 
 ## Evidence and limits
 

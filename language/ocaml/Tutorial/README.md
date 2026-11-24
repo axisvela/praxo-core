@@ -34,15 +34,20 @@ Capabilities not demonstrated by a specific tutorial, such as streaming, HITL or
 
 ## Language and runtime fit
 
-OCaml fits document, compiler and rule-oriented tools that already value typed data and native executables.
+OCaml pairs strong static types and pattern matching with native compilation, and is used for compilers, analyzers, finance and formal tooling.
 
-- Examples cover contract redlines, BOM checks, code review and graph findings.
-- Core policy and failure behavior stay in the OCaml process.
+Language and ecosystem traits:
 
-Trade-offs and limits:
+- Expressive algebraic types and exhaustive matching.
+- Native and bytecode compilation with predictable performance.
+- Strong fit for parsers, compilers and rule-heavy tools.
 
-- Findings are fixtures; no parser or rule counterexamples are tested.
-- No formal verification or legal/engineering certification.
+Trade-offs:
+
+- Smaller ecosystem and hiring pool than mainstream languages.
+- Parallelism and tooling require more deliberate choices.
+
+Praxo-specific fit: The Core seam fits existing OCaml analysis tools; the tutorials return fixed findings rather than exercising parsers, rules or formal verification.
 
 ## Evidence and limits
 

@@ -21,15 +21,20 @@ Capabilities not demonstrated by a specific tutorial, such as streaming, HITL or
 
 ## Language and runtime fit
 
-Zig fits constrained edge components that want explicit control and a native Core without a managed runtime.
+Zig emphasizes explicit control, compile-time execution and C interoperability without hidden allocations or control flow, targeting systems and embedded use.
 
-- A function-table adapter keeps the device boundary application-owned.
-- The example exercises policy, denial and failure paths.
+Language and ecosystem traits:
 
-Trade-offs and limits:
+- Explicit allocators and no hidden control flow.
+- Compile-time metaprogramming via comptime.
+- Direct C ABI/library interoperability.
 
-- No socket, device SDK or measured memory ceiling.
-- The locally emitted binary was quarantined; CI uses build-exe.
+Trade-offs:
+
+- Pre-1.0 language/tooling churn and a small ecosystem.
+- Explicit control shifts more responsibility to the developer.
+
+Praxo-specific fit: The Core seam fits constrained Zig components; the fixture does not measure binary size, memory ceilings or platform guarantees.
 
 ## Evidence and limits
 

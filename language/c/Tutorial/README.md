@@ -20,15 +20,20 @@ Capabilities not demonstrated by a specific tutorial, such as streaming, HITL or
 
 ## Language and runtime fit
 
-C is a fit when the Agent must live inside an existing native component with caller-owned memory, explicit ABI boundaries and no managed runtime.
+C remains the default for operating-system interfaces, firmware and native libraries that must expose a stable ABI and predictable memory use.
 
-- No garbage collector or separate service process is required.
-- Function-pointer adapters keep device and transport code application-owned.
+Language and ecosystem traits:
 
-Trade-offs and limits:
+- Minimal runtime and direct hardware/OS access.
+- Stable ABI and broad compiler/toolchain availability.
+- Explicit ownership and allocation make costs visible.
 
-- The tutorial exercises an in-process adapter, not a serial bus or SDK.
-- Binary size, allocation budget and real-time behavior are unmeasured.
+Trade-offs:
+
+- Manual memory management raises defect and review cost.
+- Portable tooling and package management are comparatively limited.
+
+Praxo-specific fit: The Core seam is attractive only where a C host already owns the device or OS contract; the tutorial demonstrates that seam, not a C advantage for business orchestration.
 
 ## Evidence and limits
 

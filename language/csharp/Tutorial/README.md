@@ -31,15 +31,20 @@ Capabilities not demonstrated by a specific tutorial, such as streaming, HITL or
 
 ## Language and runtime fit
 
-C# fits .NET services and desktop operations where identity, HTTP entry and the Agent can share one process and deployment model.
+C# is a mainstream enterprise language with strong tooling, async support and ASP.NET Core for services and line-of-business applications.
 
-- ASP.NET Core and console hosts are represented.
-- The published Core package is used through ordinary project references.
+Language and ecosystem traits:
 
-Trade-offs and limits:
+- Mature IDE, debugger, NuGet and testing ecosystem.
+- Async/await and LINQ support service and data-heavy code.
+- ASP.NET Core and desktop options share one managed runtime.
 
-- Backends are synthetic and loopback-only in these examples.
-- No production OIDC, ERP, billing or hosted endpoint is verified.
+Trade-offs:
+
+- Runtime/startup and memory overhead matter in constrained deployments.
+- Enterprise framework choices add their own operational complexity.
+
+Praxo-specific fit: The Core seam fits .NET services that already own identity, HTTP entry and business data; the tutorial is about that boundary, not a C# performance claim.
 
 ## Evidence and limits
 

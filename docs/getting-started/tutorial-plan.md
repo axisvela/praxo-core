@@ -56,6 +56,12 @@ The section must answer all of these questions:
 - **Evidence limit:** Is this Core integration only, an exercised ecosystem
   integration, or an independently reproduced consumer integration?
 
+Language-level guidance must describe the language and ecosystem itself, not only how
+the Core is wired. State relevant runtime, concurrency, typing, tooling, platform or
+library characteristics and their trade-offs. Do not invent superlatives or comparative
+benchmarks. Keep Praxo integration notes separate from language traits so pages do not
+become interchangeable.
+
 "This language can implement the task" is insufficient. Generic tool callbacks,
 JSON fixtures and a scripted model establish Core integration only. Compilation
 does not establish low latency, small deployment size, safety, formal correctness

@@ -29,15 +29,20 @@ Capabilities not demonstrated by a specific tutorial, such as streaming, HITL or
 
 ## Language and runtime fit
 
-Go is the reference Core and fits services, operators and tooling that value a small deployable binary and explicit application boundaries.
+Go is designed for simple, maintainable services: goroutines and channels make concurrency approachable, net/http is production-standard, and static binaries simplify deployment.
 
-- Reference behavior, events, checkpoints, VFS and PII middleware are shown.
-- Examples cover incidents, security, logistics, litigation and planning.
+Language and ecosystem traits:
 
-Trade-offs and limits:
+- Straightforward concurrency with goroutines and channels.
+- Strong standard library and networking/HTTP tooling.
+- Fast builds, static binaries and simple cross-compilation.
 
-- Fixtures replace SIEM, cloud, dispatch and workspace systems.
-- Added CI jobs are not the same as verified remote CI or adoption.
+Trade-offs:
+
+- Generics and expressiveness are more limited than some languages.
+- Garbage collection and runtime behavior still require measurement.
+
+Praxo-specific fit: Go is also the reference Core, so the tutorials show canonical behavior; its service and tooling strengths make the examples natural, but they remain fixtures rather than performance or production evidence.
 
 ## Evidence and limits
 

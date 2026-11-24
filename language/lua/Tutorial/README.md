@@ -25,15 +25,20 @@ Capabilities not demonstrated by a specific tutorial, such as streaming, HITL or
 
 ## Language and runtime fit
 
-Lua fits host applications and constrained environments where embedding is preferable to a separate Agent service.
+Lua is built for embedding: a tiny interpreter, a simple C API and fast startup make it common in games, appliances and host applications.
 
-- Host callbacks, policy checks and draft actions stay in Lua.
-- Examples cover host embedding, games, media, irrigation and economies.
+Language and ecosystem traits:
 
-Trade-offs and limits:
+- Small embeddable runtime with a stable C interface.
+- Simple syntax and fast startup for host-side scripting.
+- Widely used for configuration and extension points.
 
-- No actual game engine, host application or hardware is embedded here.
-- Memory footprint and real-time behavior are not measured.
+Trade-offs:
+
+- Small standard library and limited general-purpose ecosystem.
+- Dynamic typing and tooling demand disciplined host boundaries.
+
+Praxo-specific fit: The Core seam fits products that already expose Lua extension points; this CLI tutorial does not embed a real host or measure footprint.
 
 ## Evidence and limits
 

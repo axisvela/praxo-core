@@ -27,15 +27,20 @@ Capabilities not demonstrated by a specific tutorial, such as streaming, HITL or
 
 ## Language and runtime fit
 
-Julia fits numerical research where experiment comparison already happens in the same runtime.
+Julia targets technical computing with multiple dispatch, JIT-compiled numerical code and a growing scientific package ecosystem.
 
-- Native means and deltas are computed over a fixed sample set.
-- The report records no mutating actions.
+Language and ecosystem traits:
 
-Trade-offs and limits:
+- Multiple dispatch and expressive numerical code.
+- Performance close to compiled languages for many numeric workloads.
+- Strong plotting, optimization and scientific libraries.
 
-- No lab system, notebook integration or statistical validation.
-- No package-ecosystem or performance claim is made.
+Trade-offs:
+
+- Compilation latency and package maturity vary by domain.
+- General service and operations tooling are less established.
+
+Praxo-specific fit: The Core seam fits existing Julia analysis; the fixed comparison is not evidence of numerical validation or platform performance.
 
 ## Evidence and limits
 

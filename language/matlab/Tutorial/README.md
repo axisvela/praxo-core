@@ -27,15 +27,20 @@ Capabilities not demonstrated by a specific tutorial, such as streaming, HITL or
 
 ## Language and runtime fit
 
-MATLAB fits signal-processing and engineering workflows where analysis and review should remain in the same environment.
+MATLAB is matrix-first and widely used in engineering, control and signal analysis, backed by toolboxes and Simulink-style workflows.
 
-- The signal example computes fixed metrics and returns a report.
-- No device control or threshold mutation occurs.
+Language and ecosystem traits:
 
-Trade-offs and limits:
+- Matrix/vector syntax and numerical toolboxes.
+- Strong engineering visualization and simulation ecosystem.
+- Common in control, signal and research workflows.
 
-- Local execution evidence currently comes from GNU Octave.
-- Native MATLAB and toolbox behavior are unverified.
+Trade-offs:
+
+- Commercial licensing and deployment constraints.
+- General software engineering and package management differ from open stacks.
+
+Praxo-specific fit: The Core seam fits existing MATLAB analysis; local evidence is GNU Octave, so native MATLAB and toolbox behavior remain unverified.
 
 ## Evidence and limits
 

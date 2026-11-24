@@ -25,15 +25,20 @@ Capabilities not demonstrated by a specific tutorial, such as streaming, HITL or
 
 ## Language and runtime fit
 
-Erlang fits telecom and operations environments where BEAM processes and fault isolation are already part of the architecture.
+Erlang's BEAM runtime and OTP behaviours come from telecom-grade concurrency, isolation and distributed supervision requirements.
 
-- The AIOps example runs Core callbacks through an escript.
-- Policy and failure paths return before any rollback draft.
+Language and ecosystem traits:
 
-Trade-offs and limits:
+- Soft real-time scheduling and lightweight processes.
+- Supervision, distribution and hot-code concepts built into OTP.
+- Long operational heritage in telecom and messaging.
 
-- No OTP supervision tree, distributed node or recovery test is exercised.
-- No production incident platform or concurrency guarantee.
+Trade-offs:
+
+- Syntax and hiring base are narrower than mainstream languages.
+- General numerical and UI ecosystems are limited.
+
+Praxo-specific fit: The Core seam fits existing OTP operations software; the sequential escript tutorial does not demonstrate supervision, distribution or fault recovery.
 
 ## Evidence and limits
 

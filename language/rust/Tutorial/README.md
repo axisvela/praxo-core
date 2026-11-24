@@ -27,15 +27,20 @@ Capabilities not demonstrated by a specific tutorial, such as streaming, HITL or
 
 ## Language and runtime fit
 
-Rust fits edge, security and native infrastructure where explicit ownership and a single deployable binary matter.
+Rust provides memory safety without a garbage collector, plus ownership, thread-safety guarantees, Cargo tooling and strong embedded/WASM support.
 
-- Trait-based adapters keep device and network contracts application-owned.
-- Examples cover gateways, security, fleet, lab and field review.
+Language and ecosystem traits:
 
-Trade-offs and limits:
+- Ownership and borrowing prevent many memory/concurrency defects at compile time.
+- No GC and predictable resource use suit edge and infrastructure code.
+- Cargo, crates.io and cross-compilation support native deployment.
 
-- Most examples are in-process fixtures, not protocol or device integrations.
-- No binary-size, latency or safety-certification measurement.
+Trade-offs:
+
+- Compile times and the learning curve are significant.
+- Compile-time safety does not replace device, protocol or domain validation.
+
+Praxo-specific fit: The Core seam fits existing Rust edge/security components; these fixtures do not exercise hardware, protocols or measured resource limits.
 
 ## Evidence and limits
 

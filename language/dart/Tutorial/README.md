@@ -34,15 +34,20 @@ Capabilities not demonstrated by a specific tutorial, such as streaming, HITL or
 
 ## Language and runtime fit
 
-Dart fits existing Flutter or Dart services that want the Agent in the same runtime as their application code.
+Dart is strongest where one language covers Flutter UI and supporting client or service logic, with sound null safety and fast iteration.
 
-- Core callbacks and policy run as a normal Dart process.
-- Examples cover care, coordination, memory, media and field schedules.
+Language and ecosystem traits:
 
-Trade-offs and limits:
+- Single-language UI and application logic via Flutter.
+- Sound null safety and approachable async APIs.
+- Hot reload and an integrated toolchain for app development.
 
-- No Flutter UI, platform channel or mobile lifecycle is exercised.
-- Examples are CLI fixtures, not app-store or device integrations.
+Trade-offs:
+
+- Server-side ecosystem and operational tooling are smaller than Node/Java.
+- Most value depends on an actual Flutter or Dart product.
+
+Praxo-specific fit: The Core seam matters when a mobile or Flutter app must keep review logic in-process; this CLI tutorial does not exercise the UI or platform channels.
 
 ## Evidence and limits
 

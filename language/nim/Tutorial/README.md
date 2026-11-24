@@ -26,15 +26,20 @@ Capabilities not demonstrated by a specific tutorial, such as streaming, HITL or
 
 ## Language and runtime fit
 
-Nim fits small native utilities that want an embedded Core with a compact toolchain and C-backend deployment.
+Nim combines Python-like syntax with native compilation through C/C++, metaprogramming and optional safety checks.
 
-- The maintenance example reads fixed telemetry and drafts a work order.
-- Native callbacks keep the sensor boundary application-owned.
+Language and ecosystem traits:
 
-Trade-offs and limits:
+- Readable syntax with compile-time metaprogramming.
+- Native performance and straightforward C interoperability.
+- Small binaries and flexible memory-management choices.
 
-- No sensor feed, prediction or work-order write.
-- Binary size and memory behavior are not measured.
+Trade-offs:
+
+- Smaller ecosystem, libraries and hiring pool.
+- Toolchain and package conventions are less standardized.
+
+Praxo-specific fit: The Core seam fits small native Nim utilities; the fixture does not establish sensor integration, prediction or deployment-size benefits.
 
 ## Evidence and limits
 

@@ -76,15 +76,20 @@ Capabilities not demonstrated by a specific tutorial, such as streaming, HITL or
 
 ## Language and runtime fit
 
-Python fits data, research and automation workflows where the Agent can share the same runtime and libraries as existing analysis code.
+Python's readability and enormous ecosystem make it the default for data, ML, automation and rapid prototyping across many industries.
 
-- Native Core is used with async tools, policy and structured reports.
-- Examples span healthcare, finance, security, legal, science and education.
+Language and ecosystem traits:
 
-Trade-offs and limits:
+- Low learning curve and clear syntax for mixed teams.
+- Broad libraries for data, science, web, ML and automation.
+- Strong interactive and notebook-based exploration.
 
-- Most scenarios use deterministic fixtures; live providers are optional.
-- No tutorial establishes clinical, legal, financial or scientific validity.
+Trade-offs:
+
+- Interpreter performance, the GIL and packaging can constrain scale.
+- Dynamic typing shifts more validation into tests and runtime checks.
+
+Praxo-specific fit: The Core seam fits existing Python data and automation code; the tutorials use fixtures and do not establish clinical, legal or scientific validity.
 
 ## Evidence and limits
 

@@ -27,15 +27,20 @@ Capabilities not demonstrated by a specific tutorial, such as streaming, HITL or
 
 ## Language and runtime fit
 
-Perl fits existing text-processing, log and legacy automation environments.
+Perl remains effective for text processing, regular expressions, log handling and long-lived system administration automation.
 
-- Native severity counts and structured reports are produced locally.
-- Examples cover log triage and news source comparison.
+Language and ecosystem traits:
 
-Trade-offs and limits:
+- Best-in-class text/regex handling and CPAN breadth.
+- Excellent for glue code and legacy operations automation.
+- Mature command-line and reporting conventions.
 
-- No log ingestion, alerting, live crawl or truth verification.
-- No CPAN dependency or production monitoring claim.
+Trade-offs:
+
+- Modern application structure and type safety are weaker.
+- Long-term maintainability depends heavily on discipline.
+
+Praxo-specific fit: The Core seam fits existing Perl operations scripts; the log fixture does not establish monitoring, alerting or correlation capability.
 
 ## Evidence and limits
 

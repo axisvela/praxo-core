@@ -26,15 +26,20 @@ Capabilities not demonstrated by a specific tutorial, such as streaming, HITL or
 
 ## Language and runtime fit
 
-GNU Octave offers a free local path for MATLAB-style numerical and signal workflows without requiring a MATLAB license.
+GNU Octave provides a free, largely MATLAB-compatible environment for matrix and signal work where licensing or offline use matters.
 
-- The shared signal tutorial runs under Octave 11.3.0.
-- Metrics are computed on a fixed local signal.
+Language and ecosystem traits:
 
-Trade-offs and limits:
+- MATLAB-like syntax and matrix operations without a license.
+- Useful for teaching, local analysis and compatibility checks.
+- Open-source deployment and scripting.
 
-- Results do not establish native MATLAB behavior or toolbox support.
-- No acquisition hardware, device control or production numerics.
+Trade-offs:
+
+- Compatibility gaps and different toolbox coverage versus MATLAB.
+- Performance and ecosystem are not equivalent to commercial MATLAB.
+
+Praxo-specific fit: The Core seam fits Octave-based analysis; results must not be presented as native MATLAB evidence.
 
 ## Evidence and limits
 

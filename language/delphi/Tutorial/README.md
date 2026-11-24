@@ -30,15 +30,20 @@ Capabilities not demonstrated by a specific tutorial, such as streaming, HITL or
 
 ## Language and runtime fit
 
-Delphi and Free Pascal fit existing Windows desktop and industrial software that should keep its native deployment model.
+Delphi and Free Pascal serve long-lived Windows desktop, industrial and database applications with rapid visual development and native deployment.
 
-- The source Core is compiled into the host with the same toolchain.
-- Examples cover migration inventory, reconciliation and building settings.
+Language and ecosystem traits:
 
-Trade-offs and limits:
+- RAD tooling and native Windows executables.
+- Strong database/desktop heritage and incremental migration paths.
+- Free Pascal provides a source-compatible open toolchain.
 
-- Fixtures are local; no BMS, ERP or production desktop integration.
-- No installer, signing or long-term runtime support claim.
+Trade-offs:
+
+- Proprietary tooling and platform focus narrow deployment options.
+- Modern web, cloud and package ecosystems are comparatively limited.
+
+Praxo-specific fit: The Core seam fits existing Delphi desktop software; it is not a recommendation to start new cross-platform services in Delphi.
 
 ## Evidence and limits
 

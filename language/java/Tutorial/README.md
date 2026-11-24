@@ -26,15 +26,20 @@ Capabilities not demonstrated by a specific tutorial, such as streaming, HITL or
 
 ## Language and runtime fit
 
-Java fits enterprise services where the JVM, Maven and HTTP boundaries are already standard.
+Java combines a mature JVM with a very broad enterprise ecosystem, strong tooling and long-term platform support.
 
-- Native Core is embedded in a loopback HTTP application with JUnit tests.
-- The shared synthetic orders backend is exercised over local HTTP.
+Language and ecosystem traits:
 
-Trade-offs and limits:
+- JIT performance and a mature concurrent runtime.
+- Extensive libraries, frameworks and Maven/Gradle tooling.
+- Long-standing enterprise and regulated-industry adoption.
 
-- No production identity, ERP data or hosted service is included.
-- Maven and JDK compatibility are verified only by the local test run.
+Trade-offs:
+
+- Startup and memory footprint can exceed lighter runtimes.
+- Verbosity and framework layering increase maintenance cost.
+
+Praxo-specific fit: The Core seam fits existing JVM services with HTTP and identity boundaries; the loopback tutorial does not establish production performance or ERP support.
 
 ## Evidence and limits
 

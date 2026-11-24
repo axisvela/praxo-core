@@ -32,15 +32,20 @@ Capabilities not demonstrated by a specific tutorial, such as streaming, HITL or
 
 ## Language and runtime fit
 
-Ruby fits web applications, back-office tools and automation where the team already deploys and maintains Ruby services.
+Ruby emphasizes developer productivity and expressive code, with Rails and a mature ecosystem for web applications and back-office automation.
 
-- Native Core runs with ordinary Ruby objects and policy lambdas.
-- Examples cover FinOps, recruiting, governance, outreach and diligence.
+Language and ecosystem traits:
 
-Trade-offs and limits:
+- Expressive syntax and productive web frameworks.
+- Strong testing culture and readable domain code.
+- Good fit for CRUD, admin and workflow-heavy services.
 
-- No cloud credentials, HR decisions or external sends.
-- No production adoption, performance or compliance claim.
+Trade-offs:
+
+- Runtime performance and concurrency need deliberate design.
+- Large-team type safety depends on tests and conventions.
+
+Praxo-specific fit: The Core seam fits existing Ruby web/back-office services; the tutorials do not establish cloud, HR or compliance capabilities.
 
 ## Evidence and limits
 

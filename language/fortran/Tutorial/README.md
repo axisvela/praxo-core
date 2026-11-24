@@ -20,15 +20,20 @@ Capabilities not demonstrated by a specific tutorial, such as streaming, HITL or
 
 ## Language and runtime fit
 
-Fortran fits numerical and simulation codebases that should keep computation and review in the same native runtime.
+Fortran remains central in numerical simulation, HPC and scientific codebases with mature array semantics and optimized compilers.
 
-- Native metrics are computed before the model packages the report.
-- The Core is linked into the tutorial rather than called remotely.
+Language and ecosystem traits:
 
-Trade-offs and limits:
+- Array-first syntax and numerical library heritage.
+- HPC compiler and accelerator ecosystem.
+- Long-lived scientific code and domain expertise.
 
-- No solver, HPC run, parallel scaling or numerical validation.
-- The pinned bridge and fixture are local build evidence only.
+Trade-offs:
+
+- General application, web and package ecosystems are limited.
+- Tooling and interoperability can lag modern general-purpose stacks.
+
+Praxo-specific fit: The Core seam fits simulation hosts that should not move numerical work; the tutorial does not establish solver, HPC or performance capability.
 
 ## Evidence and limits
 
