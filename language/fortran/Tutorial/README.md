@@ -2,6 +2,10 @@
 
 Bounded Fortran examples built on the native Core. Each tutorial is a small, runnable slice with explicit non-goals and an application-owned boundary; none is a complete industry product.
 
+## Article angle
+
+Keeping numerical work in Fortran while adding a review-only Agent boundary for simulation interpretation.
+
 ## Business scenarios
 
 These Fortran examples show bounded Agent-shaped workflows rather than complete products. Each one keeps business data, approval and effects in the application:

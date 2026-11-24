@@ -7,6 +7,10 @@ See the [100-scenario catalog](https://axisvela.github.io/praxo-core/getting-sta
 for additional Elixir candidate assignments. Those are planned targets, not
 implemented tutorials.
 
+## Article angle
+
+Review boundaries for supervised BEAM services, and the difference between using OTP and merely running on it.
+
 ## Business scenarios
 
 These Elixir examples show bounded Agent-shaped workflows rather than complete products. Each one keeps business data, approval and effects in the application:

@@ -8,6 +8,10 @@ See the [100-scenario catalog](https://axisvela.github.io/praxo-core/getting-sta
 for additional Objective-C candidate assignments. Those are planned targets, not
 implemented tutorials.
 
+## Article angle
+
+Privacy review inside existing Apple applications: Foundation integration without mailbox, password or deletion access.
+
 ## Business scenarios
 
 These Objective-C examples show bounded Agent-shaped workflows rather than complete products. Each one keeps business data, approval and effects in the application:

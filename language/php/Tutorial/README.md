@@ -19,6 +19,10 @@ See the [100-scenario catalog](https://axisvela.github.io/praxo-core/getting-sta
 for additional PHP candidate assignments. Those are planned targets, not
 implemented tutorials.
 
+## Article angle
+
+Portal workflows with request-scoped review: ubiquitous hosting, fast iteration and explicit upstream-system limits.
+
 ## Business scenarios
 
 These PHP examples show bounded Agent-shaped workflows rather than complete products. Each one keeps business data, approval and effects in the application:

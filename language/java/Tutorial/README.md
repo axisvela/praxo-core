@@ -7,6 +7,10 @@ Application tutorials live in `Tutorial/`, alongside focused `examples/`.
 
 Business APIs are teaching contracts, not additions to Core's public API.
 
+## Article angle
+
+Enterprise JVM services with governed review: ecosystem, tooling and integration boundaries that matter in regulated industries.
+
 ## Business scenarios
 
 These Java examples show bounded Agent-shaped workflows rather than complete products. Each one keeps business data, approval and effects in the application:

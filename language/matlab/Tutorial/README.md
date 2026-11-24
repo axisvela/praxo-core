@@ -9,6 +9,10 @@ Octave reuses the same tutorial sources through
 `language/octave/Tutorial/signal-trends/`. Native MATLAB runtime verification is
 not claimed when only GNU Octave has been run.
 
+## Article angle
+
+Engineering analysis with review-only output, and why Octave evidence must be separated from native MATLAB claims.
+
 ## Business scenarios
 
 These Matlab examples show bounded Agent-shaped workflows rather than complete products. Each one keeps business data, approval and effects in the application:

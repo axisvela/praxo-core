@@ -13,6 +13,10 @@ See the [100-scenario catalog](https://axisvela.github.io/praxo-core/getting-sta
 for additional OCaml candidate assignments. Those are planned targets, not
 implemented tutorials.
 
+## Article angle
+
+Typed analysis tools with review-only findings: parsers, graphs and rules without overstating formal verification.
+
 ## Business scenarios
 
 These Ocaml examples show bounded Agent-shaped workflows rather than complete products. Each one keeps business data, approval and effects in the application:

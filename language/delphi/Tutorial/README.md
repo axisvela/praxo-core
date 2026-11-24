@@ -10,6 +10,10 @@ See the [100-scenario catalog](https://axisvela.github.io/praxo-core/getting-sta
 for additional Delphi candidate assignments. Those are planned targets, not
 implemented tutorials.
 
+## Article angle
+
+Incremental Agent adoption in long-lived Delphi and Free Pascal applications instead of platform replacement.
+
 ## Business scenarios
 
 These Delphi examples show bounded Agent-shaped workflows rather than complete products. Each one keeps business data, approval and effects in the application:

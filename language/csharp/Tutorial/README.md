@@ -8,6 +8,10 @@ Application tutorials live in `Tutorial/`, alongside focused `examples/`.
 The shared MIT backend is [agent-tutorial-services](https://github.com/axisvela/agent-tutorial-services).
 Business APIs are teaching contracts, not additions to Core's public API.
 
+## Article angle
+
+Bringing policy, review and HTTP boundaries into .NET services without a separate orchestration tier.
+
 ## Business scenarios
 
 These C# examples show bounded Agent-shaped workflows rather than complete products. Each one keeps business data, approval and effects in the application:

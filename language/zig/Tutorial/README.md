@@ -2,6 +2,10 @@
 
 Bounded Zig examples built on the native Core. Each tutorial is a small, runnable slice with explicit non-goals and an application-owned boundary; none is a complete industry product.
 
+## Article angle
+
+Explicit control at the edge: allocators, comptime and C interoperability, with pre-1.0 trade-offs stated plainly.
+
 ## Business scenarios
 
 These Zig examples show bounded Agent-shaped workflows rather than complete products. Each one keeps business data, approval and effects in the application:

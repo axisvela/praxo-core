@@ -9,6 +9,10 @@ Application tutorials live in `Tutorial/`, alongside focused `examples/`.
 COBOL tutorials keep the main batch deterministic. Review is a separate,
 application-owned step, not an inline model decision in the posting path.
 
+## Article angle
+
+Adding reviewed Agent assistance beside an existing COBOL batch without rewriting the business flow or moving sensitive records.
+
 ## Business scenarios
 
 These Cobol examples show bounded Agent-shaped workflows rather than complete products. Each one keeps business data, approval and effects in the application:

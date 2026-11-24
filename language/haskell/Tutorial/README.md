@@ -8,6 +8,10 @@ See the [100-scenario catalog](https://axisvela.github.io/praxo-core/getting-sta
 for additional Haskell candidate assignments. Those are planned targets, not
 implemented tutorials.
 
+## Article angle
+
+Typed seams for research and compiler tooling: explicit effects and errors without claiming formal proof.
+
 ## Business scenarios
 
 These Haskell examples show bounded Agent-shaped workflows rather than complete products. Each one keeps business data, approval and effects in the application:

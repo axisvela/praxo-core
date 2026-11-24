@@ -9,6 +9,10 @@ The [100-scenario catalog](https://axisvela.github.io/praxo-core/getting-started
 also assigns Ruby candidate paths for supplier risk. Those are planned
 assignments, not implemented tutorials.
 
+## Article angle
+
+Productive web and back-office review: expressive code and Rails-era workflows with clear external-system limits.
+
 ## Business scenarios
 
 These Ruby examples show bounded Agent-shaped workflows rather than complete products. Each one keeps business data, approval and effects in the application:

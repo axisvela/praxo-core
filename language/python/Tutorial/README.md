@@ -42,6 +42,10 @@ Shared business backends live in the public
 [agent-tutorial-services](https://github.com/axisvela/agent-tutorial-services)
 repository; they are not part of the Core package or wire spec.
 
+## Article angle
+
+Ecosystem-first Agents with explicit limits: readability, data libraries and the cost of dynamic typing at scale.
+
 ## Business scenarios
 
 These Python examples show bounded Agent-shaped workflows rather than complete products. Each one keeps business data, approval and effects in the application:

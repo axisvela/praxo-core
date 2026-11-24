@@ -8,6 +8,10 @@ Application tutorials live in `Tutorial/`, alongside focused `examples/`.
 Tutorials use the native Perl Core and do not require a network or a model
 endpoint in deterministic mode. Application business rules remain outside Core.
 
+## Article angle
+
+Text-heavy automation plus review: regex, CPAN and legacy operations without pretending to be a modern application platform.
+
 ## Business scenarios
 
 These Perl examples show bounded Agent-shaped workflows rather than complete products. Each one keeps business data, approval and effects in the application:

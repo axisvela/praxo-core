@@ -8,6 +8,10 @@ Application tutorials live in `Tutorial/`, alongside focused `examples/`.
 Octave verification does not establish native MATLAB behavior. The shared source
 lives under `language/matlab/Tutorial/signal-trends/`.
 
+## Article angle
+
+Free numerical workflows for MATLAB-style analysis, with a clear line between Octave results and MATLAB guarantees.
+
 ## Business scenarios
 
 These Octave examples show bounded Agent-shaped workflows rather than complete products. Each one keeps business data, approval and effects in the application:

@@ -17,6 +17,10 @@ Shared business backends live in the public
 [agent-tutorial-services](https://github.com/axisvela/agent-tutorial-services)
 repository; they are not part of the Core package or wire spec.
 
+## Article angle
+
+One language across Node services and browser clients, with runtime validation behind erased types.
+
 ## Business scenarios
 
 These TypeScript examples show bounded Agent-shaped workflows rather than complete products. Each one keeps business data, approval and effects in the application:

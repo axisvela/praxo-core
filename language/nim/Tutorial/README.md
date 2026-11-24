@@ -8,6 +8,10 @@ See the [100-scenario catalog](https://axisvela.github.io/praxo-core/getting-sta
 for additional Nim candidate assignments. Those are planned targets, not
 implemented tutorials.
 
+## Article angle
+
+Small native utilities with explicit boundaries: compile-to-C deployment and application-owned device contracts.
+
 ## Business scenarios
 
 These Nim examples show bounded Agent-shaped workflows rather than complete products. Each one keeps business data, approval and effects in the application:

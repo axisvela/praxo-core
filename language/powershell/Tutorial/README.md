@@ -9,6 +9,10 @@ PowerShell uses the shared C# Core through its module, not a separately
 implemented agent loop. Fixture mode is portable; local machine checks require
 Windows and do not execute repairs or arbitrary model-generated commands.
 
+## Article angle
+
+Windows operations with read-only review: object pipelines, cmdlets and the discipline of not changing live services.
+
 ## Business scenarios
 
 These PowerShell examples show bounded Agent-shaped workflows rather than complete products. Each one keeps business data, approval and effects in the application:

@@ -2,6 +2,10 @@
 
 Bounded Lua examples built on the native Core. Each tutorial is a small, runnable slice with explicit non-goals and an application-owned boundary; none is a complete industry product.
 
+## Article angle
+
+Embedding governance in host applications: tiny runtime, C integration and host-owned authority.
+
 ## Business scenarios
 
 These Lua examples show bounded Agent-shaped workflows rather than complete products. Each one keeps business data, approval and effects in the application:

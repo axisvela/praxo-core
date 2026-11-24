@@ -9,6 +9,10 @@ The tutorial runs in source mode from the repository root. It does not use the
 shared business backend, a provider credential or a live model in deterministic
 mode. Application-specific analysis remains outside Core.
 
+## Article angle
+
+Statistics-first Agents with review boundaries: data frames, CRAN and the separation between analysis and advice.
+
 ## Business scenarios
 
 These R examples show bounded Agent-shaped workflows rather than complete products. Each one keeps business data, approval and effects in the application:

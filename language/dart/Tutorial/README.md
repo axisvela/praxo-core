@@ -10,6 +10,10 @@ See the [100-scenario catalog](https://axisvela.github.io/praxo-core/getting-sta
 for additional Dart candidate assignments. Those are planned targets, not
 implemented tutorials.
 
+## Article angle
+
+Client-side Agent patterns for Dart and Flutter products: consent, escalation and review without a remote service.
+
 ## Business scenarios
 
 These Dart examples show bounded Agent-shaped workflows rather than complete products. Each one keeps business data, approval and effects in the application:

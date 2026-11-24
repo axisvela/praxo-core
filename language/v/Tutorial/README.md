@@ -8,6 +8,10 @@ See the [100-scenario catalog](https://axisvela.github.io/praxo-core/getting-sta
 for additional V candidate assignments. Those are planned targets, not implemented
 tutorials.
 
+## Article angle
+
+Compact native tools with a review seam: fast compilation and small binaries, minus ecosystem hype.
+
 ## Business scenarios
 
 These V examples show bounded Agent-shaped workflows rather than complete products. Each one keeps business data, approval and effects in the application:

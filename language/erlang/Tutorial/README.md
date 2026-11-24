@@ -7,6 +7,10 @@ See the [100-scenario catalog](https://axisvela.github.io/praxo-core/getting-sta
 for additional Erlang candidate assignments. Those are planned targets, not
 implemented tutorials.
 
+## Article angle
+
+OTP operations software with governed drafting: where runtime fault tolerance ends and application safety begins.
+
 ## Business scenarios
 
 These Erlang examples show bounded Agent-shaped workflows rather than complete products. Each one keeps business data, approval and effects in the application:

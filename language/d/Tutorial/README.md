@@ -9,6 +9,10 @@ See the [100-scenario catalog](https://axisvela.github.io/praxo-core/getting-sta
 for additional D candidate assignments. Those are planned targets, not implemented
 tutorials.
 
+## Article angle
+
+Native tooling with explicit checks: embedding review where the data and calculations already live.
+
 ## Business scenarios
 
 These D examples show bounded Agent-shaped workflows rather than complete products. Each one keeps business data, approval and effects in the application:

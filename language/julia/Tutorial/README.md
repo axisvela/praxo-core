@@ -9,6 +9,10 @@ Application tutorials live in `Tutorial/`, alongside focused `examples/`.
 The tutorial runs in source mode from the repository root and does not use a
 provider credential or a live model in deterministic mode.
 
+## Article angle
+
+Numerical research plus a review boundary: multiple dispatch, scientific libraries and explicit non-goals.
+
 ## Business scenarios
 
 These Julia examples show bounded Agent-shaped workflows rather than complete products. Each one keeps business data, approval and effects in the application:
