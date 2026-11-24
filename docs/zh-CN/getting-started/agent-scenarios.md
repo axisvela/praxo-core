@@ -147,8 +147,8 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | TL-01 | 无人机集群巡检与空域消冲 | Rust、C++、Zig | 模拟有界航点，Agent 外检查冲突；不飞行或下发避障指令 | [Zig 机队航点](https://github.com/axisvela/praxo-core/tree/main/language/zig/Tutorial/drone-fleet-plan)：固定航点与仅审阅计划 | 未实现 |
 | TL-02 | 集装箱堆场与岸桥协同 | Erlang、C++、Java | 按资源约束重排合成装卸任务；不调度岸桥或 AGV | 无 | 未实现 |
 | TL-03 | 远洋气象导航与燃油优化 | Fortran、Julia、C++ | 比较合成航线/气象成本并草拟路线；无导航、节油或 CII 合规保证 | 无 | 未实现 |
-| TL-04 | 冷链温控与货损预警 | Rust、Nim、Octave | 计算固定温度越界并草拟转运复核；不调整制冷或保证医药货物安全 | [信号趋势](https://github.com/axisvela/praxo-core/tree/main/language/octave/Tutorial/signal-trends)：仅通用信号 fixture | 未实现 |
-| TL-05 | 多式联运报关与路径重算 | Java、Go、PHP | 校验合成单证并比较替代路线；不报关 | [物流 checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/logistics-checkpoint)：仅消息续跑与草案 | 未实现 |
+| TL-04 | 冷链温控与货损预警 | Rust、Nim、Octave | 计算固定温度越界并草拟转运复核；不调整制冷或保证医药货物安全 | [Rust 冷链复核](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/cold-chain)：固定越界与仅审阅转运；[信号趋势](https://github.com/axisvela/praxo-core/tree/main/language/octave/Tutorial/signal-trends)：仅通用信号 fixture | 未实现 |
+| TL-05 | 多式联运报关与路径重算 | Java、Go、PHP | 校验合成单证并比较替代路线；不报关 | [Go 报关改道](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/customs-reroute)：固定单证与仅审阅改道；[物流 checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/logistics-checkpoint)：仅消息续跑与草案 | 未实现 |
 | TL-06 | 自动驾驶远程脱困与地图更新 | C++、Rust、D | 回放合成道路拓扑变更、草拟地图补丁；不接管车辆 | 无 | 未实现 |
 | TL-07 | 机场机位与延误恢复 | Java、Julia、C# | 模拟机位/机组/衔接约束并草拟方案；无业务调度或时延保证 | [旅行预订](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/travel-booking)：占座 fixture，不是机场恢复 | 未实现 |
 

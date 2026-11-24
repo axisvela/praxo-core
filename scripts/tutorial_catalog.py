@@ -120,6 +120,8 @@ TUTORIALS = {
     "livestock-monitor": ("AE", "analysis,tools,draft,policy", "AE-01"),
     "mesh-review": ("MD", "analysis,tools,draft,policy", "MD-05"),
     "aquaculture-water": ("AE", "analysis,tools,draft,policy", "AE-03"),
+    "customs-reroute": ("TL", "analysis,tools,draft,policy", "TL-05"),
+    "cold-chain": ("TL", "analysis,tools,draft,policy", "TL-04"),
 }
 GUIDES = {
     "workspace-agent-tutorial": ("SE", "go", "filesystem,tools,policy"),

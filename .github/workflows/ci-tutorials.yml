@@ -466,6 +466,26 @@ jobs:
       - run: go run ./language/go/Tutorial/soc-alert-triage --test
       - run: go test ./language/go/Tutorial/soc-alert-triage
 
+  go-customs-reroute:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.25.x'
+      - run: go run ./language/go/Tutorial/customs-reroute --test
+      - run: go test ./language/go/Tutorial/customs-reroute
+
+  rust-cold-chain:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - run: cargo run --quiet --locked -- --test
+        working-directory: language/rust/Tutorial/cold-chain
+
   cpp-mesh-review:
     runs-on: ubuntu-latest
     timeout-minutes: 10
