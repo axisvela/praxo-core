@@ -1,5 +1,7 @@
 ﻿# PHP Tutorials
 
+- [Lead Nurture (CS-02)](lead-nurture/README.md): native PHP Core, fixed
+  business profiles and review-only opt-in outreach; no crawling or sends.
 - [Tender Review (BE-04)](tender-review/README.md): native PHP Core, fixed
   bid qualifications and review-only similar-document flags; no bid submission.
 - [Copyright Evidence (LJ-05)](copyright-evidence/README.md): native PHP Core,

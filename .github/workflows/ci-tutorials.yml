@@ -466,6 +466,27 @@ jobs:
       - run: go run ./language/go/Tutorial/soc-alert-triage --test
       - run: go test ./language/go/Tutorial/soc-alert-triage
 
+  csharp-airport-recovery:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - run: dotnet build language/csharp/Tutorial/airport-recovery/AirportRecovery.csproj --nologo
+      - run: dotnet language/csharp/Tutorial/airport-recovery/bin/Debug/net8.0/Praxo.AirportRecovery.dll --test
+
+  php-lead-nurture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+      - run: php language/php/Tutorial/lead-nurture/app.php --test
+
   go-fullstack-workspace:
     runs-on: ubuntu-latest
     timeout-minutes: 10

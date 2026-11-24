@@ -53,7 +53,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | ID | 场景 | 目标语言 | 首个有界教学成果 / 相关切片 |
 | --- | --- | --- | --- |
 | CS-01 | 多模态全渠道客服 | TypeScript、C#、PHP | 基于受限订单证据草拟处理方案；现有客服为文本/SSE，不是退款或多模态验证 |
-| CS-02 | B2B 潜客与线索培育 | Ruby、PHP、Elixir | 合成企业画像排序与许可触达草案；不爬取或发送垃圾信息；[Ruby 线索培育](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/lead-nurture)排序固定线索并草拟许可触达 |
+| CS-02 | B2B 潜客与线索培育 | Ruby、PHP、Elixir | 合成企业画像排序与许可触达草案；不爬取或发送垃圾信息；[Ruby 线索培育](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/lead-nurture)与 [PHP 线索培育](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/lead-nurture)排序固定线索并草拟许可触达 |
 | CS-03 | 销售通话辅助与复盘 | C#、Swift、TypeScript | 从固定转录提取异议并草拟 CRM 更新；现有 CRM 教程仅跟进草案 |
 | CS-04 | 内容营销与矩阵运营 | Python、R、Dart | 计算分群、草拟内容、发布审批；现有 R 分群不发送 |
 | CS-05 | 电商定价与补货 | Java、PHP、Ruby | 模拟价格/库存约束、草拟补货单；不调整真实价格；[TypeScript 零售补货切片](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/retail-replenishment)计算固定补货量并草拟采购单 |
@@ -150,7 +150,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | TL-04 | 冷链温控与货损预警 | Rust、Nim、Octave | 计算固定温度越界并草拟转运复核；不调整制冷或保证医药货物安全 | [Rust 冷链复核](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/cold-chain)：固定越界与仅审阅转运；[信号趋势](https://github.com/axisvela/praxo-core/tree/main/language/octave/Tutorial/signal-trends)：仅通用信号 fixture | 未实现 |
 | TL-05 | 多式联运报关与路径重算 | Java、Go、PHP | 校验合成单证并比较替代路线；不报关 | [Go 报关改道](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/customs-reroute)：固定单证与仅审阅改道；[物流 checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/logistics-checkpoint)：仅消息续跑与草案 | 未实现 |
 | TL-06 | 自动驾驶远程脱困与地图更新 | C++、Rust、D | 回放合成道路拓扑变更、草拟地图补丁；不接管车辆 | [D 车队地图](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/fleet-map)：固定拓扑与仅审阅补丁 | 未实现 |
-| TL-07 | 机场机位与延误恢复 | Java、Julia、C# | 模拟机位/机组/衔接约束并草拟方案；无业务调度或时延保证 | [旅行预订](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/travel-booking)：占座 fixture，不是机场恢复 | 未实现 |
+| TL-07 | 机场机位与延误恢复 | Java、Julia、C# | 模拟机位/机组/衔接约束并草拟方案；无业务调度或时延保证 | [C# 机场恢复](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/airport-recovery)：固定约束与仅审阅方案；[旅行预订](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/travel-booking)：占座 fixture，不是机场恢复 | 未实现 |
 
 ## 传媒、设计、游戏与数字内容（7）
 
