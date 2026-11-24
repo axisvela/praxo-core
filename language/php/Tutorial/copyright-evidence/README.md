@@ -5,6 +5,18 @@ not a rights-enforcement service. It compares fixed authorized assets and drafts
 a review-only evidence packet. No broad crawl, automatic DMCA notice or
 infringement adjudication.
 
+## Why this language and runtime?
+
+- **Selection basis:** A PHP media or rights portal can keep evidence review beside its
+  existing asset records. No rights-holder consumer is verified.
+- **Demonstrated fit:** Fixed asset matches and a review-only evidence packet are
+  produced; no crawl, notice filing or adjudication runs.
+- **Choose when:** Learning the Core seam in an existing PHP content workflow.
+- **Do not choose when:** Seeking infringement detection or takedown automation.
+  Compare rights-management systems and counsel processes first.
+- **Evidence limit:** Core integration fixture only; no crawl, DMCA notice, takedown,
+  ownership proof or infringement judgment.
+
 Run from the repository root:
 
 ```bash

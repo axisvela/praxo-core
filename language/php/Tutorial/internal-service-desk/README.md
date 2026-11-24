@@ -5,6 +5,18 @@ not an identity or provisioning system. It reads a fixed employee request,
 classifies the risk, and drafts a review-only approval. No account changes,
 software installation or live model are used.
 
+## Why this language and runtime?
+
+- **Selection basis:** A PHP intranet or admin portal can add a review step without a
+  separate agent service or identity system.
+- **Demonstrated fit:** A fixed employee request produces a review-only approval draft;
+  no account provisioning or ticket write runs.
+- **Choose when:** Learning the tool/policy seam in an existing internal PHP portal.
+- **Do not choose when:** Seeking IAM provisioning or service-desk integration. Compare
+  the existing identity workflow and ticketing rules first.
+- **Evidence limit:** Core integration fixture only; no employee directory, permissions,
+  provisioning, ticket update or approval authority.
+
 Run from the repository root:
 
 ```bash

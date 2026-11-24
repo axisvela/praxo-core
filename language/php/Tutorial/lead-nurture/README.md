@@ -4,6 +4,18 @@ A bounded first slice of [CS-02](https://axisvela.github.io/praxo-core/getting-s
 not an outreach-automation product. It ranks fixed synthetic business profiles and
 drafts review-only opt-in outreach. No crawling, scraping or unsolicited sends.
 
+## Why this language and runtime?
+
+- **Selection basis:** A PHP CRM or marketing portal can keep lead review near existing
+  campaign data. No marketing consumer is verified.
+- **Demonstrated fit:** Fixed ranked leads and an opt-in draft are returned; no crawl,
+  scoring model or send path runs.
+- **Choose when:** Learning the Core seam in an existing PHP campaign workflow.
+- **Do not choose when:** Seeking prospecting, consent enforcement or delivery. Compare
+  the CRM's existing rules and consent records first.
+- **Evidence limit:** Core integration fixture only; no scraping, enrichment, consent
+  validation, send or conversion claim.
+
 Run from the repository root:
 
 ```bash

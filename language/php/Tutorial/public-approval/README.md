@@ -5,6 +5,18 @@ not a government identity or approval system. It validates a fixed application's
 documents and drafts parallel review tasks. No official approval, document upload
 or live model.
 
+## Why this language and runtime?
+
+- **Selection basis:** A PHP government or enterprise portal can keep a review workflow
+  in its existing request and deployment model.
+- **Demonstrated fit:** Fixed application documents produce review-only parallel tasks;
+  no identity check, document upload or official approval runs.
+- **Choose when:** Learning the Core seam in an existing PHP portal.
+- **Do not choose when:** Seeking official approval or agency integration. Compare the
+  existing case-management system and statutory process first.
+- **Evidence limit:** Core integration fixture only; no identity verification, agency
+  system, document authenticity, official decision or legal effect.
+
 Run from the repository root:
 
 ```bash

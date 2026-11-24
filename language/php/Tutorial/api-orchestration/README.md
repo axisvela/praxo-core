@@ -6,6 +6,18 @@ ERP), validates the identifier mapping, and drafts a review-only integration
 record. This uses the native PHP Core in source mode. No network calls, credentials,
 new Core APIs or additional Composer packages are required.
 
+## Why this language and runtime?
+
+- **Selection basis:** PHP integration portals often already own request handling and
+  partner credentials, so a mapping review can stay in the same runtime.
+- **Demonstrated fit:** Two synthetic upstream responses are mapped and a review-only
+  integration record is drafted; no network call or partner system runs.
+- **Choose when:** Learning the tool/policy seam for an existing PHP integration layer.
+- **Do not choose when:** Seeking live API orchestration or retry semantics. Compare
+  the existing integration service and deterministic mapping code first.
+- **Evidence limit:** Core integration fixture only; no HTTP, credentials, partner
+  sandbox, retry policy or production integration.
+
 Run from the repository root:
 
 ```bash

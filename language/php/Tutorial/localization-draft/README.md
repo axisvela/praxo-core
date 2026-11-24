@@ -5,6 +5,18 @@ not a legal or tax compliance system. It compares fixed localization rules and
 drafts review-only localized product text. No legal/tax guarantee, live content
 system or publication.
 
+## Why this language and runtime?
+
+- **Selection basis:** A PHP commerce or CMS portal can keep localization review beside
+  its content pipeline. No localization vendor is verified.
+- **Demonstrated fit:** Fixed market rules and a review-only localized draft are
+  returned; no translation engine or publishing call runs.
+- **Choose when:** Learning the tool/policy seam in an existing PHP content workflow.
+- **Do not choose when:** Seeking translation quality or legal/tax validation. Compare
+  localization platforms and the existing review process first.
+- **Evidence limit:** Core integration fixture only; no translation engine, legal
+  review, tax compliance, CMS write or publication.
+
 Run from the repository root:
 
 ```bash
