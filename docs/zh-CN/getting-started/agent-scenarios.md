@@ -4,13 +4,14 @@
 [教程与场景总目录](tutorial-catalog.md)，支持行业、语言、能力分类并明确计数口径。
 
 本目录把十六大领域、100 个应用目标纳入 [Tutorial 整体规划](tutorial-plan.md)。
-**100 个完整场景均为候选，不代表已有完整应用。** 已有教程只是相关的狭窄教学切片，
+**100 个端到端场景目标均为候选。** 单个教程在自己的切片范围内可以已经完成；教程完成与端到端参考应用完成是两种不同验收对象，不能互相替代。已有教程只是相关的狭窄教学切片，
 其运行证据与限制仍以规划状态表为准。语言分配是候选实现目标，不是新增维护责任、
 排期或支持承诺。英文同路径页面列出每个场景的已有源码入口。
 
-状态分为三层：**候选目标**是待实现的完整成果；**已有相关切片**只是可复用的局部机制或
-教学路径；**完整实现**须有该场景全部验收的记录，不能由切片推导。
-当前完整实现为 **0/100**。前八领域编号保持不变，新增八领域逐条列出切片与完整实现状态。
+状态分为三层：**候选目标**是待实现的端到端业务成果；**已有相关切片**是可复用的局部机制或
+教学路径，教程按自身狭窄范围独立验收，不能因端到端目标未实现而被判为“教程未完成”；
+**端到端参考应用**须有该场景全部集成与验收记录，不能由切片推导。
+当前端到端参考应用为 **0/100**。前八领域编号保持不变，新增八领域逐条列出切片与端到端状态。
 
 ## 闭环要求
 
@@ -118,7 +119,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 测试须有明确授权，限定自有 fixture 或隔离实验环境。不提供任意目标发现、实网漏洞利用、
 凭据窃取或自动反击能力。
 
-| ID | 场景 | 目标语言 | 候选的有界教学成果 | 已有相关切片 | 完整实现 |
+| ID | 场景 | 目标语言 | 候选的有界教学成果 | 已有相关切片 | 端到端参考应用 |
 | --- | --- | --- | --- | --- | --- |
 | CY-01 | 自动化渗透测试与红队演练 | Rust、Go、Python | 盘点允许的 loopback 实验资产并报告预置配置缺陷；不做公网扫描或攻击链 | [Go 渗透实验复核](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/pentest-lab-review)：固定 loopback 主机与仅审阅报告 | 未实现 |
 | CY-02 | SOC 告警研判与 SOAR 响应 | Go、Elixir、Erlang | 关联合成 EDR/防火墙事件并草拟隔离；不真实封禁 | [SOC 分诊](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/soc-alert-triage)：固定告警，不是真实 EDR 关联 | 未实现 |
@@ -130,7 +131,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 
 ## 智慧城市与公共治理（7）
 
-| ID | 场景 | 目标语言 | 候选的有界教学成果 | 已有相关切片 | 完整实现 |
+| ID | 场景 | 目标语言 | 候选的有界教学成果 | 已有相关切片 | 端到端参考应用 |
 | --- | --- | --- | --- | --- | --- |
 | CT-01 | 城市信号灯全域协同 | Erlang、C++、Julia | 模拟固定路口队列，在 Agent 外校验配时限制；不发信号灯指令 | [C++ 信号配时](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/traffic-signal-plan)：固定路口与仅审阅配时 | 未实现 |
 | CT-02 | 生命线管网泄漏定位与调度 | Fortran、Rust、Nim | 排序合成压力异常并草拟巡检；不隔离阀门或调度现场作业 | [Rust 泄漏定位](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/leak-localization)：固定异常与仅审阅巡检；[信号趋势](https://github.com/axisvela/praxo-core/tree/main/language/octave/Tutorial/signal-trends)：仅指标，不定位泄漏 | 未实现 |
@@ -142,7 +143,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 
 ## 交通物流、航运与低空经济（7）
 
-| ID | 场景 | 目标语言 | 候选的有界教学成果 | 已有相关切片 | 完整实现 |
+| ID | 场景 | 目标语言 | 候选的有界教学成果 | 已有相关切片 | 端到端参考应用 |
 | --- | --- | --- | --- | --- | --- |
 | TL-01 | 无人机集群巡检与空域消冲 | Rust、C++、Zig | 模拟有界航点，Agent 外检查冲突；不飞行或下发避障指令 | [Zig 机队航点](https://github.com/axisvela/praxo-core/tree/main/language/zig/Tutorial/drone-fleet-plan)：固定航点与仅审阅计划 | 未实现 |
 | TL-02 | 集装箱堆场与岸桥协同 | Erlang、C++、Java | 按资源约束重排合成装卸任务；不调度岸桥或 AGV | [C++ 集装箱堆场](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/container-yard)：固定任务与仅审阅排班 | 未实现 |
@@ -154,7 +155,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 
 ## 传媒、设计、游戏与数字内容（7）
 
-| ID | 场景 | 目标语言 | 候选的有界教学成果 | 已有相关切片 | 完整实现 |
+| ID | 场景 | 目标语言 | 候选的有界教学成果 | 已有相关切片 | 端到端参考应用 |
 | --- | --- | --- | --- | --- | --- |
 | MD-01 | 影视分镜与虚拟制片预演 | Lua、C++、TypeScript | 把固定剧本转为有界镜头计划草案；无已验证 Unreal 集成或渲染制作 | [Lua 分镜预演](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/storyboard-previs)：固定场景与仅审阅镜头计划 | 未实现 |
 | MD-02 | 新闻事实核查与多源验证 | Python、Haskell、Perl | 比较固定来源与元数据、引用矛盾与不确定性；无真伪保证或实网抓取 | [Perl 新闻核查](https://github.com/axisvela/praxo-core/tree/main/language/perl/Tutorial/news-factcheck)：固定来源与仅审阅核查；[办公问答](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/office-qa)：仅引用机制 | 未实现 |
@@ -166,7 +167,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 
 ## 法律、司法与知识产权（5）
 
-| ID | 场景 | 目标语言 | 候选的有界教学成果 | 已有相关切片 | 完整实现 |
+| ID | 场景 | 目标语言 | 候选的有界教学成果 | 已有相关切片 | 端到端参考应用 |
 | --- | --- | --- | --- | --- | --- |
 | LJ-01 | 诉讼证据链与质证提纲 | Python、OCaml、Go | 从合成文档建立带引用时间线、标记矛盾；非法律意见或证据可采性证明 | [Go 诉讼时间线](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/litigation-timeline)：固定文档与仅审阅提纲；[证据库](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/evidence-vault)：受限读取，不是诉讼分析 | 未实现 |
 | LJ-02 | 专利检索、FTO 与布局 | Python、Java、Haskell | 比较合成权利要求并草拟律师复核问题；非全面专利检索或不侵权意见 | [Python 专利 FTO](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/patent-fto)：固定权利要求重叠与律师问题 | 未实现 |
@@ -176,7 +177,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 
 ## 建筑工程、矿业与空间运营（5）
 
-| ID | 场景 | 目标语言 | 候选的有界教学成果 | 已有相关切片 | 完整实现 |
+| ID | 场景 | 目标语言 | 候选的有界教学成果 | 已有相关切片 | 端到端参考应用 |
 | --- | --- | --- | --- | --- | --- |
 | BE-01 | 工地安全巡检与整改复核 | C++、Rust、C# | 评估合成巡检标签、跟踪复核清单；无真实视觉或安全认证结论 | [Rust 工地安全](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/construction-safety)：固定标签与仅审阅清单 | 未实现 |
 | BE-02 | 商业楼宇 HVAC 与照明节能 | Julia、C、Delphi | 模拟人流/热工约束并草拟设置；无 BMS 指令或节能证明 | [Delphi 暖通设置](https://github.com/axisvela/praxo-core/tree/main/language/delphi/Tutorial/hvac-settings)：固定环境与仅审阅方案 | 未实现 |
@@ -186,7 +187,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 
 ## 农业、林业与生态保护（5）
 
-| ID | 场景 | 目标语言 | 候选的有界教学成果 | 已有相关切片 | 完整实现 |
+| ID | 场景 | 目标语言 | 候选的有界教学成果 | 已有相关切片 | 端到端参考应用 |
 | --- | --- | --- | --- | --- | --- |
 | AE-01 | 畜牧健康监测与精准饲喂 | C、Nim、Rust | 汇总合成个体观察并草拟复核请求；不兽医诊断、隔离或饲喂控制 | [Rust 畜牧监测](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/livestock-monitor)：固定观察与仅审阅请求 | 未实现 |
 | AE-02 | 森林火险与蔓延推演 | Fortran、Julia、R | 回放合成天气/燃料网格、比较模型传播；无业务预警或防火带调度 | [R 火势蔓延](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/fire-spread)：固定网格与仅审阅报告 | 未实现 |
@@ -196,7 +197,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 
 ## 组织治理、架构与跨学科协同（7）
 
-| ID | 场景 | 目标语言 | 候选的有界教学成果 | 已有相关切片 | 完整实现 |
+| ID | 场景 | 目标语言 | 候选的有界教学成果 | 已有相关切片 | 端到端参考应用 |
 | --- | --- | --- | --- | --- | --- |
 | OG-01 | EA 资产图谱治理 | Java、OCaml、C# | 按标准比较固定应用/API 图并草拟变更发现；无生产扫描或自动拦截 | [OCaml 架构图谱](https://github.com/axisvela/praxo-core/tree/main/language/ocaml/Tutorial/architecture-graph)：固定图谱与仅审阅发现 | 未实现 |
 | OG-02 | 多智能体社会与政策沙盘 | Julia、Erlang、Haskell | 模拟小型有界合成人群并报告敏感性；无数万规模或真实政策预测 | [Haskell 政策仿真](https://github.com/axisvela/praxo-core/tree/main/language/haskell/Tutorial/policy-simulation)：固定人群与仅审阅报告 | 未实现 |

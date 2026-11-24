@@ -6,8 +6,9 @@
 
 [100 个智能体场景](agent-scenarios.md) 收录十六大领域、稳定场景 ID、有界验收与全部 31 个
 现有 Core 条目的候选分配。完整场景仍为候选；相关既有切片不代表端到端应用已完成。
-第二批 CY、CT、TL、MD、LJ、BE、AE、OG 各行显式分开候选成果、已有相关切片与完整实现。
-目前这 100 个目标没有已记录的完整实现。
+第二批 CY、CT、TL、MD、LJ、BE、AE、OG 各行显式分开候选成果、已有相关切片与端到端参考应用。
+教程按自身有界范围独立验收；端到端目标未实现，不等于教程未完成。
+目前这 100 个目标没有已记录的端到端参考应用。
 
 新增 Ruby [FinOps 复核 SE-07](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/finops-review)：
 原生 Ruby Core，两步工具闭环计算固定资源成本并生成复核草案；本地源码模式测试通过，

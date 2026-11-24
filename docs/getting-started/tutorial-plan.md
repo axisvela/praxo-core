@@ -116,8 +116,10 @@ domains, bounded acceptance and candidate assignments for all 31 current Core
 entries. Its full scenarios are candidates; related existing slices do not count
 as completed end-to-end applications. The second batch (CY, CT, TL, MD, LJ, BE,
 AE and OG) explicitly separates candidate outcomes, existing related slices and
-full-implementation status. No full implementation of these hundred goals is
-currently recorded.
+end-to-end reference-application status. Tutorials are accepted against their own
+bounded scope and are not automatically incomplete when the broader goal has no
+end-to-end reference app. No end-to-end reference application for these hundred
+goals is currently recorded.
 
 The catalog below broadens the application map without creating a commitment to
 build every entry. Choose the primary language by runtime fit, available tools,

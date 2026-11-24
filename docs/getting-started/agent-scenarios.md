@@ -7,10 +7,13 @@ language and capability with explicit counting rules.
 
 This catalog translates one hundred application goals across sixteen domains into bounded tutorial candidates.
 It extends the [Tutorial Plan](tutorial-plan.md), not the Core API or support
-promise. **All hundred full scenarios are candidates, not completed applications.**
-Related tutorials below are narrower teaching slices; their exact verification
-and limits remain in the plan. Language assignments are proposed implementation
-targets, not new maintainership or delivery commitments.
+promise. **All hundred end-to-end scenario goals are candidates.** Individual
+tutorials are complete at their own stated slice scope; a complete tutorial and a
+complete end-to-end reference application are different acceptance objects, and
+neither status substitutes for the other. Related tutorials below are narrower
+teaching slices; their exact verification and limits remain in the plan. Language
+assignments are proposed implementation targets, not new maintainership or
+delivery commitments.
 
 ## The Agent Loop
 
@@ -31,9 +34,12 @@ approval edits; scope, call budgets and cancellation remain explicit.
   completion of the full scenario.
 - **Targets**: languages selected for runtime fit; actual feature availability
   follows [language support](../languages/support.md) and per-SDK parity.
-- **Full implementation: Not implemented**: no accepted end-to-end implementation
-  of the entire described goal is recorded. A related slice or mechanism does not
-  change this status. Current full implementations: **0 of 100**.
+- **End-to-end reference app: Not implemented**: no accepted application that
+  integrates the entire described business goal, real or simulated services, and
+  end-to-end verification is recorded. This does not mark a tutorial incomplete:
+  tutorials are accepted against their own narrower scope. A related slice or
+  mechanism does not change the end-to-end status. Current end-to-end reference
+  apps: **0 of 100**.
 
 The first eight domains retain their IDs. The next eight domains explicitly
 separate candidate outcomes, related slices and full-implementation status.
@@ -136,7 +142,7 @@ All testing must be authorized and scoped to owned fixtures or an isolated lab.
 No arbitrary target discovery, live exploitation, credential theft or automated
 counterattack is provided by these candidate tutorials.
 
-| ID | Scenario | Targets | Bounded candidate outcome | Existing related slice | Full implementation |
+| ID | Scenario | Targets | Bounded candidate outcome | Existing related slice | End-to-end reference app |
 | --- | --- | --- | --- | --- | --- |
 | CY-01 | Penetration testing and red-team exercises | Rust, Go, Python | Inventory an allowlisted loopback lab and report seeded configuration defects; no public scanning or exploit chain | [Go pentest-lab-review](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/pentest-lab-review): fixed loopback host and review-only report | Not implemented |
 | CY-02 | SOC alert analysis and SOAR response | Go, Elixir, Erlang | Correlate synthetic EDR/firewall events and draft isolation; no live blocking | [SOC triage](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/soc-alert-triage): fixed alert, not real EDR correlation | Not implemented |
@@ -148,7 +154,7 @@ counterattack is provided by these candidate tutorials.
 
 ## Smart Cities And Public Governance (7)
 
-| ID | Scenario | Targets | Bounded candidate outcome | Existing related slice | Full implementation |
+| ID | Scenario | Targets | Bounded candidate outcome | Existing related slice | End-to-end reference app |
 | --- | --- | --- | --- | --- | --- |
 | CT-01 | City-wide adaptive traffic signals | Erlang, C++, Julia | Simulate fixed junction queues and verify proposed timing against deterministic limits; no signal commands | [C++ traffic-signal-plan](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/traffic-signal-plan): fixed junction and review-only timing | Not implemented |
 | CT-02 | Utility-pipeline leak localization and dispatch | Fortran, Rust, Nim | Rank synthetic pressure anomalies and draft inspection; no valve isolation or field dispatch | [Rust leak-localization](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/leak-localization): fixed anomalies and review-only inspection; [Signal trends](https://github.com/axisvela/praxo-core/tree/main/language/octave/Tutorial/signal-trends): metrics only, not leak localization | Not implemented |
@@ -160,7 +166,7 @@ counterattack is provided by these candidate tutorials.
 
 ## Transport Shipping And Aviation (7)
 
-| ID | Scenario | Targets | Bounded candidate outcome | Existing related slice | Full implementation |
+| ID | Scenario | Targets | Bounded candidate outcome | Existing related slice | End-to-end reference app |
 | --- | --- | --- | --- | --- | --- |
 | TL-01 | Drone-fleet inspection and airspace conflict resolution | Rust, C++, Zig | Simulate bounded waypoints and conflict checks outside the agent; no flight or avoidance commands | [Zig drone-fleet-plan](https://github.com/axisvela/praxo-core/tree/main/language/zig/Tutorial/drone-fleet-plan): fixed waypoint state and review-only plan | Not implemented |
 | TL-02 | Container-yard and quay-crane scheduling | Erlang, C++, Java | Replan synthetic container jobs under resource constraints; no crane or AGV dispatch | [C++ container-yard](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/container-yard): fixed jobs and review-only schedule | Not implemented |
@@ -172,7 +178,7 @@ counterattack is provided by these candidate tutorials.
 
 ## Media Design Games And Content (7)
 
-| ID | Scenario | Targets | Bounded candidate outcome | Existing related slice | Full implementation |
+| ID | Scenario | Targets | Bounded candidate outcome | Existing related slice | End-to-end reference app |
 | --- | --- | --- | --- | --- | --- |
 | MD-01 | Film storyboards and virtual-production previs | Lua, C++, TypeScript | Turn a fixed script into a bounded shot-plan draft; no verified Unreal integration or rendered production | [Lua storyboard-previs](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/storyboard-previs): fixed scene and review-only shot plan | Not implemented |
 | MD-02 | News fact-checking and source verification | Python, Haskell, Perl | Compare fixed source excerpts and metadata, cite contradictions and uncertainty; no truth guarantee or live news crawl | [Perl news-factcheck](https://github.com/axisvela/praxo-core/tree/main/language/perl/Tutorial/news-factcheck): fixed sources and review-only check; [Office Q&A](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/office-qa): citations mechanism only | Not implemented |
@@ -184,7 +190,7 @@ counterattack is provided by these candidate tutorials.
 
 ## Law Justice And Intellectual Property (5)
 
-| ID | Scenario | Targets | Bounded candidate outcome | Existing related slice | Full implementation |
+| ID | Scenario | Targets | Bounded candidate outcome | Existing related slice | End-to-end reference app |
 | --- | --- | --- | --- | --- | --- |
 | LJ-01 | Litigation evidence timelines and examination outlines | Python, OCaml, Go | Build a cited timeline from synthetic documents and flag contradictions; no legal advice or evidentiary admissibility claim | [Go litigation-timeline](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/litigation-timeline): fixed documents and review-only outline; [Evidence vault](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/evidence-vault): confined reads, not litigation analysis | Not implemented |
 | LJ-02 | Patent search FTO and portfolio analysis | Python, Java, Haskell | Compare synthetic claims and draft questions for counsel; no exhaustive patent search or non-infringement opinion | [Python patent-fto](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/patent-fto): fixed claim overlap and counsel questions | Not implemented |
@@ -194,7 +200,7 @@ counterattack is provided by these candidate tutorials.
 
 ## Built Environment Mining And Property (5)
 
-| ID | Scenario | Targets | Bounded candidate outcome | Existing related slice | Full implementation |
+| ID | Scenario | Targets | Bounded candidate outcome | Existing related slice | End-to-end reference app |
 | --- | --- | --- | --- | --- | --- |
 | BE-01 | Construction safety inspection and remediation review | C++, Rust, C# | Evaluate synthetic inspection labels and track a review checklist; no real vision or certified safety finding | [Rust construction-safety](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/construction-safety): fixed labels and review-only checklist | Not implemented |
 | BE-02 | Commercial-building HVAC and lighting management | Julia, C, Delphi | Simulate occupancy/thermal constraints and draft settings; no BMS commands or verified energy savings | [Delphi HVAC-settings](https://github.com/axisvela/praxo-core/tree/main/language/delphi/Tutorial/hvac-settings): fixed environment and review-only plan | Not implemented |
@@ -204,7 +210,7 @@ counterattack is provided by these candidate tutorials.
 
 ## Agriculture Forestry And Conservation (5)
 
-| ID | Scenario | Targets | Bounded candidate outcome | Existing related slice | Full implementation |
+| ID | Scenario | Targets | Bounded candidate outcome | Existing related slice | End-to-end reference app |
 | --- | --- | --- | --- | --- | --- |
 | AE-01 | Livestock monitoring and precision feeding | C, Nim, Rust | Summarize synthetic animal observations and draft a review request; no veterinary diagnosis, isolation or feeding control | [Rust livestock-monitor](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/livestock-monitor): fixed observations and review-only request | Not implemented |
 | AE-02 | Forest-fire monitoring and spread simulation | Fortran, Julia, R | Replay synthetic weather/fuel cells and compare modeled spread; no operational warning or firebreak dispatch | [R fire-spread](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/fire-spread): fixed cells and review-only report | Not implemented |
@@ -214,7 +220,7 @@ counterattack is provided by these candidate tutorials.
 
 ## Organization Architecture And Collaboration (7)
 
-| ID | Scenario | Targets | Bounded candidate outcome | Existing related slice | Full implementation |
+| ID | Scenario | Targets | Bounded candidate outcome | Existing related slice | End-to-end reference app |
 | --- | --- | --- | --- | --- | --- |
 | OG-01 | Enterprise architecture asset-graph governance | Java, OCaml, C# | Compare fixed application/API graphs with stated standards and draft change findings; no production scanning or automatic blocking | [OCaml architecture-graph](https://github.com/axisvela/praxo-core/tree/main/language/ocaml/Tutorial/architecture-graph): fixed graph and review-only findings | Not implemented |
 | OG-02 | Multi-agent society and policy simulation | Julia, Erlang, Haskell | Simulate a small bounded synthetic population and report sensitivity; no tens-of-thousands scale or real policy prediction | [Haskell policy-simulation](https://github.com/axisvela/praxo-core/tree/main/language/haskell/Tutorial/policy-simulation): fixed population and review-only report | Not implemented |
