@@ -171,6 +171,8 @@ add framework surface.
 | Go litigation timeline (LJ-01) | Go reference Core, fixed documents, review-only evidence outline | Local Go vet/run/test pass; CI job added, not yet run | No real case files, privilege review, legal advice or admissibility ruling |
 | Python precedent outline (LJ-04) | Native Core, fixed precedents, review-only cited outline | Local Python 3.14 checks pass; CI job added, not yet run | No live legal database, citation validation, sentencing or judicial decision |
 | R property forecast (BE-05) | Native R Core, fixed site metrics, review-only forecast with assumptions | Local R checks pass; CI job added, not yet run | No verified probability, return guarantee, valuation or location profiling |
+| Python virtual PI (OG-07) | Native Core, fixed research tasks, shared budget and review-only coordination | Local Python 3.14 checks pass; CI job added, not yet run | No external tools, autonomous research or scientific-validity claim |
+| R fire spread (AE-02) | Native R Core, fixed weather/fuel cells, review-only spread report | Local R checks pass; CI job added, not yet run | No operational warning, validated fire model, evacuation or firebreak dispatch |
 | Python order review | Native Core, HTTP tool, fixed order scope, draft-only | Local and hosted CI against the public local service | Deterministic model; no live provider or external consumer |
 | TypeScript order support | Native Core, HTTP tool, fixed order scope | Local and hosted CI against the public local service | Deterministic model; CLI, not a Web frontend |
 | Java order review | Native Core, JUnit, loopback Web, real-service CLI | Mock/Web JUnit and real-service CLI passed in Linux CI | Java Web-to-real-backend and live model not verified |

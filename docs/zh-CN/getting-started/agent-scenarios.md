@@ -189,7 +189,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | ID | 场景 | 目标语言 | 候选的有界教学成果 | 已有相关切片 | 完整实现 |
 | --- | --- | --- | --- | --- | --- |
 | AE-01 | 畜牧健康监测与精准饲喂 | C、Nim、Rust | 汇总合成个体观察并草拟复核请求；不兽医诊断、隔离或饲喂控制 | 无 | 未实现 |
-| AE-02 | 森林火险与蔓延推演 | Fortran、Julia、R | 回放合成天气/燃料网格、比较模型传播；无业务预警或防火带调度 | 无 | 未实现 |
+| AE-02 | 森林火险与蔓延推演 | Fortran、Julia、R | 回放合成天气/燃料网格、比较模型传播；无业务预警或防火带调度 | [R 火势蔓延](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/fire-spread)：固定网格与仅审阅报告 | 未实现 |
 | AE-03 | 海洋牧场水质与投饵 | Lua、C、Octave | 计算固定溶氧/温度指标、草拟有界动作；不控制增氧机或投饵机 | [宿主嵌入](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/host-embedding)：仅宿主回调机制 | 未实现 |
 | AE-04 | 农产品套保与产销规划 | R、Julia、COBOL | 模拟风险敞口并比较情景成本；不发期货订单、不锁价、不提供金融建议 | [R 套保规划](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/hedge-plan)：固定敞口与仅审阅计划 | 未实现 |
 | AE-05 | 生物多样性与盗猎预警 | Python、Rust、Zig | 分类合成标注观察、草拟护林员复核；无物种识别保证或自动追捕 | [Python 生物多样性预警](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/biodiversity-alerts)：固定标签与仅审阅预警 | 未实现 |
@@ -204,7 +204,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | OG-04 | 开源社区治理与贡献者体验 | Ruby、Elixir、Perl | 分类合成 Issue、草拟贡献指导与评审请求；不自动关闭问题或冒充维护者 | [Ruby 社区治理](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/community-governance)：固定问题分类与评审请求 | 未实现 |
 | OG-05 | EDA 布局布线优化 | C++、Fortran、Julia | 探索合成布局网格、报告已述 PPA 代理指标；无代工厂有效版图或优化证明 | [C++ EDA 布局](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/eda-placement)：固定网格与仅审阅布局 | 未实现 |
 | OG-06 | 个人数字孪生与跨应用记忆 | Swift、Objective-C、Dart | 存储合成的同意范围内记忆、记录来源并测试删除；无真实邮箱/密码或无限召回 | [Dart 数字孪生记忆](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/digital-twin-memory)：范围内存储/召回/删除；[物流 checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/logistics-checkpoint)：仅消息续跑，不是个人记忆中枢 | 未实现 |
-| OG-07 | 多学科 Virtual PI | Python、Julia、Haskell | 协调有界文献/仿真/复核任务，限制共享预算并标注来源；不保证自主科研有效性 | [代表性链路](https://github.com/axisvela/praxo-core/tree/main/examples/representative-chain)：应用级委派，不是科研团队 | 未实现 |
+| OG-07 | 多学科 Virtual PI | Python、Julia、Haskell | 协调有界文献/仿真/复核任务，限制共享预算并标注来源；不保证自主科研有效性 | [Python Virtual PI](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/virtual-pi)：固定任务与仅审阅协调；[代表性链路](https://github.com/axisvela/praxo-core/tree/main/examples/representative-chain)：应用级委派，不是科研团队 | 未实现 |
 
 ## 全 Core 语言分配
 

@@ -13,6 +13,8 @@ capitalized in directory paths.
   simulated publish.
 - [Education tutoring](education-tutoring/README.md): Core `Retriever` and a
   draft-only study plan.
+- [Virtual PI](virtual-pi/README.md): fixed research tasks, shared
+  budget, review-only coordination and no validity claim.
 - [Precedent outline](precedent-outline/README.md): fixed precedents,
   review-only cited outline and no judicial decision.
 - [Dubbing plan](dubbing-plan/README.md): fixed licensed media, review-only

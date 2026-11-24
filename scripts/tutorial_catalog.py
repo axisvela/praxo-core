@@ -114,6 +114,8 @@ TUTORIALS = {
     "litigation-timeline": ("LJ", "analysis,tools,draft,policy", "LJ-01"),
     "precedent-outline": ("LJ", "analysis,tools,draft,policy", "LJ-04"),
     "property-forecast": ("BE", "analysis,tools,draft,policy", "BE-05"),
+    "virtual-pi": ("OG", "analysis,tools,draft,policy", "OG-07"),
+    "fire-spread": ("AE", "analysis,tools,draft,policy", "AE-02"),
 }
 GUIDES = {
     "workspace-agent-tutorial": ("SE", "go", "filesystem,tools,policy"),
