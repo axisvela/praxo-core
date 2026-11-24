@@ -5,6 +5,18 @@ not an HR or permissions system. It reads a fixed employee profile and drafts a
 review-only learning path. No account provisioning, permissions or live model are
 used.
 
+## Why this language and runtime?
+
+- **Selection basis:** A Dart or Flutter HR or employee app could keep onboarding
+  planning in the client runtime. No HR consumer is verified.
+- **Demonstrated fit:** Fixed employee data produces a review-only learning path; no
+  account provisioning, permissions or LMS integration runs.
+- **Choose when:** Learning the Core seam in an existing Dart employee workflow.
+- **Do not choose when:** Seeking provisioning or permissions. Compare the identity
+  system, HR rules and LMS first.
+- **Evidence limit:** Core integration fixture only; no employee data, account
+  creation, permissions, LMS enrollment or learning-outcome validation.
+
 Run from the repository root:
 
 ```bash

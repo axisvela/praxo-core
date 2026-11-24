@@ -5,6 +5,18 @@ not a clinical decision system. It summarizes fixed synthetic wearable trends an
 routes a review-only care alert. No dosage change, individualized treatment change
 or live device feed.
 
+## Why this language and runtime?
+
+- **Selection basis:** A Dart or Flutter patient app could keep trend summaries and a
+  care-team review alert in the client runtime. No health consumer is verified.
+- **Demonstrated fit:** Fixed wearable trends produce a review-only alert; no device
+  SDK, dosage logic or treatment recommendation runs.
+- **Choose when:** Learning the Core seam in an existing Dart health app.
+- **Do not choose when:** Seeking clinical decision support or device integration.
+  Compare the care team's protocol and the wearable platform first.
+- **Evidence limit:** Core integration fixture only; no device feed, clinical
+  validation, dosage change, treatment decision or patient safety claim.
+
 Run from the repository root:
 
 ```bash

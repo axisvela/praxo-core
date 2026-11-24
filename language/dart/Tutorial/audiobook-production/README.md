@@ -5,6 +5,18 @@ not an audio-production pipeline. It reads a fixed licensed book fixture and
 drafts a review-only production plan with character and mixing cues. No
 synthesized audio, voice cloning or rights guarantee.
 
+## Why this language and runtime?
+
+- **Selection basis:** A Dart or Flutter media app could keep production planning in
+  the same client/application runtime. No audio product is verified here.
+- **Demonstrated fit:** Fixed book metadata produces a review-only production plan;
+  no audio synthesis, TTS or mixing pipeline runs.
+- **Choose when:** Learning the Core seam in an existing Dart media workflow.
+- **Do not choose when:** Seeking audio generation or rights clearance. Compare audio
+  engines, licensed voice pipelines and the existing rights process first.
+- **Evidence limit:** Core integration fixture only; no synthesized audio, voice
+  cloning, mixing, rights guarantee or media export.
+
 Run from the repository root:
 
 ```bash

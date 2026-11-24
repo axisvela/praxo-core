@@ -5,6 +5,18 @@ not a personal memory hub. It stores one consent-scoped synthetic memory, recall
 only that scope and confirms deletion. No real inbox, passwords, cross-app access
 or unrestricted recall.
 
+## Why this language and runtime?
+
+- **Selection basis:** A Dart or Flutter personal app could keep consent-scoped memory
+  in the client runtime instead of a remote service. No such product is verified.
+- **Demonstrated fit:** In-process store/recall/delete calls and a fixed scope are
+  exercised; the memory does not persist beyond the run.
+- **Choose when:** Learning the consent and deletion pattern for an existing Dart app.
+- **Do not choose when:** Seeking durable memory, cross-app access or encryption.
+  Compare platform storage, key management and the app's privacy design first.
+- **Evidence limit:** Core integration fixture only; no durable store, cross-app
+  access, encryption, real inbox/password access or deletion propagation.
+
 Run from the repository root:
 
 ```bash
