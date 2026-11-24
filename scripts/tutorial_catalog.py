@@ -104,6 +104,8 @@ TUTORIALS = {
     "biodiversity-alerts": ("AE", "analysis,tools,draft,policy", "AE-05"),
     "budget-review": ("CT", "analysis,tools,draft,policy", "CT-07"),
     "copyright-evidence": ("LJ", "tools,draft,policy", "LJ-05"),
+    "due-diligence": ("LJ", "analysis,tools,draft,policy", "LJ-03"),
+    "dubbing-plan": ("MD", "tools,draft,policy", "MD-04"),
 }
 GUIDES = {
     "workspace-agent-tutorial": ("SE", "go", "filesystem,tools,policy"),

@@ -159,7 +159,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | MD-01 | 影视分镜与虚拟制片预演 | Lua、C++、TypeScript | 把固定剧本转为有界镜头计划草案；无已验证 Unreal 集成或渲染制作 | [Lua 分镜预演](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/storyboard-previs)：固定场景与仅审阅镜头计划 | 未实现 |
 | MD-02 | 新闻事实核查与多源验证 | Python、Haskell、Perl | 比较固定来源与元数据、引用矛盾与不确定性；无真伪保证或实网抓取 | [Perl 新闻核查](https://github.com/axisvela/praxo-core/tree/main/language/perl/Tutorial/news-factcheck)：固定来源与仅审阅核查；[办公问答](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/office-qa)：仅引用机制 | 未实现 |
 | MD-03 | 开放世界游戏生态演化 | Lua、C、V | 用持久化合成状态模拟经济/资源规则；不保证规模或长期平衡 | [Lua 世界生态](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/world-economy)：固定时步与仅审阅平衡；[宿主嵌入](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/host-embedding)：设备回调，不是游戏生态 | 未实现 |
-| MD-04 | 配音、口型同步与文化本地化 | Python、Swift、C++ | 为合成/获许可素材规划字幕与时序；无冒充、未经同意的声音克隆或已验证口型同步 | 无 | 未实现 |
+| MD-04 | 配音、口型同步与文化本地化 | Python、Swift、C++ | 为合成/获许可素材规划字幕与时序；无冒充、未经同意的声音克隆或已验证口型同步 | [Python 配音规划](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/dubbing-plan)：固定授权素材与仅审阅字幕 | 未实现 |
 | MD-05 | 工业设计与 3D 拓扑生成 | C++、Julia、Fortran | 按已述约束比较合成网格描述符；无可制造性或力学认证 | 无 | 未实现 |
 | MD-06 | 有声书与沉浸广播剧制作 | Python、Dart、Swift | 规划获许可角色声音与固定混音提示；无合成成品或权利保证 | 无 | 未实现 |
 | MD-07 | 数字人直播互动场控 | TypeScript、Elixir、Lua | 回放合成互动事件并草拟讲解顺序；不做受众画像、发券或真实直播控制 | [Lua 直播场控](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/live-show)：固定互动与仅审阅顺序 | 未实现 |
@@ -170,7 +170,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | --- | --- | --- | --- | --- | --- |
 | LJ-01 | 诉讼证据链与质证提纲 | Python、OCaml、Go | 从合成文档建立带引用时间线、标记矛盾；非法律意见或证据可采性证明 | [证据库](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/evidence-vault)：受限读取，不是诉讼分析 | 未实现 |
 | LJ-02 | 专利检索、FTO 与布局 | Python、Java、Haskell | 比较合成权利要求并草拟律师复核问题；非全面专利检索或不侵权意见 | [Python 专利 FTO](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/patent-fto)：固定权利要求重叠与律师问题 | 未实现 |
-| LJ-03 | 商业尽职调查 | Java、C#、Ruby | 对账合成股权/合同/纠纷并草拟清单；无已验证并购结论 | 无 | 未实现 |
+| LJ-03 | 商业尽职调查 | Java、C#、Ruby | 对账合成股权/合同/纠纷并草拟清单；无已验证并购结论 | [Ruby 尽职调查](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/due-diligence)：固定记录与仅审阅清单 | 未实现 |
 | LJ-04 | 类案检索与法律文书草拟 | Python、Java、OCaml | 检索固定合成案例、草拟带引用提纲；非量刑建议或司法裁判 | [法律合规](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/legal-compliance)：仅政策引用和脚本审批门 | 未实现 |
 | LJ-05 | 数字版权监测与维权流程 | Rust、PHP、TypeScript | 比较获授权 fixture 素材、草拟证据包；不全网扫描、自动发 DMCA 或裁定侵权 | [PHP 版权证据](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/copyright-evidence)：固定素材与仅审阅证据包 | 未实现 |
 

@@ -466,6 +466,26 @@ jobs:
       - run: go run ./language/go/Tutorial/soc-alert-triage --test
       - run: go test ./language/go/Tutorial/soc-alert-triage
 
+  ruby-due-diligence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4'
+      - run: ruby -I language/ruby/lib language/ruby/Tutorial/due-diligence/app.rb --test
+
+  python-dubbing-plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: PYTHONPATH=language/python python language/python/Tutorial/dubbing-plan/app.py --test
+
   r-budget-review:
     runs-on: ubuntu-latest
     timeout-minutes: 10

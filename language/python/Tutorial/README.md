@@ -13,6 +13,8 @@ capitalized in directory paths.
   simulated publish.
 - [Education tutoring](education-tutoring/README.md): Core `Retriever` and a
   draft-only study plan.
+- [Dubbing plan](dubbing-plan/README.md): fixed licensed media, review-only
+  caption plan and no voice cloning.
 - [Biodiversity alerts](biodiversity-alerts/README.md): fixed labeled
   observations, review-only ranger alert and no pursuit.
 - [Pollution tracing](pollution-tracing/README.md): fixed sensor traces,
