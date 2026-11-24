@@ -134,6 +134,8 @@ TUTORIALS = {
     "localization-draft": ("CS", "analysis,tools,draft,policy", "CS-07"),
     "cbt-exercise": ("HC", "tools,draft,policy", "HC-05"),
     "household-robot": ("PE", "state,tools,draft,policy", "PE-04"),
+    "chronic-care": ("HC", "analysis,tools,draft,policy", "HC-02"),
+    "test-generation": ("SE", "tools,draft,policy", "SE-04"),
 }
 GUIDES = {
     "workspace-agent-tutorial": ("SE", "go", "filesystem,tools,policy"),

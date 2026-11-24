@@ -466,6 +466,26 @@ jobs:
       - run: go run ./language/go/Tutorial/soc-alert-triage --test
       - run: go test ./language/go/Tutorial/soc-alert-triage
 
+  dart-chronic-care:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+      - run: dart language/dart/Tutorial/chronic-care/chronic_care.dart --test
+
+  haskell-test-generation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: haskell-actions/setup@v2
+        with:
+          ghc-version: '9.12.2'
+      - run: runghc -ilanguage/haskell/src language/haskell/Tutorial/test-generation/app.hs --test
+
   python-cbt-exercise:
     runs-on: ubuntu-latest
     timeout-minutes: 10

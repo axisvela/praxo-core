@@ -191,6 +191,8 @@ add framework surface.
 | TypeScript localization draft (CS-07) | TypeScript Core, fixed localization rules, review-only localized text | Local Node checks pass; CI job added, not yet run | No legal/tax compliance guarantee, live content system or publication |
 | Python CBT exercise (HC-05) | Native Core, fixed CBT exercise, explicit human-review escalation branch | Local Python 3.14 checks pass; CI job added, not yet run | No therapist replacement, diagnosis, live session or unsupervised crisis handling |
 | Rust household robot (PE-04) | Native Core, fixed robot observation, review-only bounded action | Local cargo build/test pass; CI job added, not yet run | No perception, motion planning, hardware command, safety interlock or certification |
+| Dart chronic care (HC-02) | Dart Core, fixed wearable trends, review-only care alert | Local Dart checks pass; CI job added, not yet run | No device integration, dosage change, treatment decision or clinical claim |
+| Haskell test generation (SE-04) | Haskell Core, fixed local fixture, review-only test suite | Local runghc checks pass; CI job added, not yet run | No test execution, coverage measurement, network load or verified result |
 | Python order review | Native Core, HTTP tool, fixed order scope, draft-only | Local and hosted CI against the public local service | Deterministic model; no live provider or external consumer |
 | TypeScript order support | Native Core, HTTP tool, fixed order scope | Local and hosted CI against the public local service | Deterministic model; CLI, not a Web frontend |
 | Java order review | Native Core, JUnit, loopback Web, real-service CLI | Mock/Web JUnit and real-service CLI passed in Linux CI | Java Web-to-real-backend and live model not verified |
