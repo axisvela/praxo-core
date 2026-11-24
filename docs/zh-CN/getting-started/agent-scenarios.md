@@ -33,13 +33,13 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 
 | ID | 场景 | 目标语言 | 首个有界教学成果 / 相关切片 |
 | --- | --- | --- | --- |
-| SE-01 | 端到端全栈代码开发 | TypeScript、Go、Dart | 规划微型应用、在允许的临时工作区修改并构建；不部署；[Go 全栈工作区](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/fullstack-workspace)与 [TypeScript 工作区规划](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/workspace-plan)编辑固定工作区；[V 发布预检](https://github.com/axisvela/praxo-core/tree/main/language/v/Tutorial/release-preflight)属于相邻发布工具，不是应用生成 |
+| SE-01 | 端到端全栈代码开发 | TypeScript、Go | 规划微型应用、在允许的临时工作区修改并构建；不部署；[Go 全栈工作区](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/fullstack-workspace)与 [TypeScript 工作区规划](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/workspace-plan)编辑固定工作区；[V 发布预检](https://github.com/axisvela/praxo-core/tree/main/language/v/Tutorial/release-preflight)属于相邻发布工具，不是应用生成 |
 | SE-02 | 自动化 Bug 定位与修复 | Python、Rust、Perl | 复现预置缺陷、草拟补丁、重跑测试；PR 创建单独授权；[Python Bug 修复](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/bug-repair)在内存中应用仅审阅补丁并重跑 fixture 测试 |
 | SE-03 | 遗留代码重构与迁移 | COBOL、Java、Delphi | 依赖清单与迁移草案，保持 fixture 输出不变；不迁移生产系统；[Delphi 遗留迁移切片](https://github.com/axisvela/praxo-core/tree/main/language/delphi/Tutorial/legacy-migration)盘点固定模块并草拟计划 |
 | SE-04 | 单元测试与压测生成 | Java、C#、Haskell | 对本地 fixture 生成有界测试；压测仅允许的 loopback 服务；[Haskell 测试生成](https://github.com/axisvela/praxo-core/tree/main/language/haskell/Tutorial/test-generation)与 [C# 测试生成](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/test-generation)草拟有界测试 |
 | SE-05 | 代码审查、安全与许可证审计 | Rust、OCaml、Go | 审查固定 diff 与依赖清单，引用发现并标注不确定性；证据库仅是 containment 切片；[OCaml 代码审查](https://github.com/axisvela/praxo-core/tree/main/language/ocaml/Tutorial/code-review)对固定 diff 草拟评论；[Haskell 规则 DSL](https://github.com/axisvela/praxo-core/tree/main/language/haskell/Tutorial/rule-dsl)解析类型化规则并返回冲突反例；[OCaml 静态诊断](https://github.com/axisvela/praxo-core/tree/main/language/ocaml/Tutorial/static-diagnostics)解析诊断记录并选择复核级别 |
 | SE-06 | AIOps 自愈与 RCA | Go、Elixir、Erlang | 关联 fixture 事件并草拟需审批的回滚；[incident 教程](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/incident-coordination)与 [Erlang AIOps RCA](https://github.com/axisvela/praxo-core/tree/main/language/erlang/Tutorial/aiops-rca)均仅读取与草案；[Erlang OTP 恢复](https://github.com/axisvela/praxo-core/tree/main/language/erlang/Tutorial/otp-recovery)注入受监督子进程崩溃并观察重启 |
-| SE-07 | 云资源与 FinOps 治理 | Ruby、PowerShell、D | [Ruby 成本复核切片](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/finops-review)计算闲置成本并草拟复核；不修改云资源、不使用真实凭据；其余语言为候选 |
+| SE-07 | 云资源与 FinOps 治理 | Ruby、PowerShell | [Ruby 成本复核切片](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/finops-review)计算闲置成本并草拟复核；不修改云资源、不使用真实凭据；其余语言为候选 |
 | SE-08 | API 编排与异构集成 | PHP、Java、TypeScript | 映射两个合成 API、校验 schema、处理未知结果；不访问任意 URL；[PHP API 编排切片](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/api-orchestration)与 [TypeScript API 编排](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/api-orchestration)覆盖两个 fixture API、schema 校验与复核草案 |
 
 ## 企业运营与办公（7）
@@ -48,22 +48,22 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | --- | --- | --- | --- |
 | OP-01 | IT 与 HR 内部服务台 | C#、PHP、PowerShell | 限定员工请求并草拟审批；现有订单服务台不授予员工权限；[PHP 内部服务台](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/internal-service-desk)草拟仅审阅审批 |
 | OP-02 | 会议全生命周期管理 | Dart、Swift、TypeScript | 对齐固定日历、草拟纪要与任务；发送邀请前审批；[Dart 会议协调切片](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/meeting-coordination)覆盖日历证据与纪要草案 |
-| OP-03 | 企业知识库动态维护 | Python、Elixir、OCaml | 检测文档 fixture 变更、去重并草拟带引用修订；不自动写 Wiki；[Elixir 知识维护切片](https://github.com/axisvela/praxo-core/tree/main/language/elixir/Tutorial/knowledge-maintenance)覆盖固定差异与修订草案 |
+| OP-03 | 企业知识库动态维护 | Python、Elixir | 检测文档 fixture 变更、去重并草拟带引用修订；不自动写 Wiki；[Elixir 知识维护切片](https://github.com/axisvela/praxo-core/tree/main/language/elixir/Tutorial/knowledge-maintenance)覆盖固定差异与修订草案 |
 | OP-04 | 跨系统 Agentic RPA | Java、C#、Delphi | 对账合成报销/采购记录；未知效果时停止盲重试；[Delphi RPA 对账](https://github.com/axisvela/praxo-core/tree/main/language/delphi/Tutorial/rpa-reconciliation)对固定差额草拟异常单 |
 | OP-05 | 招聘与人才匹配 | Ruby、PHP、Python | 对合成人才做岗位相关技能匹配并解释；不自动招聘决策或联系；[Ruby 招聘匹配](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/recruiting-match)与 [Python 招聘匹配](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/recruiting-match)排序固定候选并草拟名单 |
 | OP-06 | 个性化入职导师 | Python、Dart、Swift | 按角色与前置条件规划课程；权限仍归应用；[Dart 入职计划](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/onboarding-plan)草拟仅审阅学习路径 |
-| OP-07 | 高管经营简报 | R、Julia、D | 计算合成经营变化并引用指标；不把相关性当因果；[D 高管简报切片](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/executive-brief)覆盖固定变化与复核草案 |
+| OP-07 | 高管经营简报 | R | 计算合成经营变化并引用指标；不把相关性当因果；[D 高管简报切片](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/executive-brief)覆盖固定变化与复核草案 |
 
 ## 客服、营销与销售（7）
 
 | ID | 场景 | 目标语言 | 首个有界教学成果 / 相关切片 |
 | --- | --- | --- | --- |
 | CS-01 | 多模态全渠道客服 | TypeScript、C#、PHP | 基于受限订单证据草拟处理方案；现有客服为文本/SSE，不是退款或多模态验证 |
-| CS-02 | B2B 潜客与线索培育 | Ruby、PHP、Elixir | 合成企业画像排序与许可触达草案；不爬取或发送垃圾信息；[Ruby 线索培育](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/lead-nurture)与 [PHP 线索培育](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/lead-nurture)排序固定线索并草拟许可触达 |
+| CS-02 | B2B 潜客与线索培育 | Ruby、PHP | 合成企业画像排序与许可触达草案；不爬取或发送垃圾信息；[Ruby 线索培育](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/lead-nurture)与 [PHP 线索培育](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/lead-nurture)排序固定线索并草拟许可触达 |
 | CS-03 | 销售通话辅助与复盘 | C#、Swift、TypeScript | 从固定转录提取异议并草拟 CRM 更新；现有 CRM 教程仅跟进草案 |
 | CS-04 | 内容营销与矩阵运营 | Python、R、Dart | 计算分群、草拟内容、发布审批；现有 R 分群不发送 |
 | CS-05 | 电商定价与补货 | Java、PHP、Ruby | 模拟价格/库存约束、草拟补货单；不调整真实价格；[TypeScript 零售补货切片](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/retail-replenishment)计算固定补货量并草拟采购单 |
-| CS-06 | 流失预警与主动挽留 | R、Elixir、Julia | 计算固定风险信号、草拟基于同意的优惠；不推断敏感特征或自动触达 |
+| CS-06 | 流失预警与主动挽留 | R、Julia | 计算固定风险信号、草拟基于同意的优惠；不推断敏感特征或自动触达 |
 | CS-07 | 跨境多语言本地化 | TypeScript、PHP、Perl | 草拟本地化商品文本并引用固定规则；不保证法律/税务合规；[TypeScript 本地化草案](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/localization-draft)与 [PHP 本地化草案](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/localization-draft)草拟仅审阅文本 |
 
 ## 金融、财税与合规（6）
@@ -71,17 +71,17 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | ID | 场景 | 目标语言 | 首个有界教学成果 / 相关切片 |
 | --- | --- | --- | --- |
 | FC-01 | 投研与财报分析 | R、Julia、Java | 对合成财报计算比率并列假设；现有组合分析不是投研验证 |
-| FC-02 | 量化执行与风险控制 | C++、Rust、D | 回放固定价格、用确定性控制校验风险、草拟订单；不交易、不承诺毫秒执行；[D 量化风控](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/quant-risk)比较固定敞口与限额并草拟复核订单 |
-| FC-03 | 信贷尽调与反欺诈 | Java、COBOL、Python | 交叉核验合成记录并输出复核证据；不自动拒贷或判定欺诈；[Python 信贷尽调](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/credit-diligence)计算固定比率并草拟备忘录 |
+| FC-02 | 量化执行与风险控制 | C++、Rust | 回放固定价格、用确定性控制校验风险、草拟订单；不交易、不承诺毫秒执行；[D 量化风控](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/quant-risk)比较固定敞口与限额并草拟复核订单 |
+| FC-03 | 信贷尽调与反欺诈 | Java、Python | 交叉核验合成记录并输出复核证据；不自动拒贷或判定欺诈；[Python 信贷尽调](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/credit-diligence)计算固定比率并草拟备忘录 |
 | FC-04 | 税务筹划与申报 | COBOL、Java、Delphi | 校验合成账本、按固定规则草拟申报；不真实申报、不提供税务建议 |
-| FC-05 | 合同全生命周期审查 | Python、OCaml、C# | 比对固定条款和红线、建议修订；审批改动须最终重授权；[OCaml 合同审查](https://github.com/axisvela/praxo-core/tree/main/language/ocaml/Tutorial/contract-review)对固定条款草拟红线 |
+| FC-05 | 合同全生命周期审查 | Python、C# | 比对固定条款和红线、建议修订；审批改动须最终重授权；[OCaml 合同审查](https://github.com/axisvela/praxo-core/tree/main/language/ocaml/Tutorial/contract-review)对固定条款草拟红线 |
 | FC-06 | 监管追踪与内控审计 | Python、R、Perl | 比较版本化规则 fixture 并草拟整改；现有合规教程为脚本审批而非真实审核人 |
 
 ## 科研与前沿探索（6）
 
 | ID | 场景 | 目标语言 | 首个有界教学成果 / 相关切片 |
 | --- | --- | --- | --- |
-| SC-01 | 文献综述与假设生成 | Python、Julia、Haskell | 检索固定摘要、引用主张、标明假设未验证；不编造论文；[Haskell 文献综述切片](https://github.com/axisvela/praxo-core/tree/main/language/haskell/Tutorial/literature-review)覆盖两篇 fixture 论文与未验证草案 |
+| SC-01 | 文献综述与假设生成 | Python | 检索固定摘要、引用主张、标明假设未验证；不编造论文；[Haskell 文献综述切片](https://github.com/axisvela/praxo-core/tree/main/language/haskell/Tutorial/literature-review)覆盖两篇 fixture 论文与未验证草案 |
 | SC-02 | 制药与分子设计 | Python、Julia、C++ | 固定约束下排序合成描述符；不声称药效、毒性、合成或临床结果；[Python 分子筛选](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/molecule-screen)与 [C++ 分子筛选](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/molecule-screen)排序固定描述符并草拟复核 |
 | SC-03 | 自动化实验室 | Julia、Rust、C | 模拟参数/结果迭代且独立校验限制；不操作实验设备或化学品；[Rust 实验回路](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/lab-loop)草拟仅审阅参数 |
 | SC-04 | 材料逆向设计与仿真 | Fortran、Julia、C++ | 计算固定候选属性并草拟下轮仿真；不声称发现有效材料；[C++ 材料设计](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/materials-design)草拟下一轮仅审阅仿真 |
@@ -93,7 +93,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | ID | 场景 | 目标语言 | 首个有界教学成果 / 相关切片 |
 | --- | --- | --- | --- |
 | IN-01 | 预测维护与检修排程 | C++、Rust、Nim | 计算固定传感指标并草拟维护；[工业边缘](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/industrial-edge)与 [Nim 维护分诊](https://github.com/axisvela/praxo-core/tree/main/language/nim/Tutorial/maintenance-triage)均不验证故障窗口预测；[Octave 振动复核](https://github.com/axisvela/praxo-core/tree/main/language/octave/Tutorial/vibration-review)比较 FFT/RMS 并草拟巡检复核 |
-| IN-02 | 柔性产线动态排产 | Erlang、C++、V | 重排有界合成任务队列、草拟 MES/AGV 指令；不物理调度；[V 生产排产切片](https://github.com/axisvela/praxo-core/tree/main/language/v/Tutorial/production-scheduling)计算固定优先顺序与草案 |
+| IN-02 | 柔性产线动态排产 | C++ | 重排有界合成任务队列、草拟 MES/AGV 指令；不物理调度；[V 生产排产切片](https://github.com/axisvela/praxo-core/tree/main/language/v/Tutorial/production-scheduling)计算固定优先顺序与草案 |
 | IN-03 | 供应链断链预警与寻源 | Go、Java、Ruby | 评估合成供应商事件并草拟替代；物流 checkpoint 仅消息续跑 |
 | IN-04 | 微网调度与负荷平衡 | Julia、Fortran、Zig | 模拟有约束充放电计划，Agent 外校验安全限制；不发电网指令；[Julia 调度复核](https://github.com/axisvela/praxo-core/tree/main/language/julia/Tutorial/dispatch-review)求解有界双源调度并复核缺口 |
 | IN-05 | 图纸审查与 BOM | C++、C#、OCaml | 校验合成的已解析图纸图并草拟 BOM；不宣称 CAD/BIM 视觉或工程认证；[OCaml BOM 复核](https://github.com/axisvela/praxo-core/tree/main/language/ocaml/Tutorial/bom-review)检查固定图纸并草拟 BOM |
@@ -113,11 +113,11 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 
 | ID | 场景 | 目标语言 | 首个有界教学成果 / 相关切片 |
 | --- | --- | --- | --- |
-| PE-01 | 苏格拉底式学习导师 | Python、TypeScript、Haskell | 记录合成学习尝试并渐进提问；现有辅导教程是课程检索而非已验证自适应导师 |
+| PE-01 | 苏格拉底式学习导师 | Python、TypeScript | 记录合成学习尝试并渐进提问；现有辅导教程是课程检索而非已验证自适应导师 |
 | PE-02 | 差旅与生活全案管家 | TypeScript、Dart、Swift | 在固定预算下重排行程并草拟预订；现有 travel-booking 不支付或改签 |
 | PE-03 | 数字信息与隐私代理 | Rust、Go、Objective-C | 分类固定消息、草拟删除/轮换请求；不使用真实密码、不访问账户或删除数据；[Objective-C 隐私代理切片](https://github.com/axisvela/praxo-core/tree/main/language/objc/Tutorial/privacy-agent)分类固定 fixture 并草拟请求 |
-| PE-04 | 人形机器人与家庭服务 | C++、Rust、Zig | 模拟观察/规划/动作、权限收窄、观测新鲜度和取消确认；无硬件或安全认证；[Rust 家庭机器人](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/household-robot)草拟收窄动作 |
-| PE-05 | 游戏 NPC 与动态叙事 | Lua、C、V | 持久化合成角色状态、选择受限宿主动作、观察结果；无任意宿主命令 |
+| PE-04 | 人形机器人与家庭服务 | C++、Rust | 模拟观察/规划/动作、权限收窄、观测新鲜度和取消确认；无硬件或安全认证；[Rust 家庭机器人](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/household-robot)草拟收窄动作 |
+| PE-05 | 游戏 NPC 与动态叙事 | Lua、C | 持久化合成角色状态、选择受限宿主动作、观察结果；无任意宿主命令 |
 
 ## 网络安全与攻防对抗（7）
 
@@ -132,30 +132,30 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | CY-04 | 钓鱼识别与反钓鱼演练 | Python、TypeScript、C# | 分类合成邮件并草拟获授权的安全培训；不发送欺骗邮件或攻击基础设施 | [Python 钓鱼演练](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/phishing-awareness)：固定邮件与仅审阅演练 | 未实现 |
 | CY-05 | 零信任策略动态调优 | Java、C#、Go | 回放合成访问决策、建议收窄授权；不放宽真实权限 | [Go 零信任审阅](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/zero-trust-review)：固定越权审阅与草案 | 未实现 |
 | CY-06 | DLP 与隐私脱敏 | Go、Rust、Objective-C | 对合成导出检查指定敏感字段，在共享前拒绝或脱敏；不保证加密或完整 DLP | [SOC 分诊](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/soc-alert-triage)：仅邮箱/电话脱敏 | 未实现 |
-| CY-07 | 开源供应链投毒监测 | Rust、OCaml、Ruby | 比较固定清单与维护者变更 fixture，草拟版本锁定；非已验证恶意代码检测 | [Ruby 供应链复核](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/supply-chain-review)：固定清单信号与版本锁定 | 未实现 |
+| CY-07 | 开源供应链投毒监测 | Rust、Ruby | 比较固定清单与维护者变更 fixture，草拟版本锁定；非已验证恶意代码检测 | [Ruby 供应链复核](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/supply-chain-review)：固定清单信号与版本锁定 | 未实现 |
 
 ## 智慧城市与公共治理（7）
 
 | ID | 场景 | 目标语言 | 候选的有界教学成果 | 已有相关切片 | 端到端参考应用 |
 | --- | --- | --- | --- | --- | --- |
-| CT-01 | 城市信号灯全域协同 | Erlang、C++、Julia | 模拟固定路口队列，在 Agent 外校验配时限制；不发信号灯指令 | [C++ 信号配时](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/traffic-signal-plan)：固定路口与仅审阅配时 | 未实现 |
+| CT-01 | 城市信号灯全域协同 | C++、Julia | 模拟固定路口队列，在 Agent 外校验配时限制；不发信号灯指令 | [C++ 信号配时](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/traffic-signal-plan)：固定路口与仅审阅配时 | 未实现 |
 | CT-02 | 生命线管网泄漏定位与调度 | Fortran、Rust、Nim | 排序合成压力异常并草拟巡检；不隔离阀门或调度现场作业 | [Rust 泄漏定位](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/leak-localization)：固定异常与仅审阅巡检；[信号趋势](https://github.com/axisvela/praxo-core/tree/main/language/octave/Tutorial/signal-trends)：仅指标，不定位泄漏 | 未实现 |
 | CT-03 | 政务跨部门审批 | Java、C#、PHP | 校验合成材料并草拟并联审核任务；不做真实身份核验或行政审批 | [PHP 政务审批](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/public-approval)：固定材料与仅审阅任务 | 未实现 |
-| CT-04 | 应急指挥与资源调度 | Go、Julia、Erlang | 模拟断路与有约束救援路线；不提供业务救援指令或真实调度 | [Go 应急路线](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/emergency-route-plan)：固定断路与仅审阅调度 | 未实现 |
+| CT-04 | 应急指挥与资源调度 | Go、Julia | 模拟断路与有约束救援路线；不提供业务救援指令或真实调度 | [Go 应急路线](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/emergency-route-plan)：固定断路与仅审阅调度 | 未实现 |
 | CT-05 | 污染溯源与执法辅助 | R、Fortran、Python | 比较合成监测/天气记录并草拟调查假设；不认定因果或违法 | [Python 污染溯源](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/pollution-tracing)：固定记录与仅审阅假设 | 未实现 |
-| CT-06 | 垃圾分类与清运优化 | Julia、Dart、V | 按车辆约束重排有界合成清运队列；不发车辆指令 | [Dart 垃圾清运](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/waste-collection)：固定队列与仅审阅排班 | 未实现 |
+| CT-06 | 垃圾分类与清运优化 | Julia、Dart | 按车辆约束重排有界合成清运队列；不发车辆指令 | [Dart 垃圾清运](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/waste-collection)：固定队列与仅审阅排班 | 未实现 |
 | CT-07 | 公共预算执行与绩效 | R、COBOL、Java | 对账合成拨款与里程碑，解释异常；不出具正式审计结论 | [R 预算复核](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/budget-review)：固定执行与仅审阅发现 | 未实现 |
 
 ## 交通物流、航运与低空经济（7）
 
 | ID | 场景 | 目标语言 | 候选的有界教学成果 | 已有相关切片 | 端到端参考应用 |
 | --- | --- | --- | --- | --- | --- |
-| TL-01 | 无人机集群巡检与空域消冲 | Rust、C++、Zig | 模拟有界航点，Agent 外检查冲突；不飞行或下发避障指令 | [Zig 机队航点](https://github.com/axisvela/praxo-core/tree/main/language/zig/Tutorial/drone-fleet-plan)：固定航点与仅审阅计划 | 未实现 |
-| TL-02 | 集装箱堆场与岸桥协同 | Erlang、C++、Java | 按资源约束重排合成装卸任务；不调度岸桥或 AGV | [C++ 集装箱堆场](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/container-yard)：固定任务与仅审阅排班 | 未实现 |
+| TL-01 | 无人机集群巡检与空域消冲 | Rust、C++ | 模拟有界航点，Agent 外检查冲突；不飞行或下发避障指令 | [Zig 机队航点](https://github.com/axisvela/praxo-core/tree/main/language/zig/Tutorial/drone-fleet-plan)：固定航点与仅审阅计划 | 未实现 |
+| TL-02 | 集装箱堆场与岸桥协同 | C++、Java | 按资源约束重排合成装卸任务；不调度岸桥或 AGV | [C++ 集装箱堆场](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/container-yard)：固定任务与仅审阅排班 | 未实现 |
 | TL-03 | 远洋气象导航与燃油优化 | Fortran、Julia、C++ | 比较合成航线/气象成本并草拟路线；无导航、节油或 CII 合规保证 | [C++ 远洋航线](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/ocean-routing)：固定航线与仅审阅路线 | 未实现 |
-| TL-04 | 冷链温控与货损预警 | Rust、Nim、Octave | 计算固定温度越界并草拟转运复核；不调整制冷或保证医药货物安全 | [Rust 冷链复核](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/cold-chain)：固定越界与仅审阅转运；[信号趋势](https://github.com/axisvela/praxo-core/tree/main/language/octave/Tutorial/signal-trends)：仅通用信号 fixture | 未实现 |
+| TL-04 | 冷链温控与货损预警 | Rust、Nim | 计算固定温度越界并草拟转运复核；不调整制冷或保证医药货物安全 | [Rust 冷链复核](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/cold-chain)：固定越界与仅审阅转运；[信号趋势](https://github.com/axisvela/praxo-core/tree/main/language/octave/Tutorial/signal-trends)：仅通用信号 fixture | 未实现 |
 | TL-05 | 多式联运报关与路径重算 | Java、Go、PHP | 校验合成单证并比较替代路线；不报关 | [Go 报关改道](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/customs-reroute)与 [PHP 报关改道](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/customs-reroute)：固定单证与仅审阅改道；[物流 checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/logistics-checkpoint)：仅消息续跑与草案 | 未实现 |
-| TL-06 | 自动驾驶远程脱困与地图更新 | C++、Rust、D | 回放合成道路拓扑变更、草拟地图补丁；不接管车辆 | [D 车队地图](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/fleet-map)：固定拓扑与仅审阅补丁 | 未实现 |
+| TL-06 | 自动驾驶远程脱困与地图更新 | C++、Rust | 回放合成道路拓扑变更、草拟地图补丁；不接管车辆 | [D 车队地图](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/fleet-map)：固定拓扑与仅审阅补丁 | 未实现 |
 | TL-07 | 机场机位与延误恢复 | Java、Julia、C# | 模拟机位/机组/衔接约束并草拟方案；无业务调度或时延保证 | [C# 机场恢复](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/airport-recovery)：固定约束与仅审阅方案；[旅行预订](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/travel-booking)：占座 fixture，不是机场恢复 | 未实现 |
 
 ## 传媒、设计、游戏与数字内容（7）
@@ -163,21 +163,21 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | ID | 场景 | 目标语言 | 候选的有界教学成果 | 已有相关切片 | 端到端参考应用 |
 | --- | --- | --- | --- | --- | --- |
 | MD-01 | 影视分镜与虚拟制片预演 | Lua、C++、TypeScript | 把固定剧本转为有界镜头计划草案；无已验证 Unreal 集成或渲染制作 | [Lua 分镜预演](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/storyboard-previs)：固定场景与仅审阅镜头计划 | 未实现 |
-| MD-02 | 新闻事实核查与多源验证 | Python、Haskell、Perl | 比较固定来源与元数据、引用矛盾与不确定性；无真伪保证或实网抓取 | [Perl 新闻核查](https://github.com/axisvela/praxo-core/tree/main/language/perl/Tutorial/news-factcheck)：固定来源与仅审阅核查；[办公问答](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/office-qa)：仅引用机制 | 未实现 |
-| MD-03 | 开放世界游戏生态演化 | Lua、C、V | 用持久化合成状态模拟经济/资源规则；不保证规模或长期平衡 | [Lua 世界生态](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/world-economy)：固定时步与仅审阅平衡；[宿主嵌入](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/host-embedding)：设备回调，不是游戏生态 | 未实现 |
+| MD-02 | 新闻事实核查与多源验证 | Python、Perl | 比较固定来源与元数据、引用矛盾与不确定性；无真伪保证或实网抓取 | [Perl 新闻核查](https://github.com/axisvela/praxo-core/tree/main/language/perl/Tutorial/news-factcheck)：固定来源与仅审阅核查；[办公问答](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/office-qa)：仅引用机制 | 未实现 |
+| MD-03 | 开放世界游戏生态演化 | Lua、C | 用持久化合成状态模拟经济/资源规则；不保证规模或长期平衡 | [Lua 世界生态](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/world-economy)：固定时步与仅审阅平衡；[宿主嵌入](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/host-embedding)：设备回调，不是游戏生态 | 未实现 |
 | MD-04 | 配音、口型同步与文化本地化 | Python、Swift、C++ | 为合成/获许可素材规划字幕与时序；无冒充、未经同意的声音克隆或已验证口型同步 | [Python 配音规划](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/dubbing-plan)：固定授权素材与仅审阅字幕 | 未实现 |
 | MD-05 | 工业设计与 3D 拓扑生成 | C++、Julia、Fortran | 按已述约束比较合成网格描述符；无可制造性或力学认证 | [C++ 网格复核](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/mesh-review)：固定网格与仅审阅评估 | 未实现 |
 | MD-06 | 有声书与沉浸广播剧制作 | Python、Dart、Swift | 规划获许可角色声音与固定混音提示；无合成成品或权利保证 | [Dart 有声书制作](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/audiobook-production)：固定授权书目与仅审阅计划 | 未实现 |
-| MD-07 | 数字人直播互动场控 | TypeScript、Elixir、Lua | 回放合成互动事件并草拟讲解顺序；不做受众画像、发券或真实直播控制 | [Lua 直播场控](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/live-show)：固定互动与仅审阅顺序 | 未实现 |
+| MD-07 | 数字人直播互动场控 | TypeScript、Lua | 回放合成互动事件并草拟讲解顺序；不做受众画像、发券或真实直播控制 | [Lua 直播场控](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/live-show)：固定互动与仅审阅顺序 | 未实现 |
 
 ## 法律、司法与知识产权（5）
 
 | ID | 场景 | 目标语言 | 候选的有界教学成果 | 已有相关切片 | 端到端参考应用 |
 | --- | --- | --- | --- | --- | --- |
-| LJ-01 | 诉讼证据链与质证提纲 | Python、OCaml、Go | 从合成文档建立带引用时间线、标记矛盾；非法律意见或证据可采性证明 | [Go 诉讼时间线](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/litigation-timeline)：固定文档与仅审阅提纲；[证据库](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/evidence-vault)：受限读取，不是诉讼分析 | 未实现 |
-| LJ-02 | 专利检索、FTO 与布局 | Python、Java、Haskell | 比较合成权利要求并草拟律师复核问题；非全面专利检索或不侵权意见 | [Python 专利 FTO](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/patent-fto)：固定权利要求重叠与律师问题 | 未实现 |
+| LJ-01 | 诉讼证据链与质证提纲 | Python、Go | 从合成文档建立带引用时间线、标记矛盾；非法律意见或证据可采性证明 | [Go 诉讼时间线](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/litigation-timeline)：固定文档与仅审阅提纲；[证据库](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/evidence-vault)：受限读取，不是诉讼分析 | 未实现 |
+| LJ-02 | 专利检索、FTO 与布局 | Python、Java | 比较合成权利要求并草拟律师复核问题；非全面专利检索或不侵权意见 | [Python 专利 FTO](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/patent-fto)：固定权利要求重叠与律师问题 | 未实现 |
 | LJ-03 | 商业尽职调查 | Java、C#、Ruby | 对账合成股权/合同/纠纷并草拟清单；无已验证并购结论 | [Ruby 尽职调查](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/due-diligence)：固定记录与仅审阅清单 | 未实现 |
-| LJ-04 | 类案检索与法律文书草拟 | Python、Java、OCaml | 检索固定合成案例、草拟带引用提纲；非量刑建议或司法裁判 | [Python 类案提纲](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/precedent-outline)：固定判例与仅审阅提纲；[法律合规](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/legal-compliance)：仅政策引用和脚本审批门 | 未实现 |
+| LJ-04 | 类案检索与法律文书草拟 | Python、Java | 检索固定合成案例、草拟带引用提纲；非量刑建议或司法裁判 | [Python 类案提纲](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/precedent-outline)：固定判例与仅审阅提纲；[法律合规](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/legal-compliance)：仅政策引用和脚本审批门 | 未实现 |
 | LJ-05 | 数字版权监测与维权流程 | Rust、PHP、TypeScript | 比较获授权 fixture 素材、草拟证据包；不全网扫描、自动发 DMCA 或裁定侵权 | [PHP 版权证据](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/copyright-evidence)：固定素材与仅审阅证据包 | 未实现 |
 
 ## 建筑工程、矿业与空间运营（5）
@@ -187,8 +187,8 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | BE-01 | 工地安全巡检与整改复核 | C++、Rust、C# | 评估合成巡检标签、跟踪复核清单；无真实视觉或安全认证结论 | [Rust 工地安全](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/construction-safety)：固定标签与仅审阅清单 | 未实现 |
 | BE-02 | 商业楼宇 HVAC 与照明节能 | Julia、C、Delphi | 模拟人流/热工约束并草拟设置；无 BMS 指令或节能证明 | [Delphi 暖通设置](https://github.com/axisvela/praxo-core/tree/main/language/delphi/Tutorial/hvac-settings)：固定环境与仅审阅方案 | 未实现 |
 | BE-03 | 智慧矿山与边坡风险预警 | Fortran、Rust、C++ | 计算合成位移指标、草拟复核警报；无塌方预测或矿车调度 | [Rust 边坡监测](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/mining-slope)：固定指标与仅审阅警报 | 未实现 |
-| BE-04 | 招投标编制与串标审查 | Java、PHP、COBOL | 校验合成资质、标记文档相似性；不自动投标或认定串标 | [PHP 招标复核](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/tender-review)：固定投标与仅审阅标记 | 未实现 |
-| BE-05 | 地产选址与租金预测 | R、Julia、D | 比较合成选址指标、披露预测假设；无概率/回报验证或个人位置画像 | [R 地产预测](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/property-forecast)与 [D 地产预测](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/property-forecast)：固定指标与仅审阅预测 | 未实现 |
+| BE-04 | 招投标编制与串标审查 | Java、PHP | 校验合成资质、标记文档相似性；不自动投标或认定串标 | [PHP 招标复核](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/tender-review)：固定投标与仅审阅标记 | 未实现 |
+| BE-05 | 地产选址与租金预测 | R | 比较合成选址指标、披露预测假设；无概率/回报验证或个人位置画像 | [R 地产预测](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/property-forecast)与 [D 地产预测](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/property-forecast)：固定指标与仅审阅预测 | 未实现 |
 
 ## 农业、林业与生态保护（5）
 
@@ -196,9 +196,9 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | --- | --- | --- | --- | --- | --- |
 | AE-01 | 畜牧健康监测与精准饲喂 | C、Nim、Rust | 汇总合成个体观察并草拟复核请求；不兽医诊断、隔离或饲喂控制 | [Rust 畜牧监测](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/livestock-monitor)：固定观察与仅审阅请求 | 未实现 |
 | AE-02 | 森林火险与蔓延推演 | Fortran、Julia、R | 回放合成天气/燃料网格、比较模型传播；无业务预警或防火带调度 | [R 火势蔓延](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/fire-spread)：固定网格与仅审阅报告 | 未实现 |
-| AE-03 | 海洋牧场水质与投饵 | Lua、C、Octave | 计算固定溶氧/温度指标、草拟有界动作；不控制增氧机或投饵机 | [Lua 水质监测](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/aquaculture-water)：固定指标与仅审阅动作；[宿主嵌入](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/host-embedding)：仅宿主回调机制 | 未实现 |
-| AE-04 | 农产品套保与产销规划 | R、Julia、COBOL | 模拟风险敞口并比较情景成本；不发期货订单、不锁价、不提供金融建议 | [R 套保规划](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/hedge-plan)：固定敞口与仅审阅计划 | 未实现 |
-| AE-05 | 生物多样性与盗猎预警 | Python、Rust、Zig | 分类合成标注观察、草拟护林员复核；无物种识别保证或自动追捕 | [Python 生物多样性预警](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/biodiversity-alerts)：固定标签与仅审阅预警 | 未实现 |
+| AE-03 | 海洋牧场水质与投饵 | Lua、C、Octave | 计算固定溶氧/温度指标、草拟有界动作；不控制增氧机或投饵机 | [Lua 水质监测](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/aquaculture-water)与 [Octave 水质监测](https://github.com/axisvela/praxo-core/tree/main/language/octave/Tutorial/water-quality)：固定指标与仅审阅动作；[宿主嵌入](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/host-embedding)：仅宿主回调机制 | 未实现 |
+| AE-04 | 农产品套保与产销规划 | R、Julia | 模拟风险敞口并比较情景成本；不发期货订单、不锁价、不提供金融建议 | [R 套保规划](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/hedge-plan)：固定敞口与仅审阅计划 | 未实现 |
+| AE-05 | 生物多样性与盗猎预警 | Python、Rust | 分类合成标注观察、草拟护林员复核；无物种识别保证或自动追捕 | [Python 生物多样性预警](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/biodiversity-alerts)：固定标签与仅审阅预警 | 未实现 |
 
 ## 组织治理、架构与跨学科协同（7）
 
@@ -206,11 +206,11 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | --- | --- | --- | --- | --- | --- |
 | OG-01 | EA 资产图谱治理 | Java、OCaml、C# | 按标准比较固定应用/API 图并草拟变更发现；无生产扫描或自动拦截 | [OCaml 架构图谱](https://github.com/axisvela/praxo-core/tree/main/language/ocaml/Tutorial/architecture-graph)：固定图谱与仅审阅发现 | 未实现 |
 | OG-02 | 多智能体社会与政策沙盘 | Julia、Erlang、Haskell | 模拟小型有界合成人群并报告敏感性；无数万规模或真实政策预测 | [Haskell 政策仿真](https://github.com/axisvela/praxo-core/tree/main/language/haskell/Tutorial/policy-simulation)：固定人群与仅审阅报告 | 未实现 |
-| OG-03 | 跨文化谈判同传与策略辅助 | TypeScript、Swift、Python | 比较固定转录与术语、标记不确定性；无微表情推断、读心或实时同传保证 | [TypeScript 谈判解读](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/negotiation-interpretation)：固定转录与仅审阅笔记 | 未实现 |
+| OG-03 | 跨文化谈判同传与策略辅助 | TypeScript、Python | 比较固定转录与术语、标记不确定性；无微表情推断、读心或实时同传保证 | [TypeScript 谈判解读](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/negotiation-interpretation)：固定转录与仅审阅笔记 | 未实现 |
 | OG-04 | 开源社区治理与贡献者体验 | Ruby、Elixir、Perl | 分类合成 Issue、草拟贡献指导与评审请求；不自动关闭问题或冒充维护者 | [Ruby 社区治理](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/community-governance)：固定问题分类与评审请求 | 未实现 |
 | OG-05 | EDA 布局布线优化 | C++、Fortran、Julia | 探索合成布局网格、报告已述 PPA 代理指标；无代工厂有效版图或优化证明 | [C++ EDA 布局](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/eda-placement)：固定网格与仅审阅布局 | 未实现 |
 | OG-06 | 个人数字孪生与跨应用记忆 | Swift、Objective-C、Dart | 存储合成的同意范围内记忆、记录来源并测试删除；无真实邮箱/密码或无限召回 | [Dart 数字孪生记忆](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/digital-twin-memory)：范围内存储/召回/删除；[物流 checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/logistics-checkpoint)：仅消息续跑，不是个人记忆中枢 | 未实现 |
-| OG-07 | 多学科 Virtual PI | Python、Julia、Haskell | 协调有界文献/仿真/复核任务，限制共享预算并标注来源；不保证自主科研有效性 | [Python Virtual PI](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/virtual-pi)：固定任务与仅审阅协调；[代表性链路](https://github.com/axisvela/praxo-core/tree/main/examples/representative-chain)：应用级委派，不是科研团队 | 未实现 |
+| OG-07 | 多学科 Virtual PI | Python、Julia | 协调有界文献/仿真/复核任务，限制共享预算并标注来源；不保证自主科研有效性 | [Python Virtual PI](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/virtual-pi)：固定任务与仅审阅协调；[代表性链路](https://github.com/axisvela/praxo-core/tree/main/examples/representative-chain)：应用级委派，不是科研团队 | 未实现 |
 
 ## 全 Core 语言分配
 

@@ -234,6 +234,14 @@ jobs:
           compiler: dmd-latest
       - run: dmd -i -Ilanguage/d/source -run language/d/Tutorial/quant-risk/risk.d --test
 
+  octave-water-quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y octave
+      - run: octave --no-gui --quiet language/octave/Tutorial/water-quality/run.m --test
+
   swift-chronic-care:
     runs-on: ubuntu-latest
     timeout-minutes: 20

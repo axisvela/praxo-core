@@ -2,6 +2,8 @@
 
 Application tutorials live in `Tutorial/`, alongside focused `examples/`.
 
+- [Water quality](water-quality/README.md): fixed oxygen/temperature thresholds
+  with a review-only aeration branch; no sensor or actuator access.
 - [Vibration review](vibration-review/README.md): native FFT/RMS comparison of
   normal and anomalous samples with a review-only inspection branch; no device access.
 - [Signal trends](signal-trends/README.md): runs the shared MATLAB/Octave signal
