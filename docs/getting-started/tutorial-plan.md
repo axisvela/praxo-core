@@ -205,6 +205,8 @@ add framework surface.
 | D property forecast (BE-05) | Native Core, fixed site metrics, review-only forecast | Local dmd `-run` checks pass; CI job added, not yet run | No valuation, probability guarantee, return claim or location profiling |
 | R weather anomaly (SC-05) | Native R Core, fixed time-series anomalies, review-only notice | Local R checks pass; CI job added, not yet run | No operational forecast, warning issuance, meteorological validation or disaster dispatch |
 | Lua irrigation plan (IN-06) | Lua Core, fixed soil/weather observations, review-only request | Local Lua 5.4 checks pass; CI job added, not yet run | No soil sensors, irrigation control, drone dispatch or actuator access |
+| C++ materials design (SC-04) | C++ Core, fixed candidate properties, review-only next simulation | Local MinGW build/test pass; CI job added, not yet run | No validated material, simulation physics, fabrication or property guarantee |
+| PHP customs reroute (TL-05) | Native PHP Core, fixed document fields, review-only reroute | Local PHP 8.5 lint/test pass; CI job added, not yet run | No customs filing, network access, compliance determination or route execution |
 | Python order review | Native Core, HTTP tool, fixed order scope, draft-only | Local and hosted CI against the public local service | Deterministic model; no live provider or external consumer |
 | TypeScript order support | Native Core, HTTP tool, fixed order scope | Local and hosted CI against the public local service | Deterministic model; CLI, not a Web frontend |
 | Java order review | Native Core, JUnit, loopback Web, real-service CLI | Mock/Web JUnit and real-service CLI passed in Linux CI | Java Web-to-real-backend and live model not verified |

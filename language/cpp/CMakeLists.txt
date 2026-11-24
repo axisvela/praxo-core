@@ -131,6 +131,10 @@ add_executable(praxo-cpp-molecule-screen-tutorial
     Tutorial/molecule-screen/main.cpp)
 target_link_libraries(praxo-cpp-molecule-screen-tutorial PRIVATE praxo_cpp)
 
+add_executable(praxo-cpp-materials-design-tutorial
+    Tutorial/materials-design/main.cpp)
+target_link_libraries(praxo-cpp-materials-design-tutorial PRIVATE praxo_cpp)
+
 add_test(NAME praxo-cpp-conformance COMMAND praxo-cpp-conformance)
 add_test(NAME praxo-cpp-tests COMMAND praxo-cpp-tests)
 add_test(NAME praxo-cpp-harmovela-tests COMMAND praxo-cpp-harmovela-tests)
@@ -155,5 +159,7 @@ add_test(NAME praxo-cpp-container-yard-tutorial
     COMMAND praxo-cpp-container-yard-tutorial --test)
 add_test(NAME praxo-cpp-molecule-screen-tutorial
     COMMAND praxo-cpp-molecule-screen-tutorial --test)
+add_test(NAME praxo-cpp-materials-design-tutorial
+    COMMAND praxo-cpp-materials-design-tutorial --test)
 
 endif()

@@ -466,6 +466,25 @@ jobs:
       - run: go run ./language/go/Tutorial/soc-alert-triage --test
       - run: go test ./language/go/Tutorial/soc-alert-triage
 
+  cpp-materials-design:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: cmake -S language/cpp -B language/cpp/build
+      - run: cmake --build language/cpp/build --target praxo-cpp-materials-design-tutorial
+      - run: ./language/cpp/build/praxo-cpp-materials-design-tutorial --test
+
+  php-customs-reroute:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+      - run: php language/php/Tutorial/customs-reroute/app.php --test
+
   r-weather-anomaly:
     runs-on: ubuntu-latest
     timeout-minutes: 10

@@ -78,7 +78,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | SC-01 | 文献综述与假设生成 | Python、Julia、Haskell | 检索固定摘要、引用主张、标明假设未验证；不编造论文；[Haskell 文献综述切片](https://github.com/axisvela/praxo-core/tree/main/language/haskell/Tutorial/literature-review)覆盖两篇 fixture 论文与未验证草案 |
 | SC-02 | 制药与分子设计 | Python、Julia、C++ | 固定约束下排序合成描述符；不声称药效、毒性、合成或临床结果；[Python 分子筛选](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/molecule-screen)与 [C++ 分子筛选](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/molecule-screen)排序固定描述符并草拟复核 |
 | SC-03 | 自动化实验室 | Julia、Rust、C | 模拟参数/结果迭代且独立校验限制；不操作实验设备或化学品；[Rust 实验回路](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/lab-loop)草拟仅审阅参数 |
-| SC-04 | 材料逆向设计与仿真 | Fortran、Julia、C++ | 计算固定候选属性并草拟下轮仿真；不声称发现有效材料 |
+| SC-04 | 材料逆向设计与仿真 | Fortran、Julia、C++ | 计算固定候选属性并草拟下轮仿真；不声称发现有效材料；[C++ 材料设计](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/materials-design)草拟下一轮仅审阅仿真 |
 | SC-05 | 气象建模与天气预警 | Fortran、R、Octave | 计算固定时序异常、草拟复核通知；不做业务预报或救灾调度；[R 气象异常](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/weather-anomaly)草拟仅审阅通知 |
 | SC-06 | 科研清洗与统计建模 | R、Julia、MATLAB | 校验固定数据与统计方法；现有 data-quality 为相关切片，原生 MATLAB 未验证 |
 
@@ -148,7 +148,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | TL-02 | 集装箱堆场与岸桥协同 | Erlang、C++、Java | 按资源约束重排合成装卸任务；不调度岸桥或 AGV | [C++ 集装箱堆场](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/container-yard)：固定任务与仅审阅排班 | 未实现 |
 | TL-03 | 远洋气象导航与燃油优化 | Fortran、Julia、C++ | 比较合成航线/气象成本并草拟路线；无导航、节油或 CII 合规保证 | [C++ 远洋航线](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/ocean-routing)：固定航线与仅审阅路线 | 未实现 |
 | TL-04 | 冷链温控与货损预警 | Rust、Nim、Octave | 计算固定温度越界并草拟转运复核；不调整制冷或保证医药货物安全 | [Rust 冷链复核](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/cold-chain)：固定越界与仅审阅转运；[信号趋势](https://github.com/axisvela/praxo-core/tree/main/language/octave/Tutorial/signal-trends)：仅通用信号 fixture | 未实现 |
-| TL-05 | 多式联运报关与路径重算 | Java、Go、PHP | 校验合成单证并比较替代路线；不报关 | [Go 报关改道](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/customs-reroute)：固定单证与仅审阅改道；[物流 checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/logistics-checkpoint)：仅消息续跑与草案 | 未实现 |
+| TL-05 | 多式联运报关与路径重算 | Java、Go、PHP | 校验合成单证并比较替代路线；不报关 | [Go 报关改道](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/customs-reroute)与 [PHP 报关改道](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/customs-reroute)：固定单证与仅审阅改道；[物流 checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/logistics-checkpoint)：仅消息续跑与草案 | 未实现 |
 | TL-06 | 自动驾驶远程脱困与地图更新 | C++、Rust、D | 回放合成道路拓扑变更、草拟地图补丁；不接管车辆 | [D 车队地图](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/fleet-map)：固定拓扑与仅审阅补丁 | 未实现 |
 | TL-07 | 机场机位与延误恢复 | Java、Julia、C# | 模拟机位/机组/衔接约束并草拟方案；无业务调度或时延保证 | [C# 机场恢复](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/airport-recovery)：固定约束与仅审阅方案；[旅行预订](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/travel-booking)：占座 fixture，不是机场恢复 | 未实现 |
 
