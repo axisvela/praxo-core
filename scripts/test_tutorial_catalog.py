@@ -53,7 +53,7 @@ class TutorialCatalogTests(unittest.TestCase):
         for key in ('CY-02', 'CY-03', 'CY-06', 'CT-02', 'TL-04', 'TL-05', 'TL-07',
                     'MD-02', 'MD-03', 'LJ-01', 'LJ-04', 'AE-03', 'OG-06', 'OG-07'):
             self.assertTrue(goals[key]['related_slices'], key)
-        self.assertFalse(goals['TL-02']['related_slices'])
+        self.assertFalse(goals['SE-01']['related_slices'])
         self.assertFalse(goals['SE-04']['related_slices'])
 
     def test_mechanism_matrix_matches_existing_inventory(self):

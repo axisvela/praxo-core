@@ -123,6 +123,10 @@ add_executable(praxo-cpp-ocean-routing-tutorial
     Tutorial/ocean-routing/main.cpp)
 target_link_libraries(praxo-cpp-ocean-routing-tutorial PRIVATE praxo_cpp)
 
+add_executable(praxo-cpp-container-yard-tutorial
+    Tutorial/container-yard/main.cpp)
+target_link_libraries(praxo-cpp-container-yard-tutorial PRIVATE praxo_cpp)
+
 add_test(NAME praxo-cpp-conformance COMMAND praxo-cpp-conformance)
 add_test(NAME praxo-cpp-tests COMMAND praxo-cpp-tests)
 add_test(NAME praxo-cpp-harmovela-tests COMMAND praxo-cpp-harmovela-tests)
@@ -143,5 +147,7 @@ add_test(NAME praxo-cpp-mesh-review-tutorial
     COMMAND praxo-cpp-mesh-review-tutorial --test)
 add_test(NAME praxo-cpp-ocean-routing-tutorial
     COMMAND praxo-cpp-ocean-routing-tutorial --test)
+add_test(NAME praxo-cpp-container-yard-tutorial
+    COMMAND praxo-cpp-container-yard-tutorial --test)
 
 endif()
