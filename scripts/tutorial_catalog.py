@@ -84,6 +84,8 @@ TUTORIALS = {
     "bom-review": ("IN", "analysis,tools,draft,policy", "IN-05"),
     "trial-screening": ("HC", "analysis,tools,draft,policy", "HC-03"),
     "public-approval": ("CT", "tools,draft,policy", "CT-03"),
+    "pentest-lab-review": ("CY", "tools,draft,policy", "CY-01"),
+    "storyboard-previs": ("MD", "tools,draft,policy", "MD-01"),
 }
 GUIDES = {
     "workspace-agent-tutorial": ("SE", "go", "filesystem,tools,policy"),

@@ -138,7 +138,7 @@ counterattack is provided by these candidate tutorials.
 
 | ID | Scenario | Targets | Bounded candidate outcome | Existing related slice | Full implementation |
 | --- | --- | --- | --- | --- | --- |
-| CY-01 | Penetration testing and red-team exercises | Rust, Go, Python | Inventory an allowlisted loopback lab and report seeded configuration defects; no public scanning or exploit chain | None | Not implemented |
+| CY-01 | Penetration testing and red-team exercises | Rust, Go, Python | Inventory an allowlisted loopback lab and report seeded configuration defects; no public scanning or exploit chain | [Go pentest-lab-review](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/pentest-lab-review): fixed loopback host and review-only report | Not implemented |
 | CY-02 | SOC alert analysis and SOAR response | Go, Elixir, Erlang | Correlate synthetic EDR/firewall events and draft isolation; no live blocking | [SOC triage](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/soc-alert-triage): fixed alert, not real EDR correlation | Not implemented |
 | CY-03 | Threat hunting and TTP reconstruction | Perl, Rust, Python | Search fixed logs and cite a synthetic TTP timeline; no external intelligence feed or APT detection guarantee | [Log triage](https://github.com/axisvela/praxo-core/tree/main/language/perl/Tutorial/log-triage): severity counts only | Not implemented |
 | CY-04 | Phishing detection and awareness exercises | Python, TypeScript, C# | Classify synthetic emails and draft an authorized awareness exercise; no deceptive sends or infrastructure attacks | None | Not implemented |
@@ -174,7 +174,7 @@ counterattack is provided by these candidate tutorials.
 
 | ID | Scenario | Targets | Bounded candidate outcome | Existing related slice | Full implementation |
 | --- | --- | --- | --- | --- | --- |
-| MD-01 | Film storyboards and virtual-production previs | Lua, C++, TypeScript | Turn a fixed script into a bounded shot-plan draft; no verified Unreal integration or rendered production | None | Not implemented |
+| MD-01 | Film storyboards and virtual-production previs | Lua, C++, TypeScript | Turn a fixed script into a bounded shot-plan draft; no verified Unreal integration or rendered production | [Lua storyboard-previs](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/storyboard-previs): fixed scene and review-only shot plan | Not implemented |
 | MD-02 | News fact-checking and source verification | Python, Haskell, Perl | Compare fixed source excerpts and metadata, cite contradictions and uncertainty; no truth guarantee or live news crawl | [Office Q&A](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/office-qa): citations mechanism only | Not implemented |
 | MD-03 | Open-world game ecosystem simulation | Lua, C, V | Simulate economy/resource rules with persisted synthetic state; no scale or long-term equilibrium guarantee | [Host embedding](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/host-embedding): device callbacks, not game ecology | Not implemented |
 | MD-04 | Dubbing lip-sync and cultural localization | Python, Swift, C++ | Plan localized captions and timing using synthetic/licensed media; no impersonation, unconsented voice cloning or verified lip-sync | None | Not implemented |

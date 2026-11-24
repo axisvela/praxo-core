@@ -120,7 +120,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 
 | ID | 场景 | 目标语言 | 候选的有界教学成果 | 已有相关切片 | 完整实现 |
 | --- | --- | --- | --- | --- | --- |
-| CY-01 | 自动化渗透测试与红队演练 | Rust、Go、Python | 盘点允许的 loopback 实验资产并报告预置配置缺陷；不做公网扫描或攻击链 | 无 | 未实现 |
+| CY-01 | 自动化渗透测试与红队演练 | Rust、Go、Python | 盘点允许的 loopback 实验资产并报告预置配置缺陷；不做公网扫描或攻击链 | [Go 渗透实验复核](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/pentest-lab-review)：固定 loopback 主机与仅审阅报告 | 未实现 |
 | CY-02 | SOC 告警研判与 SOAR 响应 | Go、Elixir、Erlang | 关联合成 EDR/防火墙事件并草拟隔离；不真实封禁 | [SOC 分诊](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/soc-alert-triage)：固定告警，不是真实 EDR 关联 | 未实现 |
 | CY-03 | 威胁狩猎与 TTP 还原 | Perl、Rust、Python | 检索固定日志、引用合成 TTP 时间线；无外部情报或 APT 检测保证 | [日志巡检](https://github.com/axisvela/praxo-core/tree/main/language/perl/Tutorial/log-triage)：仅严重级别统计 | 未实现 |
 | CY-04 | 钓鱼识别与反钓鱼演练 | Python、TypeScript、C# | 分类合成邮件并草拟获授权的安全培训；不发送欺骗邮件或攻击基础设施 | 无 | 未实现 |
@@ -156,7 +156,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 
 | ID | 场景 | 目标语言 | 候选的有界教学成果 | 已有相关切片 | 完整实现 |
 | --- | --- | --- | --- | --- | --- |
-| MD-01 | 影视分镜与虚拟制片预演 | Lua、C++、TypeScript | 把固定剧本转为有界镜头计划草案；无已验证 Unreal 集成或渲染制作 | 无 | 未实现 |
+| MD-01 | 影视分镜与虚拟制片预演 | Lua、C++、TypeScript | 把固定剧本转为有界镜头计划草案；无已验证 Unreal 集成或渲染制作 | [Lua 分镜预演](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/storyboard-previs)：固定场景与仅审阅镜头计划 | 未实现 |
 | MD-02 | 新闻事实核查与多源验证 | Python、Haskell、Perl | 比较固定来源与元数据、引用矛盾与不确定性；无真伪保证或实网抓取 | [办公问答](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/office-qa)：仅引用机制 | 未实现 |
 | MD-03 | 开放世界游戏生态演化 | Lua、C、V | 用持久化合成状态模拟经济/资源规则；不保证规模或长期平衡 | [宿主嵌入](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/host-embedding)：设备回调，不是游戏生态 | 未实现 |
 | MD-04 | 配音、口型同步与文化本地化 | Python、Swift、C++ | 为合成/获许可素材规划字幕与时序；无冒充、未经同意的声音克隆或已验证口型同步 | 无 | 未实现 |
