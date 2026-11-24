@@ -116,6 +116,8 @@ TUTORIALS = {
     "property-forecast": ("BE", "analysis,tools,draft,policy", "BE-05"),
     "virtual-pi": ("OG", "analysis,tools,draft,policy", "OG-07"),
     "fire-spread": ("AE", "analysis,tools,draft,policy", "AE-02"),
+    "mining-slope": ("BE", "analysis,tools,draft,policy", "BE-03"),
+    "livestock-monitor": ("AE", "analysis,tools,draft,policy", "AE-01"),
 }
 GUIDES = {
     "workspace-agent-tutorial": ("SE", "go", "filesystem,tools,policy"),

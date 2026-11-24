@@ -466,6 +466,24 @@ jobs:
       - run: go run ./language/go/Tutorial/soc-alert-triage --test
       - run: go test ./language/go/Tutorial/soc-alert-triage
 
+  rust-mining-slope:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - run: cargo run --quiet --locked -- --test
+        working-directory: language/rust/Tutorial/mining-slope
+
+  rust-livestock-monitor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - run: cargo run --quiet --locked -- --test
+        working-directory: language/rust/Tutorial/livestock-monitor
+
   python-virtual-pi:
     runs-on: ubuntu-latest
     timeout-minutes: 10

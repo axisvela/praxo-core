@@ -180,7 +180,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | --- | --- | --- | --- | --- | --- |
 | BE-01 | 工地安全巡检与整改复核 | C++、Rust、C# | 评估合成巡检标签、跟踪复核清单；无真实视觉或安全认证结论 | [Rust 工地安全](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/construction-safety)：固定标签与仅审阅清单 | 未实现 |
 | BE-02 | 商业楼宇 HVAC 与照明节能 | Julia、C、Delphi | 模拟人流/热工约束并草拟设置；无 BMS 指令或节能证明 | 无 | 未实现 |
-| BE-03 | 智慧矿山与边坡风险预警 | Fortran、Rust、C++ | 计算合成位移指标、草拟复核警报；无塌方预测或矿车调度 | 无 | 未实现 |
+| BE-03 | 智慧矿山与边坡风险预警 | Fortran、Rust、C++ | 计算合成位移指标、草拟复核警报；无塌方预测或矿车调度 | [Rust 边坡监测](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/mining-slope)：固定指标与仅审阅警报 | 未实现 |
 | BE-04 | 招投标编制与串标审查 | Java、PHP、COBOL | 校验合成资质、标记文档相似性；不自动投标或认定串标 | [PHP 招标复核](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/tender-review)：固定投标与仅审阅标记 | 未实现 |
 | BE-05 | 地产选址与租金预测 | R、Julia、D | 比较合成选址指标、披露预测假设；无概率/回报验证或个人位置画像 | [R 地产预测](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/property-forecast)：固定指标与仅审阅预测 | 未实现 |
 
@@ -188,7 +188,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 
 | ID | 场景 | 目标语言 | 候选的有界教学成果 | 已有相关切片 | 完整实现 |
 | --- | --- | --- | --- | --- | --- |
-| AE-01 | 畜牧健康监测与精准饲喂 | C、Nim、Rust | 汇总合成个体观察并草拟复核请求；不兽医诊断、隔离或饲喂控制 | 无 | 未实现 |
+| AE-01 | 畜牧健康监测与精准饲喂 | C、Nim、Rust | 汇总合成个体观察并草拟复核请求；不兽医诊断、隔离或饲喂控制 | [Rust 畜牧监测](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/livestock-monitor)：固定观察与仅审阅请求 | 未实现 |
 | AE-02 | 森林火险与蔓延推演 | Fortran、Julia、R | 回放合成天气/燃料网格、比较模型传播；无业务预警或防火带调度 | [R 火势蔓延](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/fire-spread)：固定网格与仅审阅报告 | 未实现 |
 | AE-03 | 海洋牧场水质与投饵 | Lua、C、Octave | 计算固定溶氧/温度指标、草拟有界动作；不控制增氧机或投饵机 | [宿主嵌入](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/host-embedding)：仅宿主回调机制 | 未实现 |
 | AE-04 | 农产品套保与产销规划 | R、Julia、COBOL | 模拟风险敞口并比较情景成本；不发期货订单、不锁价、不提供金融建议 | [R 套保规划](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/hedge-plan)：固定敞口与仅审阅计划 | 未实现 |
