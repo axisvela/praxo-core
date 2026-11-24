@@ -4,6 +4,18 @@ A bounded first slice of TL-04, not a refrigeration-control or clinical-cargo
 system. It computes fixed temperature excursions and drafts a review-only
 transfer review. No refrigeration change, actuator access or clinical guarantee.
 
+## Why this language and runtime?
+
+- **Selection basis:** A Rust logistics or edge component can evaluate temperature
+  excursions without adding a separate service runtime.
+- **Demonstrated fit:** Trait-based tools compute fixed excursion values and draft a
+  transfer review; no refrigeration or sensor transport is connected.
+- **Choose when:** Learning the Core seam in an existing Rust logistics component.
+- **Do not choose when:** Seeking refrigeration control or cargo assurance. Compare
+  direct device integration and the cold-chain SOP first.
+- **Evidence limit:** Core integration fixture only; no live telemetry, actuator,
+  clinical guarantee or validated cold-chain model.
+
 Run from this directory:
 
 ```bash

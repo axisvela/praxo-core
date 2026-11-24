@@ -4,6 +4,18 @@ A bounded first slice of AE-01, not a veterinary or feeding-control system. It
 summarizes fixed animal observations and drafts a review-only veterinary request.
 No diagnosis, isolation or feeding control.
 
+## Why this language and runtime?
+
+- **Selection basis:** A Rust farm or sensor gateway can summarize observations
+  without adding a separate managed runtime.
+- **Demonstrated fit:** Fixed herd data produces a review-only veterinary request;
+  no diagnosis, isolation or feeding control runs.
+- **Choose when:** Learning the Core seam in an existing Rust agriculture tool.
+- **Do not choose when:** Seeking diagnosis or feeding automation. Compare the farm's
+  sensor stack, veterinary process and direct rules first.
+- **Evidence limit:** Core integration fixture only; no live sensors, diagnosis,
+  isolation, feeding control or animal-health guarantee.
+
 Run from this directory:
 
 ```bash

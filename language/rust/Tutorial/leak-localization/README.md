@@ -4,6 +4,18 @@ A bounded first slice of CT-02, not a leak-detection or dispatch system. It rank
 fixed synthetic pressure anomalies and drafts a review-only inspection list. No
 valve isolation, field dispatch or hydraulic-model guarantee.
 
+## Why this language and runtime?
+
+- **Selection basis:** A Rust utility or edge controller can rank fixed telemetry and
+  keep a review boundary in the same deployed binary.
+- **Demonstrated fit:** Fixed pressure anomalies are ranked and an inspection list is
+  drafted; no hydraulic model, valve or dispatch path runs.
+- **Choose when:** Learning the Core seam in an existing Rust utility tool.
+- **Do not choose when:** Seeking leak validation or isolation. Compare hydraulic
+  analysis, field procedures and the SCADA system first.
+- **Evidence limit:** Core integration fixture only; no live pressure data, hydraulic
+  model, valve isolation, dispatch or leak guarantee.
+
 Run from this directory:
 
 ```bash

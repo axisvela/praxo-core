@@ -4,6 +4,18 @@ A bounded first slice of BE-03, not a collapse-prediction or dispatch system. It
 reads fixed slope displacement indicators and drafts a review-only alert. No
 collapse prediction, mining-vehicle dispatch or safety certification.
 
+## Why this language and runtime?
+
+- **Selection basis:** A Rust mine-monitoring component can hold fixed indicators and
+  a review alert in one native deployment.
+- **Demonstrated fit:** Fixed displacement values produce a review-only alert; no
+  collapse model, geotechnical analysis or vehicle dispatch runs.
+- **Choose when:** Learning the Core seam in an existing Rust monitoring tool.
+- **Do not choose when:** Seeking collapse prediction or evacuation control. Compare
+  geotechnical instrumentation, certified analysis and mine procedures first.
+- **Evidence limit:** Core integration fixture only; no live sensors, predictive
+  model, dispatch, evacuation or safety certification.
+
 Run from this directory:
 
 ```bash
