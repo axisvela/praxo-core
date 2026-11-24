@@ -5,6 +5,18 @@ not a mail-security product. It analyzes one fixed synthetic email and drafts a
 review-only awareness exercise. No deceptive sends, live inbox or infrastructure
 attack.
 
+## Why this language and runtime?
+
+- **Selection basis:** A Python mail or security workflow can add a review step
+  without moving evidence into another service. No mail-security consumer is verified.
+- **Demonstrated fit:** Core callbacks return fixed indicators and a draft exercise;
+  no message is parsed and no mail system is contacted.
+- **Choose when:** Learning the tool/policy boundary in an existing Python workflow.
+- **Do not choose when:** Seeking phishing detection or URL analysis. Compare
+  existing mail-security filters and deterministic rules first.
+- **Evidence limit:** Core integration fixture only; no inbox access, URL detonation,
+  classification quality, exercise delivery or detection guarantee.
+
 From this directory:
 
 ```bash

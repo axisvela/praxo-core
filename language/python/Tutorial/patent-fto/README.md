@@ -5,6 +5,18 @@ not a freedom-to-operate or patentability opinion. It compares fixed synthetic
 claims and drafts review-only questions for counsel. No live patent search, legal
 advice or non-infringement conclusion.
 
+## Why this language and runtime?
+
+- **Selection basis:** A Python legal-operations workflow can add a review step around
+  fixed research material. No patent or counsel consumer is verified.
+- **Demonstrated fit:** Core tools return fixed claim-overlap counts and draft counsel
+  questions; no patent corpus is searched or parsed.
+- **Choose when:** Learning the Core seam in an existing Python research workflow.
+- **Do not choose when:** Seeking FTO analysis or legal conclusions. Compare existing
+  patent databases, claim charts and qualified counsel first.
+- **Evidence limit:** Core integration fixture only; no exhaustive search, claim
+  construction, legal opinion or infringement determination.
+
 From this directory:
 
 ```bash

@@ -6,6 +6,18 @@ literature/simulation/review tasks within one shared budget and drafts a
 review-only plan with provenance. No external tools, scientific-validity claim or
 live model.
 
+## Why this language and runtime?
+
+- **Selection basis:** Research code is often Python, so a shared coordination and
+  review boundary can live near existing analysis scripts.
+- **Demonstrated fit:** Core tools return fixed task metadata and a draft coordination
+  plan; no literature or simulation tool is invoked.
+- **Choose when:** Learning the shared-limit and provenance pattern in Python.
+- **Do not choose when:** Seeking multi-agent orchestration or research validity.
+  Compare workflow engines and direct analysis pipelines first.
+- **Evidence limit:** Core integration fixture only; no external tools, shared state,
+  scientific validation or autonomous research claim.
+
 From this directory:
 
 ```bash

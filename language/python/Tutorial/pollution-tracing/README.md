@@ -5,6 +5,18 @@ not an environmental enforcement system. It compares fixed sensor and weather
 records and drafts review-only investigation hypotheses. No live monitoring,
 causal finding or enforcement action.
 
+## Why this language and runtime?
+
+- **Selection basis:** A Python environmental-data workflow can retain fixed evidence
+  and add a review step in the same runtime. No monitoring consumer is verified.
+- **Demonstrated fit:** Core callbacks return fixed sensor summaries and draft
+  hypotheses; no sensor data is analyzed for causation.
+- **Choose when:** Exploring the Core seam near existing Python environmental analysis.
+- **Do not choose when:** Seeking pollution attribution or enforcement. Compare
+  deterministic analysis, sensor validation and the existing regulatory process.
+- **Evidence limit:** Core integration fixture only; no live monitoring, causal
+  inference, inspection or enforcement finding.
+
 From this directory:
 
 ```bash

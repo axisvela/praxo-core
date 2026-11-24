@@ -5,6 +5,18 @@ not an anti-poaching dispatch system. It classifies fixed labeled observations a
 drafts a review-only ranger alert. No species-recognition guarantee, automatic
 pursuit or live model.
 
+## Why this language and runtime?
+
+- **Selection basis:** A Python conservation workflow can keep a review queue in its
+  existing runtime. No ranger or sensor-network consumer is verified.
+- **Demonstrated fit:** Core tools return fixed labeled observations and draft a ranger
+  review; no image or audio classifier runs.
+- **Choose when:** Learning the Core seam in an existing Python conservation workflow.
+- **Do not choose when:** Seeking species recognition or pursuit decisions. Compare
+  existing computer-vision models and ranger procedures first.
+- **Evidence limit:** Core integration fixture only; no sensor feed, species
+  identification, confidence calibration, pursuit or dispatch.
+
 From this directory:
 
 ```bash
