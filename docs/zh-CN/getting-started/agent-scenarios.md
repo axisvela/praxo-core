@@ -138,7 +138,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | CT-04 | 应急指挥与资源调度 | Go、Julia、Erlang | 模拟断路与有约束救援路线；不提供业务救援指令或真实调度 | [Go 应急路线](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/emergency-route-plan)：固定断路与仅审阅调度 | 未实现 |
 | CT-05 | 污染溯源与执法辅助 | R、Fortran、Python | 比较合成监测/天气记录并草拟调查假设；不认定因果或违法 | [Python 污染溯源](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/pollution-tracing)：固定记录与仅审阅假设 | 未实现 |
 | CT-06 | 垃圾分类与清运优化 | Julia、Dart、V | 按车辆约束重排有界合成清运队列；不发车辆指令 | [Dart 垃圾清运](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/waste-collection)：固定队列与仅审阅排班 | 未实现 |
-| CT-07 | 公共预算执行与绩效 | R、COBOL、Java | 对账合成拨款与里程碑，解释异常；不出具正式审计结论 | 无 | 未实现 |
+| CT-07 | 公共预算执行与绩效 | R、COBOL、Java | 对账合成拨款与里程碑，解释异常；不出具正式审计结论 | [R 预算复核](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/budget-review)：固定执行与仅审阅发现 | 未实现 |
 
 ## 交通物流、航运与低空经济（7）
 
@@ -172,7 +172,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | LJ-02 | 专利检索、FTO 与布局 | Python、Java、Haskell | 比较合成权利要求并草拟律师复核问题；非全面专利检索或不侵权意见 | [Python 专利 FTO](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/patent-fto)：固定权利要求重叠与律师问题 | 未实现 |
 | LJ-03 | 商业尽职调查 | Java、C#、Ruby | 对账合成股权/合同/纠纷并草拟清单；无已验证并购结论 | 无 | 未实现 |
 | LJ-04 | 类案检索与法律文书草拟 | Python、Java、OCaml | 检索固定合成案例、草拟带引用提纲；非量刑建议或司法裁判 | [法律合规](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/legal-compliance)：仅政策引用和脚本审批门 | 未实现 |
-| LJ-05 | 数字版权监测与维权流程 | Rust、PHP、TypeScript | 比较获授权 fixture 素材、草拟证据包；不全网扫描、自动发 DMCA 或裁定侵权 | 无 | 未实现 |
+| LJ-05 | 数字版权监测与维权流程 | Rust、PHP、TypeScript | 比较获授权 fixture 素材、草拟证据包；不全网扫描、自动发 DMCA 或裁定侵权 | [PHP 版权证据](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/copyright-evidence)：固定素材与仅审阅证据包 | 未实现 |
 
 ## 建筑工程、矿业与空间运营（5）
 

@@ -156,7 +156,7 @@ counterattack is provided by these candidate tutorials.
 | CT-04 | Emergency command and resource allocation | Go, Julia, Erlang | Simulate road closures and constrained relief routes; no operational rescue directions or dispatch | [Go emergency-route-plan](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/emergency-route-plan): fixed closures and review-only allocation | Not implemented |
 | CT-05 | Pollution source tracing and inspection support | R, Fortran, Python | Compare synthetic sensor/weather records and draft investigation hypotheses; no causal or enforcement finding | [Python pollution-tracing](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/pollution-tracing): fixed records and review-only hypotheses | Not implemented |
 | CT-06 | Waste collection and route optimization | Julia, Dart, V | Replan a bounded synthetic collection queue under vehicle limits; no vehicle commands | [Dart waste-collection](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/waste-collection): fixed queue and review-only schedule | Not implemented |
-| CT-07 | Public-budget execution and performance review | R, COBOL, Java | Reconcile synthetic disbursements and milestones, explain flagged variances; no official audit conclusion | None | Not implemented |
+| CT-07 | Public-budget execution and performance review | R, COBOL, Java | Reconcile synthetic disbursements and milestones, explain flagged variances; no official audit conclusion | [R budget-review](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/budget-review): fixed execution and review-only finding | Not implemented |
 
 ## Transport Shipping And Aviation (7)
 
@@ -190,7 +190,7 @@ counterattack is provided by these candidate tutorials.
 | LJ-02 | Patent search FTO and portfolio analysis | Python, Java, Haskell | Compare synthetic claims and draft questions for counsel; no exhaustive patent search or non-infringement opinion | [Python patent-fto](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/patent-fto): fixed claim overlap and counsel questions | Not implemented |
 | LJ-03 | Commercial due diligence | Java, C#, Ruby | Reconcile synthetic ownership/contracts/disputes and draft a risk checklist; no verified acquisition conclusion | None | Not implemented |
 | LJ-04 | Precedent retrieval and legal-document drafting | Python, Java, OCaml | Retrieve fixed synthetic precedents and draft a cited outline; no sentencing recommendation or judicial decision | [Legal compliance](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/legal-compliance): policy citation and scripted gate only | Not implemented |
-| LJ-05 | Copyright monitoring and rights-enforcement workflow | Rust, PHP, TypeScript | Compare authorized fixture assets and draft an evidence packet; no broad crawl, automatic DMCA notice or infringement adjudication | None | Not implemented |
+| LJ-05 | Copyright monitoring and rights-enforcement workflow | Rust, PHP, TypeScript | Compare authorized fixture assets and draft an evidence packet; no broad crawl, automatic DMCA notice or infringement adjudication | [PHP copyright-evidence](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/copyright-evidence): fixed assets and review-only packet | Not implemented |
 
 ## Built Environment Mining And Property (5)
 

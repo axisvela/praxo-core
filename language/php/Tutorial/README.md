@@ -1,5 +1,7 @@
 ﻿# PHP Tutorials
 
+- [Copyright Evidence (LJ-05)](copyright-evidence/README.md): native PHP Core,
+  fixed authorized assets and review-only evidence packet; no notice filing.
 - [Public Approval (CT-03)](public-approval/README.md): native PHP Core, fixed
   application documents and review-only parallel tasks; no official approval.
 - [Internal Service Desk (OP-01)](internal-service-desk/README.md): native PHP
