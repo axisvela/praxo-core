@@ -149,6 +149,7 @@ TUTORIALS = {
     "rule-dsl": ("SE", "analysis,tools,draft,policy", "SE-05"),
     "static-diagnostics": ("SE", "analysis,tools,draft,policy", "SE-05"),
     "otp-recovery": ("SE", "tools,draft,policy", "SE-06"),
+    "dispatch-review": ("IN", "analysis,tools,draft,policy", "IN-04"),
 }
 GUIDES = {
     "workspace-agent-tutorial": ("SE", "go", "filesystem,tools,policy"),

@@ -234,6 +234,16 @@ jobs:
           compiler: dmd-latest
       - run: dmd -i -Ilanguage/d/source -run language/d/Tutorial/quant-risk/risk.d --test
 
+  julia-dispatch-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: julia-actions/setup-julia@v2
+        with:
+          version: '1'
+      - run: julia --project=language/julia language/julia/Tutorial/dispatch-review/dispatch_review.jl --test
+
   erlang-otp-recovery:
     runs-on: ubuntu-latest
     timeout-minutes: 15

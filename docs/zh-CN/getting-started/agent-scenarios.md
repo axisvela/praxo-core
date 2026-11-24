@@ -95,7 +95,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | IN-01 | 预测维护与检修排程 | C++、Rust、Nim | 计算固定传感指标并草拟维护；[工业边缘](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/industrial-edge)与 [Nim 维护分诊](https://github.com/axisvela/praxo-core/tree/main/language/nim/Tutorial/maintenance-triage)均不验证故障窗口预测 |
 | IN-02 | 柔性产线动态排产 | Erlang、C++、V | 重排有界合成任务队列、草拟 MES/AGV 指令；不物理调度；[V 生产排产切片](https://github.com/axisvela/praxo-core/tree/main/language/v/Tutorial/production-scheduling)计算固定优先顺序与草案 |
 | IN-03 | 供应链断链预警与寻源 | Go、Java、Ruby | 评估合成供应商事件并草拟替代；物流 checkpoint 仅消息续跑 |
-| IN-04 | 微网调度与负荷平衡 | Julia、Fortran、Zig | 模拟有约束充放电计划，Agent 外校验安全限制；不发电网指令 |
+| IN-04 | 微网调度与负荷平衡 | Julia、Fortran、Zig | 模拟有约束充放电计划，Agent 外校验安全限制；不发电网指令；[Julia 调度复核](https://github.com/axisvela/praxo-core/tree/main/language/julia/Tutorial/dispatch-review)求解有界双源调度并复核缺口 |
 | IN-05 | 图纸审查与 BOM | C++、C#、OCaml | 校验合成的已解析图纸图并草拟 BOM；不宣称 CAD/BIM 视觉或工程认证；[OCaml BOM 复核](https://github.com/axisvela/praxo-core/tree/main/language/ocaml/Tutorial/bom-review)检查固定图纸并草拟 BOM |
 | IN-06 | 精准灌溉与病虫害防治 | C、Lua、Nim | 评估固定土壤/天气观察并草拟有界灌溉请求；不控制无人机/执行器；[Lua 灌溉规划](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/irrigation-plan)草拟有界请求 |
 

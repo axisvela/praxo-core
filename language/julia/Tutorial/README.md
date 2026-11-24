@@ -2,6 +2,8 @@
 
 Application tutorials live in `Tutorial/`, alongside focused `examples/`.
 
+- [Dispatch review](dispatch-review/README.md): native Julia bounded dispatch
+  optimization with plan/shortfall branches; no grid commands.
 - [Experiment comparison](experiment-comparison/README.md): native Julia
   computations over fixed experiment results, with the model packaging computed
   evidence rather than inventing metrics.
