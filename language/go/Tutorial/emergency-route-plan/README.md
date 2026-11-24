@@ -6,6 +6,18 @@ review-only relief allocation and records zero dispatches. The source and model
 are deterministic fixtures. This tutorial does not direct rescue operations,
 dispatch vehicles, call a live model or guarantee route safety.
 
+## Why this language and runtime?
+
+- **Selection basis:** Go services and command tooling can ship an incident-planning
+  boundary as a small binary. No emergency-management consumer is verified.
+- **Demonstrated fit:** Fixed closures and constraints produce a review-only route
+  allocation; no dispatch, traffic feed or rescue direction runs.
+- **Choose when:** Learning a bounded planning draft in an existing Go service.
+- **Do not choose when:** Seeking operational dispatch or route safety. Compare
+  existing command systems and deterministic routing rules first.
+- **Evidence limit:** Core integration fixture only; no live closures, optimization
+  quality, dispatch or rescue guarantee.
+
 Run from the repository root:
 
 ```bash

@@ -7,6 +7,18 @@ and model are deterministic fixtures. This tutorial does not connect a real
 incident system, call a live model, mutate an incident or start a durable
 workflow.
 
+## Why this language and runtime?
+
+- **Selection basis:** The reference Core fits Go incident tooling where an
+  application-owned source and telemetry sink already exist.
+- **Demonstrated fit:** Tools read a fixed incident, emit Core events and draft an
+  action; no incident system or durable workflow is connected.
+- **Choose when:** Learning the reference source, event and policy seams together.
+- **Do not choose when:** Seeking live paging, durable coordination or remediation.
+  Compare the existing incident platform and on-call workflow first.
+- **Evidence limit:** In-process source and event fixtures; no real incident system,
+  durable workflow, live model or write-back.
+
 Run from the repository root:
 
 ```bash

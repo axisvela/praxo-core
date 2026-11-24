@@ -7,6 +7,18 @@ absolute paths, so the model cannot read a sibling `secret.txt` outside the vaul
 This tutorial does not read arbitrary files, write to a case system, call a live
 model or perform containment.
 
+## Why this language and runtime?
+
+- **Selection basis:** Go is the reference Core, and confinement belongs beside a
+  service that already owns file access and case boundaries.
+- **Demonstrated fit:** Core `vfs/localfs` restricts reads to a temporary root and the
+  test exercises a path-traversal denial with no draft after it.
+- **Choose when:** Evaluating confined read patterns inside an existing Go service.
+- **Do not choose when:** Seeking encryption, case management or a production sandbox.
+  Compare the platform's file and secret controls first.
+- **Evidence limit:** Temporary local root and in-process checks; no encrypted store,
+  multi-tenant isolation, retention policy or legal-evidence claim.
+
 Run from the repository root:
 
 ```bash

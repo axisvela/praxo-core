@@ -6,6 +6,18 @@ a review-only evidence outline. The source and model are deterministic fixtures.
 This tutorial does not give legal advice, rule on admissibility, call a live model
 or touch real case files.
 
+## Why this language and runtime?
+
+- **Selection basis:** A Go legal-operations service can keep evidence handling and
+  the review boundary in one deployable component. No firm consumer is verified.
+- **Demonstrated fit:** Fixed documents produce a cited timeline and review-only
+  outline; no document store, privilege review or legal analysis runs.
+- **Choose when:** Learning the reference tool/policy loop around evidence review.
+- **Do not choose when:** Seeking legal advice or admissibility decisions. Compare
+  document-review platforms and counsel workflows first.
+- **Evidence limit:** Core integration fixture only; no real case files, privilege
+  handling, citation validation, legal advice or admissibility claim.
+
 Run from the repository root:
 
 ```bash

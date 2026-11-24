@@ -9,6 +9,18 @@ are deterministic fixtures. This tutorial does not connect a real logistics
 system, run a durable database, execute exactly-once effects, apply a route change
 or call a live model.
 
+## Why this language and runtime?
+
+- **Selection basis:** Go logistics services often need restart-safe workflows; the
+  reference Core exposes checkpoint behavior in the same deployable process.
+- **Demonstrated fit:** A real JSON checkpoint round-trip and two-run resume are
+  exercised with an in-memory store and draft reroute.
+- **Choose when:** Evaluating resume semantics before choosing durable storage.
+- **Do not choose when:** Seeking database, lease or exactly-once guarantees. Compare
+  the existing workflow store and delivery semantics first.
+- **Evidence limit:** In-memory JSON only; no database, concurrency, lease, exactly-once
+  delivery, real logistics system or live model.
+
 Run from the repository root:
 
 ```bash

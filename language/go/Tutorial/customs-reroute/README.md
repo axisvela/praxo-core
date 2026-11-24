@@ -5,6 +5,18 @@ fields for one shipment, compares two routes and drafts a review-only reroute. T
 source and model are deterministic fixtures. This tutorial does not file customs
 documents, call a live system or make a legal determination.
 
+## Why this language and runtime?
+
+- **Selection basis:** The reference Core suits Go logistics services that need one
+  deployable binary and explicit application-owned boundaries.
+- **Demonstrated fit:** Go tools validate fixed fields and draft a reroute; no customs
+  API, filing, or route solver is invoked.
+- **Choose when:** Learning the reference tool/policy loop for a shipment workflow.
+- **Do not choose when:** Seeking customs compliance or route optimization. Compare
+  direct business rules and existing logistics services first.
+- **Evidence limit:** Core integration fixture only; no network access, filing,
+  document validation quality or compliance determination.
+
 Run from the repository root:
 
 ```bash

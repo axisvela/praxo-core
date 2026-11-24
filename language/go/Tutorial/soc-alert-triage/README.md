@@ -7,6 +7,18 @@ emits events to an application sink. The source and model are deterministic
 fixtures. This tutorial does not connect a real SIEM, run a host action, call a
 live model or make a containment decision.
 
+## Why this language and runtime?
+
+- **Selection basis:** The reference Core fits Go SOC services that need an in-process
+  redaction and event boundary before model-bound data leaves the service.
+- **Demonstrated fit:** Core `PIIRedactor` rewrites fixed alert fields, an event sink
+  records lifecycle events and a review-only containment is drafted.
+- **Choose when:** Learning the reference PII, event and policy seams together.
+- **Do not choose when:** Seeking EDR integration or detection quality. Compare the
+  existing SIEM/SOAR pipeline and detection rules first.
+- **Evidence limit:** In-process fixtures and default redaction rules; no live SIEM,
+  host action, detection validation or complete PII guarantee for arguments/errors.
+
 Run from the repository root:
 
 ```bash
