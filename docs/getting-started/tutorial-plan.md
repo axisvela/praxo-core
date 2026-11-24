@@ -185,6 +185,8 @@ add framework surface.
 | Delphi HVAC settings (BE-02) | Delphi/Free Pascal Core, fixed building environment, review-only settings plan | Local fpc build/test pass; CI job added, not yet run | No BMS command, occupancy surveillance, energy modeling or savings guarantee |
 | Rust leak localization (CT-02) | Native Core, fixed pressure anomalies, review-only inspection list | Local cargo build/test pass; CI job added, not yet run | No hydraulic model, valve isolation, field dispatch or leak guarantee |
 | C++ container yard (TL-02) | C++ Core, fixed container jobs, review-only schedule | Local MinGW build/test pass; CI job added, not yet run | No crane/AGV command, terminal feed, safety interlock or throughput guarantee |
+| Ruby lead nurture (CS-02) | Native Core, fixed business profiles, review-only opt-in outreach | Local Ruby checks pass; CI job added, not yet run | No crawling, scraping, consent automation or unsolicited sends |
+| Python molecule screen (SC-02) | Native Core, fixed molecular descriptors, review-only assessment | Local Python 3.14 checks pass; CI job added, not yet run | No docking, ADMET prediction, synthesis or clinical claim |
 | Python order review | Native Core, HTTP tool, fixed order scope, draft-only | Local and hosted CI against the public local service | Deterministic model; no live provider or external consumer |
 | TypeScript order support | Native Core, HTTP tool, fixed order scope | Local and hosted CI against the public local service | Deterministic model; CLI, not a Web frontend |
 | Java order review | Native Core, JUnit, loopback Web, real-service CLI | Mock/Web JUnit and real-service CLI passed in Linux CI | Java Web-to-real-backend and live model not verified |

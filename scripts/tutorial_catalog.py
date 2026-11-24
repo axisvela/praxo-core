@@ -128,6 +128,8 @@ TUTORIALS = {
     "hvac-settings": ("BE", "tools,draft,policy", "BE-02"),
     "leak-localization": ("CT", "analysis,tools,draft,policy", "CT-02"),
     "container-yard": ("TL", "analysis,tools,draft,policy", "TL-02"),
+    "lead-nurture": ("CS", "analysis,tools,draft,policy", "CS-02"),
+    "molecule-screen": ("SC", "analysis,tools,draft,policy", "SC-02"),
 }
 GUIDES = {
     "workspace-agent-tutorial": ("SE", "go", "filesystem,tools,policy"),

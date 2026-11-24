@@ -70,7 +70,7 @@ Repository links in the tables point to source on `main`, not immutable run evid
 | ID | Scenario | Targets | First bounded tutorial outcome / related slice |
 | --- | --- | --- | --- |
 | CS-01 | Multimodal omnichannel customer service | TypeScript, C#, PHP | Draft a resolution from scoped order evidence; [customer support](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/customer-support) is text/SSE, not refunds or multimodal verification |
-| CS-02 | B2B prospecting and lead nurture | Ruby, PHP, Elixir | Rank synthetic business profiles and draft an opt-in outreach; no crawling or unsolicited sends |
+| CS-02 | B2B prospecting and lead nurture | Ruby, PHP, Elixir | Rank synthetic business profiles and draft an opt-in outreach; no crawling or unsolicited sends; [Ruby lead-nurture](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/lead-nurture) ranks fixed leads and drafts opt-in outreach |
 | CS-03 | Sales-call assistance and review | C#, Swift, TypeScript | Extract objections from a fixture transcript and draft a CRM update; [sales CRM](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/sales-crm) is a follow-up slice |
 | CS-04 | Content marketing and publishing | Python, R, Dart | Compute audience segments, draft content and require publication approval; [marketing segmentation](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/marketing-segmentation) sends nothing |
 | CS-05 | E-commerce pricing and replenishment | Java, PHP, Ruby | Simulate price/stock constraints and draft a replenishment order; no live pricing changes; [TypeScript retail-replenishment slice](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/retail-replenishment) computes a fixed reorder and drafts a PO |
@@ -93,7 +93,7 @@ Repository links in the tables point to source on `main`, not immutable run evid
 | ID | Scenario | Targets | First bounded tutorial outcome / related slice |
 | --- | --- | --- | --- |
 | SC-01 | Literature review and hypotheses | Python, Julia, Haskell | Retrieve fixed abstracts, cite claims and label hypotheses as unverified; no fabricated papers; [Haskell literature-review slice](https://github.com/axisvela/praxo-core/tree/main/language/haskell/Tutorial/literature-review) covers two fixture papers and an unverified draft |
-| SC-02 | Drug and molecular design | Python, Julia, C++ | Rank synthetic descriptors under fixed constraints; no efficacy, toxicity, synthesis or clinical claim |
+| SC-02 | Drug and molecular design | Python, Julia, C++ | Rank synthetic descriptors under fixed constraints; no efficacy, toxicity, synthesis or clinical claim; [Python molecule-screen](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/molecule-screen) ranks fixed descriptors and drafts a review |
 | SC-03 | Self-driving laboratory | Julia, Rust, C | Simulate a parameter/result loop with deterministic limits; no laboratory actuator or chemical handling |
 | SC-04 | Materials inverse design and simulation | Fortran, Julia, C++ | Evaluate fixed candidate properties and draft the next simulation; no validated new material |
 | SC-05 | Weather modeling and warnings | Fortran, R, Octave | Compute fixed time-series anomalies and draft a review notice; no operational forecast or disaster dispatch |

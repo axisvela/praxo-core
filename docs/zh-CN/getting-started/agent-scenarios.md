@@ -53,7 +53,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | ID | 场景 | 目标语言 | 首个有界教学成果 / 相关切片 |
 | --- | --- | --- | --- |
 | CS-01 | 多模态全渠道客服 | TypeScript、C#、PHP | 基于受限订单证据草拟处理方案；现有客服为文本/SSE，不是退款或多模态验证 |
-| CS-02 | B2B 潜客与线索培育 | Ruby、PHP、Elixir | 合成企业画像排序与许可触达草案；不爬取或发送垃圾信息 |
+| CS-02 | B2B 潜客与线索培育 | Ruby、PHP、Elixir | 合成企业画像排序与许可触达草案；不爬取或发送垃圾信息；[Ruby 线索培育](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/lead-nurture)排序固定线索并草拟许可触达 |
 | CS-03 | 销售通话辅助与复盘 | C#、Swift、TypeScript | 从固定转录提取异议并草拟 CRM 更新；现有 CRM 教程仅跟进草案 |
 | CS-04 | 内容营销与矩阵运营 | Python、R、Dart | 计算分群、草拟内容、发布审批；现有 R 分群不发送 |
 | CS-05 | 电商定价与补货 | Java、PHP、Ruby | 模拟价格/库存约束、草拟补货单；不调整真实价格；[TypeScript 零售补货切片](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/retail-replenishment)计算固定补货量并草拟采购单 |
@@ -76,7 +76,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | ID | 场景 | 目标语言 | 首个有界教学成果 / 相关切片 |
 | --- | --- | --- | --- |
 | SC-01 | 文献综述与假设生成 | Python、Julia、Haskell | 检索固定摘要、引用主张、标明假设未验证；不编造论文；[Haskell 文献综述切片](https://github.com/axisvela/praxo-core/tree/main/language/haskell/Tutorial/literature-review)覆盖两篇 fixture 论文与未验证草案 |
-| SC-02 | 制药与分子设计 | Python、Julia、C++ | 固定约束下排序合成描述符；不声称药效、毒性、合成或临床结果 |
+| SC-02 | 制药与分子设计 | Python、Julia、C++ | 固定约束下排序合成描述符；不声称药效、毒性、合成或临床结果；[Python 分子筛选](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/molecule-screen)排序固定描述符并草拟复核 |
 | SC-03 | 自动化实验室 | Julia、Rust、C | 模拟参数/结果迭代且独立校验限制；不操作实验设备或化学品 |
 | SC-04 | 材料逆向设计与仿真 | Fortran、Julia、C++ | 计算固定候选属性并草拟下轮仿真；不声称发现有效材料 |
 | SC-05 | 气象建模与天气预警 | Fortran、R、Octave | 计算固定时序异常、草拟复核通知；不做业务预报或救灾调度 |
