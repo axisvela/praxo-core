@@ -168,7 +168,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 
 | ID | 场景 | 目标语言 | 候选的有界教学成果 | 已有相关切片 | 完整实现 |
 | --- | --- | --- | --- | --- | --- |
-| LJ-01 | 诉讼证据链与质证提纲 | Python、OCaml、Go | 从合成文档建立带引用时间线、标记矛盾；非法律意见或证据可采性证明 | [证据库](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/evidence-vault)：受限读取，不是诉讼分析 | 未实现 |
+| LJ-01 | 诉讼证据链与质证提纲 | Python、OCaml、Go | 从合成文档建立带引用时间线、标记矛盾；非法律意见或证据可采性证明 | [Go 诉讼时间线](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/litigation-timeline)：固定文档与仅审阅提纲；[证据库](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/evidence-vault)：受限读取，不是诉讼分析 | 未实现 |
 | LJ-02 | 专利检索、FTO 与布局 | Python、Java、Haskell | 比较合成权利要求并草拟律师复核问题；非全面专利检索或不侵权意见 | [Python 专利 FTO](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/patent-fto)：固定权利要求重叠与律师问题 | 未实现 |
 | LJ-03 | 商业尽职调查 | Java、C#、Ruby | 对账合成股权/合同/纠纷并草拟清单；无已验证并购结论 | [Ruby 尽职调查](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/due-diligence)：固定记录与仅审阅清单 | 未实现 |
 | LJ-04 | 类案检索与法律文书草拟 | Python、Java、OCaml | 检索固定合成案例、草拟带引用提纲；非量刑建议或司法裁判 | [法律合规](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/legal-compliance)：仅政策引用和脚本审批门 | 未实现 |
@@ -203,7 +203,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | OG-03 | 跨文化谈判同传与策略辅助 | TypeScript、Swift、Python | 比较固定转录与术语、标记不确定性；无微表情推断、读心或实时同传保证 | [TypeScript 谈判解读](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/negotiation-interpretation)：固定转录与仅审阅笔记 | 未实现 |
 | OG-04 | 开源社区治理与贡献者体验 | Ruby、Elixir、Perl | 分类合成 Issue、草拟贡献指导与评审请求；不自动关闭问题或冒充维护者 | [Ruby 社区治理](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/community-governance)：固定问题分类与评审请求 | 未实现 |
 | OG-05 | EDA 布局布线优化 | C++、Fortran、Julia | 探索合成布局网格、报告已述 PPA 代理指标；无代工厂有效版图或优化证明 | [C++ EDA 布局](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/eda-placement)：固定网格与仅审阅布局 | 未实现 |
-| OG-06 | 个人数字孪生与跨应用记忆 | Swift、Objective-C、Dart | 存储合成的同意范围内记忆、记录来源并测试删除；无真实邮箱/密码或无限召回 | [物流 checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/logistics-checkpoint)：仅消息续跑，不是个人记忆中枢 | 未实现 |
+| OG-06 | 个人数字孪生与跨应用记忆 | Swift、Objective-C、Dart | 存储合成的同意范围内记忆、记录来源并测试删除；无真实邮箱/密码或无限召回 | [Dart 数字孪生记忆](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/digital-twin-memory)：范围内存储/召回/删除；[物流 checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/logistics-checkpoint)：仅消息续跑，不是个人记忆中枢 | 未实现 |
 | OG-07 | 多学科 Virtual PI | Python、Julia、Haskell | 协调有界文献/仿真/复核任务，限制共享预算并标注来源；不保证自主科研有效性 | [代表性链路](https://github.com/axisvela/praxo-core/tree/main/examples/representative-chain)：应用级委派，不是科研团队 | 未实现 |
 
 ## 全 Core 语言分配

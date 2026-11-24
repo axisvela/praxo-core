@@ -110,6 +110,8 @@ TUTORIALS = {
     "hedge-plan": ("AE", "analysis,tools,draft,policy", "AE-04"),
     "audiobook-production": ("MD", "tools,draft,policy", "MD-06"),
     "eda-placement": ("OG", "analysis,tools,draft,policy", "OG-05"),
+    "digital-twin-memory": ("OG", "state,tools,draft,policy", "OG-06"),
+    "litigation-timeline": ("LJ", "analysis,tools,draft,policy", "LJ-01"),
 }
 GUIDES = {
     "workspace-agent-tutorial": ("SE", "go", "filesystem,tools,policy"),
