@@ -1,5 +1,8 @@
 ﻿# OCaml Tutorials
 
+- [Static Diagnostics Review (SE-05)](static-diagnostics/README.md): parsed
+  `file:line:rule:message` records, counted high/low findings and a review-only
+  action; no compiler or source edit.
 - [Drawing/BOM Review (IN-05)](bom-review/README.md): source OCaml Core, fixed
   drawing conflicts and a review-only BOM; no CAD access.
 - [Contract Review (FC-05)](contract-review/README.md): source OCaml Core, fixed

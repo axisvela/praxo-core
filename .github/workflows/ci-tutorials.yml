@@ -234,6 +234,17 @@ jobs:
           compiler: dmd-latest
       - run: dmd -i -Ilanguage/d/source -run language/d/Tutorial/quant-risk/risk.d --test
 
+  ocaml-static-diagnostics:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ocaml/setup-ocaml@v3
+        with:
+          ocaml-compiler: '4.14'
+      - run: ocaml unix.cma review.ml --test
+        working-directory: language/ocaml/Tutorial/static-diagnostics
+
   haskell-rule-dsl:
     runs-on: ubuntu-latest
     timeout-minutes: 20
