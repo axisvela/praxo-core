@@ -5,6 +5,18 @@ compares a fixed application/API graph with stated standards and drafts
 review-only change findings. No production scanning, automatic blocking or live
 model.
 
+## Why this language and runtime?
+
+- **Selection basis:** OCaml fits architecture and static-analysis tools that already
+  use typed graphs and native executables.
+- **Demonstrated fit:** A fixed application/API graph yields review-only findings; no
+  CMDB discovery, standards engine or blocking action runs.
+- **Choose when:** Learning the Core seam in an existing OCaml analysis tool.
+- **Do not choose when:** Seeking production scanning or automated enforcement. Compare
+  the existing CMDB, policy engine and change process first.
+- **Evidence limit:** Core integration fixture only; no discovery, real graph data,
+  standards enforcement, automatic blocking or remediation.
+
 Run from **this directory** (the `#use` path is relative to the working directory):
 
 ```bash

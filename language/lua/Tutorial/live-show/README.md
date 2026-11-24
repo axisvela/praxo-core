@@ -4,6 +4,18 @@ A bounded first slice of MD-07, not a live-stream controller. It replays fixed
 synthetic engagement events and drafts a review-only presentation order. No
 audience profiling, coupon sends or stream control.
 
+## Why this language and runtime?
+
+- **Selection basis:** Live-production tools and game-like hosts often use Lua for
+  runtime scripting, where a presentation-order draft can sit beside existing controls.
+- **Demonstrated fit:** Fixed engagement events produce a review-only order; no stream
+  control, coupon or audience-profile system runs.
+- **Choose when:** Learning a host-scripting review pattern for live direction.
+- **Do not choose when:** Seeking stream control or audience analytics. Compare the
+  broadcast stack, platform APIs and moderation rules first.
+- **Evidence limit:** Core integration fixture only; no live stream, audience profile,
+  coupon send, latency guarantee or platform integration.
+
 From this directory:
 
 ```bash

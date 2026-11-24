@@ -4,6 +4,18 @@ A bounded first slice of MD-01, not a virtual-production pipeline. It reads one
 fixed script scene, drafts a review-only shot plan and records zero renders and
 zero engine calls. No Unreal integration, media generation or licensed assets.
 
+## Why this language and runtime?
+
+- **Selection basis:** Virtual-production and game tools often embed Lua for scene and
+  shot scripting, where a plan review can share the host runtime.
+- **Demonstrated fit:** A fixed scene produces a review-only shot plan; no Unreal
+  engine, media generator or asset pipeline runs.
+- **Choose when:** Learning the host-scripting seam around previs planning.
+- **Do not choose when:** Seeking engine integration or rendered output. Compare the
+  production pipeline, licensed assets and engine APIs first.
+- **Evidence limit:** Core integration fixture only; no Unreal integration, rendering,
+  media generation, asset licensing or production output.
+
 From this directory:
 
 ```bash

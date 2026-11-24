@@ -5,6 +5,18 @@ not CAD/BIM parsing or engineering certification. It reads a fixed parsed drawin
 reports one clearance conflict, and drafts a review-only BOM. No CAD access or live
 model.
 
+## Why this language and runtime?
+
+- **Selection basis:** OCaml fits engineering tools that parse structured formats and
+  need typed graph or rule processing in a native binary.
+- **Demonstrated fit:** A fixed parsed-drawing graph yields a review-only BOM; no CAD
+  parser, vision system or engineering certification runs.
+- **Choose when:** Learning the Core seam in an existing OCaml engineering tool.
+- **Do not choose when:** Seeking CAD/BIM parsing or certified BOM output. Compare the
+  CAD import pipeline and engineering review process first.
+- **Evidence limit:** Core integration fixture only; no CAD/BIM input, graph repair,
+  engineering validation, manufacturing or certification.
+
 Run from **this directory**:
 
 ```bash

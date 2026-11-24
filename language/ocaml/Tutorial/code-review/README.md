@@ -6,6 +6,18 @@ manifest, flags a high-severity unsafe-shell rule and a missing test, and drafts
 review-only comment set. This uses the source OCaml Core through the `ocaml`
 toplevel; no network, credentials or packages beyond OCaml are required.
 
+## Why this language and runtime?
+
+- **Selection basis:** OCaml fits compiler, linter and static-analysis tools that
+  already represent diffs or ASTs with typed data.
+- **Demonstrated fit:** A fixed diff yields review-only comments; no repository scan,
+  build, test or edit runs.
+- **Choose when:** Learning the Core seam in an existing OCaml code tool.
+- **Do not choose when:** Seeking real review automation or security audit. Compare the
+  existing analyzer, CI rules and repository permissions first.
+- **Evidence limit:** Core integration fixture only; no source build, test execution,
+  security analysis, patch generation or repository write.
+
 Run from **this directory** (the `#use` path is relative to the current working
 directory):
 

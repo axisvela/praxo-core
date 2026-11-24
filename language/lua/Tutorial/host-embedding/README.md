@@ -5,6 +5,18 @@ host receives a device event, exposes two fixed callbacks, and receives a
 review-only report. It does not send a device command, open a socket or require a
 model endpoint.
 
+## Why this language and runtime?
+
+- **Selection basis:** Lua is designed for embedding, so host applications can expose
+  scoped device or application state without a separate Agent service.
+- **Demonstrated fit:** Host-callback-shaped tools and a review-only action run in a
+  Lua process; no real device or host socket is connected.
+- **Choose when:** Learning the callback boundary before embedding in a real host.
+- **Do not choose when:** Seeking a standalone service or device control. Compare the
+  host's native extension API and its security model first.
+- **Evidence limit:** Core integration fixture only; no real host, device command,
+  socket, memory measurement or embedding guarantee.
+
 ## Run
 
 From the repository root:

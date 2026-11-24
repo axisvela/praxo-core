@@ -4,6 +4,18 @@ A bounded first slice of MD-03, not an open-world simulation engine. It reads a
 fixed synthetic world economy at one tick and drafts a review-only balance with
 no applied change. No scale, equilibrium or long-term stability guarantee.
 
+## Why this language and runtime?
+
+- **Selection basis:** Game hosts commonly embed Lua for economy and event scripting,
+  so a bounded balance review can stay in the simulation host.
+- **Demonstrated fit:** A fixed tick produces a review-only balance draft; no engine,
+  persistent world state or population-scale simulation runs.
+- **Choose when:** Learning a host-scripting review pattern for game economies.
+- **Do not choose when:** Seeking equilibrium guarantees or large-scale simulation.
+  Compare the engine's economy system and actual telemetry first.
+- **Evidence limit:** Core integration fixture only; no game engine, persistent world,
+  scale, equilibrium or long-term stability claim.
+
 From this directory:
 
 ```bash

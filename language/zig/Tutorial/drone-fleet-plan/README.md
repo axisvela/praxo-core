@@ -5,6 +5,18 @@ reads fixed drone waypoint state, drafts a review-only waypoint plan and flags a
 conflict zone for application-owned review. No flight, avoidance or geofence
 command.
 
+## Why this language and runtime?
+
+- **Selection basis:** Zig fits constrained fleet or edge components that need explicit
+  control and native deployment without a managed runtime.
+- **Demonstrated fit:** Fixed waypoints produce a review-only flight plan with conflict
+  review; no flight controller, geofence or airspace service is accessed.
+- **Choose when:** Learning the Core seam for an existing Zig edge component.
+- **Do not choose when:** Seeking flight control or airspace conflict resolution.
+  Compare the autopilot, geofence and regulatory process first.
+- **Evidence limit:** Core integration fixture only; no flight, avoidance, geofence,
+  airspace validation, binary-size measurement or safety certification.
+
 Build and run from the repository root:
 
 ```bash

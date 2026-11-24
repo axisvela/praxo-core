@@ -5,6 +5,18 @@ fixed tools: `read_portfolio` reads synthetic account `acct-100`, and
 `draft_rebalance` produces a `draft_only` allocation proposal for human review.
 It never places a trade, transfers cash or changes a portfolio.
 
+## Why this language and runtime?
+
+- **Selection basis:** Java fits enterprise wealth and banking services that already
+  run on the JVM with HTTP entry, identity and mature tooling.
+- **Demonstrated fit:** A Java service exposes risk analysis and a review-only proposal
+  over a fixed portfolio; no market feed, transfer or trade executes.
+- **Choose when:** Adding a governed review seam to an existing Java financial service.
+- **Do not choose when:** Seeking market data, execution or advice. Compare the bank's
+  risk engine, order controls and existing Java APIs first.
+- **Evidence limit:** Fixed portfolio and HTTP demo; no live market data, trading,
+  suitability assessment, regulatory approval or advisory claim.
+
 ## Run
 
 Requires JDK 21+ and Maven. From this directory:
