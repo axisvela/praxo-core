@@ -58,7 +58,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | CS-04 | 内容营销与矩阵运营 | Python、R、Dart | 计算分群、草拟内容、发布审批；现有 R 分群不发送 |
 | CS-05 | 电商定价与补货 | Java、PHP、Ruby | 模拟价格/库存约束、草拟补货单；不调整真实价格；[TypeScript 零售补货切片](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/retail-replenishment)计算固定补货量并草拟采购单 |
 | CS-06 | 流失预警与主动挽留 | R、Elixir、Julia | 计算固定风险信号、草拟基于同意的优惠；不推断敏感特征或自动触达 |
-| CS-07 | 跨境多语言本地化 | TypeScript、PHP、Perl | 草拟本地化商品文本并引用固定规则；不保证法律/税务合规 |
+| CS-07 | 跨境多语言本地化 | TypeScript、PHP、Perl | 草拟本地化商品文本并引用固定规则；不保证法律/税务合规；[TypeScript 本地化草案](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/localization-draft)草拟仅审阅文本 |
 
 ## 金融、财税与合规（6）
 
@@ -77,7 +77,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | --- | --- | --- | --- |
 | SC-01 | 文献综述与假设生成 | Python、Julia、Haskell | 检索固定摘要、引用主张、标明假设未验证；不编造论文；[Haskell 文献综述切片](https://github.com/axisvela/praxo-core/tree/main/language/haskell/Tutorial/literature-review)覆盖两篇 fixture 论文与未验证草案 |
 | SC-02 | 制药与分子设计 | Python、Julia、C++ | 固定约束下排序合成描述符；不声称药效、毒性、合成或临床结果；[Python 分子筛选](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/molecule-screen)排序固定描述符并草拟复核 |
-| SC-03 | 自动化实验室 | Julia、Rust、C | 模拟参数/结果迭代且独立校验限制；不操作实验设备或化学品 |
+| SC-03 | 自动化实验室 | Julia、Rust、C | 模拟参数/结果迭代且独立校验限制；不操作实验设备或化学品；[Rust 实验回路](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/lab-loop)草拟仅审阅参数 |
 | SC-04 | 材料逆向设计与仿真 | Fortran、Julia、C++ | 计算固定候选属性并草拟下轮仿真；不声称发现有效材料 |
 | SC-05 | 气象建模与天气预警 | Fortran、R、Octave | 计算固定时序异常、草拟复核通知；不做业务预报或救灾调度 |
 | SC-06 | 科研清洗与统计建模 | R、Julia、MATLAB | 校验固定数据与统计方法；现有 data-quality 为相关切片，原生 MATLAB 未验证 |
