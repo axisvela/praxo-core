@@ -60,6 +60,8 @@ documentation before relying on a version or feature.
 - Task-oriented catalog: [docs Examples](docs/getting-started/examples.md)
 - Repository catalog: [language/go/examples/README.md](language/go/examples/README.md)
 - Live model: [language/go/examples/live-model](language/go/examples/live-model/README.md)
+- Scenario tutorials: [language/go/Tutorial](language/go/Tutorial/README.md)
+- Reference application: [language/go/application](language/go/application/README.md)
 - Language examples: `language/<language>/examples/`
 
 ## Community

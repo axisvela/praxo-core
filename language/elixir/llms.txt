@@ -35,6 +35,8 @@
 - Markdown entry: `llms.md`
 - Compact entry: `llms.txt`
 - [Examples](https://github.com/axisvela/praxo-core/tree/main/language/elixir/examples): runnable language-specific examples.
+- [Scenario tutorials](https://github.com/axisvela/praxo-core/tree/main/language/elixir/Tutorial): scenario-oriented tutorials.
+- [Reference applications](https://github.com/axisvela/praxo-core/tree/main/language/elixir/application): AI-native reference applications.
 - Coding-agent contract: ../../docs/getting-started/coding-agents.md
 
 # Community

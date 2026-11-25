@@ -40,6 +40,8 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This gem is its nativ
 ## Coding-agent entry
 
 - [Examples](https://github.com/axisvela/praxo-core/tree/main/language/ruby/examples): runnable language-specific examples.
+- [Scenario tutorials](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial): scenario-oriented tutorials.
+- [Reference applications](https://github.com/axisvela/praxo-core/tree/main/language/ruby/application): AI-native reference applications.
 - [llms.txt](llms.txt): compact machine-readable entry for this language.
 - [llms.md](llms.md): Markdown version of the same entry.
 - [Coding-agent contract](../../docs/getting-started/coding-agents.md): explicit

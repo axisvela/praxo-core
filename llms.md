@@ -47,6 +47,8 @@
 - Examples: https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/examples.md
 - Examples directory: https://github.com/axisvela/praxo-core/blob/main/language/go/examples/README.md
 - Live model: https://github.com/axisvela/praxo-core/blob/main/language/go/examples/live-model/README.md
+- Scenario tutorials: https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial
+- Reference application: https://github.com/axisvela/praxo-core/tree/main/language/go/application
 - Start Here: https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/index.md
 - Coding-agent contract: https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md
 - Language repository index: https://github.com/axisvela/praxo-core/blob/main/docs/languages/repositories.md

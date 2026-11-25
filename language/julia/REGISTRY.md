@@ -40,6 +40,8 @@ Julia implementation of the PRAXO-CORE AI agent framework contract.
 ## Coding-agent entry
 
 - [Examples](https://github.com/axisvela/praxo-core/tree/main/language/julia/examples): runnable language-specific examples.
+- [Scenario tutorials](https://github.com/axisvela/praxo-core/tree/main/language/julia/Tutorial): scenario-oriented tutorials.
+- [Reference applications](https://github.com/axisvela/praxo-core/tree/main/language/julia/application): AI-native reference applications.
 - [llms.txt](llms.txt): compact machine-readable entry for this language.
 - [llms.md](llms.md): Markdown version of the same entry.
 - [Coding-agent contract](../../docs/getting-started/coding-agents.md): explicit

@@ -297,6 +297,22 @@ def examples_line(directory: Path) -> str:
     )
 
 
+def content_links(directory: Path) -> str:
+    lines = []
+    relative = directory.relative_to(ROOT).as_posix()
+    for folder, label, description in (
+        ("Tutorial", "Scenario tutorials", "scenario-oriented tutorials"),
+        ("application", "Reference applications", "AI-native reference applications"),
+    ):
+        if (directory / folder).is_dir():
+            target = folder if relative == "." else f"{relative}/{folder}"
+            lines.append(
+                f"- [{label}](https://github.com/axisvela/praxo-core/tree/main/{target}): "
+                f"{description}.\n"
+            )
+    return "".join(lines)
+
+
 def render_registry(entry: dict, directory: Path) -> str:
     summary = first_paragraph(directory / "README.md")
     registry = f"[{entry['registry']}]({entry['url']})" if entry["url"] else entry["registry"]
@@ -331,7 +347,7 @@ feature.
 
 {capabilities_registry(entry)}## Coding-agent entry
 
-{examples}- [llms.txt](llms.txt): compact machine-readable entry for this language.
+{examples}{content_links(directory)}- [llms.txt](llms.txt): compact machine-readable entry for this language.
 - [llms.md](llms.md): Markdown version of the same entry.
 - [Coding-agent contract]({rel_link(ROOT / 'docs/getting-started/coding-agents.md', directory)}): explicit
   scope, final-argument authorization, denial tests, and verification commands.
@@ -380,7 +396,7 @@ def render_llms(entry: dict, directory: Path, markdown: bool) -> str:
 - Registry introduction: `REGISTRY.md`
 - Markdown entry: `llms.md`
 - Compact entry: `llms.txt`
-{examples}- Coding-agent contract: {coding}
+{examples}{content_links(directory)}- Coding-agent contract: {coding}
 
 {community_section()}## Boundaries
 
@@ -446,6 +462,8 @@ documentation before relying on a version or feature.
 - Task-oriented catalog: [docs Examples](docs/getting-started/examples.md)
 - Repository catalog: [language/go/examples/README.md](language/go/examples/README.md)
 - Live model: [language/go/examples/live-model](language/go/examples/live-model/README.md)
+- Scenario tutorials: [language/go/Tutorial](language/go/Tutorial/README.md)
+- Reference application: [language/go/application](language/go/application/README.md)
 - Language examples: `language/<language>/examples/`
 
 {community_section()}## Boundaries
@@ -485,6 +503,8 @@ def render_root_llms() -> str:
 - Examples: https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/examples.md
 - Examples directory: https://github.com/axisvela/praxo-core/blob/main/language/go/examples/README.md
 - Live model: https://github.com/axisvela/praxo-core/blob/main/language/go/examples/live-model/README.md
+- Scenario tutorials: https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial
+- Reference application: https://github.com/axisvela/praxo-core/tree/main/language/go/application
 - Start Here: https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/index.md
 - Coding-agent contract: https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md
 - Language repository index: https://github.com/axisvela/praxo-core/blob/main/docs/languages/repositories.md
