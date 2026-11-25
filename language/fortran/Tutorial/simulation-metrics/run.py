@@ -37,6 +37,9 @@ subprocess.run(
 objects = sorted(path.name for path in BUILD.glob("*.o"))
 executable = BUILD / "simulation_metrics"
 link = ["-L", str(ROOT / "build" / "re2-install" / "lib"), "-lpraxo_re2"]
+if os.name != "nt":
+    origin = "@loader_path" if sys.platform == "darwin" else "$ORIGIN"
+    link.append(f"-Wl,-rpath,{origin}/../re2-install/lib")
 subprocess.run(
     [compiler, "-o", str(executable), *objects, *link],
     cwd=BUILD,
