@@ -37,7 +37,7 @@ configure_package_config_file(
     INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/praxo-cpp)
 write_basic_package_version_file(
     ${CMAKE_CURRENT_BINARY_DIR}/praxo-cpp-config-version.cmake
-    VERSION 0.9.0
+    VERSION 0.10.0
     COMPATIBILITY SameMajorVersion)
 install(FILES
     ${CMAKE_CURRENT_BINARY_DIR}/praxo-cpp-config.cmake
@@ -55,34 +55,34 @@ target_link_libraries(praxo-cpp-conformance PRIVATE praxo_cpp)
 add_executable(praxo-cpp-tests tests/core.cpp)
 target_link_libraries(praxo-cpp-tests PRIVATE praxo_cpp)
 
-add_executable(praxo-cpp-checkpoint-example language/go/examples/checkpoint/main.cpp)
+add_executable(praxo-cpp-checkpoint-example examples/checkpoint/main.cpp)
 target_link_libraries(praxo-cpp-checkpoint-example PRIVATE praxo_cpp)
 
-add_executable(praxo-cpp-event-sink-example language/go/examples/event-sink/main.cpp)
+add_executable(praxo-cpp-event-sink-example examples/event-sink/main.cpp)
 target_link_libraries(praxo-cpp-event-sink-example PRIVATE praxo_cpp)
 
-add_executable(praxo-cpp-streaming-example language/go/examples/streaming/main.cpp)
+add_executable(praxo-cpp-streaming-example examples/streaming/main.cpp)
 target_link_libraries(praxo-cpp-streaming-example PRIVATE praxo_cpp)
 
-add_executable(praxo-cpp-structured-output-example language/go/examples/structured-output/main.cpp)
+add_executable(praxo-cpp-structured-output-example examples/structured-output/main.cpp)
 target_link_libraries(praxo-cpp-structured-output-example PRIVATE praxo_cpp)
 
-add_executable(praxo-cpp-identity-policy-example language/go/examples/identity-policy/main.cpp)
+add_executable(praxo-cpp-identity-policy-example examples/identity-policy/main.cpp)
 target_link_libraries(praxo-cpp-identity-policy-example PRIVATE praxo_cpp)
 
-add_executable(praxo-cpp-hitl-example language/go/examples/hitl/main.cpp)
+add_executable(praxo-cpp-hitl-example examples/hitl/main.cpp)
 target_link_libraries(praxo-cpp-hitl-example PRIVATE praxo_cpp)
 
-add_executable(praxo-cpp-session-checkpoint-example language/go/examples/session-checkpoint/main.cpp)
+add_executable(praxo-cpp-session-checkpoint-example examples/session-checkpoint/main.cpp)
 target_link_libraries(praxo-cpp-session-checkpoint-example PRIVATE praxo_cpp)
 
-add_executable(praxo-cpp-mcp-example language/go/examples/mcp/main.cpp)
+add_executable(praxo-cpp-mcp-example examples/mcp/main.cpp)
 target_link_libraries(praxo-cpp-mcp-example PRIVATE praxo_cpp)
 
-add_executable(praxo-cpp-consumer-example language/go/examples/consumer/main.cpp)
+add_executable(praxo-cpp-consumer-example examples/consumer/main.cpp)
 target_link_libraries(praxo-cpp-consumer-example PRIVATE praxo_cpp)
 
-add_executable(praxo-cpp-live-model-example language/go/examples/live-model/main.cpp)
+add_executable(praxo-cpp-live-model-example examples/live-model/main.cpp)
 target_link_libraries(praxo-cpp-live-model-example PRIVATE praxo_cpp)
 
 add_executable(praxo-cpp-harmovela-tests tests/harmovela.cpp)

@@ -67,17 +67,17 @@ if(BUILD_TESTING)
 add_executable(praxo-conformance src/main.c)
 target_link_libraries(praxo-conformance PRIVATE praxo_core)
 
-add_executable(praxo-c-hitl-example language/go/examples/hitl/main.c)
+add_executable(praxo-c-hitl-example examples/hitl/main.c)
 target_link_libraries(praxo-c-hitl-example PRIVATE praxo_core)
 
 add_executable(praxo-c-session-checkpoint-example
-    language/go/examples/session-checkpoint/main.c)
+    examples/session-checkpoint/main.c)
 target_link_libraries(praxo-c-session-checkpoint-example PRIVATE praxo_core)
 
-add_executable(praxo-c-consumer-example language/go/examples/consumer/main.c)
+add_executable(praxo-c-consumer-example examples/consumer/main.c)
 target_link_libraries(praxo-c-consumer-example PRIVATE praxo_core)
 
-add_executable(praxo-c-live-model-example language/go/examples/live-model/main.c)
+add_executable(praxo-c-live-model-example examples/live-model/main.c)
 target_link_libraries(praxo-c-live-model-example PRIVATE praxo_core)
 
 add_executable(praxo-c-tests tests/test_core.c)
