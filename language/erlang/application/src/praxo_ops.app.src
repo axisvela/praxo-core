@@ -1,0 +1,8 @@
+{application, praxo_ops,
+ [{description, "AI-native OTP operations copilot using PRAXO-CORE"},
+  {vsn, "0.0.0"},
+  {modules, []},
+  {registered, [praxo_ops_sup, praxo_ops_telemetry, praxo_ops_executor]},
+  {applications, [kernel, stdlib]},
+  {mod, {praxo_ops_app, []}},
+  {env, []}]}.
