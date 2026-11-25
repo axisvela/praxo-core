@@ -25,9 +25,12 @@ deterministic checks and a batch-file check, but no live-model transport is
 bundled. Julia v1 is implemented at `language/julia/application`; its native
 `LinearAlgebra` response-surface harness passes six deterministic checks and a
 hosted DeepSeek `deepseek-flash` live run records `model=live`, model-selected
-tools, computed fit evidence, and `writes=0`. PHP, Elixir, Erlang, Go, and Julia
-have recorded live-model reasoning runs with hosted DeepSeek `deepseek-flash`;
-Java/Rust/C++/COBOL live reasoning, SDK CI, Drupal, payment, and
+tools, computed fit evidence, and `writes=0`. Ruby v1 is implemented at
+`language/ruby/application`; a Rails 8 host passes five deterministic checks and
+a hosted DeepSeek `deepseek-flash` live run records `model=live`, model-selected
+tools, a review-only draft, and zero payment/refund effects. PHP, Elixir, Erlang,
+Go, Julia, and Ruby have recorded live-model reasoning runs with hosted DeepSeek
+`deepseek-flash`; Java/Rust/C++/COBOL live reasoning, SDK CI, Drupal, payment, and
 independent-consumer paths remain open. Other languages implement the AI-native
 workflow directly.
 
@@ -214,8 +217,8 @@ An AI-native reasoning claim requires a recorded live-model run that shows:
 5. the run records model id, endpoint class, tool trace, latency, and cost;
 6. the output or trace is inspectable and is not only fixed fixture text.
 
-Current status (2026-11-25): PHP, Elixir, Erlang, Go, and Julia have recorded
-live-model reasoning runs with hosted DeepSeek `deepseek-flash`.
+Current status (2026-11-25): PHP, Elixir, Erlang, Go, Julia, and Ruby have
+recorded live-model reasoning runs with hosted DeepSeek `deepseek-flash`.
 
 - PHP recorded `model=live`, a four-step trace (`search_content` ->
   `draft_article` -> `suggest_taxonomy` -> `request_publish_review`), a
@@ -245,6 +248,10 @@ live-model reasoning runs with hosted DeepSeek `deepseek-flash`.
   `0.999995`), bounded optimum `0.6994`, predicted yield `0.91764`, `writes=0`,
   and `mutating_actions=[]`. The Windows transport used `curl.exe` with
   `--ssl-no-revoke`.
+- Ruby recorded `model=live`: the model chose repeated `search_catalog` reads,
+  then `quote_cart` and `draft_order`. The app returned a `draft_only` order,
+  a `$105.84` quoted total, `payment_charges=0`, `refunds=0`, and
+  `mutating_actions=[]`. The Windows transport used `curl.exe --ssl-no-revoke`.
 
 Java remains source-only and is not locally compiled; it has no live-model run.
 Deterministic harness tests remain separate evidence and are not a substitute for

@@ -58,6 +58,7 @@ Then run the smallest deterministic example:
 
 - [Consumer starter](https://github.com/axisvela/praxo-core/tree/main/language/ruby/examples/consumer): explicit tool scope and a deny check.
 - [Live model](https://github.com/axisvela/praxo-core/tree/main/language/ruby/examples/live-model): connect an OpenAI-compatible endpoint and register `get_time`.
+- [AI commerce copilot](https://github.com/axisvela/praxo-core/tree/main/language/ruby/application): Rails-hosted catalog, quote, and review-only draft workflow with denied payment/refund effects.
 
 See the [Ruby documentation](https://axisvela.github.io/praxo-core/languages/ruby/) for the full API and the
 [language matrix](https://axisvela.github.io/praxo-core/languages/matrix/) for

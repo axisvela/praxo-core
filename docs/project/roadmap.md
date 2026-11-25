@@ -749,12 +749,18 @@ so no live run is recorded. Priority 7 is implemented at
 [`language/julia/application`](https://github.com/axisvela/praxo-core/tree/main/language/julia/application):
 a native `LinearAlgebra` response-surface copilot passes six deterministic checks
 and a hosted DeepSeek `deepseek-flash` live run records `model=live`,
-model-selected tools, computed fit evidence, and `writes=0`. Priority 8 remains a
-proposal. Other languages implement AI-native applications directly.
+model-selected tools, computed fit evidence, and `writes=0`. Priority 8 is
+implemented at
+[`language/ruby/application`](https://github.com/axisvela/praxo-core/tree/main/language/ruby/application):
+a Rails 8 commerce host passes five deterministic checks and a hosted DeepSeek
+`deepseek-flash` live run records `model=live`, model-selected tools, a
+review-only draft, and zero payment/refund effects. All eight portfolio
+priorities now have source implementations. Other languages implement AI-native
+applications directly.
 
 Deterministic harness tests are not live-model reasoning evidence. PHP, Elixir,
-Erlang, Go, and Julia now have recorded live-model runs; Java, Rust, C++, and
-COBOL do not. A claim of AI-native verification requires the live model id, model-selected tools,
+Erlang, Go, Julia, and Ruby now have recorded live-model runs; Java, Rust, C++,
+and COBOL do not. A claim of AI-native verification requires the live model id, model-selected tools,
 generated content, policy boundaries, trace, and cost/latency. Track delivery in
 [#34](https://github.com/axisvela/praxo-core/issues/34).
 

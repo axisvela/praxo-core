@@ -318,6 +318,17 @@ jobs:
           ruby-version: '3.4'
       - run: ruby -I language/ruby/lib language/ruby/Tutorial/recruiting-match/app.rb --test
 
+  ruby-ai-commerce:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4'
+      - run: gem install railties actionpack rack tzinfo-data --no-document
+      - run: ruby -I language/ruby/lib language/ruby/application/run-tests.rb
+
   d-quant-risk:
     runs-on: ubuntu-latest
     timeout-minutes: 10

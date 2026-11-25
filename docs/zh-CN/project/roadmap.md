@@ -585,10 +585,14 @@ live 路径已接线，但本地 TLS backend 因 `ring` 缺少原生 C 头文件
 [`language/julia/application`](https://github.com/axisvela/praxo-core/tree/main/language/julia/application)
 实现：原生 `LinearAlgebra` 响应面 Copilot 通过六项确定性检查，托管 DeepSeek
 `deepseek-flash` 真实运行记录 `model=live`、模型选择工具、计算拟合证据和 `writes=0`。
-优先级 8 仍为拟建设。其他语言直接实现 AI-native 应用。
+优先级 8 已在
+[`language/ruby/application`](https://github.com/axisvela/praxo-core/tree/main/language/ruby/application)
+实现：Rails 8 商务宿主通过五项确定性检查，托管 DeepSeek `deepseek-flash` 真实运行记录
+`model=live`、模型选择工具、只读订单草案和零支付/退款效果。参考应用组合的八项优先级均已
+有源码实现。其他语言直接实现 AI-native 应用。
 
-确定性 harness 测试不是真实模型推理证据。PHP、Elixir、Erlang、Go、Julia 已有真实模型运行
-记录；Java、Rust、C++、COBOL 还没有。AI-native 验证声明需要模型 ID、模型选择的工具、生成内容、策略边界、
+确定性 harness 测试不是真实模型推理证据。PHP、Elixir、Erlang、Go、Julia、Ruby 已有真实
+模型运行记录；Java、Rust、C++、COBOL 还没有。AI-native 验证声明需要模型 ID、模型选择的工具、生成内容、策略边界、
 trace、延迟与成本。交付跟踪见 [#34](https://github.com/axisvela/praxo-core/issues/34)。
 
 每项参考应用应包含所选已发布 Core 包的可复现安装、真实宿主入口、有用的端到端任务、
