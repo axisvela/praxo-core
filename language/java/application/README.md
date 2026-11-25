@@ -88,7 +88,7 @@ retrieval, cart creation, or checkout.
 
 ## Build and test
 
-Uses the published `com.axisvela:praxo-core:0.11.0` package and Spring Boot 3.4.5.
+Uses the published `com.axisvela:praxo-core:0.11.0` package and Spring Boot 4.1.0.
 
 ```bash
 cd language/java/application
