@@ -1,7 +1,7 @@
 # PRAXO-CORE COBOL Registry Introduction
 
-**Status:** source-only. Source version `0.8.0`, source
-tag `cobol/v0.8.0`. Published registry version: not published. Registry
+**Status:** source-only. Source version `0.9.0`, source
+tag `cobol/v0.9.0`. Published registry version: not published. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -15,11 +15,11 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | --- | --- |
 | Package | `praxo-core-cobol` |
 | Registry | Source |
-| Source version | `0.8.0` |
+| Source version | `0.9.0` |
 | Published registry version | not published |
 | Install (published) | not published |
 | Install (source/release prepared) | `Source build (see README)` |
-| Source tag | `cobol/v0.8.0` |
+| Source tag | `cobol/v0.9.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/cobol/ |

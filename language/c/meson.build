@@ -1,7 +1,7 @@
 project(
   'praxo-core',
   'c',
-  version: '0.13.0',
+  version: '0.14.0',
   license: 'MIT',
   meson_version: '>=1.2.0',
 )

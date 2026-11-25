@@ -1,7 +1,7 @@
 # PRAXO-CORE Fortran Registry Introduction
 
-**Status:** source-only. Source version `0.11.0`, source
-tag `fortran/v0.11.0`. Published registry version: not published. Registry
+**Status:** source-only. Source version `0.12.0`, source
+tag `fortran/v0.12.0`. Published registry version: not published. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -15,11 +15,11 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | --- | --- |
 | Package | `praxo-core-fortran` |
 | Registry | Source / CMake |
-| Source version | `0.11.0` |
+| Source version | `0.12.0` |
 | Published registry version | not published |
 | Install (published) | not published |
 | Install (source/release prepared) | `Source build (see README)` |
-| Source tag | `fortran/v0.11.0` |
+| Source tag | `fortran/v0.12.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/fortran/ |

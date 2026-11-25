@@ -9,7 +9,7 @@ language and run the verification commands.
 
 | Language | Package | Current recommended version | Starter |
 | --- | --- | --- | --- |
-| Go | `github.com/axisvela/praxo-core/v2` | `2.10.0` | [Go consumer](consumer-go.md) |
+| Go | `github.com/axisvela/praxo-core/v2` | `2.11.0` | [Go consumer](consumer-go.md) |
 | Python | `praxo-core` | `0.10.0` | [Python consumer](consumer-python.md) |
 | TypeScript | `@axisvela/praxo-core` | `0.9.0` | [TypeScript consumer](consumer-typescript.md) |
 | Java | `com.axisvela:praxo-core` | `0.11.0` | [Java consumer](consumer-java.md) |
@@ -61,11 +61,11 @@ allow/deny checks without the governed negative matrix.
 | Language | Verification |
 | --- | --- |
 | Go | `GOWORK=off go test -mod=readonly ./...` |
-| Python | In a dedicated virtual environment: `python -I -m unittest discover -s . -v` | `0.10.0` 
+| Python | In a dedicated virtual environment: `python -I -m unittest discover -s . -v` |
 | TypeScript | `npm test` |
 | Java | `mvn -B test` |
-| C# | `dotnet run --project language/csharp/examples/consumer` | `0.10.0` 
-| Rust | `cargo run --manifest-path language/rust/examples/consumer/Cargo.toml` | `0.10.0` 
+| C# | `dotnet run --project language/csharp/examples/consumer` |
+| Rust | `cargo run --manifest-path language/rust/examples/consumer/Cargo.toml` |
 | R | `Rscript language/r/examples/consumer/test_starter.R` |
 
 ## Do Not Infer

@@ -1,7 +1,7 @@
 # PRAXO-CORE Delphi / Free Pascal Registry Introduction
 
-**Status:** 0.7.0 OPM assets published; OPM listing pending. Source version `0.8.0`, source
-tag `delphi/v0.8.0`. Published registry version: `0.2.1`. Registry
+**Status:** 0.7.0 OPM assets published; OPM listing pending. Source version `0.9.0`, source
+tag `delphi/v0.9.0`. Published registry version: `0.2.1`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -15,11 +15,11 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | --- | --- |
 | Package | `PRAXO-CORE` |
 | Registry | [OPM / GitHub release](https://github.com/axisvela/praxo-core/releases/tag/delphi%2Fv0.7.0) |
-| Source version | `0.8.0` |
+| Source version | `0.9.0` |
 | Published registry version | `0.2.1` |
 | Install (published) | `OPM package or release archive` |
 | Install (source/release prepared) | `OPM package or release archive` |
-| Source tag | `delphi/v0.8.0` |
+| Source tag | `delphi/v0.9.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/delphi/ |

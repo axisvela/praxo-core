@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.11.0 - 2026-11-26
+
+Source tag `v2.11.0`.
+
+- Minor release for AI-native reference applications, scenario tutorials, and the Go examples layout refresh.
+
 ## [2.10.0] - 2026-11-20
 
 Source tag `v2.10.0`.

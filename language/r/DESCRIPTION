@@ -1,7 +1,7 @@
 Package: praxocore
 Type: Package
 Title: Embeddable AI Agent Framework for R
-Version: 0.11.0
+Version: 0.12.0
 Authors@R: person("AxisVela", role = c("aut", "cre"), email = "releases@axisvela.com")
 Description: Native R Core for PRAXO-CORE, an embeddable MIT-licensed agent
     framework. Provides an in-process agent loop with tool calls, JSON Schema

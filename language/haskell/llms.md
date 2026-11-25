@@ -8,11 +8,11 @@
 
 - package: `praxo-core`
 - registry: [Hackage](https://hackage.haskell.org/package/praxo-core-0.8.0)
-- source_version: `0.8.0`
+- source_version: `0.9.0`
 - published_version: `0.8.0`
 - install_published: `cabal install praxo-core`
 - install_source: `cabal install praxo-core`
-- source_tag: `haskell/v0.8.0`
+- source_tag: `haskell/v0.9.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/haskell/

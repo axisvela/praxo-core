@@ -1,5 +1,11 @@
 # Rust Core Release Notes
 
+## 0.11.0 - 2026-11-26
+
+Source tag `rust/v0.11.0`.
+
+- Minor release for AI-native reference applications, scenario tutorials, and the Go examples layout refresh.
+
 ## 0.10.0 - 2026-11-20
 
 Source tag `rust/v0.10.0`.

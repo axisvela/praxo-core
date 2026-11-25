@@ -55,7 +55,7 @@ configure_package_config_file(
     INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/praxo-core)
 write_basic_package_version_file(
     ${CMAKE_CURRENT_BINARY_DIR}/praxo-core-config-version.cmake
-    VERSION 0.13.0
+    VERSION 0.14.0
     COMPATIBILITY SameMajorVersion)
 install(FILES
     ${CMAKE_CURRENT_BINARY_DIR}/praxo-core-config.cmake

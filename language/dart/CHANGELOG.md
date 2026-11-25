@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.0 - 2026-11-26
+
+Source tag `dart/v0.8.0`.
+
+- Minor release for AI-native reference applications, scenario tutorials, and the Go examples layout refresh.
+
 ## 0.6.2 - 2026-11-18
 
 Source tag `dart/v0.7.0`.

@@ -8,11 +8,11 @@
 
 - package: `praxo-core`
 - registry: [DUB](https://code.dlang.org/packages/praxo-core)
-- source_version: `0.7.0`
+- source_version: `0.8.0`
 - published_version: `0.6.1`
 - install_published: `dub add praxo-core`
 - install_source: `dub add praxo-core`
-- source_tag: `d/v0.7.0`
+- source_tag: `d/v0.8.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/d/

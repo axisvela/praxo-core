@@ -67,13 +67,13 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 
 | Language | Source tag | Registry state |
 | --- | --- | --- |
-| C | `c/v0.13.0` | no registry publication; xmake-repo PR #11309, vcpkg PR #55192, and Conan Center PR #31502 open, not merged |
-| C++ | `cpp/v0.9.0` | no registry publication; xmake-repo PR #11310, vcpkg PR #55192, and Conan Center PR #31503 open, not merged |
-| Fortran | `fortran/v0.11.0` | fpm registry upstream paused |
-| COBOL | `cobol/v0.8.0` | no mainstream registry |
-| OCaml | `ocaml/v0.9.0` | opam `0.3.0`; PR #31222 closed after opam-ci failure; new submission needed |
-| Objective-C | `objc/v0.7.0` | CocoaPods publication deferred; requires macOS/Xcode and a Trunk token |
-| Zig | `zig/v0.8.0` | no central registry |
+| C | `c/v0.14.0` | no registry publication; xmake-repo PR #11309, vcpkg PR #55192, and Conan Center PR #31502 open, not merged |
+| C++ | `cpp/v0.10.0` | no registry publication; xmake-repo PR #11310, vcpkg PR #55192, and Conan Center PR #31503 open, not merged |
+| Fortran | `fortran/v0.12.0` | fpm registry upstream paused |
+| COBOL | `cobol/v0.9.0` | no mainstream registry |
+| OCaml | `ocaml/v0.10.0` | opam `0.3.0`; PR #31222 closed after opam-ci failure; new submission needed |
+| Objective-C | `objc/v0.8.0` | CocoaPods publication deferred; requires macOS/Xcode and a Trunk token |
+| Zig | `zig/v0.9.0` | no central registry |
 | Tcl / Lisp / Prolog | `tcl/v0.1.0`, `lisp/v0.1.0`, `prolog/v0.1.1` | bridge packages; registry publication pending |
 
 Use the [support policy](support.md) for maturity, support level, and consumer

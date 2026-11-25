@@ -1,7 +1,7 @@
 # PRAXO-CORE Haskell Registry Introduction
 
-**Status:** published. Source version `0.8.0`, source
-tag `haskell/v0.8.0`. Published registry version: `0.8.0`. Registry
+**Status:** published. Source version `0.9.0`, source
+tag `haskell/v0.9.0`. Published registry version: `0.8.0`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -15,11 +15,11 @@ PRAXO-CORE is an embeddable, MIT-licensed AI agent framework. This package is it
 | --- | --- |
 | Package | `praxo-core` |
 | Registry | [Hackage](https://hackage.haskell.org/package/praxo-core-0.8.0) |
-| Source version | `0.8.0` |
+| Source version | `0.9.0` |
 | Published registry version | `0.8.0` |
 | Install (published) | `cabal install praxo-core` |
 | Install (source/release prepared) | `cabal install praxo-core` |
-| Source tag | `haskell/v0.8.0` |
+| Source tag | `haskell/v0.9.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/haskell/ |

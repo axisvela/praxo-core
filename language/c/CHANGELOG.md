@@ -1,5 +1,11 @@
 # C Core Release Notes
 
+## 0.14.0 - 2026-11-26
+
+Source tag `c/v0.14.0`.
+
+- Minor release for AI-native reference applications, scenario tutorials, and the Go examples layout refresh.
+
 ## 0.13.0 - 2026-11-20
 
 Source tag `c/v0.13.0`.

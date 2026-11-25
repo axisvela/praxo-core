@@ -1,5 +1,11 @@
 # Lua Core Release Notes
 
+## 0.9.0 - 2026-11-26
+
+Source tag `lua/v0.9.0`.
+
+- Minor release for AI-native reference applications, scenario tutorials, and the Go examples layout refresh.
+
 ## 0.8.1 - 2026-11-21
 
 Source tag `lua/v0.8.1`.

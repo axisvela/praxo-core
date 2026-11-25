@@ -1,5 +1,11 @@
 # Ruby Core Release Notes
 
+## 0.10.0 - 2026-11-26
+
+Source tag `ruby/v0.10.0`.
+
+- Minor release for AI-native reference applications, scenario tutorials, and the Go examples layout refresh.
+
 ## 0.9.2 - 2026-11-21
 
 Source tag `ruby/v0.9.2`.

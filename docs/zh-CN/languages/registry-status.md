@@ -59,13 +59,13 @@ GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
 
 | 语言 | 源码标签 | 注册表状态 |
 | --- | --- | --- |
-| C | `c/v0.13.0` | 未发布注册表；xmake-repo PR #11309、vcpkg PR #55192、Conan Center PR #31502 仍开放，未合并 |
-| C++ | `cpp/v0.9.0` | 未发布注册表；xmake-repo PR #11310、vcpkg PR #55192、Conan Center PR #31503 仍开放，未合并 |
-| Fortran | `fortran/v0.11.0` | fpm registry 上游暂停 |
-| COBOL | `cobol/v0.8.0` | 无主流注册表 |
-| OCaml | `ocaml/v0.9.0` | opam `0.3.0`；PR #31222 因 opam-ci 失败已关闭，需要重新提交 |
-| Objective-C | `objc/v0.7.0` | CocoaPods 发布暂缓；需要 macOS/Xcode 与 Trunk token |
-| Zig | `zig/v0.8.0` | 无中央注册表 |
+| C | `c/v0.14.0` | 未发布注册表；xmake-repo PR #11309、vcpkg PR #55192、Conan Center PR #31502 仍开放，未合并 |
+| C++ | `cpp/v0.10.0` | 未发布注册表；xmake-repo PR #11310、vcpkg PR #55192、Conan Center PR #31503 仍开放，未合并 |
+| Fortran | `fortran/v0.12.0` | fpm registry 上游暂停 |
+| COBOL | `cobol/v0.9.0` | 无主流注册表 |
+| OCaml | `ocaml/v0.10.0` | opam `0.3.0`；PR #31222 因 opam-ci 失败已关闭，需要重新提交 |
+| Objective-C | `objc/v0.8.0` | CocoaPods 发布暂缓；需要 macOS/Xcode 与 Trunk token |
+| Zig | `zig/v0.9.0` | 无中央注册表 |
 | Tcl / Lisp / Prolog | `tcl/v0.1.0`、`lisp/v0.1.0`、`prolog/v0.1.1` | 桥接包；注册表发布待完成 |
 
 成熟度、支持级别和 consumer smoke 的区别见[支持政策](support.md)。包注册表可用性

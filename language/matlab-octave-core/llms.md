@@ -8,11 +8,11 @@
 
 - package: `shared implementation`
 - registry: shared source
-- source_version: `0.8.0`
+- source_version: `0.9.0`
 - published_version: not published
 - install_published: not published
 - install_source: `Not a standalone package`
-- source_tag: `matlab/v0.8.0 and octave/v0.8.0`
+- source_tag: `matlab/v0.9.0 and octave/v0.9.0`
 - tier: Shared
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/

@@ -8,11 +8,11 @@
 
 - package: `praxo-core`
 - registry: [crates.io](https://crates.io/crates/praxo-core/0.10.0)
-- source_version: `0.10.0`
+- source_version: `0.11.0`
 - published_version: `0.10.0`
 - install_published: `cargo add praxo-core@0.10.0`
 - install_source: `cargo add --path language/rust`
-- source_tag: `rust/v0.10.0`
+- source_tag: `rust/v0.11.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/rust/

@@ -6,7 +6,7 @@
 
 #include "praxo.h"
 
-#define PRAXO_CORE_VERSION "0.13.0"
+#define PRAXO_CORE_VERSION "0.14.0"
 
 typedef struct {
     const char *session;

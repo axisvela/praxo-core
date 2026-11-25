@@ -1,5 +1,11 @@
 # R Core Release Notes
 
+## 0.12.0 - 2026-11-26
+
+Source tag `r/v0.12.0`.
+
+- Minor release for AI-native reference applications, scenario tutorials, and the Go examples layout refresh.
+
 ## 0.10.2 - 2026-11-18
 
 Source tag `r/v0.11.0`.

@@ -1,5 +1,11 @@
 # Nim Core Release Notes
 
+## 0.8.0 - 2026-11-26
+
+Source tag `nim/v0.8.0`.
+
+- Minor release for AI-native reference applications, scenario tutorials, and the Go examples layout refresh.
+
 ## 0.7.0 - 2026-11-20
 
 Source tag `nim/v0.7.0`.

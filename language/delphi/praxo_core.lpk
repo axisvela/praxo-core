@@ -8,7 +8,7 @@
     <Author Value="AxisVela"/>
     <Description Value="PRAXO-CORE native Free Pascal/Delphi Core: JSON, tool calls, JSON Schema subset, plugin manifests, policy, memory, checkpoints, context, middleware, events, and an agent loop."/>
     <License Value="MIT"/>
-    <Version Major="0" Minor="7" Release="0"/>
+    <Version Major="0" Minor="9" Release="0"/>
     <Files Count="11">
       <Item1>
         <Filename Value="praxo.pas"/>

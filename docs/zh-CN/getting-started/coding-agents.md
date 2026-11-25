@@ -7,7 +7,7 @@
 
 | 语言 | 包 | 当前推荐版本 | Starter |
 | --- | --- | --- | --- |
-| Go | `github.com/axisvela/praxo-core/v2` | `2.10.0` | [Go 消费者](consumer-go.md) |
+| Go | `github.com/axisvela/praxo-core/v2` | `2.11.0` | [Go 消费者](consumer-go.md) |
 | Python | `praxo-core` | `0.10.0` | [Python 消费者](consumer-python.md) |
 | TypeScript | `@axisvela/praxo-core` | `0.9.0` | [TypeScript 消费者](consumer-typescript.md) |
 | Java | `com.axisvela:praxo-core` | `0.11.0` | [Java 消费者](consumer-java.md) |
@@ -48,7 +48,7 @@
 | 语言 | 验证 |
 | --- | --- |
 | Go | `GOWORK=off go test -mod=readonly ./...` |
-| Python | 在独立虚拟环境中：`python -I -m unittest discover -s . -v` | `0.10.0` 
+| Python | 在独立虚拟环境中：`python -I -m unittest discover -s . -v` |
 | TypeScript | `npm test` |
 | Java | `mvn -B test` |
 
