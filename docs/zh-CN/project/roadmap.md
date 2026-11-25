@@ -537,7 +537,7 @@ AI-native 两个版本；其他语言直接实现 AI-native 流程，不再先�
 2026-11-25 使用托管 DeepSeek `deepseek-flash` 完成一次真实运行：`model=live`，trace 为
 `search_content` -> `draft_article` -> `suggest_taxonomy` -> `request_publish_review`，
 生成模型理由（最近一次 858 字符），`publications_executed=0`。运行使用自定义 cURL transport 处理
-本地代理/CA；没有独立复现或生产部署。应用 CI 矩阵已添加但尚未运行。
+本地代理/CA；没有独立复现或生产部署。应用 CI 为独立的 `ci-applications` workflow，按 application 路径过滤；作业已添加但尚未运行。
 
 优先级 2 已有 Spring Boot AI 电商源码：
 [`language/java/application`](https://github.com/axisvela/praxo-core/tree/main/language/java/application)。

@@ -689,7 +689,7 @@ recorded `model=live`, a four-step trace (`search_content` -> `draft_article` ->
 `suggest_taxonomy` -> `request_publish_review`), a model-written rationale (858
 characters in the latest run), and `publications_executed=0`. It used a custom cURL transport for the local
 proxy/CA; there is no independent reproduction or production deployment. The
-application CI matrix is added but has not run.
+application CI is a separate `ci-applications` workflow with per-application path filters; its jobs are added but have not run.
 
 Priority 2 has a Spring Boot AI commerce source at
 [`language/java/application`](https://github.com/axisvela/praxo-core/tree/main/language/java/application).

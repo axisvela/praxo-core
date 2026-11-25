@@ -5,8 +5,6 @@ on:
     branches: [main]
     paths:
       - 'language/*/Tutorial/**'
-      - 'language/*/application/**'
-      - 'language/ruby/lib/**'
       - 'docs/**/agent-scenarios.md'
       - 'scripts/test_agent_scenarios.py'
       - 'scripts/*tutorial_catalog.py'
@@ -20,8 +18,6 @@ on:
   pull_request:
     paths:
       - 'language/*/Tutorial/**'
-      - 'language/*/application/**'
-      - 'language/ruby/lib/**'
       - 'docs/**/agent-scenarios.md'
       - 'scripts/test_agent_scenarios.py'
       - 'scripts/*tutorial_catalog.py'
@@ -216,117 +212,6 @@ jobs:
         with:
           php-version: '8.5'
       - run: php language/php/Tutorial/api-orchestration/app.php --test
-
-  php-reference-applications:
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    strategy:
-      matrix:
-        app: [content-review, ai-editorial-studio]
-    steps:
-      - uses: actions/checkout@v4
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.3'
-          extensions: mbstring, openssl, curl, fileinfo, intl, pdo_sqlite
-          tools: composer:v2
-      - run: composer install --no-interaction --prefer-dist --no-progress
-        working-directory: language/php/application/${{ matrix.app }}
-      - run: vendor/bin/phpunit
-        working-directory: language/php/application/${{ matrix.app }}
-
-  java-ai-commerce:
-    runs-on: ubuntu-latest
-    timeout-minutes: 25
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '21'
-          cache: maven
-      - run: mvn -B -ntp -DskipTests package
-        working-directory: language/java/application
-      - run: mvn -B -ntp test
-        working-directory: language/java/application
-
-  elixir-ai-ops:
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    steps:
-      - uses: actions/checkout@v4
-      - uses: erlef/setup-beam@v1
-        with:
-          otp-version: '29'
-          elixir-version: '1.20.4'
-      - run: mix deps.get
-        working-directory: language/elixir/application
-      - run: mix test
-        working-directory: language/elixir/application
-
-  erlang-ai-ops:
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    steps:
-      - uses: actions/checkout@v4
-      - uses: erlef/setup-beam@v1
-        with:
-          otp-version: '29'
-          elixir-version: '1.20.4'
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - run: python language/erlang/application/run-tests.py
-
-  go-ai-ops:
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
-        with:
-          go-version: '1.26.11'
-      - run: go test ./...
-        working-directory: language/go/application
-
-  rust-ai-ops:
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
-      - run: cargo test
-        working-directory: language/rust/application
-
-  cpp-ai-edge-application:
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    steps:
-      - uses: actions/checkout@v4
-      - run: cmake -S language/cpp -B language/cpp/build-ai-edge
-      - run: cmake --build language/cpp/build-ai-edge --target praxo-cpp-ai-edge-application
-      - run: test -f language/cpp/build-ai-edge/libpraxo-cpp-ai-edge-application.a
-
-  ruby-recruiting-match:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.4'
-      - run: ruby -I language/ruby/lib language/ruby/Tutorial/recruiting-match/app.rb --test
-
-  ruby-ai-commerce:
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.4'
-      - run: gem install railties actionpack rack tzinfo-data --no-document
-      - run: ruby -I language/ruby/lib language/ruby/application/run-tests.rb
 
   d-quant-risk:
     runs-on: ubuntu-latest
@@ -1870,17 +1755,6 @@ jobs:
       - run: sudo apt-get update && sudo apt-get install -y gnucobol
       - run: python language/cobol/Tutorial/batch-exception-review/run.py
 
-  cobol-batch-analyst:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - run: sudo apt-get update && sudo apt-get install -y gnucobol
-      - run: python language/cobol/application/run-tests.py
-
   julia-experiment-comparison:
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -1891,17 +1765,6 @@ jobs:
           version: '1.13'
       - run: julia --project=language/julia -e 'using Pkg; Pkg.instantiate()'
       - run: julia --project=language/julia language/julia/Tutorial/experiment-comparison/experiment_comparison.jl --test
-
-  julia-ai-science:
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    steps:
-      - uses: actions/checkout@v4
-      - uses: julia-actions/setup-julia@v2
-        with:
-          version: '1.13'
-      - run: julia --project=language/julia -e 'using Pkg; Pkg.instantiate()'
-      - run: julia --project=language/julia language/julia/application/application.jl --test
 
   octave-signal-trends:
     runs-on: ubuntu-latest

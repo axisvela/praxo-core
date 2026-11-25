@@ -1,0 +1,208 @@
+name: ci-applications
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'language/*/application/**'
+      - 'language/cpp/CMakeLists.txt'
+      - 'language/ruby/lib/**'
+      - '.github/workflows/ci-applications.yml'
+  pull_request:
+    paths:
+      - 'language/*/application/**'
+      - 'language/cpp/CMakeLists.txt'
+      - 'language/ruby/lib/**'
+      - '.github/workflows/ci-applications.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      php: ${{ steps.filter.outputs.php }}
+      java: ${{ steps.filter.outputs.java }}
+      elixir: ${{ steps.filter.outputs.elixir }}
+      erlang: ${{ steps.filter.outputs.erlang }}
+      go: ${{ steps.filter.outputs.go }}
+      rust: ${{ steps.filter.outputs.rust }}
+      cpp: ${{ steps.filter.outputs.cpp }}
+      ruby: ${{ steps.filter.outputs.ruby }}
+      cobol: ${{ steps.filter.outputs.cobol }}
+      julia: ${{ steps.filter.outputs.julia }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            php:
+              - 'language/php/application/**'
+            java:
+              - 'language/java/application/**'
+            elixir:
+              - 'language/elixir/application/**'
+            erlang:
+              - 'language/erlang/application/**'
+            go:
+              - 'language/go/application/**'
+            rust:
+              - 'language/rust/application/**'
+            cpp:
+              - 'language/cpp/application/**'
+              - 'language/cpp/CMakeLists.txt'
+            ruby:
+              - 'language/ruby/application/**'
+              - 'language/ruby/lib/**'
+            cobol:
+              - 'language/cobol/application/**'
+            julia:
+              - 'language/julia/application/**'
+
+  php-reference-applications:
+    needs: changes
+    if: needs.changes.outputs.php == 'true' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      matrix:
+        app: [content-review, ai-editorial-studio]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, openssl, curl, fileinfo, intl, pdo_sqlite
+          tools: composer:v2
+      - run: composer install --no-interaction --prefer-dist --no-progress
+        working-directory: language/php/application/${{ matrix.app }}
+      - run: vendor/bin/phpunit
+        working-directory: language/php/application/${{ matrix.app }}
+
+  java-ai-commerce:
+    needs: changes
+    if: needs.changes.outputs.java == 'true' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      - run: mvn -B -ntp -DskipTests package
+        working-directory: language/java/application
+      - run: mvn -B -ntp test
+        working-directory: language/java/application
+
+  elixir-ai-ops:
+    needs: changes
+    if: needs.changes.outputs.elixir == 'true' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: '29'
+          elixir-version: '1.20.4'
+      - run: mix deps.get
+        working-directory: language/elixir/application
+      - run: mix test
+        working-directory: language/elixir/application
+
+  erlang-ai-ops:
+    needs: changes
+    if: needs.changes.outputs.erlang == 'true' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: '29'
+          elixir-version: '1.20.4'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python language/erlang/application/run-tests.py
+
+  go-ai-ops:
+    needs: changes
+    if: needs.changes.outputs.go == 'true' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.26.11'
+      - run: go test ./...
+        working-directory: language/go/application
+
+  rust-ai-ops:
+    needs: changes
+    if: needs.changes.outputs.rust == 'true' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - run: cargo test
+        working-directory: language/rust/application
+
+  cpp-ai-edge-application:
+    needs: changes
+    if: needs.changes.outputs.cpp == 'true' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - run: cmake -S language/cpp -B language/cpp/build-ai-edge
+      - run: cmake --build language/cpp/build-ai-edge --target praxo-cpp-ai-edge-application
+      - run: test -f language/cpp/build-ai-edge/libpraxo-cpp-ai-edge-application.a
+
+  ruby-ai-commerce:
+    needs: changes
+    if: needs.changes.outputs.ruby == 'true' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4'
+      - run: gem install railties actionpack rack tzinfo-data --no-document
+      - run: ruby -I language/ruby/lib language/ruby/application/run-tests.rb
+
+  cobol-batch-analyst:
+    needs: changes
+    if: needs.changes.outputs.cobol == 'true' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: sudo apt-get update && sudo apt-get install -y gnucobol
+      - run: python language/cobol/application/run-tests.py
+
+  julia-ai-science:
+    needs: changes
+    if: needs.changes.outputs.julia == 'true' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: julia-actions/setup-julia@v2
+        with:
+          version: '1.13'
+      - run: julia --project=language/julia -e 'using Pkg; Pkg.instantiate()'
+      - run: julia --project=language/julia language/julia/application/application.jl --test
