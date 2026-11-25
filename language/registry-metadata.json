@@ -2,7 +2,6 @@
   "C": {
     "dir": "language/c",
     "docs": "https://axisvela.github.io/praxo-core/languages/c/",
-    "examples_tag": "c/examples/v0.1.0",
     "install": "CMake source build (see README)",
     "package": "praxo-core-c",
     "published_version": "0.6.0",
@@ -12,13 +11,11 @@
     "status": "source-only",
     "tag": "c/v0.13.0",
     "tier": "Core",
-    "tutorial_tag": "c/tutorial/v0.1.0",
     "url": ""
   },
   "C#": {
     "dir": "language/csharp",
     "docs": "https://axisvela.github.io/praxo-core/languages/csharp/",
-    "examples_tag": "csharp/examples/v0.1.0",
     "install": "dotnet add package Praxo.Core --version 0.10.0",
     "package": "Praxo.Core",
     "published_version": "0.10.0",
@@ -28,14 +25,11 @@
     "status": "published",
     "tag": "csharp/v0.10.0",
     "tier": "Core",
-    "tutorial_tag": "csharp/tutorial/v0.1.0",
     "url": "https://www.nuget.org/packages/Praxo.Core/0.10.0"
   },
   "C++": {
-    "application_tag": "cpp/application/v0.1.0",
     "dir": "language/cpp",
     "docs": "https://axisvela.github.io/praxo-core/languages/cpp/",
-    "examples_tag": "cpp/examples/v0.1.0",
     "install": "CMake source build (see README)",
     "package": "praxo-core-cpp",
     "published_version": "0.4.0",
@@ -45,14 +39,11 @@
     "status": "source-only",
     "tag": "cpp/v0.9.0",
     "tier": "Core",
-    "tutorial_tag": "cpp/tutorial/v0.1.0",
     "url": ""
   },
   "COBOL": {
-    "application_tag": "cobol/application/v0.1.0",
     "dir": "language/cobol",
     "docs": "https://axisvela.github.io/praxo-core/languages/cobol/",
-    "examples_tag": "cobol/examples/v0.1.0",
     "install": "Source build (see README)",
     "package": "praxo-core-cobol",
     "published_version": "0.4.0",
@@ -62,13 +53,11 @@
     "status": "source-only",
     "tag": "cobol/v0.8.0",
     "tier": "Core",
-    "tutorial_tag": "cobol/tutorial/v0.1.0",
     "url": ""
   },
   "D": {
     "dir": "language/d",
     "docs": "https://axisvela.github.io/praxo-core/languages/d/",
-    "examples_tag": "d/examples/v0.1.0",
     "install": "dub add praxo-core",
     "package": "praxo-core",
     "published_version": "0.6.1",
@@ -78,13 +67,11 @@
     "status": "published; split package 0.6.1; source 0.7.0",
     "tag": "d/v0.7.0",
     "tier": "Core",
-    "tutorial_tag": "d/tutorial/v0.1.0",
     "url": "https://code.dlang.org/packages/praxo-core"
   },
   "Dart": {
     "dir": "language/dart",
     "docs": "https://axisvela.github.io/praxo-core/languages/dart/",
-    "examples_tag": "dart/examples/v0.1.0",
     "install": "dart pub add praxo_core:^0.7.0",
     "package": "praxo_core",
     "published_version": "0.7.0",
@@ -94,13 +81,11 @@
     "status": "published",
     "tag": "dart/v0.7.0",
     "tier": "Core",
-    "tutorial_tag": "dart/tutorial/v0.1.0",
     "url": "https://pub.dev/packages/praxo_core/versions/0.7.0"
   },
   "Delphi / Free Pascal": {
     "dir": "language/delphi",
     "docs": "https://axisvela.github.io/praxo-core/languages/delphi/",
-    "examples_tag": "delphi/examples/v0.1.0",
     "install": "OPM package or release archive",
     "package": "PRAXO-CORE",
     "published_version": "0.2.1",
@@ -110,14 +95,11 @@
     "status": "0.7.0 OPM assets published; OPM listing pending",
     "tag": "delphi/v0.8.0",
     "tier": "Core",
-    "tutorial_tag": "delphi/tutorial/v0.1.0",
     "url": "https://github.com/axisvela/praxo-core/releases/tag/delphi%2Fv0.7.0"
   },
   "Elixir": {
-    "application_tag": "elixir/application/v0.1.0",
     "dir": "language/elixir",
     "docs": "https://axisvela.github.io/praxo-core/languages/elixir/",
-    "examples_tag": "elixir/examples/v0.1.0",
     "install": "{:praxo_core, \"~> 0.10.0\"}",
     "package": "praxo_core",
     "published_version": "0.10.0",
@@ -127,14 +109,11 @@
     "status": "published",
     "tag": "elixir/v0.10.0",
     "tier": "Core",
-    "tutorial_tag": "elixir/tutorial/v0.1.0",
     "url": "https://hex.pm/packages/praxo_core/0.10.0"
   },
   "Erlang": {
-    "application_tag": "erlang/application/v0.1.0",
     "dir": "language/erlang",
     "docs": "https://axisvela.github.io/praxo-core/languages/erlang/",
-    "examples_tag": "erlang/examples/v0.1.0",
     "install": "{praxo_core, \"0.9.0\", {pkg, praxo_core_erlang}}",
     "package": "praxo_core_erlang",
     "published_version": "0.9.0",
@@ -144,13 +123,11 @@
     "status": "published",
     "tag": "erlang/v0.9.0",
     "tier": "Core",
-    "tutorial_tag": "erlang/tutorial/v0.1.0",
     "url": "https://hex.pm/packages/praxo_core_erlang/0.9.0"
   },
   "Fortran": {
     "dir": "language/fortran",
     "docs": "https://axisvela.github.io/praxo-core/languages/fortran/",
-    "examples_tag": "fortran/examples/v0.1.0",
     "install": "Source build (see README)",
     "package": "praxo-core-fortran",
     "published_version": "0.6.0",
@@ -160,13 +137,11 @@
     "status": "source-only",
     "tag": "fortran/v0.11.0",
     "tier": "Core",
-    "tutorial_tag": "fortran/tutorial/v0.1.0",
     "url": ""
   },
   "GNU Octave": {
     "dir": "language/octave",
     "docs": "https://axisvela.github.io/praxo-core/languages/octave/",
-    "examples_tag": "octave/examples/v0.1.0",
     "install": "pkg install -forge praxo-core",
     "package": "praxo-core",
     "published_version": "0.7.0",
@@ -176,14 +151,11 @@
     "status": "release tarball 0.7.0 published; package index PR pending",
     "tag": "octave/v0.8.0",
     "tier": "Core",
-    "tutorial_tag": "octave/tutorial/v0.1.0",
     "url": "https://github.com/axisvela/praxo-core/releases/download/octave/v0.7.0/praxo-core-0.7.0.tar.gz"
   },
   "Go": {
-    "application_tag": "go/application/v0.1.0",
     "dir": ".",
     "docs": "https://axisvela.github.io/praxo-core/",
-    "examples_tag": "go/examples/v0.1.0",
     "install": "go get github.com/axisvela/praxo-core/v2@v2.10.0",
     "package": "github.com/axisvela/praxo-core/v2",
     "published_version": "v2.10.0",
@@ -193,13 +165,11 @@
     "status": "published",
     "tag": "v2.10.0",
     "tier": "Core (reference)",
-    "tutorial_tag": "go/tutorial/v0.1.0",
     "url": "https://pkg.go.dev/github.com/axisvela/praxo-core/v2"
   },
   "Haskell": {
     "dir": "language/haskell",
     "docs": "https://axisvela.github.io/praxo-core/languages/haskell/",
-    "examples_tag": "haskell/examples/v0.1.0",
     "install": "cabal install praxo-core",
     "package": "praxo-core",
     "published_version": "0.8.0",
@@ -209,14 +179,11 @@
     "status": "published",
     "tag": "haskell/v0.8.0",
     "tier": "Core",
-    "tutorial_tag": "haskell/tutorial/v0.1.0",
     "url": "https://hackage.haskell.org/package/praxo-core-0.8.0"
   },
   "Java": {
-    "application_tag": "java/application/v0.1.0",
     "dir": "language/java",
     "docs": "https://axisvela.github.io/praxo-core/languages/java/",
-    "examples_tag": "java/examples/v0.1.0",
     "install": "Maven: com.axisvela:praxo-core:0.11.0",
     "package": "com.axisvela:praxo-core",
     "published_version": "0.11.0",
@@ -226,14 +193,11 @@
     "status": "published",
     "tag": "java/v0.11.0",
     "tier": "Core",
-    "tutorial_tag": "java/tutorial/v0.1.0",
     "url": "https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.11.0/"
   },
   "Julia": {
-    "application_tag": "julia/application/v0.1.0",
     "dir": "language/julia",
     "docs": "https://axisvela.github.io/praxo-core/languages/julia/",
-    "examples_tag": "julia/examples/v0.1.0",
     "install": "Pkg.add(\"PraxoCore\")",
     "package": "PraxoCore",
     "published_version": "0.2.0",
@@ -243,13 +207,11 @@
     "status": "pending registry merge",
     "tag": "julia/v0.8.0",
     "tier": "Core",
-    "tutorial_tag": "julia/tutorial/v0.1.0",
     "url": "https://github.com/axisvela/PraxoCore.jl"
   },
   "Lua": {
     "dir": "language/lua",
     "docs": "https://axisvela.github.io/praxo-core/languages/lua/",
-    "examples_tag": "lua/examples/v0.1.0",
     "install": "luarocks install praxo-core 0.8.1-1",
     "package": "praxo-core",
     "published_version": "0.8.1-1",
@@ -259,13 +221,11 @@
     "status": "published",
     "tag": "lua/v0.8.1",
     "tier": "Core",
-    "tutorial_tag": "lua/tutorial/v0.1.0",
     "url": "https://luarocks.org/modules/hanhhuiwen/praxo-core"
   },
   "MATLAB": {
     "dir": "language/matlab",
     "docs": "https://axisvela.github.io/praxo-core/languages/matlab/",
-    "examples_tag": "matlab/examples/v0.1.0",
     "install": "File Exchange entry 185166",
     "package": "PRAXO-CORE",
     "published_version": "0.5.0",
@@ -275,7 +235,6 @@
     "status": "published; 0.7.0 upload pending; MATLAB runtime unverified",
     "tag": "matlab/v0.8.0",
     "tier": "Core",
-    "tutorial_tag": "matlab/tutorial/v0.1.0",
     "url": "https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core"
   },
   "MATLAB/Octave shared core": {
@@ -295,7 +254,6 @@
   "Nim": {
     "dir": "language/nim",
     "docs": "https://axisvela.github.io/praxo-core/languages/nim/",
-    "examples_tag": "nim/examples/v0.1.0",
     "install": "nimble install praxo_core",
     "package": "praxo_core",
     "published_version": "0.1.1",
@@ -305,13 +263,11 @@
     "status": "split repository; registry crawler pending",
     "tag": "nim/v0.7.0",
     "tier": "Core",
-    "tutorial_tag": "nim/tutorial/v0.1.0",
     "url": "https://github.com/axisvela/praxo-core-nim"
   },
   "OCaml": {
     "dir": "language/ocaml",
     "docs": "https://axisvela.github.io/praxo-core/languages/ocaml/",
-    "examples_tag": "ocaml/examples/v0.1.0",
     "install": "opam install praxo-core",
     "package": "praxo-core",
     "published_version": "0.3.0",
@@ -321,13 +277,11 @@
     "status": "pending registry merge",
     "tag": "ocaml/v0.9.0",
     "tier": "Core",
-    "tutorial_tag": "ocaml/tutorial/v0.1.0",
     "url": "https://github.com/axisvela/praxo-core-ocaml"
   },
   "Objective-C": {
     "dir": "language/objc",
     "docs": "https://axisvela.github.io/praxo-core/languages/objc/",
-    "examples_tag": "objc/examples/v0.1.0",
     "install": "See README/SETUP.md",
     "package": "praxo-core-objc",
     "published_version": "0.1.1",
@@ -337,14 +291,11 @@
     "status": "source-only",
     "tag": "objc/v0.7.0",
     "tier": "Core",
-    "tutorial_tag": "objc/tutorial/v0.1.0",
     "url": ""
   },
   "PHP": {
-    "application_tag": "php/application/v0.1.0",
     "dir": "language/php",
     "docs": "https://axisvela.github.io/praxo-core/languages/php/",
-    "examples_tag": "php/examples/v0.1.0",
     "install": "composer require axisvela/praxo-core",
     "package": "axisvela/praxo-core",
     "published_version": "0.8.1",
@@ -354,13 +305,11 @@
     "status": "published",
     "tag": "php/v0.9.0",
     "tier": "Core",
-    "tutorial_tag": "php/tutorial/v0.1.0",
     "url": "https://packagist.org/packages/axisvela/praxo-core"
   },
   "Perl": {
     "dir": "language/perl",
     "docs": "https://axisvela.github.io/praxo-core/languages/perl/",
-    "examples_tag": "perl/examples/v0.1.0",
     "install": "cpanm Praxo::Core",
     "package": "Praxo::Core",
     "published_version": "0.7.1",
@@ -370,13 +319,11 @@
     "status": "published on CPAN; README.pod indexed",
     "tag": "perl/v0.7.1",
     "tier": "Core",
-    "tutorial_tag": "perl/tutorial/v0.1.0",
     "url": "https://metacpan.org/dist/Praxo-Core"
   },
   "PowerShell": {
     "dir": "language/powershell",
     "docs": "https://axisvela.github.io/praxo-core/languages/powershell/",
-    "examples_tag": "powershell/examples/v0.1.0",
     "install": "Install-Module praxo-core-ps",
     "package": "praxo-core-ps",
     "published_version": "0.8.1",
@@ -386,13 +333,11 @@
     "status": "published; shared C# runtime",
     "tag": "powershell/v0.8.1",
     "tier": "Core (.NET)",
-    "tutorial_tag": "powershell/tutorial/v0.1.0",
     "url": "https://www.powershellgallery.com/packages/praxo-core-ps/0.8.1"
   },
   "Python": {
     "dir": "language/python",
     "docs": "https://axisvela.github.io/praxo-core/languages/python/",
-    "examples_tag": "python/examples/v0.1.0",
     "install": "pip install praxo-core==0.10.0",
     "package": "praxo-core",
     "published_version": "0.10.0",
@@ -402,13 +347,11 @@
     "status": "published",
     "tag": "python/v0.10.0",
     "tier": "Core",
-    "tutorial_tag": "python/tutorial/v0.1.0",
     "url": "https://pypi.org/project/praxo-core/0.10.0/"
   },
   "R": {
     "dir": "language/r",
     "docs": "https://axisvela.github.io/praxo-core/languages/r/",
-    "examples_tag": "r/examples/v0.1.0",
     "install": "install.packages(\"praxocore\", repos = \"https://axisvela.r-universe.dev\")",
     "package": "praxocore",
     "published_version": "0.11.0",
@@ -418,14 +361,11 @@
     "status": "published on r-universe; CRAN not published",
     "tag": "r/v0.11.0",
     "tier": "Core",
-    "tutorial_tag": "r/tutorial/v0.1.0",
     "url": "https://axisvela.r-universe.dev/praxocore"
   },
   "Ruby": {
-    "application_tag": "ruby/application/v0.1.0",
     "dir": "language/ruby",
     "docs": "https://axisvela.github.io/praxo-core/languages/ruby/",
-    "examples_tag": "ruby/examples/v0.1.0",
     "install": "gem install praxo-core",
     "package": "praxo-core",
     "published_version": "0.9.2",
@@ -435,14 +375,11 @@
     "status": "published; split source repository",
     "tag": "ruby/v0.9.2",
     "tier": "Core",
-    "tutorial_tag": "ruby/tutorial/v0.1.0",
     "url": "https://rubygems.org/gems/praxo-core/versions/0.9.2"
   },
   "Rust": {
-    "application_tag": "rust/application/v0.1.0",
     "dir": "language/rust",
     "docs": "https://axisvela.github.io/praxo-core/languages/rust/",
-    "examples_tag": "rust/examples/v0.1.0",
     "install": "cargo add praxo-core@0.10.0",
     "package": "praxo-core",
     "published_version": "0.10.0",
@@ -452,13 +389,11 @@
     "status": "published",
     "tag": "rust/v0.10.0",
     "tier": "Core",
-    "tutorial_tag": "rust/tutorial/v0.1.0",
     "url": "https://crates.io/crates/praxo-core/0.10.0"
   },
   "Swift": {
     "dir": "language/swift",
     "docs": "https://axisvela.github.io/praxo-core/languages/swift/",
-    "examples_tag": "swift/examples/v0.1.0",
     "install": ".package(url: \"https://github.com/axisvela/praxo-core-swift.git\", from: \"0.7.0\")",
     "package": "praxo-core-swift",
     "published_version": "0.7.0",
@@ -468,13 +403,11 @@
     "status": "published",
     "tag": "swift/v0.8.0",
     "tier": "Core",
-    "tutorial_tag": "swift/tutorial/v0.1.0",
     "url": "https://swiftpackageindex.com/axisvela/praxo-core-swift"
   },
   "TypeScript": {
     "dir": "language/typescript",
     "docs": "https://axisvela.github.io/praxo-core/languages/typescript/",
-    "examples_tag": "typescript/examples/v0.1.0",
     "install": "npm install @axisvela/praxo-core@0.9.0",
     "package": "@axisvela/praxo-core",
     "published_version": "0.9.0",
@@ -484,13 +417,11 @@
     "status": "published",
     "tag": "typescript/v0.9.0",
     "tier": "Core",
-    "tutorial_tag": "typescript/tutorial/v0.1.0",
     "url": "https://www.npmjs.com/package/@axisvela/praxo-core/v/0.9.0"
   },
   "V": {
     "dir": "language/v",
     "docs": "https://axisvela.github.io/praxo-core/languages/v/",
-    "examples_tag": "v/examples/v0.1.0",
     "install": "v install praxo-core",
     "package": "praxo-core",
     "published_version": "0.1.2",
@@ -500,13 +431,11 @@
     "status": "split repository; VPM submission pending",
     "tag": "v/v0.7.0",
     "tier": "Core",
-    "tutorial_tag": "v/tutorial/v0.1.0",
     "url": "https://github.com/axisvela/praxo-core-v"
   },
   "Zig": {
     "dir": "language/zig",
     "docs": "https://axisvela.github.io/praxo-core/languages/zig/",
-    "examples_tag": "zig/examples/v0.1.0",
     "install": "Source build (see README)",
     "package": "praxo-core-zig",
     "published_version": "0.2.0",
@@ -516,7 +445,6 @@
     "status": "source-only",
     "tag": "zig/v0.8.0",
     "tier": "Core",
-    "tutorial_tag": "zig/tutorial/v0.1.0",
     "url": ""
   }
 }

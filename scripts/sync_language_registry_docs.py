@@ -172,21 +172,10 @@ def manifest_data() -> dict[str, dict[str, str]]:
         "dir", "package", "registry", "source_version", "published_version",
         "install", "source_install", "tag", "status", "docs", "url", "tier",
     )
-    result = {}
-    for entry in LANGUAGES:
-        data = {field: entry[field] for field in fields}
-        key = "go" if entry["dir"] == "." else Path(entry["dir"]).name
-        base = ROOT / ("language/go" if key == "go" else entry["dir"])
-        if key != "matlab-octave-core":
-            for folder, field in (
-                ("Tutorial", "tutorial_tag"),
-                ("application", "application_tag"),
-                ("examples", "examples_tag"),
-            ):
-                if (base / folder).is_dir():
-                    data[field] = f"{key}/{folder.lower()}/v0.1.0"
-        result[entry["name"]] = data
-    return result
+    return {
+        entry["name"]: {field: entry[field] for field in fields}
+        for entry in LANGUAGES
+    }
 
 
 def load_spec_versions() -> dict[str, str]:

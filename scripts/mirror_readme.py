@@ -357,13 +357,6 @@ def mirror_readme(entry: dict, has_examples: bool = False, root: Path = ROOT) ->
     ]
     if entry.get("tag"):
         lines.append(f"| Source tag | `{entry['tag']}` |")
-    for label, field in (
-        ("Tutorial tag", "tutorial_tag"),
-        ("Application tag", "application_tag"),
-        ("Examples tag", "examples_tag"),
-    ):
-        if entry.get(field):
-            lines.append(f"| {label} | `{entry[field]}` |")
     if entry.get("tier"):
         lines.append(f"| Tier | {entry['tier']} |")
     lines.extend(
