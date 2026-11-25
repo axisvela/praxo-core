@@ -1,6 +1,7 @@
 ﻿# Verification Evidence
 
-**Status:** public evidence summary, 2026-11-22.
+**Status:** public evidence summary, updated 2026-11-25. Earlier records retain
+their original revisions and limits.
 
 This page indexes the verification claims PRAXO-CORE can support today. It is a
 public summary, not a production certificate, penetration test, or claim that
@@ -28,6 +29,26 @@ A source tag, `complete` matrix label, or passing vector suite is not production
 evidence.
 
 ## Current Evidence
+
+### Tutorial CI Follow-up (2026-11-25)
+
+The `ci-tutorials` workflow [45537631891](https://github.com/axisvela/praxo-core/actions/runs/45537631891)
+passed at `dfdfd55873368c921fed29ad201d20986a935866`. Its jobs cover the scenario
+catalog, new language slices, the nine runtime-aligned paths, and shared-service
+integrations. Java, Swift and Objective-C tutorial runtime jobs passed on their
+configured hosted runners; the native compiled-language jobs also passed. This
+supersedes earlier pending-CI labels, not local Windows toolchain limitations.
+MATLAB-named tutorial jobs use Octave; commercial Delphi is not verified by Free
+Pascal. Consult the pinned workflow and individual jobs for exact commands and
+platforms. This is deterministic fixture/CI evidence, not verification of every
+SDK feature, later revisions, live models, full reference applications, or
+independent consumers. Earlier failed runs remain failures at their revisions.
+
+Separately, adapter workflow [45541181220](https://github.com/axisvela/praxo-core/actions/runs/45541181220)
+passed at `71f78a7a`, including `adapters/otel` module-security after the
+OpenTelemetry `1.47.0` update. Comprehensive workflow `45533451233` failed at
+`d7916382` on that module-security job. The later adapter pass does not constitute
+a full comprehensive-CI rerun at HEAD.
 
 Evidence is grouped by area. Treat each row as scoped to the revision, artifact,
 and date it names.
@@ -251,6 +272,19 @@ verified.
 | Python structured-output application | `language/python/examples/structured-output-app` turns a directory of text files into validated JSON-lines results, records rejected model output separately, and resumes successful sources. Recorded 2026-11-22 from a source checkout with `PYTHONPATH=language/python`: first run `processed=1 skipped=0 failed=1`, resume `processed=0 skipped=1 failed=1`; `test_app.py` passes 2/2; the example is included in `ci-examples` | Contract/unit + local application run | Maintainer fixture/source mode; deterministic model by default; JSON-lines files are not a database, queue, or exactly-once ledger; no live endpoint, external consumer, or production evidence |
 | C#, Rust, and Java live-model local runs | On 2026-11-22 the local Ollama endpoint answered a Python `http.client` OpenAI-compatible request in 3.37s. The C# live-model example completed a real `get_time` tool call against local Ollama and printed a time when run through the built DLL (`dotnet language/csharp/examples/live-model/bin/Debug/net8.0/Praxo.LiveModel.dll`); the apphost/`dotnet run` path did not return in this shell. The Rust live-model built with `cargo build --offline` and completed a `get_time` call from the resulting binary; its model-generated time text was malformed but the tool path completed. The Java live-model was not run locally because the local JVM launcher hangs. The C# example disables proxy use for loopback URLs, and the Rust live-model dependency is updated to `praxo-core==0.10.0` | Local integration for C# and Rust; local attempt / blocked for Java | C# and Rust used local launcher/build workarounds; model output quality is not assessed; Java has no successful local live-model run; one local endpoint/platform; no hosted provider, billed call, independent reproduction, or production evidence |
 
+### Reference Applications
+
+| Area | Verified | Level | Limits |
+| --- | --- | --- | --- |
+| PHP Laravel content-review precursor | Local working tree (uncommitted) on 2026-11-25: `language/php/application/content-review` installs published `axisvela/praxo-core==0.8.1` and Laravel `12.74.0`; `vendor/bin/phpunit` passes 7/7 tests with 29 assertions. Coverage includes the article review draft with `publications_executed=0`, missing and mismatched tenants rejected with zero content reads, `article-200` policy-denied with zero reads/drafts, dependency failure returning `TOOL_ERROR` after one read and no draft, and the Artisan command success/failure paths. `php artisan content:review-article article-100` reports `reads=1`, `drafts=1`, `publications_executed=0`; `article-200` exits 1 with `AGENT_POLICY_DENIED`; `--simulate-failure` exits 1 with `TOOL_ERROR` | Contract/unit + local host runtime | PHP 8.5.12 with manually enabled extensions and a local CA/proxy workaround; deterministic model and in-memory fixture article store; this is a host-integration precursor, not the AI-native editorial studio; no live provider, hosted service, real CMS database, production identity, or independent consumer; application CI matrix added but not run; commit revision pending |
+| PHP AI-native editorial studio | Local working tree (uncommitted) on 2026-11-25: `language/php/application/ai-editorial-studio` installs published `axisvela/praxo-core==0.8.1` and Laravel `12.74.0`; `vendor/bin/phpunit` passes 9/9 tests with 56 assertions. The brief workflow retrieves sources, saves a model-written `draft_only` artifact, attaches taxonomy, and creates a `review_requested` request with `publications_executed=0`; repository counts are one draft, one review, zero publications. `Publish immediately: ...` is policy-denied with zero effects; tenants and content-index failures are also covered. A hosted live run with DeepSeek `deepseek-flash` recorded `model=live`, a four-step trace (`search_content` -> `draft_article` -> `suggest_taxonomy` -> `request_publish_review`), a model-written rationale (858 characters in the latest run), and `publications_executed=0`; the model explicitly avoided inventing Q3 facts and used placeholders instead. The live run used a custom cURL transport for the local proxy/CA | Contract/unit + local host runtime + hosted live model | Deterministic and hosted live runs; fixture content index and in-memory draft/review repository; no Drupal host, real CMS, durable draft store, production identity, independent consumer, or production deployment; live transport was a custom cURL override; CI matrix added but not run; commit revision pending |
+| Java AI commerce assistant (source only) | Source added at `language/java/application`: Spring Boot `3.4.5`, published `com.axisvela:praxo-core:0.11.0`, tenant filter, application-owned catalog and draft services, five tools with `checkout` always denied, model rationale and `agent_trace`, deterministic model, six main tests plus a catalog-failure test. The local JDK 25 JVM hangs even with redirected stdin, so no local compile, test, or live-model result exists. A Linux CI job is added but has not run | Source / CI pending (not verified) | No local compilation or test result; no live-model run; no CI result; no live provider, payment, real catalog, production identity, or independent consumer; do not claim Java tests or live reasoning pass until CI records them |
+| Elixir AI ops copilot | Local working tree (uncommitted) on 2026-11-25: `language/elixir/application` on Elixir `1.20.4` / OTP `29`; `PRAXO_CORE_PATH=.. mix test` passes 6/6. The application supervises a telemetry store and remediation executor; success drafts a `draft_only` remediation with model diagnosis/rationale and `executions=0`; direct remediation is policy-denied with zero effects; `service-200` and a mismatched tenant are denied before read; telemetry failure returns `TELEMETRY_UNAVAILABLE` after one read and no draft; killing the telemetry process restarts it under the supervisor. A hosted live run with DeepSeek `deepseek-flash` recorded `model=live`: the model chose `search_signals(service-100)`, then `draft_remediation` with a model-written diagnosis and rationale, and finished with `executions=0`. An earlier attempt used the display name `checkout` and was policy-denied before the authorized service id was added to the prompt | Contract/unit + local OTP host + hosted live model | Source-mode deterministic tests and a hosted live run via `:httpc` proxy/CA; local Hex install and CI not run; fixture telemetry and in-memory executor; no live telemetry, production cluster, real remediation, durable state, production identity, independent consumer, or production deployment; commit revision pending |
+| Erlang AI ops copilot | Local working tree (uncommitted) on 2026-11-25: `language/erlang/application` compiles the Erlang Core source and OTP application with OTP `29`; `python language/erlang/application/run-tests.py` passes 6/6. The application supervises a telemetry store and remediation executor; success drafts a `draft_only` remediation with model diagnosis/rationale and `executions=0`; direct remediation, `service-200`, and tenant mismatch are denied; telemetry failure returns `TELEMETRY_UNAVAILABLE` after one read; killing the telemetry process restarts it. A hosted DeepSeek `deepseek-flash` live run recorded `model=live`: the model chose `search_signals(service-100)`, then `draft_remediation` with a model-written diagnosis and rationale, and finished with `executions=0`; the transport used `httpc` with proxy/CA | Contract/unit + local OTP host + hosted live model | Source-mode Core compile, not a registry/rebar install; Erlang CI added but not run; fixture telemetry and in-memory executor; no live telemetry, production cluster, real remediation, durable state, production identity, independent consumer, or production deployment |
+| Go AI infrastructure agent | Local working tree (uncommitted) on 2026-11-25: `language/go/application` uses a local module replace to the Go reference source; `go test ./...` passes 8/8. The app exposes HTTP and CLI entry points with tenant verification, application-owned telemetry/executor services, governed tools, and `agent_trace`. Success returns a `draft_only` remediation with model diagnosis/rationale and `executions=0`; direct remediation, `service-200`, and tenant mismatch are denied; telemetry failure returns `TOOL_ERROR`; invalid model output is rejected. A hosted DeepSeek `deepseek-flash` live run recorded `model=live`, a three-step trace (`search_signals` -> `draft_remediation` -> final report), a 350-character diagnosis, a 523-character rationale, and `executions=0` | Contract/unit + local Go host + hosted live model | Local module replace, not a registry install; Go CI added but not run; fixture telemetry and in-memory executor; no live telemetry, production cluster, real remediation, durable state, production identity, independent consumer, or production deployment |
+| Reference-app live reasoning | PHP AI editorial studio, Elixir AI ops copilot, Erlang AI ops copilot, and Go AI infrastructure agent recorded live runs on 2026-11-25 with hosted DeepSeek `deepseek-flash`. Java AI commerce has source-level trace/rationale but no compile or live run. Deterministic scripted models remain harness tests | Local hosted live-model integration (PHP/Elixir/Erlang/Go); source only (Java) | PHP used a custom cURL transport; Elixir/Erlang used `httpc` with proxy/CA; Go used the default OpenAI-compatible client; no independent reproduction, production deployment, cost/latency campaign, Drupal/payment/real telemetry, or production identity |
+| Reference-app live reasoning | PHP AI editorial studio, Elixir AI ops copilot, Erlang AI ops copilot, and Go AI infrastructure agent recorded live runs on 2026-11-25 with hosted DeepSeek `deepseek-flash`. Java AI commerce has source-level trace/rationale but no compile or live run. Deterministic scripted models remain harness tests | Local hosted live-model integration (PHP/Elixir/Erlang/Go); source only (Java) | PHP used a custom cURL transport; Elixir/Erlang used `httpc` with proxy/CA; Go used the default OpenAI-compatible client; no independent reproduction, production deployment, cost/latency campaign, Drupal/payment/real telemetry, or production identity |
+
 ### Cross-Language Behavior and Integration Safety
 
 | Area | Verified | Level | Limits |
@@ -292,20 +326,20 @@ Registry links name the current published version; the consumer-smoke rows above
 name the version that was actually installed.
 
 - [Current registry versions and addresses](../languages/registry-status.md)
-- [praxo-core 0.9.0 on PyPI](https://pypi.org/project/praxo-core/0.9.0/)
-- [@axisvela/praxo-core 0.8.0 on npm](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.8.0)
-- [praxo-core 0.9.1 on crates.io](https://crates.io/crates/praxo-core/0.9.1)
-- [praxo_core 0.6.1 on pub.dev](https://pub.dev/packages/praxo_core/versions/0.6.1)
-- [praxo-core 0.8.1 on RubyGems](https://rubygems.org/gems/praxo-core/versions/0.8.1)
-- [praxo-core 0.7.1-1 on LuaRocks](https://luarocks.org/modules/hanhhuiwen/praxo-core)
-- [praxo_core 0.9.1 on Hex](https://hex.pm/packages/praxo_core/0.9.1)
-- [Praxo.Core 0.9.1 on NuGet](https://www.nuget.org/packages/Praxo.Core/0.9.1)
+- [praxo-core 0.10.0 on PyPI](https://pypi.org/project/praxo-core/0.10.0/)
+- [@axisvela/praxo-core 0.9.0 on npm](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.9.0)
+- [praxo-core 0.10.0 on crates.io](https://crates.io/crates/praxo-core/0.10.0)
+- [praxo_core 0.7.0 on pub.dev](https://pub.dev/packages/praxo_core/versions/0.7.0)
+- [praxo-core 0.9.2 on RubyGems](https://rubygems.org/gems/praxo-core/versions/0.9.2)
+- [praxo-core 0.8.1-1 on LuaRocks](https://luarocks.org/modules/hanhhuiwen/praxo-core)
+- [praxo_core 0.10.0 on Hex](https://hex.pm/packages/praxo_core/0.10.0)
+- [Praxo.Core 0.10.0 on NuGet](https://www.nuget.org/packages/Praxo.Core/0.10.0)
 - [axisvela/praxo-core 0.8.1 on Packagist](https://packagist.org/packages/axisvela/praxo-core)
-- [praxo_core_erlang 0.8.1 on Hex](https://hex.pm/packages/praxo_core_erlang/0.8.1)
-- [praxo-core-ps 0.7.1 on PowerShell Gallery](https://www.powershellgallery.com/packages/praxo-core-ps/0.7.1)
-- [Praxo-Core 0.6.1 on MetaCPAN](https://metacpan.org/release/Praxo-Core-0.6.1)
+- [praxo_core_erlang 0.9.0 on Hex](https://hex.pm/packages/praxo_core_erlang/0.9.0)
+- [praxo-core-ps 0.8.1 on PowerShell Gallery](https://www.powershellgallery.com/packages/praxo-core-ps/0.8.1)
+- [Praxo-Core 0.7.1 on MetaCPAN](https://metacpan.org/dist/Praxo-Core)
 - [praxo-core 0.6.1 on DUB](https://code.dlang.org/packages/praxo-core)
-- [com.axisvela:praxo-core 0.10.0 on Maven Central](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.10.0/)
+- [com.axisvela:praxo-core 0.11.0 on Maven Central](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.11.0/)
 - [Governed workspace example](https://github.com/axisvela/praxo-core/tree/main/examples/governed-workspace)
 - [Governed execution design](../reference/governed-execution.md)
 - [OpenTelemetry runnable example](https://github.com/axisvela/praxo-core/tree/main/adapters/otel/example)

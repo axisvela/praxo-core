@@ -1,214 +1,156 @@
 # Tutorial 整体规划
 
 按行业、语言、场景和能力浏览[教程与场景总目录](tutorial-catalog.md)。总目录统一收录
-原有宽泛主题、100 个候选目标、应用教程、指南、recipes 与机制示例，并分别计数。
-本页保留交付标准和限定范围的验证状态，不再作为独立的总库存。
+原有主题、100 个候选目标、应用教程、指南、recipes 和机制示例，分别计数。
+本页记录交付标准与限定验证，不再重复维护一套库存和各条目的 CI 待运行标签。
 
-[100 个智能体场景](agent-scenarios.md) 收录十六大领域、稳定场景 ID、有界验收与全部 31 个
-现有 Core 条目的候选分配。完整场景仍为候选；相关既有切片不代表端到端应用已完成。
-第二批 CY、CT、TL、MD、LJ、BE、AE、OG 各行显式分开候选成果、已有相关切片与端到端参考应用。
-教程按自身有界范围独立验收；端到端目标未实现，不等于教程未完成。
-目前这 100 个目标没有已记录的端到端参考应用。
+**状态：** 公开规划参考，2026-11-25。候选语言/场景分配均已有基础切片。
+教程 CI 在 `dfdfd558`、[运行 45537631891](https://github.com/axisvela/praxo-core/actions/runs/45537631891)
+通过，取代之前的待运行状态，但不改变本地工具链限制。这不是发布排期、独立采用，
+也不承诺全部语言具备全部能力。100 个完整目标仍无已记录的端到端参考应用；
+切片按自身有界范围独立验收。
 
-新增 Ruby [FinOps 复核 SE-07](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/finops-review)：
-原生 Ruby Core，两步工具闭环计算固定资源成本并生成复核草案；本地源码模式测试通过，
-CI job 已添加但尚未运行。无云写入、真实模型、持久记忆或节省金额验证。
-
-**状态：** 公开规划参考，2026-11-24。本页记录交付标准与限定范围的应用教程状态，
-不是发布排期，也不承诺每种语言都有全部教程。
-
-批量状态：100 个场景的候选语言分配均已有教程切片。Python、TypeScript、R、PHP、
-COBOL、Elixir、Julia 与 C# 已通过本地行为测试；Nim、C、C++、Fortran 与 Rust 使用
-不生成可执行文件的检查；Objective-C、Java 与 Swift 仍为 CI-only，待运行验证。
-端到端参考应用仍未实现。
-
-目标不是把十三个机制主题复制到所有语言，而是展示 **Agent 为什么属于该语言生态**：
-Web 服务、运维 Shell、分析工作流、宿主嵌入或受约束设备。每条教程保留一条连贯应用
-路径和少量关键边界。
+下一阶段优先[参考应用组合](../project/roadmap.md)：PHP、Java、Elixir/Erlang、Go、
+C++/Rust、COBOL、Julia、Ruby。复用有用切片，证明宿主生态和运行时集成，而非再次证明
+该语言能实现通用 Agent Loop。
 
 ## 规划位置
 
 | 层级 | 位置 | 用途 |
 | --- | --- | --- |
-| 公开方向 | 本页与[路线图](../project/roadmap.md) | 场景地图、状态、边界与链接 |
-| 各语言入口 | `language/<language>/Tutorial/README.md` | 该语言能构建什么、如何运行 |
-| 执行细节 | 内部 `PRAXOVELA-EE/docs/praxo-core/planning/shared-business-tutorials.md` | 顺序、验收、运行记录、人员/产品事项 |
-| 共享业务 API | [agent-tutorial-services](https://github.com/axisvela/agent-tutorial-services) | 合成契约、fixture、本地服务测试 |
+| 公开方向 | 本页与[路线图](../project/roadmap.md) | 范围、优先级、标准与证据链接 |
+| 唯一库存 | [教程总目录](tutorial-catalog.md) | 生成的场景、语言与源码入口 |
+| 各语言入口 | `language/<language>/Tutorial/README.md` | 运行时依据、命令和逐教程限制 |
+| 参考应用 | `language/<language>/application/README.md` | 宿主集成、安装/运行命令、证据与限制 |
+| 执行细节 | 内部 `PRAXOVELA-EE/docs/praxo-core/planning/shared-business-tutorials.md` | 顺序、验收、运行记录和产品事项 |
+| 共享业务 API | [agent-tutorial-services](https://github.com/axisvela/agent-tutorial-services) | 合成契约、fixture 和本地服务测试 |
 | 证据 | [验证证据](../project/verification-evidence.md) | 准确 revision、范围和限制 |
 
-`Tutorial/` 与 `examples/` 并列；已有机制示例保留原路径。业务 API 不进入 Core 或
-`spec/`，它们是教学契约，不是框架兼容性承诺。
+`Tutorial/` 与 `examples/` 并列。参考应用统一放在
+`language/<language>/application/`，不进入生成的教程目录；它们属于完整宿主集成，
+不是教程切片。既有机制示例保持发布路径。业务 API 留在 Core 和 `spec/` 之外，
+属于教学契约，不是框架兼容性承诺。
 
 ## 语言选择门槛 {#language-selection-gate}
 
-[语言适配教程设计](runtime-scenario-design.md) 明确 V、D、Haskell、OCaml、Erlang、Julia、
-Octave、COBOL 与 Zig 的主业务入口、必须执行的行为和实现顺序。
+[语言适配教程设计](runtime-scenario-design.md)记录 V、D、Haskell、OCaml、Erlang、Julia、
+Octave、COBOL 和 Zig 的有界路径。这些可供参考应用复用，不等于完整应用。
 
-当前阶段优先批量完成基础场景入口、推广和吸引用户，再根据使用反馈决定深化方向。
-简短、诚实的运行时依据即可支持 Core 集成示例发布，不要求先证明生态优势或获得
-明确消费者。候选语言分配只是发现线索，不是推荐排名、比较优势或集成证据。
+基础入口已交付一轮。保留准确、有用的示例，用复现和实际反馈选择深化方向。
+基础示例不以具名消费者或已证明的生态优势为发布前提；参考应用则必须实际使用宿主或依赖，
+不能由通用回调宣称生态价值。
 
 每个新增或实质修改的教程必须包含 `Why this language and runtime?` 小节，回答：
 
-- **选择依据：** 什么既有宿主、依赖、部署约束或消费者需求支持保留该运行时？
-- **已演示适配：** 哪条代码路径和测试实际使用了相关能力？区分现有行为和未来设想。
-- **适用条件：** 什么应用条件下值得参考此路径？
-- **不适用条件：** 何时更简单的脚本、业务规则或其他运行时更合适？避免无依据排名。
-- **证据边界：** 当前是 Core 接线 fixture、已运行的生态集成，还是独立消费者复现？
+- **选择依据：** 什么既有宿主、依赖、部署约束或消费者支持保留此运行时？
+- **已演示适配：** 哪条可执行代码与测试实际使用该集成，而非未来设想？
+- **适用条件：** 什么应用条件下值得参考？
+- **不适用条件：** 何时简单工作流、其他运行时或外部编排更合适？
+- **证据边界：** Core 集成、已运行的生态集成，还是独立消费者复现？
 
-语言层面的说明必须描述语言与生态本身，而不只是 Core 接线：说明相关的运行时、并发、
-类型、工具链、平台或库特点及其权衡。不得编造绝对化评价或比较性能数字。Praxo 接入
-说明应与语言特点分开，避免各页千篇一律。
+语言说明描述运行时、并发、类型、工具链、平台或库的权衡，而非只有 Core 接线。
+将语言特点与集成说明分开，不编造性能比较或绝对优势。缺少该小节的既有教程仍未完成
+运行时适配评估。
 
-只有固定输入、JSON 回调和脚本模型的示例标为 Core 集成，不声称语言独特优势。
-编译通过不证明性能、体积、安全、形式正确性或行业适用性。既有宿主约束可以解释
-集成价值，但不说明该语言更适合所有同类业务。
-
-不单纯为填满矩阵复制第二语言示例；先明确不同的宿主、依赖或部署问题及可测试成果。
-OTP 监督能力需要故障恢复测试，Flutter 能力需要实际入口，结构化规则能力需要真实
-解析和求值，而不是预置结论。没有这些能力的基础示例仍可保留，但必须准确命名范围。
-
-这是声明准确性的要求，不是全面深化的要求。真实可运行命令和真实行为声明是底线；
-深度集成由消费者、复现尝试或具体反馈驱动，不为无人需要的深度批量重写教程。
-尚未提供该小节的既有教程，不视为已完成运行时适配评估。
+固定 JSON、通用回调和脚本模型只证明 Core 集成。编译不证明低延迟、小体积、安全、
+形式正确性或受监管场景适用性。既有宿主可解释示例价值，但不证明语言独特优势。
+不为填满矩阵复制第二语言，需先有不同宿主、依赖或部署问题与可测试成果。
+OTP 需要故障恢复测试，Flutter 需要真实入口，规则语言需要解析/求值和反例，而非预置结论。
+这是声明质量门槛，不要求批量深化无人使用的教程。
 
 ## 场景地图
 
-| 语言 / 生态 | 教程成果 | 差异化价值 | 共享后端 |
-| --- | --- | --- | --- |
-| Java | 订单异常审阅 | 企业 Web 入口、JUnit、发布 Maven Core | 订单 |
-| Python | 入职清单与工单草稿 | Retriever/结构化输出与应用服务形态 | 入职（计划） |
-| TypeScript | 客户支持流式回复 | 前端/Node 集成与 SSE | 订单 |
-| C# | 员工或订单服务台 | ASP.NET Core、可接 OIDC 的服务边界 | 订单；HR 计划 |
-| Go | 事件处置协调 | 参考 Core、应用自有事件源、用于遥测的 event sink | 已实现；本地 fixture 检查通过 |
-| PowerShell | Windows 服务/磁盘诊断 | 固定只读原生运维、本机检查 | 无（本地诊断） |
-| Perl | 日志与批处理巡检 | 原生文本处理与既有自动化 | 运维（计划） |
-| COBOL | 银行批处理异常审阅 | 确定性批处理与人工复核边界 | 现有批处理 fixture |
-| Fortran | 仿真结果诊断 | 数值证据先于模型解释 | 已实现；本地 fixture 检查通过 |
-| Julia | 实验比较 | 原生数值工作与实验草稿 | 分析（计划） |
-| R | 数据质量与统计报告 | 原生统计与附证据叙述 | 分析（计划） |
-| Octave / MATLAB | 信号与传感器趋势审阅 | 原生矩阵/信号处理；Octave 与 MATLAB 证据分开 | 分析（计划） |
-| Lua | 嵌入既有宿主 | 宿主回调与小体积集成 | 宿主相关 |
-| Rust | IoT 网关诊断 | 边缘部署、显式只读 Adapter 契约、进程插件 | 已实现并通过 CI |
-| Zig | 小型网关健康检查 | 最小部署与明确平台限制 | 已实现并通过 CI |
-| C | 受约束宿主诊断组件 | 调用方负责内存/网络/transport 契约 | 已实现；本地 fixture 检查通过 |
-| C++ | 工业边缘维护 | 既有设备 SDK 包装为受限工具 | 已实现；本地 fixture 检查通过 |
-
-这些是候选路径。只有具备可运行命令、测试和记录证据的教程，才从候选变为已实现。
+[路线图](../project/roadmap.md)规定下一轮宿主集成顺序；现有源码、能力和范围由
+[总目录](tutorial-catalog.md)索引。Laravel、Spring Boot、Rails 等参考应用是拟建设路径，
+不代表现有 fixture 已完成完整生态应用。优先 PHP，先完成一条连贯路径再扩展。
 
 ## 扩展场景目录
 
-下表扩展应用场景，但不承诺全部实现。按运行时契合度、现有工具和具名消费者选择主语言；
-教程边界保持狭窄。
+[100 个智能体场景](agent-scenarios.md)涵盖十六大领域、稳定 ID 与候选语言。
+100 个目标均有相关切片，但完整目标无已记录端到端参考应用，也无普遍跨语言 parity 保证。
+原有主题仍作为发现分组，不另建交付 backlog；源码与限定范围以生成目录为准。
 
-| 场景 | 主语言/生态 | 选择理由 | 状态 |
-| --- | --- | --- | --- |
-| 知识问答与文档助手 | Python、TypeScript | 检索、引用、结构化回答、流式 UI | Python 办公问答已实现并通过 CI |
-| 客服与联络中心 | TypeScript、C# | Web/SSE、ASP.NET Core、身份与审计 | TypeScript 客服已实现并通过 CI |
-| 营销内容与分群 | Python、R | 内容工作流与原生统计分群 | R 营销分群已实现（本地；CI job 已添加、尚未运行）；Python 内容工作流计划 |
-| 办公效率 | Python、C# | 文档、邮件/日历工具、.NET 集成 | Python 办公问答已实现 |
-| 销售 / CRM | C#、TypeScript | 企业认证与 Web 集成 | C# 销售/CRM 已实现并通过 CI |
-| 理财 / 零售金融 | Java、R | 服务边界与风险/收益分析 | Java 理财审阅通过 CI；R 理财分析已实现（本地；CI job 已添加、尚未运行） |
-| 保险理赔 | Python、Java | 文档提取、审批与审计边界 | Python 理赔分诊已实现（本地；CI job 已添加、尚未运行）；Java 计划 |
-| 采购 / ERP | Java、C# | 企业系统与应用自有身份 | 计划 |
-| 工厂 / 制造 | C++、Rust | OPC UA/设备 SDK 接缝与边缘部署 | Rust 网关适配器 fixture 已实现并通过 CI；真实 OPC UA/设备 SDK 计划中 |
-| 工业自动化 | C++、Rust、Octave | 设备 SDK 与信号分析 | 计划 |
-| 消费电子 | Lua、C、Rust、Zig | 宿主嵌入、受约束运行时、网关 | Lua 宿主嵌入、Rust 网关 fixture 与 Zig 网关健康已实现并通过 CI |
-| 机器人 | C++、Rust、Julia | ROS 2 集成、控制与数值分析 | 计划 |
-| 物流 | Go、Java | 事件驱动服务与长时操作 | Go 物流 checkpoint/恢复已实现（本地；CI job 已添加、尚未运行）；Java 计划 |
-| 能源 / 电网 | Rust、C++、Julia | 边缘约束与数值分析 | 计划 |
-| 安全 / SOC | Go、Perl、PowerShell | 服务、日志与 Windows 运维 | Go SOC 告警分诊与证据库已实现（本地；CI job 已添加、尚未运行）；Perl/PowerShell 计划 |
-| 医疗排班 | C#、Java | 身份、审计与企业集成 | C# 医疗排班已实现（本地；CI job 已添加、尚未运行）；Java 计划 |
-| 法律 / 合规 | Python、R | 引用、证据与人工复核边界 | Python 法律合规备忘录已实现（本地；CI job 已添加、尚未运行）；R 计划 |
-| 教育 / 辅导 | TypeScript、Python | Web 问答与内容工作流 | Python 教育辅导已实现（使用 Core `Retriever`；本地；CI job 已添加、尚未运行）；TypeScript 计划 |
-| 媒体 / 内容 | TypeScript、Python | 流式、生成与发布工具 | 计划 |
-| 旅行 / 预订 | TypeScript、C# | Web 入口与企业预订边界 | TypeScript 旅行预订已实现（本地；CI job 已添加、尚未运行）；C# 计划 |
-| 零售 / 电商 | TypeScript、Java | Web 店面与订单服务 | 计划 |
-| 数据平台 | Python、R、Julia | 原生计算与附证据报告 | 计划 |
-
-这是需求地图，不是交付承诺。只有具名消费者或维护者、具体任务、确定性模式、拒绝或失败
-路径和记录证据齐备时，场景才进入实现。一种语言可以承担多个场景，但首个实现应复用已有
-Core 与 Adapter，而不是增加框架表面积。
+| 场景 | 主语言/生态 | 选型问题 |
+| --- | --- | --- |
+| 知识问答与文档助手 | Python、TypeScript | 检索、引用和结构化回答 |
+| 客服与联络中心 | TypeScript、C# | Web/SSE、服务身份和审计 |
+| 营销内容与分群 | Python、R | 内容工作流与原生分群统计 |
+| 办公效率 | Python、C# | 既有文档或办公宿主 |
+| 销售 / CRM | C#、TypeScript | 应用认证与业务 API |
+| 理财 / 零售金融 | Java、R | 服务边界和计算风险证据 |
+| 保险理赔 | Python、Java | 文档证据与人工复核边界 |
+| 采购 / ERP | Java、C# | 既有企业服务与权限 |
+| 工厂 / 制造 | C++、Rust | 实际设备 SDK 或边缘 transport |
+| 工业自动化 | C++、Rust、Octave | 设备接入与信号分析 |
+| 消费电子 | Lua、C、Rust、Zig | 既有宿主和资源限制 |
+| 机器人 | C++、Rust、Julia | 仿真器、设备 transport 与数值依赖 |
+| 物流 | Go、Java | 事件服务和应用自有恢复 |
+| 能源 / 电网 | Rust、C++、Julia | 边缘接入与可执行优化 |
+| 安全 / SOC | Go、Perl、PowerShell | 服务、原生日志与 Windows 运维 |
+| 医疗排班 | C#、Java | 身份、复核和预约边界 |
+| 法律 / 合规 | Python、R | 引用与证据，不是法律结论 |
+| 教育 / 辅导 | TypeScript、Python | Web 入口与有界教学内容 |
+| 媒体 / 内容 | TypeScript、Python | 流式与明确发布权限 |
+| 旅行 / 预订 | TypeScript、C# | 库存、复核和预订效果 |
+| 零售 / 电商 | TypeScript、Java | 既有店面与订单 API |
+| 数据平台 | Python、R、Julia | 原生计算和附证据报告 |
 
 ### 场景选择规则
 
-- 按任务的运行时与库契合度选择语言，而不是按现有示例数量。
-- 优先一个本地确定性任务和一两个工具，而不是宽泛的平台模拟。
-- 业务契约与合成数据留在 Core 和 `spec/` 之外。
-- 身份、持久状态、效果对账与审批由应用负责。
-- 消费者未证明可复用缺口前，不新增 Core API。
+- 按宿主/运行时、工具与具体任务选型，不按示例数量。
+- 基础切片保持有界、确定性、无凭据，并有拒绝或失败测试。
+- 业务契约与合成数据留在 Core 和 `spec/` 外。
+- 身份、持久状态、审批和效果对账由应用负责。
+- 消费者证明可复用缺口前不增加 Core API。
 - 教程通过只是集成证据，不是采用或生产就绪。
 
 ## 当前状态
 
-| 教程 | Core 集成 | 验证 | 限制 |
-| --- | --- | --- | --- |
-| Python 订单审阅 | 原生 Core、HTTP 工具、固定订单范围、仅草稿 | 本地与托管 CI 对公开本地服务 | 确定性模型；无真实 Provider 或外部消费者 |
-| TypeScript 订单支持 | 原生 Core、HTTP 工具、固定订单范围 | 本地与托管 CI 对公开本地服务 | 确定性模型；CLI，不是 Web 前端 |
-| Java 订单审阅 | 原生 Core、JUnit、loopback Web、真实服务 CLI | Mock/Web JUnit 与真实服务 CLI 已在 Linux CI 通过 | Java Web 对真实后端与真实模型未验证 |
-| C# 订单服务台 | ASP.NET Core、原生 Core、CLI 与 Web | 自测及真实服务 CLI/Web 已在 Linux CI 通过 | 确定性模型；无生产身份 |
-| PowerShell Windows 诊断 | 通过模块复用共享 C# Core | 本地 Windows 测试与托管 Windows CI | 无 Gallery 安装、修复、远程主机或真实模型 |
-| Perl 日志巡检 | 原生 Perl Core、固定 fixture 日志、严重级别报告 | 本地 Perl 5.40.3 测试与 Linux CI | 无任意路径、Shell、告警发送或真实模型 |
-| R 数据质量 | 原生 R 统计、固定数据框、计算报告 | 本地 R 4.6.1 测试与 Linux CI | 无任意文件/SQL/Shell、真实模型或因果结论 |
-| R 营销分群 | 原生 R 分群统计、固定客户 fixture、仅草案活动 | 本地 R 4.6.1 检查通过；Linux CI job 已添加，尚未运行 | 仅固定客户 fixture；无消息发送、活动发布、任意数据或真实模型 |
-| COBOL 批处理异常审阅 | 复用确定性批处理交接；独立审阅 worker | 本地 GnuCOBOL 2.0.0/Python 检查与 Linux CI | 无真实记账、持久队列、恢复证明或真实模型 |
-| Julia 实验比较 | 原生 Julia 对固定结果计算均值/差值 | 本地 Julia 1.13.2 测试与 Linux CI | 无任意数据/代码/包安装、真实模型或因果结论 |
-| Fortran 仿真指标 | 原生 Fortran Core、固定十样本指标、仅草案报告 | 本地 gfortran 16.2.0/RE2 检查通过；Linux CI job 已添加，尚未运行 | 仅固定指标 fixture；无任意数据集、模型提供代码、包安装、发布或真实模型 |
-| Octave/MATLAB 信号趋势 | 共享信号指标、阈值异常 | 本地 GNU Octave 11.3.0 测试与 Linux CI | 原生 MATLAB 未验证；无设备控制或真实模型 |
-| Python 办公问答 | 原生 Core、固定文档、带引用答案 | 本地 Python 3.14 检查与 Linux CI | 无任意文件/Connector、邮件操作或真实模型 |
-| Python 保险理赔 | 原生 Core、应用自有理赔工具、仅草案决定、`StructuredOutput` schema 校验 | 本地 Python 3.14 检查通过；Linux CI job 已添加，尚未运行 | 仅固定理赔 fixture；无支付、承保决定、真实理赔系统或真实模型 |
-| Python 法律合规 | 原生 Core、固定政策引用、HITL 审批门、模拟发布 | 本地 Python 3.14 检查通过；Linux CI job 已添加，尚未运行 | 仅固定政策 fixture；无真实审批记录、文档库、法律意见或真实模型 |
-| Python 教育辅导 | 原生 Core、应用自有 `Retriever`（`Document`）、仅草案学习计划 | 本地 Python 3.14 检查通过；Linux CI job 已添加，尚未运行 | 仅固定课程语料；无学生数据、作业创建、课程保证或真实模型 |
-| TypeScript 客服 | 原生 Core、固定订单/政策工具、SSE 流 | 本地 Node 24 检查与 Linux CI | 无回复发送、订单修改、退款或真实模型 |
-| Java 理财审阅 | 原生 Core、固定组合、仅草案重平衡 | 本地编译与 Linux CI | 无交易、转账、市场数据或真实模型 |
-| C# 销售/CRM | 原生 Core、固定客户、仅草案跟进 | 本地 .NET 8 构建/自测与 Linux CI | 无 CRM 写入、邮件发送或真实模型 |
-| C# 医疗排班 | 原生 Core、固定排班、仅草案预约 | 本地 .NET 8 构建/自测通过；Linux CI job 已添加，尚未运行 | 仅固定排班 fixture；无患者身份、排班写入、确认或真实模型 |
-| TypeScript 旅行预订 | 原生 Core、固定库存、仅草案占座 | 本地 Node 24 检查通过；Linux CI job 已添加，尚未运行 | 仅固定库存 fixture；无支付、出票、库存写入或真实模型 |
-| Lua 宿主嵌入 | 原生 Lua Core、宿主回调、仅草案动作 | 本地 Lua 5.4.6 检查与 Linux CI | 无设备命令、Socket 或真实模型 |
-| Rust IoT 网关 | 原生 Rust Core、只读 `GatewayAdapter`、仅草案动作 | 本地 Rust 检查与 Linux CI | 仅进程内适配器 fixture；无 MQTT、OPC UA、Socket、设备写入或真实模型 |
-| Zig 网关健康 | 原生 Zig Core、只读 `GatewayAdapter` 函数表、仅草案动作 | 本地 Zig 0.17.0 检查与 Linux CI | 仅进程内适配器 fixture；无 MQTT、OPC UA、Socket、设备写入或真实模型 |
-| Go 事件处置协调 | 参考 Go Core、应用自有 `IncidentSource`、仅草案动作、`event.FuncSink` 遥测 | 本地 `go test`/`go run --test` 通过；Linux CI job 已添加，尚未运行 | 仅进程内事件源与 event sink fixture；无真实事件系统、持久工作流、真实模型或事件写入 |
-| Go SOC 告警分诊 | 参考 Go Core、应用自有 `AlertSource`、Core `PIIRedactor`、仅草案隔离、`event.FuncSink` 审计 | 本地 `go test`/`go run --test` 通过；Linux CI job 已添加，尚未运行 | 仅进程内事件源 fixture；无真实 SIEM、主机动作、真实模型；运行期工具参数/错误/事件不脱敏 |
-| Go 物流 checkpoint | 参考 Go Core、`checkpoint.Checkpoint` 往返、两轮恢复、仅草案改道 | 本地 `go test`/`go run --test` 通过；Linux CI job 已添加，尚未运行 | 仅内存 JSON 存储；无数据库、并发存储、租约/exactly-once、真实物流系统或真实模型 |
-| Go 证据库 | 参考 Go Core、`vfs/localfs` 受限根、路径穿越拒绝、仅草案发现 | 本地 `go test`/`go run --test` 通过；Linux CI job 已添加，尚未运行 | 仅临时证据库目录；无加密存储、案件系统、生产沙箱或真实模型 |
-| R 理财分析 | 原生 R 加权风险/集中度指标、固定组合、仅草案再平衡 | 本地 R 4.6.1 检查通过；Linux CI job 已添加，尚未运行 | 仅固定组合 fixture；无交易、市场数据、理财建议或真实模型 |
-| C 设备诊断 | 原生 C Core、应用自有 `PxDeviceAdapter` 函数指针、仅草案动作 | 本地 MinGW gcc/CMake 检查通过；Linux CI job 已添加，尚未运行 | 仅进程内适配器 fixture；无串行总线、Socket、设备 SDK、设备写入或真实模型 |
-| C++ 工业边缘 | 原生 C++ Core、应用自有 `DeviceAdapter` 接口、仅草案动作 | 本地 MinGW g++/CMake 检查通过；Linux CI job 已添加，尚未运行 | 仅进程内适配器 fixture；无现场总线、OPC UA、Socket、设备 SDK、设备写入或真实模型 |
+统一使用绑定 revision 的快照，不逐条重复 CI 待运行状态。`dfdfd558` 的教程运行
+`45537631891` 全部作业通过，包含新 Java、Swift、Objective-C、原生编译语言切片、
+语言适配路径与共享服务集成。[固定版本工作流](https://github.com/axisvela/praxo-core/blob/dfdfd55873368c921fed29ad201d20986a935866/.github/workflows/ci-tutorials.yml)
+定义命令和 runner；通过不延伸到任意后续 revision。
 
-准确运行 ID 与范围见[验证证据](../project/verification-evidence.md)。“CI 通过”不等于
-生产就绪、独立采用或公共托管业务服务。
+| 证据 | 当前范围 | 仍有限制 |
+| --- | --- | --- |
+| 基础场景批次 | 源码入口与 `dfdfd558` 教程 CI 通过 | 不是 100 个完整应用、真实模型或独立消费者 |
+| 语言适配路径 | V 预检、D 解析、Haskell 规则、OCaml 诊断、OTP 恢复、Julia 调度、Octave 振动、COBOL 对账和 Zig 预算作业通过 | 有界 fixture，不证明生产可用性、求解器认证或硬件安全 |
+| Java、Swift、Objective-C | 对应教程在配置的托管 runner 运行通过 | 本地 Windows JVM/Swift 限制仍在，Apple 证据不延伸至所有源码路径 |
+| MATLAB/Octave | 共享教程使用 Octave 执行 | 原生 MATLAB 仍未验证 |
+| Delphi / Free Pascal | 教程使用 Free Pascal | 商业 Delphi 仍未验证 |
+| 共享订单服务 | Python/TypeScript/Java/C# CLI 与 C# Web 接入 loopback 教学后端 | 确定性模型；不建立 Java Web 对真实后端、生产身份或外部采用 |
+| 生态原生参考应用 | PHP 在 `language/php/application/` 下有两个 Laravel 12 路径（前驱 7/7、AI-native 9/9，Core 0.8.1）；托管 DeepSeek `deepseek-flash` 运行记录 `model=live`、四步工具、模型理由和零发布。Elixir AI 运维 Copilot 位于 `language/elixir/application`（OTP 监督，源码模式 6/6）；托管 DeepSeek 运行记录模型选择工具、diagnosis/rationale、`agent_trace` 和零执行。Erlang AI 运维 Copilot 位于 `language/erlang/application`（OTP 监督，源码模式 6/6）；托管 DeepSeek 运行记录相同工具序列、diagnosis/rationale 和零执行。Go AI 基础设施 Agent 位于 `language/go/application`（HTTP/CLI，8/8 测试）；托管 DeepSeek 运行记录模型选择工具、350 字符 diagnosis、523 字符 rationale、`agent_trace` 和零执行。Java AI 电商源码位于 `language/java/application`（Spring Boot，Core 0.11.0），有 trace/rationale，但无本地编译或真实运行 | PHP 真实运行使用自定义 cURL transport 处理代理/CA；Elixir 本地 Hex 遇到 unknown CA，CI 使用已发布 Hex；Erlang 编译 Core 源码；Go 使用本地 module replace；Java 本地 JVM 阻塞；PHP/Java/Elixir/Erlang/Go CI 已添加但未运行；无 Drupal 宿主、支付、生产身份、独立消费者或生产部署；优先级 5-8 仍为拟建设 |
+
+之前本地记录与 CI 失败保留为历史证据，后续通过不抹去失败。
+准确运行和范围见[验证证据](../project/verification-evidence.md)。CI 不证明真实 Provider、
+公共托管业务服务、生产就绪或独立采用。
 
 ## 共享业务服务
 
-维护中的教学后端是公开 MIT 源码
-[agent-tutorial-services](https://github.com/axisvela/agent-tutorial-services)。
-它在 loopback 本地运行，没有托管端点。Python、TypeScript、Java 和 C# 订单教程共享
-其合成订单契约，但各自保留 Core、工具、Policy 和模型 Adapter。
-
-原 `demo-repository` 保持私有。Core CI 固定引用公开后端提交，不需要私有 token。
-业务服务代码不得复制进 Core 或 `spec/`。
+公开 MIT 后端 [agent-tutorial-services](https://github.com/axisvela/agent-tutorial-services)
+在 loopback 运行，无托管端点。Python、TypeScript、Java 和 C# 共享合成订单契约，
+保留各自原生 Core、工具、策略和模型 Adapter。CI 固定公开后端提交，不需要私有 token。
+原 `demo-repository` 保持私有，不将业务服务代码复制进 Core 或 `spec/`。
 
 ## Tutorial 交付标准
 
-每条已实现教程应提供：
+1. 明确任务、非目标和运行时选型依据。
+2. 不需 Provider 凭据或公共服务的确定性模式。
+3. 复用相同工具的可选真实模型路径；缺失时明确说明，不暗示已验证。
+4. 拒绝或依赖失败检查，无意外副作用。
+5. 应用自有身份、持久化、审批和效果对账边界。
+6. 准确安装/运行命令、预期输出和非零失败行为。
+7. CI 可执行测试入口与固定依赖版本。
+8. 源码、本地、CI、真实 Provider、独立复现分别记录。
 
-1. 明确任务与非目标；
-2. 无需 Provider 凭据或公共服务即可运行的确定性模式；
-3. 复用同一业务工具的可选真实模型模式；
-4. 至少一条拒绝或依赖失败路径，且无意外效果；
-5. 身份、持久化、审批与效果对账由应用负责的边界；
-6. 准确运行命令、预期输出和非零失败行为；
-7. CI 可执行的测试入口；
-8. 范围声明：源码、本地、CI、真实本地服务、真实 Provider、独立复现分别记录。
-
-教程不应新增 Core 或 wire API，除非具名消费者证明存在可复用缺口。应用专属工具属于
-教程，不属于 `pkg/...` 或 `spec/`。
+参考应用额外要求真实宿主入口、有用端到端任务和独立可运行的真实模型路径，
+按路线图验收。不为应用专属逻辑扩大 Core 或 wire API。
 
 ## 下一步
 
-1. 在已覆盖 Rust、Zig、C、C++ 的设备教程上继续扩展显式的应用自有 Adapter 契约和
-   确定性 fixture。真实 MQTT、OPC UA、串行总线、设备 SDK 或运行时验证仍单独标注为
-   阻塞，直到实际运行该 transport。
-2. 把已验证教程转成消费者授权测试路径，而不只是维护者演示。
+1. 完成 PHP Laravel 路径：运行已添加的 CI 作业、记录绑定 revision 的结果，并在开始 Java 前争取消费者复现。
+2. 使用宿主真实服务、身份和业务边界，分别公开确定性与真实模型命令。
+3. 验证拒绝、依赖失败和运行时行为，再获取消费者复现和持续使用证据。
+4. 用有界选型基准发现路径阻力，不把基准作为参考应用交付的前置条件。
 
-语言数量不是目标。少量完整、差异化路径比大量孤立机制检查更有价值。
+保留有用基础切片。新增宿主深度用于验证生态价值，不增加语言数量，也不要求重写所有教程。

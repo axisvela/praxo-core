@@ -54,6 +54,10 @@ this framework.
   SDK.
 - Keep independent implementations under `language/`, bridge wrappers under
   `bindings/`, and shared-runtime language samples under `examples/`.
+- Reference applications live at `language/<language>/application/`; tutorials and
+  mechanism examples remain under `language/<language>/Tutorial/` and their
+  existing paths. PHP may keep multiple variants in subdirectories; other
+  languages implement the AI-native application directly.
 - Framework is the default target for native-capable languages. Wire is an
   intermediate stage; final wire-only scope requires documented technical
   limitations. Keep current capability claims separate from that target.

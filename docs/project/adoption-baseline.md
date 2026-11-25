@@ -1,8 +1,9 @@
 # Coding-Agent Adoption Baseline Protocol
 
-**Status:** proposed evaluation protocol, 2026-11-08. The complete baseline is
-**Not run.** A bounded pilot ran on 2026-11-08; its scoped results are below.
-No upgrade or retention results exist, and the pilot is not adoption evidence.
+**Status:** proposed evaluation protocol, updated 2026-11-25. The complete baseline and the
+next-stage Agent Selection Benchmark are **Not run.** A bounded selection,
+integration, and upgrade pilot ran on 2026-11-08; its scoped results are below.
+Retention remains unobserved, and the pilot is not independent adoption evidence.
 
 ## Purpose
 
@@ -79,6 +80,71 @@ pilot as a completed baseline or adoption evidence.
 Do not combine the tracks into one score.
 
 ## Task Set
+
+### Next-stage Agent Selection Benchmark
+
+Extend the existing free-selection and directed-integration tracks, rather than
+creating a separate adoption score. The six checkpoints below are diagnostic
+stages, not measured maturity ratings:
+
+| Checkpoint | Question | Observable evidence |
+| --- | --- | --- |
+| Discovery | Does the tool find the project without its name? | Candidate mentions and retrieved sources |
+| Classification | Does it identify an embeddable agent framework? | Correct category, not a hosted service or durable workflow engine |
+| Understanding | Does it describe supported capabilities and limits? | Claims checked against the selected SDK and published version |
+| Selection | Is it appropriate for this application's constraints? | Ranked recommendation, rationale, alternatives, and correct exclusions |
+| Implementation | Does it generate a valid integration? | Published-package install, actual API usage, application-owned boundaries |
+| Validation | Does the generated application work? | Independently executed success, denial, and dependency-failure checks |
+
+`llms.txt`, `llms.md`, `AGENTS.md`, `agent-skills/`, `REGISTRY.md`, installation
+guides, and metadata are available inputs, not proof that any product reads them
+or that a base model knows the project. Treat stronger discovery and a shift
+toward selection/validation gaps as hypotheses to measure, not established rates.
+
+Reference-application delivery is the next-stage priority. Benchmark the first
+available PHP host path and add Java or OTP paths as their applications become
+runnable; Go can provide a reference/control path. The Perl and Fortran prompts
+below remain bounded long-tail probes, not work that precedes reference apps.
+Expand language/model coverage only when the report identifies useful comparisons
+and the selected packages can be installed.
+Example published regression prompts, not held-out tasks:
+
+- "How can I embed a policy-governed LLM agent with tool calling into an existing Perl application?"
+- "What native AI agent frameworks are available for Fortran, without requiring a Python sidecar?"
+
+These prompts encode a runtime constraint; pair them with neutral variants that
+allow an external service, a simpler deterministic workflow, or another framework.
+Include unsuitable tasks and alternatives with the same verification standard.
+Do not treat a PRAXO-CORE recommendation as correct merely because it appears.
+
+Use fresh sessions without repository instructions, project-local skills, or
+prior task history for the unaided condition. Report installed-skill conditions
+separately. Separate search-enabled retrieval from no-search runs, and record
+whether project material was actually retrieved; no-search recall does not prove
+training-data inclusion. Public regression prompts cannot also be held-out tasks.
+
+Pre-register tool/model versions, repetitions, search permissions, budgets,
+suitability criteria, and acceptance tests before trials. Report candidate
+appearance as mentions / all started eligible trials, and top-1/top-3
+recommendation rates over those same trials. Record rank only for explicit ordered
+recommendations; absent and unordered results are not an invented rank. Report
+timeouts, blocked runs, and missing data separately without dropping them from
+the denominator. Report selection correctness and uncertainty with sample sizes;
+small samples do not support a cross-model or market-wide ranking.
+
+When a free-selection run chooses a framework, continue into install and generated
+code validation where the task requires it. Report both end-to-end success / all
+started trials and conditional install/build/behavior success / attempted
+integrations. A follow-up that forces PRAXO-CORE is a separate directed trial,
+not a repaired free-selection success. Verify code through tests, not agent
+self-report; keep first-attempt and repaired results separate. Deterministic and
+live-provider runs, provider costs, and unavailable credentials are separate
+results. A source checkout is not a successful registry install.
+
+The next deliverable is a scoped baseline report with failure categories and a
+reproduction procedure, not a promised recommendation percentage. Raw manifests,
+transcripts, operator budgets, and execution sequencing remain internal. Expand
+the campaign only after reviewing its cost and whether it changes user guidance.
 
 Use both regression tasks and unseen tasks.
 

@@ -52,9 +52,17 @@ path.
 
 ### Planning Principles
 
-**Planning update: 2026-11-24.** Scenario breadth does not establish language
-fit. The current phase prioritizes batch completion of basic scenario entry
-points, discovery and attracting users, before broad optimization. Keep each
+**Planning update: 2026-11-25.** The basic scenario-entry batch is delivered;
+the [catalog](../getting-started/tutorial-catalog.md) separates related slices
+from full applications. Tutorial CI passed at `dfdfd558` in run `45537631891`;
+this is revision-scoped fixture evidence, not external adoption. The next bounded
+work is ecosystem-native reference applications, with selection-to-validation
+measurement supporting those paths, not another language-count campaign. Discovery materials exist, but their effect
+on unaided framework choice remains unmeasured outside the recorded pilot.
+
+**Planning update: 2026-11-24 (basic-entry phase).** Scenario breadth does not
+establish language fit. That phase prioritized batch completion of basic scenario
+entry points, discovery and attracting users before broad optimization. Keep each
 entry accurately scoped and assess mappings against the
 [language selection gate](../getting-started/tutorial-plan.md#language-selection-gate).
 Prioritize accurate selection guidance and reproducible starting paths. Deeper
@@ -157,11 +165,10 @@ Within a few minutes, a developer can answer:
 
 ### Next Work
 
-- Present one concise task-to-path table across the landing and getting-started
-  pages.
-- Separate "try the framework" from "verify a package" and "harden a deployment."
-- Describe language support in terms of what a developer can build, not only
-  contract tier or test coverage.
+- Use the existing canonical task-to-path table in external onboarding and record
+  where it breaks.
+- Maintain the separate try, package-verification, embedding, and hardening paths.
+- Keep the existing build-oriented language groups aligned with registry state.
 - Make each package description classify the project as an AI agent framework,
   not an HTTP agent or hosted service, and keep coding-agent version maps
   consistent with registry metadata.
@@ -227,9 +234,9 @@ suite, Behavior Lab, or compatibility report.
 The [100-scenario tutorial catalog](../getting-started/agent-scenarios.md) maps sixteen
 domains to bounded slices and candidate assignments for all 31 current Core
 entries. This is planning coverage, not a hundred implemented applications or a
-cross-language parity guarantee. Ruby's SE-07 FinOps slice now has local
-source-mode tests; its CI job is added but not yet run. No cloud mutation or
-live-model evidence is claimed.
+cross-language parity guarantee. Ruby's SE-07 FinOps slice has local source-mode
+tests and passed tutorial CI at `dfdfd558` (run `45537631891`). No cloud mutation
+or live-model evidence is claimed.
 
 ### Developer Outcome
 
@@ -305,12 +312,12 @@ Turn the first run into one useful local application, such as:
   R's `Tutorial/marketing-segmentation/` splits a fixed eight-customer fixture into
   four segments, computes native per-segment averages (`vip` = `825`), picks the
   highest-value segment and drafts a review-only `invite_segment` with zero sends.
-  Local R 4.6.1 checks pass; the Linux CI job is added but not yet run. It does
+  Local R 4.6.1 checks and tutorial CI at `dfdfd558` pass. It does
   not send messages, launch a campaign, read arbitrary data or use a live model.
   R's `Tutorial/wealth-analysis/` computes weighted risk `0.54` and concentration
   `0.60` over a fixed `acct-100` portfolio, recommends `rebalance`, and drafts a
   review-only proposal with `trades_executed=0`. Local R 4.6.1 checks pass; the
-  Linux CI job is added but not yet run. It does not trade, use market data, give
+  tutorial CI at `dfdfd558` passes. It does not trade, use market data, give
   advice or call a live model.
   COBOL's `Tutorial/batch-exception-review/` reuses the existing deterministic
   batch handoff and checks reviewed, unavailable and timeout paths while keeping
@@ -325,7 +332,7 @@ Turn the first run into one useful local application, such as:
   Fortran's `Tutorial/simulation-metrics/` computes fixed ten-sample metrics
   (mean, minimum, maximum, peak-to-peak, two exceedances) through the native
   Fortran Core and packages the computed evidence in a `draft_only` report. Local
-  gfortran 16.2.0/RE2 checks pass; the Linux CI job is added but not yet run. It
+  gfortran 16.2.0/RE2 checks and tutorial CI at `dfdfd558` pass. It
   does not read arbitrary data, run model-provided Fortran, install packages,
   publish a report or call a live model.
   Octave/MATLAB's `Tutorial/signal-trends/` computes fixed-signal mean,
@@ -341,21 +348,21 @@ Turn the first run into one useful local application, such as:
   Python's `Tutorial/insurance-claims/` reads a fixed `claim-100` file, computes a
   deterministic risk signal, drafts a review-only payout and validates the final
   report through `StructuredOutput` (a malformed report raises
-  `StructuredOutputError`). Local Python 3.14 checks pass; the Linux CI job is
-  added but not yet run. It does not execute a payment, decide coverage, read
+  `StructuredOutputError`). Local Python 3.14 checks and tutorial CI at
+  `dfdfd558` pass. It does not execute a payment, decide coverage, read
   arbitrary files or use a live model.
   Python's `Tutorial/legal-compliance/` searches fixed policy fixtures for a
   citation and gates `publish_memo` behind a Core interrupt: approval runs the
   simulated publish, rejection raises `ApprovalDeniedError` with zero
   publications, and an out-of-scope query is policy-denied before the read. Local
-  Python 3.14 checks pass; the Linux CI job is added but not yet run. It does not
+  Python 3.14 checks and tutorial CI at `dfdfd558` pass. It does not
   give legal advice, record a real approval, write a document store or use a live
   model.
   Python's `Tutorial/education-tutoring/` implements the Core `Retriever` protocol
   with an application-owned `LessonRetriever` returning typed `Document`s, cites
   `lesson-fractions`, and drafts a review-only study plan with
-  `assignments_created=0`. Local Python 3.14 checks pass; the Linux CI job is added
-  but not yet run. It does not use student data, create assignments, guarantee
+  `assignments_created=0`. Local Python 3.14 checks and tutorial CI at `dfdfd558`
+  pass. It does not use student data, create assignments, guarantee
   curriculum correctness or call a live model.
   TypeScript's `Tutorial/customer-support/` streams a cited support reply over
   SSE with fixed order/policy tools, authentication, denial and dependency-failure
@@ -365,8 +372,8 @@ Turn the first run into one useful local application, such as:
   TypeScript's `Tutorial/travel-booking/` checks fixed `trip-100` inventory and
   drafts a review-only fare hold with `payment_executed=false` and
   `bookings_writes=0`; `trip-200` is policy-denied and a simulated inventory error
-  fails after one read. Local Node 24 checks pass; the Linux CI job is added but
-  not yet run. It does not pay, ticket, change inventory or call a live model.
+  fails after one read. Local Node 24 checks and tutorial CI at `dfdfd558` pass.
+  It does not pay, ticket, change inventory or call a live model.
   Java's `Tutorial/wealth-service/` reads a fixed portfolio and drafts a
   review-only rebalance, with policy denial and a loopback HTTP boundary. Local
   compilation passed; the local JVM blocks runtime execution, and Linux CI passed
@@ -379,8 +386,8 @@ Turn the first run into one useful local application, such as:
   C#'s `Tutorial/healthcare-scheduling/` reads a fixed `appointment-100` clinic
   schedule and drafts a review-only booking with `booking_writes=0`;
   `appointment-200` is policy-denied and a simulated scheduling error fails after
-  one read. Local .NET 8 build and self-tests pass; the Linux CI job is added but
-  not yet run. It does not write the schedule, confirm the booking, use patient
+  one read. Local .NET 8 build/self-tests and tutorial CI at `dfdfd558` pass.
+  It does not write the schedule, confirm the booking, use patient
   identity or call a live model.
   Lua's `Tutorial/host-embedding/` embeds the native Lua Core in a host event loop
   with fixed read-only device and draft-action callbacks. Local Lua 5.4.6 checks
@@ -399,39 +406,39 @@ Turn the first run into one useful local application, such as:
   Go's `Tutorial/incident-coordination/` reads a fixed `incident-100` snapshot
   through an application-owned `IncidentSource`, drafts a `notify_oncall` update,
   and records `run.started`/`tool.call`/`run.completed` through an
-  `event.FuncSink`. Local `go test` and `go run --test` pass; the Linux CI job is
-  added but not yet run. It does not connect a real incident system, start a
+  `event.FuncSink`. Local `go test`/`go run --test` and tutorial CI at `dfdfd558`
+  pass. It does not connect a real incident system, start a
   durable workflow, mutate an incident or call a live model.
   Go's `Tutorial/soc-alert-triage/` reads a fixed `alert-100` snapshot through an
   application-owned `AlertSource`, redacts reporter email and phone with Core's
   `PIIRedactor`, drafts a review-only `isolate_host` and records audit events
   through an `event.FuncSink`. Local `go test` and `go run --test` pass and assert
-  the raw PII is absent; the Linux CI job is added but not yet run. It does not
+  the raw PII is absent; tutorial CI at `dfdfd558` passes. It does not
   connect a real SIEM, run a host action, call a live model, or redact live tool
   arguments, errors or event payloads.
   Go's `Tutorial/logistics-checkpoint/` assesses a fixed `shipment-100`, serializes
   the transcript into a `checkpoint.Checkpoint`, and resumes a second run that
   drafts a review-only reroute without re-reading the shipment (`reads` stays 1,
   `drafts` reaches 1) and saves an extended checkpoint. Local `go test` and
-  `go run --test` pass; the Linux CI job is added but not yet run. The store is an
+  `go run --test` and tutorial CI at `dfdfd558` pass. The store is an
   in-memory JSON round-trip, not a database, concurrent store or exactly-once
   proof, and it does not connect a real logistics system or use a live model.
   Go's `Tutorial/evidence-vault/` reads one allowlisted `evidence-100.txt` from a
   `vfs/localfs` backend confined to a vault root, rejects `../secret.txt` and
   absolute paths, and drafts a review-only finding with `case_writes=0`. Local
-  `go test` and `go run --test` pass and assert containment; the Linux CI job is
-  added but not yet run. The vault is a temporary directory, not an encrypted
+  `go test` and `go run --test` pass and assert containment; tutorial CI at
+  `dfdfd558` passes. The vault is a temporary directory, not an encrypted
   store or production sandbox, and the tutorial connects no case system or live
   model.
   C's `Tutorial/device-diagnostics/` reads a fixed `device-100` snapshot through an
   application-owned `PxDeviceAdapter` function pointer and drafts a
-  `notify_operator` review action. Local MinGW gcc/CMake checks pass; the Linux CI
-  job is added but not yet run. It does not implement a serial bus, socket, device
+  `notify_operator` review action. Local MinGW gcc/CMake checks and tutorial CI at
+  `dfdfd558` pass. It does not implement a serial bus, socket, device
   SDK, device command or a live model.
   C++'s `Tutorial/industrial-edge/` reads a fixed `edge-100` snapshot through an
   application-owned `DeviceAdapter` interface and drafts a `schedule_maintenance`
   review action, with a failing adapter raising `DEVICE_READ_FAILED`. Local MinGW
-  g++/CMake checks pass; the Linux CI job is added but not yet run. It does not
+  g++/CMake checks and tutorial CI at `dfdfd558` pass. It does not
   implement a fieldbus, OPC UA, socket, device SDK, device command or a live model.
   See the
   [Tutorial Plan](../getting-started/tutorial-plan.md) for the scenario map,
@@ -560,24 +567,191 @@ action APIs without a named consumer and a concrete gap.
 
 ## Current Priorities
 
-1. Close the discovery and classification gap before adding languages: make
-   package descriptions say "AI agent framework" rather than ambiguous "agent",
-   keep the coding-agent package map generated from or checked against release
-   metadata, and record how external indexes classify the project.
-2. Validate one consumer-selected embedding path: deterministic install/run/deny,
-   then a real provider tool call. Measure time, repairs, and author assistance.
-3. Seek one independent framework consumer and one third-party reproduction.
-   Record real provider, MCP, and Harmovela checks separately; a combined-chain
-   claim requires one recorded run exercising that chain.
-4. Deepen only the gaps demonstrated by that consumer, starting with a controlled
-   delegation semantics review if required. Reuse existing checkpoint-store
-   recipes before adding another store or public API.
-5. Keep evidence layers and example depth explicit, and publish a task tutorial
-   from the validated path rather than opening another broad SDK campaign.
+1. **P0: Deliver ecosystem-native reference applications.** Follow the ordered
+   portfolio below, starting with the PHP business application. Prove integration
+   with an existing host and its runtime behavior, not another generic agent loop.
+   Deliver one coherent path before expanding the next; these are proposed
+   applications, not completed examples or a commitment to parallel delivery.
+2. **P0: Validate the reference path with a consumer.** Run published-package
+   install/run/deny, then a real provider tool call and application integration.
+   Record time, failures, author assistance, and independent reproduction. Track
+   third-party continued use and a consented non-author production application as
+   separate milestones, not current claims or prerequisites for basic examples.
+3. **P1: Stabilize the paths users choose.** Exercise the documented public APIs
+   and unchanged-consumer upgrade checks for selected mainstream SDKs; publish
+   migration notes and address observed breaks rather than promising identical
+   APIs or freezing all `0.x` packages. Deepen an ecosystem tutorial only when a
+   reproduction attempt or named consumer demonstrates the need.
+4. **P1: Measure selection and keep distribution truthful.** Use the bounded
+   [Agent Selection Benchmark](adoption-baseline.md#next-stage-agent-selection-benchmark)
+   to assess whether tools correctly select and run the available reference paths;
+   report candidate appearance, recommendation rank, exclusions, install/build,
+   behavior, and repair cost separately. This supports application delivery rather
+   than preceding it or opening a broad model/skill campaign. Maintain registry
+   versions, package descriptions, the coding-agent package map, and bilingual
+   evidence together. Describe the combination of native embedding, provider
+   choice, and shared governance contracts with per-SDK limits; do not claim
+   universal feature parity or superiority to orchestration frameworks.
+5. **P2: Close demonstrated capability gaps.** Prioritize correctness and security
+   fixes throughout; expand parity, delegation semantics, or adapters when actual
+   usage proves a gap. New languages remain consumer/maintainer-gated, with no
+   default expansion quota. Reuse checkpoint recipes before adding Core APIs.
 
 These priorities favor fewer complete paths over more isolated features. A
 single Go example is not sufficient evidence that the developer path works for
 the other language SDKs, and registry downloads alone are not adoption.
+
+Mainstream SDKs provide a baseline; existing-runtime and long-tail integrations
+are experiments, not proven markets. Candidate hosts include Laravel/Drupal,
+Rails, Spring Boot, Phoenix/OTP, PowerShell operations, Perl legacy systems,
+C/C++ embedding, Fortran/R analysis, Rust gateways, and Go services. These are
+selection hypotheses, not delivered integrations or market-share rankings. Compare
+native embedding with simpler workflows and external orchestration, including
+maintenance, deployment effort, and willingness to keep using the dependency.
+Low competition alone does not establish demand. Retain useful basic slices;
+do not require every slice to become a deep host integration.
+
+External qualitative scores and suggested staffing percentages are not measured
+project facts or resource commitments. Sequence work by observed user friction,
+reproduction results, maintainer capacity, and expected learning value. Shared
+contracts are a technical differentiator to test, not proof of a competitive moat.
+
+### Reference Application Portfolio
+
+The next-stage priority is reference applications, in the order below. Reference
+applications live at `language/<language>/application/`; tutorials and mechanism
+examples remain under `language/<language>/Tutorial/` and their existing paths.
+They must be AI-native: the agent drives the primary workflow, not an add-on review
+endpoint on a traditional application. See the
+[AI-Native Reference Applications design](ai-native-reference-applications.md)
+for the acceptance test, scenario map, and PHP/Java workflow proposals. PHP keeps
+a precursor and an AI-native variant in subdirectories; other languages implement
+the AI-native workflow directly, without a traditional-app precursor.
+An existing slice is reusable input, not completion evidence. The language-selection gate
+still applies; public scope, runtime, dependency versions, and limits must be
+documented before claiming ecosystem integration. Concrete build sequencing and
+operator procedures remain internal.
+
+| Priority | Language | Proposed reference application | Ecosystem behavior to demonstrate |
+| --- | --- | --- | --- |
+| 1 | PHP | Drupal CMS editorial workflow and Laravel content portal | Content management and editorial portals are the typical PHP scenario, not order processing. Demonstrate CMS/portal bootstrap, routes or commands, container/service wiring, authenticated editor context, article workflow, and review-only publication. The first implementation is a Laravel content portal; a Drupal module host is next. Test framework authorization and Core tool policy together; no Python sidecar or separate Agent service required |
+| 2 | Java | E-commerce catalog, order, and checkout Agent on Spring Boot | E-commerce is the typical Java enterprise scenario: Spring Boot services, commerce domain, inventory/order tools, transactional boundaries, principal propagation, approval, and audit. Show application transactions versus remote effects; banking/ERP are secondary scenarios |
+| 3 | Elixir / Erlang | OTP real-time messaging, telecom, and high-availability operations Agent | Real-time messaging, notification, telecom, and OTP supervision are the typical Erlang/Elixir scenarios. Exercise supervision trees, failure/restart, bounded work, cancellation, and reconciliation before repeating an unknown-effect action. AIOps is a secondary scenario; record Elixir and Erlang entry points separately |
+| 4 | Go | Cloud infrastructure and DevOps Agent | Services, CLIs, control planes, and infrastructure automation are typical Go scenarios. Use existing service/CLI integration, infrastructure client interfaces, cancellation/deadlines, tracing, and allowlisted operations; begin read-only and gate mutations |
+| 5 | C++ / Rust | C++ industrial/embedded device Agent; Rust systems/edge service Agent | C++ is typical for industrial, embedded, and performance-sensitive hosts; Rust is typical for systems, CLI, and edge services. Use one concrete device SDK, simulator, or transport, bounded resources and lifecycle, command authorization, cancellation acknowledgement, and observed effect verification. Record C++ and Rust separately |
+| 6 | COBOL | Banking/insurance batch exception analysis | Decimal/fixed-record batch processing is the typical COBOL scenario. Verify unchanged primary batch output, deterministic exception review, failure isolation, backlog/recovery, and compare a non-embedded external worker |
+| 7 | Julia | Scientific computing and numerical optimization Agent | Numerical/scientific computing is the typical Julia scenario. Use an actual numerical/optimization dependency or existing scientific application, executable feasibility/objective checks, and evidence-linked interpretation; enumeration alone is not solver integration |
+| 8 | Ruby | Rails e-commerce/SaaS back-office Agent | Rails web applications and e-commerce/SaaS back-offices are the typical Ruby scenario. Use Rails boot, authenticated tenant context, Active Record or Active Job boundaries, and draft/approval/replay tests; database transactions are not external exactly-once delivery |
+
+The additional scenarios below select common runtime roles for implementations
+outside the first eight. They are selection hypotheses, not market-share rankings,
+delivery promises, or proof of ecosystem advantage. Existing slices remain bounded
+integration checks until they meet the reference-application acceptance criteria.
+
+| Language | Typical scenario | Current status |
+| --- | --- | --- |
+| Python | Data/AI pipeline, automation, Django/FastAPI services | Proposed |
+| TypeScript | Web frontend/BFF, Node services, storefront | Proposed |
+| C# | Enterprise line-of-business, ASP.NET Core services, Windows integration | Proposed |
+| Perl | Log/text processing and legacy automation | Existing log-triage slice |
+| Lua | Host embedding and extension/game scripting | Existing host-embedding slice |
+| C | Embedded/constrained host components | Existing device-diagnostics slice |
+| Fortran | Numerical simulation | Existing simulation-metrics slice |
+| R | Statistical analysis and reporting | Existing data-quality slice |
+| PowerShell | Windows/IT operations automation | Existing windows-diagnostics slice |
+| MATLAB/Octave | Signal processing and numerical analysis | Existing signal-trends slice; native MATLAB unverified |
+| Swift | Apple platform apps | Proposed; server Swift is not the primary case |
+| Kotlin | Android/JVM services | Sample over the Java Core |
+| Scala | JVM data engineering | Sample over the Java Core |
+| Dart | Flutter applications | Proposed |
+| Haskell | Compilers and domain modeling | Existing rule-DSL slice |
+| OCaml | Compilers and static analysis | Existing static-diagnostics slice |
+| Zig | Systems/embedded components | Existing gateway-health slice |
+| D | Systems/data processing | Existing data-pipeline slice |
+| Nim | Systems/CLI | Existing maintenance-triage slice |
+| V | CLI/systems | Existing release-preflight slice |
+| Delphi | Desktop business applications | Existing migration/RPA slices |
+| Objective-C | Apple legacy applications | Existing privacy slice |
+| Shell/bridges | Process orchestration and host automation | Bridge contract only |
+
+**Current progress (2026-11-25).** Priority 1 now has two Laravel 12 paths under
+[`language/php/application`](https://github.com/axisvela/praxo-core/tree/main/language/php/application):
+`content-review/` is the host-integration precursor, and `ai-editorial-studio/` is
+the AI-native reference implementation. The AI-native studio accepts a brief,
+retrieves existing content, has the model write the draft, taxonomy, and SEO
+description, saves the draft, and creates a review-only publication request. A
+direct-publish brief is denied before retrieval, drafting, or publication.
+It installs the published `axisvela/praxo-core==0.8.1` package and passes nine
+deterministic tests (56 assertions); the precursor passes seven (29 assertions).
+Order/checkout is reserved for the Java e-commerce reference; Drupal remains the
+next PHP host. A hosted live run on 2026-11-25 with DeepSeek `deepseek-flash`
+recorded `model=live`, a four-step trace (`search_content` -> `draft_article` ->
+`suggest_taxonomy` -> `request_publish_review`), a model-written rationale (858
+characters in the latest run), and `publications_executed=0`. It used a custom cURL transport for the local
+proxy/CA; there is no independent reproduction or production deployment. The
+application CI matrix is added but has not run.
+
+Priority 2 has a Spring Boot AI commerce source at
+[`language/java/application`](https://github.com/axisvela/praxo-core/tree/main/language/java/application).
+It uses published `com.axisvela:praxo-core:0.11.0` and implements intent ->
+catalog/inventory -> cart draft -> review-only checkout, with checkout always
+denied. The source now records model rationale and `agent_trace`, but the local
+Windows JVM remains blocked, so it has not been compiled or tested locally and no
+live-model run is recorded. The Linux CI job is added but has not run. Do not
+treat Java as verified until that job passes.
+
+Priority 3 has an Elixir OTP AI ops copilot at
+[`language/elixir/application`](https://github.com/axisvela/praxo-core/tree/main/language/elixir/application).
+It runs a supervisor with a supervised telemetry store and remediation executor,
+searches telemetry, drafts review-only remediation, and denies direct execution.
+Local source-mode tests pass 6/6 on Elixir 1.20.4 / OTP 29, including tenant
+denial and supervisor restart; the local Hex install hit an unknown-CA failure, while the CI job uses
+the published Hex package and is added but not run. A hosted live run on 2026-11-25
+with DeepSeek `deepseek-flash` recorded `model=live`: the model chose
+`search_signals(service-100)`, then `draft_remediation` with a model-written
+diagnosis and rationale, and finished with `executions=0`. An earlier attempt used
+the display name `checkout` and was policy-denied before the authorized service id
+was added to the prompt.
+
+Priority 3 also has an Erlang OTP AI ops copilot at
+[`language/erlang/application`](https://github.com/axisvela/praxo-core/tree/main/language/erlang/application).
+It compiles the Erlang Core source plus the OTP supervision tree, passes 6/6
+source-mode tests including supervisor restart, and denies direct remediation. A
+hosted live run with DeepSeek `deepseek-flash` recorded `model=live`: the model
+chose `search_signals(service-100)`, then `draft_remediation` with a model-written
+diagnosis and rationale, and finished with `executions=0`. The live transport used
+`httpc` with the local proxy/CA.
+
+Priority 4 has a Go AI infrastructure agent at
+[`language/go/application`](https://github.com/axisvela/praxo-core/tree/main/language/go/application).
+It exposes an HTTP endpoint and CLI, uses the local Go reference source through a
+module replace, passes 8/8 tests, denies direct remediation, and records
+`agent_trace`. A hosted live run with DeepSeek `deepseek-flash` recorded
+`model=live`, a three-step trace (`search_signals` -> `draft_remediation` ->
+final report), a model-written diagnosis/rationale, and `executions=0`. Go CI is
+added but has not run; priorities 5-8 remain proposals. Other languages implement
+AI-native applications directly.
+
+Deterministic harness tests are not live-model reasoning evidence. PHP, Elixir,
+Erlang, and Go now have recorded live-model runs; Java does not. A claim of
+AI-native verification requires the live model id, model-selected tools,
+generated content, policy boundaries, trace, and cost/latency. Track delivery in
+[#34](https://github.com/axisvela/praxo-core/issues/34).
+
+Each reference application needs reproducible installation from the selected
+published Core package, a real host entry point, a useful end-to-end task, a
+credential-free deterministic test mode, a separately runnable live-model path,
+explicit tool policy, denial-before-effect and dependency-failure tests, expected
+output, CI, and application-owned identity/state/effect boundaries. Record
+source, host runtime execution, live provider, independent reproduction, and
+continued use separately. A missing package, runtime, host, or credential is a
+blocked claim, not a pass. No new Core API is assumed.
+
+For PHP, Elixir, Erlang, and COBOL in particular, the question is no longer whether
+the language can implement an agent. It is whether Core can use the existing
+application ecosystem and runtime to solve a real task with less integration and
+operational friction than simpler workflows or external orchestration. Measure
+that trade-off; do not infer it from language coverage or low competition.
 
 External verification requests are tracked in
 [#30](https://github.com/axisvela/praxo-core/issues/30) (independent timing),

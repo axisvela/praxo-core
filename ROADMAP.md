@@ -10,6 +10,13 @@ framework, run a useful agent from a published package, build a coherent
 prototype, embed it in an application, and only then apply broader hardening and
 verification. Advanced integrations remain demand-driven.
 
+The next delivery priority is ecosystem-native reference applications, ordered
+PHP (Drupal/Laravel), Java (Spring Boot), Elixir/Erlang (OTP), Go
+(infrastructure), C++/Rust (edge/embodied), COBOL (batch exceptions), Julia
+(scientific computing/optimization), then Ruby (Rails). These are proposed paths,
+not completed applications or parallel delivery promises. A bounded coding-agent
+selection benchmark supports those paths; it does not precede their delivery.
+
 The roadmap covers the Go reference and the independently versioned language
 SDKs. Examples, installation paths, and feature availability must state their
 target language instead of assuming Go.
@@ -18,6 +25,8 @@ target language instead of assuming Go.
 - [Language scope](docs/project/roadmap.md#language-scope)
 - [Developer adoption path](docs/project/roadmap.md#adoption-path)
 - [Current priorities](docs/project/roadmap.md#current-priorities)
+- [Reference application portfolio](docs/project/roadmap.md#reference-application-portfolio)
+- [AI-native reference application design](docs/project/ai-native-reference-applications.md)
 - [Adoption evidence](docs/project/roadmap.md#adoption-evidence)
 - [Language implementations](docs/languages/index.md)
 - [Coding-agent adoption baseline protocol](docs/project/adoption-baseline.md)

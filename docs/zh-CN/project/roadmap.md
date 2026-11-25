@@ -2,7 +2,7 @@
 
 [100 个智能体场景目录](../getting-started/agent-scenarios.md) 将十六大领域映射到有界切片与
 全部 31 个现有 Core 条目的候选分配。这是规划覆盖，不是 100 个应用已实现或跨语言 parity
-保证。Ruby SE-07 FinOps 切片本地源码测试通过；CI job 已添加但尚未运行，无云写入或真实
+保证。Ruby SE-07 FinOps 切片本地源码测试及 `dfdfd558` 教程 CI 通过，无云写入或真实
 模型验证。
 
 当前核心版本为 `2.10.0`。
@@ -43,8 +43,13 @@ PRAXO-CORE 继续定位为**可治理、可嵌入的 Agent 执行框架**。路�
 
 ### 规划原则
 
-**规划更新：2026-11-24。** 场景广度不能证明语言适配性。当前阶段优先批量完成基础场景
-入口、推广和吸引用户，再根据使用反馈优化。每个入口保持准确边界，
+**规划更新：2026-11-25。** 基础场景入口已完成一轮交付；[总目录](../getting-started/tutorial-catalog.md)
+区分相关切片与完整应用。教程 CI 在 `dfdfd558`、运行 `45537631891` 通过，这是绑定 revision
+的 fixture 证据，不是外部采用。下一步以生态原生参考应用为主线，选型到验证测量服务于应用路径，
+不是另一轮语言数量扩张。发现材料已具备，但对无辅助选型的影响仍只有既有受限试点记录。
+
+**规划更新：2026-11-24（基础入口阶段）。** 场景广度不能证明语言适配性。当时优先批量完成
+基础场景入口、推广和吸引用户，再根据使用反馈优化。每个入口保持准确边界，
 按[语言选择门槛](../getting-started/tutorial-plan.md#language-selection-gate)
 评估现有映射。优先提供准确的选型说明和可复现的起点。宿主集成的深化由明确消费者
 或具体使用反馈驱动，不要求批量深化尚无使用需求的教程。
@@ -222,11 +227,11 @@ R 的 `Tutorial/data-quality/` 通过原生 R Core 计算固定数据框统计�
 它不读取任意文件、不执行 SQL/Shell、不安装包、不调用真实模型。
 R 的 `Tutorial/marketing-segmentation/` 把固定八客户 fixture 分成四个分群，计算原生
 分群均值（`vip` = `825`），选出最高价值分群并生成零发送的仅审阅 `invite_segment`
-草案。本地 R 4.6.1 检查通过；Linux CI job 已添加但尚未运行。它不发送消息、不发布
+草案。本地 R 4.6.1 检查及 `dfdfd558` 教程 CI 通过。它不发送消息、不发布
 活动、不读取任意数据、不调用真实模型。
 R 的 `Tutorial/wealth-analysis/` 对固定 `acct-100` 组合计算加权风险 `0.54` 与集中度
 `0.60`，建议 `rebalance`，并生成 `trades_executed=0` 的仅审阅提案。本地 R 4.6.1
-检查通过；Linux CI job 已添加但尚未运行。它不交易、不使用市场数据、不提供理财建议、
+检查及 `dfdfd558` 教程 CI 通过。它不交易、不使用市场数据、不提供理财建议、
 不调用真实模型。
 COBOL 的 `Tutorial/batch-exception-review/` 复用现有确定性批处理交接，检查已审阅、
 不可用和超时路径，同时保持批输出与异常文件不变。本地 GnuCOBOL 2.0.0/Python 检查通过，
@@ -238,7 +243,7 @@ Linux CI 也已在 `bbf12c42`（run `45041423996`）通过。它不读取任意�
 提供的 Julia 代码、不安装包、不调用真实模型。
 Fortran 的 `Tutorial/simulation-metrics/` 通过原生 Fortran Core 计算固定十样本指标
 （均值、最小值、最大值、峰峰值、两个超阈值点），并把计算证据封装进 `draft_only`
-报告。本地 gfortran 16.2.0/RE2 检查通过；Linux CI job 已添加但尚未运行。它不读取
+报告。本地 gfortran 16.2.0/RE2 检查及 `dfdfd558` 教程 CI 通过。它不读取
 任意数据、不执行模型提供的 Fortran、不安装包、不发布报告、不调用真实模型。
 Octave/MATLAB 的 `Tutorial/signal-trends/` 通过共享 Core 计算固定信号的均值、峰峰值、
 RMS 与阈值异常，并把证据封装进报告。本地 GNU Octave 11.3.0 检查通过，Linux CI 也已
@@ -249,23 +254,23 @@ Python 的 `Tutorial/office-qa/` 增加带引用的办公政策问答路径，�
 `45043537084`）通过。它不读取任意文件、不调用 Connector、不发送邮件、不使用真实模型。
 Python 的 `Tutorial/insurance-claims/` 读取固定 `claim-100` 文件，计算确定性风险信号，
 生成仅审阅的赔付草案，并通过 `StructuredOutput` 校验最终报告（格式错误会抛出
-`StructuredOutputError`）。本地 Python 3.14 检查通过；Linux CI job 已添加但尚未运行。
+`StructuredOutputError`）。本地 Python 3.14 检查及 `dfdfd558` 教程 CI 通过。
 它不执行支付、不做承保决定、不读取任意文件、不使用真实模型。
 Python 的 `Tutorial/legal-compliance/` 在固定政策 fixture 中检索引用，并把
 `publish_memo` 置于 Core 中断门后：批准则执行模拟发布，拒绝抛出
 `ApprovalDeniedError` 且零发布，越界查询在读取前被策略拒绝。本地 Python 3.14 检查
-通过；Linux CI job 已添加但尚未运行。它不提供法律意见、不记录真实审批、不写入文档库、
+及 `dfdfd558` 教程 CI 通过。它不提供法律意见、不记录真实审批、不写入文档库、
 不使用真实模型。
 Python 的 `Tutorial/education-tutoring/` 用应用自有 `LessonRetriever` 实现 Core
 `Retriever` 协议并返回带类型的 `Document`，引用 `lesson-fractions` 并生成
-`assignments_created=0` 的仅审阅学习计划。本地 Python 3.14 检查通过；Linux CI job 已添加
-但尚未运行。它不使用学生数据、不创建作业、不保证课程正确性、不调用真实模型。
+`assignments_created=0` 的仅审阅学习计划。本地 Python 3.14 检查及 `dfdfd558` 教程 CI
+通过。它不使用学生数据、不创建作业、不保证课程正确性、不调用真实模型。
 TypeScript 的 `Tutorial/customer-support/` 通过 SSE 流式输出带引用的客服回复，使用固定
 订单/政策工具，包含鉴权、拒绝与依赖失败检查。本地 Node 24 检查通过，Linux CI 也已在
 `39558592`（run `45086046576`）通过。它不发送回复、不修改订单、不退款、不使用真实模型。
 TypeScript 的 `Tutorial/travel-booking/` 检查固定 `trip-100` 库存并生成仅审阅占座草案
 （`payment_executed=false`、`bookings_writes=0`）；`trip-200` 被策略拒绝，模拟库存错误在
-一次读取后失败。本地 Node 24 检查通过；Linux CI job 已添加但尚未运行。它不支付、不出票、
+一次读取后失败。本地 Node 24 检查及 `dfdfd558` 教程 CI 通过。它不支付、不出票、
 不修改库存、不使用真实模型。
 Java 的 `Tutorial/wealth-service/` 读取固定组合并生成仅审阅重平衡草案，包含策略拒绝和
 loopback HTTP 边界。本地编译通过；本地 JVM 阻塞运行，Linux CI 也已在 `827d47ca`
@@ -275,7 +280,7 @@ HTTP 边界。本地 .NET 8 构建与自测通过，Linux CI 也已在 `00641594
 `45093076768`）通过。它不写 CRM、不发送邮件、不使用真实客户或真实模型。
 C# 的 `Tutorial/healthcare-scheduling/` 读取固定 `appointment-100` 诊所排班并生成仅审阅
 预约草案（`booking_writes=0`）；`appointment-200` 被策略拒绝，模拟排班错误在一次读取后
-失败。本地 .NET 8 构建与自测通过；Linux CI job 已添加但尚未运行。它不写排班、不确认预约、
+失败。本地 .NET 8 构建/自测及 `dfdfd558` 教程 CI 通过。它不写排班、不确认预约、
 不使用患者身份或真实模型。
 Lua 的 `Tutorial/host-embedding/` 把原生 Lua Core 嵌入宿主事件循环，使用固定只读设备
 状态与仅草案动作回调。本地 Lua 5.4.6 检查通过，Linux CI 也已在 `9163d03a`（run
@@ -291,29 +296,29 @@ Socket、设备命令或真实模型。
 Go 的 `Tutorial/incident-coordination/` 通过应用自有 `IncidentSource` 读取固定
 `incident-100` 快照，生成 `notify_oncall` 更新草案，并通过 `event.FuncSink` 记录
 `run.started`/`tool.call`/`run.completed`。本地 `go test` 与 `go run --test` 通过；
-Linux CI job 已添加但尚未运行。它不连接真实事件系统、不启动持久工作流、不修改事件、
+`dfdfd558` 教程 CI 通过。它不连接真实事件系统、不启动持久工作流、不修改事件、
 也不调用真实模型。
 Go 的 `Tutorial/soc-alert-triage/` 通过应用自有 `AlertSource` 读取固定 `alert-100`
 快照，用 Core `PIIRedactor` 脱敏报告人邮箱与电话，生成仅审阅 `isolate_host` 草案，并通过
 `event.FuncSink` 记录审计事件。本地 `go test` 与 `go run --test` 通过并断言原始 PII
-不存在；Linux CI job 已添加但尚未运行。它不连接真实 SIEM、不执行主机动作、不调用真实
+不存在；`dfdfd558` 教程 CI 通过。它不连接真实 SIEM、不执行主机动作、不调用真实
 模型，也不对运行期工具参数、错误或事件载荷脱敏。
 Go 的 `Tutorial/logistics-checkpoint/` 评估固定 `shipment-100`，把对话记录序列化为
 `checkpoint.Checkpoint`，并在第二轮恢复后生成仅审阅改道草案（不再重复读取，`reads`
 保持 1、`drafts` 达到 1），并保存扩展后的 checkpoint。本地 `go test` 与 `go run --test`
-通过；Linux CI job 已添加但尚未运行。存储仅是内存 JSON 往返，不是数据库、并发存储或
+及 `dfdfd558` 教程 CI 通过。存储仅是内存 JSON 往返，不是数据库、并发存储或
 exactly-once 证明，也不连接真实物流系统或真实模型。
 Go 的 `Tutorial/evidence-vault/` 从受限根目录的 `vfs/localfs` 后端读取唯一允许的
 `evidence-100.txt`，拒绝 `../secret.txt` 与绝对路径，并生成 `case_writes=0` 的仅审阅
-发现。本地 `go test` 与 `go run --test` 通过并断言 containment；Linux CI job 已添加但
-尚未运行。证据库是临时目录，不是加密存储或生产沙箱，且不连接案件系统或真实模型。
+发现。本地 `go test` 与 `go run --test` 通过并断言 containment；`dfdfd558` 教程 CI
+通过。证据库是临时目录，不是加密存储或生产沙箱，且不连接案件系统或真实模型。
 C 的 `Tutorial/device-diagnostics/` 通过应用自有 `PxDeviceAdapter` 函数指针读取固定
 `device-100` 快照，并生成 `notify_operator` 仅审阅动作草案。本地 MinGW gcc/CMake 检查
-通过；Linux CI job 已添加但尚未运行。它不实现串行总线、Socket、设备 SDK、设备命令或
+及 `dfdfd558` 教程 CI 通过。它不实现串行总线、Socket、设备 SDK、设备命令或
 真实模型。
 C++ 的 `Tutorial/industrial-edge/` 通过应用自有 `DeviceAdapter` 接口读取固定
 `edge-100` 快照，并生成 `schedule_maintenance` 仅审阅动作草案；Adapter 失败时抛出
-`DEVICE_READ_FAILED`。本地 MinGW g++/CMake 检查通过；Linux CI job 已添加但尚未运行。
+`DEVICE_READ_FAILED`。本地 MinGW g++/CMake 检查及 `dfdfd558` 教程 CI 通过。
 它不实现现场总线、OPC UA、Socket、设备 SDK、设备命令或真实模型。场景地图、
 当前状态、交付标准与后续候选见 [Tutorial 整体规划](../getting-started/tutorial-plan.md)。
 
@@ -438,19 +443,147 @@ Action API。
 
 ## 当前优先项
 
-1. 在增加语言前先解决发现与分类缺口：让包说明明确写为 “AI Agent 框架”，而不是含义
-   模糊的 “agent”；Coding Agent 包映射应与发布元数据生成或校验一致；并记录外部索引
-   如何归类本项目。
-2. 验证一个消费者选定的嵌入路径：先确定性安装/运行/拒绝，再完成真实模型工具调用，
-   测量时间、修复和作者协助。
-3. 获取一个独立框架消费者和一次第三方复现。真实 Provider、MCP、Harmovela 分别记录；
-   只有一次运行覆盖整条链路才能声称组合链路已验证。
-4. 只深化该消费者证明的缺口；如需要受控委派，先做语义评审。新增 Store 或公共 API 前
-   优先复用已有 Checkpoint Store 配方。
-5. 保持证据等级和示例深度明确，从已验证路径产出任务教程，而不是再开全面 SDK 扩张。
+1. **P0：交付生态原生参考应用。** 按下表顺序，从 PHP 原生业务应用开始，证明既有宿主与
+   运行时集成，而不是再写一套通用 Agent Loop。先交付一条连贯路径，再扩展下一项；
+   以下是拟建设应用，不是已完成示例，也不是同时启动全部项目的承诺。
+2. **P0：与消费者验证参考路径。** 从发布包安装/运行/拒绝，推进到真实 Provider 工具调用与
+   应用集成，记录耗时、失败、作者协助与独立复现。第三方持续使用、经同意可核验的非作者
+   生产应用分别作为后续里程碑，不当作当前事实，也不阻塞基础示例发布。
+3. **P1：稳定用户选择的路径。** 对所选主流 SDK 运行文档公开 API 与不改消费者源码的升级
+   检查，发布迁移说明、修复实际破坏，不承诺所有 API 相同或冻结全部 `0.x` 包。
+   仅在复现尝试或明确消费者证明需求后深化生态教程。
+4. **P1：测量选型并维护真实分发。** 用有界 [Agent Selection Benchmark](adoption-baseline.md)
+   检验工具能否正确选择并运行已具备的参考路径，分别记录候选出现、推荐排名、排除、
+   安装/构建、行为与修复成本。它服务于参考应用，不先于应用，也不扩为大规模模型/Skill
+   对比。Registry 版本、包说明、Coding Agent 包映射和双语
+   证据一起维护。描述原生嵌入、Provider 选择与共享治理契约的组合及各 SDK 限制，
+   不宣称普遍功能对齐或优于编排框架。
+5. **P2：补齐已证实缺口。** 正确性和安全修复贯穿全程；按实际使用推进 parity、委派语义
+   或 Adapter。新增语言仍需消费者与维护者，无默认扩张配额；新增 Core API 前先复用
+   Checkpoint 配方。
 
 这些优先项选择少量完整路径，而不是更多孤立功能。一个 Go 示例不能证明其他语言 SDK
 的开发者路径同样可用，Registry 下载量也不等于采用。
+
+主流 SDK 是基本盘；既有运行时和长尾集成是实验，不是已证实市场。候选宿主包括
+Laravel/Drupal、Rails、Spring Boot、Phoenix/OTP、PowerShell 运维、Perl 存量系统、
+C/C++ 嵌入、Fortran/R 分析、Rust 网关与 Go 服务。这些是选型假设，不是已交付集成或
+市场份额排名。需比较原生嵌入、简单工作流和外部编排的维护/部署成本与持续使用意愿；
+竞争者少不证明需求大。保留有用基础切片，不要求每条都深化成宿主集成。
+
+外部定性评分与建议投入比例不是已测量事实或资源承诺。按用户阻力、复现结果、维护能力和
+预期学习价值安排工作。共享契约是待验证的技术差异，不是已经成立的竞争壁垒。
+
+### 参考应用顺序
+
+下一阶段以参考应用为重点，按以下顺序推进。参考应用统一放在
+`language/<language>/application/`；教程与机制示例仍保留在
+`language/<language>/Tutorial/` 及既有路径。参考应用必须是 AI-native：Agent 驱动主流程，
+而不是传统应用外挂一个审阅端点。验收问题、场景地图与 PHP/Java 流程提案见
+[AI-Native 参考应用设计](ai-native-reference-applications.md)。PHP 在子目录保留前驱与
+AI-native 两个版本；其他语言直接实现 AI-native 流程，不再先做传统应用前驱。
+既有切片可以复用，但不算参考应用已完成。
+遵守语言选择门槛，先明确公开范围、运行时、依赖版本和限制，再声明生态集成。
+具体执行顺序与操作流程留在内部文档。
+
+| 优先级 | 语言 | 拟建设参考应用 | 必须演示的生态行为 |
+| --- | --- | --- | --- |
+| 1 | PHP | Drupal CMS 编辑流程与 Laravel 内容门户 | 内容管理与编辑门户是 PHP 的典型场景，不是订单处理。演示 CMS/门户启动、路由或命令、容器/服务接线、已认证编辑上下文、文章工作流与仅审阅发布。首个实现是 Laravel 内容门户，下一宿主为 Drupal 模块。联测框架授权和 Core 工具策略，不强制 Python sidecar 或独立 Agent 服务 |
+| 2 | Java | Spring Boot 电商目录、订单与结算 Agent | 电商是 Java 企业应用的典型场景：Spring Boot 服务、商品域、库存/订单工具、事务边界、身份传递、审批与审计。区分应用事务和远程效果；银行/ERP 为次要场景 |
+| 3 | Elixir / Erlang | OTP 实时消息、电信与高可用运维 Agent | 实时消息、通知、电信与 OTP 监督是 Erlang/Elixir 的典型场景。验证监督树、故障/重启、有界工作、取消与未知效果重试前对账；AIOps 为次要场景。Elixir 与 Erlang 入口分别记录 |
+| 4 | Go | 云基础设施与 DevOps Agent | 服务、CLI、控制平面和基础设施自动化是 Go 的典型场景。使用既有服务/CLI、基础设施客户端接口、取消/deadline、追踪和操作 allowlist；先只读，变更操作设门禁 |
+| 5 | C++ / Rust | C++ 工业/嵌入式设备 Agent；Rust 系统/边缘服务 Agent | C++ 典型用于工业、嵌入式和性能敏感宿主；Rust 典型用于系统、CLI 和边缘服务。使用一个真实设备 SDK、仿真器或 transport、资源与生命周期边界、命令授权、取消确认和效果观察验证。C++ 与 Rust 分开记录 |
+| 6 | COBOL | 银行/保险批处理异常分析 | 十进制/定长记录批处理是 COBOL 的典型场景。验证主批输出不变、确定性异常审阅、失败隔离、积压/恢复，并比较不嵌入 Core 的外部 worker |
+| 7 | Julia | 科学计算与数值优化 Agent | 数值/科学计算是 Julia 的典型场景。使用实际数值/优化依赖或既有科研应用、可执行可行性/目标值检查与附证据解释；仅枚举不算求解器集成 |
+| 8 | Ruby | Rails 电商/SaaS 后台 Agent | Rails Web 应用与电商/SaaS 后台是 Ruby 的典型场景。使用 Rails 启动、已认证租户上下文、Active Record 或 Active Job 边界、草案/审批/重放测试；数据库事务不等于外部 exactly-once |
+
+下表的语言不属于首批八项，按常见运行时角色选择典型场景。它们是选型假设，
+不是市场份额排名、交付承诺或生态优势证明。既有切片仍是有限集成检查，达到参考应用
+验收标准后才能升级。
+
+| 语言 | 典型场景 | 当前状态 |
+| --- | --- | --- |
+| Python | 数据/AI 流水线、自动化、Django/FastAPI 服务 | 拟建设 |
+| TypeScript | Web 前端/BFF、Node 服务、店面 | 拟建设 |
+| C# | 企业业务系统、ASP.NET Core 服务、Windows 集成 | 拟建设 |
+| Perl | 日志/文本处理与既有自动化 | 既有 log-triage 切片 |
+| Lua | 宿主嵌入与扩展/游戏脚本 | 既有 host-embedding 切片 |
+| C | 嵌入式/受约束宿主组件 | 既有 device-diagnostics 切片 |
+| Fortran | 数值仿真 | 既有 simulation-metrics 切片 |
+| R | 统计分析与报告 | 既有 data-quality 切片 |
+| PowerShell | Windows/IT 运维自动化 | 既有 windows-diagnostics 切片 |
+| MATLAB/Octave | 信号处理与数值分析 | 既有 signal-trends 切片；原生 MATLAB 未验证 |
+| Swift | Apple 平台应用 | 拟建设；服务端 Swift 不是主要场景 |
+| Kotlin | Android/JVM 服务 | Java Core 上的示例 |
+| Scala | JVM 数据工程 | Java Core 上的示例 |
+| Dart | Flutter 应用 | 拟建设 |
+| Haskell | 编译器与领域建模 | 既有 rule-DSL 切片 |
+| OCaml | 编译器与静态分析 | 既有 static-diagnostics 切片 |
+| Zig | 系统/嵌入式组件 | 既有 gateway-health 切片 |
+| D | 系统/数据处理 | 既有 data-pipeline 切片 |
+| Nim | 系统/CLI | 既有 maintenance-triage 切片 |
+| V | CLI/系统 | 既有 release-preflight 切片 |
+| Delphi | 桌面业务应用 | 既有迁移/RPA 切片 |
+| Objective-C | Apple 旧有应用 | 既有隐私切片 |
+| Shell/Bridge | 进程编排与宿主自动化 | 仅 Bridge 契约 |
+
+**当前进度（2026-11-25）。** 优先级 1 在
+[`language/php/application`](https://github.com/axisvela/praxo-core/tree/main/language/php/application)
+下有两个 Laravel 12 路径：`content-review/` 是宿主集成前驱，`ai-editorial-studio/`
+是 AI-native 参考实现。AI-native 版本接收选题、检索既有内容、由模型生成草案/分类/SEO，
+保存草案并创建仅审阅发布请求；直接发布选题在检索、起草或发布前被拒绝。
+它安装已发布 `axisvela/praxo-core==0.8.1`，本地确定性测试 9/9 通过（56 条断言）；
+前驱 7/7 通过（29 条断言）。订单/结算留给 Java 电商参考应用；Drupal 仍是下一 PHP 宿主。
+2026-11-25 使用托管 DeepSeek `deepseek-flash` 完成一次真实运行：`model=live`，trace 为
+`search_content` -> `draft_article` -> `suggest_taxonomy` -> `request_publish_review`，
+生成模型理由（最近一次 858 字符），`publications_executed=0`。运行使用自定义 cURL transport 处理
+本地代理/CA；没有独立复现或生产部署。应用 CI 矩阵已添加但尚未运行。
+
+优先级 2 已有 Spring Boot AI 电商源码：
+[`language/java/application`](https://github.com/axisvela/praxo-core/tree/main/language/java/application)。
+它使用已发布 `com.axisvela:praxo-core:0.11.0`，实现意图 -> 商品/库存 -> 购物车草案 ->
+仅审阅结算，checkout 始终拒绝。源码现已记录模型理由与 `agent_trace`，但本地 Windows JVM
+仍阻塞，因此尚未本地编译或测试，也没有真实模型运行记录；Linux CI 作业已添加但尚未运行。
+在该作业通过前，不把 Java 视为已验证。
+
+优先级 3 已有 Elixir OTP AI 运维 Copilot：
+[`language/elixir/application`](https://github.com/axisvela/praxo-core/tree/main/language/elixir/application)。
+它运行监督树中的遥测存储与修复执行器，检索遥测、生成仅审阅修复，并拒绝直接执行。
+本地源码模式在 Elixir 1.20.4 / OTP 29 上 6/6 通过，包含租户拒绝与监督进程重启；本地 Hex 安装
+遇到 unknown-CA 失败，CI 作业使用已发布 Hex 包且已添加但尚未运行。2026-11-25 使用托管
+DeepSeek `deepseek-flash` 完成一次真实运行：`model=live`，模型先选择
+`search_signals(service-100)`，再生成包含 diagnosis/rationale 的 `draft_remediation`，
+最终 `executions=0`。更早一次尝试把展示名 `checkout` 当作 service id，被策略拒绝；
+把授权 service id 加入提示词后模型自行改对。
+
+优先级 3 也已有 Erlang OTP AI 运维 Copilot：
+[`language/erlang/application`](https://github.com/axisvela/praxo-core/tree/main/language/erlang/application)。
+它把 Erlang Core 源码与 OTP 监督树一起编译，源码模式 6/6 通过（含监督进程重启），并拒绝
+直接修复。2026-11-25 使用托管 DeepSeek `deepseek-flash` 完成真实运行：`model=live`，模型
+选择 `search_signals(service-100)`，再生成包含 diagnosis/rationale 的 `draft_remediation`，
+最终 `executions=0`。live transport 使用 `httpc` 与本地代理/CA。
+
+优先级 4 已有 Go AI 基础设施 Agent：
+[`language/go/application`](https://github.com/axisvela/praxo-core/tree/main/language/go/application)。
+它提供 HTTP 端点与 CLI，通过 module replace 使用本地 Go 参考源码，8/8 测试通过，拒绝直接
+修复，并记录 `agent_trace`。使用托管 DeepSeek `deepseek-flash` 的真实运行记录 `model=live`，
+三步 trace（`search_signals` -> `draft_remediation` -> 最终报告），模型生成的
+diagnosis/rationale，`executions=0`。Go CI 已添加但尚未运行；优先级 5-8 仍为拟建设。
+其他语言直接实现 AI-native 应用。
+
+确定性 harness 测试不是真实模型推理证据。PHP、Elixir、Erlang、Go 已有真实模型运行记录；
+Java 还没有。AI-native 验证声明需要模型 ID、模型选择的工具、生成内容、策略边界、trace、
+延迟与成本。交付跟踪见 [#34](https://github.com/axisvela/praxo-core/issues/34)。
+
+每项参考应用应包含所选已发布 Core 包的可复现安装、真实宿主入口、有用的端到端任务、
+无需凭据的确定性模式、独立可运行的真实模型路径、显式工具策略、副作用前拒绝与依赖失败
+测试、预期输出、CI，以及应用自有的身份/状态/效果边界。源码、宿主运行、真实 Provider、
+独立复现和持续使用分别记录。包、运行时、宿主或凭据不可用时标为阻塞，不算通过；
+不预设新增 Core API。
+
+尤其对 PHP、Elixir、Erlang、COBOL，下一步不再证明语言“能够实现 Agent”，而要验证
+Core 如何利用现有软件生态与运行时，以比简单工作流或外部编排更低的接入/运维阻力解决
+真实任务。这是需要测量的权衡，不能由支持语言数量或竞争者少直接推断。
 
 外部验证需求分别记录在 [#30](https://github.com/axisvela/praxo-core/issues/30)
 （独立计时）、[#31](https://github.com/axisvela/praxo-core/issues/31)（托管端点）、
