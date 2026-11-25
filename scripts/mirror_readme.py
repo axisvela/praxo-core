@@ -194,6 +194,40 @@ def _example_entries(root: Path, entry: dict) -> list[tuple[str, str, str]]:
     return entries
 
 
+def _catalog_entries(root: Path, entry: dict, folder: str) -> list[tuple[str, str, str]]:
+    key = entry["key"]
+    base = "language/go" if key == "go" else entry["dir"]
+    directory = root / base / folder
+    if not directory.is_dir():
+        return []
+    entries = []
+    if (directory / "README.md").is_file():
+        entries.append((
+            folder,
+            f"{base}/{folder}",
+            _example_description(directory),
+        ))
+    for path in sorted(directory.iterdir(), key=lambda item: item.name.lower()):
+        if not path.is_dir() or not (path / "README.md").is_file():
+            continue
+        entries.append((
+            path.name,
+            f"{base}/{folder}/{path.name}",
+            _example_description(path),
+        ))
+    return entries
+
+
+def _catalog_section(title: str, intro: str,
+                     entries: list[tuple[str, str, str]]) -> list[str]:
+    if not entries:
+        return []
+    lines = ["", f"## {title}", "", intro, "", "| Path | What it shows |", "| --- | --- |"]
+    for name, relative, description in entries:
+        lines.append(f"| [{_cell(name)}]({relative}) | {_cell(description)} |")
+    return lines
+
+
 def _capabilities(root: Path, entry: dict) -> list[tuple[str, str, str]]:
     source = entry.get("capabilities_source") or str(Path(entry["dir"]) / "REGISTRY.md")
     section = _section(_read(root / source), {"capabilities and status"})
@@ -323,6 +357,13 @@ def mirror_readme(entry: dict, has_examples: bool = False, root: Path = ROOT) ->
     ]
     if entry.get("tag"):
         lines.append(f"| Source tag | `{entry['tag']}` |")
+    for label, field in (
+        ("Tutorial tag", "tutorial_tag"),
+        ("Application tag", "application_tag"),
+        ("Examples tag", "examples_tag"),
+    ):
+        if entry.get(field):
+            lines.append(f"| {label} | `{entry[field]}` |")
     if entry.get("tier"):
         lines.append(f"| Tier | {entry['tier']} |")
     lines.extend(
@@ -419,6 +460,20 @@ def mirror_readme(entry: dict, has_examples: bool = False, root: Path = ROOT) ->
                 f"See the canonical examples: {example_url}.",
             ]
         )
+    tutorial_root = "language/go/Tutorial" if is_go else f"{entry['dir']}/Tutorial"
+    application_root = "language/go/application" if is_go else f"{entry['dir']}/application"
+    tutorials = _catalog_entries(root, entry, "Tutorial")
+    applications = _catalog_entries(root, entry, "application")
+    lines.extend(_catalog_section(
+        "Scenario Tutorials",
+        f"Scenario-oriented tutorials live under `{tutorial_root}`.",
+        tutorials,
+    ))
+    lines.extend(_catalog_section(
+        "Reference Applications",
+        f"Complete AI-native reference applications live under `{application_root}`.",
+        applications,
+    ))
     lines.extend(["", "## Verify", ""])
     if verify_code:
         lines.extend(
@@ -453,7 +508,8 @@ def mirror_readme(entry: dict, has_examples: bool = False, root: Path = ROOT) ->
         layout = [
             "- `pkg/`, `adapters/`, `cmd/`, `internal/` — Go module source",
             "- `language/go/examples/` — runnable Go and cross-language examples",
-            "- `language/go/examples/` — published-package consumer and live-model examples",
+            "- `language/go/Tutorial/` — scenario-oriented tutorials",
+            "- `language/go/application/` — AI-native reference application",
             "- `spec/` — shared contract, vectors, and parity inventories",
             "- `LICENSE` — MIT license",
         ]

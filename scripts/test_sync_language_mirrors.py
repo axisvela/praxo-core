@@ -89,6 +89,13 @@ class MirrorSyncTests(unittest.TestCase):
         self.assertIn("provider-fallback", readme)
         self.assertIn("## What's included", readme)
         self.assertIn("## Examples", readme)
+        self.assertIn("## Scenario Tutorials", readme)
+
+    def test_readme_lists_reference_applications(self):
+        entry = {entry["key"]: entry for entry in sync.mirror_entries()}["java"]
+        readme = sync.mirror_readme(entry, has_examples=True)
+        self.assertIn("## Reference Applications", readme)
+        self.assertIn("language/java/application", readme)
 
     def test_go_mirror_readme_uses_root_layout(self):
         entry = {entry["key"]: entry for entry in sync.mirror_entries()}["go"]
@@ -98,6 +105,7 @@ class MirrorSyncTests(unittest.TestCase):
         self.assertIn(f"go get github.com/axisvela/praxo-core/v2@v{version}", readme)
         self.assertIn("language/go/examples/consumer-go", readme)
         self.assertIn("language/go/examples/live-model", readme)
+        self.assertIn("language/go/Tutorial", readme)
 
     def test_build_mirror_copies_sources_and_ignores_artifacts(self):
         entry = {entry["key"]: entry for entry in sync.mirror_entries()}["python"]
