@@ -1882,6 +1882,17 @@ jobs:
       - run: julia --project=language/julia -e 'using Pkg; Pkg.instantiate()'
       - run: julia --project=language/julia language/julia/Tutorial/experiment-comparison/experiment_comparison.jl --test
 
+  julia-ai-science:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: julia-actions/setup-julia@v2
+        with:
+          version: '1.13'
+      - run: julia --project=language/julia -e 'using Pkg; Pkg.instantiate()'
+      - run: julia --project=language/julia language/julia/application/application.jl --test
+
   octave-signal-trends:
     runs-on: ubuntu-latest
     timeout-minutes: 10

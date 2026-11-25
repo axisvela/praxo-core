@@ -745,12 +745,16 @@ requires an application-supplied HTTP transport. Priority 6 is implemented at
 a native `praxo-run` batch analyst passes five deterministic checks plus a
 batch-file check; private records, direct posting, and tenant mismatch are
 denied, and no executable is committed. COBOL has no bundled HTTP/TLS transport,
-so no live run is recorded. Priorities 7-8 remain proposals. Other languages
-implement AI-native applications directly.
+so no live run is recorded. Priority 7 is implemented at
+[`language/julia/application`](https://github.com/axisvela/praxo-core/tree/main/language/julia/application):
+a native `LinearAlgebra` response-surface copilot passes six deterministic checks
+and a hosted DeepSeek `deepseek-flash` live run records `model=live`,
+model-selected tools, computed fit evidence, and `writes=0`. Priority 8 remains a
+proposal. Other languages implement AI-native applications directly.
 
 Deterministic harness tests are not live-model reasoning evidence. PHP, Elixir,
-Erlang, and Go now have recorded live-model runs; Java, Rust, C++, and COBOL do
-not. A claim of AI-native verification requires the live model id, model-selected tools,
+Erlang, Go, and Julia now have recorded live-model runs; Java, Rust, C++, and
+COBOL do not. A claim of AI-native verification requires the live model id, model-selected tools,
 generated content, policy boundaries, trace, and cost/latency. Track delivery in
 [#34](https://github.com/axisvela/praxo-core/issues/34).
 

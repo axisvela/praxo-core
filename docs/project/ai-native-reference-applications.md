@@ -22,10 +22,14 @@ live path is not implemented because the Core adapter requires an
 application-supplied HTTP transport. COBOL v1 is implemented at
 `language/cobol/application`; its native `praxo-run` harness passes five
 deterministic checks and a batch-file check, but no live-model transport is
-bundled. PHP, Elixir, Erlang, and Go have recorded live-model reasoning runs with
-hosted DeepSeek `deepseek-flash`; Java/Rust/C++/COBOL live reasoning, SDK CI,
-Drupal, payment, and independent-consumer paths remain open. Other languages
-implement the AI-native workflow directly.
+bundled. Julia v1 is implemented at `language/julia/application`; its native
+`LinearAlgebra` response-surface harness passes six deterministic checks and a
+hosted DeepSeek `deepseek-flash` live run records `model=live`, model-selected
+tools, computed fit evidence, and `writes=0`. PHP, Elixir, Erlang, Go, and Julia
+have recorded live-model reasoning runs with hosted DeepSeek `deepseek-flash`;
+Java/Rust/C++/COBOL live reasoning, SDK CI, Drupal, payment, and
+independent-consumer paths remain open. Other languages implement the AI-native
+workflow directly.
 
 ## Purpose
 
@@ -210,8 +214,8 @@ An AI-native reasoning claim requires a recorded live-model run that shows:
 5. the run records model id, endpoint class, tool trace, latency, and cost;
 6. the output or trace is inspectable and is not only fixed fixture text.
 
-Current status (2026-11-25): PHP, Elixir, Erlang, and Go have recorded live-model
-reasoning runs with hosted DeepSeek `deepseek-flash`.
+Current status (2026-11-25): PHP, Elixir, Erlang, Go, and Julia have recorded
+live-model reasoning runs with hosted DeepSeek `deepseek-flash`.
 
 - PHP recorded `model=live`, a four-step trace (`search_content` ->
   `draft_article` -> `suggest_taxonomy` -> `request_publish_review`), a
@@ -236,6 +240,11 @@ reasoning runs with hosted DeepSeek `deepseek-flash`.
   the Core adapter requires an application-supplied HTTP transport.
 - COBOL has a native deterministic harness and a batch-file check, but the Core
   COBOL package has no bundled HTTP/TLS client, so no live run is recorded.
+- Julia recorded `model=live`: the model chose `load_observations` then
+  `fit_response_surface`; the report kept the computed quadratic (R²
+  `0.999995`), bounded optimum `0.6994`, predicted yield `0.91764`, `writes=0`,
+  and `mutating_actions=[]`. The Windows transport used `curl.exe` with
+  `--ssl-no-revoke`.
 
 Java remains source-only and is not locally compiled; it has no live-model run.
 Deterministic harness tests remain separate evidence and are not a substitute for

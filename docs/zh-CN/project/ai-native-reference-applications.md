@@ -15,9 +15,12 @@ Go v1 已在 `language/go/application` 实现：HTTP/CLI 宿主，8/8 测试通�
 TLS backend 构建阻塞，live 未运行。C++ v1 已在 `language/cpp/application` 实现：本地 CLI
 五项检查通过；由于 Core adapter 需要应用提供 HTTP transport，live 未实现。COBOL v1 已在
 `language/cobol/application` 实现：原生 `praxo-run` harness 五项确定性检查加批处理文件检查
-通过，但未捆绑 live model transport。PHP、Elixir、Erlang、Go 已使用托管 DeepSeek
-`deepseek-flash` 记录真实模型推理运行；Java/Rust/C++/COBOL 真实推理、SDK CI、Drupal、支付和
-独立消费者路径仍未关闭。其他语言直接实现 AI-native 流程。
+通过，但未捆绑 live model transport。Julia v1 已在 `language/julia/application` 实现：
+原生 `LinearAlgebra` 响应面 harness 六项确定性检查通过，托管 DeepSeek
+`deepseek-flash` 真实运行记录 `model=live`、模型选择工具、计算拟合证据与 `writes=0`。
+PHP、Elixir、Erlang、Go、Julia 已使用托管 DeepSeek `deepseek-flash` 记录真实模型推理运行；
+Java/Rust/C++/COBOL 真实推理、SDK CI、Drupal、支付和独立消费者路径仍未关闭。其他语言直接
+实现 AI-native 流程。
 
 ## 目的
 
@@ -182,8 +185,8 @@ AI-native 推理声明需要一次记录在案的真实模型运行，并展示�
 5. 运行记录模型 ID、端点类型、工具 trace、延迟和成本；
 6. 输出或 trace 可检查，且不只是固定 fixture 文本。
 
-当前状态（2026-11-25）：PHP、Elixir、Erlang、Go 已使用托管 DeepSeek `deepseek-flash`
-记录真实模型推理运行。
+当前状态（2026-11-25）：PHP、Elixir、Erlang、Go、Julia 已使用托管 DeepSeek
+`deepseek-flash` 记录真实模型推理运行。
 
 - PHP：`model=live`，四步 trace（`search_content` -> `draft_article` ->
   `suggest_taxonomy` -> `request_publish_review`），模型理由（最近一次 858 字符），
@@ -202,6 +205,10 @@ AI-native 推理声明需要一次记录在案的真实模型运行，并展示�
   live 路径。
 - COBOL：有原生确定性 harness 和批处理文件检查，但 COBOL Core 未捆绑 HTTP/TLS client，
   因此没有真实运行记录。
+- Julia：`model=live`，模型选择 `load_observations` 再选择 `fit_response_surface`；
+  报告保留计算得到的二次拟合（R² `0.999995`）、边界内最优 `0.6994`、预测产量
+  `0.91764`、`writes=0` 和 `mutating_actions=[]`。Windows transport 使用
+  `curl.exe --ssl-no-revoke`。
 
 Java 仍仅有源码且未本地编译，没有真实模型运行。确定性 harness 测试是单独证据，不能
 替代真实运行。
