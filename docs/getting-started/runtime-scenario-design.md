@@ -6,7 +6,16 @@ over arbitrary industry assignments. Existing tutorial URLs remain valid.
 
 ## Scenario Selection
 
-| Language | Primary tutorial direction | Related goal | Ecosystem basis | Required behavior | Initial status |
+**CI update: 2026-11-25.** All nine paths below passed their tutorial jobs at
+`dfdfd558` in [run 45537631891](https://github.com/axisvela/praxo-core/actions/runs/45537631891).
+The final column preserves the initial local snapshot: its "remote CI unverified"
+notes describe that earlier snapshot, not current CI. Hosted execution does not
+establish live-provider, hardware, production or independent adoption evidence.
+These bounded paths are reusable inputs to the
+[reference application portfolio](../project/roadmap.md#reference-application-portfolio),
+not substitutes for full host integration.
+
+| Language | Primary tutorial direction | Related goal | Ecosystem basis | Required behavior | Initial local snapshot (superseded for CI above) |
 | --- | --- | --- | --- | --- | --- |
 | V | [Local configuration and release preflight](https://github.com/axisvela/praxo-core/tree/main/language/v/Tutorial/release-preflight) | SE-01 | Compiled CLI tools and C interoperability; exploratory ecosystem, not established industry leadership | Parse temporary configuration, reject missing fields, draft corrections; no deployment | Local V checks passed; remote CI unverified |
 | D | [Data-import pipeline diagnosis](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/data-pipeline) | SC-06 | Native data processing, standard-library ranges/algorithms and C interoperability | Parse records, calculate invalid counts and field errors, select a review action from results | Local DMD checks passed; remote CI unverified |

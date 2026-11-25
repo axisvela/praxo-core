@@ -179,9 +179,9 @@ PRAXO-CORE 是独立的 MIT 框架。
 
 ## 版本与贡献
 
-核心 `2.9.0` 是次版本发布，修复 Go 记忆召回角色。召回内容作为带 frame/source 标签的不可信 user 数据注入，而不再进入 system 消息；assistant 写入的记忆记录带 `source` 与 `trust` 元数据。该版本新增两轮回归，不改变导出的 `pkg/...` API 或 Wire 形状。适配器和 Core 实现独立版本化。
+当前核心版本为 `2.10.0`，新增 Provider SSE 流式和发布说明所列的插件宿主工作。此前的 `2.9.0` 修复 Go 记忆召回角色：召回内容作为带 frame/source 标签的不可信 user 数据注入，而不再进入 system 消息；assistant 写入的记忆记录带 `source` 与 `trust` 元数据。`2.9.0` 新增两轮回归，不改变导出的 `pkg/...` API 或 Wire 形状。适配器和 Core 实现独立版本化。
 
-- [最新发布说明](docs/zh-CN/releases/2.9.0.md)
+- [最新发布说明](docs/zh-CN/releases/2.10.0.md)
 - [版本历史](docs/zh-CN/releases/index.md)
 - [兼容政策](docs/zh-CN/project/compatibility-policy.md)
 - [v2 迁移](docs/zh-CN/project/migration-v2.md)

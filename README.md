@@ -218,12 +218,15 @@ or [optional AxisVela integrations](docs/integrations/ecosystem.md). See the
 
 ## Releases and Contributing
 
-Core `2.9.0` is a minor release fixing the Go memory recall role. Recalled
-content is injected as untrusted user data with frame/source labels instead of
-a system message; assistant-written memory records carry `source` and `trust`
-metadata. The release adds two-run regressions and does not change exported
-`pkg/...` API or wire shape. Optional adapters and Core implementations are
-versioned independently.
+Core `2.10.0` is the current release. It adds provider SSE streaming and
+process/WASM plugin hosts across the declared implementations described in the
+release notes.
+
+The earlier `2.9.0` fixed the Go memory recall role: recalled content is injected
+as untrusted user data with frame/source labels instead of a system message, and
+assistant-written memory records carry `source` and `trust` metadata. That release
+added two-run regressions without changing the exported `pkg/...` API or wire
+shape. Optional adapters and Core implementations are versioned independently.
 
 - [Latest release notes](docs/releases/2.10.0.md)
 - [Release history](docs/releases/index.md)

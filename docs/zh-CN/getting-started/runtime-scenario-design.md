@@ -5,7 +5,13 @@
 
 ## 场景选择
 
-| 语言 | 主教程方向 | 关联目标 | 生态依据 | 必须真实执行 | 初始状态 |
+**CI 更新：2026-11-25。** 下列九条路径在 `dfdfd558`、
+[运行 45537631891](https://github.com/axisvela/praxo-core/actions/runs/45537631891) 的教程作业均通过。
+末列保留最初本地快照，“远端 CI 未核验”只描述当时，不是当前 CI 状态。
+托管执行不证明真实 Provider、硬件、生产或独立采用。这些有界路径是
+[参考应用组合](../project/roadmap.md)的可复用输入，不代替完整宿主集成。
+
+| 语言 | 主教程方向 | 关联目标 | 生态依据 | 必须真实执行 | 最初本地快照（CI 以上述更新为准） |
 | --- | --- | --- | --- | --- | --- |
 | V | [本地配置与发布预检](https://github.com/axisvela/praxo-core/tree/main/language/v/Tutorial/release-preflight) | SE-01 | 编译型 CLI、C 互操作；探索性生态，不代表行业主流 | 解析临时配置、拒绝缺失字段、草拟修正；不部署 | 本地 V 测试通过；远端 CI 未核验 |
 | D | [数据导入流水线诊断](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/data-pipeline) | SC-06 | 原生数据处理、标准库 ranges/algorithms 与 C 互操作 | 解析记录、计算错误统计、基于结果选择复核动作 | 本地 DMD 测试通过；远端 CI 未核验 |
