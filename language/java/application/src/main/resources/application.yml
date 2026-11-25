@@ -1,0 +1,16 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: praxo-java-ai-commerce
+
+praxo:
+  commerce:
+    tenant: ${COMMERCE_TENANT:acme}
+    catalog-failure: ${COMMERCE_CATALOG_FAILURE:false}
+    max-intent-length: 500
+    model:
+      base-url: ${PRAXO_BASE_URL:}
+      api-key: ${PRAXO_API_KEY:}
+      name: ${PRAXO_MODEL:}
