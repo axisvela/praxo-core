@@ -13,8 +13,9 @@ Go v1 已在 `language/go/application` 实现：HTTP/CLI 宿主，8/8 测试通�
 模型选择的工具、diagnosis/rationale 与 `agent_trace`。Rust v1 已在
 `language/rust/application` 实现：边缘 CLI 与 `GatewayAdapter`，6/6 测试通过，托管
 DeepSeek 真实运行通过应用自有 `curl` transport 记录 `model=live`、模型选择工具、只读草案和
-`executions=0`。C++ v1 已在 `language/cpp/application` 实现：本地 CLI
-五项检查通过；由于 Core adapter 需要应用提供 HTTP transport，live 未实现。COBOL v1 已在
+`executions=0`。C++ v1 已在 `language/cpp/application` 实现为源码/静态库集成；由于 SEP
+拦截可执行产物，本仓库不生成 exe，live transport 仅为源码，未记录 C++ 运行或真实模型证据。
+COBOL v1 已在
 `language/cobol/application` 实现：原生 `praxo-run` harness 五项确定性检查加批处理文件检查
 通过，但未捆绑 live model transport。Julia v1 已在 `language/julia/application` 实现：
 原生 `LinearAlgebra` 响应面 harness 六项确定性检查通过，托管 DeepSeek
@@ -205,8 +206,8 @@ AI-native 推理声明需要一次记录在案的真实模型运行，并展示�
 - Rust：`model=live`，模型选择 `read_gateway` 再选择 `draft_action`，写入模型生成的
   diagnosis/rationale，最终 `executions=0`。live 路径使用应用自有 `curl` transport，绕过
   本地 `ring`/TLS 构建阻塞。
-- C++：有确定性 harness 测试，但 Core adapter 需要应用提供 HTTP transport，因此未实现
-  live 路径。
+- C++：源码/静态库集成。SEP 拦截可执行文件，因此确定性路径和 live 路径均未在本地运行，
+  未记录 C++ 运行时或真实模型证据。
 - COBOL：有原生确定性 harness 和批处理文件检查，但 COBOL Core 未捆绑 HTTP/TLS client，
   因此没有真实运行记录。
 - Julia：`model=live`，模型选择 `load_observations` 再选择 `fit_response_surface`；

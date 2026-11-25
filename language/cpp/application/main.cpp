@@ -1,7 +1,13 @@
 #include <algorithm>
 #include <cctype>
+#include <chrono>
+#include <cstdlib>
+#include <filesystem>
+#include <fstream>
 #include <functional>
 #include <iostream>
+#include <iterator>
+#include <map>
 #include <memory>
 #include <mutex>
 #include <optional>
@@ -10,6 +16,7 @@
 
 #include "praxo/agent.hpp"
 #include "praxo/errors.hpp"
+#include "praxo/openai_compat.hpp"
 
 namespace {
 
@@ -61,6 +68,94 @@ bool direct_execution(const std::string& intent) {
 std::string truncate(const std::string& value, std::size_t max) {
     if (value.size() <= max) return value;
     return value.substr(0, max) + "...";
+}
+
+std::string read_text(const std::filesystem::path& path) {
+    std::ifstream input(path, std::ios::binary);
+    if (!input) {
+        throw praxo::PraxoError("PROVIDER_HTTP",
+                                "application transport could not read a response");
+    }
+    return std::string(std::istreambuf_iterator<char>(input),
+                       std::istreambuf_iterator<char>());
+}
+
+praxo::Json curl_transport(
+        const std::string& url, const praxo::Json& payload,
+        const std::map<std::string, std::string>& headers) {
+    const auto stamp = std::chrono::steady_clock::now()
+                           .time_since_epoch()
+                           .count();
+    const auto directory = std::filesystem::temp_directory_path();
+    const auto base = "praxo-cpp-" + std::to_string(stamp);
+    const auto request_path = directory / (base + ".request.json");
+    const auto response_path = directory / (base + ".response.json");
+    const auto status_path = directory / (base + ".status");
+    {
+        std::ofstream request(request_path, std::ios::binary);
+        if (!request) {
+            throw praxo::PraxoError("PROVIDER_HTTP",
+                                    "application transport could not write a request");
+        }
+        request << payload.dump();
+    }
+    std::string command = "curl -sS";
+#ifdef _WIN32
+    command += " --ssl-no-revoke";
+#endif
+    command += " -X POST";
+    for (const auto& [key, value] : headers) {
+        command += " -H \"" + key + ": " + value + "\"";
+    }
+    command += " --max-time 60 --data-binary @\"" + request_path.string() +
+               "\" -o \"" + response_path.string() +
+               "\" -w \"%{http_code}\" \"" + url + "\" > \"" +
+               status_path.string() + "\"";
+    const int exit_code = std::system(command.c_str());
+    praxo::Json result = praxo::Json(nullptr);
+    try {
+        if (exit_code != 0 || !std::filesystem::exists(status_path)) {
+            throw praxo::PraxoError("PROVIDER_HTTP",
+                                    "application curl transport failed");
+        }
+        const std::string status_text = read_text(status_path);
+        const int status = std::stoi(status_text);
+        const std::string body = read_text(response_path);
+        if (status < 200 || status >= 300) {
+            throw praxo::PraxoError(
+                "PROVIDER_HTTP",
+                "provider returned HTTP " + std::to_string(status) + ": " +
+                    truncate(body, 512));
+        }
+        try {
+            result = praxo::Json::parse(body);
+        } catch (const std::exception&) {
+            throw praxo::PraxoError("PROVIDER_JSON",
+                                    "provider returned invalid JSON");
+        }
+    } catch (...) {
+        std::filesystem::remove(request_path);
+        std::filesystem::remove(response_path);
+        std::filesystem::remove(status_path);
+        throw;
+    }
+    std::filesystem::remove(request_path);
+    std::filesystem::remove(response_path);
+    std::filesystem::remove(status_path);
+    return result;
+}
+
+std::shared_ptr<praxo::Model> live_model() {
+    const char* base_url = std::getenv("PRAXO_BASE_URL");
+    const char* model = std::getenv("PRAXO_MODEL");
+    if (base_url == nullptr || model == nullptr ||
+        std::string(base_url).empty() || std::string(model).empty()) {
+        return nullptr;
+    }
+    const char* api_key = std::getenv("PRAXO_API_KEY");
+    praxo::OpenAICompatibleOptions options{
+        base_url, model, api_key == nullptr ? "" : api_key};
+    return std::make_shared<praxo::OpenAICompatible>(options, curl_transport);
 }
 
 class GatewayAdapter {
@@ -418,6 +513,7 @@ Outcome failure(const std::string& code, const std::string& message,
 
 Outcome run_scenario(const std::string& tenant, const std::string& device,
                      const std::string& intent, bool simulate_failure,
+                     bool live = false,
                      std::shared_ptr<praxo::Model> model_override = nullptr) {
     Stats stats;
     auto adapter = std::make_shared<FixtureGateway>(simulate_failure);
@@ -463,6 +559,15 @@ Outcome run_scenario(const std::string& tenant, const std::string& device,
     if (model_override != nullptr) {
         base_model = std::move(model_override);
         mode = "injected";
+    } else if (live) {
+        base_model = live_model();
+        if (base_model == nullptr) {
+            return failure(
+                "PROVIDER_CONFIG",
+                "PRAXO_BASE_URL and PRAXO_MODEL are required for --live",
+                stats, {});
+        }
+        mode = "live";
     } else {
         base_model = std::make_shared<DeterministicModel>(device, intent);
     }
@@ -590,7 +695,7 @@ int run_tests() {
 
 }  // namespace
 
-int main(int argc, char** argv) {
+int praxo_ai_edge_run(int argc, char** argv) {
     std::string tenant = TENANT_SCOPE;
     std::string device = DEVICE_SCOPE;
     std::string intent =
@@ -598,10 +703,13 @@ int main(int argc, char** argv) {
         "remediation.";
     bool test_mode = false;
     bool simulate_failure = false;
+    bool live = false;
     for (int index = 1; index < argc; ++index) {
         const std::string argument = argv[index];
         if (argument == "--test") {
             test_mode = true;
+        } else if (argument == "--live") {
+            live = true;
         } else if (argument == "--simulate-failure") {
             simulate_failure = true;
         } else if (argument == "--tenant" && index + 1 < argc) {
@@ -615,7 +723,7 @@ int main(int argc, char** argv) {
     if (test_mode) return run_tests();
 
     Outcome outcome =
-        run_scenario(tenant, device, intent, simulate_failure);
+        run_scenario(tenant, device, intent, simulate_failure, live);
     praxo::Json response = praxo::Json::object();
     if (outcome.error_code.empty()) {
         response["report"] = outcome.report;
@@ -626,6 +734,9 @@ int main(int argc, char** argv) {
     response["error"] = outcome.error_code;
     response["message"] = outcome.error_message;
     response["agent"] = outcome.stats.json();
+    praxo::Json trace_json = praxo::Json::array();
+    for (const auto& step : outcome.trace) trace_json.push_back(step);
+    response["agent_trace"] = trace_json;
     std::cout << response.dump() << "\n";
     std::cerr << "error: " << outcome.error_code << ": "
               << outcome.error_message << "\n";

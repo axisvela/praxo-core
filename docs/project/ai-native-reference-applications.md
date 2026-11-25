@@ -19,9 +19,10 @@ diagnosis/rationale, and `agent_trace`. Rust v1 is implemented at
 and a hosted DeepSeek live run records `model=live`, model-selected tools, a
 review-only draft, and `executions=0` through an application-owned `curl`
 transport. C++ v1 is
-implemented at `language/cpp/application`; five local CLI checks pass, and its
-live path is not implemented because the Core adapter requires an
-application-supplied HTTP transport. COBOL v1 is implemented at
+implemented at `language/cpp/application` as a source/static-library integration;
+the repository does not generate an executable because SEP blocks executable
+artifacts, so its live transport is source-only and no C++ runtime run is
+recorded. COBOL v1 is implemented at
 `language/cobol/application`; its native `praxo-run` harness passes five
 deterministic checks and a batch-file check, but no live-model transport is
 bundled. Julia v1 is implemented at `language/julia/application`; its native
@@ -242,8 +243,9 @@ recorded live-model reasoning runs with hosted DeepSeek `deepseek-flash`.
   with a model-written diagnosis/rationale, and finished with `executions=0`.
   The live path uses an application-owned `curl` transport, avoiding the local
   `ring`/TLS build blocker.
-- C++ has deterministic harness tests, but no live path is implemented because
-  the Core adapter requires an application-supplied HTTP transport.
+- C++ is a source/static-library integration. The repository cannot generate an
+  executable under SEP, so the deterministic and live paths are not run locally
+  and no C++ runtime or live evidence is recorded.
 - COBOL has a native deterministic harness and a batch-file check, but the Core
   COBOL package has no bundled HTTP/TLS client, so no live run is recorded.
 - Julia recorded `model=live`: the model chose `load_observations` then

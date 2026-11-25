@@ -305,7 +305,7 @@ jobs:
       - uses: actions/checkout@v4
       - run: cmake -S language/cpp -B language/cpp/build-ai-edge
       - run: cmake --build language/cpp/build-ai-edge --target praxo-cpp-ai-edge-application
-      - run: ctest --test-dir language/cpp/build-ai-edge -R praxo-cpp-ai-edge-application --output-on-failure
+      - run: test -f language/cpp/build-ai-edge/libpraxo-cpp-ai-edge-application.a
 
   ruby-recruiting-match:
     runs-on: ubuntu-latest

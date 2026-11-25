@@ -739,10 +739,11 @@ run records `model=live`, a `read_gateway` -> `draft_action` sequence, a
 model-written diagnosis/rationale, and `executions=0`; the live path uses an
 application-owned `curl` transport instead of the blocked local `ring` TLS build.
 The C++ counterpart is implemented at
-[`language/cpp/application`](https://github.com/axisvela/praxo-core/tree/main/language/cpp/application):
-it passes five local CLI checks, uses an application-owned `GatewayAdapter`, and
-records `agent_trace`. C++ live is not implemented because the Core adapter
-requires an application-supplied HTTP transport. Priority 6 is implemented at
+[`language/cpp/application`](https://github.com/axisvela/praxo-core/tree/main/language/cpp/application)
+as a static-library/source integration. It uses an application-owned
+`GatewayAdapter` and trace code, but this repository does not generate an
+executable because SEP blocks executable artifacts; no C++ runtime or live run is
+recorded. Priority 6 is implemented at
 [`language/cobol/application`](https://github.com/axisvela/praxo-core/tree/main/language/cobol/application):
 a native `praxo-run` batch analyst passes five deterministic checks plus a
 batch-file check; private records, direct posting, and tenant mismatch are

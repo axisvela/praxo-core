@@ -1,32 +1,36 @@
-# C++ AI Industrial Edge Agent (AI-native reference application)
+# C++ AI Industrial Edge Agent (AI-native reference source)
 
-A C++ edge CLI where the agent drives the primary device-diagnosis workflow: an
-operator submits an incident intent, the agent reads application-owned device
-telemetry through a `GatewayAdapter`, diagnoses the condition, and drafts a
-review-only maintenance action. The agent never writes to the device.
+A C++ edge integration where the agent drives the primary device-diagnosis
+workflow: an operator submits an incident intent, the agent reads
+application-owned device telemetry through a `GatewayAdapter`, diagnoses the
+condition, and drafts a review-only maintenance action. The agent never writes to
+the device.
 
-This is the AI-native C++ reference application. There is no traditional
-application precursor.
+This repository builds the application as a **static library**. It does not
+generate or commit an executable because the local SEP policy blocks executable
+artifacts. A downstream host links the library and supplies its own executable
+outside this repository.
 
 ## Why this language and runtime?
 
 - **Selection basis:** C++ is common in industrial gateways, embedded hosts, and
   performance-sensitive applications that already own a device SDK or fieldbus
   adapter.
-- **Demonstrated fit:** A native CLI, an application-owned adapter, governed
-  tools, and a model trace exercise the Core seam without a second runtime.
+- **Demonstrated fit:** A native C++ source target, an application-owned adapter,
+  governed tools, policy, and trace code exercise the Core seam without a second
+  runtime.
 - **Choose when:** Adding a bounded diagnosis/review action to an existing C++
-  device or industrial application.
+  device or industrial host that already owns process creation and deployment.
 - **Do not choose when:** Direct device-SDK code or a simple deterministic runbook
   already solves the task, or when another host provides the same boundary with
   less integration effort.
-- **Evidence limit:** Fixture adapter and deterministic model. The live path is
-  not implemented because the C++ Core OpenAI-compatible adapter requires an
-  application-supplied HTTP transport; no TLS transport is included.
+- **Evidence limit:** Fixture adapter and deterministic model source. The live
+  transport source is present, but no executable is generated here, so no local
+  runtime or live-model run is recorded.
 
 ## AI-native workflow
 
-1. Run the CLI with a tenant, device id, and incident intent.
+1. The host passes a tenant, device id, and incident intent to the linked source.
 2. The agent reads telemetry through `GatewayAdapter`.
 3. The model writes a diagnosis and rationale and drafts a review-only action.
 4. The report returns `executions=0`.
@@ -36,26 +40,27 @@ If the model is removed, the primary gateway workflow disappears.
 
 ## Where is the LLM reasoning?
 
-The deterministic tests use a scripted model. They verify the harness, policy,
-failure paths, and trace shape, not LLM reasoning.
+The deterministic path uses a scripted model. It verifies the harness, policy,
+failure paths, and trace shape when a host runs it, not LLM reasoning.
 
-In a live path the model would choose tools/arguments and write the diagnosis and
-rationale; `agent_trace` records tool calls and model output, and `model` would be
-`"live"`. This revision does not include an HTTP transport for the Core
-OpenAI-compatible adapter, so no C++ live run is recorded.
+The source includes an application-owned `curl` transport for the Core
+`OpenAICompatible` adapter. On Windows it adds `--ssl-no-revoke`. Because this
+repository cannot generate an executable, that live path is source-only here; no
+C++ live-model run is recorded.
 
 ## Host integration
 
 | Boundary | Where |
 | --- | --- |
-| CLI entry | `application/main.cpp` |
+| Application source | `application/main.cpp` (`praxo_ai_edge_run`) |
 | Device adapter | `GatewayAdapter`, `FixtureGateway` |
 | Tools and policy | `application/main.cpp` |
 | Trace | `TracingModel` |
-| Tests | `--test` entry |
+| Live transport source | `curl_transport`, `live_model` |
+| Build artifact | `libpraxo-cpp-ai-edge-application.a` |
 
-Identity, device transport, approvals, and effect reconciliation remain
-application-owned.
+Identity, device transport, approvals, executable creation, and effect
+reconciliation remain host-owned.
 
 ## Tools and policy
 
@@ -68,49 +73,31 @@ application-owned.
 A `Remediate now` or `Execute remediation` intent is denied before telemetry read,
 drafting, or execution.
 
-## Build and test
+## Build
 
 The target uses the local C++ Core source; it is not a package-registry install.
+It produces a static library and no executable:
 
 ```bash
 cmake -S language/cpp -B language/cpp/build
 cmake --build language/cpp/build --target praxo-cpp-ai-edge-application
-./language/cpp/build/bin/praxo-cpp-ai-edge-application --test
 ```
 
-Expected: five checks pass, covering the review-only package, direct-execution
-denial, device scope, tenant scope, and gateway failure mapping.
+Expected artifact:
 
-## Run
-
-```bash
-./language/cpp/build/bin/praxo-cpp-ai-edge-application \
-  --tenant acme --device device-100 \
-  --intent "Investigate the edge gateway telemetry and draft a review-only remediation."
+```text
+libpraxo-cpp-ai-edge-application.a
 ```
 
-Direct remediation:
-
-```bash
-./language/cpp/build/bin/praxo-cpp-ai-edge-application \
-  --device device-100 --intent "Remediate now for device-100."
-```
-
-Expected: exit code 2 with `AGENT_POLICY_DENIED` and zero effects.
-
-Simulated gateway failure:
-
-```bash
-./language/cpp/build/bin/praxo-cpp-ai-edge-application \
-  --device device-100 --simulate-failure
-```
-
-Expected: exit code 1 with `TOOL_ERROR` after one read and no draft.
+No `--test`, `--live`, or run command is available in this repository because
+those would require generating an executable. A host outside this repository can
+link the library and provide the executable, test entry, and live command.
 
 ## Boundaries
 
+- No executable is generated or committed; SEP blocks local executable artifacts.
+- No local runtime test, live-model run, or command-line output is recorded here.
 - No real fieldbus, OPC UA, socket, device SDK, or device write.
 - No durable incident store, exactly-once effect, or production identity.
-- Fixture device adapter and deterministic model are teaching components.
-- Local C++ source build; not registry-package evidence.
-- No live-model reasoning evidence is recorded.
+- Fixture adapter and deterministic model are teaching components.
+- Local C++ source/static-library build; not registry-package evidence.

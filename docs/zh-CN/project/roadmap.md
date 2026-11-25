@@ -576,9 +576,9 @@ diagnosis/rationale，`executions=0`。Go CI 已添加但尚未运行。
 2026-11-25 使用托管 DeepSeek `deepseek-flash` 完成真实运行：`model=live`，
 `read_gateway` -> `draft_action`，模型生成 diagnosis/rationale，`executions=0`；live 路径
 使用应用自有 `curl` transport，绕过本地 `ring`/TLS 构建阻塞。C++ 对应实现位于
-[`language/cpp/application`](https://github.com/axisvela/praxo-core/tree/main/language/cpp/application)：
-本地 CLI 五项检查通过，使用应用自有 `GatewayAdapter`，并记录 `agent_trace`。C++ live 未实现，
-因为 Core adapter 需要应用提供 HTTP transport。优先级 6 已在
+[`language/cpp/application`](https://github.com/axisvela/praxo-core/tree/main/language/cpp/application)，
+为静态库/源码集成，使用应用自有 `GatewayAdapter` 和 trace 代码；由于 SEP 拦截可执行文件，
+本仓库不生成 exe，也未记录 C++ 运行时或真实模型证据。优先级 6 已在
 [`language/cobol/application`](https://github.com/axisvela/praxo-core/tree/main/language/cobol/application)
 实现：原生 `praxo-run` 批处理异常分析通过五项确定性检查及批处理文件检查；私密记录、直接
 过账和租户不匹配均被拒绝，且不提交可执行文件。COBOL 未捆绑 HTTP/TLS transport，因此没有
