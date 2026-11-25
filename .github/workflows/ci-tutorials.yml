@@ -299,6 +299,15 @@ jobs:
       - run: cargo test
         working-directory: language/rust/application
 
+  cpp-ai-edge-application:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - run: cmake -S language/cpp -B language/cpp/build-ai-edge
+      - run: cmake --build language/cpp/build-ai-edge --target praxo-cpp-ai-edge-application
+      - run: ctest --test-dir language/cpp/build-ai-edge -R praxo-cpp-ai-edge-application --output-on-failure
+
   ruby-recruiting-match:
     runs-on: ubuntu-latest
     timeout-minutes: 10

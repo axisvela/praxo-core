@@ -16,11 +16,13 @@ plus `agent_trace`. Go v1 is implemented at `language/go/application` with an
 HTTP/CLI host; 8/8 tests pass, and the live run records model-selected tools,
 diagnosis/rationale, and `agent_trace`. Rust v1 is implemented at
 `language/rust/application` with an edge CLI and `GatewayAdapter`; 6/6 tests pass,
-but the live path is blocked locally by the TLS backend build. PHP, Elixir,
-Erlang, and Go have recorded live-model reasoning runs with hosted DeepSeek
-`deepseek-flash`; Java/Rust live reasoning, SDK CI, Drupal, payment, and
-independent-consumer paths remain open. Other languages implement the AI-native
-workflow directly.
+but the live path is blocked locally by the TLS backend build. C++ v1 is
+implemented at `language/cpp/application`; five local CLI checks pass, and its
+live path is not implemented because the Core adapter requires an
+application-supplied HTTP transport. PHP, Elixir, Erlang, and Go have recorded
+live-model reasoning runs with hosted DeepSeek `deepseek-flash`; Java/Rust/C++
+live reasoning, SDK CI, Drupal, payment, and independent-consumer paths remain
+open. Other languages implement the AI-native workflow directly.
 
 ## Purpose
 
@@ -227,6 +229,8 @@ reasoning runs with hosted DeepSeek `deepseek-flash`.
 - Rust has deterministic harness tests and a wired live path, but the local TLS
   backend build is blocked by missing native C headers for `ring`; no Rust live
   run is recorded.
+- C++ has deterministic harness tests, but no live path is implemented because
+  the Core adapter requires an application-supplied HTTP transport.
 
 Java remains source-only and is not locally compiled; it has no live-model run.
 Deterministic harness tests remain separate evidence and are not a substitute for

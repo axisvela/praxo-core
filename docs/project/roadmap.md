@@ -736,12 +736,16 @@ Priority 5 has a Rust AI edge gateway agent at
 It passes 6/6 local tests, uses an application-owned `GatewayAdapter`, and records
 model-selected tools plus `agent_trace`. The live path is wired, but the local TLS
 backend build is blocked by missing native C headers for `ring`, so no Rust live
-run is recorded. The C++ counterpart remains pending; priorities 6-8 remain
-proposals. Other languages implement AI-native applications directly.
+run is recorded. The C++ counterpart is implemented at
+[`language/cpp/application`](https://github.com/axisvela/praxo-core/tree/main/language/cpp/application):
+it passes five local CLI checks, uses an application-owned `GatewayAdapter`, and
+records `agent_trace`. C++ live is not implemented because the Core adapter
+requires an application-supplied HTTP transport; priorities 6-8 remain proposals.
+Other languages implement AI-native applications directly.
 
 Deterministic harness tests are not live-model reasoning evidence. PHP, Elixir,
-Erlang, and Go now have recorded live-model runs; Java and Rust do not. A claim of
-AI-native verification requires the live model id, model-selected tools,
+Erlang, and Go now have recorded live-model runs; Java, Rust, and C++ do not. A
+claim of AI-native verification requires the live model id, model-selected tools,
 generated content, policy boundaries, trace, and cost/latency. Track delivery in
 [#34](https://github.com/axisvela/praxo-core/issues/34).
 
