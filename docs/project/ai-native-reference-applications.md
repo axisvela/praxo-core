@@ -16,7 +16,9 @@ plus `agent_trace`. Go v1 is implemented at `language/go/application` with an
 HTTP/CLI host; 8/8 tests pass, and the live run records model-selected tools,
 diagnosis/rationale, and `agent_trace`. Rust v1 is implemented at
 `language/rust/application` with an edge CLI and `GatewayAdapter`; 6/6 tests pass,
-but the live path is blocked locally by the TLS backend build. C++ v1 is
+and a hosted DeepSeek live run records `model=live`, model-selected tools, a
+review-only draft, and `executions=0` through an application-owned `curl`
+transport. C++ v1 is
 implemented at `language/cpp/application`; five local CLI checks pass, and its
 live path is not implemented because the Core adapter requires an
 application-supplied HTTP transport. COBOL v1 is implemented at
@@ -29,10 +31,10 @@ tools, computed fit evidence, and `writes=0`. Ruby v1 is implemented at
 `language/ruby/application`; a Rails 8 host passes five deterministic checks and
 a hosted DeepSeek `deepseek-flash` live run records `model=live`, model-selected
 tools, a review-only draft, and zero payment/refund effects. PHP, Elixir, Erlang,
-Go, Julia, and Ruby have recorded live-model reasoning runs with hosted DeepSeek
-`deepseek-flash`; Java/Rust/C++/COBOL live reasoning, SDK CI, Drupal, payment, and
-independent-consumer paths remain open. Other languages implement the AI-native
-workflow directly.
+Go, Rust, Julia, and Ruby have recorded live-model reasoning runs with hosted
+DeepSeek `deepseek-flash`; Java/C++/COBOL live reasoning, SDK CI, Drupal, payment,
+and independent-consumer paths remain open. Other languages implement the
+AI-native workflow directly.
 
 ## Purpose
 
@@ -217,7 +219,7 @@ An AI-native reasoning claim requires a recorded live-model run that shows:
 5. the run records model id, endpoint class, tool trace, latency, and cost;
 6. the output or trace is inspectable and is not only fixed fixture text.
 
-Current status (2026-11-25): PHP, Elixir, Erlang, Go, Julia, and Ruby have
+Current status (2026-11-25): PHP, Elixir, Erlang, Go, Rust, Julia, and Ruby have
 recorded live-model reasoning runs with hosted DeepSeek `deepseek-flash`.
 
 - PHP recorded `model=live`, a four-step trace (`search_content` ->
@@ -236,9 +238,10 @@ recorded live-model reasoning runs with hosted DeepSeek `deepseek-flash`.
 - Go recorded `model=live`, a three-step trace (`search_signals` ->
   `draft_remediation` -> final report), a 350-character diagnosis and
   523-character rationale, and `executions=0`.
-- Rust has deterministic harness tests and a wired live path, but the local TLS
-  backend build is blocked by missing native C headers for `ring`; no Rust live
-  run is recorded.
+- Rust recorded `model=live`: the model chose `read_gateway` then `draft_action`
+  with a model-written diagnosis/rationale, and finished with `executions=0`.
+  The live path uses an application-owned `curl` transport, avoiding the local
+  `ring`/TLS build blocker.
 - C++ has deterministic harness tests, but no live path is implemented because
   the Core adapter requires an application-supplied HTTP transport.
 - COBOL has a native deterministic harness and a batch-file check, but the Core

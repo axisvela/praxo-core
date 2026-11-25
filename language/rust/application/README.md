@@ -18,8 +18,9 @@ application precursor.
   edge component that already owns transport, identity, and device effects.
 - **Do not choose when:** Direct MQTT, OPC UA, or a device SDK already solves the
   task, or when a simpler deterministic runbook is sufficient.
-- **Evidence limit:** Fixture adapter and deterministic model for tests. The live
-  path is wired but not recorded because the local TLS backend build is blocked.
+- **Evidence limit:** Fixture adapter and deterministic model for tests. A hosted
+  DeepSeek live run is recorded through an application-owned `curl` transport; it
+  is not a real MQTT, OPC UA, or device-write integration.
 
 ## AI-native workflow
 
@@ -38,9 +39,13 @@ failure paths, and trace shape, not LLM reasoning.
 
 In the live path, the model chooses tools/arguments and writes the diagnosis and
 rationale. `agent_trace` records tool calls and model output, and `model` is
-`"live"` rather than `"deterministic"`. The live model uses the Core
-OpenAI-compatible adapter. This local workstation cannot build the TLS backend
-(`ring` requires native C headers), so no live run is recorded in this revision.
+`"live"` rather than `"deterministic"`. A local hosted DeepSeek `deepseek-flash`
+run recorded `model=live`, a `read_gateway` -> `draft_action` sequence, a
+model-written diagnosis/rationale, and `executions=0`.
+
+The live model uses an application-owned `curl` transport rather than the Core
+`http-ureq` feature. That avoids the local `ring`/native-header build blocker; the
+transport is plumbing, not model evidence.
 
 ## Host integration
 
@@ -104,11 +109,21 @@ Expected: exit code 1 with `TOOL_ERROR` after one read and no draft.
 
 ## Live model
 
-The live path reads `PRAXO_BASE_URL`, `PRAXO_MODEL`, and `PRAXO_API_KEY`. It uses
-the Core `http-ureq` feature. On this workstation the Rust TLS backend build is
-blocked by missing native C headers for `ring`, so the live run is not recorded.
-Do not claim live Rust reasoning until a TLS-capable environment records the
-model-selected tools, diagnosis/rationale, and `agent_trace`.
+The live path reads `PRAXO_BASE_URL`, `PRAXO_MODEL`, and `PRAXO_API_KEY`. It
+uses an application transport that calls `curl` with the JSON request and parses
+the OpenAI-compatible response. On Windows the transport adds
+`--ssl-no-revoke`; the local run also used `HTTPS_PROXY`.
+
+```bash
+export PRAXO_BASE_URL=https://api.deepseek.com
+export PRAXO_MODEL=deepseek-flash
+export PRAXO_API_KEY=...
+cargo run --offline -- --device device-100 \
+  --intent "Investigate the edge gateway telemetry and draft a review-only remediation."
+```
+
+The recorded report has `model=live`, `agent_trace` with `read_gateway` then
+`draft_action`, a model-written diagnosis/rationale, and `executions=0`.
 
 ## Boundaries
 
@@ -116,5 +131,5 @@ model-selected tools, diagnosis/rationale, and `agent_trace`.
 - No durable incident store, exactly-once effect, or production identity.
 - Fixture gateway and deterministic model are teaching components.
 - The module uses a local path dependency; it is not crate-registry evidence.
-- Local deterministic tests are recorded; live reasoning is blocked in this
-  environment.
+- Deterministic tests and a hosted live run are recorded; no real edge transport,
+  device write, production identity, or production deployment is claimed.

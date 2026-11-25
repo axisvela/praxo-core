@@ -1,10 +1,10 @@
 use std::env;
+use std::process::Command;
 use std::sync::atomic::{AtomicUsize, Ordering};
 use std::sync::{Arc, Mutex};
 
 use serde_json::{json, Map, Value};
 
-use praxo_core::adapters::openai_compat::{OpenAICompatConfig, OpenAICompatible, UreqTransport};
 use praxo_core::agent::{Agent, AgentOptions, Session};
 use praxo_core::errors::{PraxoError, Result as PraxoResult};
 use praxo_core::model::{Message, Model, Request, Response, ToolCall, ToolSpec};
@@ -313,16 +313,196 @@ impl Model for DeterministicModel {
 }
 
 struct LiveModel {
-    inner: OpenAICompatible<UreqTransport>,
+    base_url: String,
+    api_key: String,
+    model: String,
     specs: Vec<ToolSpec>,
+}
+
+impl LiveModel {
+    fn endpoint(&self) -> String {
+        let base = self.base_url.trim_end_matches('/');
+        if base.ends_with("/chat/completions") {
+            base.to_string()
+        } else {
+            format!("{base}/chat/completions")
+        }
+    }
+
+    fn payload(&self, request: &Request) -> Value {
+        let messages = request
+            .messages
+            .iter()
+            .map(message_payload)
+            .collect::<Vec<Value>>();
+        let mut body = Map::new();
+        body.insert(
+            "model".to_string(),
+            json!(request.model.clone().unwrap_or_else(|| self.model.clone())),
+        );
+        body.insert("messages".to_string(), Value::Array(messages));
+        if !request.tools.is_empty() {
+            let tools = request
+                .tools
+                .iter()
+                .map(|spec| {
+                    json!({
+                        "type": "function",
+                        "function": {
+                            "name": spec.name,
+                            "description": spec.description,
+                            "parameters": spec.parameters.clone().unwrap_or_else(|| {
+                                json!({"type": "object", "properties": {}})
+                                    .as_object()
+                                    .cloned()
+                                    .unwrap()
+                            })
+                        }
+                    })
+                })
+                .collect::<Vec<Value>>();
+            body.insert("tools".to_string(), Value::Array(tools));
+        }
+        Value::Object(body)
+    }
+
+    fn post(&self, payload: &Value) -> PraxoResult<Value> {
+        let body = serde_json::to_string(payload)
+            .map_err(|error| PraxoError::new("PROVIDER_JSON", error.to_string()))?;
+        let curl = env::var("CURL").unwrap_or_else(|_| "curl".to_string());
+        let mut command = Command::new(curl);
+        command.args(["-sS", "-X", "POST", "-H", "Content-Type: application/json"]);
+        if cfg!(windows) {
+            command.arg("--ssl-no-revoke");
+        }
+        if !self.api_key.is_empty() {
+            command.arg("-H");
+            command.arg(format!("Authorization: Bearer {}", self.api_key));
+        }
+        command
+            .args(["--max-time", "60", "--data-binary"])
+            .arg(body)
+            .args(["-w", "\n%{http_code}"])
+            .arg(self.endpoint());
+        let output = command
+            .output()
+            .map_err(|error| PraxoError::new("MODEL_HTTP", format!("curl failed: {error}")))?;
+        if !output.status.success() {
+            return Err(PraxoError::new(
+                "MODEL_HTTP",
+                format!(
+                    "curl failed: {}",
+                    String::from_utf8_lossy(&output.stderr).trim()
+                ),
+            ));
+        }
+        let text = String::from_utf8_lossy(&output.stdout);
+        let index = text.rfind('\n').unwrap_or(text.len());
+        let response_body = &text[..index];
+        let code = text[index + 1..]
+            .trim()
+            .parse::<u16>()
+            .map_err(|_| PraxoError::new("MODEL_HTTP", "provider returned no status"))?;
+        if !(200..300).contains(&code) {
+            return Err(PraxoError::new(
+                "MODEL_HTTP",
+                format!("provider returned HTTP {code}: {}", preview(response_body)),
+            ));
+        }
+        serde_json::from_str(response_body).map_err(|error| {
+            PraxoError::new(
+                "PROVIDER_JSON",
+                format!("provider returned invalid JSON: {error}"),
+            )
+        })
+    }
 }
 
 impl Model for LiveModel {
     fn generate(&self, request: &Request) -> PraxoResult<Response> {
         let mut request = request.clone();
         request.tools = self.specs.clone();
-        self.inner.generate(&request)
+        let data = self.post(&self.payload(&request))?;
+        parse_response(&data)
     }
+}
+
+fn message_payload(message: &Message) -> Value {
+    let mut out = Map::new();
+    out.insert("role".to_string(), json!(message.role));
+    out.insert(
+        "content".to_string(),
+        json!(message.content.clone().unwrap_or_default()),
+    );
+    if message.role == "assistant" && !message.tool_calls.is_empty() {
+        let calls = message
+            .tool_calls
+            .iter()
+            .map(|call| {
+                json!({
+                    "id": call.id,
+                    "type": "function",
+                    "function": {
+                        "name": call.name,
+                        "arguments": Value::Object(call.arguments.clone()).to_string()
+                    }
+                })
+            })
+            .collect::<Vec<Value>>();
+        out.insert("tool_calls".to_string(), Value::Array(calls));
+    }
+    if message.role == "tool" {
+        if let Some(id) = &message.tool_id {
+            out.insert("tool_call_id".to_string(), json!(id));
+        }
+    }
+    Value::Object(out)
+}
+
+fn parse_response(data: &Value) -> PraxoResult<Response> {
+    let choice = data["choices"]
+        .as_array()
+        .and_then(|choices| choices.first())
+        .ok_or_else(|| PraxoError::new("PROVIDER_JSON", "provider returned no choices"))?;
+    let message = &choice["message"];
+    let content = message["content"].as_str().unwrap_or("");
+    let mut calls = Vec::new();
+    if let Some(items) = message["tool_calls"].as_array() {
+        for item in items {
+            let function = &item["function"];
+            let name = function["name"].as_str().unwrap_or("");
+            let arguments = match &function["arguments"] {
+                Value::String(raw) if !raw.is_empty() => serde_json::from_str::<Value>(raw)
+                    .map_err(|error| {
+                        PraxoError::new(
+                            "PROVIDER_JSON",
+                            format!("provider returned invalid tool arguments: {error}"),
+                        )
+                    })?,
+                Value::Object(_) => function["arguments"].clone(),
+                _ => Value::Object(Map::new()),
+            };
+            calls.push(ToolCall {
+                id: item["id"].as_str().unwrap_or("").to_string(),
+                name: name.to_string(),
+                arguments: arguments.as_object().cloned().unwrap_or_default(),
+            });
+        }
+    }
+    let usage = &data["usage"];
+    Ok(Response {
+        message: Message::assistant(content, calls),
+        usage: praxo_core::model::Usage {
+            input_tokens: usage["prompt_tokens"].as_i64().unwrap_or(0),
+            output_tokens: usage["completion_tokens"].as_i64().unwrap_or(0),
+            cached_tokens: 0,
+        },
+        finish_reason: choice["finish_reason"].as_str().map(str::to_string),
+    })
+}
+
+fn preview(value: &str) -> String {
+    value.chars().take(512).collect()
 }
 
 struct TracingModel {
@@ -550,14 +730,10 @@ fn live_model() -> Option<Arc<dyn Model>> {
     if base_url.trim().is_empty() || model.trim().is_empty() {
         return None;
     }
-    let config = OpenAICompatConfig {
+    Some(Arc::new(LiveModel {
         base_url,
         api_key: env::var("PRAXO_API_KEY").unwrap_or_default(),
         model,
-        timeout_secs: 60,
-    };
-    Some(Arc::new(LiveModel {
-        inner: OpenAICompatible::new(config, UreqTransport::new(60)),
         specs: tool_specs(),
     }))
 }
