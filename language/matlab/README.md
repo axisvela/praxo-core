@@ -78,7 +78,7 @@ under GNU Octave; native MATLAB execution remains unverified.
 | Subagent delegation | synchronous seam |
 | Memory, checkpoint, policy, HITL | native Core-local |
 
-Native MATLAB Core implementation with source tag `matlab/v0.8.0`. It is
+Native MATLAB Core implementation with source tag `matlab/v0.9.0`. It is
 published on
 [MATLAB File Exchange](https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core).
 The shared implementation passes all eleven vector groups under GNU Octave

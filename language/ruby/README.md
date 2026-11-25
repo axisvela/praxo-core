@@ -28,7 +28,7 @@ reference implementation.
 ## Package
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.9.2`
+- Core version: `0.10.0`
 - Tier: core
 - License: MIT
 - Dependencies: Ruby standard library only

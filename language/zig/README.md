@@ -5,7 +5,7 @@ contract is [`spec/`](../../spec/README.md); Go remains the reference
 implementation.
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.8.0`
+- Core version: `0.9.0`
 - Tier: core
 - License: MIT
 - Dependencies: Zig standard library only

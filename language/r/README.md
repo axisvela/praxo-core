@@ -35,7 +35,7 @@ agent, crawler, hosted agent service, or model provider.
 ## Package
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.11.0`
+- Core version: `0.12.0`
 - Tier: core
 - License: MIT
 - Dependencies: none (base R JSON parser/serializer)

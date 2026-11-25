@@ -7,7 +7,7 @@ Schema validation, and plugin manifest parsing. It runs in-process and does not
 require a hosted service.
 
 - `SPEC_VERSION`: `0.2.0`
-- Source version: `0.10.0` (latest source tag `csharp/v0.10.0`)
+- Source version: `0.11.0` (latest source tag `csharp/v0.11.0`)
 - License: MIT
 - Dependencies: none beyond the .NET base class library
 - The latest NuGet package is `Praxo.Core@0.10.0`.

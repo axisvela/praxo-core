@@ -35,7 +35,7 @@ reference implementation.
 ## Package
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.8.1-1`
+- Core version: `0.9.0-1`
 - Tier: core
 - License: MIT
 - Dependencies: Lua standard library only

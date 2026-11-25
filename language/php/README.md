@@ -10,7 +10,7 @@ adding a Python or Go sidecar. It is not an HTTP user agent, crawler, hosted
 agent service, or model provider.
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.9.0`
+- Core version: `0.10.0`
 - The latest Packagist package is `axisvela/praxo-core@0.8.1`
 - License: MIT
 - Dependencies: none beyond the PHP standard library

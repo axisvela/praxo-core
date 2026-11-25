@@ -23,14 +23,14 @@ Swift implementation of the PRAXO-CORE contract.
   application-owned.
 - MCP uses caller-supplied transports; no remote MCP service is bundled.
 - The split package `0.7.2` is documentation-only and non-streaming; SSE
-  streaming is available in source tag `swift/v0.8.0`, not in the split package.
+  streaming is available in source tag `swift/v0.9.0`, not in the split package.
 - Go remains the reference implementation; full Go feature parity is not
   claimed.
 
 ## Package
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.8.0`
+- Core version: `0.9.0`
 - Tier: core
 - License: MIT
 

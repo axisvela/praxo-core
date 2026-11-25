@@ -38,7 +38,7 @@ reference implementation.
 ## Package
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.7.1`
+- Core version: `0.8.0`
 - Tier: core
 - License: MIT
 - Dependencies: Perl core modules only (`JSON::PP`, `File::Spec`, `Cwd`)

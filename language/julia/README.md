@@ -3,7 +3,7 @@
 Julia implementation of the PRAXO-CORE AI agent framework contract.
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.8.0`
+- Core version: `0.9.0`
 - Tier: core
 - License: MIT
 - Dependency: JSON.jl
