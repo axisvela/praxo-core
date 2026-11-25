@@ -59,7 +59,7 @@ Ruby、PHP、Elixir、Lua 等语言都有独立发布包。它不是 Go 专用�
 Go 是参考实现；其他运行时请使用上表。
 
 ```bash
-go get github.com/axisvela/praxo-core/v2@v2.9.0
+go get github.com/axisvela/praxo-core/v2@v2.10.0
 ```
 
 先通过[Go 独立消费者](docs/zh-CN/getting-started/consumer-go.md)在自己的应用安装发布包，
