@@ -76,7 +76,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: sudo apt-get update && sudo apt-get install -y fpc
-      - run: mkdir -p build
+      - run: mkdir -p language/delphi/build
       - run: fpc -Mobjfpc -Scghi -O2 -Fu. -FEbuild Tutorial/legacy-migration/inventory.pas
         working-directory: language/delphi
       - run: ./build/inventory --test
@@ -127,10 +127,9 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-      - uses: vlang/setup-v@v1
-        with:
-          version: '0.5.2'
-      - run: v -path "language/v|@vlib|@vmodules" -o build/v-schedule language/v/Tutorial/production-scheduling/schedule.v
+      - run: git clone --depth 1 https://github.com/vlang/v /tmp/v
+      - run: make -C /tmp/v
+      - run: /tmp/v/v -path "language/v|@vlib|@vmodules" -o build/v-schedule language/v/Tutorial/production-scheduling/schedule.v
       - run: ./build/v-schedule --test
 
   d-executive-brief:
@@ -200,7 +199,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: sudo apt-get update && sudo apt-get install -y fpc
-      - run: mkdir -p build
+      - run: mkdir -p language/delphi/build
       - run: fpc -Mobjfpc -Scghi -O2 -Fu. -FEbuild Tutorial/rpa-reconciliation/reconcile.pas
         working-directory: language/delphi
       - run: ./build/reconcile --test
@@ -633,7 +632,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: sudo apt-get update && sudo apt-get install -y fpc
-      - run: mkdir -p build
+      - run: mkdir -p language/delphi/build
       - run: fpc -Mobjfpc -Scghi -O2 -Fu. -FEbuild Tutorial/tax-review/tax.pas
         working-directory: language/delphi
       - run: ./build/tax --test
@@ -714,10 +713,9 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-      - uses: vlang/setup-v@v1
-        with:
-          version: '0.5.2'
-      - run: v -path "language/v|@vlib|@vmodules" run language/v/Tutorial/release-preflight/preflight.v --test
+      - run: git clone --depth 1 https://github.com/vlang/v /tmp/v
+      - run: make -C /tmp/v
+      - run: /tmp/v/v -path "language/v|@vlib|@vmodules" run language/v/Tutorial/release-preflight/preflight.v --test
 
   d-data-pipeline:
     runs-on: ubuntu-latest
@@ -1252,7 +1250,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: sudo apt-get update && sudo apt-get install -y fpc
-      - run: mkdir -p build
+      - run: mkdir -p language/delphi/build
       - run: fpc -Mobjfpc -Scghi -O2 -Fu. -FEbuild Tutorial/hvac-settings/hvac.pas
         working-directory: language/delphi
       - run: ./build/hvac --test
