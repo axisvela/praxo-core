@@ -449,6 +449,7 @@ jobs:
       - uses: julia-actions/setup-julia@v2
         with:
           version: '1.11'
+      - run: julia --project=language/julia -e 'using Pkg; Pkg.instantiate()'
       - run: julia --project=language/julia language/julia/Tutorial/${{ matrix.dir }}/${{ matrix.file }}.jl --test
 
   java-new-tutorials:
