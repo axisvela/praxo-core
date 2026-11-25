@@ -289,6 +289,16 @@ jobs:
       - run: go test ./...
         working-directory: language/go/application
 
+  rust-ai-ops:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - run: sudo apt-get update && sudo apt-get install -y libssl-dev pkg-config
+      - run: cargo test
+        working-directory: language/rust/application
+
   ruby-recruiting-match:
     runs-on: ubuntu-latest
     timeout-minutes: 10
