@@ -19,10 +19,13 @@ diagnosis/rationale, and `agent_trace`. Rust v1 is implemented at
 but the live path is blocked locally by the TLS backend build. C++ v1 is
 implemented at `language/cpp/application`; five local CLI checks pass, and its
 live path is not implemented because the Core adapter requires an
-application-supplied HTTP transport. PHP, Elixir, Erlang, and Go have recorded
-live-model reasoning runs with hosted DeepSeek `deepseek-flash`; Java/Rust/C++
-live reasoning, SDK CI, Drupal, payment, and independent-consumer paths remain
-open. Other languages implement the AI-native workflow directly.
+application-supplied HTTP transport. COBOL v1 is implemented at
+`language/cobol/application`; its native `praxo-run` harness passes five
+deterministic checks and a batch-file check, but no live-model transport is
+bundled. PHP, Elixir, Erlang, and Go have recorded live-model reasoning runs with
+hosted DeepSeek `deepseek-flash`; Java/Rust/C++/COBOL live reasoning, SDK CI,
+Drupal, payment, and independent-consumer paths remain open. Other languages
+implement the AI-native workflow directly.
 
 ## Purpose
 
@@ -231,6 +234,8 @@ reasoning runs with hosted DeepSeek `deepseek-flash`.
   run is recorded.
 - C++ has deterministic harness tests, but no live path is implemented because
   the Core adapter requires an application-supplied HTTP transport.
+- COBOL has a native deterministic harness and a batch-file check, but the Core
+  COBOL package has no bundled HTTP/TLS client, so no live run is recorded.
 
 Java remains source-only and is not locally compiled; it has no live-model run.
 Deterministic harness tests remain separate evidence and are not a substitute for

@@ -577,11 +577,14 @@ live 路径已接线，但本地 TLS backend 因 `ring` 缺少原生 C 头文件
 真实运行记录。C++ 对应实现位于
 [`language/cpp/application`](https://github.com/axisvela/praxo-core/tree/main/language/cpp/application)：
 本地 CLI 五项检查通过，使用应用自有 `GatewayAdapter`，并记录 `agent_trace`。C++ live 未实现，
-因为 Core adapter 需要应用提供 HTTP transport；优先级 6-8 仍为拟建设。其他语言直接实现
-AI-native 应用。
+因为 Core adapter 需要应用提供 HTTP transport。优先级 6 已在
+[`language/cobol/application`](https://github.com/axisvela/praxo-core/tree/main/language/cobol/application)
+实现：原生 `praxo-run` 批处理异常分析通过五项确定性检查及批处理文件检查；私密记录、直接
+过账和租户不匹配均被拒绝，且不提交可执行文件。COBOL 未捆绑 HTTP/TLS transport，因此没有
+真实运行记录。优先级 7-8 仍为拟建设。其他语言直接实现 AI-native 应用。
 
 确定性 harness 测试不是真实模型推理证据。PHP、Elixir、Erlang、Go 已有真实模型运行记录；
-Java、Rust、C++ 还没有。AI-native 验证声明需要模型 ID、模型选择的工具、生成内容、策略边界、
+Java、Rust、C++、COBOL 还没有。AI-native 验证声明需要模型 ID、模型选择的工具、生成内容、策略边界、
 trace、延迟与成本。交付跟踪见 [#34](https://github.com/axisvela/praxo-core/issues/34)。
 
 每项参考应用应包含所选已发布 Core 包的可复现安装、真实宿主入口、有用的端到端任务、

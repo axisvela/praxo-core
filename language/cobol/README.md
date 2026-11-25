@@ -23,6 +23,9 @@ batch program does not need to link Core.
 The [batch exception review example](https://github.com/axisvela/praxo-core/tree/main/language/cobol/examples/batch-exception-review)
 checks this boundary with a deterministic COBOL review fixture and simulated
 worker failure and timeout. The
+[AI batch exception analyst](https://github.com/axisvela/praxo-core/tree/main/language/cobol/application)
+shows the separate review step with a native `praxo-run` loop, governed tools,
+and a review-only advisory file. The
 [provider transport scaffold](https://github.com/axisvela/praxo-core/tree/main/language/cobol/examples/live-model)
 requires a caller-supplied HTTP transport; it is not a live-model quickstart.
 Neither example establishes production throughput or batch-window compliance.

@@ -13,9 +13,11 @@ Go v1 已在 `language/go/application` 实现：HTTP/CLI 宿主，8/8 测试通�
 模型选择的工具、diagnosis/rationale 与 `agent_trace`。Rust v1 已在
 `language/rust/application` 实现：边缘 CLI 与 `GatewayAdapter`，6/6 测试通过，但本地
 TLS backend 构建阻塞，live 未运行。C++ v1 已在 `language/cpp/application` 实现：本地 CLI
-五项检查通过；由于 Core adapter 需要应用提供 HTTP transport，live 未实现。PHP、Elixir、
-Erlang、Go 已使用托管 DeepSeek `deepseek-flash` 记录真实模型推理运行；Java/Rust/C++ 真实
-推理、SDK CI、Drupal、支付和独立消费者路径仍未关闭。其他语言直接实现 AI-native 流程。
+五项检查通过；由于 Core adapter 需要应用提供 HTTP transport，live 未实现。COBOL v1 已在
+`language/cobol/application` 实现：原生 `praxo-run` harness 五项确定性检查加批处理文件检查
+通过，但未捆绑 live model transport。PHP、Elixir、Erlang、Go 已使用托管 DeepSeek
+`deepseek-flash` 记录真实模型推理运行；Java/Rust/C++/COBOL 真实推理、SDK CI、Drupal、支付和
+独立消费者路径仍未关闭。其他语言直接实现 AI-native 流程。
 
 ## 目的
 
@@ -198,6 +200,8 @@ AI-native 推理声明需要一次记录在案的真实模型运行，并展示�
   原生 C 头文件而阻塞，因此没有 Rust 真实运行记录。
 - C++：有确定性 harness 测试，但 Core adapter 需要应用提供 HTTP transport，因此未实现
   live 路径。
+- COBOL：有原生确定性 harness 和批处理文件检查，但 COBOL Core 未捆绑 HTTP/TLS client，
+  因此没有真实运行记录。
 
 Java 仍仅有源码且未本地编译，没有真实模型运行。确定性 harness 测试是单独证据，不能
 替代真实运行。
