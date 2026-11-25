@@ -1,5 +1,6 @@
 package tutorial;
 
+import com.axisvela.praxo.PraxoException;
 import com.axisvela.praxo.util.Json;
 import org.junit.jupiter.api.Test;
 
@@ -22,9 +23,9 @@ class PublicApprovalTest {
 
     @Test
     void policyDenied() {
-        Exception error = assertThrows(Exception.class,
+        PraxoException error = assertThrows(PraxoException.class,
                 () -> PublicApproval.run("application-200", false));
-        assertTrue(error.getMessage().contains("AGENT_POLICY_DENIED"));
+        assertEquals("AGENT_POLICY_DENIED", error.code);
     }
 
     @Test

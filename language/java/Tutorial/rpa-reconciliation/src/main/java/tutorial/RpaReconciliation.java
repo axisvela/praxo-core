@@ -71,10 +71,15 @@ public final class RpaReconciliation {
         Model fixture = request -> {
             Message last = request.messages().get(request.messages().size() - 1);
             if (Message.TOOL.equals(last.role())) {
-                String toolResult = last.content();
-                return Response.of(Message.assistant(
-                        "{\"stage\":\"" + "exception_drafted" + "\",\"result\":" + toolResult
-                                + ",\"writes\":0}", List.of()));
+                Object toolValue = Json.parse(last.content());
+                if (toolValue instanceof String text) {
+                    toolValue = Json.parse(text);
+                }
+                Map<String, Object> report = new LinkedHashMap<>();
+                report.put("stage", "exception_drafted");
+                report.put("result", toolValue);
+                report.put("writes", 0);
+                return Response.of(Message.assistant(Json.stringify(report), List.of()));
             }
             return Response.of(Message.assistant("", List.of(
                     new ToolCall("tool-1", TOOL, Map.of(SCOPE_KEY, scope, "action", ACTION)))));
