@@ -729,11 +729,18 @@ module replace, passes 8/8 tests, denies direct remediation, and records
 `agent_trace`. A hosted live run with DeepSeek `deepseek-flash` recorded
 `model=live`, a three-step trace (`search_signals` -> `draft_remediation` ->
 final report), a model-written diagnosis/rationale, and `executions=0`. Go CI is
-added but has not run; priorities 5-8 remain proposals. Other languages implement
-AI-native applications directly.
+added but has not run.
+
+Priority 5 has a Rust AI edge gateway agent at
+[`language/rust/application`](https://github.com/axisvela/praxo-core/tree/main/language/rust/application).
+It passes 6/6 local tests, uses an application-owned `GatewayAdapter`, and records
+model-selected tools plus `agent_trace`. The live path is wired, but the local TLS
+backend build is blocked by missing native C headers for `ring`, so no Rust live
+run is recorded. The C++ counterpart remains pending; priorities 6-8 remain
+proposals. Other languages implement AI-native applications directly.
 
 Deterministic harness tests are not live-model reasoning evidence. PHP, Elixir,
-Erlang, and Go now have recorded live-model runs; Java does not. A claim of
+Erlang, and Go now have recorded live-model runs; Java and Rust do not. A claim of
 AI-native verification requires the live model id, model-selected tools,
 generated content, policy boundaries, trace, and cost/latency. Track delivery in
 [#34](https://github.com/axisvela/praxo-core/issues/34).
