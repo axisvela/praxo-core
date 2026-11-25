@@ -29,6 +29,7 @@ target/
 out/
 out-test/
 .dart_tool/
+erl_crash.dump
 language/dart/pubspec.lock
 language/kotlin/examples/*.jar
 kotlin-compiler.zip
