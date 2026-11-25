@@ -1,6 +1,5 @@
 module main
 
-import json
 import os
 import time
 import praxo
@@ -33,7 +32,7 @@ fn version_valid(version string) bool {
 
 fn check_config(root string) !json2.Any {
     text := os.read_file(os.join_path(root, 'app.json'))!
-    config := json.decode(Config, text)!
+    config := json2.decode[Config](text)!
     mut issues := []json2.Any{}
     if config.name.trim_space() == '' { issues << json2.Any('missing_name') }
     if !version_valid(config.version) { issues << json2.Any('invalid_version') }
