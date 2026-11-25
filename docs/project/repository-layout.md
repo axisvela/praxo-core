@@ -11,6 +11,7 @@ unchanged. This is a source-tree migration, not a new framework release.
 | `language/powershell/` | PowerShell Core wrapper over the C# Core |
 | `bindings/shell/`, `bindings/powershell/` | Bridge wrappers over the bridge runtime |
 | `language/javascript/examples/`, `language/kotlin/examples/`, `language/scala/examples/`, `language/groovy/examples/`, `language/clojure/examples/`, `language/fsharp/examples/`, `language/opencl/examples/` | Samples consuming TypeScript, Java, .NET, or C |
+| `language/go/examples/` | Go reference examples and cross-language integration examples |
 | `adapters/` | Optional integrations |
 | `spec/` | Normative contract, shared vectors, and parity inventories |
 | `docs/` | Public documentation |
@@ -29,8 +30,10 @@ Root-level `python/`, `typescript/`, `java/`, `rust/`, `c/`, `cpp/`, `csharp/`,
 `zig/`, `cobol/`, and `fortran/` are now under `language/`.
 
 Root-level `shell/` and `powershell/` are now under `bindings/`. Root-level
-`javascript/`, `kotlin/`, `scala/`, `groovy/`, and `clojure/` are now under
-`examples/`. The F# and OpenCL samples are at `language/fsharp/examples/` and
+`examples/` moved under `language/go/examples/`. Sample-only language trees are at
+`language/javascript/examples/`, `language/kotlin/examples/`,
+`language/scala/examples/`, `language/groovy/examples/`, and
+`language/clojure/examples/`. The F# and OpenCL samples are at `language/fsharp/examples/` and
 `language/opencl/examples/`. The Visual Basic sample remains with the .NET Core at
 `language/csharp/samples/VbSample/`.
 

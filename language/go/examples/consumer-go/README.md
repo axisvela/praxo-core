@@ -57,14 +57,14 @@ security profile.
 ## Identity and Policy Recipe
 
 The verified-identity pattern is a separate L4 application recipe at
-[`examples/recipes/identity-go`](../recipes/identity-go/README.md). It is not part
+[`language/go/examples/recipes/identity-go`](../recipes/identity-go/README.md). It is not part
 of this starter and is not a Core capability claim. See the
 [identity and policy guide](../../../../docs/guides/identity-policy.md).
 
 ## Long-Running Operations
 
 The long-running operation pattern is a separate L4 application recipe at
-[`examples/recipes/long-running-go`](../recipes/long-running-go/README.md). It is
+[`language/go/examples/recipes/long-running-go`](../recipes/long-running-go/README.md). It is
 not part of this starter and is not a Core capability claim. See the
 [long-running operations guide](../../../../docs/guides/long-running-operations.md).
 

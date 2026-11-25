@@ -5,7 +5,7 @@ Application-level parent/child delegation plus six governance negative checks.
 From `language/powershell/`:
 
 ```powershell
-pwsh -NoProfile -File examples/advanced-delegation/governance.ps1
+pwsh -NoProfile -File language/go/examples/advanced-delegation/governance.ps1
 ```
 
 Expected output:

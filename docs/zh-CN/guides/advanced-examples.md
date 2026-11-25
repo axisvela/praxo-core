@@ -11,7 +11,7 @@
 
 | 语言 | 示例 | 运行 |
 | --- | --- | --- |
-| Go | [`examples/multiagent`](https://github.com/axisvela/praxo-core/tree/main/examples/multiagent) | `go test ./...` |
+| Go | [`language/go/examples/multiagent`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/multiagent) | `go test ./...` |
 | Python | [`language/python/examples/advanced-delegation`](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/advanced-delegation) | `python delegation.py` |
 | TypeScript | [`language/typescript/examples/advanced-delegation`](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/advanced-delegation) | `npm start` |
 | Java | [`language/java/examples/advanced-delegation`](https://github.com/axisvela/praxo-core/tree/main/language/java/examples/advanced-delegation) | `mvn -q compile exec:java` |
@@ -30,7 +30,7 @@
 ## 长时操作
 
 Go 参考配方
-[`examples/recipes/long-running-go`](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/long-running-go)
+[`language/go/examples/recipes/long-running-go`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/recipes/long-running-go)
 展示应用自有的提交、状态、取消、恢复、fencing、验证器和持久状态模式。完整范围和限制见
 [长时操作配方](long-running-operations.md)。
 
@@ -40,7 +40,7 @@ Go 参考配方
 ## 工作区
 
 Go 参考示例
-[`examples/governed-workspace`](https://github.com/axisvela/praxo-core/tree/main/examples/governed-workspace)
+[`language/go/examples/governed-workspace`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/governed-workspace)
 展示受治理的只读工作区路径。引导式发布包版本见
 [Workspace Agent 教程](workspace-agent-tutorial.md)。
 
@@ -50,7 +50,7 @@ Go 参考示例
 ## Plugin
 
 Go 参考示例
-[`examples/plugin`](https://github.com/axisvela/praxo-core/tree/main/examples/plugin)
+[`language/go/examples/plugin`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/plugin)
 展示 Plugin 生命周期、受保护状态转换、in-flight drain、revoke 和 quarantine。Plugin Host
 仍以 Go 为先；其他 Core 应明确记录差距。
 

@@ -1,6 +1,6 @@
 # R Tutorials
 
-Application tutorials live in `Tutorial/`, alongside focused `examples/`.
+Application tutorials live in `Tutorial/`, alongside focused `language/go/examples/`.
 
 - [Data quality](data-quality/README.md): native R statistics, a fixed dataset,
   computed evidence and a structured quality report.

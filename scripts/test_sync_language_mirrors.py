@@ -53,7 +53,7 @@ class MirrorSyncTests(unittest.TestCase):
         self.assertIn("pkg", entry["source_dirs"])
         self.assertIn("go.mod", entry["source_files"])
         self.assertEqual(entry["readme_source"], "docs/languages/go/index.md")
-        self.assertIn("examples", entry["examples_dirs"])
+        self.assertIn("language/go/examples", entry["examples_dirs"])
 
     def test_readme_and_gitignore_are_stable(self):
         entry = {entry["key"]: entry for entry in sync.mirror_entries()}["python"]
@@ -67,6 +67,14 @@ class MirrorSyncTests(unittest.TestCase):
         self.assertIn("## Community", readme)
         self.assertIn("https://x.com/axisvela", readme)
         self.assertIn("https://weibo.com/u/1936025761", readme)
+        self.assertIn("https://www.linkedin.com/company/axisvela/", readme)
+        self.assertIn("https://www.facebook.com/profile.php?id=61596905732406", readme)
+        self.assertIn("https://www.youtube.com/@axisvela", readme)
+        self.assertIn("https://discord.com/channels/1575163993767809064/1575164343148875977", readme)
+        self.assertIn("https://github.com/axisvela/praxo-core/discussions", readme)
+        self.assertIn("https://github.com/axisvela/praxo-core/issues", readme)
+        self.assertIn("https://axisvela.github.io/praxo-core/", readme)
+        self.assertIn("https://axisvela.architect.pub", readme)
         self.assertIn("build/", sync.mirror_gitignore())
 
     def test_readme_links_examples_when_present(self):
@@ -89,7 +97,7 @@ class MirrorSyncTests(unittest.TestCase):
         version = (sync.ROOT / "VERSION").read_text(encoding="utf-8").strip()
         self.assertIn(f"go get github.com/axisvela/praxo-core/v2@v{version}", readme)
         self.assertIn("language/go/examples/consumer-go", readme)
-        self.assertIn("examples/live-model", readme)
+        self.assertIn("language/go/examples/live-model", readme)
 
     def test_build_mirror_copies_sources_and_ignores_artifacts(self):
         entry = {entry["key"]: entry for entry in sync.mirror_entries()}["python"]

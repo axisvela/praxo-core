@@ -5,9 +5,9 @@ Application-level parent/child delegation plus six governance negative checks.
 From `language/haskell/`:
 
 ```bash
-ghc -isrc examples/advanced-delegation/delegation.hs -o build/praxo-hs-delegation
+ghc -isrc language/go/examples/advanced-delegation/delegation.hs -o build/praxo-hs-delegation
 ./build/praxo-hs-delegation
-ghc -isrc examples/advanced-delegation/governance.hs -o build/praxo-hs-governance
+ghc -isrc language/go/examples/advanced-delegation/governance.hs -o build/praxo-hs-governance
 ./build/praxo-hs-governance
 ```
 

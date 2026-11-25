@@ -3,10 +3,10 @@
 Application-level parent/child delegation plus six governance negative checks.
 
 ```bash
-dmd -i -Isource -O -release examples/advanced-delegation/delegation.d -of=build/praxo-d-delegation.exe
+dmd -i -Isource -O -release language/go/examples/advanced-delegation/delegation.d -of=build/praxo-d-delegation.exe
 ./build/praxo-d-delegation
 
-dmd -i -Isource -O -release examples/advanced-delegation/governance.d -of=build/praxo-d-governance.exe
+dmd -i -Isource -O -release language/go/examples/advanced-delegation/governance.d -of=build/praxo-d-governance.exe
 ./build/praxo-d-governance
 ```
 

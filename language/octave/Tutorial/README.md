@@ -1,6 +1,6 @@
 # Octave Tutorials
 
-Application tutorials live in `Tutorial/`, alongside focused `examples/`.
+Application tutorials live in `Tutorial/`, alongside focused `language/go/examples/`.
 
 - [Water quality](water-quality/README.md): fixed oxygen/temperature thresholds
   with a review-only aeration branch; no sensor or actuator access.

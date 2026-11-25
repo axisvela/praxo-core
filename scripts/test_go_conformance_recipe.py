@@ -7,7 +7,7 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[1]
-RECIPE = ROOT / "examples/recipes/conformance-go"
+RECIPE = ROOT / "language/go/examples/recipes/conformance-go"
 
 
 class GoConformanceRecipeTests(unittest.TestCase):

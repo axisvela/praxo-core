@@ -7,7 +7,7 @@ denial with zero effects.
 From `language/haskell/`:
 
 ```bash
-ghc -isrc examples/representative-chain/chain.hs -o build/praxo-hs-chain
+ghc -isrc language/go/examples/representative-chain/chain.hs -o build/praxo-hs-chain
 ./build/praxo-hs-chain
 ```
 

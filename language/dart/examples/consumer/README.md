@@ -13,7 +13,7 @@ dart language/dart/examples/consumer/consumer.dart
 Or from `language/dart`:
 
 ```bash
-dart run examples/consumer/consumer.dart
+dart run language/go/examples/consumer/consumer.dart
 ```
 
 Expected output:

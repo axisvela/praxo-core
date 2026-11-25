@@ -15,7 +15,7 @@
 - [Rust](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples/structured-output)
 
 其余 SDK 在 `language/<language>/examples/structured-output` 提供确定性源码示例。Go
-参考配方位于 `examples/recipes/structured-output-go`。
+参考配方位于 `language/go/examples/recipes/structured-output-go`。
 
 处理器示例校验 `title`、`summary` 和 `tags`。源码模式机制检查可能使用更小的 schema，
 例如 C 只检查 `name`，不调用模型。Schema 检查通过不是模型到应用集成的证据。
@@ -97,7 +97,7 @@ cargo run
 ## Go 参考配方
 
 ```bash
-cd examples/recipes/structured-output-go
+cd language/go/examples/recipes/structured-output-go
 GOWORK=off go test -mod=readonly -run 'Structured|Schema|Arguments|ResponseFormat' -v ./...
 ```
 
@@ -226,7 +226,7 @@ npm test
 
 ## 其他原型路径
 
-先检查各语言 `examples/structured-output` 的实际 schema 和程序，构建或安装其依赖的
+先检查各语言 `language/go/examples/structured-output` 的实际 schema 和程序，构建或安装其依赖的
 Core，再运行接受/拒绝断言。Schema-only 机制还需要模型和应用集成才能成为处理器，
 单独增加 Provider Adapter 不等于完成集成。
 

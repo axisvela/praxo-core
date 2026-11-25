@@ -35,8 +35,8 @@ Source tag `r/v0.10.0`; r-universe publication is pending.
 - Both guards are opt-in and default to `FALSE`.
 - `agent_run` accepts `session` or `messages` for multi-turn history and returns
   the updated `messages` in its result.
-- Consumer starter (`examples/consumer`) and OpenAI-compatible live-model
-  example (`examples/live-model`).
+- Consumer starter (`language/go/examples/consumer`) and OpenAI-compatible live-model
+  example (`language/go/examples/live-model`).
 
 ## 0.9.0 - 2026-11-13
 

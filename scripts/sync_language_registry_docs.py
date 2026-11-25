@@ -12,6 +12,14 @@ BLOCK_END = "## "
 COMMUNITY_LINKS = (
     ("X", "https://x.com/axisvela"),
     ("Weibo", "https://weibo.com/u/1936025761"),
+    ("LinkedIn", "https://www.linkedin.com/company/axisvela/"),
+    ("Facebook", "https://www.facebook.com/profile.php?id=61596905732406"),
+    ("YouTube", "https://www.youtube.com/@axisvela"),
+    ("Discord", "https://discord.com/channels/1575163993767809064/1575164343148875977"),
+    ("GitHub Discussions", "https://github.com/axisvela/praxo-core/discussions"),
+    ("GitHub Issues", "https://github.com/axisvela/praxo-core/issues"),
+    ("Documentation", "https://axisvela.github.io/praxo-core/"),
+    ("Architect", "https://axisvela.architect.pub"),
 )
 
 
@@ -425,7 +433,7 @@ documentation before relying on a version or feature.
 ## Examples
 
 - Task-oriented catalog: [docs Examples](docs/getting-started/examples.md)
-- Repository catalog: [examples/README.md](examples/README.md)
+- Repository catalog: [language/go/examples/README.md](language/go/examples/README.md)
 - Live model: [language/go/examples/live-model](language/go/examples/live-model/README.md)
 - Language examples: `language/<language>/examples/`
 
@@ -464,7 +472,7 @@ def render_root_llms() -> str:
 - README: https://github.com/axisvela/praxo-core/blob/main/README.md
 - Quickstart: https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/quickstart.md
 - Examples: https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/examples.md
-- Examples directory: https://github.com/axisvela/praxo-core/blob/main/examples/README.md
+- Examples directory: https://github.com/axisvela/praxo-core/blob/main/language/go/examples/README.md
 - Live model: https://github.com/axisvela/praxo-core/blob/main/language/go/examples/live-model/README.md
 - Start Here: https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/index.md
 - Coding-agent contract: https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md

@@ -8,7 +8,7 @@ From `language/zig/`:
 
 ```bash
 zig build-exe --dep praxo \
-  -Mroot=examples/representative-chain/chain.zig \
+  -Mroot=language/go/examples/representative-chain/chain.zig \
   -Mpraxo=src/praxo.zig -O ReleaseSafe -femit-bin=build/praxo-zig-chain
 ./build/praxo-zig-chain
 ```

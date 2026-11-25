@@ -142,7 +142,7 @@ class DocumentationTests(unittest.TestCase):
         self.assertTrue((ROOT / "site/languages/registry-pages/index.html").is_file())
 
     def test_identity_policy_recipe(self):
-        source = (ROOT / "examples/recipes/identity-go/identity_test.go").read_text(encoding="utf-8")
+        source = (ROOT / "language/go/examples/recipes/identity-go/identity_test.go").read_text(encoding="utf-8")
         self.assertGreaterEqual(source.count("func TestIdentity"), 5)
         for prefix, phrase in (("", "verified principal"), ("zh-CN/", "已验证 principal")):
             page = (ROOT / "docs" / prefix / "guides/identity-policy.md").read_text(encoding="utf-8")
@@ -166,7 +166,7 @@ class DocumentationTests(unittest.TestCase):
         self.assertIn("Skill 模板", (ROOT / "docs/zh-CN/project/contract-status.md").read_text(encoding="utf-8"))
 
     def test_long_running_recipe(self):
-        recipe = ROOT / "examples/recipes/long-running-go"
+        recipe = ROOT / "language/go/examples/recipes/long-running-go"
         source = (recipe / "longrunning_test.go").read_text(encoding="utf-8")
         self.assertGreaterEqual(source.count("func TestLongRunning"), 7)
         self.assertIn("TestLongRunningSurvivesRestart", source)
@@ -186,7 +186,7 @@ class DocumentationTests(unittest.TestCase):
         page = (ROOT / "docs/guides/long-running-operations.md").read_text(encoding="utf-8")
         self.assertIn("verifier-issued receipt", page)
         self.assertIn("Cross-process restart", page)
-        self.assertIn("examples/recipes/long-running-go", page)
+        self.assertIn("language/go/examples/recipes/long-running-go", page)
         for prefix, phrase in (("", "Run canceled"), ("zh-CN/", "Run 取消")):
             page = (ROOT / "docs" / prefix / "guides/long-running-operations.md").read_text(encoding="utf-8")
             self.assertIn(phrase, page)

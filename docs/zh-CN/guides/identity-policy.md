@@ -18,7 +18,7 @@
 ## 受测示例
 
 可运行示例是独立的 L4 配方模块
-[`examples/recipes/identity-go`](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/identity-go)。
+[`language/go/examples/recipes/identity-go`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/recipes/identity-go)。
 在该目录运行：
 
 ```sh
@@ -37,7 +37,7 @@ GOWORK=off go test -mod=readonly -run Identity -v ./...
 身份中间件，而不是 prompt 或模型。
 
 Go 认证服务示例
-[`examples/embedded-service-auth`](https://github.com/axisvela/praxo-core/tree/main/examples/embedded-service-auth)
+[`language/go/examples/embedded-service-auth`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/embedded-service-auth)
 展示了服务边界上的同类绑定。它默认验证应用局部 HMAC Token，设置
 `PRAXO_OIDC_ISSUER` 后可验证带 Provider 发现的 OIDC/JWKS JWT，设置
 `PRAXO_INTROSPECTION_URL` 后可通过 RFC 7662 校验不透明 Token；同时支持 RFC 7009
@@ -76,7 +76,7 @@ Provider 不可用。
 
 | 语言 | 运行命令 |
 | --- | --- |
-| Go | `cd examples/recipes/identity-go && GOWORK=off go test -mod=readonly -run Identity -v ./...` |
+| Go | `cd language/go/examples/recipes/identity-go && GOWORK=off go test -mod=readonly -run Identity -v ./...` |
 | Python | `cd language/python/examples/identity-policy && .venv/bin/python -m unittest test_identity_policy.py -v` |
 | TypeScript | `cd language/typescript/examples/identity-policy && npm test` |
 | Java | `cd language/java/examples/identity-policy && mvn -q compile exec:java` |

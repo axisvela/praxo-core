@@ -2,7 +2,7 @@
 
 Copy-paste starting points for common integrations. Full runnable examples
 live in
-[`examples/`](https://github.com/axisvela/praxo-core/tree/main/examples).
+[`language/go/examples/`](https://github.com/axisvela/praxo-core/tree/main/examples).
 
 ## OpenAI-Compatible Model
 
@@ -160,7 +160,7 @@ if err := conformance.CheckModel(ctx, adapter, conformance.ModelCase{
 
 `CheckStreamingModel` checks stream deltas; `CheckTool` checks name, spec, and
 invocation; `CheckRetriever` checks results and result limits. See the
-[adapter conformance recipe](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/conformance-go).
+[adapter conformance recipe](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/recipes/conformance-go).
 These are contract checks, not live-provider evidence.
 
 ## Retry Safety and Unknown Outcomes
@@ -196,7 +196,7 @@ if err != nil {
 }
 ```
 
-See the [retry safety recipe](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/retry-go).
+See the [retry safety recipe](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/recipes/retry-go).
 The recipe demonstrates the duplicate-effect hazard and the status-aware
 alternative; it does not provide a Core effect ledger or exactly-once guarantee.
 
@@ -219,7 +219,7 @@ sink := event.MultiSink{
 `FilterSink` limits which events reach the wrapped sink; `PublisherSink` adapts
 an application publisher. A sink failure before a tool call prevents the
 invocation; a `run.failed` sink failure does not mask the original error. See
-the [event sink recipe](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/event-sinks-go).
+the [event sink recipe](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/recipes/event-sinks-go).
 The recipe does not prove durable acknowledgement, storage, or production
 telemetry.
 
@@ -240,7 +240,7 @@ if !ok {
 `ModelSummarizer` replaces older messages with a summary before the deterministic
 pass; a summary-model failure falls back to deterministic compaction instead of
 aborting the run. See the
-[context budget recipe](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/context-budget-go).
+[context budget recipe](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/recipes/context-budget-go).
 The recipe does not provide a general prompt-injection filter or proof of source
 authenticity.
 
@@ -264,7 +264,7 @@ if err := store.Save(ctx, &checkpoint.Checkpoint{
 
 The recipe also ignores leftover `.tmp` files, reloads after reopening, and
 supports tenant-scoped loads. See the
-[checkpoint store recipe](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/checkpoint-store-go).
+[checkpoint store recipe](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/recipes/checkpoint-store-go).
 A checkpoint is a recovery hint, not a transaction or proof that an external
 effect committed; concurrent-write control, retention, encryption, and tenant
 authority remain application responsibilities.
@@ -289,7 +289,7 @@ The same schema can be carried in `model.ResponseFormat` and used to reject
 tool arguments before invoking the tool. Unsupported keywords such as `$ref`,
 composition, `additionalProperties`, and `format` are ignored; use a full JSON
 Schema library when those are required. See the
-[structured output recipe](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/structured-output-go).
+[structured output recipe](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/recipes/structured-output-go).
 The recipe does not prove that a provider honors `ResponseFormat`.
 
 ## VFS and Path Containment
@@ -310,7 +310,7 @@ if err := backend.Write(ctx, "notes/a.txt", data); err != nil {
 
 Traversal, NUL-byte paths, root deletion, and symlinks that escape the root are
 rejected. A read-only grant denies writes. See the
-[VFS containment recipe](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/vfs-containment-go).
+[VFS containment recipe](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/recipes/vfs-containment-go).
 These are local host controls, not container/VM isolation or deployment-level
 containment; independent review and OS/network isolation remain external.
 
@@ -343,7 +343,7 @@ func (m FallbackModel) Generate(ctx context.Context, req model.Request) (model.R
 
 Use an explicit `ShouldFallback` predicate so a non-retryable request is not
 sent to a second provider. See the
-[provider fallback recipe](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/provider-fallback-go).
+[provider fallback recipe](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/recipes/provider-fallback-go).
 Provider credentials, timeouts, retry budgets, and SLA evidence remain
 application or gateway responsibilities.
 
@@ -369,7 +369,7 @@ defer lifecycle.Release()
 
 Drain waits for in-flight calls with a bounded context, Revoke moves
 ACTIVE to UNLOADED, and Quarantine is terminal. See the
-[plugin lifecycle recipe](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/plugin-lifecycle-go)
+[plugin lifecycle recipe](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/recipes/plugin-lifecycle-go)
 and [plugin trust](../security/plugin-trust.md). The recipe is a contract
 exercise, not process/WASM isolation or manifest trust evidence.
 
@@ -392,7 +392,7 @@ finished, err := manager.Wait(ctx, task.ID)
 
 Only running tasks accept updates; cancellation is terminal; `List` filters by
 parent session; `Prune` removes terminal tasks only. See the
-[multi-agent recipe](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/multi-agent-go)
+[multi-agent recipe](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/recipes/multi-agent-go)
 and the [multi-agent guide](multi-agent.md). The manager is local task
 coordination, not a durable remote worker or cross-process recovery service.
 
@@ -416,7 +416,7 @@ ag, err := agent.New(agent.Options{
 
 A streaming error is returned from the run, and cancellation stops further
 deltas. See the
-[streaming recipe](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/streaming-go).
+[streaming recipe](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/recipes/streaming-go).
 Provider-specific tool-call delta aggregation and production telemetry remain
 adapter or gateway responsibilities.
 
@@ -471,7 +471,7 @@ adapter := noetivelaadapter.Adapter{
 
 The Core exposes text content, not tool calls. For tool calling, use a custom
 HTTP adapter that preserves tool-call fields. See the
-[NOETIVELA SDK example](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/noetivela).
+[NOETIVELA SDK example](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/ecosystem-sdk/noetivela).
 
 ## Mnemovela
 
@@ -498,7 +498,7 @@ required. Other Core SDKs currently do not auto-recall.
 Recalled records are injected as untrusted historical user data, not as system
 instructions, and the recall block names the frame and source when available.
 Memory content must not be able to raise its own instruction authority. See the
-[Mnemovela Core example](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/mnemovela).
+[Mnemovela Core example](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/ecosystem-sdk/mnemovela).
 
 ## GNOSIVELA
 
@@ -517,7 +517,7 @@ documents, err := adapter.Retrieve(ctx, "current status", 8)
 
 GNOSIVELA does not yet publish a `v3` semver tag for this module path; the
 example module pins a pseudo-version from `master`. See the
-[GNOSIVELA Core example](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/gnosivela).
+[GNOSIVELA Core example](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/ecosystem-sdk/gnosivela).
 
 ## AEGIVELA Policy
 
@@ -543,7 +543,7 @@ hook := aegivelaadapter.Hook{
 The hook allows only an exact `allow` outcome; every other outcome is denied.
 Load `WorkloadAssertion` from your secret manager at runtime instead of
 hardcoding it, and keep `Route` values static. See the
-[AEGIVELA Core example](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/aegivela).
+[AEGIVELA Core example](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/ecosystem-sdk/aegivela).
 
 ## LIMENORA Gateway
 
@@ -570,7 +570,7 @@ gateway := limenoraadapter.Gateway{
 
 Keep routes static and allowlisted. Do not derive `URL`, `Method`, or headers
 from model output; let LIMENORA enforce the egress policy. See the
-[LIMENORA Core example](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/limenora).
+[LIMENORA Core example](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/ecosystem-sdk/limenora).
 
 ## Harmovela Events
 
@@ -641,7 +641,7 @@ audit, err := runner.Audit(ctx, instance.InstanceID)
 ```
 
 See the
-[RHEOVELA Core example](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/rheovela).
+[RHEOVELA Core example](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/ecosystem-sdk/rheovela).
 
 ## Sandbox and Policy
 
@@ -697,7 +697,7 @@ Pass the same command to authorization and execution. `sandbox.Sandbox` is an
 interface: this example gates host execution but does not provide OS-level
 isolation. Keep the allowlist static and do not build it from model output. See
 the
-[sandbox example](https://github.com/axisvela/praxo-core/tree/main/examples/sandbox).
+[sandbox example](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/sandbox).
 
 ## Governed Workspace Demo
 
@@ -706,14 +706,14 @@ read-only tools, write approval, denial, and policy rejection with an event
 trace. It uses a scripted model and does not claim real model behavior.
 
 ```bash
-GOWORK=off go run ./examples/governed-workspace -mode read
-GOWORK=off go run ./examples/governed-workspace -mode write
-GOWORK=off go run ./examples/governed-workspace -mode deny
-GOWORK=off go run ./examples/governed-workspace -mode escape
+GOWORK=off go run ./language/go/examples/governed-workspace -mode read
+GOWORK=off go run ./language/go/examples/governed-workspace -mode write
+GOWORK=off go run ./language/go/examples/governed-workspace -mode deny
+GOWORK=off go run ./language/go/examples/governed-workspace -mode escape
 ```
 
 See the
-[governed workspace demo](https://github.com/axisvela/praxo-core/tree/main/examples/governed-workspace).
+[governed workspace demo](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/governed-workspace).
 
 ## Reference Workspace Agent
 
@@ -721,9 +721,9 @@ The reference app combines the OpenAI-compatible adapter, confined VFS tools,
 policy, memory, events, and a context budget.
 
 ```bash
-GOWORK=off go run ./examples/reference -workspace ./workspace
+GOWORK=off go run ./language/go/examples/reference -workspace ./workspace
 ```
 
 The example policy allows only `model.generate` and `fs.*` tool calls, and the
 VFS backend confines paths to the workspace. See the
-[reference app](https://github.com/axisvela/praxo-core/tree/main/examples/reference).
+[reference app](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/reference).

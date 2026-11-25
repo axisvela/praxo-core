@@ -68,8 +68,8 @@ EC-14 仅覆盖从给定历史恢复的顺序，外部效果确认与持久去�
 | `pkg/agent/tool_authorization_test.go` | EC-04 最终操作局部检查 | 持久审批消费/过期与实际目标执行 |
 | `pkg/agent/tool_cancel_test.go`、`completion_cancel_test.go` | EC-08 局部取消 | 远程停止确认 |
 | `pkg/agent/context/` 与上下文集成测试 | EC-06/07 局部规则 | 真实来源链或通用 Prompt Injection 防护 |
-| `examples/governed-workspace` | EC-04/05/07 应用级审批、调用复核与来源包装 | 可选 L4 模式；不是 Core 默认、产品强制入口、真实 PEP 或来源认证器 |
-| `examples/recipes/long-running-go` | EC-02/08/09/12/14 应用 fixture | 已部署服务、生产 lease、网络分区和断电证明 |
+| `language/go/examples/governed-workspace` | EC-04/05/07 应用级审批、调用复核与来源包装 | 可选 L4 模式；不是 Core 默认、产品强制入口、真实 PEP 或来源认证器 |
+| `language/go/examples/recipes/long-running-go` | EC-02/08/09/12/14 应用 fixture | 已部署服务、生产 lease、网络分区和断电证明 |
 | Sandbox/host 测试及平台限制 | EC-11 契约和选定隔离检查 | 整体部署隔离或认证 |
 
 当前 `tool.Retry` 零值只执行一次，配置多次尝试不会自动判断效果安全；缺失 ShouldRetry

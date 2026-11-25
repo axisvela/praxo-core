@@ -38,7 +38,7 @@ business effect committed.
 ## Tested Example
 
 The runnable example is the separate L4 recipe module
-[`examples/recipes/long-running-go`](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/long-running-go).
+[`language/go/examples/recipes/long-running-go`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/recipes/long-running-go).
 From that directory:
 
 ```sh

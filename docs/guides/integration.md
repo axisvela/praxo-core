@@ -40,7 +40,7 @@ does not ship a store; products own persistence and recovery policy.
 
 A session resumes by loading the latest checkpoint and pre-populating
 `agent.Session.Messages`. The
-[checkpoint example](https://github.com/axisvela/praxo-core/tree/main/examples/checkpoint)
+[checkpoint example](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/checkpoint)
 shows a small in-memory store and the resume flow.
 
 Production stores should add durable persistence, tenant scoping, encryption,

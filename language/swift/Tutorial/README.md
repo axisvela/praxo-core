@@ -1,7 +1,7 @@
 # Swift Tutorials
 
 Application-shaped Swift examples that keep the Agent inside an Apple-platform
-runtime. Mechanism checks remain under `examples/`.
+runtime. Mechanism checks remain under `language/go/examples/`.
 
 - [Chronic Care (HC-02)](chronic-care/README.md): fixed wearable trends, review-only
   care alert and no dosage/treatment change.

@@ -6,12 +6,12 @@ From `language/zig/`:
 
 ```bash
 zig build-exe --dep praxo \
-  -Mroot=examples/advanced-delegation/delegation.zig \
+  -Mroot=language/go/examples/advanced-delegation/delegation.zig \
   -Mpraxo=src/praxo.zig -O ReleaseSafe -femit-bin=build/praxo-zig-delegation
 ./build/praxo-zig-delegation
 
 zig build-exe --dep praxo \
-  -Mroot=examples/advanced-delegation/governance.zig \
+  -Mroot=language/go/examples/advanced-delegation/governance.zig \
   -Mpraxo=src/praxo.zig -O ReleaseSafe -femit-bin=build/praxo-zig-governance
 ./build/praxo-zig-governance
 ```

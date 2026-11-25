@@ -4,7 +4,7 @@
 产品（PRAXOVELA）所有。
 
 可运行的最小 process plugin 与 host 位于
-[`examples/plugin`](https://github.com/axisvela/praxo-core/tree/main/examples/plugin)。
+[`language/go/examples/plugin`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/plugin)。
 
 ## Manifest v1
 

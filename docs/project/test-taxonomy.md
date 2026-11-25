@@ -26,13 +26,13 @@ not extend it.
 | `governed_test.go` | L3/L4 | Final tool arguments reauthorized, approval edit reauthorized, policy error propagation | Missing-policy and empty-scope guards are application checks; Core keeps nil-policy embedding |
 
 The identity recipe has moved to
-[`examples/recipes/identity-go`](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/identity-go).
+[`language/go/examples/recipes/identity-go`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/recipes/identity-go).
 It supplies a verified principal through a trusted context; the principal,
 role, tenant, and expiry decisions are application logic, not a Core identity
 service.
 
 The long-running suite has moved to
-[`examples/recipes/long-running-go`](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/long-running-go)
+[`language/go/examples/recipes/long-running-go`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/recipes/long-running-go)
 so the starter does not mix L3 package checks with L4 recipes. The recipe is
 valuable as a reference integration and as a statement of what the application
 must own. It is not evidence that Core provides durable operations, HTTP

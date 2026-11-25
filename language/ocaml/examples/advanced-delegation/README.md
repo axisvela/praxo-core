@@ -7,9 +7,9 @@ From `language/ocaml/`:
 ```bash
 ocamlc -c praxo_core.mli
 ocamlc -c praxo_core.ml
-ocamlc -I . praxo_core.cmo examples/advanced-delegation/delegation.ml -o build/praxo-ocaml-delegation
+ocamlc -I . praxo_core.cmo language/go/examples/advanced-delegation/delegation.ml -o build/praxo-ocaml-delegation
 ocamlrun build/praxo-ocaml-delegation
-ocamlc -I . praxo_core.cmo examples/advanced-delegation/governance.ml -o build/praxo-ocaml-governance
+ocamlc -I . praxo_core.cmo language/go/examples/advanced-delegation/governance.ml -o build/praxo-ocaml-governance
 ocamlrun build/praxo-ocaml-governance
 ```
 

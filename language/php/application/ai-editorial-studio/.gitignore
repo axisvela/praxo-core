@@ -14,3 +14,4 @@
 !/storage/framework/views/.gitignore
 /storage/logs/*
 !/storage/logs/.gitignore
+composer.lock

@@ -20,7 +20,7 @@ outside the declared Core scope.
 - [Examples](https://github.com/axisvela/praxo-core/tree/main/language/v/examples): runnable language-specific examples.
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
 - Registry: [VPM (pending)](https://github.com/axisvela/praxo-core-v)
-- Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761)
+- Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761) · [LinkedIn](https://www.linkedin.com/company/axisvela/) · [Facebook](https://www.facebook.com/profile.php?id=61596905732406) · [YouTube](https://www.youtube.com/@axisvela) · [Discord](https://discord.com/channels/1575163993767809064/1575164343148875977) · [GitHub Discussions](https://github.com/axisvela/praxo-core/discussions) · [GitHub Issues](https://github.com/axisvela/praxo-core/issues) · [Documentation](https://axisvela.github.io/praxo-core/) · [Architect](https://axisvela.architect.pub)
 
 ## Build And Test
 
@@ -59,10 +59,10 @@ Public declarations are inventoried in [`api/0.4.0.txt`](api/0.4.0.txt).
 
 ## Representative Flows
 
-- [Representative chain](examples/representative-chain/): deterministic MCP
+- [Representative chain](language/go/examples/representative-chain/): deterministic MCP
   record, final-argument authorization, child delegation, OTel/Harmovela events,
   and an edited denial with zero effects.
-- [Advanced delegation](examples/advanced-delegation/): application-level
+- [Advanced delegation](language/go/examples/advanced-delegation/): application-level
   parent/child scope plus six governance negative checks.
 
 ## OpenAI-Compatible Adapter
@@ -145,7 +145,7 @@ fails with `AGENT_INTERRUPT_DECISION_INVALID`. Interrupts emit
 Edits are reauthorized through `policy_action`, which receives the full
 `Action` including `tool_name` and `arguments`. The legacy `policy` hook still
 receives only the action kind. See
-[`examples/hitl/`](examples/hitl/) for an approve and edit-denial run.
+[`language/go/examples/hitl/`](language/go/examples/hitl/) for an approve and edit-denial run.
 
 ```v
 fn generate(req praxo.Request) !praxo.Response {

@@ -46,4 +46,4 @@ denied effects: 0
 The parent and child models are deterministic. This is not a live-model run and
 does not prove provider behavior, remote MCP or Harmovela operation, identity,
 isolation, exactly-once execution, or production readiness. The Go
-`examples/representative-chain` is the real-model counterpart.
+`language/go/examples/representative-chain` is the real-model counterpart.

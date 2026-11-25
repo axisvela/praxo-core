@@ -14,7 +14,7 @@ Core 执行已配置的授权、审批、工具和生命周期控制；集成方
 保留普通嵌入模式。先在参考集成中验证受治理部署契约，不为适配某个企业身份模型直接新增
 Core 构造器或扩展 `policy.Action`。
 
-源码中的[受治理工作区示例](https://github.com/axisvela/praxo-core/tree/main/examples/governed-workspace)
+源码中的[受治理工作区示例](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/governed-workspace)
 演示必要本地控制、绑定参数的单次审批和执行前策略复核。它不是通用 Core Profile、可信身份服务
 或持久审批/效果存储，也不构成新的发布保证。
 

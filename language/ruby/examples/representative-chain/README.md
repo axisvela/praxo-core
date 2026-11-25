@@ -48,7 +48,7 @@ denied effects: 0
 The MCP server, OTel collector, and Harmovela receiver are in-memory transport
 seams. This is not a live-model, remote MCP, or remote Harmovela run and does not
 prove provider behavior, identity, isolation, exactly-once execution, or
-production readiness. The Go `examples/representative-chain` is the real-model
+production readiness. The Go `language/go/examples/representative-chain` is the real-model
 counterpart.
 
 The Ruby Core has `MCPClient` with an injectable `transport` but no exported MCP

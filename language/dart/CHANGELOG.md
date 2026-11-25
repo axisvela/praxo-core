@@ -37,7 +37,7 @@ Source tag `dart/v0.6.1`.
 
 ### Changed
 
-- The published archive excludes the plural `examples/` directory; the README
+- The published archive excludes the plural `language/go/examples/` directory; the README
   links the full examples from the repository.
 - Corrected the published version reference to `0.4.0` while the source moves to
   `0.6.1`.

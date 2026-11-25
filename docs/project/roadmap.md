@@ -257,7 +257,7 @@ Turn the first run into one useful local application, such as:
 - [Representative chain tutorial](../guides/representative-chain-tutorial.md),
   with the Go real-model chain and deterministic counterparts across the wired
   languages
-- Examples under `examples/`, including `reference`, `governed-workspace`,
+- Examples under `language/go/examples/`, including `reference`, `governed-workspace`,
   `checkpoint`, `plugin`, and `recipes`
 
 ### Next Work
@@ -275,7 +275,7 @@ Turn the first run into one useful local application, such as:
   `spec/`; local service execution is required, public hosting is optional.
   Maintainer tutorials are not independent consumer evidence.
   New application tutorials live in `language/<language>/Tutorial/`, alongside
-  `examples/`; existing mechanism examples stay in their published locations.
+  `language/go/examples/`; existing mechanism examples stay in their published locations.
   The first local slice now has an HTTP order service plus native Python and
   TypeScript clients covering draft-only success, policy/server denial, and
   dependency failure. This is source/local fixture evidence, not a hosted
@@ -477,7 +477,7 @@ Integrate Core into an existing service while the application owns:
   SDKs. The
   [TypeScript example](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/service-auth)
   supports OIDC discovery, introspection, and revocation; the
-  [Go](https://github.com/axisvela/praxo-core/tree/main/examples/embedded-service-auth),
+  [Go](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/embedded-service-auth),
   [Python](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/service-auth),
   and [C#](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/service)
   examples support OIDC/JWKS with provider discovery and keep the
@@ -486,7 +486,7 @@ Integrate Core into an existing service while the application owns:
 - Keep the [application integration checklist](../guides/application-integration-checklist.md)
   aligned with the read-only, side-effecting, and high-risk tiers.
 - Use the [checkpoint store
-  recipe](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/checkpoint-store-go)
+  recipe](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/recipes/checkpoint-store-go)
   and [continuation guide](../guides/checkpoint-continuation.md) in a real
   consumer, and record the result. Keep the recipe distinct from a concurrent
   database, exactly-once, or a durable lease service.

@@ -12,7 +12,7 @@ on:
       - 'docs/**/tutorial-catalog.md'
       - 'docs/**/tutorial-plan.md'
       - 'language/*/examples/**'
-      - 'examples/**'
+      - 'language/go/examples/**'
       - 'mkdocs.yml'
       - '.github/workflows/ci-tutorials.yml'
   pull_request:
@@ -25,7 +25,7 @@ on:
       - 'docs/**/tutorial-catalog.md'
       - 'docs/**/tutorial-plan.md'
       - 'language/*/examples/**'
-      - 'examples/**'
+      - 'language/go/examples/**'
       - 'mkdocs.yml'
       - '.github/workflows/ci-tutorials.yml'
   workflow_dispatch:

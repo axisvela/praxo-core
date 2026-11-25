@@ -193,7 +193,7 @@ PRAXO-CORE 继续定位为**可治理、可嵌入的 Agent 执行框架**。路�
 业务 API 不进入 Core 或 `spec/`；
 必须支持本地运行，公共托管可选。维护者教程不等于独立消费者证据。
 
-新增应用教程位于 `language/<language>/Tutorial/`，与 `examples/` 并列；已有机制
+新增应用教程位于 `language/<language>/Tutorial/`，与 `language/go/examples/` 并列；已有机制
 示例保留原路径。
 
 首个本地切片已实现 HTTP 订单服务和原生 Python、TypeScript 客户端，覆盖仅创建草稿的
@@ -340,7 +340,7 @@ C++ 的 `Tutorial/industrial-edge/` 通过应用自有 `DeviceAdapter` 接口读
 - [多 Agent 模式](../guides/multi-agent.md)
 - [代表性链路教程](../guides/representative-chain-tutorial.md)，包含 Go 真实模型
   链路和全部 wired 语言的确定性对应链路
-- `examples/` 下的 `reference`、`governed-workspace`、`checkpoint`、`plugin` 和
+- `language/go/examples/` 下的 `reference`、`governed-workspace`、`checkpoint`、`plugin` 和
   `recipes` 示例
 
 ### 下一步工作
@@ -377,7 +377,7 @@ C++ 的 `Tutorial/industrial-edge/` 通过应用自有 `DeviceAdapter` 接口读
 - 按消费者需要向更多 SDK 扩展身份能力。
   [TypeScript OIDC 示例](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/service-auth)
   已支持 Token introspection、撤销和 provider discovery。
-  [Go](https://github.com/axisvela/praxo-core/tree/main/examples/embedded-service-auth)、
+  [Go](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/embedded-service-auth)、
   [Python](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/service-auth)
   与 [C#](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/service)
   示例均支持带 provider discovery 的 OIDC/JWKS，并保留应用局部 HMAC 路径；Python
@@ -385,7 +385,7 @@ C++ 的 `Tutorial/industrial-edge/` 通过应用自有 `DeviceAdapter` 接口读
 - 保持[应用嵌入清单](../guides/application-integration-checklist.md)与只读、有副作用、
   高风险三档一致。
 - 在真实消费者中使用 [Checkpoint Store
-  配方](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/checkpoint-store-go)
+  配方](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/recipes/checkpoint-store-go)
   和 [续跑指南](../guides/checkpoint-continuation.md)，并记录结果；不要把配方等同于并发
   数据库、exactly-once 或持久 lease 服务。
 

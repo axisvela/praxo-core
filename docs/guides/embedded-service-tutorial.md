@@ -1,7 +1,7 @@
 # Embed Core in an HTTP Service
 
 This tutorial uses the runnable
-[`examples/embedded-service`](https://github.com/axisvela/praxo-core/tree/main/examples/embedded-service)
+[`language/go/examples/embedded-service`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/embedded-service)
 project. It shows the minimum shape of a vendor-neutral service: a caller
 context enters through HTTP, the application selects the tenant, Core runs the
 agent, and the service returns structured output.
@@ -12,7 +12,7 @@ agent, and the service returns structured output.
 export PRAXO_BASE_URL=http://localhost:11434/v1
 export PRAXO_MODEL=llama3.2
 
-cd examples/embedded-service
+cd language/go/examples/embedded-service
 go run . -addr :8080 -tenant local
 ```
 
@@ -52,7 +52,7 @@ Run its deterministic tests with:
 
 ## Verified Identity Variant
 
-The [authenticated service example](https://github.com/axisvela/praxo-core/tree/main/examples/embedded-service-auth)
+The [authenticated service example](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/embedded-service-auth)
 adds an application-verified HMAC bearer token, subject and tenant claims,
 expiration checks, a tenant allowlist before the agent runs, and a file-backed
 checkpoint saved on run completion. Set `PRAXO_OIDC_ISSUER` to verify OIDC/JWKS
@@ -62,7 +62,7 @@ Set `PRAXO_INTROSPECTION_URL` for RFC 7662 introspection, and use
 when both OIDC and introspection are configured.
 
 ```bash
-cd examples/embedded-service-auth
+cd language/go/examples/embedded-service-auth
 go test ./...
 ```
 
@@ -185,7 +185,7 @@ revocation modules with an injectable transport:
 The same introspection/revocation contract is locally verified for Rust, Lua,
 D, C, C++, Objective-C, Delphi/Free Pascal, Zig, Fortran, and PowerShell. Their
 module paths and deterministic test commands are documented in each
-`examples/service/README.md`.
+`language/go/examples/service/README.md`.
 
 The application must authenticate before the handler and derive the principal
 and tenant from the verified result. OIDC/JWKS is not included. The first six
@@ -218,7 +218,7 @@ which mode each example uses.
 
 | Language | Run command |
 | --- | --- |
-| Go | `cd examples/embedded-service && go run . -addr :8080 -tenant local` |
+| Go | `cd language/go/examples/embedded-service && go run . -addr :8080 -tenant local` |
 | Python | `cd language/python/examples/service && .venv/bin/python service.py` |
 | TypeScript | `cd language/typescript/examples/service && npm start` |
 | Java | `cd language/java/examples/service && mvn -q compile exec:java` |
@@ -287,7 +287,7 @@ The authenticated variants add a bounded token check and a file checkpoint.
 ## Test Without a Model
 
 ```bash
-cd examples/embedded-service
+cd language/go/examples/embedded-service
 go test ./...
 ```
 

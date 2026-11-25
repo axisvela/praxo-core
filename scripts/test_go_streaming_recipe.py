@@ -7,7 +7,7 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[1]
-RECIPE = ROOT / "examples/recipes/streaming-go"
+RECIPE = ROOT / "language/go/examples/recipes/streaming-go"
 
 
 class GoStreamingRecipeTests(unittest.TestCase):

@@ -6,7 +6,7 @@ and run cases.
 `authentication.swift` provides RFC 7662 introspection and RFC 7009 revocation
 with an injectable transport. `URLSessionTransport` uses Foundation with a
 two-second timeout; tests use a scripted transport. Module entry point is
-`examples/service/main.swift`; `authentication.swift` holds the authentication
+`language/go/examples/service/main.swift`; `authentication.swift` holds the authentication
 types. The handler remains transport-neutral, so the application must
 authenticate before `handle`.
 

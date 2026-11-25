@@ -46,7 +46,7 @@ authorization configuration.
 ollama pull qwen3.5:4b
 export PRAXO_BASE_URL=http://localhost:11434/v1
 export PRAXO_MODEL=qwen3.5:4b
-GOWORK=off go run ./examples/quickstart
+GOWORK=off go run ./language/go/examples/quickstart
 ```
 
 If `qwen3.5:4b` is not available in your Ollama installation, use another
@@ -58,7 +58,7 @@ installed model such as `llama3.2` and set `PRAXO_MODEL` accordingly.
 export PRAXO_BASE_URL=https://api.openai.com/v1
 export PRAXO_API_KEY=...
 export PRAXO_MODEL=gpt-4o-mini
-GOWORK=off go run ./examples/quickstart
+GOWORK=off go run ./language/go/examples/quickstart
 ```
 
 On PowerShell use `$env:PRAXO_BASE_URL = "..."` and the same variable names.
@@ -77,7 +77,7 @@ Set `PRAXO_PROMPT` to change the request.
 
 - [OpenAI-compatible adapter](https://github.com/axisvela/praxo-core/tree/main/adapters/openaicompat)
 - [MCP tool gateway](https://github.com/axisvela/praxo-core/tree/main/adapters/mcp)
-- [Reference workspace agent](https://github.com/axisvela/praxo-core/tree/main/examples/reference)
+- [Reference workspace agent](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/reference)
 - [AxisVela ecosystem integration](../integrations/ecosystem.md)
 - [Comparison with other Go agent frameworks](../project/comparison.md)
 - [Plugin authoring](../guides/plugins.md)

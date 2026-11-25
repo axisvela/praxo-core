@@ -35,7 +35,7 @@ subprocess.run(
     check=True,
 )
 subprocess.run(
-    [compiler, "-x", "-free", "-I", "copy", "-I", "examples/consumer",
+    [compiler, "-x", "-free", "-I", "copy", "-I", "language/go/examples/consumer",
      "-o", str(executable), str(main_source), str(agent_object)],
     cwd=ROOT,
     env=env,

@@ -25,7 +25,7 @@ Source tag `nim/v0.6.0`.
 - `AgentOptions.middleware` with `ToolMiddleware` before-tool hooks.
 - Tool calls now emit `tool.interrupt` and support approve, edit, reject, and
   respond decisions. Edit reauthorizes replaced arguments before the effect.
-- `examples/hitl/` with approve and edited-argument denial scenarios.
+- `language/go/examples/hitl/` with approve and edited-argument denial scenarios.
 
 ### Changed
 

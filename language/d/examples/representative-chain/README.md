@@ -5,7 +5,7 @@ authorization, governed child delegation, OTel/Harmovela events, and an edited
 denial with zero effects.
 
 ```bash
-dmd -i -Isource -O -release examples/representative-chain/chain.d -of=build/praxo-d-chain.exe
+dmd -i -Isource -O -release language/go/examples/representative-chain/chain.d -of=build/praxo-d-chain.exe
 ./build/praxo-d-chain
 ```
 

@@ -22,7 +22,7 @@ PRAXO-CORE 采用 MIT 许可。参见
 来源为 `axisvela/akrovela` 提交
 `bc8ef5fd0ae34a81debf9d83a494a467adc46f36` 的
 `backend/internal/satellite/agent.go`、`journal.go` 和 `agent_test.go`。
-目标为 `examples/recipes/long-running-go/` 中的 `execution.go`、
+目标为 `language/go/examples/recipes/long-running-go/` 中的 `execution.go`、
 `execution_test.go`、`execution_process_test.go` 及恢复说明。
 只保留通用的持久化启动意图、不确定结果和重试安全机制；不导入产品包，
 不新增 Core 公共 API，也不转移产品权威。

@@ -70,3 +70,11 @@ PRAXO-CORE 是框架，不是托管服务或开箱即用的聊天产品。
 
 - X：<https://x.com/axisvela>
 - 微博：<https://weibo.com/u/1936025761>
+- LinkedIn：<https://www.linkedin.com/company/axisvela/>
+- Facebook：<https://www.facebook.com/profile.php?id=61596905732406>
+- YouTube：<https://www.youtube.com/@axisvela>
+- Discord：<https://discord.com/channels/1575163993767809064/1575164343148875977>
+- GitHub Discussions：<https://github.com/axisvela/praxo-core/discussions>
+- GitHub Issues：<https://github.com/axisvela/praxo-core/issues>
+- 文档：<https://axisvela.github.io/praxo-core/>
+- Architect：<https://axisvela.architect.pub>

@@ -18,7 +18,7 @@ exactly-once 效果或崩溃步骤恢复。本指南帮助选择最小正确层�
 
 使用 session-checkpoint 示例：
 
-- Go：[`examples/session-checkpoint`](https://github.com/axisvela/praxo-core/tree/main/examples/session-checkpoint)
+- Go：[`language/go/examples/session-checkpoint`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/session-checkpoint)
 - Python、TypeScript、Java、C#、Rust、R、Ruby、PHP、Elixir、Lua 等已声明语言：
   `language/<language>/examples/session-checkpoint`
 
@@ -29,7 +29,7 @@ exactly-once 效果或崩溃步骤恢复。本指南帮助选择最小正确层�
 
 使用 checkpoint 配方或语言示例：
 
-- Go 配方：[`examples/recipes/checkpoint-store-go`](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/checkpoint-store-go)
+- Go 配方：[`language/go/examples/recipes/checkpoint-store-go`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/recipes/checkpoint-store-go)
 - 语言示例：`language/<language>/examples/checkpoint`
 
 示例只存储已注册的负载类型，并拒绝未注册类型。教学文件存储使用 temp-file + sync +
@@ -41,7 +41,7 @@ rename，并容忍部分临时文件。它不是并发数据库、事务或效�
 当应用需要提交、状态、取消、恢复、独立验证器、lease/fencing 或效果对账时，使用 Go
 参考配方：
 
-- [`examples/recipes/long-running-go`](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/long-running-go)
+- [`language/go/examples/recipes/long-running-go`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/recipes/long-running-go)
 - [长时操作配方](long-running-operations.md)
 
 操作状态、lease、验证器和外部效果保留在应用中。Run 完成不是外部效果已发生的证明；

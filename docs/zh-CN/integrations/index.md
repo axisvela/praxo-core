@@ -33,7 +33,7 @@ MCP 模块通过 `tool.Gateway` 暴露工具，并提供 resources 和 prompts �
 ## AxisVela SDK Recipes
 
 这些 recipes 位于
-[`examples/ecosystem-sdk`](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk)，
+[`language/go/examples/ecosystem-sdk`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/ecosystem-sdk)，
 是示例而不是已发布的适配器模块。
 
 | 组件 | 适配器 | 接缝 |

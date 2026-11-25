@@ -34,7 +34,7 @@ The MCP module exposes tools through `tool.Gateway` and provides module-level
 helpers for resources and prompts. Use `NewTools` for model-facing registration:
 it preserves each server's input schema, unlike the generic
 `tool.NewGatewayTools` path. See the
-[in-memory resources and prompts example](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem/mcp).
+[in-memory resources and prompts example](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/ecosystem/mcp).
 The OpenTelemetry module maps lifecycle events to spans and excludes event data
 by default.
 
@@ -62,7 +62,7 @@ reverse-ingress route. No framework API or adapter version changes are involved.
 ## AxisVela SDK Recipes
 
 These recipes live in
-[`examples/ecosystem-sdk`](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk)
+[`language/go/examples/ecosystem-sdk`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/ecosystem-sdk)
 and are examples rather than published adapter modules.
 
 | Component | Adapter | Seam |

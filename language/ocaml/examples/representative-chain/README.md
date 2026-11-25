@@ -9,7 +9,7 @@ From `language/ocaml/`:
 ```bash
 ocamlc -c praxo_core.mli
 ocamlc -c praxo_core.ml
-ocamlc -I . praxo_core.cmo examples/representative-chain/chain.ml -o build/praxo-ocaml-chain
+ocamlc -I . praxo_core.cmo language/go/examples/representative-chain/chain.ml -o build/praxo-ocaml-chain
 ocamlrun build/praxo-ocaml-chain
 ```
 

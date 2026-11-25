@@ -3,7 +3,7 @@
 Application-level parent/child delegation plus six governance negative checks.
 
 From `language/objc/`, compile all `src/Praxo*.m` files plus
-`examples/advanced-delegation/governance.m` with the GNUstep flags from
+`language/go/examples/advanced-delegation/governance.m` with the GNUstep flags from
 `run-tests.py`, then run the binary with the GNUstep runtime directory on
 `PATH`. Expected output:
 

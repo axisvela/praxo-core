@@ -7,7 +7,7 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[1]
-RECIPE = ROOT / "examples/recipes/plugin-lifecycle-go"
+RECIPE = ROOT / "language/go/examples/recipes/plugin-lifecycle-go"
 
 
 class GoPluginLifecycleRecipeTests(unittest.TestCase):

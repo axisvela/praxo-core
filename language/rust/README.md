@@ -27,7 +27,7 @@ The latest source tag is `rust/v0.10.0`; the published crates.io package is
 - [Examples](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples): runnable language-specific examples.
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
 - Registry: [crates.io](https://crates.io/crates/praxo-core/0.10.0)
-- Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761)
+- Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761) · [LinkedIn](https://www.linkedin.com/company/axisvela/) · [Facebook](https://www.facebook.com/profile.php?id=61596905732406) · [YouTube](https://www.youtube.com/@axisvela) · [Discord](https://discord.com/channels/1575163993767809064/1575164343148875977) · [GitHub Discussions](https://github.com/axisvela/praxo-core/discussions) · [GitHub Issues](https://github.com/axisvela/praxo-core/issues) · [Documentation](https://axisvela.github.io/praxo-core/) · [Architect](https://axisvela.architect.pub)
 
 ## Get started
 
@@ -74,27 +74,27 @@ cargo add praxo-core@0.9.2
 
 ## Runnable Examples
 
-- [`examples/consumer`](examples/consumer): published crates.io starter with
+- [`language/go/examples/consumer`](language/go/examples/consumer): published crates.io starter with
   deterministic allow/deny checks.
-- [`examples/live-model`](examples/live-model): published-package OpenAI-compatible
+- [`language/go/examples/live-model`](language/go/examples/live-model): published-package OpenAI-compatible
   endpoint with the optional `http-ureq` feature.
-- [`examples/provider-fallback`](examples/provider-fallback): fallback model after
+- [`language/go/examples/provider-fallback`](language/go/examples/provider-fallback): fallback model after
   a primary failure, with a deterministic check.
-- [`examples/event-sink`](examples/event-sink): lifecycle and tool events through
+- [`language/go/examples/event-sink`](language/go/examples/event-sink): lifecycle and tool events through
   `MultiSink` and `FilterSink`, with a deterministic check.
-- [`examples/streaming`](examples/streaming): delta callbacks that reconstruct
+- [`language/go/examples/streaming`](language/go/examples/streaming): delta callbacks that reconstruct
   the final output, with a deterministic check.
-- [`examples/mcp`](examples/mcp): in-process MCP transport for deterministic
+- [`language/go/examples/mcp`](language/go/examples/mcp): in-process MCP transport for deterministic
   tool discovery and tool calls.
-- [`examples/structured-output`](examples/structured-output): JSON Schema
+- [`language/go/examples/structured-output`](language/go/examples/structured-output): JSON Schema
   validation with a deterministic valid/invalid output check.
-- [`examples/checkpoint`](examples/checkpoint): application-owned checkpoint
+- [`language/go/examples/checkpoint`](language/go/examples/checkpoint): application-owned checkpoint
   storage with allowlisted payload encoding.
-- [`examples/retry`](examples/retry): retry transient model failures with
+- [`language/go/examples/retry`](language/go/examples/retry): retry transient model failures with
   bounded attempts and a deterministic check.
-- [`examples/service`](examples/service): standard-library HTTP service with
+- [`language/go/examples/service`](language/go/examples/service): standard-library HTTP service with
   principal, tenant, policy, and a deterministic check.
-- [`examples/identity-policy`](examples/identity-policy): bind a trusted
+- [`language/go/examples/identity-policy`](language/go/examples/identity-policy): bind a trusted
   principal to policy and reject effects before execution.
 
 ## Requirements

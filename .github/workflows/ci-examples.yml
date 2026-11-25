@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
     paths:
-      - "examples/**"
+      - "language/go/examples/**"
       - "language/go/examples/**"
       - "language/clojure/examples/**"
       - "language/fsharp/examples/**"
@@ -31,7 +31,7 @@ on:
       - ".github/workflows/ci-examples.yml"
   pull_request:
     paths:
-      - "examples/**"
+      - "language/go/examples/**"
       - "language/go/examples/**"
       - "language/clojure/examples/**"
       - "language/fsharp/examples/**"
@@ -76,52 +76,52 @@ jobs:
         with:
           go-version: "1.26.11"
       - run: go test ./...
-        working-directory: examples/ecosystem-sdk
+        working-directory: language/go/examples/ecosystem-sdk
       - run: go vet ./...
-        working-directory: examples/ecosystem-sdk
+        working-directory: language/go/examples/ecosystem-sdk
       - run: go build ./...
-        working-directory: examples/ecosystem-sdk
+        working-directory: language/go/examples/ecosystem-sdk
       - run: go test ./...
-        working-directory: examples/ecosystem/mcp
+        working-directory: language/go/examples/ecosystem/mcp
       - run: go vet ./...
-        working-directory: examples/ecosystem/mcp
+        working-directory: language/go/examples/ecosystem/mcp
       - run: go build ./...
-        working-directory: examples/ecosystem/mcp
+        working-directory: language/go/examples/ecosystem/mcp
       - run: go test ./...
-        working-directory: examples/workspace-agent
+        working-directory: language/go/examples/workspace-agent
       - run: go vet ./...
-        working-directory: examples/workspace-agent
+        working-directory: language/go/examples/workspace-agent
       - run: go test ./...
-        working-directory: examples/embedded-service
+        working-directory: language/go/examples/embedded-service
       - run: go vet ./...
-        working-directory: examples/embedded-service
+        working-directory: language/go/examples/embedded-service
       - run: go test ./...
-        working-directory: examples/embedded-service-auth
+        working-directory: language/go/examples/embedded-service-auth
       - run: go vet ./...
-        working-directory: examples/embedded-service-auth
+        working-directory: language/go/examples/embedded-service-auth
       - run: go test -mod=readonly ./...
-        working-directory: examples/recipes/checkpoint-store-go
+        working-directory: language/go/examples/recipes/checkpoint-store-go
       - run: go test -mod=readonly ./...
-        working-directory: examples/recipes/event-sinks-go
+        working-directory: language/go/examples/recipes/event-sinks-go
       - run: go test -mod=readonly ./...
-        working-directory: examples/recipes/retry-go
+        working-directory: language/go/examples/recipes/retry-go
       - run: go test -mod=readonly ./...
-        working-directory: examples/recipes/provider-fallback-go
+        working-directory: language/go/examples/recipes/provider-fallback-go
       - run: go test -mod=readonly ./...
-        working-directory: examples/recipes/streaming-go
+        working-directory: language/go/examples/recipes/streaming-go
       - run: go test -mod=readonly ./...
-        working-directory: examples/recipes/structured-output-go
+        working-directory: language/go/examples/recipes/structured-output-go
       - run: go test -mod=readonly ./...
-        working-directory: examples/recipes/identity-go
+        working-directory: language/go/examples/recipes/identity-go
       - run: go test ./...
         working-directory: language/go/examples/live-model/go
       - run: go vet ./...
         working-directory: language/go/examples/live-model/go
-      - run: GOWORK=off go test ./examples/hitl
-      - run: GOWORK=off go run ./examples/session-checkpoint
-      - run: GOWORK=off go test ./examples/multiagent
+      - run: GOWORK=off go test ./language/go/examples/hitl
+      - run: GOWORK=off go run ./language/go/examples/session-checkpoint
+      - run: GOWORK=off go test ./language/go/examples/multiagent
       - run: GOWORK=off go test ./...
-        working-directory: examples/representative-chain
+        working-directory: language/go/examples/representative-chain
 
   example-sdks:
     runs-on: ubuntu-latest

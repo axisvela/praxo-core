@@ -41,8 +41,8 @@ Set `SWIPL` to select a specific interpreter.
 The bridge exposes one-shot bridge commands and has no local agent loop,
 subagent manager, or child-policy surface, so a bridge-local chain/delegation
 example is not applicable. Use the
-[Go representative chain](https://github.com/axisvela/praxo-core/tree/main/examples/representative-chain)
-and [Go multi-agent example](https://github.com/axisvela/praxo-core/tree/main/examples/multiagent).
+[Go representative chain](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/representative-chain)
+and [Go multi-agent example](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/multiagent).
 The Prolog forwarding path is verified by `python bindings/prolog/test_bridge.py`.
 
 ## Limits

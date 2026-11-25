@@ -47,7 +47,7 @@ agent, crawler, hosted agent service, or model provider.
 - [Examples](https://github.com/axisvela/praxo-core/tree/main/language/r/examples): runnable language-specific examples.
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
 - Registry: [r-universe](https://axisvela.r-universe.dev/praxocore)
-- Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761)
+- Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761) · [LinkedIn](https://www.linkedin.com/company/axisvela/) · [Facebook](https://www.facebook.com/profile.php?id=61596905732406) · [YouTube](https://www.youtube.com/@axisvela) · [Discord](https://discord.com/channels/1575163993767809064/1575164343148875977) · [GitHub Discussions](https://github.com/axisvela/praxo-core/discussions) · [GitHub Issues](https://github.com/axisvela/praxo-core/issues) · [Documentation](https://axisvela.github.io/praxo-core/) · [Architect](https://axisvela.architect.pub)
 
 ## Get started
 
@@ -106,8 +106,8 @@ Tools are ordinary lists with `name`, `description`, optional `parameters`, and
 an `invoke` function. Pass `session = session(id, messages = ...)` to continue a
 conversation; `result$messages` contains the updated history.
 
-See [`examples/consumer`](examples/consumer) for a deterministic allow/deny
-starter and [`examples/live-model`](examples/live-model) for an OpenAI-compatible
+See [`language/go/examples/consumer`](language/go/examples/consumer) for a deterministic allow/deny
+starter and [`language/go/examples/live-model`](language/go/examples/live-model) for an OpenAI-compatible
 endpoint.
 
 ## OpenAI-Compatible Adapter

@@ -32,9 +32,9 @@ if err != nil {
 result, err := agentInstance.Run(ctx, agent.Session{ID: "demo"}, "What time is it?")
 ```
 
-See [`examples/quickstart`](../../examples/quickstart) for a runnable
+See [`language/go/examples/quickstart`](../../language/go/examples/quickstart) for a runnable
 OpenAI-compatible endpoint with a `get_time(zone)` tool, and
-[`examples/live-model`](examples/live-model) for the published-package live path.
+[`language/go/examples/live-model`](language/go/examples/live-model) for the published-package live path.
 
 ## Features
 
@@ -46,14 +46,14 @@ OpenAI-compatible endpoint with a `get_time(zone)` tool, and
 
 ## Examples
 
-- [`examples/quickstart`](../../examples/quickstart): endpoint quickstart.
-- [`examples/live-model`](examples/live-model): live model with `get_time(zone)`.
-- [`examples/consumer-go`](examples/consumer-go): published-package allow/deny starter.
-- [`examples/hitl`](../../examples/hitl): approval and edit reauthorization.
-- [`examples/session-checkpoint`](../../examples/session-checkpoint): multi-turn checkpoint recovery.
-- [`examples/governed-workspace`](../../examples/governed-workspace): policy and approval boundaries.
-- [`examples/multiagent`](../../examples/multiagent): local delegation.
-- [`examples/plugin`](../../examples/plugin): process plugin host.
+- [`language/go/examples/quickstart`](../../language/go/examples/quickstart): endpoint quickstart.
+- [`language/go/examples/live-model`](language/go/examples/live-model): live model with `get_time(zone)`.
+- [`language/go/examples/consumer-go`](language/go/examples/consumer-go): published-package allow/deny starter.
+- [`language/go/examples/hitl`](../../language/go/examples/hitl): approval and edit reauthorization.
+- [`language/go/examples/session-checkpoint`](../../language/go/examples/session-checkpoint): multi-turn checkpoint recovery.
+- [`language/go/examples/governed-workspace`](../../language/go/examples/governed-workspace): policy and approval boundaries.
+- [`language/go/examples/multiagent`](../../language/go/examples/multiagent): local delegation.
+- [`language/go/examples/plugin`](../../language/go/examples/plugin): process plugin host.
 
 ## Verify
 

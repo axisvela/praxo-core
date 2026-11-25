@@ -25,7 +25,7 @@ The internal authorization record retains the approval reference and review scop
 Source: `axisvela/akrovela` commit
 `bc8ef5fd0ae34a81debf9d83a494a467adc46f36`,
 `backend/internal/satellite/agent.go`, `journal.go` and `agent_test.go`.
-Destination: `examples/recipes/long-running-go/execution.go`,
+Destination: `language/go/examples/recipes/long-running-go/execution.go`,
 `execution_test.go`, `execution_process_test.go` and recovery documentation.
 The adaptations retain only generic durable-start, uncertainty and retry-safety
 behavior; no product package is imported and no Core public API is added.

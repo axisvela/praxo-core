@@ -7,7 +7,7 @@ denial with zero effects.
 From `language/delphi/`:
 
 ```bash
-fpc -Mobjfpc -Scghi -O2 -Fu. -FEbuild examples/representative-chain/chain.pas
+fpc -Mobjfpc -Scghi -O2 -Fu. -FEbuild language/go/examples/representative-chain/chain.pas
 ./build/chain
 ```
 

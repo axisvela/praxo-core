@@ -26,7 +26,7 @@ C++/Rust、COBOL、Julia、Ruby。复用有用切片，证明宿主生态和运�
 | 共享业务 API | [agent-tutorial-services](https://github.com/axisvela/agent-tutorial-services) | 合成契约、fixture 和本地服务测试 |
 | 证据 | [验证证据](../project/verification-evidence.md) | 准确 revision、范围和限制 |
 
-`Tutorial/` 与 `examples/` 并列。参考应用统一放在
+`Tutorial/` 与 `language/go/examples/` 并列。参考应用统一放在
 `language/<language>/application/`，不进入生成的教程目录；它们属于完整宿主集成，
 不是教程切片。既有机制示例保持发布路径。业务 API 留在 Core 和 `spec/` 之外，
 属于教学契约，不是框架兼容性承诺。

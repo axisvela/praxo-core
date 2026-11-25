@@ -28,7 +28,7 @@ themselves. Before launching a child, the application must:
 - propagate cancellation and deadlines to child contexts;
 - reauthorize final tool arguments after middleware, HITL edits, or hooks.
 
-The Go `examples/multiagent/governance_test.go`, Python
+The Go `language/go/examples/multiagent/governance_test.go`, Python
 `language/python/examples/advanced-delegation/test_governance.py`, TypeScript
 `language/typescript/examples/advanced-delegation/governance.test.js`, Java
 `language/java/examples/advanced-delegation/src/main/java/advanceddelegation/GovernanceSelfTest.java`,
@@ -56,7 +56,7 @@ engine.
 
 ## Example
 
-[`examples/multiagent`](https://github.com/axisvela/praxo-core/tree/main/examples/multiagent)
+[`language/go/examples/multiagent`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/multiagent)
 runs two subagents asynchronously, aggregates their outputs, and cancels a slow
 task.
 
@@ -78,7 +78,7 @@ done, err := manager.Wait(ctx, task.ID)
 A product supplies the router and `SubagentRunner`; the framework owns the task
 lifecycle and observable state.
 
-[`examples/representative-chain`](https://github.com/axisvela/praxo-core/tree/main/examples/representative-chain)
+[`language/go/examples/representative-chain`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/representative-chain)
 runs a real local model through an MCP tool, final-argument authorization,
 governed child delegation, OTel spans, and Harmovela events, then checks a
 denied edit for zero effects. It skips when `PRAXO_OLLAMA_MODEL` is unset.
@@ -106,7 +106,7 @@ Use RHEOVELA when the workflow needs durable graph/subgraph execution, recovery,
 leases, or graph-level interrupts. PRAXO-CORE supplies the agent session and
 stream boundary; RHEOVELA owns the graph.
 
-[`examples/ecosystem-sdk`](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/rheovela)
+[`language/go/examples/ecosystem-sdk`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/ecosystem-sdk/rheovela)
 contains a `rheovela.Runner` recipe:
 
 ```go

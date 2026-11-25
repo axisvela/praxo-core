@@ -1,7 +1,7 @@
 # Recipes
 
 常用集成的可复制起点。完整可运行示例位于
-[`examples/`](https://github.com/axisvela/praxo-core/tree/main/examples)。
+[`language/go/examples/`](https://github.com/axisvela/praxo-core/tree/main/examples)。
 
 ## OpenAI 兼容模型
 
@@ -150,7 +150,7 @@ adapter := noetivelaadapter.Adapter{
 
 该 Core 暴露文本内容，不暴露工具调用。需要工具调用时，应使用保留 tool-call
 字段的自定义 HTTP 适配器。参见
-[NOETIVELA SDK 示例](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/noetivela)。
+[NOETIVELA SDK 示例](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/ecosystem-sdk/noetivela)。
 
 ## Mnemovela
 
@@ -173,7 +173,7 @@ ag, err := agent.New(agent.Options{
 仅提供 `memory.Store` 不会注入记录；必须显式设置 `Recall: true`。其他 Core SDK
 目前不做自动召回。召回内容按不可信历史数据处理，不是 system 指令；其来源和帧标签
 不能提升自身指令权限。参见
-[Mnemovela Core 示例](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/mnemovela)。
+[Mnemovela Core 示例](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/ecosystem-sdk/mnemovela)。
 
 ## GNOSIVELA
 
@@ -192,7 +192,7 @@ documents, err := adapter.Retrieve(ctx, "current status", 8)
 
 GNOSIVELA 尚未为该模块路径发布 `v3` semver 标签；示例模块固定 `master` 的
 pseudo-version。参见
-[GNOSIVELA Core 示例](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/gnosivela)。
+[GNOSIVELA Core 示例](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/ecosystem-sdk/gnosivela)。
 
 ## AEGIVELA 策略
 
@@ -217,7 +217,7 @@ hook := aegivelaadapter.Hook{
 
 Hook 仅在结果精确为 `allow` 时放行，其他结果一律拒绝。`WorkloadAssertion`
 应在运行时从密钥管理系统读取，不要硬编码；`Route` 值应保持静态。参见
-[AEGIVELA Core 示例](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/aegivela)。
+[AEGIVELA Core 示例](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/ecosystem-sdk/aegivela)。
 
 ## LIMENORA 网关
 
@@ -243,7 +243,7 @@ gateway := limenoraadapter.Gateway{
 
 Route 应保持静态并加入允许列表。不要从模型输出推导 `URL`、`Method` 或请求头；
 出站策略由 LIMENORA 执行。参见
-[LIMENORA Core 示例](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/limenora)。
+[LIMENORA Core 示例](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/ecosystem-sdk/limenora)。
 
 ## Harmovela 事件
 
@@ -319,7 +319,7 @@ audit, err := runner.Audit(ctx, instance.InstanceID)
 ```
 
 参见
-[RHEOVELA Core 示例](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/rheovela)。
+[RHEOVELA Core 示例](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/ecosystem-sdk/rheovela)。
 
 ## Sandbox 与策略
 
@@ -372,7 +372,7 @@ result, err := runner.Run(ctx, sandbox.Spec{Timeout: 5 * time.Second}, command)
 
 授权与执行必须使用同一条命令。`sandbox.Sandbox` 是接口：该示例对宿主命令执行做
 策略门控，但不提供 OS 级隔离。允许列表应保持静态，不要从模型输出构建。参见
-[sandbox 示例](https://github.com/axisvela/praxo-core/tree/main/examples/sandbox)。
+[sandbox 示例](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/sandbox)。
 
 ## Governed Workspace Demo
 
@@ -380,14 +380,14 @@ governed workspace demo 是无需 API key 的确定性路径，演示只读工�
 拒绝、策略拒绝和事件 trace。它使用脚本化模型，不声称真实模型行为。
 
 ```bash
-GOWORK=off go run ./examples/governed-workspace -mode read
-GOWORK=off go run ./examples/governed-workspace -mode write
-GOWORK=off go run ./examples/governed-workspace -mode deny
-GOWORK=off go run ./examples/governed-workspace -mode escape
+GOWORK=off go run ./language/go/examples/governed-workspace -mode read
+GOWORK=off go run ./language/go/examples/governed-workspace -mode write
+GOWORK=off go run ./language/go/examples/governed-workspace -mode deny
+GOWORK=off go run ./language/go/examples/governed-workspace -mode escape
 ```
 
 参见
-[governed workspace demo](https://github.com/axisvela/praxo-core/tree/main/examples/governed-workspace)。
+[governed workspace demo](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/governed-workspace)。
 
 ## Reference Workspace Agent
 
@@ -395,9 +395,9 @@ reference app 组合了 OpenAI 兼容适配器、受限 VFS 工具、策略、�
 上下文预算。
 
 ```bash
-GOWORK=off go run ./examples/reference -workspace ./workspace
+GOWORK=off go run ./language/go/examples/reference -workspace ./workspace
 ```
 
 示例策略只允许 `model.generate` 和 `fs.*` 工具调用，VFS 后端将路径限制在
 workspace 内。参见
-[reference app](https://github.com/axisvela/praxo-core/tree/main/examples/reference)。
+[reference app](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/reference)。

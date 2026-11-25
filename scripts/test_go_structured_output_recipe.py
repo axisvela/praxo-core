@@ -7,7 +7,7 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[1]
-RECIPE = ROOT / "examples/recipes/structured-output-go"
+RECIPE = ROOT / "language/go/examples/recipes/structured-output-go"
 
 
 class GoStructuredOutputRecipeTests(unittest.TestCase):

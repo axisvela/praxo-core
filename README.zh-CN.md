@@ -15,7 +15,7 @@
 [中文文档](https://axisvela.github.io/praxo-core/zh-CN/) |
 [快速开始](docs/zh-CN/getting-started/quickstart.md) |
 [语言实现](docs/zh-CN/languages/index.md) |
-[示例](examples)
+[示例](language/go/examples)
 
 **PRAXO-CORE 是多语言框架。** Go 是参考实现；Python、TypeScript、Java、Rust、C#、R、
 Ruby、PHP、Elixir、Lua 等语言都有独立发布包。它不是 Go 专用框架。
@@ -31,7 +31,7 @@ Ruby、PHP、Elixir、Lua 等语言都有独立发布包。它不是 Go 专用�
    [TypeScript 独立消费者](docs/zh-CN/getting-started/consumer-typescript.md) 开始。
 2. **治理验收：** 增加最终工具重新授权、HITL、负向测试和零效果拒绝检查。阅读
    [应用嵌入清单](docs/zh-CN/guides/application-integration-checklist.md)和
-   [受治理参考示例](https://github.com/axisvela/praxo-core/tree/main/examples/governed-workspace)。
+   [受治理参考示例](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/governed-workspace)。
 
 第一次运行前不需要理解完整语言矩阵、证据分类或所有适配器。
 
@@ -70,7 +70,7 @@ go get github.com/axisvela/praxo-core/v2@v2.9.0
 ```bash
 export PRAXO_BASE_URL=http://localhost:11434/v1
 export PRAXO_MODEL=llama3.2
-GOWORK=off go run ./examples/quickstart
+GOWORK=off go run ./language/go/examples/quickstart
 ```
 
 连接其他 OpenAI 兼容端点时，设置 `PRAXO_BASE_URL`、`PRAXO_API_KEY` 和
@@ -138,19 +138,19 @@ optional。当前覆盖见[行为实验](docs/zh-CN/languages/behavior-lab.md)�
 | --- | --- |
 | 用发布包连接真实模型 | [真实模型](language/go/examples/live-model) |
 | 生成受校验 JSON | [Python](language/python/examples/structured-output)、[TypeScript](language/typescript/examples/structured-output)、[Java](language/java/examples/structured-output)、[C#](language/csharp/examples/structured-output) |
-| 构建只读 Workspace Agent | [Workspace agent](examples/workspace-agent) |
-| 将 Core 嵌入 HTTP 服务 | [Embedded service](examples/embedded-service) |
+| 构建只读 Workspace Agent | [Workspace agent](language/go/examples/workspace-agent) |
+| 将 Core 嵌入 HTTP 服务 | [Embedded service](language/go/examples/embedded-service) |
 | 使用本地 MCP 客户端 | [Python](language/python/examples/mcp)、[TypeScript](language/typescript/examples/mcp)、[C#](language/csharp/examples/mcp) |
-| 模型、工具与流式输出 | [Quickstart](examples/quickstart) |
-| 审批与拒绝边界 | [Governed workspace](examples/governed-workspace) |
-| 检查点恢复 | [Checkpoint](examples/checkpoint) |
-| 策略控制命令执行 | [Sandbox](examples/sandbox) |
-| 委派任务 | [Multi-agent](examples/multiagent) |
-| 使用自己的适配器嵌入 | [Integrator](examples/integrator) |
+| 模型、工具与流式输出 | [Quickstart](language/go/examples/quickstart) |
+| 审批与拒绝边界 | [Governed workspace](language/go/examples/governed-workspace) |
+| 检查点恢复 | [Checkpoint](language/go/examples/checkpoint) |
+| 策略控制命令执行 | [Sandbox](language/go/examples/sandbox) |
+| 委派任务 | [Multi-agent](language/go/examples/multiagent) |
+| 使用自己的适配器嵌入 | [Integrator](language/go/examples/integrator) |
 
 按任务和语言组织的完整目录：
 [文档示例页](docs/zh-CN/getting-started/examples.md)和
-[examples/README.md](examples/README.md)。
+[language/go/examples/README.md](language/go/examples/README.md)。
 
 ## 仓库导览
 
@@ -161,10 +161,10 @@ optional。当前覆盖见[行为实验](docs/zh-CN/languages/behavior-lab.md)�
 | [`language/`](language/README.md) | 独立语言 SDK 源码、构建、测试与 API 参考 |
 | [`bindings/`](bindings/README.md) | Shell 与 PowerShell 运行时桥接 |
 | [`spec/`](spec) | 规范契约、共享向量与 parity 清单 |
-| [`examples/`](examples) | 可运行示例 |
+| [`language/go/examples/`](language/go/examples) | 可运行示例 |
 | [`docs/`](docs) | 按用户任务分类的公开文档 |
 
-Go 导入路径保持不变，语言源码已归入 `language/`、`bindings/` 和 `examples/`，
+Go 导入路径保持不变，语言源码已归入 `language/`、`bindings/` 和 `language/go/examples/`，
 使用方请查看[源码迁移说明](docs/zh-CN/project/repository-layout.md)。
 
 ## 框架与生态
@@ -193,6 +193,14 @@ PRAXO-CORE 是独立的 MIT 框架。
 
 - X：<https://x.com/axisvela>
 - 微博：<https://weibo.com/u/1936025761>
+- LinkedIn：<https://www.linkedin.com/company/axisvela/>
+- Facebook：<https://www.facebook.com/profile.php?id=61596905732406>
+- YouTube：<https://www.youtube.com/@axisvela>
+- Discord：<https://discord.com/channels/1575163993767809064/1575164343148875977>
+- GitHub Discussions：<https://github.com/axisvela/praxo-core/discussions>
+- GitHub Issues：<https://github.com/axisvela/praxo-core/issues>
+- 文档：<https://axisvela.github.io/praxo-core/>
+- Architect：<https://axisvela.architect.pub>
 
 ## 许可证
 

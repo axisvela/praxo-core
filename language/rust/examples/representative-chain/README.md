@@ -53,5 +53,5 @@ exact numbers can increase if the runner emits additional lifecycle events.
 The models, MCP server, OTel collector, and Harmovela endpoint are deterministic
 in-memory fakes. This is not a live-model run and does not prove provider
 behavior, remote MCP or Harmovela operation, identity, isolation, exactly-once
-execution, or production readiness. The Go `examples/representative-chain` is
+execution, or production readiness. The Go `language/go/examples/representative-chain` is
 the real-model counterpart.

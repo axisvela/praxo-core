@@ -5,7 +5,7 @@ import subprocess
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-RECIPE = ROOT / "examples/recipes/long-running-go"
+RECIPE = ROOT / "language/go/examples/recipes/long-running-go"
 
 
 def run(name, command, env=None, cwd=ROOT):

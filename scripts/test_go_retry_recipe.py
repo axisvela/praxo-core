@@ -7,7 +7,7 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[1]
-RECIPE = ROOT / "examples/recipes/retry-go"
+RECIPE = ROOT / "language/go/examples/recipes/retry-go"
 
 
 class GoRetryRecipeTests(unittest.TestCase):

@@ -17,7 +17,7 @@ model providers and integrations. AxisVela products are not required.
 [Documentation](https://axisvela.github.io/praxo-core/) |
 [Quickstart](docs/getting-started/quickstart.md) |
 [Language Implementations](docs/languages/index.md) |
-[Examples](examples)
+[Examples](language/go/examples)
 
 **PRAXO-CORE is a multi-language framework.** Go is the reference
 implementation; Python, TypeScript, Java, Rust, C#, R, Ruby, PHP, Elixir, Lua,
@@ -37,7 +37,7 @@ Start with the smaller path, then add governance when you need it.
 2. **Governed acceptance:** add final tool reauthorization, HITL, negative tests,
    and zero-effect denial checks. Read the
    [application integration checklist](docs/guides/application-integration-checklist.md)
-   and the [governed reference example](https://github.com/axisvela/praxo-core/tree/main/examples/governed-workspace).
+   and the [governed reference example](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/governed-workspace).
 
 You do not need the full language matrix, evidence taxonomy, or every adapter
 before your first run.
@@ -65,10 +65,9 @@ See the full [implementation directory](docs/languages/index.md) and the
 
 - Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/REGISTRY.md)
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/llms.md)
-- [Examples](https://github.com/axisvela/praxo-core/tree/main/examples): runnable language-specific examples.
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
 - Registry: [Language Release Index](docs/languages/registry-status.md)
-- Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761)
+- Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761) · [LinkedIn](https://www.linkedin.com/company/axisvela/) · [Facebook](https://www.facebook.com/profile.php?id=61596905732406) · [YouTube](https://www.youtube.com/@axisvela) · [Discord](https://discord.com/channels/1575163993767809064/1575164343148875977) · [GitHub Discussions](https://github.com/axisvela/praxo-core/discussions) · [GitHub Issues](https://github.com/axisvela/praxo-core/issues) · [Documentation](https://axisvela.github.io/praxo-core/) · [Architect](https://axisvela.architect.pub)
 
 ## Go Reference Quickstart
 
@@ -88,7 +87,7 @@ Then run the endpoint quickstart from a checkout using Ollama:
 ```bash
 export PRAXO_BASE_URL=http://localhost:11434/v1
 export PRAXO_MODEL=llama3.2
-GOWORK=off go run ./examples/quickstart
+GOWORK=off go run ./language/go/examples/quickstart
 ```
 
 Or connect an OpenAI-compatible endpoint:
@@ -97,7 +96,7 @@ Or connect an OpenAI-compatible endpoint:
 export PRAXO_BASE_URL=https://api.openai.com/v1
 export PRAXO_API_KEY=...
 export PRAXO_MODEL=gpt-4o-mini
-GOWORK=off go run ./examples/quickstart
+GOWORK=off go run ./language/go/examples/quickstart
 ```
 
 Use Go 1.26.11, the tested CI/release toolchain. On PowerShell, set environment
@@ -179,19 +178,19 @@ other declared implementations are optional. See the
 | --- | --- |
 | Run a published package against a real model | [Live model](language/go/examples/live-model) |
 | Produce validated JSON | [Python](language/python/examples/structured-output), [TypeScript](language/typescript/examples/structured-output), [Java](language/java/examples/structured-output), [C#](language/csharp/examples/structured-output) |
-| Build a read-only workspace agent | [Workspace agent](examples/workspace-agent) |
-| Embed Core in an HTTP service | [Embedded service](examples/embedded-service) |
+| Build a read-only workspace agent | [Workspace agent](language/go/examples/workspace-agent) |
+| Embed Core in an HTTP service | [Embedded service](language/go/examples/embedded-service) |
 | Use a local MCP client | [Python](language/python/examples/mcp), [TypeScript](language/typescript/examples/mcp), [C#](language/csharp/examples/mcp) |
-| Call a model with tools and streaming | [Quickstart](examples/quickstart) |
-| Observe approval and denial boundaries | [Governed workspace](examples/governed-workspace) |
-| Resume a run | [Checkpoint](examples/checkpoint) |
-| Gate command execution through policy | [Sandbox](examples/sandbox) |
-| Delegate work | [Multi-agent](examples/multiagent) |
-| Embed with your own adapters | [Integrator](examples/integrator) |
+| Call a model with tools and streaming | [Quickstart](language/go/examples/quickstart) |
+| Observe approval and denial boundaries | [Governed workspace](language/go/examples/governed-workspace) |
+| Resume a run | [Checkpoint](language/go/examples/checkpoint) |
+| Gate command execution through policy | [Sandbox](language/go/examples/sandbox) |
+| Delegate work | [Multi-agent](language/go/examples/multiagent) |
+| Embed with your own adapters | [Integrator](language/go/examples/integrator) |
 
 Task-oriented and language-organized catalogs:
 [docs Examples](docs/getting-started/examples.md) and
-[examples/README.md](examples/README.md).
+[language/go/examples/README.md](language/go/examples/README.md).
 
 ## Repository Map
 
@@ -202,11 +201,11 @@ Task-oriented and language-organized catalogs:
 | [`language/`](language/README.md) | Independent language Core source, builds, tests, and API references |
 | [`bindings/`](bindings/README.md) | Shell and PowerShell runtime bridges |
 | [`spec/`](spec) | Normative wire contract, vectors, and parity inventories |
-| [`examples/`](examples) | Runnable integration examples |
+| [`language/go/examples/`](language/go/examples) | Runnable integration examples |
 | [`docs/`](docs) | Public documentation grouped by user task |
 
-Go module paths remain unchanged. Language sources have moved under `language/`,
-`bindings/`, and `examples/`; see the [source migration guide](docs/project/repository-layout.md).
+Go module paths remain unchanged. Language sources have moved under `language/` and `bindings/`; Go examples
+are under `language/go/examples/`; see the [source migration guide](docs/project/repository-layout.md).
 
 ## Framework and Ecosystem
 
@@ -244,6 +243,14 @@ and adapter releases use independent tags and registry versions, not Latest.
 
 - X: <https://x.com/axisvela>
 - Weibo: <https://weibo.com/u/1936025761>
+- LinkedIn: <https://www.linkedin.com/company/axisvela/>
+- Facebook: <https://www.facebook.com/profile.php?id=61596905732406>
+- YouTube: <https://www.youtube.com/@axisvela>
+- Discord: <https://discord.com/channels/1575163993767809064/1575164343148875977>
+- GitHub Discussions: <https://github.com/axisvela/praxo-core/discussions>
+- GitHub Issues: <https://github.com/axisvela/praxo-core/issues>
+- Documentation: <https://axisvela.github.io/praxo-core/>
+- Architect: <https://axisvela.architect.pub>
 
 ## License
 

@@ -20,8 +20,8 @@ product-runtime adapter.
 | Graph execution | `pkg/agent`, `pkg/agent/stream` | [RHEOVELA](https://github.com/axisvela/rheovela-open) |
 | Product runtime | All interfaces | [PRAXOVELA](https://github.com/axisvela/praxovela-open) |
 
-Adapter skeletons: [`examples/ecosystem`](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem).
-The separate [`examples/ecosystem/mcp`](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem/mcp)
+Adapter skeletons: [`language/go/examples/ecosystem`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/ecosystem).
+The separate [`language/go/examples/ecosystem/mcp`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/ecosystem/mcp)
 module demonstrates MCP resources and prompts with an in-memory server.
 
 ## Adapter Modules
@@ -61,14 +61,14 @@ inference fabric and can back the model seam.
   stream, or cache capabilities.
 - The framework does not vendor the NOETIVELA Go Core or provider credentials.
   `noetivela-open` is Apache-2.0 and can be imported by the adapter or product.
-- The [`examples/ecosystem-sdk`](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk) module uses the
+- The [`language/go/examples/ecosystem-sdk`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/ecosystem-sdk) module uses the
   real NOETIVELA, Mnemovela, GNOSIVELA, AEGIVELA, LIMENORA, and RHEOVELA Go
   Core implementations. It is a separate module so the core framework module stays free of
   product Core dependencies. Harmovela is published separately as
   `adapters/harmovela`.
 - The `ecosystem.Noetivela` adapter skeleton shows a contract-mapping shape;
   `ecosystem.Model` and `ecosystem.Provider` cover the generic callback shape.
-- The [runnable demo](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem/cmd/demo) wires the NOETIVELA,
+- The [runnable demo](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/ecosystem/cmd/demo) wires the NOETIVELA,
   memory, event, policy, and tool-gateway adapters into an agent.
 - The NOETIVELA SDK `ChatResponse` exposes text content, not tool calls. For
   agent tool calling, use a custom HTTP adapter that preserves tool-call fields,

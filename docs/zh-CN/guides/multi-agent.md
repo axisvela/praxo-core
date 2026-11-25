@@ -27,7 +27,7 @@ Agent 前必须：
 - 将取消与 deadline 传播到子上下文；
 - 在 middleware、HITL 编辑或 hook 之后重新授权最终工具参数。
 
-Go `examples/multiagent/governance_test.go`、Python
+Go `language/go/examples/multiagent/governance_test.go`、Python
 `language/python/examples/advanced-delegation/test_governance.py`、TypeScript
 `language/typescript/examples/advanced-delegation/governance.test.js`、Java
 `language/java/examples/advanced-delegation/src/main/java/advanceddelegation/GovernanceSelfTest.java`、
@@ -52,7 +52,7 @@ C# `language/csharp/examples/advanced-delegation/GovernanceSelfTest.cs`、Rust
 
 ## 示例
 
-[`examples/multiagent`](https://github.com/axisvela/praxo-core/tree/main/examples/multiagent)
+[`language/go/examples/multiagent`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/multiagent)
 异步运行两个子 Agent、聚合结果并取消慢任务。
 
 ```go
@@ -72,7 +72,7 @@ done, err := manager.Wait(ctx, task.ID)
 
 路由器与 `SubagentRunner` 由产品提供；框架负责任务生命周期和可观察状态。
 
-[`examples/representative-chain`](https://github.com/axisvela/praxo-core/tree/main/examples/representative-chain)
+[`language/go/examples/representative-chain`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/representative-chain)
 使用真实本地模型串联 MCP 工具、最终参数授权、受治理子代理委派、OTel span 和
 Harmovela 事件，并检查编辑后拒绝路径零效果。未设置 `PRAXO_OLLAMA_MODEL` 时跳过。
 其余 Core SDK 语言在各自的 representative-chain 示例或原生测试套件中有确定性
@@ -97,7 +97,7 @@ Harmovela 事件，并检查编辑后拒绝路径零效果。未设置 `PRAXO_OL
 当工作流需要持久化图/子图执行、恢复、租约或图级中断时，应使用 RHEOVELA。
 PRAXO-CORE 提供 Agent 会话和流边界；RHEOVELA 拥有图。
 
-[`examples/ecosystem-sdk`](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/rheovela)
+[`language/go/examples/ecosystem-sdk`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/ecosystem-sdk/rheovela)
 中有 `rheovela.Runner` recipe：
 
 ```go

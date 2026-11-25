@@ -18,7 +18,7 @@ codes. Do not interpolate untrusted JSON into shell commands.
 The bridge exposes one-shot `run`, `toolcall`, `jsonschema`, `tool`, `event`, and
 `plugin` commands. It has no local agent loop, subagent manager, or child-policy
 surface, so a bridge-local chain/delegation example is not applicable. Use the
-[Go representative chain](https://github.com/axisvela/praxo-core/tree/main/examples/representative-chain)
-and [Go multi-agent example](https://github.com/axisvela/praxo-core/tree/main/examples/multiagent).
+[Go representative chain](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/representative-chain)
+and [Go multi-agent example](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/multiagent).
 The wrapper path itself is covered by the bridge tests:
 `go test ./internal/bridge ./cmd/praxo-bridge`.

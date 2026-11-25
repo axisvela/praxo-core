@@ -53,7 +53,7 @@ this framework.
 - Go remains the reference implementation; do not widen the `pkg/...` API for an
   SDK.
 - Keep independent implementations under `language/`, bridge wrappers under
-  `bindings/`, and shared-runtime language samples under `examples/`.
+  `bindings/`, and shared-runtime language samples under `language/go/examples/`.
 - Reference applications live at `language/<language>/application/`; tutorials and
   mechanism examples remain under `language/<language>/Tutorial/` and their
   existing paths. PHP may keep multiple variants in subdirectories; other

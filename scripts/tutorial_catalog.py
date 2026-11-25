@@ -233,7 +233,7 @@ def records() -> list[dict]:
     indexed = {(entry["languages"], entry["path"]) for entry in entries}
     sources = [(language, readme.parent) for language in coverage.languages()
                for readme in (ROOT / "language" / language / "examples").glob("*/README.md")]
-    sources += [("go", readme.parent) for pattern in ("examples/*/README.md", "examples/recipes/*/README.md")
+    sources += [("go", readme.parent) for pattern in ("language/go/examples/*/README.md", "language/go/examples/recipes/*/README.md")
                 for readme in ROOT.glob(pattern)]
     for language, path in sorted(sources):
         relative = path.relative_to(ROOT).as_posix()
@@ -252,7 +252,7 @@ def records() -> list[dict]:
 
 def related_label(path: str) -> str:
     parts = path.split("/")
-    if len(parts) >= 4 and parts[0] == "language" and parts[2] == "Tutorial":
+    if len(parts) >= 4 and parts[0] == "language" and parts[2] in {"Tutorial", "examples"}:
         return f"{parts[1]}/{parts[-1]}"
     if len(parts) >= 2:
         return "/".join(parts[-2:])
@@ -352,8 +352,8 @@ def render(entries: list[dict], zh: bool = False) -> str:
                  for entry in applications if capability in entry["capabilities"].split(",")]
         lines.append(f"| {capability} | {', '.join(links)} |")
     lines += ["", "## 基础与进阶示例" if zh else "## Foundation And Advanced Examples", "",
-              ("这些跨行业条目复用原来的 examples/recipes 路径，不重命名为新的行业场景。" if zh else
-               "These cross-industry entries retain their examples/recipes paths and are not renamed as new industry scenarios."),
+              ("这些跨行业条目复用原来的 language/go/examples/recipes 路径，不重命名为新的行业场景。" if zh else
+               "These cross-industry entries retain their language/go/examples/recipes paths and are not renamed as new industry scenarios."),
               "", "| 主题 / Theme | 语言条目 / Language Entries | 入口 / Entry |", "| --- | ---: | --- |"]
     for theme in (*coverage.ALIGNED_THEMES, *coverage.ADVANCED_THEMES):
         matching = [entry for entry in entries if entry["kind"] in {"mechanism", "advanced"} and entry["title"] == theme]

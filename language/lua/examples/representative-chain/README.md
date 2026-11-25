@@ -53,4 +53,4 @@ The parent and child models are deterministic. The MCP, OTel, and Harmovela
 transports are in-memory fixtures; no network is used. This is not a live-model
 run and does not prove provider behavior, remote MCP or Harmovela operation,
 identity, isolation, exactly-once execution, or production readiness. The Go
-`examples/representative-chain` is the real-model counterpart.
+`language/go/examples/representative-chain` is the real-model counterpart.

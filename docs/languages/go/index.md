@@ -21,9 +21,9 @@ dependencies. Review [primitives](../../reference/primitives.md),
 ## API and Examples
 
 - [Go API reference](https://pkg.go.dev/github.com/axisvela/praxo-core/v2)
-- [Quickstart source](https://github.com/axisvela/praxo-core/tree/main/examples/quickstart)
-- [Checkpoint example](https://github.com/axisvela/praxo-core/tree/main/examples/checkpoint)
-- [Governed workspace example](https://github.com/axisvela/praxo-core/tree/main/examples/governed-workspace)
+- [Quickstart source](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/quickstart)
+- [Checkpoint example](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/checkpoint)
+- [Governed workspace example](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/governed-workspace)
 - [Compatibility](../../project/compatibility.md)
 
 ## Verify From Source

@@ -1,7 +1,7 @@
 # 将 Core 嵌入 HTTP 服务
 
 本教程使用可运行的
-[`examples/embedded-service`](https://github.com/axisvela/praxo-core/tree/main/examples/embedded-service)
+[`language/go/examples/embedded-service`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/embedded-service)
 项目，展示厂商中立服务的最小形态：调用方上下文通过 HTTP 进入，应用选择租户，
 Core 执行 Agent，服务返回结构化输出。
 
@@ -11,7 +11,7 @@ Core 执行 Agent，服务返回结构化输出。
 export PRAXO_BASE_URL=http://localhost:11434/v1
 export PRAXO_MODEL=llama3.2
 
-cd examples/embedded-service
+cd language/go/examples/embedded-service
 go run . -addr :8080 -tenant local
 ```
 
@@ -50,7 +50,7 @@ curl -s http://127.0.0.1:8080/run \
 
 ## 已验证身份变体
 
-[认证服务示例](https://github.com/axisvela/praxo-core/tree/main/examples/embedded-service-auth)
+[认证服务示例](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/embedded-service-auth)
 增加应用侧 HMAC Bearer Token、subject/tenant claims、过期检查、Agent 运行前的
 租户允许列表，以及运行完成时保存的文件型 Checkpoint。设置 `PRAXO_OIDC_ISSUER` 后改为
 验证 OIDC/JWKS JWT，并可从 Issuer 元数据发现 `jwks_uri`。设置
@@ -58,7 +58,7 @@ curl -s http://127.0.0.1:8080/run \
 通过 RFC 7009 撤销。两者同时配置时 introspection 优先。
 
 ```bash
-cd examples/embedded-service-auth
+cd language/go/examples/embedded-service-auth
 go test ./...
 ```
 
@@ -170,7 +170,7 @@ HTTP 服务。它们提供可注入 transport 的 introspection 与撤销模块�
 
 相同的 introspection/撤销契约已在 Rust、Lua、D、C、C++、Objective-C、
 Delphi/Free Pascal、Zig、Fortran 和 PowerShell 本地验证；模块路径与确定性测试命令见各自的
-`examples/service/README.md`。
+`language/go/examples/service/README.md`。
 
 应用必须在 Handler 之前完成认证，并从验证结果派生 principal/tenant。不包含 OIDC/JWKS。
 前六种语言的确定性测试命令为：
@@ -196,7 +196,7 @@ Java、C# 和 Swift 保留标准客户端 transport；Java 与 C# 使用 loopbac
 
 | 语言 | 运行命令 |
 | --- | --- |
-| Go | `cd examples/embedded-service && go run . -addr :8080 -tenant local` |
+| Go | `cd language/go/examples/embedded-service && go run . -addr :8080 -tenant local` |
 | Python | `cd language/python/examples/service && .venv/bin/python service.py` |
 | TypeScript | `cd language/typescript/examples/service && npm start` |
 | Java | `cd language/java/examples/service && mvn -q compile exec:java` |
@@ -259,7 +259,7 @@ Java、C# 和 Swift 保留标准客户端 transport；Java 与 C# 使用 loopbac
 ## 无需模型的测试
 
 ```bash
-cd examples/embedded-service
+cd language/go/examples/embedded-service
 go test ./...
 ```
 

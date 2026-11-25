@@ -5,7 +5,7 @@ It uses the Core allowlist for payload encoding and a teaching in-memory payload
 
 ```bash
 cd language/dart
-dart run examples/session-checkpoint/session_checkpoint.dart
+dart run language/go/examples/session-checkpoint/session_checkpoint.dart
 ```
 
 Expected output:

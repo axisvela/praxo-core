@@ -140,4 +140,4 @@ variants.
 - [AxisVela ecosystem](../integrations/ecosystem.md)
 - [Comparison](../project/comparison.md)
 - [Security model](../security/index.md)
-- [Reference workspace agent](https://github.com/axisvela/praxo-core/tree/main/examples/reference)
+- [Reference workspace agent](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/reference)

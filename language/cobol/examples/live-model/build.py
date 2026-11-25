@@ -48,7 +48,7 @@ for source in modules:
 
 executable = BUILD / ("live-model-example" + (".exe" if os.name == "nt" else ""))
 subprocess.run(
-    [compiler, "-x", "-free", "-I", "copy", "-I", "examples/live-model",
+    [compiler, "-x", "-free", "-I", "copy", "-I", "language/go/examples/live-model",
      "-o", str(executable), str(main_source), *objects],
     cwd=ROOT,
     env=env,

@@ -5,7 +5,7 @@ Application-level parent/child delegation plus six governance negative checks.
 From `language/delphi/`:
 
 ```bash
-fpc -Mobjfpc -Scghi -O2 -Fu. -FEbuild examples/advanced-delegation/governance.pas
+fpc -Mobjfpc -Scghi -O2 -Fu. -FEbuild language/go/examples/advanced-delegation/governance.pas
 ./build/governance
 ```
 

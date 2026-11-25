@@ -13,7 +13,7 @@ The examples use only the shared agent, tool, and policy seams.
 
 | Language | Example | Run |
 | --- | --- | --- |
-| Go | [`examples/multiagent`](https://github.com/axisvela/praxo-core/tree/main/examples/multiagent) | `go test ./...` |
+| Go | [`language/go/examples/multiagent`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/multiagent) | `go test ./...` |
 | Python | [`language/python/examples/advanced-delegation`](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/advanced-delegation) | `python delegation.py` |
 | TypeScript | [`language/typescript/examples/advanced-delegation`](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/advanced-delegation) | `npm start` |
 | Java | [`language/java/examples/advanced-delegation`](https://github.com/axisvela/praxo-core/tree/main/language/java/examples/advanced-delegation) | `mvn -q compile exec:java` |
@@ -36,7 +36,7 @@ application responsibilities.
 ## Long-Running Operations
 
 The Go reference recipe
-[`examples/recipes/long-running-go`](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/long-running-go)
+[`language/go/examples/recipes/long-running-go`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/recipes/long-running-go)
 shows application-owned submit, status, cancel, recovery, fencing, verifier, and
 durable-state patterns. See the
 [long-running operation recipe](long-running-operations.md) for the full scope
@@ -49,7 +49,7 @@ the application.
 ## Workspaces
 
 The Go reference example
-[`examples/governed-workspace`](https://github.com/axisvela/praxo-core/tree/main/examples/governed-workspace)
+[`language/go/examples/governed-workspace`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/governed-workspace)
 shows a governed, read-only workspace path. The
 [workspace agent tutorial](workspace-agent-tutorial.md) is the guided
 published-package version.
@@ -61,7 +61,7 @@ having an agent loop.
 ## Plugins
 
 The Go reference example
-[`examples/plugin`](https://github.com/axisvela/praxo-core/tree/main/examples/plugin)
+[`language/go/examples/plugin`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/plugin)
 shows plugin lifecycle, guarded transitions, in-flight drain, revoke, and
 quarantine. Plugin hosts remain Go-first; other Cores should state their gap
 explicitly.

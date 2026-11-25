@@ -12,6 +12,14 @@ REPO_PREFIX = "praxo-core-"
 COMMUNITY_LINKS = (
     ("X", "https://x.com/axisvela"),
     ("Weibo", "https://weibo.com/u/1936025761"),
+    ("LinkedIn", "https://www.linkedin.com/company/axisvela/"),
+    ("Facebook", "https://www.facebook.com/profile.php?id=61596905732406"),
+    ("YouTube", "https://www.youtube.com/@axisvela"),
+    ("Discord", "https://discord.com/channels/1575163993767809064/1575164343148875977"),
+    ("GitHub Discussions", "https://github.com/axisvela/praxo-core/discussions"),
+    ("GitHub Issues", "https://github.com/axisvela/praxo-core/issues"),
+    ("Documentation", "https://axisvela.github.io/praxo-core/"),
+    ("Architect", "https://axisvela.architect.pub"),
 )
 DEFAULT_SPEC_VERSION = "0.2.0"
 METADATA_BULLET_PREFIXES = (
@@ -129,7 +137,7 @@ def _rewrite_links(text: str, key: str) -> str:
         ("](../../spec/", "](spec/"),
         ("](../../docs/", f"](https://github.com/{ORGANIZATION}/praxo-core/blob/main/docs/"),
         ("](../../", f"](https://github.com/{ORGANIZATION}/praxo-core/blob/main/"),
-        ("](examples/", f"](language/{key}/examples/"),
+        ("](language/go/examples/", f"](language/{key}/language/go/examples/"),
         ("](api/", f"](language/{key}/api/"),
         ("](REGISTRY.md)", f"](language/{key}/REGISTRY.md)"),
         ("](README.md)", f"](language/{key}/README.md)"),
@@ -444,7 +452,7 @@ def mirror_readme(entry: dict, has_examples: bool = False, root: Path = ROOT) ->
     if is_go:
         layout = [
             "- `pkg/`, `adapters/`, `cmd/`, `internal/` — Go module source",
-            "- `examples/` — runnable Go and cross-language examples",
+            "- `language/go/examples/` — runnable Go and cross-language examples",
             "- `language/go/examples/` — published-package consumer and live-model examples",
             "- `spec/` — shared contract, vectors, and parity inventories",
             "- `LICENSE` — MIT license",

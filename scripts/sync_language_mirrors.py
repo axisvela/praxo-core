@@ -85,7 +85,6 @@ GO_SOURCE_DIRS = [
     "adapters",
     "cmd",
     "internal",
-    "examples",
     "language/go",
     "api",
     "benchmarks",
@@ -103,7 +102,7 @@ GO_SOURCE_FILES = [
     "llms.txt",
     "llms.md",
 ]
-GO_EXAMPLES = ["examples", "language/go/examples"]
+GO_EXAMPLES = ["language/go/examples"]
 GO_README = "docs/languages/go/index.md"
 GO_INTRO = (
     "Go is the reference implementation of PRAXO-CORE: an embeddable, "

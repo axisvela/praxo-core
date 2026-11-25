@@ -34,6 +34,18 @@ extra:
     - icon: fontawesome/brands/weibo
       link: https://weibo.com/u/1936025761
       name: PRAXO-CORE on Weibo
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/company/axisvela/
+      name: AxisVela on LinkedIn
+    - icon: fontawesome/brands/facebook
+      link: https://www.facebook.com/profile.php?id=61596905732406
+      name: AxisVela on Facebook
+    - icon: fontawesome/brands/youtube
+      link: https://www.youtube.com/@axisvela
+      name: AxisVela on YouTube
+    - icon: fontawesome/brands/discord
+      link: https://discord.com/channels/1575163993767809064/1575164343148875977
+      name: PRAXO-CORE on Discord
 
 plugins:
   - search:

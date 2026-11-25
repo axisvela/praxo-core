@@ -24,12 +24,12 @@
 | `governed_test.go` | L3/L4 | 最终参数重授权、审批编辑重授权、Policy 错误传播 | 缺少 Policy/范围守卫属于应用检查；Core 保留 nil-policy 嵌入 |
 
 身份配方已移到
-[`examples/recipes/identity-go`](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/identity-go)。
+[`language/go/examples/recipes/identity-go`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/recipes/identity-go)。
 它通过可信 context 提供已验证 principal；principal、角色、租户、过期均是应用逻辑，
 不是 Core 身份服务。
 
 长时操作套件已移到
-[`examples/recipes/long-running-go`](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/long-running-go)，
+[`language/go/examples/recipes/long-running-go`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/recipes/long-running-go)，
 避免 starter 混合 L3 包检查与 L4 配方。它是有价值的参考集成，也明确了应用必须自己承担
 什么；它不是 Core 提供持久操作、HTTP 认证、效果验证、lease 或 fencing 的证据。只有其
 Run 取消断言触及 Core 接缝。

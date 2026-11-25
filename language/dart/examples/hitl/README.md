@@ -16,8 +16,8 @@ dart language/dart/examples/hitl/hitl_test.dart
 Or from `language/dart`:
 
 ```bash
-dart run examples/hitl/hitl.dart
-dart run examples/hitl/hitl_test.dart
+dart run language/go/examples/hitl/hitl.dart
+dart run language/go/examples/hitl/hitl_test.dart
 ```
 
 Expected output:

@@ -6,7 +6,7 @@ capability. Existing example paths and URLs remain unchanged.
 
 Use examples by task first, then by language. Go reference and cross-language
 examples live in the repository
-[`examples/`](https://github.com/axisvela/praxo-core/tree/main/examples)
+[`language/go/examples/`](https://github.com/axisvela/praxo-core/tree/main/examples)
 directory. Language-specific examples live under
 `language/<language>/examples/` so they are included in the dedicated language
 mirror repositories. For the thirteen-theme, thirty-one-language matrix, see
@@ -15,7 +15,7 @@ mirror repositories. For the thirteen-theme, thirty-one-language matrix, see
 ## Depth and Evidence
 
 New domain application tutorials live in `language/<language>/Tutorial/`, as a
-sibling of `examples/`. See the [Tutorial Plan](tutorial-plan.md) for the
+sibling of `language/go/examples/`. See the [Tutorial Plan](tutorial-plan.md) for the
 scenario map, current status and delivery standard. Start with
 [Python order review](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/order-review)
 or [TypeScript order support](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/order-review).
@@ -196,16 +196,16 @@ for mechanism-only themes and the
 | Check small gateway health read-only | [Zig gateway health](https://github.com/axisvela/praxo-core/tree/main/language/zig/Tutorial/gateway-health) | Native Zig Core, explicit `GatewayAdapter` function table, fixed health, draft-only operator action; no MQTT, OPC UA, socket or device write |
 | Embed in an application | [Application Integration Checklist](../guides/application-integration-checklist.md) | Risk-tiered checklist for read-only, side-effecting, and high-risk deployments |
 | Run Core behind HTTP | [Embedded HTTP service tutorial](../guides/embedded-service-tutorial.md), [Language Coverage](language-coverage.md) | Executable HTTP servers for Go, Python, TypeScript, Java, C#, and Rust; transport-neutral handler examples for every other declared language |
-| Explore the Go reference | [`examples/reference`](https://github.com/axisvela/praxo-core/tree/main/examples/reference) | Go reference application |
-| Add policy and approvals | [`examples/governed-workspace`](https://github.com/axisvela/praxo-core/tree/main/examples/governed-workspace) | Go example of governed execution boundaries |
+| Explore the Go reference | [`language/go/examples/reference`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/reference) | Go reference application |
+| Add policy and approvals | [`language/go/examples/governed-workspace`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/governed-workspace) | Go example of governed execution boundaries |
 | Enforce identity and policy | [Identity and policy](../guides/identity-policy.md), [Language Coverage](language-coverage.md) | Trusted principal binding, model-claim rejection, and pre-effect denial for all 31 declared languages |
-| Add checkpoints | [`examples/checkpoint`](https://github.com/axisvela/praxo-core/tree/main/examples/checkpoint) | Go checkpoint-store example |
+| Add checkpoints | [`language/go/examples/checkpoint`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/checkpoint) | Go checkpoint-store example |
 | Persist checkpoints | [`language/python/examples/checkpoint`](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/checkpoint), [`language/typescript/examples/checkpoint`](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/checkpoint), [`language/csharp/examples/checkpoint`](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/checkpoint), [`language/rust/examples/checkpoint`](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples/checkpoint), [`language/java/examples/checkpoint`](https://github.com/axisvela/praxo-core/tree/main/language/java/examples/checkpoint), [`language/ruby/examples/checkpoint`](https://github.com/axisvela/praxo-core/tree/main/language/ruby/examples/checkpoint), [`language/php/examples/checkpoint`](https://github.com/axisvela/praxo-core/tree/main/language/php/examples/checkpoint), [`language/c/examples/checkpoint`](https://github.com/axisvela/praxo-core/tree/main/language/c/examples/checkpoint), [`language/cpp/examples/checkpoint`](https://github.com/axisvela/praxo-core/tree/main/language/cpp/examples/checkpoint), [`language/fortran/examples/checkpoint`](https://github.com/axisvela/praxo-core/tree/main/language/fortran/examples/checkpoint), [`language/elixir/examples/checkpoint`](https://github.com/axisvela/praxo-core/tree/main/language/elixir/examples/checkpoint), [`language/erlang/examples/checkpoint`](https://github.com/axisvela/praxo-core/tree/main/language/erlang/examples/checkpoint), [`language/lua/examples/checkpoint`](https://github.com/axisvela/praxo-core/tree/main/language/lua/examples/checkpoint), [`language/r/examples/checkpoint`](https://github.com/axisvela/praxo-core/tree/main/language/r/examples/checkpoint), [`language/cobol/examples/checkpoint`](https://github.com/axisvela/praxo-core/tree/main/language/cobol/examples/checkpoint) | Application-owned storage with allowlisted payloads; latest-record round trip and unregistered-type rejection |
-| Add a plugin | [`examples/plugin`](https://github.com/axisvela/praxo-core/tree/main/examples/plugin) | Go process/WASM plugin host example |
-| Delegate work | [`examples/multiagent`](https://github.com/axisvela/praxo-core/tree/main/examples/multiagent) | Go local delegation example |
-| Run a representative chain | [`examples/representative-chain`](https://github.com/axisvela/praxo-core/tree/main/examples/representative-chain), Python [`language/python/examples/representative-chain`](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/representative-chain), TypeScript [`language/typescript/examples/representative-chain`](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/representative-chain) | Go real-model chain plus deterministic Python/TypeScript counterparts covering MCP, final authorization, delegation, OTel/Harmovela, and denial zero effect |
-| Use focused recipes | [`examples/recipes`](https://github.com/axisvela/praxo-core/tree/main/examples/recipes) | Go recipes for providers, events, retries, VFS, and related seams |
-| Integrate an ecosystem component | [`examples/ecosystem`](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem) | Optional AxisVela adapter shapes |
+| Add a plugin | [`language/go/examples/plugin`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/plugin) | Go process/WASM plugin host example |
+| Delegate work | [`language/go/examples/multiagent`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/multiagent) | Go local delegation example |
+| Run a representative chain | [`language/go/examples/representative-chain`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/representative-chain), Python [`language/python/examples/representative-chain`](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/representative-chain), TypeScript [`language/typescript/examples/representative-chain`](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/representative-chain) | Go real-model chain plus deterministic Python/TypeScript counterparts covering MCP, final authorization, delegation, OTel/Harmovela, and denial zero effect |
+| Use focused recipes | [`language/go/examples/recipes`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/recipes) | Go recipes for providers, events, retries, VFS, and related seams |
+| Integrate an ecosystem component | [`language/go/examples/ecosystem`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/ecosystem) | Optional AxisVela adapter shapes |
 
 ## Prototype Paths
 
@@ -232,9 +232,9 @@ that another SDK's example runs.
 
 ## Examples vs Recipes
 
-- [`examples/recipes`](https://github.com/axisvela/praxo-core/tree/main/examples/recipes)
+- [`language/go/examples/recipes`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/recipes)
   contains Go-focused copy-paste recipes and scoped test evidence.
-- `examples/` contains runnable projects, including published-package and
+- `language/go/examples/` contains runnable projects, including published-package and
   language-specific integrations.
 
 Topics such as structured output, checkpoint stores, identity, VFS containment,
@@ -246,7 +246,7 @@ both into one project.
 
 | Language | Examples |
 | --- | --- |
-| Go | [`examples/`](https://github.com/axisvela/praxo-core/tree/main/examples) |
+| Go | [`language/go/examples/`](https://github.com/axisvela/praxo-core/tree/main/examples) |
 | Python | [`language/python/examples`](https://github.com/axisvela/praxo-core/tree/main/language/python/examples) |
 | TypeScript | [`language/typescript/examples`](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples) |
 | Java | [`language/java/examples`](https://github.com/axisvela/praxo-core/tree/main/language/java/examples) |
@@ -275,7 +275,7 @@ Source presence, recorded runs and independent consumer evidence remain separate
 
 ## How Examples Are Organized
 
-- `examples/` contains Go reference examples and cross-language integrations.
+- `language/go/examples/` contains Go reference examples and cross-language integrations.
 - `language/<language>/examples/` contains language-specific runnable examples.
 - Language examples are copied into the corresponding discovery mirror.
 - Examples that install a published package do not require a repository checkout

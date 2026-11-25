@@ -51,23 +51,23 @@ ASSERTION_PATTERN = re.compile(
 GO_THEMES = {
     "consumer": ROOT / "language/go/examples/consumer-go",
     "live-model": ROOT / "language/go/examples/live-model",
-    "checkpoint": ROOT / "examples/recipes/checkpoint-store-go",
-    "event-sink": ROOT / "examples/recipes/event-sinks-go",
-    "retry": ROOT / "examples/recipes/retry-go",
-    "provider-fallback": ROOT / "examples/recipes/provider-fallback-go",
-    "streaming": ROOT / "examples/recipes/streaming-go",
-    "structured-output": ROOT / "examples/recipes/structured-output-go",
-    "identity-policy": ROOT / "examples/recipes/identity-go",
-    "service": ROOT / "examples/embedded-service",
-    "mcp": ROOT / "examples/ecosystem/mcp",
-    "hitl": ROOT / "examples/hitl",
-    "session-checkpoint": ROOT / "examples/session-checkpoint",
+    "checkpoint": ROOT / "language/go/examples/recipes/checkpoint-store-go",
+    "event-sink": ROOT / "language/go/examples/recipes/event-sinks-go",
+    "retry": ROOT / "language/go/examples/recipes/retry-go",
+    "provider-fallback": ROOT / "language/go/examples/recipes/provider-fallback-go",
+    "streaming": ROOT / "language/go/examples/recipes/streaming-go",
+    "structured-output": ROOT / "language/go/examples/recipes/structured-output-go",
+    "identity-policy": ROOT / "language/go/examples/recipes/identity-go",
+    "service": ROOT / "language/go/examples/embedded-service",
+    "mcp": ROOT / "language/go/examples/ecosystem/mcp",
+    "hitl": ROOT / "language/go/examples/hitl",
+    "session-checkpoint": ROOT / "language/go/examples/session-checkpoint",
 }
 
 GO_ADVANCED_THEMES = {
-    "advanced-delegation": ROOT / "examples/multiagent",
-    "advanced-long-running": ROOT / "examples/recipes/long-running-go",
-    "advanced-workspace": ROOT / "examples/governed-workspace",
+    "advanced-delegation": ROOT / "language/go/examples/multiagent",
+    "advanced-long-running": ROOT / "language/go/examples/recipes/long-running-go",
+    "advanced-workspace": ROOT / "language/go/examples/governed-workspace",
 }
 
 

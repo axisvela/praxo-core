@@ -18,7 +18,7 @@
 | HITL | 31 | `language/<language>/examples/hitl` |
 | Session Checkpoint | 31 | `language/<language>/examples/session-checkpoint` |
 
-Go 的参考配方与示例保留在 `examples/`。
+Go 的参考配方与示例保留在 `language/go/examples/`。
 
 GNU Octave 复用 `language/matlab/examples/` 下的共享 MATLAB 示例；`matlab-octave-core` 是共享实现，没有独立的示例根目录。
 
@@ -80,7 +80,7 @@ Octave 复用 MATLAB 示例。对于 transport-seam 或共享运行时示例，�
 
 | 语言 | 示例根目录 | 本地 / CI 证据 |
 | --- | --- | --- |
-| Go | `examples/` 与 `examples/recipes/` | Go 测试与配方 |
+| Go | `language/go/examples/` 与 `language/go/examples/recipes/` | Go 测试与配方 |
 | Python | `language/python/examples/` | 已发布 PyPI 包；CI |
 | TypeScript | `language/typescript/examples/` | 已发布 npm 包；CI |
 | Java | `language/java/examples/` | 已发布 Maven 包；CI |
@@ -172,7 +172,7 @@ Delphi、PowerShell、MATLAB 和 Objective-C，入口位于
 
 应用级委派和确定性 representative-chain 示例已覆盖各 Core SDK 语言，包括原生、共享
 运行时和 adapter 实现。部分 SDK 将相同检查放在原生测试套件中，而非
-`examples/advanced-delegation` 目录。Go 还提供长时操作、受治理 Workspace 和 Plugin 参考示例。Sample
+`language/go/examples/advanced-delegation` 目录。Go 还提供长时操作、受治理 Workspace 和 Plugin 参考示例。Sample
 语言指向宿主 Core 的 chain/delegation 示例；Shell、Lisp、Tcl 和 Prolog 明确记录 Bridge
 契约没有本地委派接口。记录运行见[验证证据](../project/verification-evidence.md)，模式说明见
 [高级示例](../guides/advanced-examples.md)，并运行

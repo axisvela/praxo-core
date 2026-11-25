@@ -29,7 +29,7 @@ Source tag `objc/v0.6.0`.
 - `options[@"policy"]` is now invoked with an action dictionary for
   `model.generate`, the original `tool.invoke`, and edited or middleware-modified
   tool calls. Policy blocks return `PXRDecisionCreate(...)`.
-- `examples/hitl/` with approve and edited-argument denial scenarios.
+- `language/go/examples/hitl/` with approve and edited-argument denial scenarios.
 
 ### Changed
 

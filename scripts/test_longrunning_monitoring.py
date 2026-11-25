@@ -4,7 +4,7 @@ import unittest
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
-MONITORING = ROOT / "examples/recipes/long-running-go/monitoring"
+MONITORING = ROOT / "language/go/examples/recipes/long-running-go/monitoring"
 
 
 class LongRunningMonitoringTests(unittest.TestCase):

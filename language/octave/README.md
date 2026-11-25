@@ -19,7 +19,7 @@ publication does not claim MATLAB runtime verification.
 - [Examples](https://github.com/axisvela/praxo-core/tree/main/language/octave/examples): runnable language-specific examples.
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
 - Registry: [Octave Packages](https://github.com/axisvela/praxo-core/releases/download/octave/v0.7.0/praxo-core-0.7.0.tar.gz)
-- Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761)
+- Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761) · [LinkedIn](https://www.linkedin.com/company/axisvela/) · [Facebook](https://www.facebook.com/profile.php?id=61596905732406) · [YouTube](https://www.youtube.com/@axisvela) · [Discord](https://discord.com/channels/1575163993767809064/1575164343148875977) · [GitHub Discussions](https://github.com/axisvela/praxo-core/discussions) · [GitHub Issues](https://github.com/axisvela/praxo-core/issues) · [Documentation](https://axisvela.github.io/praxo-core/) · [Architect](https://axisvela.architect.pub)
 
 ## Install
 
@@ -60,9 +60,9 @@ It contains `DESCRIPTION`, `inst/+praxo`, `LICENSE`, and `README.md`.
 
 ## Representative Flows
 
-- [Representative chain](examples/representative-chain/): shared MATLAB/Octave
+- [Representative chain](language/go/examples/representative-chain/): shared MATLAB/Octave
   chain with MCP, delegation, OTel/Harmovela, and denied edit.
-- [Advanced delegation](examples/advanced-delegation/): parent/child scope and
+- [Advanced delegation](language/go/examples/advanced-delegation/): parent/child scope and
   six governance checks.
 
 ## API

@@ -29,7 +29,7 @@ but demonstrate the host ecosystem and runtime rather than another generic loop.
 | Shared business APIs | [agent-tutorial-services](https://github.com/axisvela/agent-tutorial-services) | Synthetic contracts, fixtures and local service tests |
 | Evidence | [Verification Evidence](../project/verification-evidence.md) | Exact revision, scope and limits |
 
-`Tutorial/` is a sibling of `examples/`. Reference applications live at
+`Tutorial/` is a sibling of `language/go/examples/`. Reference applications live at
 `language/<language>/application/` and are not part of the generated tutorial
 catalog; they are full host integrations rather than tutorial slices. Existing
 mechanism examples keep their published paths. Business APIs stay outside Core and

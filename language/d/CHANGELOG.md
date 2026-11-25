@@ -25,7 +25,7 @@ Source tag `d/v0.6.0`.
   `AGENT_INTERRUPT_DECISION_INVALID` errors.
 - `AgentOptions.interruptOn`, `onInterruptDecision`, `onInterrupt`, and
   before-tool middleware ordering.
-- Deterministic HITL core tests and `examples/hitl`.
+- Deterministic HITL core tests and `language/go/examples/hitl`.
 
 ## 0.5.0 - 2026-11-15
 

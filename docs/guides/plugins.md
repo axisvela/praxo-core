@@ -4,7 +4,7 @@ This guide covers the framework-side runtime plugin contract. Signature trust,
 materialization, SBOM/evidence, and update policy are product-owned (PRAXOVELA).
 
 A runnable minimal process plugin and host live in
-[`examples/plugin`](https://github.com/axisvela/praxo-core/tree/main/examples/plugin).
+[`language/go/examples/plugin`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/plugin).
 
 ## Manifest v1
 

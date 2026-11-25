@@ -36,7 +36,7 @@ Java 使用[独立消费者指南](consumer-java.md)，通过 Maven Central 发�
 ollama pull llama3.2
 export PRAXO_BASE_URL=http://localhost:11434/v1
 export PRAXO_MODEL=llama3.2
-GOWORK=off go run ./examples/quickstart
+GOWORK=off go run ./language/go/examples/quickstart
 ```
 
 ## 使用托管端点运行
@@ -45,7 +45,7 @@ GOWORK=off go run ./examples/quickstart
 export PRAXO_BASE_URL=https://api.openai.com/v1
 export PRAXO_API_KEY=...
 export PRAXO_MODEL=gpt-4o-mini
-GOWORK=off go run ./examples/quickstart
+GOWORK=off go run ./language/go/examples/quickstart
 ```
 
 PowerShell 使用 `$env:PRAXO_BASE_URL = "..."`，变量名相同。可通过
@@ -64,7 +64,7 @@ PowerShell 使用 `$env:PRAXO_BASE_URL = "..."`，变量名相同。可通过
 
 - [OpenAI 兼容适配器](https://github.com/axisvela/praxo-core/tree/main/adapters/openaicompat)
 - [MCP 工具网关](https://github.com/axisvela/praxo-core/tree/main/adapters/mcp)
-- [Reference workspace Agent](https://github.com/axisvela/praxo-core/tree/main/examples/reference)
+- [Reference workspace Agent](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/reference)
 - [AxisVela 生态集成](../integrations/ecosystem.md)
 - [与其他 Go Agent 框架的对比](../project/comparison.md)
 - [插件编写](../guides/plugins.md)

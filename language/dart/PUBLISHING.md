@@ -70,7 +70,7 @@ use a new version tag.
 - Registry status: current with source
 - Dry-run for `0.6.1` passed conformance, API snapshot, and tests with 0
   warnings and one version hint (previous published version `0.4.0`).
-- The package ships a minimal `example/`; `examples/` is excluded from the pub
+- The package ships a minimal `example/`; `language/go/examples/` is excluded from the pub
   archive via `.pubignore` and linked from the README to avoid the plural
   directory warning.
 

@@ -7,7 +7,7 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[1]
-RECIPE = ROOT / "examples/recipes/long-running-go"
+RECIPE = ROOT / "language/go/examples/recipes/long-running-go"
 
 
 class GoLongRunningRecipeTests(unittest.TestCase):

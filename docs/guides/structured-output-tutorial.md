@@ -19,7 +19,7 @@ Five primary SDKs ship published-package examples:
 
 The remaining SDKs ship deterministic source-mode examples under
 `language/<language>/examples/structured-output`. Go keeps its reference recipe
-under `examples/recipes/structured-output-go`.
+under `language/go/examples/recipes/structured-output-go`.
 
 The processor examples validate `title`, `summary`, and `tags`. Source-mode
 mechanism checks may instead validate a smaller schema (for example, C checks
@@ -103,7 +103,7 @@ required fields. The example uses published crates.io `praxo-core==0.9.2`.
 ## Go Reference Recipe
 
 ```bash
-cd examples/recipes/structured-output-go
+cd language/go/examples/recipes/structured-output-go
 GOWORK=off go test -mod=readonly -run 'Structured|Schema|Arguments|ResponseFormat' -v ./...
 ```
 
@@ -240,7 +240,7 @@ npm test
 ## Other Prototype Paths
 
 Inspect the schema and program under each language's
-`examples/structured-output` directory before running it. First build or install
+`language/go/examples/structured-output` directory before running it. First build or install
 the required Core and run its acceptance/rejection assertions. A schema-only
 mechanism needs a model and application integration before it is a processor;
 adding a provider adapter alone does not establish that integration.

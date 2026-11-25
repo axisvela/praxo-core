@@ -7,7 +7,7 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[1]
-RECIPE = ROOT / "examples/recipes/provider-fallback-go"
+RECIPE = ROOT / "language/go/examples/recipes/provider-fallback-go"
 
 
 class GoProviderFallbackRecipeTests(unittest.TestCase):

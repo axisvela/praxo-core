@@ -43,7 +43,7 @@ PRAXO-CORE 是多语言框架。Go 是参考实现；其他语言有独立发布
 | Objective-C | [axisvela/praxo-core-objc](https://github.com/axisvela/praxo-core-objc) | `language/objc` 的发现镜像；包含 `spec/` |
 
 Go 保持仓库根目录，因为其模块路径为 `github.com/axisvela/praxo-core/v2`。
-`bindings/` 下的 bridge 与 `examples/` 下的语言示例仍留在 monorepo。
+`bindings/` 下的 bridge 与 `language/go/examples/` 下的语言示例仍留在 monorepo。
 
 ## 自动刷新
 

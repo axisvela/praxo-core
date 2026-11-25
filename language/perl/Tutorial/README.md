@@ -1,6 +1,6 @@
 # Perl Tutorials
 
-Application tutorials live in `Tutorial/`, alongside focused `examples/`.
+Application tutorials live in `Tutorial/`, alongside focused `language/go/examples/`.
 
 - [Log triage](log-triage/README.md): native Perl Core, fixed log parsing, a
   scoped summary tool, and a deterministic report.

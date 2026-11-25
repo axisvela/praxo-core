@@ -12,7 +12,7 @@ Ollama 模型
 ```
 
 可运行项目位于
-[`examples/representative-chain`](https://github.com/axisvela/praxo-core/tree/main/examples/representative-chain)。
+[`language/go/examples/representative-chain`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/representative-chain)。
 它使用 Go module `github.com/axisvela/praxo-core/v2@v2.9.0`、进程内 MCP server、
 loopback Harmovela sink 和本地 Ollama endpoint。
 
@@ -35,7 +35,7 @@ curl http://127.0.0.1:11434/api/tags
 ## 运行
 
 ```bash
-cd examples/representative-chain
+cd language/go/examples/representative-chain
 export PRAXO_OLLAMA_MODEL=qwen3.5:4b
 go run .
 ```

@@ -47,7 +47,7 @@ version remains the authority for what consumers install.
 
 Go remains at the repository root because its module path is
 `github.com/axisvela/praxo-core/v2`. Bridges under `bindings/` and language
-samples under `examples/` remain in the monorepo.
+samples under `language/go/examples/` remain in the monorepo.
 
 ## Automated Refresh
 

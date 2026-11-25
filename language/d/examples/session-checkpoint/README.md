@@ -6,7 +6,7 @@ It uses the Core allowlist for payload encoding and a teaching in-memory payload
 ```bash
 cd language/d
 mkdir -p build
-dmd -i -Isource -O -release examples/session-checkpoint/session_checkpoint.d -of=build/session-checkpoint
+dmd -i -Isource -O -release language/go/examples/session-checkpoint/session_checkpoint.d -of=build/session-checkpoint
 ./build/session-checkpoint
 ```
 

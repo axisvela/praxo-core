@@ -20,7 +20,7 @@ provider endpoint.
 | HITL | 31 | `language/<language>/examples/hitl` |
 | Session checkpoint | 31 | `language/<language>/examples/session-checkpoint` |
 
-Go keeps its reference recipes and examples under `examples/`.
+Go keeps its reference recipes and examples under `language/go/examples/`.
 
 GNU Octave reuses the shared MATLAB examples under `language/matlab/examples/`;
 `matlab-octave-core` is a shared implementation and has no separate example root.
@@ -95,7 +95,7 @@ additional SDK languages are listed in the per-theme sections.
 
 | Language | Example root | Local / CI evidence |
 | --- | --- | --- |
-| Go | `examples/` and `examples/recipes/` | Go tests and recipes |
+| Go | `language/go/examples/` and `language/go/examples/recipes/` | Go tests and recipes |
 | Python | `language/python/examples/` | Published PyPI package; CI |
 | TypeScript | `language/typescript/examples/` | Published npm package; CI |
 | Java | `language/java/examples/` | Published Maven package; CI |
@@ -192,7 +192,7 @@ transport-neutral because those Cores do not bundle an MCP client.
 Application-level delegation and deterministic representative-chain examples
 are available across the Core SDK languages, including the native, shared-runtime,
 and adapter-based implementations. Some SDKs place the same checks in native test
-suites rather than an `examples/advanced-delegation` directory. Go also has
+suites rather than an `language/go/examples/advanced-delegation` directory. Go also has
 reference examples for long-running operations, governed workspaces, and plugins. Sample languages point to their
 host Core's chain/delegation examples; Shell, Lisp, Tcl, and Prolog explicitly
 record that the bridge contract has no local delegation surface. See the

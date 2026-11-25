@@ -32,5 +32,5 @@ denied effects: 0
 The parent and child models are deterministic. The example uses in-memory MCP,
 OTel, and Harmovela transports. It does not prove live provider behavior, remote
 MCP or Harmovela operation, identity, isolation, exactly-once execution, or
-production readiness. The Go `examples/representative-chain` is the real-model
+production readiness. The Go `language/go/examples/representative-chain` is the real-model
 counterpart.

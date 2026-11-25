@@ -7,7 +7,7 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[1]
-RECIPE = ROOT / "examples/recipes/multi-agent-go"
+RECIPE = ROOT / "language/go/examples/recipes/multi-agent-go"
 
 
 class GoMultiAgentRecipeTests(unittest.TestCase):

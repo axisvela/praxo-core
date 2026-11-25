@@ -34,7 +34,7 @@ on:
       - "language/zig/**"
       - "language/perl/**"
       - "adapters/**"
-      - "examples/**"
+      - "language/go/examples/**"
       - "language/clojure/**"
       - "language/fsharp/**"
       - "language/groovy/**"
@@ -81,7 +81,7 @@ on:
       - "language/zig/**"
       - "language/perl/**"
       - "adapters/**"
-      - "examples/**"
+      - "language/go/examples/**"
       - "language/clojure/**"
       - "language/fsharp/**"
       - "language/groovy/**"
@@ -1189,25 +1189,25 @@ jobs:
         with:
           go-version: "1.26.11"
       - run: go test ./...
-        working-directory: examples/ecosystem-sdk
+        working-directory: language/go/examples/ecosystem-sdk
       - run: go vet ./...
-        working-directory: examples/ecosystem-sdk
+        working-directory: language/go/examples/ecosystem-sdk
       - run: go build ./...
-        working-directory: examples/ecosystem-sdk
+        working-directory: language/go/examples/ecosystem-sdk
       - run: go test ./...
-        working-directory: examples/ecosystem/mcp
+        working-directory: language/go/examples/ecosystem/mcp
       - run: go vet ./...
-        working-directory: examples/ecosystem/mcp
+        working-directory: language/go/examples/ecosystem/mcp
       - run: go build ./...
-        working-directory: examples/ecosystem/mcp
+        working-directory: language/go/examples/ecosystem/mcp
       - run: go test ./...
-        working-directory: examples/workspace-agent
+        working-directory: language/go/examples/workspace-agent
       - run: go vet ./...
-        working-directory: examples/workspace-agent
+        working-directory: language/go/examples/workspace-agent
       - run: go test ./...
-        working-directory: examples/embedded-service
+        working-directory: language/go/examples/embedded-service
       - run: go vet ./...
-        working-directory: examples/embedded-service
+        working-directory: language/go/examples/embedded-service
       - run: go test ./...
         working-directory: language/go/examples/live-model/go
       - run: go vet ./...
@@ -1350,8 +1350,8 @@ jobs:
           - adapters/workspace/daytona
           - adapters/workspace/opensandbox
           - adapters/workspace/cubesandbox
-          - examples/ecosystem-sdk
-          - examples/ecosystem/mcp
+          - language/go/examples/ecosystem-sdk
+          - language/go/examples/ecosystem/mcp
           - tests/consumer
     runs-on: ubuntu-latest
     env:

@@ -10,6 +10,7 @@
 | `language/powershell/` | 基于 C# Core 的 PowerShell Core 包装 |
 | `bindings/shell/`、`bindings/powershell/` | 运行时桥接 |
 | `language/javascript/examples/`、`language/kotlin/examples/`、`language/scala/examples/`、`language/groovy/examples/`、`language/clojure/examples/`、`language/fsharp/examples/`、`language/opencl/examples/` | 复用 TypeScript、Java、.NET 或 C 的示例 |
+| `language/go/examples/` | Go 参考示例与跨语言集成示例 |
 | `adapters/` | 可选集成 |
 | `spec/` | 规范契约、共享向量与 parity 清单 |
 | `docs/languages/<language>/` | 语言独立文档目录；可放示例、适配器说明和发布页面 |
@@ -24,8 +25,9 @@
 
 原根目录的 Python、TypeScript、Java、Rust、C、C++、C#、PHP、Ruby、Perl、Lua、
 Dart、Swift、Julia、R、D、Zig、COBOL 和 Fortran 实现统一迁入 `language/`。
-Shell 与 PowerShell 迁入 `bindings/`；JavaScript、Kotlin、Scala、Groovy、Clojure
-迁入 `examples/`，F# 和 OpenCL 示例分别位于 `language/fsharp/examples/` 和
+Shell 与 PowerShell 迁入 `bindings/`；根目录 `examples/` 迁入 `language/go/examples/`。
+JavaScript、Kotlin、Scala、Groovy、Clojure 示例分别位于
+`language/<language>/examples/`，F# 和 OpenCL 示例分别位于 `language/fsharp/examples/` 和
 `language/opencl/examples/`。Visual Basic 示例继续位于 C# Core 实现的
 `language/csharp/samples/VbSample/`。
 

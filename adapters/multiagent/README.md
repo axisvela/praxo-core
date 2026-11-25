@@ -40,7 +40,7 @@ credentials, and child-agent construction.
 - Graph/subgraph execution, durable recovery, and graph-level interrupts belong
   to RHEOVELA or the product runtime.
 - Timeouts cancel outstanding child contexts and return `ErrTimeout`.
-- Use `examples/multiagent` for the dependency-free delegation demo and
+- Use `language/go/examples/multiagent` for the dependency-free delegation demo and
   `docs/guides/multi-agent.md` for the full boundary description.
 
 ## Test

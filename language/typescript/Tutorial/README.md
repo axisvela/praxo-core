@@ -1,6 +1,6 @@
 # TypeScript Tutorials
 
-Application-shaped tutorials live here, alongside `examples/`, which keeps
+Application-shaped tutorials live here, alongside `language/go/examples/`, which keeps
 mechanism checks and focused integration examples. Tutorial is intentionally
 capitalized in directory paths.
 

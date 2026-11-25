@@ -123,4 +123,4 @@ Java 应用可从 [Java 独立消费者](consumer-java.md)开始。
 - [AxisVela 生态](../integrations/ecosystem.md)
 - [对比](../project/comparison.md)
 - [安全模型](../security/index.md)
-- [Reference workspace agent](https://github.com/axisvela/praxo-core/tree/main/examples/reference)
+- [Reference workspace agent](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/reference)

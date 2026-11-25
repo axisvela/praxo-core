@@ -4,7 +4,7 @@
 继续，构建一个可检查目录但不能修改文件的本地 Agent。
 
 可运行项目位于
-[`examples/workspace-agent`](https://github.com/axisvela/praxo-core/tree/main/examples/workspace-agent)。
+[`language/go/examples/workspace-agent`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/workspace-agent)。
 它使用已发布的 `github.com/axisvela/praxo-core/v2` 模块，不使用仓库替换。
 
 ## 前置条件
@@ -24,7 +24,7 @@ printf 'Quarterly status: all checks green.\n' > workspace/report.txt
 export PRAXO_BASE_URL=http://localhost:11434/v1
 export PRAXO_MODEL=llama3.2
 
-cd examples/workspace-agent
+cd language/go/examples/workspace-agent
 go run . --workspace workspace
 ```
 
@@ -51,7 +51,7 @@ go run . --workspace workspace --prompt "Create notes.md with a summary."
 
 `fs.write` 不在允许列表中，Policy 会拒绝，因此不应创建 `notes.md`。
 
-这与 [governed workspace 示例](https://github.com/axisvela/praxo-core/tree/main/examples/governed-workspace)
+这与 [governed workspace 示例](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/governed-workspace)
 使用相同的分离方式：读取可用，写入需要应用显式决策，并且在该示例中需要人工审批。
 
 ## 走向真实应用

@@ -38,7 +38,7 @@ PRAXOVELA 通过轻量别名导入这些宿主，以保持产品行为不变。
 由产品负责。
 
 会话恢复通过加载最新检查点并预先填充 `agent.Session.Messages` 实现。
-[checkpoint 示例](https://github.com/axisvela/praxo-core/tree/main/examples/checkpoint)
+[checkpoint 示例](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/checkpoint)
 展示了一个小型内存存储和恢复流程。
 
 生产存储应增加持久化、租户隔离、加密、保留策略和恢复测试。

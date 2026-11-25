@@ -6,7 +6,7 @@ useful local application. You will run an agent that can inspect a directory but
 cannot modify it.
 
 The runnable project is
-[`examples/workspace-agent`](https://github.com/axisvela/praxo-core/tree/main/examples/workspace-agent).
+[`language/go/examples/workspace-agent`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/workspace-agent).
 It uses the published `github.com/axisvela/praxo-core/v2` module without a
 repository replacement.
 
@@ -27,7 +27,7 @@ printf 'Quarterly status: all checks green.\n' > workspace/report.txt
 export PRAXO_BASE_URL=http://localhost:11434/v1
 export PRAXO_MODEL=llama3.2
 
-cd examples/workspace-agent
+cd language/go/examples/workspace-agent
 go run . --workspace workspace
 ```
 
@@ -58,7 +58,7 @@ go run . --workspace workspace --prompt "Create notes.md with a summary."
 created.
 
 This is the same separation used by the
-[governed workspace example](https://github.com/axisvela/praxo-core/tree/main/examples/governed-workspace):
+[governed workspace example](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/governed-workspace):
 read operations are available, while writes require an explicit application
 decision and, in that example, human approval.
 

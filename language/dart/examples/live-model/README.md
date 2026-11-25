@@ -16,7 +16,7 @@ dart language/dart/examples/live-model/live_model.dart
 Or from `language/dart`:
 
 ```bash
-dart run examples/live-model/live_model.dart
+dart run language/go/examples/live-model/live_model.dart
 ```
 
 Environment:

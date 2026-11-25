@@ -7,7 +7,7 @@ denial with zero effects.
 From `language/powershell/`:
 
 ```powershell
-pwsh -NoProfile -File examples/representative-chain/chain.ps1
+pwsh -NoProfile -File language/go/examples/representative-chain/chain.ps1
 ```
 
 Expected output:

@@ -1,6 +1,6 @@
 # MATLAB Tutorials
 
-Application tutorials live in `Tutorial/`, alongside focused `examples/`.
+Application tutorials live in `Tutorial/`, alongside focused `language/go/examples/`.
 
 - [Data quality](data-quality/README.md): fixed mean/median/outlier statistics and
   a review-only outlier branch; local evidence is GNU Octave.

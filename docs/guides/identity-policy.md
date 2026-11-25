@@ -24,7 +24,7 @@ or an exactly-once effect mechanism.
 ## Tested Example
 
 The runnable example is the separate L4 recipe module
-[`examples/recipes/identity-go`](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/identity-go).
+[`language/go/examples/recipes/identity-go`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/recipes/identity-go).
 From that directory:
 
 ```sh
@@ -44,7 +44,7 @@ real service, that value must come from your verified request context or identit
 middleware, not from the prompt or model.
 
 The Go authenticated service example
-[`examples/embedded-service-auth`](https://github.com/axisvela/praxo-core/tree/main/examples/embedded-service-auth)
+[`language/go/examples/embedded-service-auth`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/embedded-service-auth)
 shows the same binding at a service boundary. It verifies an application-local
 HMAC token by default, OIDC/JWKS JWTs with provider discovery when
 `PRAXO_OIDC_ISSUER` is set, or opaque tokens through RFC 7662 introspection when
@@ -89,7 +89,7 @@ these from the repository root.
 
 | Language | Run command |
 | --- | --- |
-| Go | `cd examples/recipes/identity-go && GOWORK=off go test -mod=readonly -run Identity -v ./...` |
+| Go | `cd language/go/examples/recipes/identity-go && GOWORK=off go test -mod=readonly -run Identity -v ./...` |
 | Python | `cd language/python/examples/identity-policy && .venv/bin/python -m unittest test_identity_policy.py -v` |
 | TypeScript | `cd language/typescript/examples/identity-policy && npm test` |
 | Java | `cd language/java/examples/identity-policy && mvn -q compile exec:java` |

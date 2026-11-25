@@ -4,14 +4,14 @@
 应用教程、候选目标与机制示例。既有示例路径和已发布 URL 保持不变。
 
 先按任务选择示例，再按语言查找。Go 参考示例和跨语言示例位于仓库
-[`examples/`](https://github.com/axisvela/praxo-core/tree/main/examples)
+[`language/go/examples/`](https://github.com/axisvela/praxo-core/tree/main/examples)
 目录；语言专属示例位于 `language/<language>/examples/`，会进入对应语言的
 发现镜像仓库。十三个主题、三十一种语言的覆盖矩阵见
 [语言覆盖矩阵](language-coverage.md)。
 
 ## 深度与证据
 
-新增领域应用教程位于 `language/<language>/Tutorial/`，与 `examples/` 并列。
+新增领域应用教程位于 `language/<language>/Tutorial/`，与 `language/go/examples/` 并列。
 场景地图、当前状态和交付标准见 [Tutorial 整体规划](tutorial-plan.md)。目前有
 [Python 订单审阅](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/order-review)
 和 [TypeScript 订单支持](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/order-review)，
@@ -160,22 +160,22 @@ MQTT、OPC UA、Socket、设备命令或真实模型。本地 Zig 0.17.0 检查�
 | 只读检查小型网关健康 | [Zig 网关健康](https://github.com/axisvela/praxo-core/tree/main/language/zig/Tutorial/gateway-health) | 原生 Zig Core、显式 `GatewayAdapter` 函数表、固定健康状态、仅草案运维动作；无 MQTT、OPC UA、Socket 或设备写入 |
 | 嵌入应用 | [应用嵌入清单](../guides/application-integration-checklist.md) | 只读、有副作用、高风险部署的分档清单 |
 | 通过 HTTP 运行 Core | [HTTP 嵌入服务教程](../guides/embedded-service-tutorial.md)、[语言覆盖](language-coverage.md) | Go、Python、TypeScript、Java、C# 和 Rust 提供可执行 HTTP 服务；其余已声明语言提供传输中立 Handler 示例 |
-| 查看 Go 参考应用 | [`examples/reference`](https://github.com/axisvela/praxo-core/tree/main/examples/reference) | Go 参考应用 |
-| 增加 Policy 与审批 | [`examples/governed-workspace`](https://github.com/axisvela/praxo-core/tree/main/examples/governed-workspace) | Go 受治理执行边界示例 |
+| 查看 Go 参考应用 | [`language/go/examples/reference`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/reference) | Go 参考应用 |
+| 增加 Policy 与审批 | [`language/go/examples/governed-workspace`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/governed-workspace) | Go 受治理执行边界示例 |
 | 执行身份与策略校验 | [身份与策略](../guides/identity-policy.md)、[语言覆盖](language-coverage.md) | 全部 31 种已声明语言的可信 principal 绑定、模型声明拒绝与效果前拒绝 |
-| 增加 Checkpoint | [`examples/checkpoint`](https://github.com/axisvela/praxo-core/tree/main/examples/checkpoint) | Go Checkpoint 存储示例 |
+| 增加 Checkpoint | [`language/go/examples/checkpoint`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/checkpoint) | Go Checkpoint 存储示例 |
 | 持久化 Checkpoint | [`language/python/examples/checkpoint`](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/checkpoint), [`language/typescript/examples/checkpoint`](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/checkpoint), [`language/csharp/examples/checkpoint`](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/checkpoint), [`language/rust/examples/checkpoint`](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples/checkpoint), [`language/java/examples/checkpoint`](https://github.com/axisvela/praxo-core/tree/main/language/java/examples/checkpoint)、[`language/ruby/examples/checkpoint`](https://github.com/axisvela/praxo-core/tree/main/language/ruby/examples/checkpoint)、[`language/php/examples/checkpoint`](https://github.com/axisvela/praxo-core/tree/main/language/php/examples/checkpoint), [`language/c/examples/checkpoint`](https://github.com/axisvela/praxo-core/tree/main/language/c/examples/checkpoint), [`language/cpp/examples/checkpoint`](https://github.com/axisvela/praxo-core/tree/main/language/cpp/examples/checkpoint), [`language/fortran/examples/checkpoint`](https://github.com/axisvela/praxo-core/tree/main/language/fortran/examples/checkpoint), [`language/elixir/examples/checkpoint`](https://github.com/axisvela/praxo-core/tree/main/language/elixir/examples/checkpoint), [`language/erlang/examples/checkpoint`](https://github.com/axisvela/praxo-core/tree/main/language/erlang/examples/checkpoint), [`language/lua/examples/checkpoint`](https://github.com/axisvela/praxo-core/tree/main/language/lua/examples/checkpoint), [`language/r/examples/checkpoint`](https://github.com/axisvela/praxo-core/tree/main/language/r/examples/checkpoint), [`language/cobol/examples/checkpoint`](https://github.com/axisvela/praxo-core/tree/main/language/cobol/examples/checkpoint) | 应用自有存储与 Allowlist 负载；最新记录往返和未注册类型拒绝 |
-| 增加 Plugin | [`examples/plugin`](https://github.com/axisvela/praxo-core/tree/main/examples/plugin) | Go 进程/WASM Plugin Host 示例 |
-| 委派任务 | [`examples/multiagent`](https://github.com/axisvela/praxo-core/tree/main/examples/multiagent) | Go 本地委派示例 |
-| 运行代表性链路 | [`examples/representative-chain`](https://github.com/axisvela/praxo-core/tree/main/examples/representative-chain)、Python [`language/python/examples/representative-chain`](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/representative-chain)、TypeScript [`language/typescript/examples/representative-chain`](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/representative-chain) | Go 真实模型链路，以及覆盖 MCP、最终授权、委派、OTel/Harmovela 与拒绝零效果的 Python/TypeScript 确定性对应链路 |
-| 使用专题配方 | [`examples/recipes`](https://github.com/axisvela/praxo-core/tree/main/examples/recipes) | Go Provider、事件、重试、VFS 等配方 |
-| 集成生态组件 | [`examples/ecosystem`](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem) | 可选 AxisVela Adapter 结构 |
+| 增加 Plugin | [`language/go/examples/plugin`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/plugin) | Go 进程/WASM Plugin Host 示例 |
+| 委派任务 | [`language/go/examples/multiagent`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/multiagent) | Go 本地委派示例 |
+| 运行代表性链路 | [`language/go/examples/representative-chain`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/representative-chain)、Python [`language/python/examples/representative-chain`](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/representative-chain)、TypeScript [`language/typescript/examples/representative-chain`](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/representative-chain) | Go 真实模型链路，以及覆盖 MCP、最终授权、委派、OTel/Harmovela 与拒绝零效果的 Python/TypeScript 确定性对应链路 |
+| 使用专题配方 | [`language/go/examples/recipes`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/recipes) | Go Provider、事件、重试、VFS 等配方 |
+| 集成生态组件 | [`language/go/examples/ecosystem`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/ecosystem) | 可选 AxisVela Adapter 结构 |
 
 ## 示例与配方
 
-- [`examples/recipes`](https://github.com/axisvela/praxo-core/tree/main/examples/recipes)
+- [`language/go/examples/recipes`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/recipes)
   是 Go 为主的复制粘贴配方，并提供局部测试证据。
-- `examples/` 是可运行项目，包括发布包和语言专属集成。
+- `language/go/examples/` 是可运行项目，包括发布包和语言专属集成。
 
 结构化输出、Checkpoint 存储、身份、VFS 隔离和长时操作等主题会同时出现在两种形式中。
 配方用于理解机制，示例用于应用形态集成；不要把两者同时复制进一个项目。
@@ -184,7 +184,7 @@ MQTT、OPC UA、Socket、设备命令或真实模型。本地 Zig 0.17.0 检查�
 
 | 语言 | 示例 |
 | --- | --- |
-| Go | [`examples/`](https://github.com/axisvela/praxo-core/tree/main/examples) |
+| Go | [`language/go/examples/`](https://github.com/axisvela/praxo-core/tree/main/examples) |
 | Python | [`language/python/examples`](https://github.com/axisvela/praxo-core/tree/main/language/python/examples) |
 | TypeScript | [`language/typescript/examples`](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples) |
 | Java | [`language/java/examples`](https://github.com/axisvela/praxo-core/tree/main/language/java/examples) |
@@ -213,7 +213,7 @@ Python、TypeScript、Java、Rust、C# 等 Core 实现独立版本化；当前�
 
 ## 组织方式
 
-- `examples/` 放置 Go 参考示例和跨语言集成。
+- `language/go/examples/` 放置 Go 参考示例和跨语言集成。
 - `language/<language>/examples/` 放置语言专属可运行示例。
 - 语言示例会复制到对应发现镜像仓库。
 - 使用已发布包的示例不要求检出仓库或替换本地包。

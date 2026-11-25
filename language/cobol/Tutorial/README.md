@@ -1,6 +1,6 @@
 # COBOL Tutorials
 
-Application tutorials live in `Tutorial/`, alongside focused `examples/`.
+Application tutorials live in `Tutorial/`, alongside focused `language/go/examples/`.
 
 - [Bank batch exception review](batch-exception-review/README.md): reuse the
   existing deterministic batch handoff fixture; a separate COBOL review worker

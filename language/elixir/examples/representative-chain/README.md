@@ -58,4 +58,4 @@ seams backed by `Praxo.Mcp.Transport`, `Praxo.OtelSink`, and
 `Praxo.HarmovelaSink` injection points. This is not a live-model, remote MCP, or
 remote Harmovela run and does not prove provider behavior, identity, isolation,
 exactly-once execution, or production readiness. The Go
-`examples/representative-chain` is the real-model counterpart.
+`language/go/examples/representative-chain` is the real-model counterpart.

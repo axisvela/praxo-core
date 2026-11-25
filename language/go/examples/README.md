@@ -1,0 +1,89 @@
+# Examples
+
+This directory holds Go reference examples and cross-language integration
+examples. Language-specific examples live under
+`language/<language>/examples/` so they are included in the dedicated language
+mirror repositories.
+
+## First Agent
+
+- [Live Model Golden Path](../../go/language/go/examples/live-model/README.md): published packages connected
+  to an OpenAI-compatible endpoint.
+- [Quickstart](quickstart/): Go reference endpoint example.
+
+## Build a Prototype
+
+- [Workspace agent](workspace-agent/): read-only published-package Go application.
+- [HITL approval](hitl/): approve a write, then edit it and verify reauthorization denies the effect.
+- [Embedded service](embedded-service/): vendor-neutral HTTP service with caller context, policy, timeouts, and graceful shutdown.
+- [Authenticated service](embedded-service-auth/): HMAC bearer token and tenant-scoped policy variant.
+- [Reference agent](reference/): workspace-oriented reference application.
+- [Governed workspace](governed-workspace/): policy and approval boundaries.
+- [Checkpoint](checkpoint/): checkpoint store usage.
+- [Multi-turn checkpoint recovery](session-checkpoint/): save, reload, and continue a conversation.
+- [Plugin](plugin/): plugin host and example plugin.
+- [Multi-agent](multiagent/): local delegation patterns.
+- [Representative chain](representative-chain/): real local model through MCP, final authorization, delegation, OTel/Harmovela events, and denial zero effect. Deterministic Python and TypeScript counterparts live under `language/python/examples/representative-chain` and `language/typescript/examples/representative-chain`.
+- [Recipes](recipes/): focused integration recipes.
+- [Ecosystem](ecosystem/): optional ecosystem adapters.
+
+## Examples vs Recipes
+
+- [`recipes/`](recipes/): Go-focused copy-paste recipes and L1-L4 test evidence.
+  Use these for mechanics, failure boundaries, and focused tests.
+- `language/go/examples/`: runnable projects, including published-package and
+  language-specific integrations. Use these to start an application.
+
+There is intentional overlap. For example:
+
+| Topic | Recipe | Runnable example |
+| --- | --- | --- |
+| Structured output | [`recipes/structured-output-go`](recipes/structured-output-go) | Python / TypeScript / Java / C# / Rust / Ruby / PHP / C / C++ / Fortran / Elixir / Erlang / Lua / R / COBOL `structured-output` |
+| Provider fallback | [`recipes/provider-fallback-go`](recipes/provider-fallback-go) | Python / TypeScript / C# / Rust / Java / Ruby / PHP / C / C++ / Fortran / Elixir / Erlang / Lua / R / COBOL `provider-fallback` |
+| Event sinks | [`recipes/event-sinks-go`](recipes/event-sinks-go) | Python / TypeScript / C# / Rust / Java / Ruby / PHP / C / C++ / Fortran / Elixir / Erlang / Lua / R / COBOL `event-sink` |
+| Streaming | [`recipes/streaming-go`](recipes/streaming-go) | Python / TypeScript / C# / Rust / Java / Ruby / PHP / C / C++ / Fortran / Elixir / Erlang / Lua / R / COBOL `streaming` |
+| MCP tools | [`ecosystem/mcp`](ecosystem/mcp) | Python / TypeScript / C# / Rust / Java / Ruby / PHP / Elixir / Erlang / Lua / R / C / C++ / Fortran / COBOL `mcp` |
+| Retry | [`recipes/retry-go`](recipes/retry-go) | Python / TypeScript / C# / Rust / Java / Ruby / PHP / C / C++ / Fortran / Elixir / Erlang / Lua / R / COBOL `retry` |
+| Checkpoint store | [`recipes/checkpoint-store-go`](recipes/checkpoint-store-go) | [`checkpoint`](checkpoint), [`embedded-service-auth`](embedded-service-auth), and Python / TypeScript / C# / Rust / Java / Ruby / PHP / C / C++ / Fortran / Elixir / Erlang / Lua / R / COBOL `checkpoint` |
+| Identity and policy | [`recipes/identity-go`](recipes/identity-go) | [`embedded-service-auth`](embedded-service-auth), and Python / TypeScript / C# / Rust / Java / Ruby / PHP / C / C++ / Fortran / Elixir / Erlang / Lua / R / COBOL `identity-policy` |
+| HTTP service | [`embedded-service`](embedded-service) | Python / TypeScript / C# / Rust / Java / Ruby / PHP / C / C++ / Fortran / Elixir / Erlang / Lua / R / COBOL `service` |
+| VFS containment | [`recipes/vfs-containment-go`](recipes/vfs-containment-go) | [`workspace-agent`](workspace-agent) |
+| Long-running operations | [`recipes/long-running-go`](recipes/long-running-go) | [`embedded-service-auth`](embedded-service-auth) |
+
+Start with the recipe for the mechanism, then use the example for an
+application-shaped integration. Do not copy both into one project.
+
+## By Language
+
+| Language | Examples |
+| --- | --- |
+| Go | [live-model](../../go/language/go/examples/live-model/go), [consumer](../../go/language/go/examples/consumer-go), and this directory |
+| Python | [language/python/examples](../../python/examples) |
+| TypeScript | [language/typescript/examples](../../typescript/examples) |
+| Java | [language/java/examples](../../java/examples) |
+| C# | [language/csharp/examples](../../csharp/examples) |
+| Rust | [language/rust/examples](../../rust/examples) |
+| Ruby | [language/ruby/examples](../../ruby/examples) |
+| PHP | [language/php/examples](../../php/examples) |
+| C | [`language/c/examples`](../../c/examples) |
+| C++ | [`language/cpp/examples`](../../cpp/examples) |
+| Fortran | [`language/fortran/examples`](../../fortran/examples) |
+| Erlang | [`language/erlang/examples`](../../erlang/examples) |
+| R | [`language/r/examples`](../../r/examples) |
+| COBOL | [`language/cobol/examples`](../../cobol/examples) |
+| Elixir | [language/elixir/examples](../../elixir/examples) |
+| Lua | [language/lua/examples](../../lua/examples) |
+| D | [language/d/examples](../../d/examples) |
+| Dart | [language/dart/examples](../../dart/examples) |
+| Perl | [language/perl/examples](../../perl/examples) |
+| Swift | [language/swift/examples](../../swift/examples) |
+| Delphi / Free Pascal | [language/delphi/examples](../../delphi/examples) |
+| Haskell | [language/haskell/examples](../../haskell/examples) |
+| Julia | [language/julia/examples](../../julia/examples) |
+| MATLAB | [language/matlab/examples](../../matlab/examples) |
+| Octave | [language/octave/examples](../../octave/examples) |
+| Nim | [language/nim/examples](../../nim/examples) |
+| Objective-C | [language/objc/examples](../../objc/examples) |
+
+Each language example directory has its own README with install and run
+commands. Published-package examples do not require a repository checkout.

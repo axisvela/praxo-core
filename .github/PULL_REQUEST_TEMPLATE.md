@@ -8,7 +8,7 @@ Explain the change and why it is needed.
 - [ ] `GOWORK=off go vet ./...`
 - [ ] `GOWORK=off go build ./...`
 - [ ] `GOWORK=off go test -race ./...`
-- [ ] `examples/ecosystem-sdk` tests pass, if affected
+- [ ] `language/go/examples/ecosystem-sdk` tests pass, if affected
 
 ## Compatibility
 

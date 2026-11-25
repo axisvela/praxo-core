@@ -15,7 +15,7 @@ Julia implementation of the PRAXO-CORE AI agent framework contract.
 - [Examples](https://github.com/axisvela/praxo-core/tree/main/language/julia/examples): runnable language-specific examples.
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
 - Registry: [Julia General (pending)](https://github.com/axisvela/PraxoCore.jl)
-- Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761)
+- Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761) · [LinkedIn](https://www.linkedin.com/company/axisvela/) · [Facebook](https://www.facebook.com/profile.php?id=61596905732406) · [YouTube](https://www.youtube.com/@axisvela) · [Discord](https://discord.com/channels/1575163993767809064/1575164343148875977) · [GitHub Discussions](https://github.com/axisvela/praxo-core/discussions) · [GitHub Issues](https://github.com/axisvela/praxo-core/issues) · [Documentation](https://axisvela.github.io/praxo-core/) · [Architect](https://axisvela.architect.pub)
 
 ## Scope
 
@@ -150,7 +150,7 @@ Decisions are `approve` (continue), `edit` (replace arguments and reauthorize),
 `reject` (raise `AGENT_APPROVAL_DENIED` with the reason), and `respond` (skip
 the tool and use the response). A matching call with no handler raises
 `AGENT_INTERRUPT_UNHANDLED`; an unknown action or edit without arguments raises
-`AGENT_INTERRUPT_DECISION_INVALID`. See [`examples/hitl`](examples/hitl/).
+`AGENT_INTERRUPT_DECISION_INVALID`. See [`language/go/examples/hitl`](language/go/examples/hitl/).
 
 ## Build and test
 

@@ -30,7 +30,7 @@ accepted/running 状态、取消确认与最终效果证据。两者通过稳定
 ## 受测示例
 
 可运行示例是独立的 L4 配方模块
-[`examples/recipes/long-running-go`](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/long-running-go)。
+[`language/go/examples/recipes/long-running-go`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/recipes/long-running-go)。
 在该目录运行：
 
 ```sh

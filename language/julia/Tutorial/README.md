@@ -1,6 +1,6 @@
 # Julia Tutorials
 
-Application tutorials live in `Tutorial/`, alongside focused `examples/`.
+Application tutorials live in `Tutorial/`, alongside focused `language/go/examples/`.
 
 - [Dispatch review](dispatch-review/README.md): native Julia bounded dispatch
   optimization with plan/shortfall branches; no grid commands.

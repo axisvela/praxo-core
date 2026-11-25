@@ -41,29 +41,29 @@ Swift implementation of the PRAXO-CORE contract.
 - [Examples](https://github.com/axisvela/praxo-core/tree/main/language/swift/examples): runnable language-specific examples.
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
 - Registry: [Swift Package Index](https://swiftpackageindex.com/axisvela/praxo-core-swift)
-- Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761)
+- Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761) · [LinkedIn](https://www.linkedin.com/company/axisvela/) · [Facebook](https://www.facebook.com/profile.php?id=61596905732406) · [YouTube](https://www.youtube.com/@axisvela) · [Discord](https://discord.com/channels/1575163993767809064/1575164343148875977) · [GitHub Discussions](https://github.com/axisvela/praxo-core/discussions) · [GitHub Issues](https://github.com/axisvela/praxo-core/issues) · [Documentation](https://axisvela.github.io/praxo-core/) · [Architect](https://axisvela.architect.pub)
 
 ## Examples
 
-Fifteen runnable examples ship under [`examples/`](examples):
+Fifteen runnable examples ship under [`language/go/examples/`](examples):
 
 | Example | What it shows |
 | --- | --- |
-| [consumer](examples/consumer) | Deterministic model, one tool, and allow/deny policy |
-| [live-model](examples/live-model) | OpenAI-compatible endpoint and a `get_time` tool |
-| [structured-output](examples/structured-output) | Final JSON answer validation and rejection |
-| [identity-policy](examples/identity-policy) | Trusted principal, role/tenant denial |
-| [service](examples/service) | Transport-neutral HTTP request handler |
-| [checkpoint](examples/checkpoint) | Allowlisted checkpoint payload round trip |
-| [session-checkpoint](examples/session-checkpoint) | Multi-turn history continuation |
-| [event-sink](examples/event-sink) | Sink fan-out and tool-only filtering |
-| [retry](examples/retry) | Bounded retry and exhausted failure |
-| [provider-fallback](examples/provider-fallback) | Primary/fallback model selection |
-| [streaming](examples/streaming) | Streamed chunk accumulation |
-| [mcp](examples/mcp) | Caller-owned in-process MCP transport |
-| [hitl](examples/hitl) | Approval, edit, and final-argument reauthorization |
-| [representative-chain](examples/representative-chain) | MCP, policy, delegation, OTel/Harmovela, and denied-edit chain |
-| [advanced-delegation](examples/advanced-delegation) | Six application-level delegation governance checks |
+| [consumer](language/go/examples/consumer) | Deterministic model, one tool, and allow/deny policy |
+| [live-model](language/go/examples/live-model) | OpenAI-compatible endpoint and a `get_time` tool |
+| [structured-output](language/go/examples/structured-output) | Final JSON answer validation and rejection |
+| [identity-policy](language/go/examples/identity-policy) | Trusted principal, role/tenant denial |
+| [service](language/go/examples/service) | Transport-neutral HTTP request handler |
+| [checkpoint](language/go/examples/checkpoint) | Allowlisted checkpoint payload round trip |
+| [session-checkpoint](language/go/examples/session-checkpoint) | Multi-turn history continuation |
+| [event-sink](language/go/examples/event-sink) | Sink fan-out and tool-only filtering |
+| [retry](language/go/examples/retry) | Bounded retry and exhausted failure |
+| [provider-fallback](language/go/examples/provider-fallback) | Primary/fallback model selection |
+| [streaming](language/go/examples/streaming) | Streamed chunk accumulation |
+| [mcp](language/go/examples/mcp) | Caller-owned in-process MCP transport |
+| [hitl](language/go/examples/hitl) | Approval, edit, and final-argument reauthorization |
+| [representative-chain](language/go/examples/representative-chain) | MCP, policy, delegation, OTel/Harmovela, and denied-edit chain |
+| [advanced-delegation](language/go/examples/advanced-delegation) | Six application-level delegation governance checks |
 
 Each example has its own README with the exact `swift run` command. They are
 deterministic local checks, not live-provider or production evidence.

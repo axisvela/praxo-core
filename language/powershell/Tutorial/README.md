@@ -1,6 +1,6 @@
 # PowerShell Tutorials
 
-Application tutorials live in `Tutorial/`, alongside focused `examples/`.
+Application tutorials live in `Tutorial/`, alongside focused `language/go/examples/`.
 
 - [Windows diagnostics](windows-diagnostics/README.md): read-only service and
   disk checks, native PowerShell commands, scoped tools, and a structured report.

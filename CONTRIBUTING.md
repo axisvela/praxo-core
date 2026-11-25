@@ -17,7 +17,7 @@ GOWORK=off go test -race ./...
 The NOETIVELA SDK example is a separate module:
 
 ```bash
-cd examples/ecosystem-sdk
+cd language/go/examples/ecosystem-sdk
 GOWORK=off go test ./...
 GOWORK=off go vet ./...
 GOWORK=off go build ./...
@@ -48,7 +48,7 @@ and contributing. Keep the same paths under `docs/zh-CN/` for translations.
 Missing translations fall back to English.
 
 Independent language implementations live under `language/`, runtime wrappers under
-`bindings/`, and shared-runtime samples under `examples/`. See the
+`bindings/`, and shared-runtime samples under `language/go/examples/`. See the
 [source migration guide](docs/project/repository-layout.md) before updating
 source-based consumer scripts. The Go root module and public imports stay unchanged.
 

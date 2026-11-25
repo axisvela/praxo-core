@@ -42,7 +42,7 @@ Source tag `rust/v0.9.0`; crates.io publication is pending.
 - Optional `http-ureq` feature with an OpenAI-compatible HTTP client
   (`OpenAICompatible::with_ureq`), including tool-call mapping, usage mapping,
   and streaming content.
-- `examples/live-model` source-mode Ollama/OpenAI-compatible example.
+- `language/go/examples/live-model` source-mode Ollama/OpenAI-compatible example.
 
 ## 0.8.0 - 2026-11-14
 

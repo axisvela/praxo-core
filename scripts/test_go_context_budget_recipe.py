@@ -7,7 +7,7 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[1]
-RECIPE = ROOT / "examples/recipes/context-budget-go"
+RECIPE = ROOT / "language/go/examples/recipes/context-budget-go"
 
 
 class GoContextBudgetRecipeTests(unittest.TestCase):

@@ -64,9 +64,9 @@ def main() -> int:
                 languages.update({"matlab", "octave"})
             elif language in LANGUAGES:
                 languages.add(language)
-        if name.startswith(("examples/consumer-", "language/go/examples/consumer-go/")):
+        if name.startswith(("language/go/examples/consumer-", "language/go/examples/consumer-go/")):
             consumers = True
-        elif name.startswith(("examples/", "language/go/examples/live-model/")):
+        elif name.startswith(("language/go/examples/", "language/go/examples/live-model/")):
             examples = True
         if name.startswith("docs/") or name.endswith(".md"):
             docs = True
@@ -80,7 +80,7 @@ def main() -> int:
             core = True
         if name in {"go.mod", "go.sum", "VERSION", "Makefile"} or (
             name.endswith(".go")
-            and not name.startswith(("language/", "examples/", "adapters/"))
+            and not name.startswith(("language/", "language/go/examples/", "adapters/"))
         ):
             core = True
 

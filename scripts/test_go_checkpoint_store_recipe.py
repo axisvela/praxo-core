@@ -7,7 +7,7 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[1]
-RECIPE = ROOT / "examples/recipes/checkpoint-store-go"
+RECIPE = ROOT / "language/go/examples/recipes/checkpoint-store-go"
 
 
 class GoCheckpointStoreRecipeTests(unittest.TestCase):

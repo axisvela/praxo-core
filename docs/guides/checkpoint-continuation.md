@@ -20,7 +20,7 @@ integrations start at message-history continuation.
 
 Use the session-checkpoint examples:
 
-- Go: [`examples/session-checkpoint`](https://github.com/axisvela/praxo-core/tree/main/examples/session-checkpoint)
+- Go: [`language/go/examples/session-checkpoint`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/session-checkpoint)
 - Python, TypeScript, Java, C#, Rust, R, Ruby, PHP, Elixir, Lua, and other
   declared languages: `language/<language>/examples/session-checkpoint`
 
@@ -32,7 +32,7 @@ run, a pending approval, or a tool call that may have produced an effect.
 
 Use the checkpoint recipe or a language checkpoint example:
 
-- Go recipe: [`examples/recipes/checkpoint-store-go`](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/checkpoint-store-go)
+- Go recipe: [`language/go/examples/recipes/checkpoint-store-go`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/recipes/checkpoint-store-go)
 - Language examples: `language/<language>/examples/checkpoint`
 
 The example stores only registered payload types and rejects unregistered
@@ -46,7 +46,7 @@ concurrency and failure behavior for your deployment.
 Use the Go reference recipe when the application needs submit, status, cancel,
 recovery, a separate verifier, lease/fencing, or effect reconciliation:
 
-- [`examples/recipes/long-running-go`](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/long-running-go)
+- [`language/go/examples/recipes/long-running-go`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/recipes/long-running-go)
 - [Long-running operation recipe](long-running-operations.md)
 
 Keep the operation state, lease, verifier, and external effect in the
