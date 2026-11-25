@@ -4,7 +4,7 @@
 Perl `0.7.1` 与 PowerShell `0.8.1` 已从对应源码标签发布。Java `0.11.0` 已从源码标签
 `java/v0.11.0` 发布到 Maven Central。TypeScript npm `0.9.0` 已发布并为 `latest`；
 consumer 示例锁文件已改为 registry integrity，此前 `npm ci` 报 EINTEGRITY。
-Go `v2.10.0` 为当前参考版本。其他行保留原有核对日期；本页不声称每个 registry
+Go `v2.11.0` 为当前参考版本。其他行保留原有核对日期；本页不声称每个 registry
 页面都已重新审计。
 
 本页汇总各语言实现当前发布到哪里。源码标签、包注册表版本、一致性测试和生产验证是
@@ -24,7 +24,7 @@ GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
 
 | 语言 | 注册表 | 版本 | 地址 | 状态 |
 | --- | --- | --- | --- | --- |
-| Go | Go module proxy / pkg.go.dev | `v2.10.0` | https://pkg.go.dev/github.com/axisvela/praxo-core/v2 | 已发布；发布 `v2.10.0`（2026-11-20） |
+| Go | Go module proxy / pkg.go.dev | `v2.11.0` | https://pkg.go.dev/github.com/axisvela/praxo-core/v2 | 已发布；发布 `v2.11.0`（2026-11-20） |
 | Python | PyPI | `0.10.0` | https://pypi.org/project/praxo-core/0.10.0/ | 已发布 |
 | TypeScript | npm | `0.9.0` | https://www.npmjs.com/package/@axisvela/praxo-core/v/0.9.0 | 已发布；latest |
 | Java | Maven Central | `0.11.0` | https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.11.0/ | 已发布 |

@@ -5,7 +5,7 @@ Lua `0.8.1-1`, Perl `0.7.1`, and PowerShell `0.8.1` are published from their
 source tags. Java `0.11.0`
 published to Maven Central from source tag `java/v0.11.0`. TypeScript npm
 `0.9.0` is published and `latest`; the consumer example lockfiles were corrected
-to the registry integrity after `npm ci` reported EINTEGRITY. Go `v2.10.0` is
+to the registry integrity after `npm ci` reported EINTEGRITY. Go `v2.11.0` is
 the current reference release. Earlier rows retain their recorded check dates;
 this page does not claim that every registry page was re-audited.
 
@@ -32,7 +32,7 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 
 | Language | Registry | Version | Address | Status |
 | --- | --- | --- | --- | --- |
-| Go | Go module proxy / pkg.go.dev | `v2.10.0` | https://pkg.go.dev/github.com/axisvela/praxo-core/v2 | published; release `v2.10.0` (2026-11-20) |
+| Go | Go module proxy / pkg.go.dev | `v2.11.0` | https://pkg.go.dev/github.com/axisvela/praxo-core/v2 | published; release `v2.11.0` (2026-11-20) |
 | Python | PyPI | `0.10.0` | https://pypi.org/project/praxo-core/0.10.0/ | published |
 | TypeScript | npm | `0.9.0` | https://www.npmjs.com/package/@axisvela/praxo-core/v/0.9.0 | published; latest |
 | Java | Maven Central | `0.11.0` | https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.11.0/ | published |

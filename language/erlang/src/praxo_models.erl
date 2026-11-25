@@ -40,7 +40,7 @@
     message_wire/1
 ]).
 
-sdk_version() -> <<"0.9.0">>.
+sdk_version() -> <<"0.10.0">>.
 
 spec_version() -> <<"0.2.0">>.
 
