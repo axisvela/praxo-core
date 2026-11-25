@@ -57,7 +57,7 @@ final class DeterministicCommerceModel implements Model {
                             "quantity", 1,
                             "intent", intent,
                             "rationale",
-                            "The first catalog match fits the trail-running intent and has inventory available."))));
+                            "The first catalog match fits the trail-running intent and has inventory available.")))));
         }
 
         if (toolMessages.size() == 3) {
