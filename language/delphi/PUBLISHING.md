@@ -1,6 +1,6 @@
 # Publishing the Delphi/Free Pascal Core
 
-Source tag `delphi/v0.7.0` maps to OPM package `PRAXO-CORE` version `0.7.0.0`.
+Source tag `delphi/v0.9.0` maps to OPM package `PRAXO-CORE` version `0.9.0.0`.
 The package descriptor is `praxo_core.lpk`; it lists all eleven Core units.
 
 Build the submission files:
@@ -10,14 +10,14 @@ python language/delphi/build_opm.py
 ```
 
 This creates `language/delphi/build/opm/PRAXO-CORE.zip` and
-`language/delphi/build/opm/PRAXO-CORE.json`. The 0.7.0 assets are on the GitHub
+`language/delphi/build/opm/PRAXO-CORE.json`. The 0.9.0 assets are on the GitHub
 release:
 
-- <https://github.com/axisvela/praxo-core/releases/download/delphi/v0.7.0/PRAXO-CORE.zip>
-- <https://github.com/axisvela/praxo-core/releases/download/delphi/v0.7.0/PRAXO-CORE.json>
+- <https://github.com/axisvela/praxo-core/releases/download/delphi/v0.9.0/PRAXO-CORE.zip>
+- <https://github.com/axisvela/praxo-core/releases/download/delphi/v0.9.0/PRAXO-CORE.json>
 
-The 0.7.0 zip is 44,098 bytes with MD5
-`5ac7bb339992e3b072592cf19fd03640`. `run-tests.py` and the API snapshot pass
+The 0.9.0 zip is 50,127 bytes with MD5
+`c42ae784160134433685ddb5fd05268b`. `run-tests.py` and the API snapshot pass
 locally with Free Pascal 3.2.2.
 
 The OPM Submit endpoint (`lazarusopm.org`) no longer resolves; OPM now uses the
@@ -28,11 +28,11 @@ the OPM maintainer through the OPM forum thread:
 Suggested forum message:
 
 ```text
-Package: PRAXO-CORE 0.7.0.0
+Package: PRAXO-CORE 0.9.0.0
 Descriptor: praxo_core.lpk
-Zip: https://github.com/axisvela/praxo-core/releases/download/delphi/v0.7.0/PRAXO-CORE.zip
-JSON: https://github.com/axisvela/praxo-core/releases/download/delphi/v0.7.0/PRAXO-CORE.json
-MD5: 5ac7bb339992e3b072592cf19fd03640
+Zip: https://github.com/axisvela/praxo-core/releases/download/delphi/v0.9.0/PRAXO-CORE.zip
+JSON: https://github.com/axisvela/praxo-core/releases/download/delphi/v0.9.0/PRAXO-CORE.json
+MD5: c42ae784160134433685ddb5fd05268b
 License: MIT
 ```
 

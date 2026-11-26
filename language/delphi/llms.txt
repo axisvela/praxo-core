@@ -7,10 +7,10 @@
 # Package
 
 - package: `PRAXO-CORE`
-- registry: [GitHub release (OPM listing unverified)](https://github.com/axisvela/praxo-core/releases/tag/delphi%2Fv0.7.0)
+- registry: [GitHub release (OPM listing unverified)](https://github.com/axisvela/praxo-core/releases/tag/delphi%2Fv0.9.0)
 - source_version: `0.9.0`
-- published_version: `0.7.0`
-- install_published: `Download 0.7.0 assets from https://github.com/axisvela/praxo-core/releases/tag/delphi%2Fv0.7.0`
+- published_version: `0.9.0`
+- install_published: `Download 0.9.0 assets from https://github.com/axisvela/praxo-core/releases/tag/delphi%2Fv0.9.0`
 - install_source: `Source checkout: language/delphi (see README)`
 - source_tag: `delphi/v0.9.0`
 - tier: Core

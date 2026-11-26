@@ -37,7 +37,7 @@ class LanguageRegistryDocsTests(unittest.TestCase):
             "Dart": "0.8.0", "Elixir": "0.11.0", "Erlang": "0.10.0",
             "Lua": "0.9.0-1", "Perl": "0.8.0", "Haskell": "0.9.0",
             "D": "0.8.0", "Swift": "0.7.2", "MATLAB": "0.9.1",
-            "GNU Octave": "0.7.0", "Delphi / Free Pascal": "0.7.0",
+            "GNU Octave": "0.9.0", "Delphi / Free Pascal": "0.9.0",
         }
         for entry in SYNC.LANGUAGES:
             if entry["name"] not in expected:

@@ -58,9 +58,9 @@ GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
 | 语言 | 注册表 | 版本 | 地址 | 状态 |
 | --- | --- | --- | --- | --- |
 | Julia | Julia General Registry | 未注册 | https://github.com/JuliaRegistries/General/pull/176393 | `0.7.0` PR 开放、未合并；mirror 已打 `0.9.0`；mirror tag 不等于 General 可用 |
-| Octave | Octave Packages | `0.7.0` | https://github.com/axisvela/praxo-core/releases/tag/octave%2Fv0.7.0 | 0.7.0 release tarball 已发布；包索引 PR 待完成 |
+| Octave | Octave Packages | `0.9.0` | https://github.com/axisvela/praxo-core/releases/tag/octave%2Fv0.9.0 | 0.9.0 release tarball 已发布；包索引 PR 待完成 |
 | V | VPM | 未验证 | https://github.com/axisvela/praxo-core-v | registry 可用性未验证；split 仓库 `0.8.0` 已打 tag；VPM 提交待完成 |
-| Delphi / Free Pascal | OPM / GitHub release | `0.2.1` | https://github.com/axisvela/praxo-core/releases/tag/delphi%2Fv0.7.0 | 0.7.0 OPM 资产已发布；OPM 收录待完成 |
+| Delphi / Free Pascal | OPM / GitHub release | `0.9.0` | https://github.com/axisvela/praxo-core/releases/tag/delphi%2Fv0.9.0 | 0.9.0 OPM 资产已发布；OPM 收录待完成 |
 
 ## 仅源码或未发布到注册表
 

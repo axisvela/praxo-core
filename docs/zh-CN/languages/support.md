@@ -91,14 +91,14 @@ Kotlin、VB.NET、Scala 等仅示例实现保留在本仓库，作为宿主 Core
 | Swift | `swift/v0.9.0` | SPI split 包 `0.7.2` 已索引 | split 非流式范围不代表主仓库流式范围；未记录消费者 smoke |
 | Julia | `julia/v0.9.0` | General Registry PR #176393 待合并 | 未记录 |
 | MATLAB | `matlab/v0.9.0` | MATLAB File Exchange `185166` 已发布（`0.9.1`） | 引用仍为 `0.2.1`；广泛兼容性和原生 MATLAB 执行未验证 |
-| Octave | `octave/v0.9.0` | Octave `0.7.0` release tarball 已发布；Octave Packages PR #875 待合并 | 未记录；仅 Octave 11.3.0 本地执行 |
+| Octave | `octave/v0.9.0` | Octave `0.9.0` release tarball 已发布；Octave Packages PR #875 待合并 | 未记录；仅 Octave 11.3.0 本地执行 |
 | R | `r/v0.12.0` | r-universe `praxocore==0.12.0` 已发布；CRAN 未发布 | 实际构建 HEAD `9b417e3`；检查有 warnings，并非全部无警告通过。未记录发布后消费者安装；CRAN 需 `R CMD check --as-cran` |
 | Perl | `perl/v0.8.0` | CPAN `Praxo-Core==0.8.0` 已发布 | 未记录 `0.8.0` 消费者安装 |
 | PowerShell | `powershell/v0.9.0` | PowerShell Gallery `praxo-core-ps==0.8.1` 已发布 | 发布构建运行 wrapper 测试与 API snapshot；Gallery 报告 `0.8.1` 已发布。CI `current-powershell-consumer` 于 2026-11-21 从 PSGallery 安装 `0.8.1` 并通过 allow/deny（run `44917317881`） |
 | Nim | `nim/v0.8.0` | split 仓库包 `0.1.1`；nim-lang/packages PR #3600 已于 2026-11-05 合并；nimpkgs 待重新抓取 | 未记录 |
 | OCaml | `ocaml/v0.11.1` | 未发布到 opam；替代提交待审核 | split 源码已对齐到 `0.11.1`；原生 fixture 包测试已在本地验证；等待 registry 接受 |
 | Haskell | `haskell/v0.9.0` | Hackage `praxo-core==0.9.0` 已发布 | 未记录 `0.9.0` 消费者安装 |
-| Delphi / Free Pascal | `delphi/v0.9.0` | OPM `0.2.1`；0.7.0 OPM 资产已发布；OPM 收录待完成 | 未记录；商业 Delphi 未验证 |
+| Delphi / Free Pascal | `delphi/v0.9.0` | OPM `0.9.0`；0.9.0 OPM 资产已发布；OPM 收录待完成 | 未记录；商业 Delphi 未验证 |
 
 ### 注册表相对代码的新旧状态
 
@@ -121,16 +121,16 @@ Kotlin、VB.NET、Scala 等仅示例实现保留在本仓库，作为宿主 Core
 | Dart | 0.8.0 | pub.dev `0.8.0` | 版本一致；README 陈旧 |
 | Julia | 0.9.0 | General Registry PR #176393 待合并 | 待完成 |
 | MATLAB | 0.9.0 | File Exchange `185166`（`0.9.1`） | 源码与 registry 版本不同；引用陈旧；MATLAB 未验证 |
-| Octave | 0.9.0 | 0.7.0 release tarball；Octave Packages PR #875 待合并 | 归档可用；索引待合并 |
+| Octave | 0.9.0 | 0.9.0 release tarball；Octave Packages PR #875 待合并 | 归档可用；索引待合并 |
 | Perl | 0.8.0 | CPAN `0.8.0` | 版本一致 |
 | PowerShell | 0.9.0 | PowerShell Gallery `0.8.1` | 落后于源码 |
 | Haskell | 0.9.0 | Hackage `0.9.0` | 版本一致；README 陈旧 |
 | R | 0.12.0 | r-universe `0.12.0` | 版本一致；检查有 warnings；未发布 CRAN |
-| Nim | 0.8.0 | split 仓库 `v0.8.0` 已打 tag | Nimble/nimpkgs 待重新抓取；安装 smoke 未记录 |
+| Nim | 0.8.0 | split 源码已打 tag；registry 索引待更新 | split 仓库 `v0.8.0` 已打 tag；Nimble/nimpkgs 待重新抓取 |
 | OCaml | 0.11.1 | 未发布到 opam；替代提交待审核 | split 源码已对齐且原生 fixture 包已验证 |
 | Swift | 0.9.0 | SPI `0.7.2` | split 非流式范围，落后于主仓库流式范围 |
 | V | 0.8.0 | split 仓库 `0.8.0` 已打 tag | VPM 提交待完成，未验收 |
-| Delphi / Free Pascal | 0.9.0 | GitHub Release 资产 `0.7.0` | OPM 收录未验证 |
+| Delphi / Free Pascal | 0.9.0 | GitHub Release 资产 `0.9.0` | OPM 收录未验证 |
 | D | 0.8.0 | DUB `0.8.0` | 版本一致 |
 
 不要从注册表安装只有源码标签的语言，也不要假设注册表包包含源码标签的最新行为。
