@@ -52,7 +52,10 @@ The split repository uses `vX.Y.Z` tags; the main repository uses
 
 ## Credentials and configuration
 
-- No Packagist API token is needed for the normal GitHub webhook flow.
+- Packagist automatic updates require a hook URL containing both the Packagist
+  `username` and `apiToken`; without a token Packagist returns
+  `Missing or invalid username/apiToken in request`. Use the package page
+  Update button, or configure a token as a repository secret.
 - GitHub access uses the authenticated `gh` account
   (`gh auth status`).
 - `composer` is not installed locally; package-registry ingestion is performed
