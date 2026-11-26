@@ -286,8 +286,22 @@ def examples_line(directory: Path) -> str:
     )
 
 
+def scenario_links() -> str:
+    return (
+        "- [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) "
+        "([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): "
+        "delivery standards and the [reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).\n"
+        "- [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) "
+        "([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): "
+        "candidate business goals and their existing related slices.\n"
+        "- [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) "
+        "([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): "
+        "cross-language tutorials, examples, and reference-application paths.\n"
+    )
+
+
 def content_links(directory: Path) -> str:
-    lines = []
+    lines = [scenario_links()]
     relative = directory.relative_to(ROOT).as_posix()
     for folder, label, description in (
         ("Tutorial", "Scenario tutorials", "scenario-oriented tutorials"),
@@ -454,6 +468,7 @@ documentation before relying on a version or feature.
 - Scenario tutorials: [language/go/Tutorial](language/go/Tutorial/README.md)
 - Reference application: [language/go/application](language/go/application/README.md)
 - Language examples: `language/<language>/examples/`
+{scenario_links()}
 
 {community_section()}## Boundaries
 
@@ -494,7 +509,7 @@ def render_root_llms() -> str:
 - Live model: https://github.com/axisvela/praxo-core/blob/main/language/go/examples/live-model/README.md
 - Scenario tutorials: https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial
 - Reference application: https://github.com/axisvela/praxo-core/tree/main/language/go/application
-- Start Here: https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/index.md
+{scenario_links()}- Start Here: https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/index.md
 - Coding-agent contract: https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md
 - Language repository index: https://github.com/axisvela/praxo-core/blob/main/docs/languages/repositories.md
 - When Not To Use: https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/when-not-to-use.md

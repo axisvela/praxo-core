@@ -255,6 +255,15 @@ See the [normative specification](../../spec/README.md),
 The parity inventory records the implemented Core surfaces.
 See [SETUP.md](SETUP.md) for local setup and test commands.
 
+## Tutorials and Reference Applications
+
+- [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): delivery standards and the reference-application portfolio.
+- [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and related slices.
+- [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and application paths.
+- [Reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio) ([中文](https://axisvela.github.io/praxo-core/zh-CN/project/roadmap/)).
+- Language tutorials: [language/haskell/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/haskell/Tutorial).
+
+
 ## License
 
 MIT. See [LICENSE](LICENSE). `base` and `containers` use BSD-style licenses;

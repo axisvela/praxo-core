@@ -17,6 +17,14 @@ Go `v2.11.0` 为当前参考版本。其他行保留原有核对日期；本页�
 [语言 Registry 与编程 Agent 入口](https://github.com/axisvela/praxo-core/blob/main/language/REGISTRY-INDEX.md)。这些是源码入口，
 不是 Registry 页面已刷新的证据。
 
+## 教程、候选场景与参考应用
+
+- [教程计划](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)：交付标准与参考应用组合。
+- [100 个候选 Agent 场景](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)：候选业务目标及已有相关切片。
+- [统一教程目录](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)：跨语言教程、示例与应用路径。
+- [参考应用组合](https://axisvela.github.io/praxo-core/zh-CN/project/roadmap/)：计划中与已有的完整宿主集成。
+- 各语言的 `REGISTRY.md` 会链接对应 `Tutorial/` 和 `application/` 源码目录。
+
 ## 已发布且当前
 
 本页也是注册表版本的**语言发布索引**。独立源码 tag 与声明能力见[语言实现目录](index.md)。

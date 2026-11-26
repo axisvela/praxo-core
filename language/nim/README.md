@@ -233,3 +233,12 @@ See [PUBLISHING.md](PUBLISHING.md) for the Nimble release flow, and
 [language policy](../../docs/contributing/language-policy.md),
 [parity inventory](../../spec/parity/nim.md), and
 [implementation support](../../docs/languages/support.md).
+
+## Tutorials and Reference Applications
+
+- [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): delivery standards and the reference-application portfolio.
+- [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and related slices.
+- [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and application paths.
+- [Reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio) ([中文](https://axisvela.github.io/praxo-core/zh-CN/project/roadmap/)).
+- Language tutorials: [language/nim/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/nim/Tutorial).
+

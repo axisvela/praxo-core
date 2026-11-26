@@ -49,6 +49,9 @@
 - Live model: https://github.com/axisvela/praxo-core/blob/main/language/go/examples/live-model/README.md
 - Scenario tutorials: https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial
 - Reference application: https://github.com/axisvela/praxo-core/tree/main/language/go/application
+- [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): delivery standards and the [reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
+- [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and their existing related slices.
+- [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and reference-application paths.
 - Start Here: https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/index.md
 - Coding-agent contract: https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md
 - Language repository index: https://github.com/axisvela/praxo-core/blob/main/docs/languages/repositories.md

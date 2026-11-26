@@ -169,3 +169,12 @@ pwsh -NoProfile -File language/powershell/api-snapshot.ps1 -Check
 
 The bridge package is `praxo-core-ps-br`; see
 [`bindings/powershell`](../../bindings/powershell/README.md).
+
+## Tutorials and Reference Applications
+
+- [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): delivery standards and the reference-application portfolio.
+- [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and related slices.
+- [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and application paths.
+- [Reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio) ([中文](https://axisvela.github.io/praxo-core/zh-CN/project/roadmap/)).
+- Language tutorials: [language/powershell/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/powershell/Tutorial).
+

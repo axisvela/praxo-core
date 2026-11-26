@@ -453,6 +453,21 @@ def mirror_readme(entry: dict, has_examples: bool = False, root: Path = ROOT) ->
                 f"See the canonical examples: {example_url}.",
             ]
         )
+    lines.extend(
+        [
+            "",
+            "## Tutorials and Candidate Scenarios",
+            "",
+            "Start with the [Tutorial Plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) "
+            "for delivery standards and the [reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio), "
+            "review the [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), "
+            "and browse the [unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/).",
+            "",
+            "Chinese: [教程计划](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/), "
+            "[候选场景](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/), "
+            "[教程目录](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/).",
+        ]
+    )
     tutorial_root = "language/go/Tutorial" if is_go else f"{entry['dir']}/Tutorial"
     application_root = "language/go/application" if is_go else f"{entry['dir']}/application"
     tutorials = _catalog_entries(root, entry, "Tutorial")
