@@ -79,7 +79,7 @@ do-initialize.
         to ws-literal
     perform append-literal
     if px-mcp-client-version = spaces
-        move "0.8.0" to ws-source
+        move "0.9.0" to ws-source
         move 5 to ws-source-length
     else
         move function trim(px-mcp-client-version) to ws-source

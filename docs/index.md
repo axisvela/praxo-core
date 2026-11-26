@@ -47,7 +47,7 @@ and the [dedicated repository index](languages/repositories.md).
 ## Go Reference Quickstart
 
 ```bash
-go get github.com/axisvela/praxo-core/v2@v2.10.0
+go get github.com/axisvela/praxo-core/v2@v2.11.0
 ```
 
 Follow the [quickstart](getting-started/quickstart.md) to run an agent against
@@ -67,12 +67,12 @@ above; source tags do not imply package-registry availability.
 
 ## Current Release
 
-Core `2.10.0` adds OpenAI-compatible, Anthropic, and Gemini SSE streaming across
-the declared Core adapters, a Go reference WASM plugin host, and process plugin
-hosts in the declared language cores. It follows the `2.9.0` Go memory-recall
-role fix, which injects recalled content as untrusted user data instead of a
-system message.
-See the [release notes](releases/2.10.0.md) for changes and limitations, or the
+Core `2.11.0` is a documentation and packaging release. It moves runnable
+examples under `language/go/examples`, links scenario tutorials and reference
+applications from the language registries, and refreshes source-release
+metadata. It follows the `2.9.0` Go memory-recall role fix, which injects
+recalled content as untrusted user data instead of a system message.
+See the [release notes](releases/2.11.0.md) for changes and limitations, or the
 [release overview](releases/index.md) for older versions.
 
 PRAXO-CORE is a framework, not a hosted service or a turnkey chat UI.

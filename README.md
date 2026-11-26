@@ -75,7 +75,7 @@ Go is the reference implementation; use the language table above for other
 runtimes.
 
 ```bash
-go get github.com/axisvela/praxo-core/v2@v2.10.0
+go get github.com/axisvela/praxo-core/v2@v2.11.0
 ```
 
 First verify the [independent Go consumer](docs/getting-started/consumer-go.md):
@@ -217,9 +217,10 @@ or [optional AxisVela integrations](docs/integrations/ecosystem.md). See the
 
 ## Releases and Contributing
 
-Core `2.10.0` is the current release. It adds provider SSE streaming and
-process/WASM plugin hosts across the declared implementations described in the
-release notes.
+Core `2.11.0` is the current release. It moves the runnable example tree under
+`language/go/examples`, links scenario tutorials and reference applications from
+the language registries, and refreshes source-release metadata. It does not
+change the exported `pkg/...` API or wire contract.
 
 The earlier `2.9.0` fixed the Go memory recall role: recalled content is injected
 as untrusted user data with frame/source labels instead of a system message, and
@@ -227,7 +228,7 @@ assistant-written memory records carry `source` and `trust` metadata. That relea
 added two-run regressions without changing the exported `pkg/...` API or wire
 shape. Optional adapters and Core implementations are versioned independently.
 
-- [Latest release notes](docs/releases/2.10.0.md)
+- [Latest release notes](docs/releases/2.11.0.md)
 - [Release history](docs/releases/index.md)
 - [Language Release Index](docs/languages/registry-status.md)
 - [Compatibility policy](docs/project/compatibility-policy.md)
