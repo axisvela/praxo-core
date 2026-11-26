@@ -38,7 +38,15 @@
 - [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): delivery standards and the [reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
 - [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and their existing related slices.
 - [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and reference-application paths.
-- [Scenario tutorials](https://github.com/axisvela/praxo-core/tree/main/language/c/Tutorial): scenario-oriented tutorials.
+- Scenario tutorials:
+  - [aquaculture-water](https://github.com/axisvela/praxo-core/tree/main/language/c/Tutorial/aquaculture-water): Computes fixed oxygen/temperature indicators and drafts a bounded review action. No aerator or feeder command.
+  - [device-diagnostics](https://github.com/axisvela/praxo-core/tree/main/language/c/Tutorial/device-diagnostics): A scoped device tutorial over the native MIT C Core. It reads one fixed `device-100` diagnostic snapshot through an application-owned `PxDeviceAdapter` function pointer and draf...
+  - [hvac-settings](https://github.com/axisvela/praxo-core/tree/main/language/c/Tutorial/hvac-settings): Reads fixed building conditions and drafts review-only HVAC/lighting settings. No BMS command or verified energy savings.
+  - [lab-loop](https://github.com/axisvela/praxo-core/tree/main/language/c/Tutorial/lab-loop): Simulates one fixed parameter/result cycle and drafts review-only next parameters. No actuator, chemical handling or autonomous experiment.
+  - [livestock-monitor](https://github.com/axisvela/praxo-core/tree/main/language/c/Tutorial/livestock-monitor): Summarizes fixed animal observations and drafts a review-only veterinary request. No diagnosis, isolation or feeding control.
+  - [npc-narrative](https://github.com/axisvela/praxo-core/tree/main/language/c/Tutorial/npc-narrative): Reads fixed character state and drafts one scoped host action with an observed result. No arbitrary host commands.
+  - [world-economy](https://github.com/axisvela/praxo-core/tree/main/language/c/Tutorial/world-economy): Simulates one fixed economy tick and drafts a review-only balance action. No long-term equilibrium or scale guarantee.
+- Reference applications: no accepted end-to-end application yet; candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
 - Coding-agent contract: ../../docs/getting-started/coding-agents.md
 
 ## Community

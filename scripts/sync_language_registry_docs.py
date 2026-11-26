@@ -5,6 +5,8 @@ import json
 import re
 from pathlib import Path
 
+from mirror_readme import _catalog_entries
+
 ROOT = Path(__file__).resolve().parents[1]
 SPEC = ROOT / "spec" / "languages.md"
 BLOCK_START = "## Registry and Coding-Agent Entry"
@@ -303,15 +305,28 @@ def scenario_links() -> str:
 def content_links(directory: Path) -> str:
     lines = [scenario_links()]
     relative = directory.relative_to(ROOT).as_posix()
-    for folder, label, description in (
-        ("Tutorial", "Scenario tutorials", "scenario-oriented tutorials"),
-        ("application", "Reference applications", "AI-native reference applications"),
+    key = "go" if directory == ROOT else directory.name
+    entry = {"key": key, "dir": "." if key == "go" else relative}
+    for folder, label in (
+        ("Tutorial", "Scenario tutorials"),
+        ("application", "Reference applications"),
     ):
-        if (directory / folder).is_dir():
-            target = folder if relative == "." else f"{relative}/{folder}"
+        items = [
+            item for item in _catalog_entries(ROOT, entry, folder)
+            if item[0] != folder
+        ]
+        if items:
+            lines.append(f"- {label}:\n")
+            for name, target, description in items:
+                lines.append(
+                    f"  - [{name}](https://github.com/axisvela/praxo-core/tree/main/{target}): "
+                    f"{description or 'See the tutorial README.'}\n"
+                )
+        elif folder == "application":
             lines.append(
-                f"- [{label}](https://github.com/axisvela/praxo-core/tree/main/{target}): "
-                f"{description}.\n"
+                "- Reference applications: no accepted end-to-end application yet; "
+                "candidate goals are tracked in the "
+                "[Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).\n"
             )
     return "".join(lines)
 

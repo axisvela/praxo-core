@@ -235,14 +235,38 @@ the signature baseline was added after that release.
 The runner reads `../../spec/vectors/*.json`. A released Core implementation must pass every vector
 and keep `spec/parity.md` current. `SPEC_VERSION` is exported from the package.
 
+
 ## Tutorials and Reference Applications
 
-- [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): delivery standards and the reference-application portfolio.
-- [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and related slices.
-- [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and application paths.
-- [Reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio) ([中文](https://axisvela.github.io/praxo-core/zh-CN/project/roadmap/)).
-- Language tutorials: [language/typescript/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial).
+Language-specific scenario tutorials and reference applications for TypeScript.
 
+### Scenario Tutorials
+
+| Tutorial | What it shows |
+| --- | --- |
+| [api-orchestration](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/api-orchestration) | A bounded first slice of [SE-08](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an integration platform. It maps two fixed synthetic APIs, validate... |
+| [copyright-evidence](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/copyright-evidence) | Compares fixed authorized assets and drafts a review-only evidence packet. No broad crawl, DMCA notice or infringement verdict. |
+| [customer-support](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/customer-support) | A native TypeScript Core tutorial for a customer-support reply streamed over SSE. The Agent has two fixed tools: `lookup_order` reads `order-100`, and `search_policy` reads a fi... |
+| [education-tutoring](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/education-tutoring) | Tracks a fixed learner fixture and drafts a graded Socratic question for review. No adaptive model or issued grade. |
+| [live-show](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/live-show) | Replays fixed engagement events and drafts a review-only running order. No audience profiling, coupon sends or stream control. |
+| [localization-draft](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/localization-draft) | A bounded first slice of [CS-07](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a legal or tax compliance system. It compares fixed localization ru... |
+| [meeting-coordination](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/meeting-coordination) | Reconciles fixed calendar evidence and drafts review-only minutes. No invitations or live calendar writes. |
+| [negotiation-interpretation](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/negotiation-interpretation) | A bounded first slice of [OG-03](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an interpreter or cultural-profiling system. It compares a fixed bi... |
+| [order-review](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/order-review) | First deterministic native TypeScript Core integration slice. It shares the synthetic order HTTP service with the Python example, not a remote Agent loop. The `review_order` too... |
+| [phishing-awareness](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/phishing-awareness) | Classifies a fixed synthetic email and drafts an authorized review-only awareness exercise. No sends, links or infrastructure attacks. |
+| [retail-replenishment](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/retail-replenishment) | A bounded first slice of [CS-05](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not live pricing or procurement. It checks a fixed SKU's stock and pric... |
+| [sales-crm](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/sales-crm) | Extracts fixed objections from a transcript and drafts a review-only CRM update. No CRM write or customer message. |
+| [storyboard-previs](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/storyboard-previs) | Turns a fixed script scene into a review-only shot plan. No rendering or virtual-production engine. |
+| [travel-booking](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/travel-booking) | A native TypeScript Core tutorial for review-only flight booking. It checks fixed `trip-100` inventory and drafts a fare hold with no payment or booking write. The model package... |
+| [workspace-plan](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/workspace-plan) | A bounded first slice of [SE-01](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a code-generation or deployment product. It reads a fixed allowlist... |
+
+Index: [language/typescript/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial).
+
+### Reference Applications
+
+No accepted end-to-end reference application is recorded for this language yet. Candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
+
+Planning context: [Tutorial Plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/), [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), and [Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/). Chinese: [教程计划](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/), [候选场景](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/), [教程目录](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/).
 
 ## Community
 

@@ -224,13 +224,27 @@ See [language policy](../../docs/contributing/language-policy.md),
 [parity inventory](../../spec/parity/objc.md), and
 [implementation support](../../docs/languages/support.md).
 
+
 ## Tutorials and Reference Applications
 
-- [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): delivery standards and the reference-application portfolio.
-- [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and related slices.
-- [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and application paths.
-- [Reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio) ([中文](https://axisvela.github.io/praxo-core/zh-CN/project/roadmap/)).
-- Language tutorials: [language/objc/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/objc/Tutorial).
+Language-specific scenario tutorials and reference applications for Objective-C.
+
+### Scenario Tutorials
+
+| Tutorial | What it shows |
+| --- | --- |
+| [chronic-care](https://github.com/axisvela/praxo-core/tree/main/language/objc/Tutorial/chronic-care) | Summarizes a fixed wearable trend and drafts a review-only care alert. No dosage or individualized treatment change. |
+| [digital-twin-memory](https://github.com/axisvela/praxo-core/tree/main/language/objc/Tutorial/digital-twin-memory) | Recalls fixed consent-scoped memories with provenance, then deletes one scope. No real inbox, passwords or unrestricted recall. |
+| [dlp-redaction](https://github.com/axisvela/praxo-core/tree/main/language/objc/Tutorial/dlp-redaction) | Inspects a fixed export for sensitive fields and drafts a review-only redaction. No encryption, DLP completeness or sharing claim. |
+| [privacy-agent](https://github.com/axisvela/praxo-core/tree/main/language/objc/Tutorial/privacy-agent) | A bounded first slice of [PE-03](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a password manager or data-deletion service. It classifies a fixed... |
+
+Index: [language/objc/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/objc/Tutorial).
+
+### Reference Applications
+
+No accepted end-to-end reference application is recorded for this language yet. Candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
+
+Planning context: [Tutorial Plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/), [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), and [Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/). Chinese: [教程计划](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/), [候选场景](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/), [教程目录](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/).
 
 ## Community
 

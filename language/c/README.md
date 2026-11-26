@@ -242,14 +242,30 @@ See [CHANGELOG.md](CHANGELOG.md) for per-release changes and compatibility
 notes, and [PARALLEL.md](PARALLEL.md) for the parallel-tool design and platform
 limits.
 
+
 ## Tutorials and Reference Applications
 
-- [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): delivery standards and the reference-application portfolio.
-- [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and related slices.
-- [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and application paths.
-- [Reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio) ([中文](https://axisvela.github.io/praxo-core/zh-CN/project/roadmap/)).
-- Language tutorials: [language/c/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/c/Tutorial).
+Language-specific scenario tutorials and reference applications for C.
 
+### Scenario Tutorials
+
+| Tutorial | What it shows |
+| --- | --- |
+| [aquaculture-water](https://github.com/axisvela/praxo-core/tree/main/language/c/Tutorial/aquaculture-water) | Computes fixed oxygen/temperature indicators and drafts a bounded review action. No aerator or feeder command. |
+| [device-diagnostics](https://github.com/axisvela/praxo-core/tree/main/language/c/Tutorial/device-diagnostics) | A scoped device tutorial over the native MIT C Core. It reads one fixed `device-100` diagnostic snapshot through an application-owned `PxDeviceAdapter` function pointer and draf... |
+| [hvac-settings](https://github.com/axisvela/praxo-core/tree/main/language/c/Tutorial/hvac-settings) | Reads fixed building conditions and drafts review-only HVAC/lighting settings. No BMS command or verified energy savings. |
+| [lab-loop](https://github.com/axisvela/praxo-core/tree/main/language/c/Tutorial/lab-loop) | Simulates one fixed parameter/result cycle and drafts review-only next parameters. No actuator, chemical handling or autonomous experiment. |
+| [livestock-monitor](https://github.com/axisvela/praxo-core/tree/main/language/c/Tutorial/livestock-monitor) | Summarizes fixed animal observations and drafts a review-only veterinary request. No diagnosis, isolation or feeding control. |
+| [npc-narrative](https://github.com/axisvela/praxo-core/tree/main/language/c/Tutorial/npc-narrative) | Reads fixed character state and drafts one scoped host action with an observed result. No arbitrary host commands. |
+| [world-economy](https://github.com/axisvela/praxo-core/tree/main/language/c/Tutorial/world-economy) | Simulates one fixed economy tick and drafts a review-only balance action. No long-term equilibrium or scale guarantee. |
+
+Index: [language/c/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/c/Tutorial).
+
+### Reference Applications
+
+No accepted end-to-end reference application is recorded for this language yet. Candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
+
+Planning context: [Tutorial Plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/), [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), and [Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/). Chinese: [教程计划](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/), [候选场景](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/), [教程目录](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/).
 
 ## Community
 

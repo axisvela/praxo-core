@@ -43,8 +43,12 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 - [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): delivery standards and the [reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
 - [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and their existing related slices.
 - [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and reference-application paths.
-- [Scenario tutorials](https://github.com/axisvela/praxo-core/tree/main/language/erlang/Tutorial): scenario-oriented tutorials.
-- [Reference applications](https://github.com/axisvela/praxo-core/tree/main/language/erlang/application): AI-native reference applications.
+- Scenario tutorials:
+  - [aiops-rca](https://github.com/axisvela/praxo-core/tree/main/language/erlang/Tutorial/aiops-rca): A bounded first slice of [SE-06](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a production incident platform. It correlates fixed trace/metric/lo...
+  - [otp-recovery](https://github.com/axisvela/praxo-core/tree/main/language/erlang/Tutorial/otp-recovery): A bounded OTP supervision tutorial. It starts a real `one_for_one` supervisor and worker, injects one child crash, observes the restarted PID and start count, then lets Core cho...
+  - [policy-simulation](https://github.com/axisvela/praxo-core/tree/main/language/erlang/Tutorial/policy-simulation): A bounded concurrent simulation: twelve Erlang processes compute household subsidies for base and alternate policies, yielding 1200 and 1800. Core drafts a review-only sensitivi...
+  - [soc-correlation](https://github.com/axisvela/praxo-core/tree/main/language/erlang/Tutorial/soc-correlation): Fixed EDR and firewall events are correlated; one critical event selects an isolation-review branch, while clean input selects monitoring review. No host is blocked and no live...
+- Reference applications: no accepted end-to-end application yet; candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
 - [llms.txt](llms.txt): compact machine-readable entry for this language.
 - [llms.md](llms.md): Markdown version of the same entry.
 - [Coding-agent contract](../../docs/getting-started/coding-agents.md): explicit

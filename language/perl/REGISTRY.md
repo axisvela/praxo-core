@@ -43,7 +43,13 @@ PRAXO-CORE is an embeddable, MIT-licensed AI agent framework. This distribution 
 - [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): delivery standards and the [reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
 - [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and their existing related slices.
 - [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and reference-application paths.
-- [Scenario tutorials](https://github.com/axisvela/praxo-core/tree/main/language/perl/Tutorial): scenario-oriented tutorials.
+- Scenario tutorials:
+  - [community-governance](https://github.com/axisvela/praxo-core/tree/main/language/perl/Tutorial/community-governance): Fixed synthetic issues produce four classified items and a review-only reviewer request. No GitHub API, closure or impersonation.
+  - [compliance-tracking](https://github.com/axisvela/praxo-core/tree/main/language/perl/Tutorial/compliance-tracking): Fixed policy versions yield two changed sections and a duplicate removal; Core drafts review-only remediation. No filing, audit conclusion or live source.
+  - [localization-draft](https://github.com/axisvela/praxo-core/tree/main/language/perl/Tutorial/localization-draft): Fixed market rules produce a review-only localized text draft. No translation engine, CMS or publication.
+  - [log-triage](https://github.com/axisvela/praxo-core/tree/main/language/perl/Tutorial/log-triage): A small operations tutorial using the native Perl Core. The Agent has one fixed tool, `summarize_log`, which reads the tutorial's own log fixture and returns severity counts. Th...
+  - [news-factcheck](https://github.com/axisvela/praxo-core/tree/main/language/perl/Tutorial/news-factcheck): A bounded first slice of MD-02, not a truth-verification service. It compares fixed source excerpts for one synthetic article, cites a contradiction and drafts a review-only fac...
+- Reference applications: no accepted end-to-end application yet; candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
 - [llms.txt](llms.txt): compact machine-readable entry for this language.
 - [llms.md](llms.md): Markdown version of the same entry.
 - [Coding-agent contract](../../docs/getting-started/coding-agents.md): explicit

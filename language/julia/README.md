@@ -175,14 +175,42 @@ Local toolchain used by the repository maintainers lives at `D:\dev\julia`.
 Tag shape: `julia/v0.8.0`. The tag targets `SPEC_VERSION` `0.2.0`. The mirror `axisvela/praxo-core-julia` registers the package through
 JuliaRegistrator; see [PUBLISHING.md](PUBLISHING.md).
 
+
 ## Tutorials and Reference Applications
 
-- [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): delivery standards and the reference-application portfolio.
-- [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and related slices.
-- [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and application paths.
-- [Reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio) ([中文](https://axisvela.github.io/praxo-core/zh-CN/project/roadmap/)).
-- Language tutorials: [language/julia/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/julia/Tutorial).
-- Reference applications: [language/julia/application](https://github.com/axisvela/praxo-core/tree/main/language/julia/application).
+Language-specific scenario tutorials and reference applications for Julia.
+
+### Scenario Tutorials
+
+| Tutorial | What it shows |
+| --- | --- |
+| [airport-recovery](https://github.com/axisvela/praxo-core/tree/main/language/julia/Tutorial/airport-recovery) | Simulate fixed gate, crew and connection constraints. No production write or external system access. |
+| [churn-warning](https://github.com/axisvela/praxo-core/tree/main/language/julia/Tutorial/churn-warning) | Compute fixed risk signals and draft a consent-aware retention offer. No production write or external system access. |
+| [dispatch-review](https://github.com/axisvela/praxo-core/tree/main/language/julia/Tutorial/dispatch-review) | A bounded energy-dispatch planning tutorial. It enumerates a small two-source integer dispatch, calculates cost and unmet demand, and lets Core choose a plan-review or shortfall... |
+| [eda-placement](https://github.com/axisvela/praxo-core/tree/main/language/julia/Tutorial/eda-placement) | Explore a fixed placement grid and report PPA proxies. No production write or external system access. |
+| [emergency-route-plan](https://github.com/axisvela/praxo-core/tree/main/language/julia/Tutorial/emergency-route-plan) | Simulate fixed closures and constrained relief routes. No production write or external system access. |
+| [experiment-comparison](https://github.com/axisvela/praxo-core/tree/main/language/julia/Tutorial/experiment-comparison) | A native Julia analytics tutorial. The Agent has one fixed tool, `compare_experiments`, which computes means and a delta over fixed baseline and candidate results. The determini... |
+| [fire-spread](https://github.com/axisvela/praxo-core/tree/main/language/julia/Tutorial/fire-spread) | Replay fixed weather and fuel cells and compare modeled spread. No production write or external system access. |
+| [hedge-plan](https://github.com/axisvela/praxo-core/tree/main/language/julia/Tutorial/hedge-plan) | Simulate fixed crop exposure and compare scenario costs. No production write or external system access. |
+| [hvac-settings](https://github.com/axisvela/praxo-core/tree/main/language/julia/Tutorial/hvac-settings) | Simulate fixed occupancy and thermal constraints. No production write or external system access. |
+| [lab-loop](https://github.com/axisvela/praxo-core/tree/main/language/julia/Tutorial/lab-loop) | Simulate a fixed cycle and draft review-only next parameters. No production write or external system access. |
+| [materials-design](https://github.com/axisvela/praxo-core/tree/main/language/julia/Tutorial/materials-design) | Evaluate fixed candidate properties and draft the next simulation. No production write or external system access. |
+| [mesh-review](https://github.com/axisvela/praxo-core/tree/main/language/julia/Tutorial/mesh-review) | Compare fixed mesh descriptors against stated constraints. No production write or external system access. |
+| [molecule-screen](https://github.com/axisvela/praxo-core/tree/main/language/julia/Tutorial/molecule-screen) | Rank fixed synthetic descriptors and draft a review. No production write or external system access. |
+| [ocean-routing](https://github.com/axisvela/praxo-core/tree/main/language/julia/Tutorial/ocean-routing) | Compare fixed route/weather costs and draft a route. No production write or external system access. |
+| [policy-simulation](https://github.com/axisvela/praxo-core/tree/main/language/julia/Tutorial/policy-simulation) | Simulate a small synthetic population and report sensitivity. No production write or external system access. |
+| [traffic-signal-plan](https://github.com/axisvela/praxo-core/tree/main/language/julia/Tutorial/traffic-signal-plan) | Simulate fixed junction queues and verify timing against limits. No production write or external system access. |
+| [virtual-pi](https://github.com/axisvela/praxo-core/tree/main/language/julia/Tutorial/virtual-pi) | Coordinate fixed literature, simulation and review tasks with provenance. No production write or external system access. |
+| [waste-collection](https://github.com/axisvela/praxo-core/tree/main/language/julia/Tutorial/waste-collection) | Replan a fixed collection queue under vehicle limits. No production write or external system access. |
+| [wealth-analysis](https://github.com/axisvela/praxo-core/tree/main/language/julia/Tutorial/wealth-analysis) | Compute fixed statement ratios and cite assumptions. No production write or external system access. |
+
+Index: [language/julia/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/julia/Tutorial).
+
+### Reference Applications
+
+No accepted end-to-end reference application is recorded for this language yet. Candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
+
+Planning context: [Tutorial Plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/), [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), and [Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/). Chinese: [教程计划](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/), [候选场景](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/), [教程目录](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/).
 
 ## Community
 

@@ -198,14 +198,27 @@ See [language policy](../../docs/contributing/language-policy.md),
 [SETUP.md](SETUP.md), and
 [implementation support](../../docs/languages/support.md).
 
+
 ## Tutorials and Reference Applications
 
-- [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): delivery standards and the reference-application portfolio.
-- [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and related slices.
-- [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and application paths.
-- [Reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio) ([中文](https://axisvela.github.io/praxo-core/zh-CN/project/roadmap/)).
-- Language tutorials: [language/erlang/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/erlang/Tutorial).
-- Reference applications: [language/erlang/application](https://github.com/axisvela/praxo-core/tree/main/language/erlang/application).
+Language-specific scenario tutorials and reference applications for Erlang.
+
+### Scenario Tutorials
+
+| Tutorial | What it shows |
+| --- | --- |
+| [aiops-rca](https://github.com/axisvela/praxo-core/tree/main/language/erlang/Tutorial/aiops-rca) | A bounded first slice of [SE-06](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a production incident platform. It correlates fixed trace/metric/lo... |
+| [otp-recovery](https://github.com/axisvela/praxo-core/tree/main/language/erlang/Tutorial/otp-recovery) | A bounded OTP supervision tutorial. It starts a real `one_for_one` supervisor and worker, injects one child crash, observes the restarted PID and start count, then lets Core cho... |
+| [policy-simulation](https://github.com/axisvela/praxo-core/tree/main/language/erlang/Tutorial/policy-simulation) | A bounded concurrent simulation: twelve Erlang processes compute household subsidies for base and alternate policies, yielding 1200 and 1800. Core drafts a review-only sensitivi... |
+| [soc-correlation](https://github.com/axisvela/praxo-core/tree/main/language/erlang/Tutorial/soc-correlation) | Fixed EDR and firewall events are correlated; one critical event selects an isolation-review branch, while clean input selects monitoring review. No host is blocked and no live... |
+
+Index: [language/erlang/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/erlang/Tutorial).
+
+### Reference Applications
+
+No accepted end-to-end reference application is recorded for this language yet. Candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
+
+Planning context: [Tutorial Plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/), [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), and [Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/). Chinese: [教程计划](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/), [候选场景](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/), [教程目录](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/).
 
 ## Community
 

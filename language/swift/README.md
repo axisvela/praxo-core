@@ -179,13 +179,32 @@ Tag shape: `swift/v0.8.0`. The tag targets `SPEC_VERSION` `0.2.0`. SPM and
 Swift Package Index consumption require a split repository with root
 `Package.swift` and plain semver tags; see [PUBLISHING.md](PUBLISHING.md).
 
+
 ## Tutorials and Reference Applications
 
-- [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): delivery standards and the reference-application portfolio.
-- [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and related slices.
-- [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and application paths.
-- [Reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio) ([中文](https://axisvela.github.io/praxo-core/zh-CN/project/roadmap/)).
-- Language tutorials: [language/swift/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/swift/Tutorial).
+Language-specific scenario tutorials and reference applications for Swift.
+
+### Scenario Tutorials
+
+| Tutorial | What it shows |
+| --- | --- |
+| [audiobook-production](https://github.com/axisvela/praxo-core/tree/main/language/swift/Tutorial/audiobook-production) | A bounded tutorial slice over the native Swift Core. It reads one fixed fixture, enforces scope and drafts a review-only result. No production write or external system access. |
+| [cbt-exercise](https://github.com/axisvela/praxo-core/tree/main/language/swift/Tutorial/cbt-exercise) | A bounded tutorial slice over the native Swift Core. It reads one fixed fixture, enforces scope and drafts a review-only result. No production write or external system access. |
+| [chronic-care](https://github.com/axisvela/praxo-core/tree/main/language/swift/Tutorial/chronic-care) | A bounded first slice of HC-02, not a clinical decision system. It summarizes fixed wearable trends, routes a review-only care alert and records no dosage or treatment change. N... |
+| [digital-twin-memory](https://github.com/axisvela/praxo-core/tree/main/language/swift/Tutorial/digital-twin-memory) | A bounded tutorial slice over the native Swift Core. It reads one fixed fixture, enforces scope and drafts a review-only result. No production write or external system access. |
+| [dubbing-plan](https://github.com/axisvela/praxo-core/tree/main/language/swift/Tutorial/dubbing-plan) | A bounded tutorial slice over the native Swift Core. It reads one fixed fixture, enforces scope and drafts a review-only result. No production write or external system access. |
+| [meeting-coordination](https://github.com/axisvela/praxo-core/tree/main/language/swift/Tutorial/meeting-coordination) | A bounded tutorial slice over the native Swift Core. It reads one fixed fixture, enforces scope and drafts a review-only result. No production write or external system access. |
+| [onboarding-plan](https://github.com/axisvela/praxo-core/tree/main/language/swift/Tutorial/onboarding-plan) | A bounded tutorial slice over the native Swift Core. It reads one fixed fixture, enforces scope and drafts a review-only result. No production write or external system access. |
+| [sales-crm](https://github.com/axisvela/praxo-core/tree/main/language/swift/Tutorial/sales-crm) | A bounded tutorial slice over the native Swift Core. It reads one fixed fixture, enforces scope and drafts a review-only result. No production write or external system access. |
+| [travel-booking](https://github.com/axisvela/praxo-core/tree/main/language/swift/Tutorial/travel-booking) | A bounded tutorial slice over the native Swift Core. It reads one fixed fixture, enforces scope and drafts a review-only result. No production write or external system access. |
+
+Index: [language/swift/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/swift/Tutorial).
+
+### Reference Applications
+
+No accepted end-to-end reference application is recorded for this language yet. Candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
+
+Planning context: [Tutorial Plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/), [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), and [Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/). Chinese: [教程计划](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/), [候选场景](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/), [教程目录](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/).
 
 ## Community
 

@@ -216,13 +216,28 @@ Tag shape: `perl/v0.6.0`. The tag targets `SPEC_VERSION` `0.2.0`. CPAN
 publication uses `.github/workflows/perl-release.yml`; see
 [PUBLISHING.md](PUBLISHING.md).
 
+
 ## Tutorials and Reference Applications
 
-- [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): delivery standards and the reference-application portfolio.
-- [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and related slices.
-- [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and application paths.
-- [Reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio) ([中文](https://axisvela.github.io/praxo-core/zh-CN/project/roadmap/)).
-- Language tutorials: [language/perl/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/perl/Tutorial).
+Language-specific scenario tutorials and reference applications for Perl.
+
+### Scenario Tutorials
+
+| Tutorial | What it shows |
+| --- | --- |
+| [community-governance](https://github.com/axisvela/praxo-core/tree/main/language/perl/Tutorial/community-governance) | Fixed synthetic issues produce four classified items and a review-only reviewer request. No GitHub API, closure or impersonation. |
+| [compliance-tracking](https://github.com/axisvela/praxo-core/tree/main/language/perl/Tutorial/compliance-tracking) | Fixed policy versions yield two changed sections and a duplicate removal; Core drafts review-only remediation. No filing, audit conclusion or live source. |
+| [localization-draft](https://github.com/axisvela/praxo-core/tree/main/language/perl/Tutorial/localization-draft) | Fixed market rules produce a review-only localized text draft. No translation engine, CMS or publication. |
+| [log-triage](https://github.com/axisvela/praxo-core/tree/main/language/perl/Tutorial/log-triage) | A small operations tutorial using the native Perl Core. The Agent has one fixed tool, `summarize_log`, which reads the tutorial's own log fixture and returns severity counts. Th... |
+| [news-factcheck](https://github.com/axisvela/praxo-core/tree/main/language/perl/Tutorial/news-factcheck) | A bounded first slice of MD-02, not a truth-verification service. It compares fixed source excerpts for one synthetic article, cites a contradiction and drafts a review-only fac... |
+
+Index: [language/perl/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/perl/Tutorial).
+
+### Reference Applications
+
+No accepted end-to-end reference application is recorded for this language yet. Candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
+
+Planning context: [Tutorial Plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/), [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), and [Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/). Chinese: [教程计划](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/), [候选场景](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/), [教程目录](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/).
 
 ## Community
 

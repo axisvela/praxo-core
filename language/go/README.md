@@ -72,14 +72,33 @@ GOWORK=off go build ./...
 - [Specification](../../spec/README.md)
 - [Public roadmap](../../ROADMAP.md)
 
+
 ## Tutorials and Reference Applications
 
-- [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): delivery standards and the reference-application portfolio.
-- [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and related slices.
-- [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and application paths.
-- [Reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio) ([中文](https://axisvela.github.io/praxo-core/zh-CN/project/roadmap/)).
-- Language tutorials: [language/go/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial).
-- Reference applications: [language/go/application](https://github.com/axisvela/praxo-core/tree/main/language/go/application).
+Language-specific scenario tutorials and reference applications for Go.
+
+### Scenario Tutorials
+
+| Tutorial | What it shows |
+| --- | --- |
+| [customs-reroute](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/customs-reroute) | A scoped customs tutorial over the Go reference Core. It validates fixed document fields for one shipment, compares two routes and drafts a review-only reroute. The source and m... |
+| [emergency-route-plan](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/emergency-route-plan) | A scoped emergency-planning tutorial over the Go reference Core. It reads fixed road closures for one event through an application-owned `RoadSource`, drafts a review-only relie... |
+| [evidence-vault](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/evidence-vault) | A scoped security-operations tutorial over the Go reference Core. It reads one allowlisted evidence file from a local `vfs/localfs` backend confined to a vault root, then drafts... |
+| [fullstack-workspace](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/fullstack-workspace) | A scoped full-stack-planning tutorial over the Go reference Core. It reads a fixed allowlisted workspace, applies one bounded edit to `app.go` and inspects synthetic diagnostics... |
+| [incident-coordination](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/incident-coordination) | A scoped operations tutorial over the Go reference Core. It reads one fixed `incident-100` snapshot through an application-owned `IncidentSource` interface, drafts an operator u... |
+| [litigation-timeline](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/litigation-timeline) | A scoped litigation-support tutorial over the Go reference Core. It builds a cited timeline from fixed synthetic documents, flags one contradiction and drafts a review-only evid... |
+| [logistics-checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/logistics-checkpoint) | A scoped logistics tutorial over the Go reference Core that shows a two-run workflow across a checkpoint. The first run assesses a fixed `shipment-100` and saves a `checkpoint.C... |
+| [pentest-lab-review](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/pentest-lab-review) | A scoped penetration-testing tutorial over the Go reference Core. It inventories one fixed allowlisted loopback lab host through an application-owned `LabSource`, reports two se... |
+| [soc-alert-triage](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/soc-alert-triage) | A scoped security-operations tutorial over the Go reference Core. It reads one fixed `alert-100` snapshot through an application-owned `AlertSource`, redacts personal data with... |
+| [zero-trust-review](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/zero-trust-review) | A bounded first slice of [CY-05](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a live policy engine. It reads fixed access events for one tenant,... |
+
+Index: [language/go/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial).
+
+### Reference Applications
+
+No accepted end-to-end reference application is recorded for this language yet. Candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
+
+Planning context: [Tutorial Plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/), [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), and [Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/). Chinese: [教程计划](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/), [候选场景](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/), [教程目录](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/).
 
 ## Community
 

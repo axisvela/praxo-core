@@ -174,14 +174,39 @@ exactly-once delivery. Use HTTPS and filter sensitive event data first.
 Tag shape: `php/v0.9.0`. The tag targets `SPEC_VERSION` `0.2.0`. See
 [CHANGELOG.md](CHANGELOG.md) for per-release changes and compatibility notes.
 
+
 ## Tutorials and Reference Applications
 
-- [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): delivery standards and the reference-application portfolio.
-- [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and related slices.
-- [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and application paths.
-- [Reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio) ([中文](https://axisvela.github.io/praxo-core/zh-CN/project/roadmap/)).
-- Language tutorials: [language/php/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial).
-- Reference applications: [language/php/application](https://github.com/axisvela/praxo-core/tree/main/language/php/application).
+Language-specific scenario tutorials and reference applications for PHP.
+
+### Scenario Tutorials
+
+| Tutorial | What it shows |
+| --- | --- |
+| [api-orchestration](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/api-orchestration) | A bounded first slice of [SE-08](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a general integration platform. It reads two synthetic upstream API... |
+| [copyright-evidence](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/copyright-evidence) | A bounded first slice of [LJ-05](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a rights-enforcement service. It compares fixed authorized assets a... |
+| [customer-support](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/customer-support) | Routes one fixed ticket and drafts a review-only billing reply. No CRM send, refund or account change. |
+| [customs-reroute](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/customs-reroute) | A bounded first slice of [TL-05](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a customs-filing system. It validates fixed document fields, compar... |
+| [internal-service-desk](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/internal-service-desk) | A bounded first slice of [OP-01](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an identity or provisioning system. It reads a fixed employee reque... |
+| [lead-nurture](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/lead-nurture) | A bounded first slice of [CS-02](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an outreach-automation product. It ranks fixed synthetic business p... |
+| [localization-draft](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/localization-draft) | A bounded first slice of [CS-07](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a legal or tax compliance system. It compares fixed localization ru... |
+| [public-approval](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/public-approval) | A bounded first slice of [CT-03](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a government identity or approval system. It validates a fixed appl... |
+| [recruiting-match](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/recruiting-match) | Matches fixed candidates against one role and drafts a review-only shortlist. No outreach, ranking model or hiring decision. |
+| [retail-replenishment](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/retail-replenishment) | Computes a reorder quantity from fixed stock and drafts a review-only order. No purchase order or supplier call. |
+| [tender-review](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/tender-review) | A bounded first slice of [BE-04](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a bid-submission or collusion-detection system. It validates fixed... |
+
+Index: [language/php/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial).
+
+### Reference Applications
+
+| Application | What it shows |
+| --- | --- |
+| [ai-editorial-studio](https://github.com/axisvela/praxo-core/tree/main/language/php/application/ai-editorial-studio) | A Laravel 12 content-portal application where the agent drives the primary editorial workflow: an editor submits a brief, the agent retrieves related content, drafts an article... |
+| [content-review](https://github.com/axisvela/praxo-core/tree/main/language/php/application/content-review) | A Laravel 12 content portal that routes one existing draft article through a governed PRAXO-CORE agent. The agent reads the article through an application-owned content store, d... |
+
+Index: [language/php/application](https://github.com/axisvela/praxo-core/tree/main/language/php/application).
+
+Planning context: [Tutorial Plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/), [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), and [Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/). Chinese: [教程计划](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/), [候选场景](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/), [教程目录](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/).
 
 ## Community
 

@@ -319,13 +319,25 @@ See [language policy](../../docs/contributing/language-policy.md),
 [parity inventory](../../spec/parity/matlab.md), and
 [implementation support](../../docs/languages/support.md).
 
+
 ## Tutorials and Reference Applications
 
-- [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): delivery standards and the reference-application portfolio.
-- [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and related slices.
-- [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and application paths.
-- [Reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio) ([中文](https://axisvela.github.io/praxo-core/zh-CN/project/roadmap/)).
-- Language tutorials: [language/matlab/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/matlab/Tutorial).
+Language-specific scenario tutorials and reference applications for MATLAB.
+
+### Scenario Tutorials
+
+| Tutorial | What it shows |
+| --- | --- |
+| [data-quality](https://github.com/axisvela/praxo-core/tree/main/language/matlab/Tutorial/data-quality) | A bounded data-quality tutorial. It computes fixed mean/median/outlier statistics, then lets Core choose normal or outlier review. No source data is modified. |
+| [signal-trends](https://github.com/axisvela/praxo-core/tree/main/language/matlab/Tutorial/signal-trends) | A native MATLAB/Octave signal-analysis tutorial. The Agent has one fixed tool, `review_signal`, which computes metrics over a fixed signal and returns a structured report with a... |
+
+Index: [language/matlab/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/matlab/Tutorial).
+
+### Reference Applications
+
+No accepted end-to-end reference application is recorded for this language yet. Candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
+
+Planning context: [Tutorial Plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/), [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), and [Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/). Chinese: [教程计划](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/), [候选场景](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/), [教程目录](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/).
 
 ## Community
 

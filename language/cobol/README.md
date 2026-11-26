@@ -375,14 +375,27 @@ It covers echo, permission denial, a successful call after denial, and cleanup
 of a null host pointer. The C objects are isolated under `build/plugin-process`
 and do not replace the independently built Win64 C Core library.
 
+
 ## Tutorials and Reference Applications
 
-- [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): delivery standards and the reference-application portfolio.
-- [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and related slices.
-- [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and application paths.
-- [Reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio) ([中文](https://axisvela.github.io/praxo-core/zh-CN/project/roadmap/)).
-- Language tutorials: [language/cobol/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/cobol/Tutorial).
-- Reference applications: [language/cobol/application](https://github.com/axisvela/praxo-core/tree/main/language/cobol/application).
+Language-specific scenario tutorials and reference applications for COBOL.
+
+### Scenario Tutorials
+
+| Tutorial | What it shows |
+| --- | --- |
+| [batch-exception-review](https://github.com/axisvela/praxo-core/tree/main/language/cobol/Tutorial/batch-exception-review) | This tutorial reuses the existing [`language/cobol/examples/batch-exception-review`](https://github.com/axisvela/praxo-core/tree/main/language/cobol/examples/batch-exception-rev... |
+| [budget-review](https://github.com/axisvela/praxo-core/tree/main/language/cobol/Tutorial/budget-review) | Flags fixed budget variances and milestone mismatches. No audit conclusion or official determination. |
+| [legacy-migration](https://github.com/axisvela/praxo-core/tree/main/language/cobol/Tutorial/legacy-migration) | Inventories three fixed modules and reports activation and batch counts. No code conversion or production migration. |
+| [medical-coding](https://github.com/axisvela/praxo-core/tree/main/language/cobol/Tutorial/medical-coding) | Checks three fixed records for completeness and drafts review-only codes. No reimbursement optimization, billing submission or clinical decision. |
+
+Index: [language/cobol/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/cobol/Tutorial).
+
+### Reference Applications
+
+No accepted end-to-end reference application is recorded for this language yet. Candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
+
+Planning context: [Tutorial Plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/), [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), and [Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/). Chinese: [教程计划](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/), [候选场景](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/), [教程目录](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/).
 
 ## Community
 

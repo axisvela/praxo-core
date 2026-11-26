@@ -43,8 +43,12 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 - [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): delivery standards and the [reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
 - [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and their existing related slices.
 - [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and reference-application paths.
-- [Scenario tutorials](https://github.com/axisvela/praxo-core/tree/main/language/cobol/Tutorial): scenario-oriented tutorials.
-- [Reference applications](https://github.com/axisvela/praxo-core/tree/main/language/cobol/application): AI-native reference applications.
+- Scenario tutorials:
+  - [batch-exception-review](https://github.com/axisvela/praxo-core/tree/main/language/cobol/Tutorial/batch-exception-review): This tutorial reuses the existing [`language/cobol/examples/batch-exception-review`](https://github.com/axisvela/praxo-core/tree/main/language/cobol/examples/batch-exception-rev...
+  - [budget-review](https://github.com/axisvela/praxo-core/tree/main/language/cobol/Tutorial/budget-review): Flags fixed budget variances and milestone mismatches. No audit conclusion or official determination.
+  - [legacy-migration](https://github.com/axisvela/praxo-core/tree/main/language/cobol/Tutorial/legacy-migration): Inventories three fixed modules and reports activation and batch counts. No code conversion or production migration.
+  - [medical-coding](https://github.com/axisvela/praxo-core/tree/main/language/cobol/Tutorial/medical-coding): Checks three fixed records for completeness and drafts review-only codes. No reimbursement optimization, billing submission or clinical decision.
+- Reference applications: no accepted end-to-end application yet; candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
 - [llms.txt](llms.txt): compact machine-readable entry for this language.
 - [llms.md](llms.md): Markdown version of the same entry.
 - [Coding-agent contract](../../docs/getting-started/coding-agents.md): explicit

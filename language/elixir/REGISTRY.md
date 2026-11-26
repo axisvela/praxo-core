@@ -43,8 +43,12 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 - [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): delivery standards and the [reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
 - [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and their existing related slices.
 - [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and reference-application paths.
-- [Scenario tutorials](https://github.com/axisvela/praxo-core/tree/main/language/elixir/Tutorial): scenario-oriented tutorials.
-- [Reference applications](https://github.com/axisvela/praxo-core/tree/main/language/elixir/application): AI-native reference applications.
+- Scenario tutorials:
+  - [aiops-rca](https://github.com/axisvela/praxo-core/tree/main/language/elixir/Tutorial/aiops-rca): Fixed trace/metric/log signals yield suspect `checkout-api` and a review-only rollback. No live telemetry or remediation.
+  - [community-governance](https://github.com/axisvela/praxo-core/tree/main/language/elixir/Tutorial/community-governance): Fixed issues produce four classified items and a review-only reviewer request. No GitHub API, closure or impersonation.
+  - [knowledge-maintenance](https://github.com/axisvela/praxo-core/tree/main/language/elixir/Tutorial/knowledge-maintenance): A bounded first slice of [OP-03](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an autonomous Wiki service. It diffs two fixed knowledge versions,...
+  - [soc-correlation](https://github.com/axisvela/praxo-core/tree/main/language/elixir/Tutorial/soc-correlation): Fixed EDR/firewall events produce a critical count; one critical event selects an isolation review, clean input selects monitoring. No host blocking.
+- Reference applications: no accepted end-to-end application yet; candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
 - [llms.txt](llms.txt): compact machine-readable entry for this language.
 - [llms.md](llms.md): Markdown version of the same entry.
 - [Coding-agent contract](../../docs/getting-started/coding-agents.md): explicit

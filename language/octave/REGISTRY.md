@@ -43,7 +43,11 @@ Native Octave Core for the PRAXO-CORE agent framework. This is the independent O
 - [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): delivery standards and the [reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
 - [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and their existing related slices.
 - [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and reference-application paths.
-- [Scenario tutorials](https://github.com/axisvela/praxo-core/tree/main/language/octave/Tutorial): scenario-oriented tutorials.
+- Scenario tutorials:
+  - [signal-trends](https://github.com/axisvela/praxo-core/tree/main/language/octave/Tutorial/signal-trends): See the tutorial README.
+  - [vibration-review](https://github.com/axisvela/praxo-core/tree/main/language/octave/Tutorial/vibration-review): A bounded vibration-analysis tutorial. It computes FFT/RMS for normal and anomalous signals, derives a high-frequency energy ratio, and lets Core choose normal or inspection rev...
+  - [water-quality](https://github.com/axisvela/praxo-core/tree/main/language/octave/Tutorial/water-quality): A bounded pond water-quality tutorial. It computes fixed dissolved-oxygen and temperature indicators, compares oxygen with a threshold, and lets Core choose a normal or aeration...
+- Reference applications: no accepted end-to-end application yet; candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
 - [llms.txt](llms.txt): compact machine-readable entry for this language.
 - [llms.md](llms.md): Markdown version of the same entry.
 - [Coding-agent contract](../../docs/getting-started/coding-agents.md): explicit

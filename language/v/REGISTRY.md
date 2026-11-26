@@ -43,7 +43,10 @@ V is a native Core implementation with source tag `v/v0.8.0`. It passes all elev
 - [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): delivery standards and the [reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
 - [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and their existing related slices.
 - [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and reference-application paths.
-- [Scenario tutorials](https://github.com/axisvela/praxo-core/tree/main/language/v/Tutorial): scenario-oriented tutorials.
+- Scenario tutorials:
+  - [production-scheduling](https://github.com/axisvela/praxo-core/tree/main/language/v/Tutorial/production-scheduling): A bounded first slice of [IN-02](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an APS/MES integration. It reads a fixed job queue, computes a dete...
+  - [release-preflight](https://github.com/axisvela/praxo-core/tree/main/language/v/Tutorial/release-preflight): A local release-planning tutorial in native V. It reads `app.json` from a bounded temporary directory, validates required fields, semantic-version shape and the entry allowlist,...
+- Reference applications: no accepted end-to-end application yet; candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
 - [llms.txt](llms.txt): compact machine-readable entry for this language.
 - [llms.md](llms.md): Markdown version of the same entry.
 - [Coding-agent contract](../../docs/getting-started/coding-agents.md): explicit

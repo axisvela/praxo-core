@@ -185,13 +185,29 @@ exactly-once delivery. Use HTTPS and filter sensitive event data first.
 Tag shape: `lua/v0.8.0`. The tag targets `SPEC_VERSION` `0.2.0`. See
 [CHANGELOG.md](CHANGELOG.md) for per-release changes and compatibility notes.
 
+
 ## Tutorials and Reference Applications
 
-- [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): delivery standards and the reference-application portfolio.
-- [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and related slices.
-- [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and application paths.
-- [Reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio) ([中文](https://axisvela.github.io/praxo-core/zh-CN/project/roadmap/)).
-- Language tutorials: [language/lua/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial).
+Language-specific scenario tutorials and reference applications for Lua.
+
+### Scenario Tutorials
+
+| Tutorial | What it shows |
+| --- | --- |
+| [aquaculture-water](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/aquaculture-water) | A bounded first slice of AE-03, not a pond-control system. It computes fixed oxygen and temperature indicators and drafts a review-only bounded action. No aerator or feeder comm... |
+| [host-embedding](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/host-embedding) | A native Lua Core tutorial for embedding an Agent inside an existing host. The host receives a device event, exposes two fixed callbacks, and receives a review-only report. It d... |
+| [irrigation-plan](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/irrigation-plan) | A bounded first slice of IN-06, not an irrigation controller. It evaluates fixed soil/weather observations and drafts a review-only bounded irrigation request. No valve command,... |
+| [live-show](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/live-show) | A bounded first slice of MD-07, not a live-stream controller. It replays fixed synthetic engagement events and drafts a review-only presentation order. No audience profiling, co... |
+| [storyboard-previs](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/storyboard-previs) | A bounded first slice of MD-01, not a virtual-production pipeline. It reads one fixed script scene, drafts a review-only shot plan and records zero renders and zero engine calls... |
+| [world-economy](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/world-economy) | A bounded first slice of MD-03, not an open-world simulation engine. It reads a fixed synthetic world economy at one tick and drafts a review-only balance with no applied change... |
+
+Index: [language/lua/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial).
+
+### Reference Applications
+
+No accepted end-to-end reference application is recorded for this language yet. Candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
+
+Planning context: [Tutorial Plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/), [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), and [Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/). Chinese: [教程计划](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/), [候选场景](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/), [教程目录](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/).
 
 ## Community
 

@@ -218,14 +218,31 @@ cooperative cancel, and typed call errors.
 Tag shape: `ruby/v0.9.0`. The tag targets `SPEC_VERSION` `0.2.0`. See
 [CHANGELOG.md](CHANGELOG.md) for per-release changes and compatibility notes.
 
+
 ## Tutorials and Reference Applications
 
-- [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): delivery standards and the reference-application portfolio.
-- [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and related slices.
-- [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and application paths.
-- [Reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio) ([中文](https://axisvela.github.io/praxo-core/zh-CN/project/roadmap/)).
-- Language tutorials: [language/ruby/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial).
-- Reference applications: [language/ruby/application](https://github.com/axisvela/praxo-core/tree/main/language/ruby/application).
+Language-specific scenario tutorials and reference applications for Ruby.
+
+### Scenario Tutorials
+
+| Tutorial | What it shows |
+| --- | --- |
+| [community-governance](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/community-governance) | A bounded first slice of [OG-04](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a maintainer bot. It classifies fixed synthetic issues and drafts a... |
+| [due-diligence](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/due-diligence) | A bounded first slice of [LJ-03](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an acquisition opinion. It reconciles fixed ownership, contract and... |
+| [finops-review](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/finops-review) | A bounded first slice of [SE-07](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not autonomous multi-cloud governance. This uses the native Ruby Core i... |
+| [lead-nurture](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/lead-nurture) | A bounded first slice of [CS-02](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an outreach-automation product. It ranks fixed synthetic business p... |
+| [recruiting-match](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/recruiting-match) | A bounded first slice of [OP-05](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an automated hiring system. It matches fixed synthetic candidates a... |
+| [retail-replenishment](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/retail-replenishment) | Fixed stock, daily sales and lead-time data produce a reorder quantity (22) and a review-only purchase order. No live pricing, supplier order or inventory write. |
+| [supply-chain-review](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/supply-chain-review) | A bounded first slice of [CY-07](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a malware-detection system. It compares one fixed pinned manifest w... |
+| [supply-disruption](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/supply-disruption) | A fixed supplier network with a port closure yields an alternative supplier (`supplier-2`) and a review-only sourcing plan. No purchase order, supplier contact or live logistics... |
+
+Index: [language/ruby/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial).
+
+### Reference Applications
+
+No accepted end-to-end reference application is recorded for this language yet. Candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
+
+Planning context: [Tutorial Plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/), [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), and [Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/). Chinese: [教程计划](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/), [候选场景](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/), [教程目录](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/).
 
 ## Community
 

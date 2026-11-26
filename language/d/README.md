@@ -189,13 +189,28 @@ asynchronous manager or durable worker is required.
 
 Tag shape: `d/v0.8.0`. The tag targets `SPEC_VERSION` `0.2.0`.
 
+
 ## Tutorials and Reference Applications
 
-- [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): delivery standards and the reference-application portfolio.
-- [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and related slices.
-- [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and application paths.
-- [Reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio) ([中文](https://axisvela.github.io/praxo-core/zh-CN/project/roadmap/)).
-- Language tutorials: [language/d/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial).
+Language-specific scenario tutorials and reference applications for D.
+
+### Scenario Tutorials
+
+| Tutorial | What it shows |
+| --- | --- |
+| [data-pipeline](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/data-pipeline) | Diagnose a bounded data-import batch before allowing a human to review it. Native D parses unquoted two-column CSV records, calculates valid totals and reports line-specific err... |
+| [executive-brief](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/executive-brief) | A bounded first slice of [OP-07](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an autonomous BI platform. It computes fixed business-line variance... |
+| [fleet-map](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/fleet-map) | A bounded first slice of TL-06, not a remote-assistance or map-deployment system. It replays fixed synthetic road-topology changes and drafts a review-only map patch. No vehicle... |
+| [property-forecast](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/property-forecast) | A bounded first slice of BE-05, not a valuation or investment-advice system. It computes fixed site metrics in native D, shows the forecast assumptions and drafts a review-only... |
+| [quant-risk](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/quant-risk) | A bounded first slice of [FC-02](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a trading or execution system. It reads fixed portfolio/market data... |
+
+Index: [language/d/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial).
+
+### Reference Applications
+
+No accepted end-to-end reference application is recorded for this language yet. Candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
+
+Planning context: [Tutorial Plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/), [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), and [Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/). Chinese: [教程计划](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/), [候选场景](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/), [教程目录](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/).
 
 ## Community
 

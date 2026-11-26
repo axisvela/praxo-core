@@ -198,15 +198,46 @@ with no runtime dependencies. Model and tool calls run on virtual threads with
 The runner reads `../../spec/vectors/*.json`. A released Core implementation must pass every vector
 and keep `spec/parity.md` current.
 
+
 ## Tutorials and Reference Applications
 
-- [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): delivery standards and the reference-application portfolio.
-- [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and related slices.
-- [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and application paths.
-- [Reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio) ([中文](https://axisvela.github.io/praxo-core/zh-CN/project/roadmap/)).
-- Language tutorials: [language/java/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial).
-- Reference applications: [language/java/application](https://github.com/axisvela/praxo-core/tree/main/language/java/application).
+Language-specific scenario tutorials and reference applications for Java.
 
+### Scenario Tutorials
+
+| Tutorial | What it shows |
+| --- | --- |
+| [airport-recovery](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/airport-recovery) | A bounded tutorial slice over the native Java Core. It reads one fixed fixture, enforces scope and drafts a review-only result. No production write or external system access. |
+| [api-orchestration](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/api-orchestration) | A bounded tutorial slice over the native Java Core. It reads one fixed fixture, enforces scope and drafts a review-only result. No production write or external system access. |
+| [architecture-graph](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/architecture-graph) | A bounded tutorial slice over the native Java Core. It reads one fixed fixture, enforces scope and drafts a review-only result. No production write or external system access. |
+| [budget-review](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/budget-review) | A bounded tutorial slice over the native Java Core. It reads one fixed fixture, enforces scope and drafts a review-only result. No production write or external system access. |
+| [clinical-guidelines](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/clinical-guidelines) | A bounded tutorial slice over the native Java Core. It reads one fixed fixture, enforces scope and drafts a review-only result. No production write or external system access. |
+| [container-yard](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/container-yard) | A bounded tutorial slice over the native Java Core. It reads one fixed fixture, enforces scope and drafts a review-only result. No production write or external system access. |
+| [credit-diligence](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/credit-diligence) | A bounded tutorial slice over the native Java Core. It reads one fixed fixture, enforces scope and drafts a review-only result. No production write or external system access. |
+| [customs-reroute](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/customs-reroute) | A bounded tutorial slice over the native Java Core. It reads one fixed fixture, enforces scope and drafts a review-only result. No production write or external system access. |
+| [due-diligence](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/due-diligence) | A bounded tutorial slice over the native Java Core. It reads one fixed fixture, enforces scope and drafts a review-only result. No production write or external system access. |
+| [legacy-migration](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/legacy-migration) | A bounded tutorial slice over the native Java Core. It reads one fixed fixture, enforces scope and drafts a review-only result. No production write or external system access. |
+| [medical-coding](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/medical-coding) | A bounded tutorial slice over the native Java Core. It reads one fixed fixture, enforces scope and drafts a review-only result. No production write or external system access. |
+| [order-review](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/order-review) | This tutorial embeds the native Java Core in a loopback HTTP application. It uses the same synthetic business service as Python and TypeScript, not a shared remote Agent. The in... |
+| [patent-fto](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/patent-fto) | A bounded tutorial slice over the native Java Core. It reads one fixed fixture, enforces scope and drafts a review-only result. No production write or external system access. |
+| [precedent-outline](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/precedent-outline) | A bounded tutorial slice over the native Java Core. It reads one fixed fixture, enforces scope and drafts a review-only result. No production write or external system access. |
+| [public-approval](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/public-approval) | A bounded tutorial slice over the native Java Core. It reads one fixed fixture, enforces scope and drafts a review-only result. No production write or external system access. |
+| [rpa-reconciliation](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/rpa-reconciliation) | A bounded tutorial slice over the native Java Core. It reads one fixed fixture, enforces scope and drafts a review-only result. No production write or external system access. |
+| [supply-disruption](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/supply-disruption) | A bounded tutorial slice over the native Java Core. It reads one fixed fixture, enforces scope and drafts a review-only result. No production write or external system access. |
+| [tax-review](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/tax-review) | A bounded tutorial slice over the native Java Core. It reads one fixed fixture, enforces scope and drafts a review-only result. No production write or external system access. |
+| [tender-review](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/tender-review) | A bounded tutorial slice over the native Java Core. It reads one fixed fixture, enforces scope and drafts a review-only result. No production write or external system access. |
+| [test-generation](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/test-generation) | A bounded tutorial slice over the native Java Core. It reads one fixed fixture, enforces scope and drafts a review-only result. No production write or external system access. |
+| [trial-screening](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/trial-screening) | A bounded tutorial slice over the native Java Core. It reads one fixed fixture, enforces scope and drafts a review-only result. No production write or external system access. |
+| [wealth-service](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/wealth-service) | A native Java Core tutorial for a review-only wealth workflow. The Agent has two fixed tools: `read_portfolio` reads synthetic account `acct-100`, and `draft_rebalance` produces... |
+| [zero-trust-review](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/zero-trust-review) | A bounded tutorial slice over the native Java Core. It reads one fixed fixture, enforces scope and drafts a review-only result. No production write or external system access. |
+
+Index: [language/java/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial).
+
+### Reference Applications
+
+No accepted end-to-end reference application is recorded for this language yet. Candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
+
+Planning context: [Tutorial Plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/), [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), and [Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/). Chinese: [教程计划](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/), [候选场景](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/), [教程目录](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/).
 
 ## Community
 

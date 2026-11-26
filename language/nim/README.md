@@ -234,13 +234,28 @@ See [PUBLISHING.md](PUBLISHING.md) for the Nimble release flow, and
 [parity inventory](../../spec/parity/nim.md), and
 [implementation support](../../docs/languages/support.md).
 
+
 ## Tutorials and Reference Applications
 
-- [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): delivery standards and the reference-application portfolio.
-- [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and related slices.
-- [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and application paths.
-- [Reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio) ([中文](https://axisvela.github.io/praxo-core/zh-CN/project/roadmap/)).
-- Language tutorials: [language/nim/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/nim/Tutorial).
+Language-specific scenario tutorials and reference applications for Nim.
+
+### Scenario Tutorials
+
+| Tutorial | What it shows |
+| --- | --- |
+| [cold-chain](https://github.com/axisvela/praxo-core/tree/main/language/nim/Tutorial/cold-chain) | Computes fixed temperature excursions and drafts a review-only transfer. No refrigeration change or clinical cargo guarantee. |
+| [irrigation-plan](https://github.com/axisvela/praxo-core/tree/main/language/nim/Tutorial/irrigation-plan) | Reads fixed soil and weather observations and drafts a bounded irrigation request. No valve, drone or actuator operation. |
+| [leak-localization](https://github.com/axisvela/praxo-core/tree/main/language/nim/Tutorial/leak-localization) | Ranks fixed pressure anomalies and drafts a review-only inspection. No valve isolation or field dispatch. |
+| [livestock-monitor](https://github.com/axisvela/praxo-core/tree/main/language/nim/Tutorial/livestock-monitor) | Summarizes fixed animal observations and drafts a review request. No veterinary diagnosis, isolation or feeding control. |
+| [maintenance-triage](https://github.com/axisvela/praxo-core/tree/main/language/nim/Tutorial/maintenance-triage) | A bounded first slice of [IN-01](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a predictive-maintenance model. It reads fixed sensor telemetry for... |
+
+Index: [language/nim/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/nim/Tutorial).
+
+### Reference Applications
+
+No accepted end-to-end reference application is recorded for this language yet. Candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
+
+Planning context: [Tutorial Plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/), [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), and [Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/). Chinese: [教程计划](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/), [候选场景](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/), [教程目录](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/).
 
 ## Community
 

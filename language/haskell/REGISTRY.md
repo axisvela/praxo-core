@@ -43,7 +43,12 @@ PRAXO-CORE is an embeddable, MIT-licensed AI agent framework. This package is it
 - [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): delivery standards and the [reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
 - [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and their existing related slices.
 - [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and reference-application paths.
-- [Scenario tutorials](https://github.com/axisvela/praxo-core/tree/main/language/haskell/Tutorial): scenario-oriented tutorials.
+- Scenario tutorials:
+  - [literature-review](https://github.com/axisvela/praxo-core/tree/main/language/haskell/Tutorial/literature-review): A bounded first slice of [SC-01](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not autonomous scientific discovery. It searches a fixed synthetic pape...
+  - [policy-simulation](https://github.com/axisvela/praxo-core/tree/main/language/haskell/Tutorial/policy-simulation): A bounded first slice of OG-02, not a policy-prediction engine. It simulates a small fixed synthetic population and drafts a review-only sensitivity report using the source Hask...
+  - [rule-dsl](https://github.com/axisvela/praxo-core/tree/main/language/haskell/Tutorial/rule-dsl): A bounded business-rule validation tutorial. It parses a small access-rule DSL into a typed Haskell structure, detects allow/deny conflicts and returns a counterexample. Core co...
+  - [test-generation](https://github.com/axisvela/praxo-core/tree/main/language/haskell/Tutorial/test-generation): A bounded first slice of SE-04, not a test-execution or load-testing service. It generates three bounded tests for a fixed local fixture and records zero executions. No load tar...
+- Reference applications: no accepted end-to-end application yet; candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
 - [llms.txt](llms.txt): compact machine-readable entry for this language.
 - [llms.md](llms.md): Markdown version of the same entry.
 - [Coding-agent contract](../../docs/getting-started/coding-agents.md): explicit
