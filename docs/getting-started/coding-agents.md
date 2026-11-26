@@ -10,16 +10,16 @@ language and run the verification commands.
 | Language | Package | Current recommended version | Starter |
 | --- | --- | --- | --- |
 | Go | `github.com/axisvela/praxo-core/v2` | `2.11.0` | [Go consumer](consumer-go.md) |
-| Python | `praxo-core` | `0.10.0` | [Python consumer](consumer-python.md) |
-| TypeScript | `@axisvela/praxo-core` | `0.9.0` | [TypeScript consumer](consumer-typescript.md) |
-| Java | `com.axisvela:praxo-core` | `0.11.0` | [Java consumer](consumer-java.md) |
-| Ruby | `praxo-core` | `0.9.2` | [Ruby starter](https://github.com/axisvela/praxo-core/tree/main/language/ruby/examples/consumer) |
-| PHP | `axisvela/praxo-core` | `0.8.1` | [PHP starter](https://github.com/axisvela/praxo-core/tree/main/language/php/examples/consumer) |
-| Elixir | `praxo_core` | `0.10.0` | [Elixir starter](https://github.com/axisvela/praxo-core/tree/main/language/elixir/examples/consumer) |
-| Lua | `praxo-core` | `0.8.1-1` | [Lua starter](https://github.com/axisvela/praxo-core/tree/main/language/lua/examples/consumer) |
-| C# | `Praxo.Core` | `0.10.0` | [C# starter](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/consumer) |
-| Rust | `praxo-core` | `0.10.0` | [Rust starter](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples/consumer) |
-| R | `praxocore` | `0.10.1` | [R starter](https://github.com/axisvela/praxo-core/tree/main/language/r/examples/consumer) |
+| Python | `praxo-core` | `0.11.0` | [Python consumer](consumer-python.md) |
+| TypeScript | `@axisvela/praxo-core` | `0.10.0` | [TypeScript consumer](consumer-typescript.md) |
+| Java | `com.axisvela:praxo-core` | `0.12.0` | [Java consumer](consumer-java.md) |
+| Ruby | `praxo-core` | `0.10.0` | [Ruby starter](https://github.com/axisvela/praxo-core/tree/main/language/ruby/examples/consumer) |
+| PHP | `axisvela/praxo-core` | `0.10.0` | [PHP starter](https://github.com/axisvela/praxo-core/tree/main/language/php/examples/consumer) |
+| Elixir | `praxo_core` | `0.11.0` | [Elixir starter](https://github.com/axisvela/praxo-core/tree/main/language/elixir/examples/consumer) |
+| Lua | `praxo-core` | `0.9.0-1` | [Lua starter](https://github.com/axisvela/praxo-core/tree/main/language/lua/examples/consumer) |
+| C# | `Praxo.Core` | `0.11.0` | [C# starter](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/consumer) |
+| Rust | `praxo-core` | `0.11.0` | [Rust starter](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples/consumer) |
+| R | `praxocore` | `0.12.0` | [R starter](https://github.com/axisvela/praxo-core/tree/main/language/r/examples/consumer) |
 
 The machine-readable map is
 [`agent-integration.json`](agent-integration.json). CI checks this table against

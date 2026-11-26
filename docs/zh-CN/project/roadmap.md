@@ -5,7 +5,7 @@
 保证。Ruby SE-07 FinOps 切片本地源码测试及 `dfdfd558` 教程 CI 通过，无云写入或真实
 模型验证。
 
-当前核心版本为 `2.10.0`。
+当前核心版本为 `2.11.0`。
 
 本路线图按开发者成果组织：判断是否适用、跑出有用结果、完成真实原型、嵌入应用，
 最后再加固具体集成。它不是交付排期、产品路线图，也不表示所有语言实现都支持每项能力。
@@ -103,7 +103,7 @@ PRAXO-CORE 继续定位为**可治理、可嵌入的 Agent 执行框架**。路�
 | 阶段 | 开发者成果 | 当前状态 | 下一项成果 |
 | --- | --- | --- | --- |
 | 0. 判断 | 知道 Core 是否适合，以及该选择哪种语言和路径 | 已有概览、对比、非目标说明，以及“阅读导览”中唯一一张任务到路径表；首页与概览均链接到该表。语言入口按今天能构建什么分组 | 在外部引导中使用该表并记录断点；保持语言入口与 Registry 状态一致 |
-| 1. 运行 | 安装发布包、连接模型、注册一个工具并得到有用结果 | 已有发布包确定性 Starter 和真实模型示例；五分钟完成尚未经过独立计时。注册表状态单独记录在语言支持页面。live-model 指南已覆盖端点、模型 ID、凭据、超时、Tool Schema 和平台排错。Go、Python、TypeScript、C# 与 Rust 已记录本地 Ollama 工具调用（C# 与 Rust 通过构建后的二进制），但没有托管端点记录；本地 Java JVM 仍受阻 | 分别记录独立确定性嵌入和真实端点完成情况；托管端点见 [#31](https://github.com/axisvela/praxo-core/issues/31)，独立计时见 [#30](https://github.com/axisvela/praxo-core/issues/30) |
+| 1. 运行 | 安装发布包、连接模型、注册一个工具并得到有用结果 | 已有发布包确定性 Starter 和真实模型示例；五分钟完成尚未经过独立计时。注册表状态单独记录在语言支持页面。live-model 指南已覆盖端点、模型 ID、凭据、超时、Tool Schema 和平台排错。Go、Python、TypeScript、C# 与 Rust 已记录本地 Ollama 工具调用（C# 与 Rust 通过构建后的二进制），但此 starter 路径尚无托管验证记录；另有七个参考应用的托管真实模型运行，不是 starter 路径验收。本地 Java JVM 仍受阻 | 分别记录独立确定性嵌入和真实端点完成情况；starter 托管端点见 [#31](https://github.com/axisvela/praxo-core/issues/31)，独立计时见 [#30](https://github.com/axisvela/praxo-core/issues/30) |
 | 2. 原型 | 完成一个包含工具、Streaming、结构化输出、MCP、Workspace 或 Telemetry 的连贯本地应用 | 十三个主题在三十一种语言中有源码入口，目录已按任务分组；第一轮源码深度审计已区分 Core 引用、机制检查和传输中立 Handler，但不证明实际执行。端到端原型教程现包括 Go Workspace Agent 和 Python 结构化输出应用；其他示例多为集成检查 | 将源码深度审计转为消费者选定路径的运行记录；外部验证见 [#32](https://github.com/axisvela/praxo-core/issues/32) |
 | 3. 嵌入 | 将 Core 接入现有服务，由应用管理身份、策略、持久化、事件和退出 | 已有厂商中立的 Go/Python/TypeScript/C# 服务和认证身份/策略服务；Go、Python、TypeScript、C#、Ruby、PHP 与 Rust 支持带 provider discovery 的 OIDC/JWKS；Java 示例已在 Linux CI 通过，本地 Windows JVM 仍受阻；31 个已声明实现中有 30 个提供源码级 RFC 7662 introspection 与 RFC 7009 撤销，其中 29 个本地运行验证（28 个原生运行时 + Octave 覆盖 MATLAB/Octave 共享模块），原生 MATLAB 未验证，COBOL 仅记录边界；另有 Python 可选外部策略决策服务、已验证身份与持久 Checkpoint 变体、分档清单，以及连接消息历史、allowlist Store 和操作状态的 Checkpoint 续跑指南 | 将 OIDC/外部身份模式扩展到更多 SDK，为消费者选定的语言补齐 registry 发布，单独记录原生 MATLAB，并为真实消费者验证 Checkpoint Store |
 | 4. 加固 | 让具体集成可升级、可失败、可取消、可恢复 | 已有负向、升级、隔离和恢复资产；Go 记忆角色修复已在 `2.9.0` 发布，重试风险测试有本地确定性覆盖。源码审计未发现其他 SDK Agent 主路径或 Bridge `run`/`event stream` 路径的自动召回。消费者测试模板已加入两轮记忆信任、未知效果重试/对账检查和各语言起点；已对 10 个仓库自维护 fixture 中的 9 个完成运行，本地 Java 超时，这些都不是外部消费者 | 把模板应用到外部消费者；仓库 fixture 不能替代。见 [#32](https://github.com/axisvela/praxo-core/issues/32) |
@@ -445,7 +445,7 @@ Action API。
 
 1. **P0：交付生态原生参考应用。** 按下表顺序，从 PHP 原生业务应用开始，证明既有宿主与
    运行时集成，而不是再写一套通用 Agent Loop。先交付一条连贯路径，再扩展下一项；
-   以下是拟建设应用，不是已完成示例，也不是同时启动全部项目的承诺。
+   以下是已有源码实现的验收目标，不是已完成宿主集成，也不是同时交付全部项目的承诺。
 2. **P0：与消费者验证参考路径。** 从发布包安装/运行/拒绝，推进到真实 Provider 工具调用与
    应用集成，记录耗时、失败、作者协助与独立复现。第三方持续使用、经同意可核验的非作者
    生产应用分别作为后续里程碑，不当作当前事实，也不阻塞基础示例发布。
@@ -537,7 +537,12 @@ AI-native 两个版本；其他语言直接实现 AI-native 流程，不再先�
 2026-11-25 使用托管 DeepSeek `deepseek-flash` 完成一次真实运行：`model=live`，trace 为
 `search_content` -> `draft_article` -> `suggest_taxonomy` -> `request_publish_review`，
 生成模型理由（最近一次 858 字符），`publications_executed=0`。运行使用自定义 cURL transport 处理
-本地代理/CA；没有独立复现或生产部署。应用 CI 为独立的 `ci-applications` workflow，按 application 路径过滤；作业已添加但尚未运行。
+本地代理/CA；没有独立复现或生产部署。应用 CI 为独立的 `ci-applications` workflow，按 application 路径过滤。
+两个 PHP 作业于 2026-11-25 在
+[45655799714](https://github.com/axisvela/praxo-core/actions/runs/45655799714)、
+`92ba764c` 通过；该运行因 C++ 配置失败而整体失败，其他应用作业被跳过。
+后续 [45720963270](https://github.com/axisvela/praxo-core/actions/runs/45720963270)、
+`f8242fb3` 仅通过 C++ 静态库构建，PHP 与其他应用作业均被跳过。两次运行均不是整个组合验收。
 
 优先级 2 已有 Spring Boot AI 电商源码：
 [`language/java/application`](https://github.com/axisvela/praxo-core/tree/main/language/java/application)。
@@ -572,13 +577,15 @@ diagnosis/rationale，`executions=0`。Go CI 已添加但尚未运行。
 
 优先级 5 已有 Rust AI 边缘网关 Agent：
 [`language/rust/application`](https://github.com/axisvela/praxo-core/tree/main/language/rust/application)。
-本地测试 6/6 通过，使用应用自有 `GatewayAdapter`，记录模型选择的工具与 `agent_trace`。
+使用本地 Rust Core 源码 path 依赖，不是 registry 安装；本地测试 6/6 通过，
+使用应用自有 `GatewayAdapter`，记录模型选择的工具与 `agent_trace`。
 2026-11-25 使用托管 DeepSeek `deepseek-flash` 完成真实运行：`model=live`，
 `read_gateway` -> `draft_action`，模型生成 diagnosis/rationale，`executions=0`；live 路径
 使用应用自有 `curl` transport，绕过本地 `ring`/TLS 构建阻塞。C++ 对应实现位于
 [`language/cpp/application`](https://github.com/axisvela/praxo-core/tree/main/language/cpp/application)，
 为静态库/源码集成，使用应用自有 `GatewayAdapter` 和 trace 代码；由于 SEP 拦截可执行文件，
-本仓库不生成 exe，也未记录 C++ 运行时或真实模型证据。优先级 6 已在
+本仓库不生成 exe，也未记录 C++ 运行时或真实模型证据。其静态库构建在 `45655799714`
+配置失败后，于 `45720963270`、`f8242fb3` 通过；这不是运行时验收。优先级 6 已在
 [`language/cobol/application`](https://github.com/axisvela/praxo-core/tree/main/language/cobol/application)
 实现：原生 `praxo-run` 批处理异常分析通过五项确定性检查及批处理文件检查；私密记录、直接
 过账和租户不匹配均被拒绝，且不提交可执行文件。COBOL 未捆绑 HTTP/TLS transport，因此没有
@@ -590,7 +597,8 @@ diagnosis/rationale，`executions=0`。Go CI 已添加但尚未运行。
 [`language/ruby/application`](https://github.com/axisvela/praxo-core/tree/main/language/ruby/application)
 实现：Rails 8 商务宿主通过五项确定性检查，托管 DeepSeek `deepseek-flash` 真实运行记录
 `model=live`、模型选择工具、只读订单草案和零支付/退款效果。参考应用组合的八项优先级均已
-有源码实现。其他语言直接实现 AI-native 应用。
+有源码实现，不等于完整宿主集成验收。Java 仍未验证，C++ 仅有构建证据；Go 的 module replace
+与 Rust 的 path 依赖不证明发布包安装。其他语言以直接实现 AI-native 应用为目标。
 
 确定性 harness 测试不是真实模型推理证据。PHP、Elixir、Erlang、Go、Rust、Julia、Ruby
 已有真实模型运行记录；Java、C++、COBOL 还没有。AI-native 验证声明需要模型 ID、模型选择的工具、生成内容、策略边界、
@@ -610,7 +618,8 @@ Core 如何利用现有软件生态与运行时，以比简单工作流或外部
 （独立计时）、[#31](https://github.com/axisvela/praxo-core/issues/31)（托管端点）、
 [#32](https://github.com/axisvela/praxo-core/issues/32)（外部消费者路径）和
 [#33](https://github.com/axisvela/praxo-core/issues/33)（Registry 安装）。关闭内部
-文档缺口不等于关闭外部证据缺口。
+文档缺口不等于关闭外部证据缺口。上述七个托管参考应用运行不关闭 #31 单独跟踪的
+发布包 starter 托管端点验证。
 
 ## 采用证据
 

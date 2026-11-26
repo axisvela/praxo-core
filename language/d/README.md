@@ -26,7 +26,7 @@ parsing.
 - Provider credentials, authentication, retries, and durable state remain
   application-owned.
 - The DUB package is `0.8.0` and matches source `0.8.0`; source features are in
-  the split package. Use the source tree for the newer tag.
+  the split package.
 - Go remains the reference implementation; full Go feature parity is not
   claimed.
 
@@ -54,7 +54,7 @@ reference implementation.
 ## Install
 
 ```bash
-dub add praxo-core
+dub add praxo-core@0.8.0
 ```
 
 ## Scope

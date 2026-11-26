@@ -1,6 +1,6 @@
 # AI-Native 参考应用设计
 
-**状态：** 设计已采纳，2026-11-25。PHP v1 harness 已在
+**状态：** 设计于 2026-11-25 采纳，证据于 2026-11-26 审核。源码实现不等于完整宿主集成验收。PHP v1 harness 已在
 `language/php/application/ai-editorial-studio` 本地实现；同级 `content-review`
 应用仍是宿主集成前驱。Java v1 源码已添加到 `language/java/application`，使用 Spring Boot
 和已发布 Core 0.11.0，但本地 Windows JVM 阻塞，因此 Java 尚未本地编译或测试。
@@ -9,9 +9,9 @@ Elixir v1 harness 已在 `language/elixir/application` 本地实现：监督树�
 diagnosis/rationale 与 `agent_trace`。本地 Hex 安装遇到 unknown-CA 失败，因此 CI
 使用已发布包且已添加但未运行。Erlang v1 已在 `language/erlang/application` 实现：源码模式
 6/6 通过（含监督进程重启），真实运行记录模型 diagnosis/rationale 与 `agent_trace`。
-Go v1 已在 `language/go/application` 实现：HTTP/CLI 宿主，8/8 测试通过，真实运行记录
+Go v1 已在 `language/go/application` 实现：HTTP/CLI 宿主，使用本地 module replace 而非 registry 安装；8/8 测试通过，真实运行记录
 模型选择的工具、diagnosis/rationale 与 `agent_trace`。Rust v1 已在
-`language/rust/application` 实现：边缘 CLI 与 `GatewayAdapter`，6/6 测试通过，托管
+`language/rust/application` 实现：边缘 CLI 与 `GatewayAdapter`，使用本地 Core path 依赖而非 registry 安装；6/6 测试通过，托管
 DeepSeek 真实运行通过应用自有 `curl` transport 记录 `model=live`、模型选择工具、只读草案和
 `executions=0`。C++ v1 已在 `language/cpp/application` 实现为源码/静态库集成；由于 SEP
 拦截可执行产物，本仓库不生成 exe，live transport 仅为源码，未记录 C++ 运行或真实模型证据。
@@ -24,7 +24,15 @@ Ruby v1 已在 `language/ruby/application` 实现：Rails 8 宿主通过五项�
 DeepSeek `deepseek-flash` 真实运行记录 `model=live`、模型选择工具、只读订单草案和零支付/
 退款效果。PHP、Elixir、Erlang、Go、Rust、Julia、Ruby 已使用托管 DeepSeek
 `deepseek-flash` 记录真实模型推理运行；Java/C++/COBOL 真实推理、SDK CI、Drupal、支付和
-独立消费者路径仍未关闭。其他语言直接实现 AI-native 流程。
+独立消费者路径仍未关闭。其他语言以直接实现 AI-native 流程为目标。
+
+两个 PHP 应用作业于 2026-11-25 在
+[45655799714](https://github.com/axisvela/praxo-core/actions/runs/45655799714)、
+`92ba764c` 通过；该运行因 C++ 配置失败而整体失败，其他应用作业被跳过。
+后续 [45720963270](https://github.com/axisvela/praxo-core/actions/runs/45720963270)、
+`f8242fb3` 仅通过 C++ 静态库构建，其他应用作业全部跳过。Java 仍未验证，C++ 无运行时/真实模型证据。
+这些是逐作业结果，不是 SDK 全面 CI 或整个组合验收。七个托管参考应用运行不验证 #31
+单独跟踪的发布包 starter 托管端点路径。
 
 ## 目的
 
@@ -240,7 +248,7 @@ Java 仍仅有源码且未本地编译，没有真实模型运行。确定性 ha
   `language/php/application/content-review/`。
 - AI-native PHP v1 位于 `language/php/application/ai-editorial-studio/`，
   不替换也不改标前驱。
-- 两个 PHP 应用都使用已发布 Core 包并有确定性本地测试；CI 已添加但未运行。
+- 两个 PHP 应用都使用已发布 Core 包并有确定性本地测试；两个 PHP CI 作业已在 `45655799714`、`92ba764c` 通过。
 - 订单/结算工作移到 Java 电商参考应用。
 - 其他语言直接实现 AI-native 流程，不先做传统应用前驱。
 - 教程仍是教程；参考应用位于 `language/<language>/application/`。

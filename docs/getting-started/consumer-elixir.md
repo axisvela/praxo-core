@@ -1,6 +1,6 @@
 # Independent Elixir Consumer
 
-Use published Hex `praxo_core` `0.10.0` in your own application with Elixir 1.14
+Use published Hex `praxo_core` `0.11.0` in your own application with Elixir 1.14
 or newer. No PRAXO-CORE source checkout, API key, model service, or AxisVela
 product is required. Installation needs Hex access or a cached package.
 
@@ -21,7 +21,7 @@ Declare the exact dependency in `mix.exs`:
 ```elixir
 defp deps do
   [
-    {:praxo_core, "~> 0.10.0"}
+    {:praxo_core, "~> 0.11.0"}
   ]
 end
 ```
@@ -44,6 +44,9 @@ Use the following as `test_starter.exs`, rendered from the
 <!-- elixir-consumer-source: test_starter.exs -->
 
 ## Verify
+
+This is the recommended package pin, not new execution evidence. The consumer
+has not been rerun against this release as part of the pin update.
 
 ```sh
 mix deps.get

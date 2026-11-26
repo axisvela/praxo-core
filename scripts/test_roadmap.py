@@ -1,3 +1,4 @@
+import json
 import re
 import unittest
 from pathlib import Path
@@ -127,8 +128,9 @@ class RoadmapTests(unittest.TestCase):
     def test_presentation_releases_match_registry_status(self):
         matrix = (ROOT / "spec/languages.md").read_text(encoding="utf-8")
         registry = (ROOT / "docs/languages/registry-status.md").read_text(encoding="utf-8")
-        for language, version in (("Ruby", "0.9.2"), ("PowerShell", "0.8.1"),
-                                  ("Perl", "0.7.1"), ("Lua", "0.8.1-1")):
+        metadata = json.loads((ROOT / "language/registry-metadata.json").read_text(encoding="utf-8"))
+        for language in ("Ruby", "PowerShell", "Perl", "Lua"):
+            version = metadata[language]["published_version"]
             with self.subTest(language=language):
                 row = next(line for line in matrix.splitlines() if line.startswith(f"| {language} |"))
                 registry_name = "PowerShell Core" if language == "PowerShell" else language

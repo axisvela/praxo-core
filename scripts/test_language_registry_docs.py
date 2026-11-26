@@ -1,8 +1,11 @@
 import importlib.util
+import io
 import json
 import re
 import unittest
 from pathlib import Path
+from tempfile import TemporaryDirectory
+from unittest.mock import patch
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -26,6 +29,123 @@ NON_REGISTRY = SAMPLE_ONLY | {"go"}
 
 
 class LanguageRegistryDocsTests(unittest.TestCase):
+    def test_audited_published_versions(self):
+        expected = {
+            "Go": "v2.11.0", "Python": "0.11.0", "TypeScript": "0.10.0",
+            "Java": "0.12.0", "Rust": "0.11.0", "C#": "0.11.0",
+            "R": "0.12.0", "Ruby": "0.10.0", "PHP": "0.10.0",
+            "Dart": "0.8.0", "Elixir": "0.11.0", "Erlang": "0.10.0",
+            "Lua": "0.9.0-1", "Perl": "0.8.0", "Haskell": "0.9.0",
+            "D": "0.8.0", "Swift": "0.7.2", "MATLAB": "0.9.1",
+            "GNU Octave": "0.7.0", "Delphi / Free Pascal": "0.7.0",
+        }
+        for entry in SYNC.LANGUAGES:
+            if entry["name"] not in expected:
+                continue
+            with self.subTest(language=entry["name"]):
+                self.assertTrue(SYNC.published_available(entry))
+                self.assertEqual(entry["published_version"], expected[entry["name"]])
+        matlab = next(entry for entry in SYNC.LANGUAGES if entry["name"] == "MATLAB")
+        self.assertEqual(matlab["source_version"], "0.9.0")
+
+    def test_publication_requires_positive_evidence(self):
+        entry = {"status": "published", "published_version": "0.1.0", "url": "https://example.com/package"}
+        self.assertTrue(SYNC.published_available(entry))
+        for change in (
+            {"published_version": ""}, {"url": ""}, {"status": "prepared"},
+            {"status": "pending registry merge"}, {"status": "not published"},
+            {"status": "source-only"}, {"status": "shared implementation"},
+            {"status": "published; source-only"},
+        ):
+            with self.subTest(change=change):
+                self.assertFalse(SYNC.published_available(entry | change))
+                self.assertEqual(SYNC.published_install_label(entry | change), "not published")
+                self.assertEqual(SYNC.published_version_label(entry | change), "not published")
+
+    def test_unpublished_entries_have_no_published_claim(self):
+        for entry in SYNC.LANGUAGES:
+            if SYNC.published_available(entry):
+                continue
+            with self.subTest(language=entry["name"]):
+                self.assertEqual(entry["published_version"], "")
+                self.assertEqual(entry["install"], "")
+                self.assertTrue(entry["source_install"])
+                directory = ROOT / entry["dir"]
+                registry = SYNC.render_registry(entry, directory)
+                self.assertIn("| Published registry version | not published |", registry)
+                self.assertIn("| Install (published) | not published |", registry)
+                for markdown in (False, True):
+                    text = SYNC.render_llms(entry, directory, markdown)
+                    self.assertIn("- published_version: not published", text)
+                    self.assertIn("- install_published: not published", text)
+                if entry["tier"] != "Shared":
+                    row = next(row for row in SYNC.root_language_rows() if row[0] == entry["name"])
+                    self.assertEqual(row[3], "not published")
+
+    def test_pending_entries_use_checkout_paths(self):
+        for name in ("OCaml", "Julia", "V"):
+            entry = next(entry for entry in SYNC.LANGUAGES if entry["name"] == name)
+            with self.subTest(language=name):
+                self.assertIn("pending", entry["status"])
+                self.assertIn(entry["dir"], entry["source_install"])
+                self.assertFalse(SYNC.published_available(entry))
+        ocaml = next(entry for entry in SYNC.LANGUAGES if entry["name"] == "OCaml")
+        self.assertIn("replacement submission pending", ocaml["status"])
+
+    def test_readme_install_commands_match_current_registry(self):
+        for entry in SYNC.LANGUAGES:
+            if not SYNC.published_available(entry) or entry["name"] in {
+                "Go", "PowerShell", "MATLAB", "Delphi / Free Pascal",
+            }:
+                continue
+            with self.subTest(language=entry["name"]):
+                text = (ROOT / entry["dir"] / "README.md").read_text(encoding="utf-8")
+                self.assertIn(entry["install"], text)
+                for command in re.findall(r"```[^\n]*\n(.*?)```", text, re.DOTALL):
+                    for line in command.splitlines():
+                        prefix = " ".join(entry["install"].split()[:2]) + " "
+                        if line.startswith(prefix) and entry["package"] in line:
+                            self.assertIn(entry["install"], line)
+
+    def test_release_archive_installation_is_not_index_publication(self):
+        octave = next(entry for entry in SYNC.LANGUAGES if entry["name"] == "GNU Octave")
+        self.assertEqual(octave["install"], "pkg install " + octave["url"])
+        self.assertNotIn("-forge", octave["install"])
+        delphi = next(entry for entry in SYNC.LANGUAGES if entry["name"] == "Delphi / Free Pascal")
+        self.assertIn("GitHub", delphi["registry"])
+        self.assertIn("OPM listing unverified", delphi["status"])
+        self.assertIn(delphi["url"], delphi["install"])
+
+    def test_corrected_example_links(self):
+        rust = (ROOT / "language/rust/README.md").read_text(encoding="utf-8")
+        self.assertNotIn("language/go/examples", rust)
+        self.assertNotIn("## Runnable Examples", rust)
+        typescript = (ROOT / "language/typescript/README.md").read_text(encoding="utf-8")
+        self.assertNotIn("https://github.com/axisvela/praxo-core/tree/main/examples", typescript)
+
+    def test_check_rejects_stale_manifest(self):
+        with TemporaryDirectory() as temporary:
+            manifest = Path(temporary) / "registry-metadata.json"
+            manifest.write_text("{}", encoding="utf-8")
+            with (
+                patch.object(SYNC, "MANIFEST", manifest),
+                patch.object(SYNC, "ROOT", Path(temporary)),
+                patch.object(SYNC, "LANGUAGES", []),
+                patch.object(SYNC, "manifest_data", return_value={"expected": {}}),
+                patch("sys.argv", ["sync_language_registry_docs.py", "--check"]),
+                patch("sys.stdout", new_callable=io.StringIO) as output,
+            ):
+                self.assertEqual(SYNC.main(), 1)
+                self.assertIn("stale registry metadata", output.getvalue())
+            manifest.write_text('{"expected": {}}', encoding="utf-8")
+            with (
+                patch.object(SYNC, "MANIFEST", manifest),
+                patch.object(SYNC, "LANGUAGES", []),
+                patch.object(SYNC, "manifest_data", return_value={"expected": {}}),
+                patch("sys.argv", ["sync_language_registry_docs.py", "--check"]),
+            ):
+                self.assertEqual(SYNC.main(), 0)
+
     def test_every_registry_directory_is_indexed(self):
         language_dirs = sorted(
             path.name

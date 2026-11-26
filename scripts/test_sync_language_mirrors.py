@@ -1,8 +1,11 @@
+import fnmatch
+import re
 import tempfile
 import unittest
 from pathlib import Path
 
 import sync_language_mirrors as sync
+from mirror_readme import _published
 
 
 class MirrorSyncTests(unittest.TestCase):
@@ -106,6 +109,114 @@ class MirrorSyncTests(unittest.TestCase):
         self.assertIn("language/go/examples/consumer-go", readme)
         self.assertIn("language/go/examples/live-model", readme)
         self.assertIn("language/go/Tutorial", readme)
+        self.assertNotIn("](examples)", readme)
+        self.assertNotIn("Complete AI-native reference applications", readme)
+        self.assertIn("Canonical source tag", readme)
+        self.assertIn(f"https://github.com/axisvela/praxo-core/tree/{entry['tag']}", readme)
+        self.assertIn("not necessarily present in this mirror", readme)
+        self.assertIn("does not publish mirror tags or registry packages", readme)
+
+    def test_readme_resolves_intro_and_catalog_links_at_original_sources(self):
+        entry = {entry["key"]: entry for entry in sync.mirror_entries()}["dart"]
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            sources = {
+                "language/dart/README.md": (
+                    "# Dart\n\nSee [contract](../../spec/README.md).\n\n"
+                    "- Publishing setup: [PUBLISHING.md](PUBLISHING.md)\n"
+                    "- [Site](https://example.com) and [mail](mailto:hello@example.com)\n"
+                    "## Usage\n"
+                ),
+                "language/dart/examples/demo/README.md": (
+                    "# Demo\n\nSee [setup](../../SETUP.md#build) and "
+                    "[source](main.dart).\n"
+                ),
+                "language/dart/Tutorial/README.md": (
+                    "# Tutorials\n\nSee [ecosystem](../ecosystem/README.md).\n"
+                ),
+                "language/dart/application/demo/README.md": (
+                    "# Application\n\nSee [plan](../README.md) and [scope](#scope). "
+                    + "Implementation in progress. " * 10 + "\n"
+                ),
+            }
+            for relative, text in sources.items():
+                path = root / relative
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text(text, encoding="utf-8")
+            readme = sync.mirror_readme(entry, has_examples=True, root=root)
+            base = "https://github.com/axisvela/praxo-core/blob/main/"
+            for target in (
+                "spec/README.md", "language/dart/PUBLISHING.md",
+                "language/dart/SETUP.md#build", "language/dart/examples/demo/main.dart",
+                "language/dart/ecosystem/README.md", "language/dart/application/README.md",
+                "language/dart/application/demo/README.md#scope",
+            ):
+                self.assertIn(f"]({base}{target})", readme)
+            self.assertIn("](https://example.com)", readme)
+            self.assertIn("](mailto:hello@example.com)", readme)
+            self.assertIn("See each README for implementation scope and validation status.", readme)
+
+    def test_go_catalog_links_resolve_to_canonical_ecosystem(self):
+        entry = {entry["key"]: entry for entry in sync.mirror_entries()}["go"]
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            path = root / "language/go/Tutorial/README.md"
+            path.parent.mkdir(parents=True)
+            path.write_text("# Tutorials\n\nSee [ecosystem](../ecosystem/README.md).\n", encoding="utf-8")
+            readme = sync.mirror_readme(entry, root=root)
+            self.assertIn(
+                "](https://github.com/axisvela/praxo-core/blob/main/language/go/ecosystem/README.md)",
+                readme,
+            )
+
+    def test_publication_requires_version_and_not_just_pending_registry(self):
+        cases = [
+            ("", "published", False),
+            ("  ", "published", False),
+            ("1.0.0", "source-only", False),
+            ("1.0.0", "shared implementation", False),
+            ("1.0.0", "pending registry merge", False),
+            ("1.0.0", "split repository; registry crawler pending", False),
+            ("1.0.0", "published; next upload pending", True),
+            ("1.0.0", "release tarball published; package index PR pending", True),
+        ]
+        for version, status, expected in cases:
+            with self.subTest(version=version, status=status):
+                self.assertEqual(_published({"published_version": version, "status": status}), expected)
+
+    def test_unavailable_package_readme_does_not_claim_source_only(self):
+        entry = {entry["key"]: entry for entry in sync.mirror_entries()}["dart"]
+        for version, status in (("", "published"), ("1.0.0", "pending registry merge")):
+            with self.subTest(version=version, status=status):
+                readme = sync.mirror_readme(dict(entry, published_version=version, status=status))
+                self.assertIn("| Published version | not published |", readme)
+                self.assertNotIn("Install the published package:", readme)
+                self.assertIn("No published package is available.", readme)
+
+    def test_pending_registry_archive_readme_uses_download_not_registry_install(self):
+        entry = {entry["key"]: entry for entry in sync.mirror_entries()}["octave"]
+        entry = dict(entry, published_version="1.0.0", install="pkg install -forge praxo-core",
+                     status="release tarball published; package index PR pending",
+                     url="https://github.com/axisvela/praxo-core/releases/download/octave/v1.0.0/core.tar.gz")
+        readme = sync.mirror_readme(entry)
+        self.assertIn("| Archive version | `1.0.0` |", readme)
+        self.assertIn("| Download | [Release assets]", readme)
+        self.assertIn("The registry listing is still pending", readme)
+        self.assertNotIn("Install the published package:", readme)
+        self.assertNotIn("pkg install -forge praxo-core", readme)
+
+    def test_workflow_triggers_cover_all_mirror_inputs(self):
+        workflow = (sync.ROOT / ".github/workflows/language-mirrors.yml").read_text(encoding="utf-8")
+        for event in ("push", "pull_request"):
+            block = re.split(r"\n  \w", workflow.split(f"  {event}:\n", 1)[1], maxsplit=1)[0]
+            patterns = [line.strip()[3:-1] for line in block.splitlines() if line.strip().startswith('- "')]
+            for entry in sync.mirror_entries():
+                inputs = [f"{source}/probe" for source in entry["source_dirs"]]
+                inputs.extend(entry.get("source_files", []))
+                inputs.extend([entry["readme_source"], "spec/SPEC_VERSION", "LICENSE"])
+                for source in inputs:
+                    with self.subTest(event=event, source=source):
+                        self.assertTrue(any(fnmatch.fnmatchcase(source, pattern) for pattern in patterns))
 
     def test_build_mirror_copies_sources_and_ignores_artifacts(self):
         entry = {entry["key"]: entry for entry in sync.mirror_entries()}["python"]

@@ -30,16 +30,32 @@ def main():
 
     subprocess.run([compiler, "-g", "-c", "-o", build_path("praxo_core.cmi"),
                     "src/praxo_core.mli"], cwd=ROOT, check=True)
+    modules = [
+        "praxo_types", "praxo_json", "praxo_toolcall", "praxo_schema",
+        "praxo_manifest", "praxo_message", "praxo_provider_util",
+        "praxo_openai", "praxo_anthropic", "praxo_gemini", "praxo_plugin",
+        "praxo_runtime", "praxo_middleware", "praxo_agent", "praxo_seams",
+    ]
+    for module in modules:
+        subprocess.run([compiler, "-g", "-c", "-I", str(build), "-o",
+                        build_path(module + ".cmo"), f"src/{module}.ml"],
+                       cwd=ROOT, check=True)
     subprocess.run([compiler, "-g", "-c", "-I", str(build), "-o", build_path("praxo_core.cmo"),
                     "src/praxo_core.ml"], cwd=ROOT, check=True)
+    subprocess.run([compiler, "-g", "-a", "-o", build_path("praxo_core.cma"), "-I", str(build)] +
+                   [build_path(module + ".cmo") for module in modules] +
+                   [build_path("praxo_core.cmo")],
+                   cwd=ROOT, check=True)
     subprocess.run([compiler, "-g", "-c", "-I", str(build), "-o",
                     build_path("praxo_adapter_tests.cmo"),
                     "tests/praxo_adapter_tests.ml"], cwd=ROOT, check=True)
-    subprocess.run([compiler, "-g", "-c", "-I", str(build), "-o", build_path("praxo_tests.cmo"),
+    subprocess.run([compiler, "-g", "-c", "-I", str(build), "-o",
+                    build_path("praxo_tests.cmo"),
                     "tests/praxo_tests.ml"], cwd=ROOT, check=True)
     executable = build / ("praxo_tests.exe" if os.name == "nt" else "praxo_tests")
     subprocess.run([compiler, "-g", "-o", str(executable), "-I", str(build),
-                    "unix.cma", build_path("praxo_core.cmo"),
+                    "unix.cma"] + [build_path(module + ".cmo") for module in modules] +
+                   [build_path("praxo_core.cmo"),
                     build_path("praxo_adapter_tests.cmo"), build_path("praxo_tests.cmo")],
                    cwd=ROOT, check=True)
     subprocess.run([runtime, str(executable), str(ROOT.parents[1] / "spec")],

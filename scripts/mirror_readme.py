@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import re
 from pathlib import Path
+from urllib.parse import urljoin
 
 ROOT = Path(__file__).resolve().parents[1]
 ORGANIZATION = "axisvela"
@@ -32,43 +33,17 @@ GO_CAPABILITIES = (
     ("Conformance", "native", "Shared spec vectors and checked-in API snapshots"),
 )
 METADATA_BULLET_PREFIXES = (
-    "`spec_version`",
-    "core version",
-    "tier:",
-    "license:",
-    "dependencies:",
-    "package:",
-    "registry:",
-    "published",
-    "source version",
-    "source tag",
-    "implementation type:",
-    "package version:",
-    "toolchain:",
-    "local gate:",
-    "supported `spec_version`",
-    "the latest source tag",
-    "the latest nuget package",
-    "the latest hex package",
-    "the hex package",
-    "linux and windows ci",
+    "`spec_version`", "core version", "tier:", "license:", "dependencies:",
+    "package:", "registry:", "published", "source version", "source tag",
+    "implementation type:", "package version:", "toolchain:", "local gate:",
+    "supported `spec_version`", "the latest source tag", "the latest nuget package",
+    "the latest hex package", "the hex package", "linux and windows ci",
 )
 INSTALL_FENCES = {
-    "python": "bash",
-    "typescript": "bash",
-    "rust": "bash",
-    "csharp": "bash",
-    "powershell": "powershell",
-    "r": "r",
-    "elixir": "elixir",
-    "erlang": "erlang",
-    "perl": "bash",
-    "haskell": "bash",
-    "dart": "bash",
-    "octave": "bash",
-    "go": "bash",
-    "java": "text",
-    "matlab": "text",
+    "python": "bash", "typescript": "bash", "rust": "bash", "csharp": "bash",
+    "powershell": "powershell", "r": "r", "elixir": "elixir", "erlang": "erlang",
+    "perl": "bash", "haskell": "bash", "dart": "bash", "octave": "bash", "go": "bash",
+    "java": "text", "matlab": "text",
 }
 
 
@@ -141,24 +116,16 @@ def _first_code_block(text: str) -> str:
     return match.group(0) if match else ""
 
 
-def _rewrite_links(text: str, key: str) -> str:
-    replacements = (
-        ("](../../spec/", "](spec/"),
-        ("](../../docs/", f"](https://github.com/{ORGANIZATION}/praxo-core/blob/main/docs/"),
-        ("](../../", f"](https://github.com/{ORGANIZATION}/praxo-core/blob/main/"),
-        ("](language/go/examples/", f"](language/{key}/language/go/examples/"),
-        ("](api/", f"](language/{key}/api/"),
-        ("](REGISTRY.md)", f"](language/{key}/REGISTRY.md)"),
-        ("](README.md)", f"](language/{key}/README.md)"),
-        ("](CHANGELOG.md)", f"](language/{key}/CHANGELOG.md)"),
-        ("](SETUP.md)", f"](language/{key}/SETUP.md)"),
+def _rewrite_links(text: str, source: str) -> str:
+    base = f"https://github.com/{ORGANIZATION}/praxo-core/blob/main/{source}"
+    return re.sub(
+        r"(\]\(<?)([^\s)>]+)(>?[^)]*\))",
+        lambda match: match[1] + urljoin(base, match[2]) + match[3],
+        text,
     )
-    for old, new in replacements:
-        text = text.replace(old, new)
-    return text
 
 
-def _example_description(path: Path) -> str:
+def _example_description(path: Path, root: Path) -> str:
     paragraphs: list[str] = []
     for line in _read(path / "README.md").splitlines():
         if line.startswith("# "):
@@ -172,9 +139,9 @@ def _example_description(path: Path) -> str:
             continue
         paragraphs.append(stripped)
     description = " ".join(paragraphs).strip()
-    if len(description) > 180:
+    if len(description) > 180 and "](" not in description:
         description = description[:177].rstrip() + "..."
-    return description
+    return _rewrite_links(description, (path / "README.md").relative_to(root).as_posix())
 
 
 def _example_entries(root: Path, entry: dict) -> list[tuple[str, str, str]]:
@@ -199,7 +166,7 @@ def _example_entries(root: Path, entry: dict) -> list[tuple[str, str, str]]:
                 if explicit
                 else Path(source, "examples", path.name).as_posix()
             )
-            entries.append((path.name, relative, _example_description(path)))
+            entries.append((path.name, relative, _example_description(path, root)))
     return entries
 
 
@@ -214,7 +181,7 @@ def _catalog_entries(root: Path, entry: dict, folder: str) -> list[tuple[str, st
         entries.append((
             folder,
             f"{base}/{folder}",
-            _example_description(directory),
+            _example_description(directory, root),
         ))
     for path in sorted(directory.iterdir(), key=lambda item: item.name.lower()):
         if not path.is_dir() or not (path / "README.md").is_file():
@@ -222,7 +189,7 @@ def _catalog_entries(root: Path, entry: dict, folder: str) -> list[tuple[str, st
         entries.append((
             path.name,
             f"{base}/{folder}/{path.name}",
-            _example_description(path),
+            _example_description(path, root),
         ))
     return entries
 
@@ -260,9 +227,11 @@ def _spec_version(root: Path) -> str:
 
 
 def _published(entry: dict) -> bool:
-    return not (
-        "source-only" in entry.get("status", "")
-        or "shared implementation" in entry.get("status", "")
+    status = entry.get("status", "").lower()
+    return bool(entry.get("published_version", "").strip()) and not (
+        "source-only" in status
+        or "shared implementation" in status
+        or ("pending" in status and "published" not in status)
     )
 
 
@@ -292,9 +261,7 @@ def _community() -> str:
 def mirror_readme(entry: dict, has_examples: bool = False, root: Path = ROOT) -> str:
     key = entry["key"]
     is_go = key == "go"
-    readme_source = entry.get("readme_source") or str(
-        Path(entry["dir"]) / "README.md"
-    )
+    readme_source = entry.get("readme_source") or f"{entry['dir']}/README.md"
     source_readme = _read(root / readme_source)
     positioning, bullets = _intro(source_readme)
     bullets = _feature_bullets(bullets)
@@ -310,7 +277,8 @@ def mirror_readme(entry: dict, has_examples: bool = False, root: Path = ROOT) ->
             "and tool calling. It runs in-process and does not require a hosted "
             "service."
         )
-    positioning = _rewrite_links(positioning, key)
+    positioning = _rewrite_links(positioning, readme_source)
+    bullets = [_rewrite_links(bullet, readme_source) for bullet in bullets]
     capabilities = GO_CAPABILITIES if is_go else _capabilities(root, entry)
     if not bullets:
         bullets = [
@@ -337,111 +305,87 @@ def mirror_readme(entry: dict, has_examples: bool = False, root: Path = ROOT) ->
     )
     examples = _example_entries(root, entry) if has_examples else []
     published = _published(entry)
+    archive_only = published and "pending" in entry.get("status", "").lower() and (
+        "/releases/" in entry.get("url", "")
+    )
     registry = entry["registry"]
     if entry.get("url"):
         registry = f"[{registry}]({entry['url']})"
-    install_label = "Install" if published else "Build"
+    install_label = "Download" if archive_only else "Install" if published else "Build"
     install_value = (
-        f"`{entry['install']}`"
+        f"[Release assets]({entry['url']})" if archive_only else f"`{entry['install']}`"
         if published
         else entry.get("source_install", entry["install"])
     )
 
     lines = [
-        f"# PRAXO-CORE for {entry['name']}",
-        "",
-        positioning,
-        "",
-        "## At a glance",
-        "",
-        "| Field | Value |",
-        "| --- | --- |",
+        f"# PRAXO-CORE for {entry['name']}", "", positioning,
+        "", "## At a glance", "",
+        "| Field | Value |", "| --- | --- |",
         f"| Package | `{entry['package']}` |",
         f"| Registry | {registry} |",
         f"| {install_label} | {install_value} |",
         f"| Source version | `{entry['source_version']}` |",
-        f"| Published version | `{entry['published_version']}` |"
+        f"| {'Archive version' if archive_only else 'Published version'} | `{entry['published_version']}` |"
         if published
         else "| Published version | not published |",
     ]
+    if entry.get("status"):
+        lines.append(f"| Publication status | {_cell(entry['status'])} |")
     if entry.get("tag"):
-        lines.append(f"| Source tag | `{entry['tag']}` |")
+        lines.append(
+            f"| Canonical source tag | [`{entry['tag']}`]"
+            f"(https://github.com/{ORGANIZATION}/praxo-core/tree/{entry['tag']}) |"
+        )
     if entry.get("tier"):
         lines.append(f"| Tier | {entry['tier']} |")
-    lines.extend(
-        [
-            f"| Contract | `SPEC_VERSION` `{_spec_version(root)}` |",
-            f"| Documentation | {entry['docs']} |",
-            "| License | MIT |",
-            "",
-            "## Highlights",
-            "",
-            *bullets,
-            "",
-            "## Quick start",
-            "",
-        ]
-    )
-    if published:
-        lines.extend(
-            [
-                "Install the published package:",
-                "",
-                f"```{INSTALL_FENCES.get(key, 'text')}",
-                entry["install"],
-                "```",
-            ]
+    lines.extend([
+        f"| Contract | `SPEC_VERSION` `{_spec_version(root)}` |",
+        f"| Documentation | {entry['docs']} |",
+        "| License | MIT |",
+        "", "## Highlights", "", *bullets,
+        "", "## Quick start", "",
+    ])
+    if archive_only:
+        lines.append(
+            f"Download the [published release assets]({entry['url']}). "
+            "The registry listing is still pending; do not assume registry installation is available."
         )
+    elif published:
+        lines.extend([
+            "Install the published package:", "",
+            f"```{INSTALL_FENCES.get(key, 'text')}", entry["install"], "```",
+        ])
     else:
-        lines.extend(
-            [
-                "This implementation is source-only. Follow the build instructions "
-                f"in [`language/{key}/README.md`](language/{key}/README.md).",
-            ]
+        lines.append(
+            "No published package is available. Follow the source build instructions "
+            f"in [`language/{key}/README.md`](language/{key}/README.md)."
         )
     if quickstart_code:
         lines.extend(["", quickstart_code])
     if published or quickstart_code:
-        lines.extend(
-            [
-                "",
-                f"See the [full {entry['name']} README](language/{key}/README.md) for "
-                "complete installation, build, and verification commands.",
-            ]
-        )
+        lines.extend([
+            "", f"See the [full {entry['name']} README](language/{key}/README.md) for "
+            "complete installation, build, and verification commands.",
+        ])
     if capabilities:
-        lines.extend(
-            [
-                "",
-                "## What's included",
-                "",
-                "| Capability | Status | Detail |",
-                "| --- | --- | --- |",
-            ]
-        )
+        lines.extend([
+            "", "## What's included", "",
+            "| Capability | Status | Detail |", "| --- | --- | --- |",
+        ])
         for name, status, detail in capabilities:
-            lines.append(
-                f"| {_cell(name)} | {_cell(status)} | {_cell(detail)} |"
-            )
+            lines.append(f"| {_cell(name)} | {_cell(status)} | {_cell(detail)} |")
     if examples:
         example_intro = (
-            "Runnable examples live under [`examples`](examples) and "
-            "[`language/go/examples`](language/go/examples)."
+            "Runnable examples live under [`language/go/examples`](language/go/examples)."
             if is_go
             else f"Runnable examples live under "
             f"[`language/{key}/examples`](language/{key}/examples)."
         )
-        lines.extend(
-            [
-                "",
-                "## Examples",
-                "",
-                example_intro,
-                "",
-                "| Example | What it shows |",
-                "| --- | --- |",
-            ]
-        )
+        lines.extend([
+            "", "## Examples", "", example_intro, "",
+            "| Example | What it shows |", "| --- | --- |",
+        ])
         for name, relative, description in examples:
             lines.append(
                 f"| [{_cell(name)}]({relative}) | {_cell(description)} |"
@@ -454,16 +398,9 @@ def mirror_readme(entry: dict, has_examples: bool = False, root: Path = ROOT) ->
             example_url = (
                 f"https://github.com/{ORGANIZATION}/praxo-core/tree/main/language/matlab/examples"
             )
-        lines.extend(
-            [
-                "",
-                "## Examples",
-                "",
-                f"See the canonical examples: {example_url}.",
-            ]
-        )
-    tutorial_root = "language/go/Tutorial" if is_go else f"{entry['dir']}/Tutorial"
-    application_root = "language/go/application" if is_go else f"{entry['dir']}/application"
+        lines.extend(["", "## Examples", "", f"See the canonical examples: {example_url}."])
+    catalog_root = "language/go" if is_go else entry["dir"]
+    tutorial_root, application_root = f"{catalog_root}/Tutorial", f"{catalog_root}/application"
     tutorials = _catalog_entries(root, entry, "Tutorial")
     applications = _catalog_entries(root, entry, "application")
     if tutorials:
@@ -486,7 +423,8 @@ def mirror_readme(entry: dict, has_examples: bool = False, root: Path = ROOT) ->
     if applications:
         lines.extend(_catalog_section(
             "Reference Applications",
-            f"Complete AI-native reference applications live under `{application_root}`.",
+            f"Reference application sources live under `{application_root}`. "
+            "See each README for implementation scope and validation status.",
             applications,
         ))
     else:
@@ -498,27 +436,12 @@ def mirror_readme(entry: dict, has_examples: bool = False, root: Path = ROOT) ->
         ])
     lines.extend(["", "## Verify", ""])
     if verify_code:
-        lines.extend(
-            [
-                f"Run the checks from `language/{key}`:",
-                "",
-                verify_code,
-                "",
-            ]
-        )
+        lines.extend([f"Run the checks from `language/{key}`:", "", verify_code, ""])
     if is_go:
-        lines.extend(
-            [
-                "Run the module checks from the mirror root:",
-                "",
-                "```bash",
-                "go test ./...",
-                "go vet ./...",
-                "go build ./...",
-                "```",
-                "",
-            ]
-        )
+        lines.extend([
+            "Run the module checks from the mirror root:", "", "```bash",
+            "go test ./...", "go vet ./...", "go build ./...", "```", "",
+        ])
     lines.append(
         f"This mirror contains the language source and the shared `spec/` vectors, "
         f"so the implementation can be built and tested here. See "
@@ -535,9 +458,7 @@ def mirror_readme(entry: dict, has_examples: bool = False, root: Path = ROOT) ->
             "- `spec/` — shared contract, vectors, and parity inventories",
             "- `LICENSE` — MIT license",
         ]
-        canonical = (
-            f"- Canonical source: https://github.com/{ORGANIZATION}/praxo-core"
-        )
+        canonical = f"- Canonical source: https://github.com/{ORGANIZATION}/praxo-core"
         registry_intro = "- Registry introduction: `REGISTRY.md`"
         machine_entry = "- Machine-readable entry: `llms.txt` and `llms.md`"
     else:
@@ -556,34 +477,23 @@ def mirror_readme(entry: dict, has_examples: bool = False, root: Path = ROOT) ->
             f"- Machine-readable entry: `language/{key}/llms.txt` and "
             f"`language/{key}/llms.md`"
         )
-    lines.extend(
-        [
-            "",
-            _community(),
-            "",
-            "## Repository layout",
-            "",
-            *layout,
-            "",
-            "## Canonical source",
-            "",
-            canonical,
-            registry_intro,
-            machine_entry,
-            f"- Mirror repository: https://github.com/{ORGANIZATION}/{REPO_PREFIX}{key}",
-            "- Release index: https://axisvela.github.io/praxo-core/languages/registry-status/",
-            "",
-            f"This repository is a discovery mirror of the canonical {entry['name']} "
-            "source. The monorepo remains the source of truth and the release "
-            "workflow source.",
-            "",
-            "PRAXO-CORE is not a hosted model, workflow engine, identity provider, "
-            "or safety controller. Do not infer exactly-once execution, complete "
-            "sandbox isolation, production security certification, live-provider "
-            "behavior, or physical safety from this package.",
-            "",
-            "MIT licensed.",
-            "",
-        ]
-    )
+    lines.extend([
+        "", _community(), "", "## Repository layout", "", *layout,
+        "", "## Canonical source", "", canonical, registry_intro, machine_entry,
+        f"- Mirror repository: https://github.com/{ORGANIZATION}/{REPO_PREFIX}{key}",
+        "- Release index: https://axisvela.github.io/praxo-core/languages/registry-status/",
+        "",
+        f"This repository is a discovery mirror of the canonical {entry['name']} "
+        "source. The monorepo remains the source of truth and the release "
+        "workflow source. The mirror's `main` branch tracks current source, not "
+        "a release snapshot. Source tags refer to the canonical monorepo and "
+        "are not necessarily present in this mirror; syncing the branch does "
+        "not publish mirror tags or registry packages.",
+        "",
+        "PRAXO-CORE is not a hosted model, workflow engine, identity provider, "
+        "or safety controller. Do not infer exactly-once execution, complete "
+        "sandbox isolation, production security certification, live-provider "
+        "behavior, or physical safety from this package.",
+        "", "MIT licensed.", "",
+    ])
     return "\n".join(lines)

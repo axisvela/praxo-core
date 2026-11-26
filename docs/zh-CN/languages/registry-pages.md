@@ -1,6 +1,6 @@
 # Registry 页面与包介绍
 
-**状态：** 公开指引，2026-11-05。包 Registry 页面是发布时生成的快照。源码 README、
+**状态：** 公开审计，2026-11-26。包 Registry 页面是发布时生成的快照。源码 README、
 清单和文档站可能更新。不要从陈旧页面推断当前行为，也不要假设本仓库的修改会自动更新
 已发布页面。
 
@@ -40,23 +40,36 @@ crates.io、NuGet、RubyGems、Packagist、Hex、pub.dev 等 Registry 页面，�
 - 不声明 exactly-once、完整沙箱隔离、生产安全认证或实时/物理安全。
 - 版本元数据与源码 tag、Registry 一致。
 
-## 当前试点页面审计
+## 公开页面审计
 
-Go 页面于 2026-11-16 核对；四个试点包于 2026-11-13 核对。
+2026-11-26 已将 GitHub Latest 恢复到现有的
+[Go `v2.9.0` Release](https://github.com/axisvela/praxo-core/releases/tag/v2.9.0)。
+Go proxy 已有 `v2.11.0`，但对应 GitHub Release 仍缺失。此次仅修正语言发布占用
+Latest 的问题，不代表已补齐 Core Release 或修复不可变包 README 快照。
+`scripts/check_public_release.py` 独立检查线上 Latest 和预期 Core Release。
 
-| 语言 | 页面 | 已发布版本 | 当前页面状态 | 下一步 |
+审计日期：2026-11-26。发布可用性不等于页面验收。以下不可变发布快照仍有已知缺陷；
+源码修改不会修复它们，仍需新版本发布并重新核对。
+
+| 语言 | 发布证据 | 已发布版本 | 观察到的缺陷 | 验收 |
 | --- | --- | --- | --- | --- |
-| Go | [pkg.go.dev](https://pkg.go.dev/github.com/axisvela/praxo-core/v2) | `v2.11.0` | 渲染后的 `v2.11.0` README 包含 `@v2.11.0` 安装命令、MIT 许可和发布说明；pkg.go.dev 显示 `v2.11.0` 于 2026-11-16 发布 | 无需进一步操作 |
-| Python | [PyPI](https://pypi.org/project/praxo-core/) | `0.10.0` | `0.9.1` 已发布；包内 README 包含扩展示例链接与 `0.9.1` 安装命令。介绍块仍链接 `0.9.0` 页面 | 下次发布刷新 registry 页面链接 |
-| TypeScript | [npm](https://www.npmjs.com/package/@axisvela/praxo-core) | `0.9.0` | `0.9.0` 已作为 `latest` 发布 | 无需进一步操作 |
-| Java | [Maven Central](https://central.sonatype.com/artifact/com.axisvela/praxo-core) | `0.11.0` | `0.11.0` 已发布，包含签名的 sources 与 javadoc；POM 描述链接 Java 示例 | 无需进一步操作 |
+| Go | [pkg.go.dev](https://pkg.go.dev/github.com/axisvela/praxo-core/v2@v2.11.0) | `v2.11.0` | README 安装 `@v2.10.0`，并称 `v2.10.0` 为当前版本 | 未通过 |
+| Python | [PyPI](https://pypi.org/project/praxo-core/0.11.0/) | `0.11.0` | 包内 README 安装 `0.9.1` | 未通过 |
+| TypeScript | [npm](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.10.0) | `0.10.0` | 包内 README 安装 `0.8.1` | 未通过 |
+| Java | [Maven POM](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.12.0/praxo-core-0.12.0.pom) | `0.12.0` | SCM tag 为 `java/v0.10.0` | 未通过 |
+| Rust | [crates.io](https://crates.io/crates/praxo-core/0.11.0) | `0.11.0` | 包内 README 安装 `0.9.2` | 未通过 |
+| C# | [NuGet](https://www.nuget.org/packages/Praxo.Core/0.11.0) | `0.11.0` | 包内 README 安装 `0.10.0` | 未通过 |
+| Dart | [pub.dev](https://pub.dev/packages/praxo_core/versions/0.8.0) | `0.8.0` | 包内 README 安装 `0.7.0` | 未通过 |
+| Haskell | [Hackage](https://hackage.haskell.org/package/praxo-core-0.9.0) | `0.9.0` | 包内 README 安装 `0.7.1` | 未通过 |
 
-本仓库的源元数据更新**不会**改变已发布的 `0.9.0`、`0.8.0` 与 `0.7.0` 语言页面。
-Go 页面随 `v2.11.0` tag 更新，并已于 2026-11-16 核对。在其他 Registry 显示新版本与
-新文本前，不得声称对应页面已更新。
+Go 发布文档日期为 2026-11-26；
+[proxy 发布时间戳](https://proxy.golang.org/github.com/axisvela/praxo-core/v2/@v/v2.11.0.info)
+为 2026-11-25 UTC，均不支持此前的 2026-11-16 页面验收或 2026-11-20 发布日期。
+本次不声称远端修复完成。
 
-其他 Registry 见[Registry 发布状态](registry-status.md)。本次未逐一重新审计；发布时
-使用同一清单，不能仅凭源码推断页面质量。
+其他发布证据见[Registry 发布状态](registry-status.md)。SPI 已索引 Swift split 包 `0.7.2`，
+其非流式范围不等于主仓库 `swift/v0.9.0` 的流式范围。R r-universe `0.12.0` 的实际构建
+HEAD 为 `9b417e3`，检查有 warnings，不是全部无警告通过。发布可用性不代表页面质量或运行时兼容性验收。
 
 ## 面向编程 Agent
 
@@ -92,8 +105,8 @@ Go 页面随 `v2.11.0` tag 更新，并已于 2026-11-16 核对。在其他 Regi
 
 ## MATLAB 兼容性元数据
 
-2026-11-06 核对：[File Exchange](https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core)
-的 `0.3.0` 显示“Compatible with any release”和 Windows/macOS/Linux，安装菜单又显示
+2026-11-26 核对：[File Exchange](https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core)
+的 `0.9.1`（源码 `matlab/v0.9.0`）引用仍为 `0.2.1`，显示“Compatible with any release”和 Windows/macOS/Linux，安装菜单又显示
 R2026b 或更新版本。这些标签不是独立 MATLAB 验证证据。当前执行证据仅来自 GNU Octave
 11.3.0，MATLAB 运行及实际安装包验证仍未完成。提交所有者需收窄可编辑兼容性字段，或在
 Overview 顶部添加醒目限制。修改源码不会自动修改线上提交。

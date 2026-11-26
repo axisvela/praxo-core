@@ -1,0 +1,17 @@
+#load "unix.cma";;
+#mod_use "praxo_types.ml";;
+#mod_use "praxo_json.ml";;
+#mod_use "praxo_toolcall.ml";;
+#mod_use "praxo_schema.ml";;
+#mod_use "praxo_manifest.ml";;
+#mod_use "praxo_message.ml";;
+#mod_use "praxo_provider_util.ml";;
+#mod_use "praxo_openai.ml";;
+#mod_use "praxo_anthropic.ml";;
+#mod_use "praxo_gemini.ml";;
+#mod_use "praxo_plugin.ml";;
+#mod_use "praxo_runtime.ml";;
+#mod_use "praxo_middleware.ml";;
+#mod_use "praxo_agent.ml";;
+#mod_use "praxo_seams.ml";;
+#use "praxo_core.ml";;

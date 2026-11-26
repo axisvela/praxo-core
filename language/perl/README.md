@@ -57,7 +57,7 @@ reference implementation.
 Install the published package:
 
 ```bash
-cpanm Praxo::Core
+cpanm Praxo::Core@0.8.0
 ```
 
 Then run the smallest deterministic example:

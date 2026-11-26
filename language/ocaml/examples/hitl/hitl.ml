@@ -1,4 +1,4 @@
-#use "praxo_core.ml"
+#use "praxo_core_bundle.ml"
 
 let note_arguments visibility =
   Object [("text", String "hello"); ("visibility", String visibility)]

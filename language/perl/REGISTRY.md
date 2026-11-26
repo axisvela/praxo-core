@@ -1,7 +1,7 @@
 # PRAXO-CORE Perl Registry Introduction
 
 **Status:** published on CPAN; README.pod indexed. Source version `0.8.0`, source
-tag `perl/v0.8.0`. Published registry version: `0.7.1`. Registry
+tag `perl/v0.8.0`. Published registry version: `0.8.0`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -16,9 +16,9 @@ PRAXO-CORE is an embeddable, MIT-licensed AI agent framework. This distribution 
 | Package | `Praxo::Core` |
 | Registry | [CPAN (MetaCPAN index)](https://metacpan.org/dist/Praxo-Core) |
 | Source version | `0.8.0` |
-| Published registry version | `0.7.1` |
-| Install (published) | `cpanm Praxo::Core` |
-| Install (source/release prepared) | `cpanm Praxo::Core` |
+| Published registry version | `0.8.0` |
+| Install (published) | `cpanm Praxo::Core@0.8.0` |
+| Install (source/release prepared) | `cpanm ./language/perl` |
 | Source tag | `perl/v0.8.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |

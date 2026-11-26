@@ -1,5 +1,16 @@
 # OCaml Core Release Notes
 
+## 0.11.0 - 2026-11-26
+
+Source tag `ocaml/v0.11.0`.
+
+- Fixed multi-tool authorization to preflight every call before any effect.
+- Fixed Gemini function-response names, provider text content blocks, plugin
+  stderr draining and startup cleanup, MCP initialization/closed guards,
+  subagent failure capture, root path grants, and duplicate-key JSON equality.
+- Split the Core into responsibility modules under 500 lines each while
+  preserving the public `Praxo_core` module.
+
 ## 0.10.0 - 2026-11-26
 
 Source tag `ocaml/v0.10.0`.

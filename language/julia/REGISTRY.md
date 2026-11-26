@@ -1,7 +1,7 @@
 # PRAXO-CORE Julia Registry Introduction
 
-**Status:** pending registry merge. Source version `0.9.0`, source
-tag `julia/v0.9.0`. Published registry version: `0.2.0`. Registry
+**Status:** not published; General registry merge pending. Source version `0.9.0`, source
+tag `julia/v0.9.0`. Published registry version: not published. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -16,9 +16,9 @@ Julia implementation of the PRAXO-CORE AI agent framework contract.
 | Package | `PraxoCore` |
 | Registry | [Julia General (pending)](https://github.com/axisvela/PraxoCore.jl) |
 | Source version | `0.9.0` |
-| Published registry version | `0.2.0` |
-| Install (published) | `Pkg.add("PraxoCore")` |
-| Install (source/release prepared) | `Pkg.add(name="PraxoCore", version="0.8.0")` |
+| Published registry version | not published |
+| Install (published) | not published |
+| Install (source/release prepared) | `Pkg.develop(path="language/julia")` |
 | Source tag | `julia/v0.9.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |

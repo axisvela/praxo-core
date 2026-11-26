@@ -1,6 +1,8 @@
 from pathlib import Path
+import ast
 import re
 import unittest
+import xml.etree.ElementTree as ET
 
 import yaml
 
@@ -9,6 +11,23 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class ReleasePresentationTests(unittest.TestCase):
+    def test_java_scm_tag_tracks_package_version(self):
+        pom = ET.parse(ROOT / 'language/java/pom.xml')
+        ns = {'m': 'http://maven.apache.org/POM/4.0.0'}
+        self.assertEqual(pom.findtext('m:scm/m:tag', namespaces=ns),
+                         'java/v${project.version}')
+
+    def test_delphi_runner_example_sources_exist(self):
+        root = ROOT / 'language/delphi'
+        tree = ast.parse((root / 'run-tests.py').read_text(encoding='utf-8'))
+        examples = [node.value for node in ast.walk(tree)
+                    if isinstance(node, ast.Constant) and isinstance(node.value, str)
+                    and node.value.endswith('.pas')]
+        self.assertTrue(examples)
+        for example in examples:
+            with self.subTest(example=example):
+                self.assertTrue((root / example).is_file())
+
     def test_github_release_publishers_set_latest_explicitly(self):
         publishers = []
         for path in (ROOT / '.github/workflows').glob('*.yml'):
@@ -63,7 +82,9 @@ class ReleasePresentationTests(unittest.TestCase):
             self.assertIn(phrase, readme)
         for prefix in ('', 'zh-CN/'):
             page = (ROOT / 'docs' / prefix / 'languages/registry-pages.md').read_text(encoding='utf-8')
-            self.assertIn('2026-11-06', page)
+            self.assertRegex(page, r'2026-\d{2}-\d{2}')
+            self.assertIn('0.12.0', page)
+            self.assertIn('java/v0.10.0', page)
             self.assertIn('Maven', page)
             self.assertIn('MATLAB', page)
             release = (ROOT / 'docs' / prefix / 'project/releasing.md').read_text(encoding='utf-8')

@@ -14,6 +14,7 @@ version remains the authority for what consumers install.
 
 | Language | Repository | Role |
 | --- | --- | --- |
+| Go | [axisvela/praxo-core-go](https://github.com/axisvela/praxo-core-go) | Discovery mirror of the root Go module, `language/go`, and `spec/`; canonical module path is unchanged |
 | Python | [axisvela/praxo-core-python](https://github.com/axisvela/praxo-core-python) | Discovery mirror of `language/python`; includes `spec/` for conformance |
 | TypeScript | [axisvela/praxo-core-typescript](https://github.com/axisvela/praxo-core-typescript) | Discovery mirror of `language/typescript`; includes `spec/` for conformance |
 | Java | [axisvela/praxo-core-java](https://github.com/axisvela/praxo-core-java) | Discovery mirror of `language/java`; includes `spec/` |
@@ -46,14 +47,19 @@ version remains the authority for what consumers install.
 | Objective-C | [axisvela/praxo-core-objc](https://github.com/axisvela/praxo-core-objc) | Discovery mirror of `language/objc`; includes `spec/` |
 
 Go remains at the repository root because its module path is
-`github.com/axisvela/praxo-core/v2`. Bridges under `bindings/` and language
-samples under `language/go/examples/` remain in the monorepo.
+`github.com/axisvela/praxo-core/v2`. Its discovery mirror copies the root module
+and `language/go/`, including examples, tutorials, and application sources.
+Bridges under `bindings/` remain in the monorepo.
 
 ## Automated Refresh
 
-`.github/workflows/language-mirrors.yml` rebuilds the 21 discovery mirrors when
-`language/`, `spec/`, `LICENSE`, or the sync script changes on `main`. It needs a
-`PRAXO_MIRROR_TOKEN` secret with push access to the mirror repositories. A manual
+`.github/workflows/language-mirrors.yml` rebuilds the 22 discovery mirrors when
+copied sources or README inputs change on `main`. These include `language/`,
+`spec/`, `LICENSE`, the root Go source directories (`pkg/`, `adapters/`, `cmd/`,
+`internal/`, `api/`, `benchmarks/`, `tests/`), Go module and version files,
+copied root documents, `docs/languages/go/index.md`, and the mirror generators
+and tests. Pull requests touching those inputs run tests and a local dry-run.
+It needs a `PRAXO_MIRROR_TOKEN` secret with push access to the mirror repositories. A manual
 `workflow_dispatch` run with `mode=check` reports drift without pushing. When the
 secret is not configured, the sync job emits a warning and skips the push.
 
@@ -77,10 +83,17 @@ mirror lags, use the monorepo and the registry version. Do not infer registry
 availability, conformance, or production readiness from the existence of a
 repository.
 
+The mirror's `main` branch follows current canonical source; it is not a release
+snapshot. Source tags in mirror READMEs refer to `axisvela/praxo-core`, not
+necessarily tags available in the mirror. Branch refreshes do not publish tags
+or registry packages. Application directories contain reference application
+sources; consult each README for scope and validation rather than assuming all
+applications are complete.
+
 ## Adding or Updating a Repository
 
-1. Keep the canonical source under `language/<language>` in the monorepo.
-2. Mirror that directory plus `spec/`, `LICENSE`, and a language-specific README.
+1. Keep the canonical source under `language/<language>` in the monorepo, or at the root for Go.
+2. Mirror that source plus `spec/`, `LICENSE`, and a language-specific README.
 3. Reuse the language README's registry, install, and scope text; link back to
    the canonical source and documentation.
 4. Run the language's conformance and tests in the mirror before publishing it.

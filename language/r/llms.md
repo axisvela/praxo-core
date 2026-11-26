@@ -9,9 +9,9 @@
 - package: `praxocore`
 - registry: [r-universe](https://axisvela.r-universe.dev/praxocore)
 - source_version: `0.12.0`
-- published_version: `0.11.0`
+- published_version: `0.12.0`
 - install_published: `install.packages("praxocore", repos = "https://axisvela.r-universe.dev")`
-- install_source: `install.packages("praxocore", repos = "https://axisvela.r-universe.dev")`
+- install_source: `R CMD INSTALL language/r`
 - source_tag: `r/v0.12.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`

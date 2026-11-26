@@ -31,7 +31,7 @@ agent service, or model provider.
 Install the published package:
 
 ```bash
-composer require axisvela/praxo-core
+composer require axisvela/praxo-core:0.10.0
 ```
 
 Then run the smallest deterministic example:
@@ -66,7 +66,7 @@ Runnable examples live under [`language/php/examples`](https://github.com/axisve
 ## Install
 
 ```bash
-composer require axisvela/praxo-core
+composer require axisvela/praxo-core:0.10.0
 ```
 
 ## Scope

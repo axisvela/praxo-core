@@ -1,7 +1,7 @@
 # PRAXO-CORE Swift Registry Introduction
 
 **Status:** published. Source version `0.9.0`, source
-tag `swift/v0.9.0`. Published registry version: `0.7.0`. Registry
+tag `swift/v0.9.0`. Published registry version: `0.7.2`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -16,9 +16,9 @@ Swift implementation of the PRAXO-CORE contract.
 | Package | `praxo-core-swift` |
 | Registry | [Swift Package Index](https://swiftpackageindex.com/axisvela/praxo-core-swift) |
 | Source version | `0.9.0` |
-| Published registry version | `0.7.0` |
-| Install (published) | `.package(url: "https://github.com/axisvela/praxo-core-swift.git", from: "0.7.0")` |
-| Install (source/release prepared) | `.package(url: "https://github.com/axisvela/praxo-core-swift.git", from: "0.7.0")` |
+| Published registry version | `0.7.2` |
+| Install (published) | `.package(url: "https://github.com/axisvela/praxo-core-swift.git", exact: "0.7.2")` |
+| Install (source/release prepared) | `.package(path: "language/swift")` |
 | Source tag | `swift/v0.9.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |

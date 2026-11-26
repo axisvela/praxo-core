@@ -1,7 +1,7 @@
 # PRAXO-CORE D Registry Introduction
 
-**Status:** published; split package 0.6.1; source 0.7.0. Source version `0.8.0`, source
-tag `d/v0.8.0`. Published registry version: `0.6.1`. Registry
+**Status:** published; split source repository. Source version `0.8.0`, source
+tag `d/v0.8.0`. Published registry version: `0.8.0`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -16,9 +16,9 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | Package | `praxo-core` |
 | Registry | [DUB](https://code.dlang.org/packages/praxo-core) |
 | Source version | `0.8.0` |
-| Published registry version | `0.6.1` |
-| Install (published) | `dub add praxo-core` |
-| Install (source/release prepared) | `dub add praxo-core` |
+| Published registry version | `0.8.0` |
+| Install (published) | `dub add praxo-core@0.8.0` |
+| Install (source/release prepared) | `dub build --root=language/d` |
 | Source tag | `d/v0.8.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
@@ -45,10 +45,10 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 - [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and reference-application paths.
 - Scenario tutorials:
   - [data-pipeline](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/data-pipeline): Diagnose a bounded data-import batch before allowing a human to review it. Native D parses unquoted two-column CSV records, calculates valid totals and reports line-specific err...
-  - [executive-brief](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/executive-brief): A bounded first slice of [OP-07](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an autonomous BI platform. It computes fixed business-line variance...
+  - [executive-brief](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/executive-brief): A bounded first slice of [OP-07](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an autonomous BI platform. It computes fixed business-line variances for one period and drafts a review-only operating brief. This uses the source D Core with `dmd -run`; no network, credentials or packages beyond DMD are required.
   - [fleet-map](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/fleet-map): A bounded first slice of TL-06, not a remote-assistance or map-deployment system. It replays fixed synthetic road-topology changes and drafts a review-only map patch. No vehicle...
   - [property-forecast](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/property-forecast): A bounded first slice of BE-05, not a valuation or investment-advice system. It computes fixed site metrics in native D, shows the forecast assumptions and drafts a review-only...
-  - [quant-risk](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/quant-risk): A bounded first slice of [FC-02](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a trading or execution system. It reads fixed portfolio/market data...
+  - [quant-risk](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/quant-risk): A bounded first slice of [FC-02](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a trading or execution system. It reads fixed portfolio/market data, computes proposed-order exposure, enforces a stated risk limit outside the agent, and drafts a review-only order. No trades, live market feed or latency claim.
 - Reference applications: no accepted end-to-end application yet; candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
 - [llms.txt](llms.txt): compact machine-readable entry for this language.
 - [llms.md](llms.md): Markdown version of the same entry.

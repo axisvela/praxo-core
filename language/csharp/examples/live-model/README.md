@@ -1,6 +1,6 @@
 # C# Live Model
 
-This example uses published NuGet `Praxo.Core==0.10.0` to connect the C# Core to
+This example uses published NuGet `Praxo.Core==0.11.0` to connect the C# Core to
 an OpenAI-compatible endpoint and registers one low-risk `get_time` tool.
 
 ## Run

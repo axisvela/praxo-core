@@ -70,11 +70,11 @@ def main():
                    cwd=ROOT, check=True)
     executable = build / ("hitl_tests.exe" if os.name == "nt" else "hitl_tests")
     subprocess.run([str(executable)], cwd=ROOT, check=True, timeout=120)
-    subprocess.run([compiler, *flags, f"-FE{build}", "language/go/examples/hitl/hitl.pas"],
+    subprocess.run([compiler, *flags, f"-FE{build}", "examples/hitl/hitl.pas"],
                    cwd=ROOT, check=True)
     executable = build / ("hitl.exe" if os.name == "nt" else "hitl")
     subprocess.run([str(executable)], cwd=ROOT, check=True, timeout=120)
-    subprocess.run([compiler, *flags, f"-FE{build}", "language/go/examples/session-checkpoint/session_checkpoint.pas"],
+    subprocess.run([compiler, *flags, f"-FE{build}", "examples/session-checkpoint/session_checkpoint.pas"],
                    cwd=ROOT, check=True)
     executable = build / ("session_checkpoint.exe" if os.name == "nt" else "session_checkpoint")
     subprocess.run([str(executable)], cwd=ROOT, check=True, timeout=120)

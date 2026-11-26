@@ -1,8 +1,8 @@
 # Rust Examples
 
-- [`consumer/`](consumer/): published crates.io `praxo-core==0.9.0` starter with
+- [`consumer/`](consumer/): published crates.io `praxo-core@0.11.0` starter with
   deterministic allow/deny checks.
-- [`live-model/`](live-model/): source-mode OpenAI-compatible endpoint using
+- [`live-model/`](live-model/): published-package OpenAI-compatible endpoint using
   the optional `http-ureq` feature and `qwen3.5:4b` via Ollama.
 - [`hitl/`](hitl/): approval and edit-reauthorization for a write tool.
 - [`session-checkpoint/`](session-checkpoint/): multi-turn history save, reload,
@@ -29,6 +29,6 @@
   model, in-process MCP record tool, governed child delegation, OTel/Harmovela
   event sinks, and edited denial with zero effects.
 
-The deterministic examples use published crate `praxo-core = "0.9.1"`. The
-`live-model` example uses the repository source because `http-ureq` is not in the
-published `0.9.0` crate.
+These example manifests use the current published crate `praxo-core = "0.11.0"`.
+The `live-model` example retains published crate `praxo-core = "0.10.0"` with
+the optional `http-ureq` feature.

@@ -1,11 +1,12 @@
 # PRAXO-CORE for OCaml
 
 PRAXO-CORE is an embeddable, MIT-licensed AI agent framework. This package is its
-native OCaml Core with source tag `ocaml/v0.10.0`. It passes all eleven vector
+native OCaml Core with source tag `ocaml/v0.11.0`. It passes all eleven vector
 groups on OCaml 4.14.2 bytecode and includes the native agent loop, memory store,
 checkpoint allowlist, lexical path policy, context compaction, event sinks,
-middleware helpers, tool selection, streaming OpenAI-compatible and Anthropic, and\nGemini streaming model adapters. It does not call Go or another language Core; there is no process
-bridge or plugin host.
+middleware helpers, tool selection, streaming OpenAI-compatible, Anthropic, and
+Gemini model adapters, and an optional process plugin host. It does not call Go
+or another language Core and has no cross-language process bridge.
 
 The experimental path check is lexical and does not resolve symlinks or reparse
 points; it must not be used as an OS containment boundary. The loop does not
@@ -15,10 +16,10 @@ re-raised; notification failure does not replace it. Do not treat the loop as
 production-ready.
 
 Local validation uses OCaml 4.14.2 in bytecode mode, and the Linux CI job runs
-the same full suite. The split repository is `axisvela/praxo-core-ocaml`.
-No opam package is published: opam-repository PR #31222 was closed without merge;
-the split repository still declares `0.8.0`, so resubmission requires source
-alignment and package validation. See [publication status](PUBLISHING.md) and the
+the same full suite. The split repository is `axisvela/praxo-core-ocaml` and is
+aligned to this release. No opam package is published yet: previous submissions
+were closed, and the replacement registry submission is pending review. See
+[publication status](PUBLISHING.md) and the
 [official opam packaging guide](https://opam.ocaml.org/doc/Packaging.html#Using-opam-publish-with-a-project-hosted-on-Github). Native
 `ocamlopt` compilation, commercial support, production readiness, and a delivery
 date are not claimed.
@@ -63,15 +64,18 @@ For the standalone Dune/opam package layout and installed-library consumer,
 see [source package validation](PUBLISHING.md#source-package-validation).
 Staging a package does not publish it to opam.
 
-To build manually from `language/ocaml/`:
+The Core is split by responsibility under `src/`: `praxo_types`, JSON and
+tool-call parsing, schema and manifest validation, provider adapters, the
+process plugin host, runtime helpers, middleware, the agent loop, and MCP/OTel
+seams. `src/praxo_core.ml` re-exports those modules as the public
+`Praxo_core` API. Use `run-tests.py` for the dependency-ordered bytecode build:
 
 ```bash
-ocamlc -c src/praxo_core.mli
-ocamlc -c src/praxo_core.ml
-ocamlc -c -I src -I tests tests/praxo_tests.ml
-ocamlc -o build/praxo_tests -I src -I tests src/praxo_core.cmo tests/praxo_tests.cmo
-ocamlrun build/praxo_tests ../../spec
+python language/ocaml/run-tests.py
 ```
+
+Examples and tutorials load `src/praxo_core_bundle.ml`, which registers the
+internal modules with `#mod_use` before opening the public module.
 
 ## API
 
@@ -83,7 +87,7 @@ let _paths = Praxo_core.validate_schema (Praxo_core.parse_json "{\"type\":\"stri
 let _manifest = Praxo_core.validate_manifest "{}"
 ```
 
-Public declarations are inventoried in [`api/0.10.0.txt`](api/0.10.0.txt).
+Public declarations are inventoried in [`api/0.11.0.txt`](api/0.11.0.txt).
 `validate_manifest` returns `Some manifest` only for a valid declaration.
 
 ## Human-in-the-loop Approval
@@ -112,7 +116,8 @@ See [`language/go/examples/hitl`](language/go/examples/hitl/) for approve and ed
 
 `openai_model` maps Core requests to `POST {baseUrl}/chat/completions`,
 including messages, tools, tool choice, assistant tool calls, token usage, and
-provider HTTP errors (`PROVIDER_HTTP`). `generate_stream` sets `stream: true`,\nparses SSE, reassembles content, fragmented tool calls, and usage, and calls the\ndelta callback. Set `agent_on_delta` to use it through the agent.
+provider HTTP errors (`PROVIDER_HTTP`). `generate_stream` sets `stream: true`, parses SSE, reassembles content,
+fragmented tool calls, and usage, and calls the delta callback. Set `agent_on_delta` to use it through the agent.
 
 ```ocaml
 let config = {
@@ -136,8 +141,8 @@ tests use a fake transport.
 
 `anthropic_model` and `gemini_model` map Core requests to the native Messages
 and generateContent APIs over the same injected `transport` seam, including
-system messages, tools, tool choice, tool calls, usage, and `PROVIDER_HTTP`
-errors. Streaming is not implemented.
+system messages, text content blocks, tools, tool choice, tool calls, usage,
+`PROVIDER_HTTP` errors, and SSE streaming through `generate_stream`.
 
 ```ocaml
 let claude = Praxo_core.anthropic_model {

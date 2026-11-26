@@ -7,11 +7,11 @@
 # Package
 
 - package: `praxo-core`
-- registry: [Hackage](https://hackage.haskell.org/package/praxo-core-0.8.0)
+- registry: [Hackage](https://hackage.haskell.org/package/praxo-core-0.9.0)
 - source_version: `0.9.0`
-- published_version: `0.8.0`
-- install_published: `cabal install praxo-core`
-- install_source: `cabal install praxo-core`
+- published_version: `0.9.0`
+- install_published: `cabal install --lib praxo-core-0.9.0`
+- install_source: `cabal build --project-dir=language/haskell`
 - source_tag: `haskell/v0.9.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
@@ -39,7 +39,7 @@
 - [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and their existing related slices.
 - [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and reference-application paths.
 - Scenario tutorials:
-  - [literature-review](https://github.com/axisvela/praxo-core/tree/main/language/haskell/Tutorial/literature-review): A bounded first slice of [SC-01](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not autonomous scientific discovery. It searches a fixed synthetic pape...
+  - [literature-review](https://github.com/axisvela/praxo-core/tree/main/language/haskell/Tutorial/literature-review): A bounded first slice of [SC-01](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not autonomous scientific discovery. It searches a fixed synthetic paper corpus, cites the top result, and drafts an explicitly unverified hypothesis. This uses the source Haskell Core through `runghc`; no network, credentials or packages are required beyond GHC.
   - [policy-simulation](https://github.com/axisvela/praxo-core/tree/main/language/haskell/Tutorial/policy-simulation): A bounded first slice of OG-02, not a policy-prediction engine. It simulates a small fixed synthetic population and drafts a review-only sensitivity report using the source Hask...
   - [rule-dsl](https://github.com/axisvela/praxo-core/tree/main/language/haskell/Tutorial/rule-dsl): A bounded business-rule validation tutorial. It parses a small access-rule DSL into a typed Haskell structure, detects allow/deny conflicts and returns a counterexample. Core co...
   - [test-generation](https://github.com/axisvela/praxo-core/tree/main/language/haskell/Tutorial/test-generation): A bounded first slice of SE-04, not a test-execution or load-testing service. It generates three bounded tests for a fixed local fixture and records zero executions. No load tar...

@@ -1,6 +1,8 @@
 # AI-Native Reference Applications
 
-**Status:** design accepted 2026-11-25. PHP v1 harness is implemented locally at
+**Status:** design accepted 2026-11-25; evidence audited 2026-11-26. Source
+implementation is not full host-integration acceptance. PHP v1 harness is
+implemented locally at
 `language/php/application/ai-editorial-studio`; the sibling `content-review`
 application remains a host-integration precursor. Java v1 source is added at
 `language/java/application` using Spring Boot and published Core 0.11.0, but the
@@ -13,9 +15,11 @@ failure, so the CI job uses the published package and is added but not run. Erla
 v1 is implemented at `language/erlang/application`; source-mode tests pass 6/6,
 including supervisor restart, and the live run records model diagnosis/rationale
 plus `agent_trace`. Go v1 is implemented at `language/go/application` with an
-HTTP/CLI host; 8/8 tests pass, and the live run records model-selected tools,
+HTTP/CLI host using a local module replace, not a registry install; 8/8 tests pass,
+and the live run records model-selected tools,
 diagnosis/rationale, and `agent_trace`. Rust v1 is implemented at
-`language/rust/application` with an edge CLI and `GatewayAdapter`; 6/6 tests pass,
+`language/rust/application` with an edge CLI and `GatewayAdapter`, using a local
+Core path dependency rather than a registry install; 6/6 tests pass,
 and a hosted DeepSeek live run records `model=live`, model-selected tools, a
 review-only draft, and `executions=0` through an application-owned `curl`
 transport. C++ v1 is
@@ -34,8 +38,19 @@ a hosted DeepSeek `deepseek-flash` live run records `model=live`, model-selected
 tools, a review-only draft, and zero payment/refund effects. PHP, Elixir, Erlang,
 Go, Rust, Julia, and Ruby have recorded live-model reasoning runs with hosted
 DeepSeek `deepseek-flash`; Java/C++/COBOL live reasoning, SDK CI, Drupal, payment,
-and independent-consumer paths remain open. Other languages implement the
+and independent-consumer paths remain open. Other languages target the
 AI-native workflow directly.
+
+Both PHP application jobs passed in
+[45655799714](https://github.com/axisvela/praxo-core/actions/runs/45655799714)
+at `92ba764c` (2026-11-25); that run failed on C++ configuration, while other
+applications were skipped. The follow-up
+[45720963270](https://github.com/axisvela/praxo-core/actions/runs/45720963270)
+at `f8242fb3` passed only the C++ static-library build; all other application
+jobs were skipped. Java remains unverified and C++ has no runtime/live evidence.
+These are per-job results, not an SDK-wide CI or portfolio acceptance claim.
+The seven hosted reference-app runs do not verify the separate hosted
+published-package starter path tracked in #31.
 
 ## Purpose
 
@@ -282,7 +297,7 @@ A missing package, host, runtime, or credential is a blocked claim, not a pass.
   `language/php/application/ai-editorial-studio/` and does not replace or relabel
   the precursor.
 - Both PHP applications use the published Core package and have deterministic
-  local tests; CI is added but not run.
+  local tests; both PHP CI jobs passed in `45655799714` at `92ba764c`.
 - Move order/checkout work to the Java e-commerce reference.
 - Other languages implement the AI-native workflow directly, without a
   traditional-app precursor.

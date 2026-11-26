@@ -1,6 +1,6 @@
 # Structured Output
 
-This example uses published crates.io `praxo-core@0.10.0` to validate the final
+This example uses published crates.io `praxo-core@0.11.0` to validate the final
 answer against a JSON Schema.
 
 `AgentOptions.structured_output` installs middleware that requests the schema

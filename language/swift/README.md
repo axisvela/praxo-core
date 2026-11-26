@@ -81,7 +81,7 @@ seams.
 ## Install
 
 ```swift
-.package(url: "https://github.com/axisvela/praxo-core-swift.git", from: "0.7.1")
+.package(url: "https://github.com/axisvela/praxo-core-swift.git", exact: "0.7.2")
 ```
 
 ## Build and test

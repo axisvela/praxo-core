@@ -19,11 +19,12 @@ let tool_response call =
 
 let make_model steps final on_call =
   let remaining = ref steps in
-  { generate = fun _request ->
+  { generate = (fun _request ->
       (match on_call with Some callback -> callback () | None -> ());
       match !remaining with
       | step :: rest -> remaining := rest; step
-      | [] -> response_make (assistant_message final []) (usage_make 0 0) }
+      | [] -> response_make (assistant_message final []) (usage_make 0 0));
+    generate_stream = None; }
 
 let target_of action =
   match string_field "target" action.action_arguments with

@@ -11,13 +11,14 @@ crawler, hosted agent service, or model provider. It includes native
 OpenAI-compatible, Anthropic, and Gemini model adapters, including Anthropic and Gemini
 SSE streaming, and a JSON-Lines process plugin host.
 
-Current source is `delphi/v0.8.0`. It passes all eleven vector groups.
+Current source is `delphi/v0.9.0`. It passes all eleven vector groups.
 
 Local validation uses Free Pascal 3.2.2 on Windows i386. It does not establish
 commercial Delphi compiler compatibility, Linux/macOS support, production
-readiness, or a delivery date. The OPM descriptor and submission archive are
-prepared; OPM submission is pending. The CI recipe targets Free Pascal on
-Ubuntu.
+readiness, or a delivery date. The `0.7.0` OPM descriptor and submission archive
+are available as [GitHub release assets](https://github.com/axisvela/praxo-core/releases/tag/delphi%2Fv0.7.0).
+An OPM listing is not verified; GitHub assets do not establish OPM publication.
+The CI recipe targets Free Pascal on Ubuntu.
 
 ## Registry and Coding-Agent Entry
 
@@ -25,7 +26,7 @@ Ubuntu.
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/delphi/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/delphi/llms.md)
 - [Examples](https://github.com/axisvela/praxo-core/tree/main/language/delphi/examples): runnable language-specific examples.
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
-- Registry: [OPM / GitHub release](https://github.com/axisvela/praxo-core/releases/tag/delphi%2Fv0.7.0)
+- Registry: [GitHub release (OPM listing unverified)](https://github.com/axisvela/praxo-core/releases/tag/delphi%2Fv0.7.0)
 - Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761) · [LinkedIn](https://www.linkedin.com/company/axisvela/) · [Facebook](https://www.facebook.com/profile.php?id=61596905732406) · [YouTube](https://www.youtube.com/@axisvela) · [Discord](https://discord.com/channels/1575163993767809064/1575164343148875977) · [GitHub Discussions](https://github.com/axisvela/praxo-core/discussions) · [GitHub Issues](https://github.com/axisvela/praxo-core/issues) · [Documentation](https://axisvela.github.io/praxo-core/) · [Architect](https://axisvela.architect.pub)
 
 ## Representative Flows

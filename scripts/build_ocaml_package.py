@@ -16,6 +16,12 @@ ROOT = Path(__file__).resolve().parents[1]
 OWNER = ".ocaml-package.json"
 GENERATOR = "scripts/build_ocaml_package.py"
 REPOSITORY = "https://github.com/axisvela/praxo-core"
+SRC_MODULES = [
+    "praxo_types", "praxo_json", "praxo_toolcall", "praxo_schema",
+    "praxo_manifest", "praxo_message", "praxo_provider_util",
+    "praxo_openai", "praxo_anthropic", "praxo_gemini", "praxo_plugin",
+    "praxo_runtime", "praxo_middleware", "praxo_agent", "praxo_seams",
+]
 
 
 def sha256(data):
@@ -41,10 +47,10 @@ def payload(root=ROOT):
     version = (sdk / "VERSION").read_text().strip()
     if not re.fullmatch(r"\d+\.\d+\.\d+", version):
         raise ValueError("VERSION must be plain X.Y.Z")
-    source = (sdk / "src/praxo_core.ml").read_bytes()
+    source = (sdk / "src/praxo_types.ml").read_bytes()
     versions = re.findall(rb'^let sdk_version = "([^"]+)"\s*$', source, re.M)
     if versions != [version.encode()]:
-        raise ValueError("VERSION does not match praxo_core.ml sdk_version")
+        raise ValueError("VERSION does not match praxo_types.ml sdk_version")
     files, inputs = {}, {}
 
     def copy(source_path, destination):
@@ -55,7 +61,7 @@ def payload(root=ROOT):
         files[destination] = data
         inputs[source_path.relative_to(root).as_posix()] = data
 
-    for name in ("praxo_core.ml", "praxo_core.mli"):
+    for name in ["praxo_core.ml", "praxo_core.mli"] + [module + ".ml" for module in SRC_MODULES]:
         copy(sdk / "src" / name, "src/" + name)
     for name in ("LICENSE", "CHANGELOG.md", "VERSION"):
         copy(sdk / name, name)
@@ -101,13 +107,16 @@ the canonical tag reference `ocaml/v{version}` does not certify packaged bytes.
         f"(lang dune 3.0)\n(name praxo_core)\n(version {version})\n"
         "(generate_opam_files false)\n"
     ).encode()
-    files["src/dune"] = b"""(library
+    modules = " ".join(["praxo_core"] + SRC_MODULES)
+    private_modules = " ".join(SRC_MODULES)
+    files["src/dune"] = f"""(library
  (name praxo_core)
  (public_name praxo-core)
  (wrapped false)
- (modules praxo_core)
+ (modules {modules})
+ (private_modules {private_modules})
  (libraries unix))
-"""
+""".encode()
     files["tests/dune"] = b"""(test
  (name praxo_tests)
  (modes byte)

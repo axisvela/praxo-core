@@ -1,6 +1,6 @@
 # Independent PHP Consumer
 
-Use published `axisvela/praxo-core` `0.7.0` in your own application with a
+Use published `axisvela/praxo-core` `0.10.0` in your own application with a
 patched PHP release and Composer 2. On Windows use PHP `8.2.35-1`, `8.3.36-1`,
 `8.4.27-1`, `8.5.12-1`, or newer patched builds, which include Brotli 1.2.1 and
 the fix for CVE-2026-111497. No PRAXO-CORE source checkout, API key, model service,
@@ -24,7 +24,7 @@ Declare the exact dependency in `composer.json`:
 ```json
 {
   "require": {
-    "axisvela/praxo-core": "0.7.0"
+    "axisvela/praxo-core": "0.10.0"
   }
 }
 ```
@@ -47,6 +47,9 @@ Use the following as `test_starter.php`, rendered from the
 <!-- php-consumer-source: test_starter.php -->
 
 ## Verify
+
+This is the recommended package pin, not new execution evidence. The consumer
+has not been rerun against this release as part of the pin update.
 
 ```sh
 composer install

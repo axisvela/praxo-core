@@ -1,6 +1,6 @@
 # Streaming
 
-This example uses published crates.io `praxo-core@0.10.0` to consume deltas while
+This example uses published crates.io `praxo-core@0.11.0` to consume deltas while
 the agent loop keeps running normally.
 
 Call `Agent::run_stream` with a delta callback and configure a

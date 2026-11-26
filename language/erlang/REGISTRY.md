@@ -1,7 +1,7 @@
 # PRAXO-CORE Erlang Registry Introduction
 
 **Status:** published. Source version `0.10.0`, source
-tag `erlang/v0.10.0`. Published registry version: `0.9.0`. Registry
+tag `erlang/v0.10.0`. Published registry version: `0.10.0`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -14,10 +14,10 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | Field | Value |
 | --- | --- |
 | Package | `praxo_core_erlang` |
-| Registry | [Hex](https://hex.pm/packages/praxo_core_erlang/0.9.0) |
+| Registry | [Hex](https://hex.pm/packages/praxo_core_erlang/0.10.0) |
 | Source version | `0.10.0` |
-| Published registry version | `0.9.0` |
-| Install (published) | `{praxo_core, "0.9.0", {pkg, praxo_core_erlang}}` |
+| Published registry version | `0.10.0` |
+| Install (published) | `{praxo_core, "0.10.0", {pkg, praxo_core_erlang}}` |
 | Install (source/release prepared) | `{praxo_core, {path, "language/erlang"}}` |
 | Source tag | `erlang/v0.10.0` |
 | Tier | Core |
@@ -44,7 +44,7 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 - [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and their existing related slices.
 - [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and reference-application paths.
 - Scenario tutorials:
-  - [aiops-rca](https://github.com/axisvela/praxo-core/tree/main/language/erlang/Tutorial/aiops-rca): A bounded first slice of [SE-06](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a production incident platform. It correlates fixed trace/metric/lo...
+  - [aiops-rca](https://github.com/axisvela/praxo-core/tree/main/language/erlang/Tutorial/aiops-rca): A bounded first slice of [SE-06](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a production incident platform. It correlates fixed trace/metric/log signals and drafts a review-only rollback. This uses the source Erlang Core through `escript`; no network, credentials or packages beyond Erlang/OTP are required.
   - [otp-recovery](https://github.com/axisvela/praxo-core/tree/main/language/erlang/Tutorial/otp-recovery): A bounded OTP supervision tutorial. It starts a real `one_for_one` supervisor and worker, injects one child crash, observes the restarted PID and start count, then lets Core cho...
   - [policy-simulation](https://github.com/axisvela/praxo-core/tree/main/language/erlang/Tutorial/policy-simulation): A bounded concurrent simulation: twelve Erlang processes compute household subsidies for base and alternate policies, yielding 1200 and 1800. Core drafts a review-only sensitivi...
   - [soc-correlation](https://github.com/axisvela/praxo-core/tree/main/language/erlang/Tutorial/soc-correlation): Fixed EDR and firewall events are correlated; one critical event selects an isolation-review branch, while clean input selects monitoring review. No host is blocked and no live...

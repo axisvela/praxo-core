@@ -5,7 +5,7 @@ and run cases.
 
 `authentication.ml` provides RFC 7662 introspection and RFC 7009 revocation with
 an injectable transport and loads the repository JSON helper through
-`praxo_core.ml`. Tests use a scripted transport. The handler remains
+`praxo_core_bundle.ml`. Tests use a scripted transport. The handler remains
 transport-neutral, so the application must authenticate before `handle`.
 
 ```bash

@@ -27,8 +27,8 @@ C++/Rust、COBOL、Julia、Ruby。复用有用切片，证明宿主生态和运�
 | 证据 | [验证证据](../project/verification-evidence.md) | 准确 revision、范围和限制 |
 
 `Tutorial/` 与 `language/go/examples/` 并列。参考应用统一放在
-`language/<language>/application/`，不进入生成的教程目录；它们属于完整宿主集成，
-不是教程切片。既有机制示例保持发布路径。业务 API 留在 Core 和 `spec/` 之外，
+`language/<language>/application/`，不进入生成的教程目录；它们以宿主集成为目标，
+不是教程切片。目录存在仅证明源码覆盖，不代表完整宿主集成或验收。既有机制示例保持发布路径。业务 API 留在 Core 和 `spec/` 之外，
 属于教学契约，不是框架兼容性承诺。
 
 ## 语言选择门槛 {#language-selection-gate}
@@ -61,7 +61,7 @@ OTP 需要故障恢复测试，Flutter 需要真实入口，规则语言需要�
 ## 场景地图
 
 [路线图](../project/roadmap.md)规定下一轮宿主集成顺序；现有源码、能力和范围由
-[总目录](tutorial-catalog.md)索引。Laravel、Spring Boot、Rails 等参考应用是拟建设路径，
+[总目录](tutorial-catalog.md)索引。Laravel、Spring Boot、Rails 等参考应用是验收目标；八项优先级均已有源码，
 不代表现有 fixture 已完成完整生态应用。优先 PHP，先完成一条连贯路径再扩展。
 
 ## 扩展场景目录
@@ -119,7 +119,10 @@ OTP 需要故障恢复测试，Flutter 需要真实入口，规则语言需要�
 | MATLAB/Octave | 共享教程使用 Octave 执行 | 原生 MATLAB 仍未验证 |
 | Delphi / Free Pascal | 教程使用 Free Pascal | 商业 Delphi 仍未验证 |
 | 共享订单服务 | Python/TypeScript/Java/C# CLI 与 C# Web 接入 loopback 教学后端 | 确定性模型；不建立 Java Web 对真实后端、生产身份或外部采用 |
-| 生态原生参考应用 | PHP 在 `language/php/application/` 下有两个 Laravel 12 路径（前驱 7/7、AI-native 9/9，Core 0.8.1）；托管 DeepSeek `deepseek-flash` 运行记录 `model=live`、四步工具、模型理由和零发布。Elixir AI 运维 Copilot 位于 `language/elixir/application`（OTP 监督，源码模式 6/6）；托管 DeepSeek 运行记录模型选择工具、diagnosis/rationale、`agent_trace` 和零执行。Erlang AI 运维 Copilot 位于 `language/erlang/application`（OTP 监督，源码模式 6/6）；托管 DeepSeek 运行记录相同工具序列、diagnosis/rationale 和零执行。Go AI 基础设施 Agent 位于 `language/go/application`（HTTP/CLI，8/8 测试）；托管 DeepSeek 运行记录模型选择工具、350 字符 diagnosis、523 字符 rationale、`agent_trace` 和零执行。Rust AI 边缘网关 Agent 位于 `language/rust/application`（CLI，`GatewayAdapter`，6/6 测试）；托管 DeepSeek 运行记录 `model=live`、`read_gateway` -> `draft_action`、模型 diagnosis/rationale 和 `executions=0`，live 使用应用自有 `curl` transport。C++ AI 工业边缘 Agent 位于 `language/cpp/application`（静态库，`GatewayAdapter`，因 SEP 拦截 exe 而仅源码/编译）；无本地运行或真实模型记录。COBOL AI 批处理异常分析 Agent 位于 `language/cobol/application`（原生 `praxo-run`，五项确定性检查加批处理文件检查）；私密记录、直接过账和租户不匹配均被拒绝；未捆绑 HTTP/TLS transport，因此没有真实运行记录；不提交可执行文件。Julia AI 科学计算 Copilot 位于 `language/julia/application`（原生 `LinearAlgebra` 响应面，六项确定性检查）；托管 DeepSeek 运行记录 `model=live`、模型选择工具、R² `0.999995`、最优 `0.6994`、预测产量 `0.91764` 和 `writes=0`。Ruby AI 商务 Copilot 位于 `language/ruby/application`（Rails 8 宿主，五项确定性检查）；托管 DeepSeek 运行记录 `model=live`、多次目录读取、`draft_only` 的 `$105.84` 订单和零支付/退款效果。Java AI 电商源码位于 `language/java/application`（Spring Boot，Core 0.11.0），有 trace/rationale，但无本地编译或真实运行 | PHP 真实运行使用自定义 cURL transport 处理代理/CA；Elixir 本地 Hex 遇到 unknown CA，CI 使用已发布 Hex；Erlang 编译 Core 源码；Go 使用本地 module replace；Rust 使用本地 path 依赖和应用自有 `curl` transport；C++ 使用本地 Core CMake target 且只生成静态库；COBOL 使用 GnuCOBOL 源码和仅用于构建的可执行文件；Julia 使用源码模式和 Windows 本地 `curl.exe --ssl-no-revoke` transport；Ruby 使用已安装的 Rails 8 组件和 `curl.exe` transport；Java 本地 JVM 阻塞；PHP/Java/Elixir/Erlang/Go/Rust/C++/COBOL/Julia/Ruby CI 已添加但未运行；无 Drupal 宿主、支付、生产身份、独立消费者或生产部署；参考应用组合的八项优先级均已有源码实现 |
+| 生态原生参考应用 | 八项优先级均在 `language/<language>/application/` 下有源码。PHP Laravel 前驱（7/7）与 AI-native 工作室（9/9）使用 Core 0.8.1，应用 CI 也已在 `45655799714`、`92ba764c` 通过。PHP、Elixir、Erlang、Go、Rust、Julia、Ruby 共有七个托管 DeepSeek `deepseek-flash` 运行。详细本地检查与真实 trace 保留在[验证证据](../project/verification-evidence.md) | 源码覆盖不等于整个组合验收。Java 仍未验证，无本地编译/测试或真实运行。C++ 在 `45655799714` 失败，仅静态库构建在 `45720963270`、`f8242fb3` 通过，其他应用作业全部跳过；无 C++ 运行时/真实模型证据。其他应用在两次运行中均被跳过，不能视为已验证。Go 使用本地 module replace，Rust 使用本地 path 依赖，不是 registry 安装。Elixir Hex 本地受 CA 阻塞；Erlang/COBOL/Julia/Ruby 使用源码运行时；COBOL 无捆绑 live transport。无 Drupal、真实支付、生产身份、独立消费者或生产部署 |
+
+七个托管参考应用运行不验证 #31 单独跟踪的发布包 starter 托管端点路径。
+应用 CI 按路径过滤，`45720963270` 整体成功不是全部应用通过。
 
 之前本地记录与 CI 失败保留为历史证据，后续通过不抹去失败。
 准确运行和范围见[验证证据](../project/verification-evidence.md)。CI 不证明真实 Provider、
@@ -148,7 +151,7 @@ OTP 需要故障恢复测试，Flutter 需要真实入口，规则语言需要�
 
 ## 下一步
 
-1. 完成 PHP Laravel 路径：运行已添加的 CI 作业、记录绑定 revision 的结果，并在开始 Java 前争取消费者复现。
+1. 基于已记录的 PHP Laravel CI 结果争取消费者复现，补齐宿主/验收缺口；Java 应用 CI 通过前不声称已验证。
 2. 使用宿主真实服务、身份和业务边界，分别公开确定性与真实模型命令。
 3. 验证拒绝、依赖失败和运行时行为，再获取消费者复现和持续使用证据。
 4. 用有界选型基准发现路径阻力，不把基准作为参考应用交付的前置条件。

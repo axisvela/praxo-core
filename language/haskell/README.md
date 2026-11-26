@@ -7,7 +7,7 @@ tools, policy hooks, typed events, memory, checkpoints, context budgets,
 middleware, JSON Schema validation, plugin manifest parsing, and runtime helpers.
 
 - Implementation type: Core.
-- Package version: `0.7.1`; supported `SPEC_VERSION`: `0.2.0`.
+- Package version: `0.9.0`; supported `SPEC_VERSION`: `0.2.0`.
 - Local gate: all eleven shared vector groups, native regression tests, and
   source API/parity checks.
 - Linux and Windows CI run the full suite. Hackage publication uses
@@ -20,7 +20,7 @@ middleware, JSON Schema validation, plugin manifest parsing, and runtime helpers
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/haskell/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/haskell/llms.md)
 - [Examples](https://github.com/axisvela/praxo-core/tree/main/language/haskell/examples): runnable language-specific examples.
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
-- Registry: [Hackage](https://hackage.haskell.org/package/praxo-core-0.8.0)
+- Registry: [Hackage](https://hackage.haskell.org/package/praxo-core-0.9.0)
 - Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761) · [LinkedIn](https://www.linkedin.com/company/axisvela/) · [Facebook](https://www.facebook.com/profile.php?id=61596905732406) · [YouTube](https://www.youtube.com/@axisvela) · [Discord](https://discord.com/channels/1575163993767809064/1575164343148875977) · [GitHub Discussions](https://github.com/axisvela/praxo-core/discussions) · [GitHub Issues](https://github.com/axisvela/praxo-core/issues) · [Documentation](https://axisvela.github.io/praxo-core/) · [Architect](https://axisvela.architect.pub)
 
 ## Get started
@@ -28,7 +28,7 @@ middleware, JSON Schema validation, plugin manifest parsing, and runtime helpers
 Install the published package:
 
 ```bash
-cabal install praxo-core
+cabal install --lib praxo-core-0.9.0
 ```
 
 Then run the smallest deterministic example:

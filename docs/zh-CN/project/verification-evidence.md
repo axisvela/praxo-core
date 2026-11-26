@@ -1,6 +1,6 @@
 # 验证证据
 
-**状态：** 公开证据摘要，2026-11-25 更新。历史记录保留原 revision 和限制。
+**状态：** 公开证据摘要，2026-11-26 更新；当前核心版本 `2.11.0`。历史记录保留原 revision 和限制。
 
 本页汇总 PRAXO-CORE 当前可以支持的验证声明。它是公开摘要，不是生产认证、渗透测试，也不表示
 每个语言实现和部署都会继承相同结果。完整运行记录和环境日志保存在受限内部存储；本页只记录
@@ -20,6 +20,10 @@
 都不是生产证据。
 
 ## 当前证据
+
+下文包版本与 registry 观察保留各次运行的历史快照，不是当前发布索引。
+当前发布版本见[公开证据链接](#公开证据链接)和 [Registry 发布状态](../languages/registry-status.md)。
+更新链接不代表新增消费者安装或升级验证。
 
 ### 教程 CI 后续记录（2026-11-25）
 
@@ -42,7 +46,7 @@ HEAD 重新运行并通过完整综合 CI。
 
 | 领域 | 已验证 | 级别 | 限制 |
 | --- | --- | --- | --- |
-| Go Core | Tests、vet、build、API snapshot、race、fuzz 和 module-security CI；当前 main 与发布工作流检查；`v2.10.0` 为当前版本（2026-11-20）；`current-go-consumer` CI 任务从 Registry 安装推荐版本并运行确定性 allow/deny 检查；`v2.6.0` 可从公共 module proxy 在干净外部模块解析；另行记录的干净外部模块安装与最小 agent smoke 覆盖 `v2.5.2` | 契约/单元 + CI + 本地集成 | JSON Schema 和 plugin manifest fuzz 曾在 10s deadline 失败、rerun 通过；慢输入风险仍在调查；tag 提交的 `current-go-consumer` CI 任务从 module proxy 安装 `v2.9.0` 并运行确定性 allow/deny 检查；pkg.go.dev 于 2026-11-16 显示 `v2.9.0`；安装证据仍由 CI 驱动，不是独立非作者消费者 |
+| Go Core | Tests、vet、build、API snapshot、race、fuzz 和 module-security CI；绑定 revision 的 main 与发布工作流检查；当前版本为 `v2.11.0`，不自动继承早期证据。历史 `current-go-consumer` CI 任务从 Registry 安装推荐版本并运行确定性 allow/deny 检查；`v2.6.0` 可从公共 module proxy 在干净外部模块解析；另行记录的干净外部模块安装与最小 agent smoke 覆盖 `v2.5.2` | 契约/单元 + CI + 本地集成 | JSON Schema 和 plugin manifest fuzz 曾在 10s deadline 失败、rerun 通过；慢输入风险仍在调查；历史 docs CI 将不改源码的消费者从 `v2.5.0` 升级至 `v2.10.0`，确定性 allow/deny 通过；更早的 tag 提交 `current-go-consumer` 安装 `v2.9.0`，pkg.go.dev 于 2026-11-16 显示 `v2.9.0`；本页尚无 `v2.11.0` 直接页面核对记录；安装证据仍由 CI 驱动，不是独立非作者消费者 |
 | Live-model Ollama 交叉验证 | Go `qwen3.5:4b`、TypeScript/Python `qwen2.5:0.5b`、C# `qwen2.5:0.5b` 与 Rust `qwen2.5:0.5b` 各完成一次本地 Ollama 的 `get_time` 工具调用路径。Python 使用注入的 `http.client` transport，因为本机标准 `urllib` 挂起。C# 通过构建后的 DLL 运行，因为 apphost/`dotnet run` 路径在当前 shell 未返回；2026-11-22 打印时间。Rust 通过 `cargo build --offline` 构建并从二进制运行；其模型生成的时间文本被记录，但不作为正确性声明 | 本地集成 | 一个本地端点/平台；Python transport、C# DLL 调用与 Rust 离线构建是本地 workaround，不是文档化路径；未评估模型输出质量或时间格式正确性；托管端点、计费调用和独立复现未测试 |
 | Go 长时操作配方 | 文件存储覆盖幂等提交、响应丢失、子进程重启、独立 verifier、带 lease 过期/续期/撤销的 fencing、rename 前后确定性故障注入、损坏状态失败关闭、带 health/readiness、基础 metrics、示例 Prometheus scrape/留存/告警配置（仅配置校验；无 live collector）、环境变量配置、file-based token/secret 轮换（签发属外部）与优雅退出的独立服务二进制、可配置 file/SQLite/Postgres lease 后端与 reload-modify-save（SQLite 已验证；Postgres gated 测试需 `PRAXO_POSTGRES_DSN`，本环境未验证）、rename 边界前后进程级崩溃、gated 100 提交负载/故障测试与干净检出复现脚本、使用自己 token/密钥的独立 verifier 二进制，以及无 lease 时的并发写入者边界测试 | 契约/单元 + 本地集成 | L4 应用配方；没有生产部署、live collector/留存/告警、OS 级断电、生产 lease 协调、可信时钟或 exactly-once |
 | 代表性端到端链路 | Go `language/go/examples/representative-chain`：真实 Ollama `qwen3.5:4b` → MCP `record` 工具 → 最终参数策略 → 受治理子代理委派 → OTel span 与 loopback Harmovela 事件 → 编辑后拒绝且零效果。2026-11-17 记录：输出 `DONE`、效果 parent=1/child=1、子代理调用 2 次、10 个 span、10 个事件、拒绝效果 0 | 本地集成 | 一个本地模型/平台；内存 MCP 与 loopback Harmovela；不是远程或生产部署；没有独立复现、负载或故障测试 |
@@ -227,16 +231,31 @@ uby language/ruby/examples/service/service.rb 在 Ruby 3.4.12 下通过（2026-1
 
 ### 参考应用
 
+**CI 后续记录，2026-11-26 审核：** 两个 PHP 作业（Composer 安装与 PHPUnit）于 2026-11-25 在
+[45655799714](https://github.com/axisvela/praxo-core/actions/runs/45655799714)、
+`92ba764ca54a2f4d9d0d2223aea16001c6e0c221` 通过。该运行因 C++ CMake 配置失败而整体失败，
+其他应用作业被跳过。[45720963270](https://github.com/axisvela/praxo-core/actions/runs/45720963270)、
+`f8242fb33a84a66b5c0590ea1de50266b5bd46ce` 仅通过 C++ 静态库构建与归档存在检查，
+包括 PHP、Java 在内的其他应用作业全部跳过。这不是全部应用或 SDK 全面 CI 通过。
+
+八项优先级均有源码，不等于完整宿主验收。Java 仍未验证；C++ 仅构建，无运行时/真实模型运行。
+Go 的 module replace 与 Rust 的 path 依赖使用本地 Core 源码，不是 registry 包。
+PHP/Elixir/Erlang/Go/Rust/Julia/Ruby 的七个托管参考应用运行不验证 #31 单独跟踪的
+发布包 starter 托管端点路径。
+
+下表保留 2026-11-25 最初的本地工作区快照。“尚未提交/revision 待定”描述当时运行，
+不是当前仓库状态。后续 CI 与这些本地结果分别记录。
+
 | 领域 | 已验证 | 级别 | 限制 |
 | --- | --- | --- | --- |
-| PHP Laravel 内容审阅前驱 | 2026-11-25 本地工作区（尚未提交）：`language/php/application/content-review` 安装已发布 `axisvela/praxo-core==0.8.1` 与 Laravel `12.74.0`；`vendor/bin/phpunit` 7/7 通过、29 条断言。覆盖文章审阅草案 `publications_executed=0`、缺失/错误租户在读取内容前被拒绝、`article-200` 策略拒绝且零读取零草案、依赖失败在一次读取后返回 `TOOL_ERROR` 且无草案，以及 Artisan 成功/失败路径。`php artisan content:review-article article-100` 报告 `reads=1`、`drafts=1`、`publications_executed=0`；`article-200` 以 `AGENT_POLICY_DENIED` 退出 1；`--simulate-failure` 以 `TOOL_ERROR` 退出 1 | 契约/单元 + 本地宿主运行 | PHP 8.5.12，手动启用扩展并使用本地 CA/代理 workaround；确定性模型与内存 fixture 文章存储；这是宿主集成前驱，不是 AI-native 编辑工作室；不含真实 Provider、托管服务、真实 CMS 数据库、生产身份或独立消费者；应用 CI 矩阵已添加但未运行；提交 revision 待定 |
-| PHP AI-native 编辑工作室 | 2026-11-25 本地工作区（尚未提交）：`language/php/application/ai-editorial-studio` 安装已发布 `axisvela/praxo-core==0.8.1` 与 Laravel `12.74.0`；`vendor/bin/phpunit` 9/9 通过、56 条断言。选题流程检索来源、保存模型生成的 `draft_only` 草案、附加分类并创建 `review_requested` 请求，`publications_executed=0`；仓库计数为一份草案、一次审阅、零发布。`Publish immediately: ...`、租户和内容索引失败均有覆盖。另使用托管 DeepSeek `deepseek-flash` 完成真实运行：`model=live`，四步 trace（`search_content` -> `draft_article` -> `suggest_taxonomy` -> `request_publish_review`），模型理由（最近一次 858 字符），`publications_executed=0`；模型明确避免编造 Q3 运营数据，改用占位符。真实运行使用自定义 cURL transport 处理本地代理/CA | 契约/单元 + 本地宿主运行 + 托管真实模型 | 确定性与托管真实运行；fixture 内容索引与内存草案/审阅仓库；无 Drupal 宿主、真实 CMS、持久草案存储、生产身份、独立消费者或生产部署；真实运行使用自定义 transport；CI 矩阵已添加但未运行；提交 revision 待定 |
+| PHP Laravel 内容审阅前驱 | 2026-11-25 本地工作区（尚未提交）：`language/php/application/content-review` 安装已发布 `axisvela/praxo-core==0.8.1` 与 Laravel `12.74.0`；`vendor/bin/phpunit` 7/7 通过、29 条断言。覆盖文章审阅草案 `publications_executed=0`、缺失/错误租户在读取内容前被拒绝、`article-200` 策略拒绝且零读取零草案、依赖失败在一次读取后返回 `TOOL_ERROR` 且无草案，以及 Artisan 成功/失败路径。`php artisan content:review-article article-100` 报告 `reads=1`、`drafts=1`、`publications_executed=0`；`article-200` 以 `AGENT_POLICY_DENIED` 退出 1；`--simulate-failure` 以 `TOOL_ERROR` 退出 1。后续应用 CI 已在 `45655799714`、`92ba764c` 通过 | 契约/单元 + 本地宿主运行 + CI | PHP 8.5.12，手动启用扩展并使用本地 CA/代理 workaround；确定性模型与内存 fixture 文章存储；这是宿主集成前驱，不是 AI-native 编辑工作室；不含真实 Provider、托管服务、真实 CMS 数据库、生产身份或独立消费者；本地快照 revision 待定，CI revision 单独记录 |
+| PHP AI-native 编辑工作室 | 2026-11-25 本地工作区（尚未提交）：`language/php/application/ai-editorial-studio` 安装已发布 `axisvela/praxo-core==0.8.1` 与 Laravel `12.74.0`；`vendor/bin/phpunit` 9/9 通过、56 条断言。选题流程检索来源、保存模型生成的 `draft_only` 草案、附加分类并创建 `review_requested` 请求，`publications_executed=0`；仓库计数为一份草案、一次审阅、零发布。`Publish immediately: ...`、租户和内容索引失败均有覆盖。另使用托管 DeepSeek `deepseek-flash` 完成真实运行：`model=live`，四步 trace（`search_content` -> `draft_article` -> `suggest_taxonomy` -> `request_publish_review`），模型理由（最近一次 858 字符），`publications_executed=0`；模型明确避免编造 Q3 运营数据，改用占位符。真实运行使用自定义 cURL transport 处理本地代理/CA。后续应用 CI 已在 `45655799714`、`92ba764c` 通过 | 契约/单元 + 本地宿主运行 + 托管真实模型 + CI | 确定性与托管真实运行；fixture 内容索引与内存草案/审阅仓库；无 Drupal 宿主、真实 CMS、持久草案存储、生产身份、独立消费者或生产部署；真实运行使用自定义 transport；本地快照 revision 待定，CI revision 单独记录 |
 | Java AI 电商助手（仅源码） | 源码已添加到 `language/java/application`：Spring Boot `4.1.0`、已发布 `com.axisvela:praxo-core:0.11.0`、租户过滤器、应用自有商品/草案服务、五个工具且 `checkout` 始终拒绝、模型理由与 `agent_trace`、确定性模型、六个主测试加一个商品目录失败测试。本地 JDK 25 JVM 即使重定向 stdin 仍挂起，因此没有本地编译、测试或真实运行结果。Linux CI 作业已添加但尚未运行 | 源码 / CI 待运行（未验证） | 无本地编译或测试结果；无真实模型运行；无 CI 结果；无真实 Provider、支付、真实商品目录、生产身份或独立消费者；CI 记录前不得声称 Java 测试或真实推理通过 |
 | Elixir AI 运维 Copilot | 2026-11-25 本地工作区（尚未提交）：`language/elixir/application` 在 Elixir `1.20.4` / OTP `29` 上；`PRAXO_CORE_PATH=.. mix test` 6/6 通过。应用监督遥测存储与修复执行器；成功生成 `draft_only` 修复，包含模型 diagnosis/rationale 且 `executions=0`；直接修复请求被策略拒绝且零效果；`service-200` 与错误租户在读取前被拒绝；遥测失败在一次读取后返回 `TELEMETRY_UNAVAILABLE` 且无草案；杀掉遥测进程后监督树以新 PID 重启。另使用托管 DeepSeek `deepseek-flash` 完成真实运行：`model=live`，模型选择 `search_signals(service-100)`，再生成包含 diagnosis/rationale 的 `draft_remediation`，最终 `executions=0`。更早一次尝试把展示名 `checkout` 当作 service id，被策略拒绝；加入授权 service id 后模型自行改对 | 契约/单元 + 本地 OTP 宿主 + 托管真实模型 | 源码模式确定性测试与 `:httpc` 代理/CA 真实运行；本地 Hex 与 CI 未运行；fixture 遥测与内存执行器；无真实遥测、生产集群、真实修复、持久状态、生产身份、独立消费者或生产部署；提交 revision 待定 |
 | Erlang AI 运维 Copilot | 2026-11-25 本地工作区（尚未提交）：`language/erlang/application` 使用 OTP `29` 编译 Erlang Core 源码与 OTP 应用，`python language/erlang/application/run-tests.py` 6/6 通过。应用监督遥测存储与修复执行器；成功生成 `draft_only` 修复，包含模型 diagnosis/rationale 且 `executions=0`；直接修复、`service-200` 与错误租户被拒绝；遥测失败在一次读取后返回 `TELEMETRY_UNAVAILABLE`；杀掉遥测进程后监督树重启。另使用托管 DeepSeek `deepseek-flash` 完成真实运行：`model=live`，模型选择 `search_signals(service-100)`，再生成包含 diagnosis/rationale 的 `draft_remediation`，最终 `executions=0`；transport 使用 `httpc` 与代理/CA | 契约/单元 + 本地 OTP 宿主 + 托管真实模型 | 源码模式编译 Core，不是 registry/rebar 安装；Erlang CI 已添加但未运行；fixture 遥测与内存执行器；无真实遥测、生产集群、真实修复、持久状态、生产身份、独立消费者或生产部署 |
 | Go AI 基础设施 Agent | 2026-11-25 本地工作区（尚未提交）：`language/go/application` 通过本地 module replace 使用 Go 参考源码；`go test ./...` 8/8 通过。应用提供 HTTP 与 CLI 入口、租户校验、应用自有遥测/执行器服务、受治理工具和 `agent_trace`。成功返回 `draft_only` 修复，包含模型 diagnosis/rationale 且 `executions=0`；直接修复、`service-200` 与错误租户被拒绝；遥测失败返回 `TOOL_ERROR`；无效模型输出被拒绝。另使用托管 DeepSeek `deepseek-flash` 完成真实运行：`model=live`，三步 trace（`search_signals` -> `draft_remediation` -> 最终报告），350 字符 diagnosis、523 字符 rationale，`executions=0` | 契约/单元 + 本地 Go 宿主 + 托管真实模型 | 本地 module replace，不是 registry 安装；Go CI 已添加但未运行；fixture 遥测与内存执行器；无真实遥测、生产集群、真实修复、持久状态、生产身份、独立消费者或生产部署 |
 | Rust AI 边缘网关 Agent | 2026-11-25 本地工作区（尚未提交）：`language/rust/application` 使用本地 path 依赖指向 Rust 参考源码；`cargo test --offline` 6/6 通过。CLI 使用应用自有 `GatewayAdapter`、受治理工具、策略和 `agent_trace`。成功生成 `draft_only` 修复，包含 diagnosis/rationale 且 `executions=0`；直接修复、`device-200` 与错误租户被拒绝；网关失败返回 `TOOL_ERROR`；无效模型输出被拒绝。托管 DeepSeek `deepseek-flash` 真实运行记录 `model=live`、模型选择 `read_gateway` 再选择 `draft_action`、模型生成 diagnosis/rationale 和 `executions=0`；live 路径使用应用自有 `curl` transport，不使用 Core `http-ureq`/`ring` 构建，Windows 添加 `--ssl-no-revoke` | 契约/单元 + 本地 Rust 宿主 + 托管真实模型 | 本地 path 依赖，不是 crate registry 证据；Rust CI 已添加但未运行；fixture adapter 与确定性模型加托管真实运行；无真实 MQTT、OPC UA、Socket、设备写入、生产身份、独立消费者或生产部署 |
-| C++ AI 工业边缘 Agent | 2026-11-25 本地工作区（尚未提交）：`language/cpp/application` 通过本地 Core CMake target 与 MinGW 构建，只生成 `libpraxo-cpp-ai-edge-application.a`。由于 SEP 拦截可执行产物，本仓库不生成 exe。源码包含应用自有 `GatewayAdapter`、受治理工具、策略和 trace 代码，以及仅源码的 `curl` live transport，但没有本地运行测试或真实模型运行 | 仅源码/静态库编译 | 本地 Core CMake/源码构建，不是 registry 包证据；本仓库不生成可执行文件；无本地运行时或真实模型运行；C++ CI 构建已添加但未运行；无真实现场总线/OPC UA/设备写入、生产身份、独立消费者或生产部署 |
+| C++ AI 工业边缘 Agent | 2026-11-25 本地工作区（尚未提交）：`language/cpp/application` 通过本地 Core CMake target 与 MinGW 构建，只生成 `libpraxo-cpp-ai-edge-application.a`。由于 SEP 拦截可执行产物，本仓库不生成 exe。源码包含应用自有 `GatewayAdapter`、受治理工具、策略和 trace 代码，以及仅源码的 `curl` live transport，但没有本地运行测试或真实模型运行。CMake 配置在 `45655799714` 失败；静态库构建与归档检查在 `45720963270`、`f8242fb3` 通过 | 源码/静态库编译 + CI 仅构建 | 本地 Core CMake/源码构建，不是 registry 包证据；本仓库不生成可执行文件；无本地或 CI 运行时/真实模型运行；后续成功运行中其他应用作业被跳过；无真实现场总线/OPC UA/设备写入、生产身份、独立消费者或生产部署 |
 | COBOL AI 批处理异常分析 Agent | 2026-11-25 本地工作区（尚未提交）：`language/cobol/application` 使用 GnuCOBOL `2.0.0` 编译原生 COBOL Core；`python language/cobol/application/run-tests.py` 通过五项内部检查和批处理文件检查。COBOL `praxo-run` 循环读取 `exceptions.tsv`，调用模型选择的 `read_exception` 与 `draft_advisory`，并把只读建议写入 `advisory.tsv`。公开记录成功生成 diagnosis/rationale 且 `executions=0`；私密记录在读取前被拒绝；直接 `post_adjustment` 被拒绝且零效果；租户不匹配在模型前被拒绝；缺少 diagnosis/rationale 的弱建议被拒绝。可执行文件仅位于被忽略的 `language/cobol/build/`，不提交二进制 | 契约/单元 + 本地 GnuCOBOL 宿主 | 原生 COBOL 源码构建，不是 registry 包安装；COBOL CI 已添加但未运行；fixture 异常文件与确定性脚本模型；无真实模型 transport、真实账本/过账/清算、持久队列/恢复、生产身份、独立消费者或生产部署 |
 | Julia AI 科学计算 Copilot | 2026-11-25 本地工作区（尚未提交）：`language/julia/application` 在 Julia `1.13.2` 上运行；`julia --project=language/julia language/julia/application/application.jl --test` 六项检查通过。原生 `praxo-run` Agent 调用 `load_observations` 与 `fit_response_surface`；拟合使用 `LinearAlgebra` 对 11 个 fixture 样本做普通最小二乘。成功记录 R² `0.999995`、边界内最优 `0.6994`、预测产量 `0.91764`、`writes=0` 和 `mutating_actions=[]`；直接 `publish_experiment` 被策略拒绝；其他数据集在读取前被拒绝；未加载先拟合返回工具错误；租户不匹配在模型前被拒绝；模拟数值依赖失败后 `writes=0`。托管 DeepSeek `deepseek-flash` 真实运行记录 `model=live`、模型选择 `load_observations` 再选择 `fit_response_surface`、计算拟合证据和 `writes=0`；Windows transport 使用 `curl.exe --ssl-no-revoke` 与 `HTTPS_PROXY` | 契约/单元 + 本地 Julia 宿主 + 托管真实模型 | fixture 观测与单一二次模型；无实验数据库、统计验证、求解器认证、不确定性评估、仪表盘、实验记录写入、生产身份、独立消费者或生产部署；本地源码运行时，不是 registry 安装；Julia CI 已添加但未运行 |
 | Ruby AI 商务 Copilot | 2026-11-25 本地工作区（尚未提交）：`language/ruby/application` 在 Ruby `3.4.12` 上以 `railties`/`actionpack` 启动 Rails `8.1.4.1`；`ruby language/ruby/application/run-tests.rb` 五项检查通过。Rails 控制器接受 `POST /assistant` 与租户 `acme`；原生 Ruby `praxo-run` 循环调用模型选择的 `search_catalog`、`quote_cart` 和 `draft_order`，在应用自有 store 中保存 `draft_only` 订单。成功记录 `$105.84` 报价、`payment_charges=0`、`refunds=0` 和 `mutating_actions=[]`；直接 `charge_payment` 与 `refund_order` 被策略拒绝；缺失或错误租户在 Agent 前被拒绝；缺少审阅字段的弱草案被拒绝且不持久化。托管 DeepSeek `deepseek-flash` 真实运行记录 `model=live`、多次 `search_catalog`、随后 `quote_cart` 与 `draft_order`、`draft_only` 订单和零支付/退款效果；Windows transport 使用 `curl.exe --ssl-no-revoke` 与代理 | 契约/单元 + 本地 Rails 宿主 + 托管真实模型 | fixture 目录与内存草案存储；无生产数据库、Active Record 模型、Active Job worker、库存预留、持久审计存储、真实支付/退款/税务/履约、生产身份、独立消费者或生产部署；最小 Rails 宿主，不是完整生成的 Rails 应用；本地源码运行时，不是 registry 安装；Ruby CI 已添加但未运行 |
@@ -281,20 +300,20 @@ CI 链接指向已记录的运行；它们只证明该 run 所指的 revision，
 Registry 链接指向当前已发布版本；上表的消费者 smoke 行指明实际安装的版本。
 
 - [Registry 发布状态（当前版本与地址）](../languages/registry-status.md)
-- [PyPI 上的 praxo-core 0.10.0](https://pypi.org/project/praxo-core/0.10.0/)
-- [npm 上的 @axisvela/praxo-core 0.9.0](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.9.0)
-- [crates.io 上的 praxo-core 0.10.0](https://crates.io/crates/praxo-core/0.10.0)
-- [pub.dev 上的 praxo_core 0.7.0](https://pub.dev/packages/praxo_core/versions/0.7.0)
-- [RubyGems 上的 praxo-core 0.9.2](https://rubygems.org/gems/praxo-core/versions/0.9.2)
-- [LuaRocks 上的 praxo-core 0.8.1-1](https://luarocks.org/modules/hanhhuiwen/praxo-core)
-- [Hex 上的 praxo_core 0.10.0](https://hex.pm/packages/praxo_core/0.10.0)
-- [NuGet 上的 Praxo.Core 0.10.0](https://www.nuget.org/packages/Praxo.Core/0.10.0)
-- [Packagist 上的 axisvela/praxo-core 0.8.1](https://packagist.org/packages/axisvela/praxo-core)
+- [PyPI 上的 praxo-core 0.11.0](https://pypi.org/project/praxo-core/0.11.0/)
+- [npm 上的 @axisvela/praxo-core 0.10.0](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.10.0)
+- [crates.io 上的 praxo-core 0.11.0](https://crates.io/crates/praxo-core/0.11.0)
+- [pub.dev 上的 praxo_core 0.8.0](https://pub.dev/packages/praxo_core/versions/0.8.0)
+- [RubyGems 上的 praxo-core 0.10.0](https://rubygems.org/gems/praxo-core/versions/0.10.0)
+- [LuaRocks 上的 praxo-core 0.9.0-1](https://luarocks.org/modules/hanhhuiwen/praxo-core/0.9.0-1)
+- [Hex 上的 praxo_core 0.11.0](https://hex.pm/packages/praxo_core/0.11.0)
+- [NuGet 上的 Praxo.Core 0.11.0](https://www.nuget.org/packages/Praxo.Core/0.11.0)
+- [Packagist 上的 axisvela/praxo-core 0.10.0](https://packagist.org/packages/axisvela/praxo-core#v0.10.0)
 - [PowerShell Gallery 上的 praxo-core-ps 0.8.1](https://www.powershellgallery.com/packages/praxo-core-ps/0.8.1)
-- [MetaCPAN 上的 Praxo-Core 0.7.1](https://metacpan.org/dist/Praxo-Core)
-- [Hex 上的 praxo_core_erlang 0.9.0](https://hex.pm/packages/praxo_core_erlang/0.9.0)
-- [DUB 上的 praxo-core 0.6.1](https://code.dlang.org/packages/praxo-core)
-- [Maven Central 上的 com.axisvela:praxo-core 0.11.0](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.11.0/)
+- [MetaCPAN 上的 Praxo-Core 0.8.0](https://metacpan.org/release/HANHHUIWEN/Praxo-Core-0.8.0)
+- [Hex 上的 praxo_core_erlang 0.10.0](https://hex.pm/packages/praxo_core_erlang/0.10.0)
+- [DUB 上的 praxo-core 0.8.0](https://code.dlang.org/packages/praxo-core/versions/0.8.0)
+- [Maven Central 上的 com.axisvela:praxo-core 0.12.0](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.12.0/)
 - [受治理工作区示例](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/governed-workspace)
 - [受治理执行设计](../reference/governed-execution.md)
 - [OpenTelemetry 可运行示例](https://github.com/axisvela/praxo-core/tree/main/adapters/otel/example)

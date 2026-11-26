@@ -4,12 +4,11 @@ Deterministic representative chain covering MCP record, final-argument
 authorization, governed child delegation, OTel/Harmovela events, and an edited
 denial with zero effects.
 
-From `language/ocaml/`:
+From the repository root:
 
 ```bash
-ocamlc -c src/praxo_core.mli
-ocamlc -c src/praxo_core.ml
-ocamlc -I src src/praxo_core.cmo language/go/examples/representative-chain/chain.ml -o build/praxo-ocaml-chain
+python language/ocaml/run-tests.py
+ocamlc -I language/ocaml/build unix.cma language/ocaml/build/praxo_core.cma language/ocaml/examples/representative-chain/chain.ml -o build/praxo-ocaml-chain
 ocamlrun build/praxo-ocaml-chain
 ```
 

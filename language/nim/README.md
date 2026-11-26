@@ -18,17 +18,15 @@ process plugin host that binds the C Core.
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/nim/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/nim/llms.md)
 - [Examples](https://github.com/axisvela/praxo-core/tree/main/language/nim/examples): runnable language-specific examples.
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
-- Registry: [Nimble/nim-lang packages](https://github.com/axisvela/praxo-core-nim)
+- Registry: [Nimble/nim-lang packages (unverified)](https://github.com/axisvela/praxo-core-nim)
 - Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761) · [LinkedIn](https://www.linkedin.com/company/axisvela/) · [Facebook](https://www.facebook.com/profile.php?id=61596905732406) · [YouTube](https://www.youtube.com/@axisvela) · [Discord](https://discord.com/channels/1575163993767809064/1575164343148875977) · [GitHub Discussions](https://github.com/axisvela/praxo-core/discussions) · [GitHub Issues](https://github.com/axisvela/praxo-core/issues) · [Documentation](https://axisvela.github.io/praxo-core/) · [Architect](https://axisvela.architect.pub)
 
 ## Install
 
-The Nimble package is mirrored from `axisvela/praxo-core-nim`, which keeps the
-root `praxo_core.nimble` and `src/` tree required by Nimble and nimpkgs:
-
-```bash
-nimble install praxo_core
-```
+The split source repository is `axisvela/praxo-core-nim`. Registry crawler
+completion and Nimble publication are unverified. Use the source checkout at
+`language/nim` and the build instructions below rather than assuming a registry
+package is available.
 
 ## Build And Test
 

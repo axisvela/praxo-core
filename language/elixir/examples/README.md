@@ -1,6 +1,6 @@
 # Elixir Examples
 
-- [`consumer/`](consumer/): published Hex `praxo_core==0.9.1` starter with
+- [`consumer/`](consumer/): published Hex `praxo_core==0.11.0` starter with
   deterministic allow/deny checks.
 - [`hitl/`](hitl/): approval and edit-reauthorization for a write tool.
 - [`session-checkpoint/`](session-checkpoint/): multi-turn history save, reload,

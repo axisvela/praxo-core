@@ -1,7 +1,7 @@
 # PRAXO-CORE R Registry Introduction
 
 **Status:** published on r-universe; CRAN not published. Source version `0.12.0`, source
-tag `r/v0.12.0`. Published registry version: `0.11.0`. Registry
+tag `r/v0.12.0`. Published registry version: `0.12.0`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -16,9 +16,9 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | Package | `praxocore` |
 | Registry | [r-universe](https://axisvela.r-universe.dev/praxocore) |
 | Source version | `0.12.0` |
-| Published registry version | `0.11.0` |
+| Published registry version | `0.12.0` |
 | Install (published) | `install.packages("praxocore", repos = "https://axisvela.r-universe.dev")` |
-| Install (source/release prepared) | `install.packages("praxocore", repos = "https://axisvela.r-universe.dev")` |
+| Install (source/release prepared) | `R CMD INSTALL language/r` |
 | Source tag | `r/v0.12.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |

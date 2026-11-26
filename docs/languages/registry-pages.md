@@ -1,6 +1,6 @@
 # Registry Pages and Package Introductions
 
-**Status:** public guidance, 2026-11-05. A package-registry page is a snapshot
+**Status:** public audit, 2026-11-26. A package-registry page is a snapshot
 created at publication. Source READMEs, manifests, and the documentation site
 can be newer. Do not infer current behavior from a stale registry page, and do
 not assume this repository's changes update an already-published page.
@@ -38,28 +38,41 @@ state, not a promise that every page introduction is current.
   production security certification, or real-time/physical safety.
 - Version metadata consistent with the source tag and the registry.
 
-## Current Pilot Page Audit
+## Public Page Audit
 
-The Go page was checked on 2026-11-16; the four pilot packages were checked on
-2026-11-13.
+GitHub Latest was corrected on 2026-11-26 to the existing
+[Go `v2.9.0` Release](https://github.com/axisvela/praxo-core/releases/tag/v2.9.0).
+The Go proxy has `v2.11.0`, but its GitHub Release is still missing. This repairs
+the language-release designation error, not the missing Core Release or package
+README snapshots. `scripts/check_public_release.py` checks the live designation
+and expected Core Release separately from local metadata checks.
 
-| Language | Page | Published version | Current page state | Next action |
+Audit date: 2026-11-26. Published availability is not page acceptance. The
+following immutable release snapshots retain known defects; source corrections
+do not repair them. A new publication and a fresh audit are still required.
+
+| Language | Published evidence | Version | Observed defect | Acceptance |
 | --- | --- | --- | --- | --- |
-| Go | [pkg.go.dev](https://pkg.go.dev/github.com/axisvela/praxo-core/v2) | `v2.11.0` | Rendered `v2.11.0` README shows the `@v2.11.0` install command, MIT license, and release notes; pkg.go.dev reports `v2.11.0` published 2026-11-16 | No further action |
-| Python | [PyPI](https://pypi.org/project/praxo-core/) | `0.10.0` | `0.9.1` is published; the packaged README carries the expanded examples link and the `0.9.1` install command. The introduction block still links the `0.9.0` page | Refresh the registry-page link in the next release |
-| TypeScript | [npm](https://www.npmjs.com/package/@axisvela/praxo-core) | `0.9.0` | `0.9.0` is published as `latest` | No further action |
-| Java | [Maven Central](https://central.sonatype.com/artifact/com.axisvela/praxo-core) | `0.11.0` | `0.11.0` is published with signed sources and javadoc; the POM description links the Java examples | No further action |
-| Rust | [crates.io](https://crates.io/crates/praxo-core) | `0.10.0` | `0.9.2` is published; the packaged README carries the example index | No further action |
-| C# | [NuGet](https://www.nuget.org/packages/Praxo.Core) | `0.10.0` | `0.9.2` is published and indexed; the packaged README carries the example index | No further action |
+| Go | [pkg.go.dev](https://pkg.go.dev/github.com/axisvela/praxo-core/v2@v2.11.0) | `v2.11.0` | README installs `@v2.10.0` and calls `v2.10.0` current | Not accepted |
+| Python | [PyPI](https://pypi.org/project/praxo-core/0.11.0/) | `0.11.0` | Packaged README installs `0.9.1` | Not accepted |
+| TypeScript | [npm](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.10.0) | `0.10.0` | Packaged README installs `0.8.1` | Not accepted |
+| Java | [Maven POM](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.12.0/praxo-core-0.12.0.pom) | `0.12.0` | SCM tag is `java/v0.10.0` | Not accepted |
+| Rust | [crates.io](https://crates.io/crates/praxo-core/0.11.0) | `0.11.0` | Packaged README installs `0.9.2` | Not accepted |
+| C# | [NuGet](https://www.nuget.org/packages/Praxo.Core/0.11.0) | `0.11.0` | Packaged README installs `0.10.0` | Not accepted |
+| Dart | [pub.dev](https://pub.dev/packages/praxo_core/versions/0.8.0) | `0.8.0` | Packaged README installs `0.7.0` | Not accepted |
+| Haskell | [Hackage](https://hackage.haskell.org/package/praxo-core-0.9.0) | `0.9.0` | Packaged README installs `0.7.1` | Not accepted |
 
-The Python `0.7.0`, TypeScript `0.6.0`, Java `0.9.0`, Rust `0.8.0`, and C#
-`0.8.0` language pages were refreshed from this release. The Go page follows the
-`v2.11.0` tag and was verified on 2026-11-16. Do not claim that another published
-page is updated until its registry shows the new version and text.
+The Go release documentation date is 2026-11-26; the
+[proxy publication timestamp](https://proxy.golang.org/github.com/axisvela/praxo-core/v2/@v/v2.11.0.info)
+is 2026-11-25 UTC. Neither supports the earlier claimed 2026-11-16 page acceptance
+or 2026-11-20 release date. No remote correction is claimed here.
 
-Other registries are listed in [Registry Publication Status](registry-status.md).
-They were not all re-audited in this update; use the same checklist at release
-time instead of inferring page quality from source files alone.
+Other publication evidence is in [Registry Publication Status](registry-status.md).
+Swift Package Index lists split package `0.7.2`, whose non-streaming scope must
+not be confused with monorepo `swift/v0.9.0` streaming scope. R r-universe
+`0.12.0` was built from actual HEAD `9b417e3`; its checks include warnings, not
+an all-clean result. Registry availability alone accepts neither page quality
+nor runtime compatibility.
 
 ## Per-Language Registry and Coding-Agent Entries
 
@@ -128,8 +141,9 @@ Maven Central) must still have accurate metadata and canonical documentation lin
 
 ## MATLAB Compatibility Metadata
 
-Checked 2026-11-06: [File Exchange](https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core)
-shows version `0.3.0`, "Compatible with any release" and Windows/macOS/Linux
+Checked 2026-11-26: [File Exchange](https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core)
+shows version `0.9.1` (source `matlab/v0.9.0`), but its citation still names
+`0.2.1`. It shows "Compatible with any release" and Windows/macOS/Linux
 labels; its installation menu also says R2026b or later. These labels are not
 independent MATLAB test evidence. The implementation is tested under GNU Octave
 11.3.0; MATLAB execution and installed-artifact validation remain unverified.

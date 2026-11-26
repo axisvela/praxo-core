@@ -14,11 +14,15 @@ def interface():
     return text
 
 
+def type_source():
+    return (SRC / "praxo_types.ml").read_text(encoding="utf-8")
+
+
 def snapshot():
     spec = (REPO / "spec/SPEC_VERSION").read_text(encoding="utf-8").strip()
     text = interface()
-    sdk = re.search(r'let sdk_version = "([^"]+)"', (SRC / "praxo_core.ml").read_text(encoding="utf-8"))
-    declared_spec = re.search(r'let spec_version = "([^"]+)"', (SRC / "praxo_core.ml").read_text(encoding="utf-8"))
+    sdk = re.search(r'let sdk_version = "([^"]+)"', type_source())
+    declared_spec = re.search(r'let spec_version = "([^"]+)"', type_source())
     if not sdk or not declared_spec or declared_spec[1] != spec:
         raise ValueError("OCaml SDK or contract version does not match specification")
     version_file = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
@@ -28,6 +32,8 @@ def snapshot():
     for raw in text.splitlines():
         line = raw.strip()
         if line.startswith("val ") or line.startswith("type ") or line.startswith("exception "):
+            if line.startswith("val "):
+                line = line.split("[@@ocaml.doc", 1)[0].rstrip()
             lines.append(line)
     if len(lines) <= 3:
         raise ValueError("no public OCaml declarations found")
@@ -39,7 +45,7 @@ def parity_errors():
     mli = interface()
     spec = (REPO / "spec/SPEC_VERSION").read_text(encoding="utf-8").strip()
     errors = []
-    sdk = re.search(r'let sdk_version = "([^"]+)"', (SRC / "praxo_core.ml").read_text(encoding="utf-8"))[1]
+    sdk = re.search(r'let sdk_version = "([^"]+)"', type_source())[1]
     if "- Tier: core" not in text.splitlines():
         errors.append("OCaml parity tier is not core")
     if "- SPEC_VERSION: " + spec not in text.splitlines():
@@ -65,7 +71,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
-    sdk = re.search(r'let sdk_version = "([^"]+)"', (SRC / "praxo_core.ml").read_text(encoding="utf-8"))[1]
+    sdk = re.search(r'let sdk_version = "([^"]+)"', type_source())[1]
     target = ROOT / "api" / f"{sdk}.txt"
     content = snapshot()
     errors = parity_errors()

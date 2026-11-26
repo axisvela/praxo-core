@@ -1,6 +1,6 @@
 # PHP 独立消费者
 
-在自己的应用中使用已发布的 `axisvela/praxo-core` `0.7.0`，要求已修补的 PHP 版本
+在自己的应用中使用已发布的 `axisvela/praxo-core` `0.10.0`，要求已修补的 PHP 版本
 及 Composer 2。Windows 上使用 PHP `8.2.35-1`、`8.3.36-1`、`8.4.27-1`、
 `8.5.12-1` 或更新的已修补版本；这些版本包含 Brotli 1.2.1 与
 CVE-2026-111497 修复。无需检出 PRAXO-CORE 源码、API Key、模型服务或 AxisVela 产品。
@@ -21,7 +21,7 @@ CVE-2026-111497 修复。无需检出 PRAXO-CORE 源码、API Key、模型服务
 ```json
 {
   "require": {
-    "axisvela/praxo-core": "0.7.0"
+    "axisvela/praxo-core": "0.10.0"
   }
 }
 ```
@@ -42,6 +42,8 @@ CVE-2026-111497 修复。无需检出 PRAXO-CORE 源码、API Key、模型服务
 <!-- php-consumer-source: test_starter.php -->
 
 ## 验证
+
+这是推荐的包版本，不是新的执行证据。本次版本更新未针对该发布版本重新运行消费者测试。
 
 ```sh
 composer install

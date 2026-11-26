@@ -1,4 +1,4 @@
-#use "praxo_core.ml"
+#use "praxo_core_bundle.ml"
 
 let get_env name fallback =
   match Sys.getenv_opt name with

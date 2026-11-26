@@ -1,4 +1,4 @@
-#use "praxo_core.ml"
+#use "praxo_core_bundle.ml"
 
 type principal = { subject : string; tenant : string; expires : int }
 

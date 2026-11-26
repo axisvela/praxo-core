@@ -21,7 +21,7 @@ From this directory:
 cargo run --offline
 ```
 
-The crate uses published crates.io `praxo-core@0.10.0` from the local cargo cache.
+The crate uses published crates.io `praxo-core@0.11.0` from the local cargo cache.
 
 ## Expected output
 

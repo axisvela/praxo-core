@@ -8,9 +8,9 @@ middleware helpers, tool selection, and human-in-the-loop interrupt decisions.
 It does not call Go or another Core.
 
 - Implementation type: Core.
-- Package version: `0.8.2`; supported `SPEC_VERSION`: `0.2.0`.
+- Package version: `0.10.0`; supported `SPEC_VERSION`: `0.2.0`.
 - Hex package name: `praxo_core_erlang`; OTP application name: `praxo_core`.
-- The Hex package is `praxo_core_erlang@0.8.2`.
+- The Hex package is `praxo_core_erlang@0.10.0`.
 - Toolchain: Erlang/OTP 29 or newer. JSON uses the OTP `json` module.
 
 ## Registry and Coding-Agent Entry
@@ -19,7 +19,7 @@ It does not call Go or another Core.
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/erlang/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/erlang/llms.md)
 - [Examples](https://github.com/axisvela/praxo-core/tree/main/language/erlang/examples): runnable language-specific examples.
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
-- Registry: [Hex](https://hex.pm/packages/praxo_core_erlang/0.9.0)
+- Registry: [Hex](https://hex.pm/packages/praxo_core_erlang/0.10.0)
 - Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761) · [LinkedIn](https://www.linkedin.com/company/axisvela/) · [Facebook](https://www.facebook.com/profile.php?id=61596905732406) · [YouTube](https://www.youtube.com/@axisvela) · [Discord](https://discord.com/channels/1575163993767809064/1575164343148875977) · [GitHub Discussions](https://github.com/axisvela/praxo-core/discussions) · [GitHub Issues](https://github.com/axisvela/praxo-core/issues) · [Documentation](https://axisvela.github.io/praxo-core/) · [Architect](https://axisvela.architect.pub)
 
 ## Get started
@@ -27,7 +27,7 @@ It does not call Go or another Core.
 Install the published package:
 
 ```bash
-{praxo_core, "0.8.2", {pkg, praxo_core_erlang}}
+{praxo_core, "0.10.0", {pkg, praxo_core_erlang}}
 ```
 
 Then run the smallest deterministic example:
@@ -62,7 +62,7 @@ Runnable examples live under [`language/erlang/examples`](https://github.com/axi
 ## Install
 
 ```erlang
-{deps, [{praxo_core, "0.8.2", {pkg, praxo_core_erlang}}]}.
+{deps, [{praxo_core, "0.10.0", {pkg, praxo_core_erlang}}]}.
 ```
 
 - Local gate: eleven vector groups, native regression tests, API snapshot, and

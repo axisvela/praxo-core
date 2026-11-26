@@ -8,6 +8,16 @@ Julia implementation of the PRAXO-CORE AI agent framework contract.
 - License: MIT
 - Dependency: JSON.jl
 
+## Install
+
+General registry merge is pending; no registry package is published. From the
+repository root, use the source checkout:
+
+```julia
+using Pkg
+Pkg.develop(path="language/julia")
+```
+
 ## Registry and Coding-Agent Entry
 
 - Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/language/julia/REGISTRY.md)

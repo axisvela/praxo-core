@@ -1,6 +1,6 @@
 # Public Roadmap
 
-Current core release: `2.10.0`.
+Current core release: `2.11.0`.
 
 This roadmap is organized around developer outcomes: choose the framework,
 run something useful, build a real prototype, embed it in an application, and
@@ -35,7 +35,7 @@ task-to-path table in Start Here, language entries grouped by what a developer
 can build today, a first-pass source-depth audit for the example catalog, and
 language-specific starting points in the consumer test template. These close the
 internal documentation gaps, but they do not close the external ones. Independent
-five-minute timing, hosted-endpoint validation, an external consumer-selected
+five-minute timing, hosted starter-path validation, an external consumer-selected
 path, and registry install verification remain open and are tracked in
 [#30](https://github.com/axisvela/praxo-core/issues/30),
 [#31](https://github.com/axisvela/praxo-core/issues/31),
@@ -135,7 +135,7 @@ orchestration. A conformance pass or package publication is not adoption.
 | Stage | Developer outcome | Current state | Next result |
 | --- | --- | --- | --- |
 | 0. Decide | Know whether Core fits and which language/path to use | The overview, comparison, non-goals, and a single canonical task-to-path table in Start Here exist; the landing page and overview link to it. Language entries are grouped by what can be built today | Use the canonical path in external onboarding and record where it breaks; keep language entry points aligned with registry state |
-| 1. Run | Install a published package, connect a model, register one tool, and get a useful result | Published-package deterministic starters and live-model examples exist; five-minute completion has not been independently measured. Registry state is recorded separately in the language support pages. The live-model guide covers endpoint, model id, credential, timeout, tool schema, and platform troubleshooting. Local Ollama tool-call runs are recorded for Go, Python, TypeScript, C#, and Rust (C# and Rust via built binaries); no hosted endpoint is recorded. The local Java JVM remains blocked | Record independent deterministic and live-endpoint completion separately; hosted endpoint validation is tracked in [#31](https://github.com/axisvela/praxo-core/issues/31) and independent timing in [#30](https://github.com/axisvela/praxo-core/issues/30) |
+| 1. Run | Install a published package, connect a model, register one tool, and get a useful result | Published-package deterministic starters and live-model examples exist; five-minute completion has not been independently measured. Registry state is recorded separately in the language support pages. The live-model guide covers endpoint, model id, credential, timeout, tool schema, and platform troubleshooting. Local Ollama tool-call runs are recorded for Go, Python, TypeScript, C#, and Rust (C# and Rust via built binaries); hosted verification of this starter path is not recorded. Seven separate reference applications have hosted live-model runs, not starter-path acceptance. The local Java JVM remains blocked | Record independent deterministic and live-endpoint completion separately; hosted starter-path validation is tracked in [#31](https://github.com/axisvela/praxo-core/issues/31) and independent timing in [#30](https://github.com/axisvela/praxo-core/issues/30) |
 | 2. Prototype | Build one coherent local application with tools, streaming, structured output, MCP, workspace access, or telemetry | Thirteen example themes have source entries across thirty-one languages. The catalog is grouped by task, and a first-pass source-depth audit now labels Core references, mechanism checks, and transport-neutral handlers; it does not certify execution. End-to-end prototype tutorials now include the Go Workspace Agent and the Python structured-output application; most other examples remain integration checks | Turn the source-depth audit into recorded runs for one consumer-selected application path; external validation is tracked in [#32](https://github.com/axisvela/praxo-core/issues/32) |
 | 3. Embed | Integrate Core into an existing service with application-owned identity, policy, persistence, events, and shutdown | Vendor-neutral Go/Python/TypeScript/C# HTTP services and authenticated identity/policy services; Go, Python, TypeScript, C#, Ruby, PHP, and Rust support OIDC/JWKS with provider discovery; the Java example passes in Linux CI, while its local Windows JVM is blocked; 30 of 31 declared implementations have source-level RFC 7662 introspection and RFC 7009 revocation, with 29 runtime-verified locally (28 native runtimes plus Octave for the shared MATLAB/Octave module), native MATLAB unverified, and COBOL boundary-only; an optional external Python policy decision service, verified-identity and durable-checkpoint variants, a risk-tiered checklist, and a checkpoint-continuation guide connecting message history, allowlisted stores, and operation state exist | Extend OIDC/external identity to further SDKs, close registry publication gaps for consumer-selected languages, record native MATLAB separately, and validate the checkpoint store for a real consumer |
 | 4. Harden | Make the specific integration safe to upgrade, fail, cancel, and recover | Negative, upgrade, containment, and recovery assets exist. The Go memory-role fix is released in `2.9.0`; retry hazard tests have local deterministic coverage. A source audit found no automatic recall in other SDK agent paths or in the Bridge `run`/`event stream` paths. The consumer test template now covers two-run memory trust, unknown-effect retry/reconciliation, and language-specific starting points. It has been run against 9 of 10 maintainer-owned fixtures; the local Java run timed out, and these are not external consumers | Apply the template to an external consumer; repository fixtures are not a substitute. Tracked in [#32](https://github.com/axisvela/praxo-core/issues/32) |
@@ -571,7 +571,8 @@ action APIs without a named consumer and a concrete gap.
    portfolio below, starting with the PHP business application. Prove integration
    with an existing host and its runtime behavior, not another generic agent loop.
    Deliver one coherent path before expanding the next; these are proposed
-   applications, not completed examples or a commitment to parallel delivery.
+   acceptance targets with source implementations, not completed host integrations
+   or a commitment to parallel delivery.
 2. **P0: Validate the reference path with a consumer.** Run published-package
    install/run/deny, then a real provider tool call and application integration.
    Record time, failures, author assistance, and independent reproduction. Track
@@ -618,8 +619,8 @@ contracts are a technical differentiator to test, not proof of a competitive moa
 
 ### Reference Application Portfolio
 
-The next-stage priority is reference applications, in the order below. Reference
-applications live at `language/<language>/application/`; tutorials and mechanism
+The next-stage priority is reference-application acceptance, in the order below.
+Reference applications live at `language/<language>/application/`; tutorials and mechanism
 examples remain under `language/<language>/Tutorial/` and their existing paths.
 They must be AI-native: the agent drives the primary workflow, not an add-on review
 endpoint on a traditional application. See the
@@ -689,7 +690,14 @@ recorded `model=live`, a four-step trace (`search_content` -> `draft_article` ->
 `suggest_taxonomy` -> `request_publish_review`), a model-written rationale (858
 characters in the latest run), and `publications_executed=0`. It used a custom cURL transport for the local
 proxy/CA; there is no independent reproduction or production deployment. The
-application CI is a separate `ci-applications` workflow with per-application path filters; its jobs are added but have not run.
+application CI is a separate `ci-applications` workflow with per-application path
+filters. Both PHP jobs passed in run
+[45655799714](https://github.com/axisvela/praxo-core/actions/runs/45655799714)
+at `92ba764c` on 2026-11-25. That run failed overall because C++ configuration
+failed; other application jobs were skipped. The follow-up
+[45720963270](https://github.com/axisvela/praxo-core/actions/runs/45720963270)
+at `f8242fb3` passed only the C++ static-library build; PHP and all other
+application jobs were skipped. Neither run is full portfolio acceptance.
 
 Priority 2 has a Spring Boot AI commerce source at
 [`language/java/application`](https://github.com/axisvela/praxo-core/tree/main/language/java/application).
@@ -733,7 +741,8 @@ added but has not run.
 
 Priority 5 has a Rust AI edge gateway agent at
 [`language/rust/application`](https://github.com/axisvela/praxo-core/tree/main/language/rust/application).
-It passes 6/6 local tests, uses an application-owned `GatewayAdapter`, and records
+It uses a local path dependency to the Rust Core source, not a registry install,
+passes 6/6 local tests, uses an application-owned `GatewayAdapter`, and records
 model-selected tools plus `agent_trace`. A hosted DeepSeek `deepseek-flash` live
 run records `model=live`, a `read_gateway` -> `draft_action` sequence, a
 model-written diagnosis/rationale, and `executions=0`; the live path uses an
@@ -743,7 +752,9 @@ The C++ counterpart is implemented at
 as a static-library/source integration. It uses an application-owned
 `GatewayAdapter` and trace code, but this repository does not generate an
 executable because SEP blocks executable artifacts; no C++ runtime or live run is
-recorded. Priority 6 is implemented at
+recorded. Its static-library build passed in `45720963270` at `f8242fb3`, after
+the configuration failure in `45655799714`; this is not runtime acceptance.
+Priority 6 is implemented at
 [`language/cobol/application`](https://github.com/axisvela/praxo-core/tree/main/language/cobol/application):
 a native `praxo-run` batch analyst passes five deterministic checks plus a
 batch-file check; private records, direct posting, and tenant mismatch are
@@ -758,8 +769,10 @@ implemented at
 a Rails 8 commerce host passes five deterministic checks and a hosted DeepSeek
 `deepseek-flash` live run records `model=live`, model-selected tools, a
 review-only draft, and zero payment/refund effects. All eight portfolio
-priorities now have source implementations. Other languages implement AI-native
-applications directly.
+priorities now have source implementations, not full host-integration acceptance.
+Java remains unverified; C++ has build-only evidence. Go's module replace and
+Rust's path dependency do not establish published-package installation.
+Other languages target AI-native applications directly.
 
 Deterministic harness tests are not live-model reasoning evidence. PHP, Elixir,
 Erlang, Go, Rust, Julia, and Ruby now have recorded live-model runs; Java, C++, and
@@ -787,6 +800,8 @@ External verification requests are tracked in
 [#31](https://github.com/axisvela/praxo-core/issues/31) (hosted endpoint),
 [#32](https://github.com/axisvela/praxo-core/issues/32) (external consumer path),
 and [#33](https://github.com/axisvela/praxo-core/issues/33) (registry installs).
+The seven hosted reference-app runs above do not close the separate hosted
+published-package starter-path validation in #31.
 Closing an internal documentation gap does not close an external evidence gap.
 
 ## Adoption Evidence

@@ -1,11 +1,14 @@
 # Independent Elixir Consumer
 
-This module uses published Hex `praxo_core` `0.9.1` and verifies an allow/deny
+This module uses published Hex `praxo_core` `0.11.0` and verifies an allow/deny
 governed tool path without local replacements.
+
+This is the recommended package pin, not new execution evidence. The consumer
+has not been rerun against this release as part of the pin update.
 
 ```bash
 mix deps.get
-mix run -r starter.exs -e "ConsumerStarter.run()"
+mix run test_starter.exs
 ```
 
 For a source checkout without Hex:

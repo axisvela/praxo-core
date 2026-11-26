@@ -2,7 +2,7 @@
 
 - [`advanced-delegation/`](advanced-delegation/): application-level governed
   parent/child delegation.
-- [`consumer/`](consumer/): published LuaRocks `praxo-core==0.7.1-1` starter
+- [`consumer/`](consumer/): published LuaRocks `praxo-core==0.9.0-1` starter
   with deterministic allow/deny checks.
 - [`hitl/`](hitl/): approval and edit-reauthorization for a write tool.
 - [`representative-chain/`](representative-chain/): deterministic MCP, governed

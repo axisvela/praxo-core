@@ -100,31 +100,36 @@ a merged implementation PR as a support commitment.
 These are separate claims. A source tag records a repository release; a registry
 version records what a package manager can fetch; a consumer smoke records an
 install and run outside the repository. Do not cite one as evidence for another.
-Registry values below were checked against the public registries on 2026-11-21
-for the rows updated in this revision; earlier rows retain their recorded dates.
+Public audit: 2026-11-26. Versioned evidence URLs are in
+[Registry Publication Status](registry-status.md); known immutable README/POM
+defects are in the [page audit](registry-pages.md). Publication is not page
+acceptance, and no new consumer smoke or remote correction is claimed here.
 
 | Language | Source tag | Registry version | Consumer install smoke |
 | --- | --- | --- | --- |
-| Python | `python/v0.11.0` | PyPI `praxo-core==0.10.0` published | Docs CI published-upgrade check moved an unchanged consumer from `0.2.4` to `0.10.0` and passed; external install not recorded |
-| TypeScript | `typescript/v0.10.0` | npm `@axisvela/praxo-core@0.9.0` published as `latest` | Docs CI upgrade from `0.1.5` to `0.9.0` passed; example lockfiles now use the registry integrity; external install not recorded |
-| Java | `java/v0.12.0` | Maven Central `com.axisvela:praxo-core:0.11.0` published | Release workflow built `0.11.0`; docs CI fresh consumer install passed on 2026-11-20 (run `44731906136`); not an independent consumer |
-| Rust | `rust/v0.11.0` | crates.io `praxo-core==0.10.0` published; `0.1.4` historical | Release workflow ran tests, conformance, API snapshot, and dry-run; local registry consumer install not rerun |
-| C# | `csharp/v0.11.0` | NuGet `Praxo.Core==0.10.0` published | Release workflow built, tested, packed, and pushed; local published-package consumer install for `0.9.1` is historical |
-| Elixir | `elixir/v0.11.0` | Hex `praxo_core==0.10.0` published with OpenAI-compatible, Anthropic, Gemini, Harmovela, and MCP adapters | Extended starter added; earlier clean Mix install covered `0.4.1`; `0.10.0` install smoke not rerun |
-| Erlang | `erlang/v0.10.0` | Hex `praxo_core_erlang==0.9.0` published | Not rerun for `0.9.0`; historical `0.1.1` smoke |
-| Ruby | `ruby/v0.10.0` | RubyGems `praxo-core==0.9.2` published | The release workflow published `0.9.2`; the CI `current-ruby-consumer` job installed the published gem and passed the allow/deny starter on 2026-11-21 (run `44913820352`). `0.9.2` refreshes the RubyGems README and gem description |
-| Lua | `lua/v0.9.0` | LuaRocks `praxo-core==0.8.1-1` published with the optional OpenAI-compatible adapter | The release workflow built the rock, installed it in a clean tree, ran the installed smoke, and published. The CI `current-lua-consumer` job installed `0.8.1-1` and passed on 2026-11-21 (run `44917317881`). `0.8.1-1` expands the rockspec description and README |
-| PHP | `php/v0.10.0` | Packagist `axisvela/praxo-core==0.8.1` published with Composer `autoload.files` | Fresh Composer install of published `0.8.1` and consumer allow/deny tests passed locally on 2026-11-18; `0.9.0` not published |
-| Dart | `dart/v0.8.0` | pub.dev `praxo_core==0.7.0` published | Prior clean `0.6.1` install smoke passed locally; `0.7.0` consumer install not rerun |
+| Go | `v2.11.0` | Go proxy `v2.11.0` published | Release docs dated Nov 26; proxy published Nov 25 UTC; no new consumer smoke recorded |
+| Python | `python/v0.11.0` | PyPI `praxo-core==0.11.0` published | Historical docs CI upgrade to `0.10.0` passed; `0.11.0` consumer smoke not recorded |
+| TypeScript | `typescript/v0.10.0` | npm `@axisvela/praxo-core@0.10.0` published as `latest` | Historical docs CI upgrade to `0.9.0` passed; `0.10.0` consumer smoke not recorded |
+| Java | `java/v0.12.0` | Maven Central `com.axisvela:praxo-core:0.12.0` published | Historical `0.11.0` docs CI install passed on 2026-11-20 (run `44731906136`); `0.12.0` consumer smoke not recorded |
+| Rust | `rust/v0.11.0` | crates.io `praxo-core==0.11.0` published | Registry consumer install not rerun |
+| C# | `csharp/v0.11.0` | NuGet `Praxo.Core==0.11.0` published | Published-package install for `0.9.1` is historical; `0.11.0` smoke not recorded |
+| Elixir | `elixir/v0.11.0` | Hex `praxo_core==0.11.0` published | Earlier clean Mix install covered `0.4.1`; `0.11.0` smoke not recorded |
+| Erlang | `erlang/v0.10.0` | Hex `praxo_core_erlang==0.10.0` published | Historical `0.1.1` smoke; `0.10.0` smoke not recorded |
+| Ruby | `ruby/v0.10.0` | RubyGems `praxo-core==0.10.0` published | Historical CI allow/deny passed for `0.9.2` on 2026-11-21 (run `44913820352`); `0.10.0` smoke not recorded |
+| Lua | `lua/v0.9.0` | LuaRocks `praxo-core==0.9.0-1` published | Historical CI install passed for `0.8.1-1` on 2026-11-21 (run `44917317881`); `0.9.0-1` smoke not recorded |
+| PHP | `php/v0.10.0` | Packagist `axisvela/praxo-core==0.10.0` published | Historical Composer allow/deny passed for `0.8.1` on 2026-11-18; `0.10.0` smoke not recorded |
+| Dart | `dart/v0.8.0` | pub.dev `praxo_core==0.8.0` published | Prior clean `0.6.1` smoke passed; `0.8.0` smoke not recorded |
+| D | `d/v0.8.0` | DUB `praxo-core==0.8.0` published | Consumer smoke not recorded for `0.8.0` |
+| Swift | `swift/v0.9.0` | SPI split package `0.7.2` indexed | Published split scope is non-streaming; monorepo streaming scope is not implied; consumer smoke not recorded |
 | Julia | `julia/v0.9.0` | General Registry PR #176393 open; merge pending | Not recorded |
-| MATLAB | `matlab/v0.9.0` | MATLAB File Exchange `185166` published (`0.5.0`); `0.8.0` upload pending | Not recorded; native MATLAB unverified |
+| MATLAB | `matlab/v0.9.0` | MATLAB File Exchange `185166` published (`0.9.1`) | Citation still `0.2.1`; broad compatibility and native MATLAB execution unverified |
 | Octave | `octave/v0.9.0` | Octave `0.7.0` release tarball published; Octave Packages PR #875 pending | Not recorded; Octave 11.3.0 local execution only |
-| R | `r/v0.12.0` | r-universe `praxocore==0.11.0` published; CRAN not published | r-universe rebuilt `0.11.0` from source commit `d59cb301` on 2026-11-21. A post-publication R consumer install is not recorded. CRAN is optional and gated by `R CMD check --as-cran` |
-| Perl | `perl/v0.8.0` | CPAN `Praxo-Core==0.7.1` published | The release workflow ran conformance, API snapshot, tests, and `make dist`, then published. `0.7.1` ships `README.pod` instead of Markdown; MetaCPAN indexing may lag the upload |
+| R | `r/v0.12.0` | r-universe `praxocore==0.12.0` published; CRAN not published | Actual build HEAD `9b417e3`; checks include warnings, not all clean. Post-publication consumer install not recorded; CRAN requires `R CMD check --as-cran` |
+| Perl | `perl/v0.8.0` | CPAN `Praxo-Core==0.8.0` published | Consumer install not recorded for `0.8.0` |
 | PowerShell | `powershell/v0.9.0` | PowerShell Gallery `praxo-core-ps==0.8.1` published | The release build ran wrapper tests and the API snapshot; the Gallery reported `0.8.1` as published. The CI `current-powershell-consumer` job installed `0.8.1` from PSGallery and passed allow/deny on 2026-11-21 (run `44917317881`) |
 | Nim | `nim/v0.8.0` | Split repository package `0.1.1`; nim-lang/packages PR #3600 merged 2026-11-05; nimpkgs re-crawl pending | Not recorded |
-| OCaml | `ocaml/v0.10.0` | opam `0.3.0`; PR #31222 closed after opam-ci failure; new submission needed | Not recorded |
-| Haskell | `haskell/v0.9.0` | Hackage `praxo-core==0.8.0` published | Release-workflow gates passed; consumer install not recorded |
+| OCaml | `ocaml/v0.11.0` | Not published to opam; replacement submission pending | Split source aligned to `0.11.0`; package and bytecode suite validated locally; registry acceptance pending |
+| Haskell | `haskell/v0.9.0` | Hackage `praxo-core==0.9.0` published | Consumer install not recorded for `0.9.0` |
 | Delphi / Free Pascal | `delphi/v0.9.0` | OPM `0.2.1`; 0.7.0 OPM assets published; OPM listing pending | Not recorded; commercial Delphi unverified |
 
 ### Registry freshness against code
@@ -134,29 +139,31 @@ its latest version matches the manifest at the release tag.
 
 | Language | Code/manifest version | Registry latest | Status |
 | --- | --- | --- | --- |
-| Python | 0.11.0 | PyPI `0.10.0` | current |
-| TypeScript | 0.10.0 | npm `0.9.0` | current |
-| Java | 0.12.0 | Maven Central `0.11.0` | current |
-| Rust | 0.11.0 | crates.io `0.10.0` | current |
-| C# | 0.11.0 | NuGet `0.10.0` | current |
-| Elixir | 0.11.0 | Hex `0.10.0` | current |
-| Erlang | 0.10.0 | Hex `0.9.0` | current |
-| Ruby | 0.10.0 | RubyGems `0.9.2` | current |
-| PHP | 0.10.0 | Packagist `0.8.1` | registry publication pending |
-| Lua | 0.9.0-1 | LuaRocks `0.8.1-1` | current |
-| Dart | 0.8.0 | pub.dev `0.7.0` | current |
+| Go | 2.11.0 | Go proxy `v2.11.0` | version matches; README stale |
+| Python | 0.11.0 | PyPI `0.11.0` | version matches; README stale |
+| TypeScript | 0.10.0 | npm `0.10.0` | version matches; README stale |
+| Java | 0.12.0 | Maven Central `0.12.0` | version matches; POM SCM stale |
+| Rust | 0.11.0 | crates.io `0.11.0` | version matches; README stale |
+| C# | 0.11.0 | NuGet `0.11.0` | version matches; README stale |
+| Elixir | 0.11.0 | Hex `0.11.0` | version matches |
+| Erlang | 0.10.0 | Hex `0.10.0` | version matches |
+| Ruby | 0.10.0 | RubyGems `0.10.0` | version matches |
+| PHP | 0.10.0 | Packagist `0.10.0` | version matches |
+| Lua | 0.9.0-1 | LuaRocks `0.9.0-1` | version matches |
+| Dart | 0.8.0 | pub.dev `0.8.0` | version matches; README stale |
 | Julia | 0.9.0 | General Registry PR #176393 open; merge pending | pending |
-| MATLAB | 0.9.0 | File Exchange `185166` (`0.5.0`) | 0.8.0 upload pending |
-| Octave | 0.9.0 | 0.7.0 release tarball; Octave Packages PR #875 pending | 0.8.0 package pending |
-| Perl | 0.8.0 | CPAN `0.7.1` | current |
-| PowerShell | 0.9.0 | PowerShell Gallery `0.8.1` | current |
-| Haskell | 0.9.0 | Hackage `0.8.0` | current |
-| R | 0.12.0 | r-universe `0.11.0` | current; CRAN not published |
-| Nim | 0.8.0 | Split repository package `0.1.1` | pending |
-| OCaml | 0.10.0 | opam registry `0.3.0`; PR #31222 closed (`0.8.0`) | new submission needed |
-| Swift | 0.9.0 | SPI `0.7.0` | split tag 0.7.2 pushed; registry publication pending |
-| Delphi / Free Pascal | 0.9.0 | OPM `0.2.1`; 0.7.0 assets published | OPM listing pending |
-| D | 0.8.0 | DUB `0.6.1` | current for split package 0.6.1; source 0.7.0 is not in the split package |
+| MATLAB | 0.9.0 | File Exchange `185166` (`0.9.1`) | different source/registry versions; citation stale; MATLAB unverified |
+| Octave | 0.9.0 | 0.7.0 release tarball; Octave Packages PR #875 pending | archive available; index pending |
+| Perl | 0.8.0 | CPAN `0.8.0` | version matches |
+| PowerShell | 0.9.0 | PowerShell Gallery `0.8.1` | behind source |
+| Haskell | 0.9.0 | Hackage `0.9.0` | version matches; README stale |
+| R | 0.12.0 | r-universe `0.12.0` | version matches; check warnings; CRAN not published |
+| Nim | 0.8.0 | not verified in registry | split repository tag is not registry publication evidence |
+| OCaml | 0.11.0 | not published to opam; replacement submission pending | split source aligned and package validated |
+| Swift | 0.9.0 | SPI `0.7.2` | split non-streaming scope; behind monorepo streaming scope |
+| V | 0.8.0 | VPM unverified | pending; not accepted |
+| Delphi / Free Pascal | 0.9.0 | GitHub release assets `0.7.0` | OPM listing unverified |
+| D | 0.8.0 | DUB `0.8.0` | version matches |
 
 Do not install a source-tag-only language from a registry, and do not assume a
 registry package contains the source tag's latest behavior. The language page is
@@ -267,8 +274,8 @@ installation index. Use the tables above and
   is open.
 - OCaml has source tag `ocaml/v0.4.0` with all eleven vector groups, native
   tests, and API snapshot/parity. The split package repository
-  `axisvela/praxo-core-ocaml` publishes opam package `praxo-core` 0.3.0 with module `Praxo_core`;
-  opam-repository PR #31106 was opened. Native `ocamlopt` compilation and
+   `axisvela/praxo-core-ocaml` prepared package `praxo-core` 0.3.0 with module `Praxo_core`;
+   this is not opam registry publication. PR #31222 closed. Native `ocamlopt` compilation and
   live-provider behavior are not claimed.
 - Elixir source tag `elixir/v0.6.0` adds the Harmovela sink and stdio MCP client
   under `adapters/` to policy hooks, middleware, final-tool allowlist checks,
@@ -287,9 +294,9 @@ installation index. Use the tables above and
   and Objective-C have `v.mod` and CocoaPods metadata respectively, but their
   registry split-repository steps are still pending. V publishes package
   `praxo-core` tag `0.1.2` from `axisvela/praxo-core-v`; VPM submission is
-  pending. Swift
-  publishes SPM tag `0.7.0` from `axisvela/praxo-core-swift`; Swift Package
-  Index `0.7.0` is published. Production readiness and complete Go parity are not
+   pending and registry availability remains unverified. Swift
+   publishes SPM tag `0.7.2` from `axisvela/praxo-core-swift`; Swift Package
+   Index `0.7.2` is indexed with non-streaming split scope. Production readiness and complete Go parity are not
   claimed; optional Go hooks and provider adapters are not included.
 - Erlang source tag `erlang/v0.5.0` adds HITL interrupt decisions to policy
   hooks, middleware, final-tool allowlist checks, reauthorization, lifecycle

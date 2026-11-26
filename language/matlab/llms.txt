@@ -9,9 +9,9 @@
 - package: `PRAXO-CORE`
 - registry: [MATLAB File Exchange](https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core)
 - source_version: `0.9.0`
-- published_version: `0.5.0`
-- install_published: `File Exchange entry 185166`
-- install_source: `File Exchange entry 185166`
+- published_version: `0.9.1`
+- install_published: `File Exchange entry 185166 (0.9.1)`
+- install_source: `Source checkout: language/matlab and language/matlab-octave-core (see README)`
 - source_tag: `matlab/v0.9.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`

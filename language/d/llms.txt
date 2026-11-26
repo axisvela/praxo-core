@@ -9,9 +9,9 @@
 - package: `praxo-core`
 - registry: [DUB](https://code.dlang.org/packages/praxo-core)
 - source_version: `0.8.0`
-- published_version: `0.6.1`
-- install_published: `dub add praxo-core`
-- install_source: `dub add praxo-core`
+- published_version: `0.8.0`
+- install_published: `dub add praxo-core@0.8.0`
+- install_source: `dub build --root=language/d`
 - source_tag: `d/v0.8.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
@@ -40,10 +40,10 @@
 - [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and reference-application paths.
 - Scenario tutorials:
   - [data-pipeline](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/data-pipeline): Diagnose a bounded data-import batch before allowing a human to review it. Native D parses unquoted two-column CSV records, calculates valid totals and reports line-specific err...
-  - [executive-brief](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/executive-brief): A bounded first slice of [OP-07](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an autonomous BI platform. It computes fixed business-line variance...
+  - [executive-brief](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/executive-brief): A bounded first slice of [OP-07](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an autonomous BI platform. It computes fixed business-line variances for one period and drafts a review-only operating brief. This uses the source D Core with `dmd -run`; no network, credentials or packages beyond DMD are required.
   - [fleet-map](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/fleet-map): A bounded first slice of TL-06, not a remote-assistance or map-deployment system. It replays fixed synthetic road-topology changes and drafts a review-only map patch. No vehicle...
   - [property-forecast](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/property-forecast): A bounded first slice of BE-05, not a valuation or investment-advice system. It computes fixed site metrics in native D, shows the forecast assumptions and drafts a review-only...
-  - [quant-risk](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/quant-risk): A bounded first slice of [FC-02](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a trading or execution system. It reads fixed portfolio/market data...
+  - [quant-risk](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/quant-risk): A bounded first slice of [FC-02](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a trading or execution system. It reads fixed portfolio/market data, computes proposed-order exposure, enforces a stated risk limit outside the agent, and drafts a review-only order. No trades, live market feed or latency claim.
 - Reference applications: no accepted end-to-end application yet; candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
 - Coding-agent contract: ../../docs/getting-started/coding-agents.md
 

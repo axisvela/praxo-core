@@ -164,6 +164,17 @@ let test_anthropic_adapter () =
   check (string_field "model" payload = "claude-test") "anthropic model";
   check (string_field "system" payload = "be brief") "anthropic system";
   check (List.length (array_field "tools" payload) = 1) "anthropic tools";
+  let block_request = Praxo_core.request_make
+    [{ (Praxo_core.text_message "user" "") with
+       Praxo_core.message_blocks = [Praxo_core.content_block_make "text" (Some "block text")] }] [] in
+  let block_payload =
+    Praxo_core.parse_json (Praxo_core.anthropic_request config block_request).Praxo_core.http_payload in
+  let block_content =
+    match array_field "messages" block_payload with
+    | message :: _ -> array_field "content" message
+    | [] -> fail "anthropic block messages" in
+  check (List.exists (fun part -> string_field "text" part = "block text") block_content)
+    "anthropic content block";
 
   let stream_events = [
     {|data: {"type":"message_start","message":{"usage":{"input_tokens":4}}} |};
@@ -232,6 +243,37 @@ let test_gemini_adapter () =
   check (List.assoc_opt "x-goog-api-key" http.Praxo_core.http_headers = Some "gk") "gemini key";
   let payload = Praxo_core.parse_json http.Praxo_core.http_payload in
   check (List.length (array_field "parts" (match field "system_instruction" payload with Some value -> value | None -> fail "gemini system")) = 1) "gemini system";
+  let block_request = Praxo_core.request_make
+    [{ (Praxo_core.text_message "user" "") with
+       Praxo_core.message_blocks = [Praxo_core.content_block_make "text" (Some "block text")] }] [] in
+  let block_payload =
+    Praxo_core.parse_json (Praxo_core.gemini_request config block_request).Praxo_core.http_payload in
+  let block_parts =
+    match array_field "contents" block_payload with
+    | message :: _ -> array_field "parts" message
+    | [] -> fail "gemini block contents" in
+  check (List.exists (fun part -> string_field "text" part = "block text") block_parts)
+    "gemini content block";
+  let history_request = Praxo_core.request_make [
+    Praxo_core.assistant_message "" [
+      Praxo_core.tool_invocation_make "call-1" "echo" (Praxo_core.Object [])
+    ];
+    Praxo_core.tool_message "ok" "call-1";
+  ] [] in
+  let history_payload =
+    Praxo_core.parse_json (Praxo_core.gemini_request config history_request).Praxo_core.http_payload in
+  let response_name =
+    match array_field "contents" history_payload with
+    | _assistant :: tool_message :: _ ->
+        let parts = array_field "parts" tool_message in
+        (match parts with
+         | part :: _ ->
+             (match field "functionResponse" part with
+              | Some response -> string_field "name" response
+              | None -> fail "gemini function response")
+         | [] -> fail "gemini function response parts")
+    | _ -> fail "gemini tool history" in
+  check (response_name = "echo") "gemini function response name";
 
   let stream_events = [
     {|data: {"candidates":[{"content":{"parts":[{"text":"he"}]}}]} |};

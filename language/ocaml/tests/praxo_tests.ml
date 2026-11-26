@@ -42,6 +42,10 @@ let test_json () =
   (try ignore (Praxo_core.parse_json "{} {}"); fail "trailing accepted" with Praxo_core.Json_error _ -> ());
   (try ignore (Praxo_core.parse_json (String.make 66 '[' ^ "0" ^ String.make 66 ']')); fail "depth accepted" with Praxo_core.Json_error _ -> ());
   (try ignore (Praxo_core.parse_json (String.make 1048577 ' ')); fail "capacity accepted" with Praxo_core.Json_error _ -> ());
+  let left = Praxo_core.Object [("x", Praxo_core.Number 1.); ("x", Praxo_core.Number 2.)] in
+  let right = Praxo_core.Object [("x", Praxo_core.Number 2.); ("x", Praxo_core.Number 2.)] in
+  check (Praxo_core.json_equal left right = Praxo_core.json_equal right left) "duplicate-key equality symmetry";
+  check (Praxo_core.json_equal left right) "duplicate-key last value";
   print_endline "test_json passed"
 
 let test_toolcall root =
@@ -226,6 +230,11 @@ let test_policy root =
   check (not (Praxo_core.path_allowed parent_checker "allowed/secret" "read")) "relative parent grant isolation";
   let absolute_checker = Praxo_core.path_checker [Praxo_core.path_grant_make "/allowed" "read"] in
   check (Praxo_core.path_allowed absolute_checker "/../../allowed/secret" "read") "absolute parent normalization";
+  let root_checker = Praxo_core.path_checker [Praxo_core.path_grant_make "/" "read"] in
+  check (Praxo_core.path_allowed root_checker "/etc/hosts" "read") "filesystem root grant";
+  let current_checker = Praxo_core.path_checker [Praxo_core.path_grant_make "." "read"] in
+  check (Praxo_core.path_allowed current_checker "local/file" "read") "current directory grant";
+  check (not (Praxo_core.path_allowed current_checker "../outside" "read")) "current directory escape";
   print_endline "test_policy passed"
 
 let test_context root =
@@ -477,6 +486,30 @@ let test_agent_middleware () =
     with Praxo_core.Core_error (code, _) -> code
   in
   check (model_code = "AGENT_MODEL_CALL_LIMIT") "model call limit";
+
+  let effects = ref 0 in
+  let preflight_model = { Praxo_core.generate = (fun _ ->
+    Praxo_core.response_make
+      (Praxo_core.assistant_message "" [
+        Praxo_core.tool_invocation_make "1" "echo" (Praxo_core.Object []);
+        Praxo_core.tool_invocation_make "2" "forbidden" (Praxo_core.Object [])
+      ])
+      (Praxo_core.usage_make 0 0));
+    generate_stream = None;
+  } in
+  let preflight_options = { (Praxo_core.agent_options preflight_model) with
+    Praxo_core.agent_tools = [
+      Praxo_core.tool_make "echo" "Echo" (fun arguments -> incr effects; arguments);
+      Praxo_core.tool_make "forbidden" "Forbidden" (fun arguments -> incr effects; arguments)
+    ];
+    Praxo_core.agent_allowed_tools = ["echo"];
+  } in
+  let preflight_code =
+    try ignore (Praxo_core.run_agent preflight_options (Praxo_core.session_make "s1" []) "x"); ""
+    with Praxo_core.Core_error (code, _) -> code
+  in
+  check (preflight_code = "AGENT_TOOL_NOT_ALLOWED") "agent preflight error";
+  check (!effects = 0) "agent preflight prevents partial effects";
   print_endline "test_agent_middleware passed"
 
 let test_agent_hitl () =
@@ -690,6 +723,7 @@ let test_mcp () =
   in
   let client = Praxo_core.mcp_client transport in
   check (client.Praxo_core.mcp_protocol_version = "2024-11-05") "mcp protocol version";
+  check (List.mem_assoc "notifications/initialized" !calls) "mcp initialized notification";
   let tools = Praxo_core.mcp_list_tools client in
   check (List.length tools = 2) "mcp pagination";
   check (List.exists (fun tool ->
@@ -700,6 +734,11 @@ let test_mcp () =
   check (match value with Praxo_core.String "ok" -> true | _ -> false) "mcp call text";
   Praxo_core.mcp_close client;
   check client.Praxo_core.mcp_closed "mcp closed";
+  let closed_code =
+    try ignore (Praxo_core.mcp_list_tools client); ""
+    with Praxo_core.Core_error (code, _) -> code
+  in
+  check (closed_code = "MCP_CLOSED") "mcp closed guard";
 
   let duplicate_transport method_name _ =
     match method_name with
@@ -823,6 +862,13 @@ let test_seams () =
   in
   check (failed.Praxo_core.task_status = "failed") "delegate failure status";
   check (failed.Praxo_core.task_error = "BOOM") "delegate failure code";
+
+  let failed_generic = Praxo_core.subagent_run
+      (fun _ -> failwith "runner exploded") request
+  in
+  check (failed_generic.Praxo_core.task_status = "failed") "delegate generic failure status";
+  check (Praxo_core.starts_with "Failure(\"runner exploded\")"
+    failed_generic.Praxo_core.task_error) "delegate generic failure error";
 
   let invalid = { request with request_agent_id = "" } in
   let invalid_code =

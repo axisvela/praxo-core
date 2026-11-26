@@ -12,7 +12,8 @@ SDK = ROOT / "language" / "ocaml"
 class OcamlApiDocsTests(unittest.TestCase):
     def setUp(self):
         self.mli = (SDK / "src" / "praxo_core.mli").read_text(encoding="utf-8")
-        self.ml = (SDK / "src" / "praxo_core.ml").read_text(encoding="utf-8")
+        self.sources = sorted((SDK / "src").glob("*.ml"))
+        self.ml = "\n".join(path.read_text(encoding="utf-8") for path in self.sources)
 
     def test_library_and_test_sources_live_in_subdirectories(self):
         for name in ("praxo_core.ml", "praxo_core.mli"):
@@ -30,15 +31,25 @@ class OcamlApiDocsTests(unittest.TestCase):
             if not line.startswith("val "):
                 continue
             values += 1
+            declaration = [line]
+            cursor = index + 1
+            while cursor < len(lines) and lines[cursor].startswith("  "):
+                declaration.append(lines[cursor])
+                cursor += 1
             previous = lines[index - 1] if index else ""
             with self.subTest(value=line.split(":")[0], line=index + 1):
-                self.assertTrue(previous.startswith("(**"), previous)
-                self.assertTrue(previous.endswith("*)"), previous)
+                self.assertTrue(
+                    any("[@@ocaml.doc" in part for part in declaration) or
+                    (previous.startswith("(**") and previous.endswith("*)")),
+                    previous,
+                )
         self.assertGreaterEqual(values, 100)
 
     def test_interface_stays_within_source_guardrail(self):
         self.assertLess(len(self.mli.splitlines()), 500)
-        self.assertLess(len(self.ml.splitlines()), 5000)
+        for path in self.sources:
+            with self.subTest(source=path.name):
+                self.assertLess(len(path.read_text(encoding="utf-8").splitlines()), 500)
 
     def test_duplicate_character_predicates_are_removed(self):
         self.assertNotIn("is_digit_char", self.ml)

@@ -1,7 +1,7 @@
 # PRAXO-CORE Nim Registry Introduction
 
-**Status:** split repository; registry crawler pending. Source version `0.8.0`, source
-tag `nim/v0.8.0`. Published registry version: `0.1.1`. Registry
+**Status:** split repository; registry publication unverified; crawler pending. Source version `0.8.0`, source
+tag `nim/v0.8.0`. Published registry version: not published. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -14,11 +14,11 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | Field | Value |
 | --- | --- |
 | Package | `praxo_core` |
-| Registry | [Nimble/nim-lang packages](https://github.com/axisvela/praxo-core-nim) |
+| Registry | [Nimble/nim-lang packages (unverified)](https://github.com/axisvela/praxo-core-nim) |
 | Source version | `0.8.0` |
-| Published registry version | `0.1.1` |
-| Install (published) | `nimble install praxo_core` |
-| Install (source/release prepared) | `nimble install praxo_core` |
+| Published registry version | not published |
+| Install (published) | not published |
+| Install (source/release prepared) | `Source checkout: language/nim (see README build instructions)` |
 | Source tag | `nim/v0.8.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
@@ -48,7 +48,7 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
   - [irrigation-plan](https://github.com/axisvela/praxo-core/tree/main/language/nim/Tutorial/irrigation-plan): Reads fixed soil and weather observations and drafts a bounded irrigation request. No valve, drone or actuator operation.
   - [leak-localization](https://github.com/axisvela/praxo-core/tree/main/language/nim/Tutorial/leak-localization): Ranks fixed pressure anomalies and drafts a review-only inspection. No valve isolation or field dispatch.
   - [livestock-monitor](https://github.com/axisvela/praxo-core/tree/main/language/nim/Tutorial/livestock-monitor): Summarizes fixed animal observations and drafts a review request. No veterinary diagnosis, isolation or feeding control.
-  - [maintenance-triage](https://github.com/axisvela/praxo-core/tree/main/language/nim/Tutorial/maintenance-triage): A bounded first slice of [IN-01](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a predictive-maintenance model. It reads fixed sensor telemetry for...
+  - [maintenance-triage](https://github.com/axisvela/praxo-core/tree/main/language/nim/Tutorial/maintenance-triage): A bounded first slice of [IN-01](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a predictive-maintenance model. It reads fixed sensor telemetry for one device, marks the indicator elevated, and drafts a review-only work order. This uses the source Nim Core; no network, credentials or packages beyond Nim and a C compiler are required.
 - Reference applications: no accepted end-to-end application yet; candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
 - [llms.txt](llms.txt): compact machine-readable entry for this language.
 - [llms.md](llms.md): Markdown version of the same entry.

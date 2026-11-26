@@ -1,4 +1,4 @@
-#use "praxo_core.ml"
+#use "praxo_core_bundle.ml"
 
 let () =
   let allow = checkpoint_allowlist () in

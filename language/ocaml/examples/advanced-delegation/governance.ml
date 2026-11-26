@@ -58,10 +58,11 @@ let composed_policy action =
 
 let make_model steps =
   let remaining = ref steps in
-  { generate = fun _request ->
+  { generate = (fun _request ->
       match !remaining with
       | step :: rest -> remaining := rest; step
-      | [] -> response_make (assistant_message "done" []) (usage_make 0 0) }
+      | [] -> response_make (assistant_message "done" []) (usage_make 0 0));
+    generate_stream = None; }
 
 let model_for tool target =
   make_model [

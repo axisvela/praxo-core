@@ -9,9 +9,9 @@
 - package: `praxo-core`
 - registry: [VPM (pending)](https://github.com/axisvela/praxo-core-v)
 - source_version: `0.8.0`
-- published_version: `0.1.2`
-- install_published: `v install praxo-core`
-- install_source: `v install praxo-core`
+- published_version: not published
+- install_published: not published
+- install_source: `Source checkout: language/v (see README build instructions)`
 - source_tag: `v/v0.8.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
@@ -39,7 +39,7 @@
 - [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and their existing related slices.
 - [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and reference-application paths.
 - Scenario tutorials:
-  - [production-scheduling](https://github.com/axisvela/praxo-core/tree/main/language/v/Tutorial/production-scheduling): A bounded first slice of [IN-02](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an APS/MES integration. It reads a fixed job queue, computes a dete...
+  - [production-scheduling](https://github.com/axisvela/praxo-core/tree/main/language/v/Tutorial/production-scheduling): A bounded first slice of [IN-02](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an APS/MES integration. It reads a fixed job queue, computes a deterministic priority order, and drafts review-only MES/AGV instructions. This uses the source V Core; no network, credentials or packages beyond V are required.
   - [release-preflight](https://github.com/axisvela/praxo-core/tree/main/language/v/Tutorial/release-preflight): A local release-planning tutorial in native V. It reads `app.json` from a bounded temporary directory, validates required fields, semantic-version shape and the entry allowlist,...
 - Reference applications: no accepted end-to-end application yet; candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
 - Coding-agent contract: ../../docs/getting-started/coding-agents.md

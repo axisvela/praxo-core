@@ -11,6 +11,7 @@ PRAXO-CORE 是多语言框架。Go 是参考实现；其他语言有独立发布
 
 | 语言 | 仓库 | 角色 |
 | --- | --- | --- |
+| Go | [axisvela/praxo-core-go](https://github.com/axisvela/praxo-core-go) | 根目录 Go 模块、`language/go` 与 `spec/` 的发现镜像；规范模块路径不变 |
 | Python | [axisvela/praxo-core-python](https://github.com/axisvela/praxo-core-python) | `language/python` 的发现镜像；包含 `spec/` |
 | TypeScript | [axisvela/praxo-core-typescript](https://github.com/axisvela/praxo-core-typescript) | `language/typescript` 的发现镜像；包含 `spec/` |
 | Java | [axisvela/praxo-core-java](https://github.com/axisvela/praxo-core-java) | `language/java` 的发现镜像；包含 `spec/` |
@@ -43,12 +44,16 @@ PRAXO-CORE 是多语言框架。Go 是参考实现；其他语言有独立发布
 | Objective-C | [axisvela/praxo-core-objc](https://github.com/axisvela/praxo-core-objc) | `language/objc` 的发现镜像；包含 `spec/` |
 
 Go 保持仓库根目录，因为其模块路径为 `github.com/axisvela/praxo-core/v2`。
-`bindings/` 下的 bridge 与 `language/go/examples/` 下的语言示例仍留在 monorepo。
+发现镜像复制根模块与 `language/go/`，包括示例、教程和应用源码。
+`bindings/` 下的 bridge 仍留在 monorepo。
 
 ## 自动刷新
 
-`.github/workflows/language-mirrors.yml` 在 `main` 上的 `language/`、`spec/`、
-`LICENSE` 或同步脚本变更时重建 21 个发现镜像。它需要 `PRAXO_MIRROR_TOKEN` secret，
+`.github/workflows/language-mirrors.yml` 在 `main` 上的复制源码或 README 输入变更时
+重建 22 个发现镜像。输入包括 `language/`、`spec/`、`LICENSE`、根目录 Go 源码目录
+（`pkg/`、`adapters/`、`cmd/`、`internal/`、`api/`、`benchmarks/`、`tests/`）、
+Go 模块与版本文件、复制的根文档、`docs/languages/go/index.md`、镜像生成器和测试。
+涉及这些输入的 pull request 会运行测试与本地 dry-run。它需要 `PRAXO_MIRROR_TOKEN` secret，
 并具备镜像仓库的推送权限。手动 `workflow_dispatch` 选择 `mode=check` 可只报告漂移、
 不推送。未配置 secret 时，同步 job 输出 warning 并跳过推送。
 
@@ -62,10 +67,14 @@ runner 可用；它不替代 monorepo 发布流程。镜像会从规范源码刷
 monorepo 与 registry 版本为准。不要从仓库存在推断 registry 可用性、一致性通过或
 生产就绪。
 
+镜像的 `main` 分支跟踪当前规范源码，不是发布快照。镜像 README 中的源码标签指向
+`axisvela/praxo-core`，不代表镜像中一定存在同名标签。刷新分支不会发布标签或 registry 包。
+应用目录包含参考应用源码；请查看各 README 的实现范围与验证状态，不要假设所有应用均已完成。
+
 ## 新增或更新仓库
 
-1. 规范源码继续位于 monorepo 的 `language/<language>`。
-2. 镜像该目录，并加入 `spec/`、`LICENSE` 与语言专用 README。
+1. 规范源码继续位于 monorepo 的 `language/<language>`，Go 则位于根目录。
+2. 镜像该源码，并加入 `spec/`、`LICENSE` 与语言专用 README。
 3. 复用语言 README 的 registry、安装与范围说明，并链接回规范源码与文档。
 4. 在镜像中运行该语言的 conformance 与测试后再公开。
 5. 仓库启用后，更新本页与对应语言的 `REGISTRY.md` 或 `llms.txt`。

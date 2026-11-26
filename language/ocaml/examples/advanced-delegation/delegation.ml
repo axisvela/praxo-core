@@ -11,11 +11,12 @@ let tool_response call =
 
 let make_model steps final on_call =
   let remaining = ref steps in
-  { generate = fun _request ->
+  { generate = (fun _request ->
       (match on_call with Some callback -> callback () | None -> ());
       match !remaining with
       | step :: rest -> remaining := rest; step
-      | [] -> response_make (assistant_message final []) (usage_make 0 0) }
+      | [] -> response_make (assistant_message final []) (usage_make 0 0));
+    generate_stream = None; }
 
 let parent_policy action =
   if action.action_kind = "model.generate" then decision_make true ""

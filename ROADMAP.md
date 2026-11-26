@@ -1,6 +1,6 @@
 # PRAXO-CORE Roadmap
 
-Current core release: `2.10.0`.
+Current core release: `2.11.0`.
 
 The [public roadmap](docs/project/roadmap.md) organizes current work around
 developer outcomes. It is not a delivery schedule.
@@ -13,9 +13,13 @@ verification. Advanced integrations remain demand-driven.
 The next delivery priority is ecosystem-native reference applications, ordered
 PHP (Drupal/Laravel), Java (Spring Boot), Elixir/Erlang (OTP), Go
 (infrastructure), C++/Rust (edge/embodied), COBOL (batch exceptions), Julia
-(scientific computing/optimization), then Ruby (Rails). These are proposed paths,
-not completed applications or parallel delivery promises. A bounded coding-agent
-selection benchmark supports those paths; it does not precede their delivery.
+(scientific computing/optimization), then Ruby (Rails). All eight priorities have
+source implementations, not full portfolio acceptance or parallel delivery promises.
+PHP has passing application CI; Java remains unverified, C++ is build-only, and
+Go/Rust use local source dependencies. Seven reference applications have hosted
+live-model runs; these do not verify the separate published-package starter path.
+A bounded coding-agent selection benchmark supports those paths; it does not
+precede their delivery.
 
 The roadmap covers the Go reference and the independently versioned language
 SDKs. Examples, installation paths, and feature availability must state their

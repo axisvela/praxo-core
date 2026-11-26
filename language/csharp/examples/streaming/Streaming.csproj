@@ -9,6 +9,6 @@
     <AssemblyName>Praxo.Streaming</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Praxo.Core" Version="0.10.0" />
+    <PackageReference Include="Praxo.Core" Version="0.11.0" />
   </ItemGroup>
 </Project>

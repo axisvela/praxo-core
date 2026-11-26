@@ -31,7 +31,8 @@ but demonstrate the host ecosystem and runtime rather than another generic loop.
 
 `Tutorial/` is a sibling of `language/go/examples/`. Reference applications live at
 `language/<language>/application/` and are not part of the generated tutorial
-catalog; they are full host integrations rather than tutorial slices. Existing
+catalog; they target host integrations rather than tutorial slices. Directory
+presence establishes source coverage, not completed host integration or acceptance. Existing
 mechanism examples keep their published paths. Business APIs stay outside Core and
 `spec/`; they are teaching contracts, not framework compatibility promises.
 
@@ -78,8 +79,9 @@ This is a claim-quality gate, not a requirement to deepen every unused tutorial.
 The [reference application portfolio](../project/roadmap.md#reference-application-portfolio)
 defines the next ordered host integrations. Existing source paths and their
 capabilities are indexed in the [catalog](tutorial-catalog.md); the roadmap's host
-names are proposals, not claims that Laravel, Spring Boot, Rails or other complete
-applications already exist. Prioritize PHP first and finish one coherent path
+names are acceptance targets. Source implementations exist for all eight priorities,
+but do not establish complete Laravel, Spring Boot, Rails or other host integrations.
+Prioritize PHP first and finish one coherent path
 before opening another broad language campaign.
 
 ## Extended Scenario Catalog
@@ -141,7 +143,11 @@ defines each command and runner; success is not proof of arbitrary later revisio
 | MATLAB/Octave | Shared tutorial jobs run with Octave | Native MATLAB remains unverified |
 | Delphi / Free Pascal | Tutorial jobs use Free Pascal | Commercial Delphi remains unverified |
 | Shared orders service | Python/TypeScript/Java/C# CLI and C# Web integration against loopback teaching backend | Deterministic model; Java Web-to-real-backend, production identity and external adoption not established |
-| Ecosystem-native reference applications | PHP has two Laravel 12 paths under `language/php/application/` (7/7 precursor, 9/9 AI-native, Core 0.8.1); a hosted DeepSeek `deepseek-flash` run recorded `model=live`, four tool steps, a model rationale, and zero publications. Elixir AI ops copilot is at `language/elixir/application` (OTP supervision, 6/6 source-mode tests); a hosted DeepSeek run recorded model-selected tools, diagnosis/rationale, `agent_trace`, and zero executions. Erlang AI ops copilot is at `language/erlang/application` (OTP supervision, 6/6 source-mode tests); a hosted DeepSeek run recorded the same tool sequence, diagnosis/rationale, and zero executions. Go AI infrastructure agent is at `language/go/application` (HTTP/CLI, 8/8 tests); a hosted DeepSeek run recorded model-selected tools, 350-character diagnosis, 523-character rationale, `agent_trace`, and zero executions. Rust AI edge gateway agent is at `language/rust/application` (CLI, `GatewayAdapter`, 6/6 tests); a hosted DeepSeek run recorded `model=live`, `read_gateway` -> `draft_action`, model diagnosis/rationale, and `executions=0` through an application `curl` transport. C++ AI industrial edge agent is at `language/cpp/application` (static library, `GatewayAdapter`, source/compile-only because SEP blocks exe artifacts); no local runtime or live run is recorded. COBOL AI batch exception analyst is at `language/cobol/application` (native `praxo-run`, five deterministic checks plus a batch-file check); private records, direct posting, and tenant mismatch are denied; it has no bundled HTTP/TLS transport, so no live run is recorded; no executable is committed. Julia AI scientific copilot is at `language/julia/application` (native `LinearAlgebra` response surface, six deterministic checks); a hosted DeepSeek run recorded `model=live`, model-selected tools, R² `0.999995`, optimum `0.6994`, predicted yield `0.91764`, and `writes=0`. Ruby AI commerce copilot is at `language/ruby/application` (Rails 8 host, five deterministic checks); a hosted DeepSeek run recorded `model=live`, repeated catalog reads, a `draft_only` `$105.84` order, and zero payment/refund effects. Java AI commerce source is at `language/java/application` (Spring Boot, Core 0.11.0) with trace/rationale but no local compile or live run | PHP live run used a custom cURL transport for proxy/CA; Elixir local Hex hit unknown CA and CI uses published Hex; Erlang compiles Core source; Go uses a local module replace; Rust uses a local path dependency and an application `curl` transport; C++ uses the local Core CMake target and emits only a static library; COBOL uses GnuCOBOL source and a build-only executable; Julia uses source mode and a local `curl.exe` transport with `--ssl-no-revoke` on Windows; Ruby uses installed Rails 8 components and a local `curl.exe` transport; Java local JVM blocked; PHP/Java/Elixir/Erlang/Go/Rust/C++/COBOL/Julia/Ruby CI jobs added but not run; no Drupal host, payment, production identity, independent consumer or production deployment; all eight portfolio priorities have source implementations |
+| Ecosystem-native reference applications | All eight priorities have source implementations under `language/<language>/application/`. PHP Laravel precursor (7/7) and AI-native studio (9/9), using Core 0.8.1, also passed application CI in `45655799714` at `92ba764c`. Seven hosted DeepSeek `deepseek-flash` runs cover PHP, Elixir, Erlang, Go, Rust, Julia and Ruby. Detailed local checks and live traces remain in [Verification Evidence](../project/verification-evidence.md#reference-applications) | Source coverage is not portfolio acceptance. Java remains unverified, with no local compile/test or live run. C++ failed in `45655799714`; only its static-library build passed in `45720963270` at `f8242fb3`, with every other application job skipped. No C++ runtime/live evidence. Other applications were skipped in both runs, not verified by them. Go uses a local module replace; Rust uses a local path dependency, not registry installs. Elixir Hex is locally CA-blocked; Erlang/COBOL/Julia/Ruby use source runtimes. COBOL has no bundled live transport. No Drupal, real payment, production identity, independent consumer or production deployment |
+
+The seven hosted reference-app runs do not verify the separate published-package
+starter hosted-endpoint path tracked in #31. Application CI is path-filtered;
+the overall success of `45720963270` is not an all-application pass.
 
 Earlier local verification and CI failures remain historical evidence; the later
 passing run does not erase them. See [Verification Evidence](../project/verification-evidence.md)
@@ -176,7 +182,7 @@ criteria. Do not expand Core or wire APIs for application-specific logic.
 
 ## Next Work
 
-1. Complete the PHP Laravel path: run the added CI job, record the revision-bound result, and seek consumer reproduction before starting Java.
+1. Build on the recorded PHP Laravel CI result, seek consumer reproduction, and close the remaining host/acceptance gaps; obtain a Java application CI result before claiming it verified.
 2. Use the host's actual service, identity and business boundaries; publish deterministic and live-model commands separately.
 3. Record denial, dependency failure and host/runtime behavior, then seek consumer reproduction and continued use.
 4. Use the bounded selection benchmark to identify friction in those paths, not as a prerequisite for application delivery.

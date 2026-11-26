@@ -16,8 +16,8 @@ included. A streaming SSE parser is always available. An HTTP
 OpenAI-compatible client is available behind the optional `http-ureq` feature;
 VFS and plugin hosts are not yet implemented.
 
-The latest source tag is `rust/v0.10.0`; the published crates.io package is
-`praxo-core@0.9.2`. Supported contract:
+The latest source tag is `rust/v0.11.0`; the published crates.io package is
+`praxo-core@0.11.0`. Supported contract:
 `SPEC_VERSION` `0.2.0` (`praxo_core::SPEC_VERSION`).
 
 ## Registry and Coding-Agent Entry
@@ -26,7 +26,7 @@ The latest source tag is `rust/v0.10.0`; the published crates.io package is
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/rust/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/rust/llms.md)
 - [Examples](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples): runnable language-specific examples.
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
-- Registry: [crates.io](https://crates.io/crates/praxo-core/0.10.0)
+- Registry: [crates.io](https://crates.io/crates/praxo-core/0.11.0)
 - Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761) · [LinkedIn](https://www.linkedin.com/company/axisvela/) · [Facebook](https://www.facebook.com/profile.php?id=61596905732406) · [YouTube](https://www.youtube.com/@axisvela) · [Discord](https://discord.com/channels/1575163993767809064/1575164343148875977) · [GitHub Discussions](https://github.com/axisvela/praxo-core/discussions) · [GitHub Issues](https://github.com/axisvela/praxo-core/issues) · [Documentation](https://axisvela.github.io/praxo-core/) · [Architect](https://axisvela.architect.pub)
 
 ## Get started
@@ -34,7 +34,7 @@ The latest source tag is `rust/v0.10.0`; the published crates.io package is
 Install the published package:
 
 ```bash
-cargo add praxo-core@0.9.2
+cargo add praxo-core@0.11.0
 ```
 
 Then run the smallest deterministic example:
@@ -69,33 +69,8 @@ Runnable examples live under [`language/rust/examples`](https://github.com/axisv
 ## Install
 
 ```bash
-cargo add praxo-core@0.9.2
+cargo add praxo-core@0.11.0
 ```
-
-## Runnable Examples
-
-- [`language/go/examples/consumer`](language/go/examples/consumer): published crates.io starter with
-  deterministic allow/deny checks.
-- [`language/go/examples/live-model`](language/go/examples/live-model): published-package OpenAI-compatible
-  endpoint with the optional `http-ureq` feature.
-- [`language/go/examples/provider-fallback`](language/go/examples/provider-fallback): fallback model after
-  a primary failure, with a deterministic check.
-- [`language/go/examples/event-sink`](language/go/examples/event-sink): lifecycle and tool events through
-  `MultiSink` and `FilterSink`, with a deterministic check.
-- [`language/go/examples/streaming`](language/go/examples/streaming): delta callbacks that reconstruct
-  the final output, with a deterministic check.
-- [`language/go/examples/mcp`](language/go/examples/mcp): in-process MCP transport for deterministic
-  tool discovery and tool calls.
-- [`language/go/examples/structured-output`](language/go/examples/structured-output): JSON Schema
-  validation with a deterministic valid/invalid output check.
-- [`language/go/examples/checkpoint`](language/go/examples/checkpoint): application-owned checkpoint
-  storage with allowlisted payload encoding.
-- [`language/go/examples/retry`](language/go/examples/retry): retry transient model failures with
-  bounded attempts and a deterministic check.
-- [`language/go/examples/service`](language/go/examples/service): standard-library HTTP service with
-  principal, tenant, policy, and a deterministic check.
-- [`language/go/examples/identity-policy`](language/go/examples/identity-policy): bind a trusted
-  principal to policy and reject effects before execution.
 
 ## Requirements
 
@@ -139,13 +114,11 @@ println!("{} {}", result.output, result.steps);
 
 ## OpenAI-compatible HTTP client
 
-Enable the optional feature and use `OpenAICompatible::with_ureq`. The published
-`0.8.0` crate predates this feature; use the repository source until the next
-Rust release.
+Enable the optional feature and use `OpenAICompatible::with_ureq` in the
+published crate:
 
 ```toml
-# Source checkout until the next Rust release.
-praxo-core = { path = "language/rust", features = ["http-ureq"] }
+praxo-core = { version = "0.11.0", features = ["http-ureq"] }
 ```
 
 ```rust

@@ -11,6 +11,7 @@
 | --- | --- |
 | Package | `PRAXO-CORE` (MATLAB toolbox) |
 | Source tag | `matlab/v0.9.0` |
+| Published File Exchange version | `0.9.1` (source remains `0.9.0`) |
 | File Exchange | [entry 185166](https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core) |
 | Install | File Exchange Add-On, or the release ZIP / source path |
 | License | MIT |

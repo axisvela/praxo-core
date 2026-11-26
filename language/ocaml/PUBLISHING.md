@@ -5,11 +5,11 @@ describes package validation and submission through `opam-publish`. Submission
 opens a pull request to opam-repository; a GitHub tag or Release alone does not
 make `opam install praxo-core` available.
 
-Checked 2026-11-26: the monorepo source is `ocaml/v0.10.0`, while the
+Checked 2026-11-26: the monorepo source and the
 [dedicated package repository](https://github.com/axisvela/praxo-core-ocaml)
-still declares `0.8.0` in `VERSION` and `dune-project`. Its root contains
-`praxo-core.opam`, `dune-project`, and `src/`. The public library is
-`praxo-core` and its module is `Praxo_core`.
+are aligned to `0.11.0`. The split root contains `praxo-core.opam`,
+`dune-project`, and `src/`. The public library is `praxo-core` and its module
+is `Praxo_core`.
 
 [PR #31222](https://github.com/ocaml/opam-repository/pull/31222) submitted
 `0.8.0` and is closed without merge. Its
@@ -18,21 +18,23 @@ show passing lint and compiler builds; the remaining reported failures are
 Arch Linux base-image builds. This is not evidence of a package compilation
 failure. These results apply to `0.8.0`, not the current monorepo source.
 
-Registry review is a separate unresolved gate. In
-[PR #31106](https://github.com/ocaml/opam-repository/pull/31106#issuecomment-6706195267),
+Registry review is a separate unresolved gate. In previous submissions,
 maintainers raised source duplication, missing interface documentation, and
-utility and human OCaml review concerns. The
-[inline review of PR #31222](https://github.com/ocaml/opam-repository/pull/31222#discussion_r4568340018)
-explicitly says those concerns had not been addressed. Passing package CI does
-not resolve them. Before resubmission, address the technical feedback and obtain
-human OCaml review; do not claim that automated checks provide that review.
+utility and human OCaml review concerns. The current source addresses the
+documented technical issues and has a guarded package layout, but passing
+automated checks does not replace the requested human OCaml review.
 
 Technical follow-up completed on 2026-11-26:
 
-- Every exported value in `src/praxo_core.mli` now has an odoc comment, with
+- Every exported value in `src/praxo_core.mli` has an odoc comment, with
   contract notes for limits, error codes, lexical path checks, and transport
   seams. `scripts/test_ocaml_api_docs.py` enforces attached docs, the API
-  snapshot, and the source-size guardrail.
+  snapshot, and a 500-line limit for every library source file.
+- The native implementation is split into responsibility modules
+  (`praxo_types`, JSON/tool-call, schema/manifest, providers, plugin host,
+  runtime, middleware, agent, and seams); `praxo_core.ml` re-exports them as
+  the public `Praxo_core` module. `praxo_core_bundle.ml` supports source
+  examples through the OCaml toplevel.
 - Duplicated ASCII predicates (`is_digit_char`, repeated alpha tests) were
   replaced by one `is_alpha` and the existing `is_digit`; prefix/suffix helpers
   delegate to `String.starts_with`/`String.ends_with`; assistant and tool
@@ -67,12 +69,11 @@ HEAD references. Local worktree inputs are not automatically tagged release
 content. An optional `--archive` argument creates a deterministic local source
 archive and reports its SHA-256; this does not upload or publish anything.
 
-The local dedicated repository has been aligned to `0.10.0` with the guarded
+The dedicated repository is synced from the guarded
 `--sync-split --output <split-repository>` mode. It validates repository identity
 and clean Git status before adopting existing tracked files; subsequent local
-refreshes use the generated ownership manifest without that adoption flag.
-These edits are not committed or pushed, so they do not change the public split
-repository observation above or establish a new release tag.
+refreshes use the generated ownership manifest without that adoption flag. The
+split release tag and static archive are the registry submission inputs.
 
 The `ocaml-package` workflow checks package installation with tests and an
 external installed-library consumer on OCaml 4.14.2 and 5.5.0.

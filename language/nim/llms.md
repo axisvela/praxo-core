@@ -7,11 +7,11 @@
 ## Package
 
 - package: `praxo_core`
-- registry: [Nimble/nim-lang packages](https://github.com/axisvela/praxo-core-nim)
+- registry: [Nimble/nim-lang packages (unverified)](https://github.com/axisvela/praxo-core-nim)
 - source_version: `0.8.0`
-- published_version: `0.1.1`
-- install_published: `nimble install praxo_core`
-- install_source: `nimble install praxo_core`
+- published_version: not published
+- install_published: not published
+- install_source: `Source checkout: language/nim (see README build instructions)`
 - source_tag: `nim/v0.8.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
@@ -43,7 +43,7 @@
   - [irrigation-plan](https://github.com/axisvela/praxo-core/tree/main/language/nim/Tutorial/irrigation-plan): Reads fixed soil and weather observations and drafts a bounded irrigation request. No valve, drone or actuator operation.
   - [leak-localization](https://github.com/axisvela/praxo-core/tree/main/language/nim/Tutorial/leak-localization): Ranks fixed pressure anomalies and drafts a review-only inspection. No valve isolation or field dispatch.
   - [livestock-monitor](https://github.com/axisvela/praxo-core/tree/main/language/nim/Tutorial/livestock-monitor): Summarizes fixed animal observations and drafts a review request. No veterinary diagnosis, isolation or feeding control.
-  - [maintenance-triage](https://github.com/axisvela/praxo-core/tree/main/language/nim/Tutorial/maintenance-triage): A bounded first slice of [IN-01](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a predictive-maintenance model. It reads fixed sensor telemetry for...
+  - [maintenance-triage](https://github.com/axisvela/praxo-core/tree/main/language/nim/Tutorial/maintenance-triage): A bounded first slice of [IN-01](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a predictive-maintenance model. It reads fixed sensor telemetry for one device, marks the indicator elevated, and drafts a review-only work order. This uses the source Nim Core; no network, credentials or packages beyond Nim and a C compiler are required.
 - Reference applications: no accepted end-to-end application yet; candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
 - Coding-agent contract: ../../docs/getting-started/coding-agents.md
 

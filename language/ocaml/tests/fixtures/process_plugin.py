@@ -27,6 +27,9 @@ for raw in sys.stdin.buffer:
         continue
     method = request.get("method", "")
     if method in ("health", "cancel"):
+        if method == "health":
+            sys.stderr.write("plugin diagnostic " * 8192)
+            sys.stderr.flush()
         respond({"id": request.get("id", ""), "version": 1, "ok": True, "payload": ""})
     elif method == "echo":
         respond({

@@ -22,6 +22,12 @@ outside the declared Core scope.
 - Registry: [VPM (pending)](https://github.com/axisvela/praxo-core-v)
 - Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761) · [LinkedIn](https://www.linkedin.com/company/axisvela/) · [Facebook](https://www.facebook.com/profile.php?id=61596905732406) · [YouTube](https://www.youtube.com/@axisvela) · [Discord](https://discord.com/channels/1575163993767809064/1575164343148875977) · [GitHub Discussions](https://github.com/axisvela/praxo-core/discussions) · [GitHub Issues](https://github.com/axisvela/praxo-core/issues) · [Documentation](https://axisvela.github.io/praxo-core/) · [Architect](https://axisvela.architect.pub)
 
+## Install
+
+VPM submission is pending; no VPM package is published. Use the source checkout
+at `language/v`; the compiler resolves `import praxo` from that tree. Follow the
+build instructions below rather than `v install praxo-core`.
+
 ## Build And Test
 
 From the repository root with V and a C compiler on `PATH`:

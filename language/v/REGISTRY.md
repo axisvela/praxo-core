@@ -1,7 +1,7 @@
 # PRAXO-CORE V Registry Introduction
 
-**Status:** split repository; VPM submission pending. Source version `0.8.0`, source
-tag `v/v0.8.0`. Published registry version: `0.1.2`. Registry
+**Status:** not published; split repository; VPM submission pending. Source version `0.8.0`, source
+tag `v/v0.8.0`. Published registry version: not published. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -16,9 +16,9 @@ V is a native Core implementation with source tag `v/v0.8.0`. It passes all elev
 | Package | `praxo-core` |
 | Registry | [VPM (pending)](https://github.com/axisvela/praxo-core-v) |
 | Source version | `0.8.0` |
-| Published registry version | `0.1.2` |
-| Install (published) | `v install praxo-core` |
-| Install (source/release prepared) | `v install praxo-core` |
+| Published registry version | not published |
+| Install (published) | not published |
+| Install (source/release prepared) | `Source checkout: language/v (see README build instructions)` |
 | Source tag | `v/v0.8.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
@@ -44,7 +44,7 @@ V is a native Core implementation with source tag `v/v0.8.0`. It passes all elev
 - [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and their existing related slices.
 - [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and reference-application paths.
 - Scenario tutorials:
-  - [production-scheduling](https://github.com/axisvela/praxo-core/tree/main/language/v/Tutorial/production-scheduling): A bounded first slice of [IN-02](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an APS/MES integration. It reads a fixed job queue, computes a dete...
+  - [production-scheduling](https://github.com/axisvela/praxo-core/tree/main/language/v/Tutorial/production-scheduling): A bounded first slice of [IN-02](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an APS/MES integration. It reads a fixed job queue, computes a deterministic priority order, and drafts review-only MES/AGV instructions. This uses the source V Core; no network, credentials or packages beyond V are required.
   - [release-preflight](https://github.com/axisvela/praxo-core/tree/main/language/v/Tutorial/release-preflight): A local release-planning tutorial in native V. It reads `app.json` from a bounded temporary directory, validates required fields, semantic-version shape and the entry allowlist,...
 - Reference applications: no accepted end-to-end application yet; candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
 - [llms.txt](llms.txt): compact machine-readable entry for this language.

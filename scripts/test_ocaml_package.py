@@ -48,7 +48,7 @@ class OcamlPackageTests(unittest.TestCase):
 
     def test_full_payload_exact_bytes_and_modes(self):
         self.stage()
-        self.assertEqual(self.version, "0.10.0")
+        self.assertEqual(self.version, "0.11.0")
         expected = set(self.files)
         actual = {p.relative_to(self.output).as_posix() for p in self.output.rglob("*") if p.is_file()}
         self.assertEqual(expected, actual)
@@ -58,7 +58,7 @@ class OcamlPackageTests(unittest.TestCase):
             if os.name != "nt":
                 self.assertEqual(target.stat().st_mode & 0o777, 0o644, name)
         sdk = package.ROOT / "language/ocaml"
-        for name in ("praxo_core.ml", "praxo_core.mli"):
+        for name in ["praxo_core.ml", "praxo_core.mli"] + [module + ".ml" for module in package.SRC_MODULES]:
             self.assertEqual((self.output / "src" / name).read_bytes(), (sdk / "src" / name).read_bytes())
         for name in ("praxo_tests.ml", "praxo_adapter_tests.ml"):
             self.assertEqual((self.output / "tests" / name).read_bytes(), (sdk / "tests" / name).read_bytes())
@@ -77,7 +77,8 @@ class OcamlPackageTests(unittest.TestCase):
         project = self.files["dune-project"].decode()
         self.assertEqual(project, f"(lang dune 3.0)\n(name praxo_core)\n(version {self.version})\n(generate_opam_files false)\n")
         library = self.files["src/dune"].decode()
-        for field in ("(public_name praxo-core)", "(wrapped false)", "(modules praxo_core)", "(libraries unix)"):
+        for field in ("(public_name praxo-core)", "(wrapped false)", "(modules praxo_core",
+                      "(private_modules praxo_types", "(libraries unix)"):
             self.assertIn(field, library)
         tests = self.files["tests/dune"].decode()
         self.assertIn("(modules praxo_tests praxo_adapter_tests)", tests)
@@ -172,11 +173,11 @@ class OcamlPackageTests(unittest.TestCase):
     def test_version_mismatch_rejected_before_writing(self):
         root = self.source_fixture()
         version = root / "language/ocaml/VERSION"
-        version.write_bytes(b"0.10.1\n")
+        version.write_bytes(b"0.11.1\n")
         with self.assertRaisesRegex(ValueError, "sdk_version"):
             package.stage(self.output, root=root)
         self.assertFalse(self.output.exists())
-        version.write_bytes(b"0.10.0-rc1\n")
+        version.write_bytes(b"0.11.0-rc1\n")
         with self.assertRaisesRegex(ValueError, "plain X.Y.Z"):
             package.stage(self.output, root=root)
 
