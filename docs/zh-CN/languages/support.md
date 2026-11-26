@@ -126,10 +126,10 @@ Kotlin、VB.NET、Scala 等仅示例实现保留在本仓库，作为宿主 Core
 | PowerShell | 0.9.0 | PowerShell Gallery `0.8.1` | 落后于源码 |
 | Haskell | 0.9.0 | Hackage `0.9.0` | 版本一致；README 陈旧 |
 | R | 0.12.0 | r-universe `0.12.0` | 版本一致；检查有 warnings；未发布 CRAN |
-| Nim | 0.8.0 | Registry 发布未验证 | split 仓库 tag 不等于 Registry 发布证据 |
+| Nim | 0.8.0 | split 仓库 `v0.8.0` 已打 tag | Nimble/nimpkgs 待重新抓取；安装 smoke 未记录 |
 | OCaml | 0.11.1 | 未发布到 opam；替代提交待审核 | split 源码已对齐且原生 fixture 包已验证 |
 | Swift | 0.9.0 | SPI `0.7.2` | split 非流式范围，落后于主仓库流式范围 |
-| V | 0.8.0 | VPM 未验证 | 待完成，未验收 |
+| V | 0.8.0 | split 仓库 `0.8.0` 已打 tag | VPM 提交待完成，未验收 |
 | Delphi / Free Pascal | 0.9.0 | GitHub Release 资产 `0.7.0` | OPM 收录未验证 |
 | D | 0.8.0 | DUB `0.8.0` | 版本一致 |
 

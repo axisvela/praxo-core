@@ -58,7 +58,7 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 | Perl | CPAN | `0.8.0` | https://metacpan.org/dist/Praxo-Core | published |
 | Haskell | Hackage | `0.9.0` | https://hackage.haskell.org/package/praxo-core-0.9.0 | published; README defect recorded in page audit |
 | R | r-universe | `0.12.0` | https://axisvela.r-universe.dev/praxocore | actual build HEAD `9b417e3`; checks have warnings, not all clean; CRAN not published |
-| Nim | nim-lang/packages (Nimble) | `0.1.1` | https://github.com/axisvela/praxo-core-nim | split repo `v0.6.0` tagged; nim-lang/packages PR #3600 merged 2026-11-05; nimpkgs re-crawl pending |
+| Nim | nim-lang/packages (Nimble) | `0.1.1` | https://github.com/axisvela/praxo-core-nim | split repo `v0.8.0` tagged; nim-lang/packages PR #3600 merged 2026-11-05; nimpkgs re-crawl pending |
 
 ## Uploaded or awaiting indexing
 
@@ -66,7 +66,7 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 | --- | --- | --- | --- | --- |
 | Julia | Julia General Registry | not registered | https://github.com/JuliaRegistries/General/pull/176393 | PR open, not merged; mirror tag is not General availability |
 | Octave | Octave Packages | `0.7.0` | https://github.com/axisvela/praxo-core/releases/tag/octave%2Fv0.7.0 | 0.7.0 release tarball published; package index PR pending |
-| V | VPM | unverified | https://github.com/axisvela/praxo-core-v | registry availability unverified; pending, not accepted |
+| V | VPM | unverified | https://github.com/axisvela/praxo-core-v | registry availability unverified; split repo `0.8.0` tagged; VPM submission pending |
 | Delphi / Free Pascal | OPM / GitHub release | `0.2.1` | https://github.com/axisvela/praxo-core/releases/tag/delphi%2Fv0.7.0 | 0.7.0 OPM assets published; OPM listing pending |
 
 ## Source-only or not published to a registry

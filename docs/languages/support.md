@@ -284,17 +284,14 @@ installation index. Use the tables above and
   call limits. Hex publishes `praxo_core==0.6.0`; `0.5.1`, `0.4.1`, `0.4.0`,
   `0.3.0`, and `0.2.0` remain available. HexDocs are published at
   <https://praxo-core.hexdocs.pm/0.6.0/>.
-- Nim, V, and Objective-C have source tags `nim/v0.6.0`, `v/v0.6.0`, and
-  `objc/v0.6.0`. They include all eleven vector groups, native tests, and API
-  snapshots. Nim publishes the Nimble package `praxo_core` from
-  `axisvela/praxo-core-nim` with root `praxo_core.nimble` version `0.1.1`;
-  nim-lang/packages PR #3600 merged on 2026-11-05 and nimpkgs still marks the old
-  monorepo entry broken until its next crawl. A registry install smoke is not
-  yet recorded. V
-  and Objective-C have `v.mod` and CocoaPods metadata respectively, but their
-  registry split-repository steps are still pending. V publishes package
-  `praxo-core` tag `0.1.2` from `axisvela/praxo-core-v`; VPM submission is
-   pending and registry availability remains unverified. Swift
+- Nim, V, and Objective-C have source tags `nim/v0.8.0`, `v/v0.8.0`, and
+  `objc/v0.8.0`. They include all eleven vector groups, native tests, and API
+  snapshots. Nim publishes package `praxo_core` from
+  `axisvela/praxo-core-nim`; the split repository is tagged `v0.8.0`, and
+  nim-lang/packages points at it. A registry install smoke is not yet recorded.
+  V publishes package `praxo-core` from `axisvela/praxo-core-v`; the split
+  repository is tagged `0.8.0`, while VPM submission is pending and registry
+  availability remains unverified. Objective-C remains source-only. Swift
    publishes SPM tag `0.7.2` from `axisvela/praxo-core-swift`; Swift Package
    Index `0.7.2` is indexed with non-streaming split scope. Production readiness and complete Go parity are not
   claimed; optional Go hooks and provider adapters are not included.

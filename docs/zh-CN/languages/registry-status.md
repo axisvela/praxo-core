@@ -51,7 +51,7 @@ GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
 | Perl | CPAN | `0.8.0` | https://metacpan.org/dist/Praxo-Core | 已发布 |
 | Haskell | Hackage | `0.9.0` | https://hackage.haskell.org/package/praxo-core-0.9.0 | 已发布；README 缺陷见页面审计 |
 | R | r-universe | `0.12.0` | https://axisvela.r-universe.dev/praxocore | 实际构建 HEAD `9b417e3`；检查有 warnings，非全部通过且无警告；未发布 CRAN |
-| Nim | nim-lang/packages（Nimble） | `0.1.1` | https://github.com/axisvela/praxo-core-nim | split 仓库 `v0.6.0` 已打 tag；nim-lang/packages PR #3600 已于 2026-11-05 合并；nimpkgs 待重新抓取 |
+| Nim | nim-lang/packages（Nimble） | `0.1.1` | https://github.com/axisvela/praxo-core-nim | split 仓库 `v0.8.0` 已打 tag；nim-lang/packages PR #3600 已于 2026-11-05 合并；nimpkgs 待重新抓取 |
 
 ## 已上传或等待索引
 
@@ -59,7 +59,7 @@ GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
 | --- | --- | --- | --- | --- |
 | Julia | Julia General Registry | 未注册 | https://github.com/JuliaRegistries/General/pull/176393 | PR 开放、未合并；mirror tag 不等于 General 可用 |
 | Octave | Octave Packages | `0.7.0` | https://github.com/axisvela/praxo-core/releases/tag/octave%2Fv0.7.0 | 0.7.0 release tarball 已发布；包索引 PR 待完成 |
-| V | VPM | 未验证 | https://github.com/axisvela/praxo-core-v | registry 可用性未验证；待完成，未验收 |
+| V | VPM | 未验证 | https://github.com/axisvela/praxo-core-v | registry 可用性未验证；split 仓库 `0.8.0` 已打 tag；VPM 提交待完成 |
 | Delphi / Free Pascal | OPM / GitHub release | `0.2.1` | https://github.com/axisvela/praxo-core/releases/tag/delphi%2Fv0.7.0 | 0.7.0 OPM 资产已发布；OPM 收录待完成 |
 
 ## 仅源码或未发布到注册表

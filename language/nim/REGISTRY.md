@@ -1,6 +1,6 @@
 # PRAXO-CORE Nim Registry Introduction
 
-**Status:** split repository; registry publication unverified; crawler pending. Source version `0.8.0`, source
+**Status:** split repository v0.8.0 tagged; Nimble/nimpkgs re-crawl pending. Source version `0.8.0`, source
 tag `nim/v0.8.0`. Published registry version: not published. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.

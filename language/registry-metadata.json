@@ -260,7 +260,7 @@
     "registry": "Nimble/nim-lang packages (unverified)",
     "source_install": "Source checkout: language/nim (see README build instructions)",
     "source_version": "0.8.0",
-    "status": "split repository; registry publication unverified; crawler pending",
+    "status": "split repository v0.8.0 tagged; Nimble/nimpkgs re-crawl pending",
     "tag": "nim/v0.8.0",
     "tier": "Core",
     "url": "https://github.com/axisvela/praxo-core-nim"
@@ -428,7 +428,7 @@
     "registry": "VPM (pending)",
     "source_install": "Source checkout: language/v (see README build instructions)",
     "source_version": "0.8.0",
-    "status": "not published; split repository; VPM submission pending",
+    "status": "split repository 0.8.0 tagged; VPM submission pending",
     "tag": "v/v0.8.0",
     "tier": "Core",
     "url": "https://github.com/axisvela/praxo-core-v"
