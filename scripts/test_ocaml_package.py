@@ -48,7 +48,7 @@ class OcamlPackageTests(unittest.TestCase):
 
     def test_full_payload_exact_bytes_and_modes(self):
         self.stage()
-        self.assertEqual(self.version, "0.11.0")
+        self.assertEqual(self.version, "0.11.1")
         expected = set(self.files)
         actual = {p.relative_to(self.output).as_posix() for p in self.output.rglob("*") if p.is_file()}
         self.assertEqual(expected, actual)
@@ -68,8 +68,8 @@ class OcamlPackageTests(unittest.TestCase):
         for source in vectors.rglob("*"):
             if source.is_file():
                 self.assertEqual((self.output / "tests/spec/vectors" / source.relative_to(vectors)).read_bytes(), source.read_bytes())
-        fixture = "tests/tests/fixtures/process_plugin.py"
-        self.assertEqual(self.files[fixture], (sdk / "tests/fixtures/process_plugin.py").read_bytes())
+        fixture = "tests/process_plugin.ml"
+        self.assertEqual(self.files[fixture], (sdk / "tests/process_plugin.ml").read_bytes())
         self.assertIn(f"api/{self.version}.txt", expected)
         self.assertFalse(any(name.endswith((".cmi", ".cmo", ".exe")) for name in expected))
 
@@ -82,17 +82,20 @@ class OcamlPackageTests(unittest.TestCase):
             self.assertIn(field, library)
         tests = self.files["tests/dune"].decode()
         self.assertIn("(modules praxo_tests praxo_adapter_tests)", tests)
+        self.assertIn("(name process_plugin)", tests)
+        self.assertIn("(modules process_plugin)", tests)
         self.assertIn("(modes byte)", tests)
-        self.assertIn("(action (run %{test} spec))", tests)
+        self.assertIn("(action (run %{test} spec %{exe:process_plugin.exe}))", tests)
         self.assertIn("(source_tree spec)", tests)
         self.assertIn("(source_tree tests)", tests)
         opam = self.files["praxo-core.opam"].decode()
         for text in ('license: "MIT"', '"ocaml" {>= "4.14"}', '"dune" {>= "3.0"}',
                      '["dune" "build" "-p" name "-j" jobs]',
                      '["dune" "runtest" "-p" name "-j" jobs] {with-test}',
-                     '"conf-python-3" {with-test}', "hanhuiwen@axisvela.com"):
+                     "hanhuiwen@axisvela.com"):
             self.assertIn(text, opam)
         self.assertNotIn('"unix"', opam)
+        self.assertNotIn("conf-python-3", opam)
         self.assertIn('dev-repo: "git+https://github.com/axisvela/praxo-core-ocaml.git"', opam)
         self.assertNotIn('dev-repo: "git+https://github.com/axisvela/praxo-core.git"', opam)
         readme = self.files["README.md"].decode()
@@ -176,11 +179,11 @@ class OcamlPackageTests(unittest.TestCase):
     def test_version_mismatch_rejected_before_writing(self):
         root = self.source_fixture()
         version = root / "language/ocaml/VERSION"
-        version.write_bytes(b"0.11.1\n")
+        version.write_bytes(b"0.11.2\n")
         with self.assertRaisesRegex(ValueError, "sdk_version"):
             package.stage(self.output, root=root)
         self.assertFalse(self.output.exists())
-        version.write_bytes(b"0.11.0-rc1\n")
+        version.write_bytes(b"0.11.1-rc1\n")
         with self.assertRaisesRegex(ValueError, "plain X.Y.Z"):
             package.stage(self.output, root=root)
 

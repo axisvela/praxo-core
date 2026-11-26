@@ -70,7 +70,7 @@ GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
 | C++ | `cpp/v0.10.0` | 未发布注册表；xmake-repo PR #11310、vcpkg PR #55192、Conan Center PR #31503 仍开放，未合并 |
 | Fortran | `fortran/v0.12.0` | fpm registry 上游暂停 |
 | COBOL | `cobol/v0.9.0` | 无主流注册表 |
-| OCaml | `ocaml/v0.11.0` | 未发布到 opam；替代提交待审核；split 源码已对齐到 `0.11.0` 并在本地验证；见[发布状态](https://github.com/axisvela/praxo-core/blob/main/language/ocaml/PUBLISHING.md) |
+| OCaml | `ocaml/v0.11.1` | 未发布到 opam；替代提交待审核；split 源码已对齐到 `0.11.1` 并在本地验证；见[发布状态](https://github.com/axisvela/praxo-core/blob/main/language/ocaml/PUBLISHING.md) |
 | Objective-C | `objc/v0.8.0` | CocoaPods 发布暂缓；需要 macOS/Xcode 与 Trunk token |
 | Zig | `zig/v0.9.0` | 无中央注册表 |
 | Tcl / Lisp / Prolog | `tcl/v0.1.0`、`lisp/v0.1.0`、`prolog/v0.1.1` | 桥接包；注册表发布待完成 |

@@ -273,9 +273,9 @@
     "published_version": "",
     "registry": "opam (pending)",
     "source_install": "Source checkout: language/ocaml (see README build instructions)",
-    "source_version": "0.11.0",
+    "source_version": "0.11.1",
     "status": "not published; replacement submission pending",
-    "tag": "ocaml/v0.11.0",
+    "tag": "ocaml/v0.11.1",
     "tier": "Core",
     "url": "https://github.com/axisvela/praxo-core-ocaml"
   },

@@ -886,6 +886,12 @@ let test_seams () =
 
 let () =
   let root = if Array.length Sys.argv > 1 then Sys.argv.(1) else "../../spec" in
+  let plugin =
+    if Array.length Sys.argv > 2 then Sys.argv.(2)
+    else match Sys.getenv_opt "PRAXO_PLUGIN" with
+      | Some value -> value
+      | None -> Filename.concat "build" (if Sys.win32 then "process_plugin.exe" else "process_plugin")
+  in
   test_json ();
   test_toolcall root;
   test_schema root;
@@ -907,6 +913,6 @@ let () =
   Praxo_adapter_tests.test_openai_adapter ();
   Praxo_adapter_tests.test_anthropic_adapter ();
   Praxo_adapter_tests.test_gemini_adapter ();
-  Praxo_adapter_tests.test_plugin_process ();
+  Praxo_adapter_tests.test_plugin_process plugin;
   Praxo_adapter_tests.test_harmovela ();
   print_endline "OCaml Core tests passed"

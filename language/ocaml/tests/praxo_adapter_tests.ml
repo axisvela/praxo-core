@@ -301,12 +301,9 @@ let test_gemini_adapter () =
   check (Praxo_core.ends_with ":streamGenerateContent?alt=sse" stream_http.Praxo_core.http_url) "gemini stream url";
   print_endline "test_gemini_adapter passed"
 
-let test_plugin_process () =
-  let python = match Sys.getenv_opt "PYTHON" with
-    | Some value -> value
-    | None -> if Sys.win32 then "python" else "python3" in
-  let config = Praxo_core.plugin_process_config_make "com.example.echo" python
-    ["tests/fixtures/process_plugin.py"] "" in
+let test_plugin_process fixture =
+  let config = Praxo_core.plugin_process_config_make "com.example.echo" fixture
+    [] "" in
   let host = Praxo_core.start_plugin_process config in
   check (Praxo_core.invoke_plugin_process host "tool.provider" "echo" "{\"text\":\"hi\"}" =
     "{\"text\":\"hi\"}") "plugin process echo";

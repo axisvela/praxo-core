@@ -1,5 +1,14 @@
 # OCaml Core Release Notes
 
+## 0.11.1 - 2026-11-26
+
+Source tag `ocaml/v0.11.1`.
+
+- Replaced the Python process-plugin test fixture with a native OCaml fixture,
+  removing the `conf-python-3` test dependency and Cygwin `python` lookup.
+- Expanded the standalone package README and moved Current Limits to the end.
+- Registry-package metadata no longer repeats `name` and `version`.
+
 ## 0.11.0 - 2026-11-26
 
 Source tag `ocaml/v0.11.0`.

@@ -53,12 +53,17 @@ def main():
                     build_path("praxo_tests.cmo"),
                     "tests/praxo_tests.ml"], cwd=ROOT, check=True)
     executable = build / ("praxo_tests.exe" if os.name == "nt" else "praxo_tests")
+    plugin = build / ("process_plugin.exe" if os.name == "nt" else "process_plugin")
+    subprocess.run([compiler, "-g", "-o", str(plugin), "-I", str(build),
+                    "unix.cma"] + [build_path(module + ".cmo") for module in modules] +
+                   [build_path("praxo_core.cmo"), "tests/process_plugin.ml"],
+                   cwd=ROOT, check=True)
     subprocess.run([compiler, "-g", "-o", str(executable), "-I", str(build),
                     "unix.cma"] + [build_path(module + ".cmo") for module in modules] +
                    [build_path("praxo_core.cmo"),
                     build_path("praxo_adapter_tests.cmo"), build_path("praxo_tests.cmo")],
                    cwd=ROOT, check=True)
-    subprocess.run([runtime, str(executable), str(ROOT.parents[1] / "spec")],
+    subprocess.run([runtime, str(executable), str(ROOT.parents[1] / "spec"), str(plugin)],
                    cwd=ROOT, check=True, timeout=120)
 
 

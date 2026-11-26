@@ -8,11 +8,11 @@
 
 - package: `praxo-core`
 - registry: [opam (pending)](https://github.com/axisvela/praxo-core-ocaml)
-- source_version: `0.11.0`
+- source_version: `0.11.1`
 - published_version: not published
 - install_published: not published
 - install_source: `Source checkout: language/ocaml (see README build instructions)`
-- source_tag: `ocaml/v0.11.0`
+- source_tag: `ocaml/v0.11.1`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/ocaml/

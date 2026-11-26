@@ -1,13 +1,13 @@
 # PRAXO-CORE OCaml Registry Introduction
 
-**Status:** not published; replacement opam submission pending review. Source version `0.11.0`, source
-tag `ocaml/v0.11.0`. Published registry version: not published. Registry
+**Status:** not published; replacement opam submission pending review. Source version `0.11.1`, source
+tag `ocaml/v0.11.1`. Published registry version: not published. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
 ## Positioning
 
-PRAXO-CORE is an embeddable, MIT-licensed AI agent framework. This package is its native OCaml Core with source tag `ocaml/v0.11.0`. It passes all eleven vector groups on OCaml 4.14.2 bytecode and includes the native agent loop, memory store, checkpoint allowlist, lexical path policy, context compaction, event sinks, middleware helpers, tool selection, streaming OpenAI-compatible, Anthropic, and Gemini model adapters, and an optional process plugin host. It does not call Go or another language Core and has no cross-language process bridge.
+PRAXO-CORE is an embeddable, MIT-licensed AI agent framework. This package is its native OCaml Core with source tag `ocaml/v0.11.1`. It passes all eleven vector groups on OCaml 4.14.2 bytecode and includes the native agent loop, memory store, checkpoint allowlist, lexical path policy, context compaction, event sinks, middleware helpers, tool selection, streaming OpenAI-compatible, Anthropic, and Gemini model adapters, and an optional process plugin host. It does not call Go or another language Core and has no cross-language process bridge.
 
 ## Package
 
@@ -15,11 +15,11 @@ PRAXO-CORE is an embeddable, MIT-licensed AI agent framework. This package is it
 | --- | --- |
 | Package | `praxo-core` |
 | Registry | [opam (pending)](https://github.com/axisvela/praxo-core-ocaml) |
-| Source version | `0.11.0` |
+| Source version | `0.11.1` |
 | Published registry version | not published |
 | Install (published) | not published |
 | Install (source/release prepared) | `Source checkout: language/ocaml (see README build instructions)` |
-| Source tag | `ocaml/v0.11.0` |
+| Source tag | `ocaml/v0.11.1` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/ocaml/ |

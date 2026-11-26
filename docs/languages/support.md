@@ -128,7 +128,7 @@ acceptance, and no new consumer smoke or remote correction is claimed here.
 | Perl | `perl/v0.8.0` | CPAN `Praxo-Core==0.8.0` published | Consumer install not recorded for `0.8.0` |
 | PowerShell | `powershell/v0.9.0` | PowerShell Gallery `praxo-core-ps==0.8.1` published | The release build ran wrapper tests and the API snapshot; the Gallery reported `0.8.1` as published. The CI `current-powershell-consumer` job installed `0.8.1` from PSGallery and passed allow/deny on 2026-11-21 (run `44917317881`) |
 | Nim | `nim/v0.8.0` | Split repository package `0.1.1`; nim-lang/packages PR #3600 merged 2026-11-05; nimpkgs re-crawl pending | Not recorded |
-| OCaml | `ocaml/v0.11.0` | Not published to opam; replacement submission pending | Split source aligned to `0.11.0`; package and bytecode suite validated locally; registry acceptance pending |
+| OCaml | `ocaml/v0.11.1` | Not published to opam; replacement submission pending | Split source aligned to `0.11.1`; native-fixture package suite validated locally; registry acceptance pending |
 | Haskell | `haskell/v0.9.0` | Hackage `praxo-core==0.9.0` published | Consumer install not recorded for `0.9.0` |
 | Delphi / Free Pascal | `delphi/v0.9.0` | OPM `0.2.1`; 0.7.0 OPM assets published; OPM listing pending | Not recorded; commercial Delphi unverified |
 
@@ -159,7 +159,7 @@ its latest version matches the manifest at the release tag.
 | Haskell | 0.9.0 | Hackage `0.9.0` | version matches; README stale |
 | R | 0.12.0 | r-universe `0.12.0` | version matches; check warnings; CRAN not published |
 | Nim | 0.8.0 | not verified in registry | split repository tag is not registry publication evidence |
-| OCaml | 0.11.0 | not published to opam; replacement submission pending | split source aligned and package validated |
+| OCaml | 0.11.1 | not published to opam; replacement submission pending | split source aligned and native-fixture package validated |
 | Swift | 0.9.0 | SPI `0.7.2` | split non-streaming scope; behind monorepo streaming scope |
 | V | 0.8.0 | VPM unverified | pending; not accepted |
 | Delphi / Free Pascal | 0.9.0 | GitHub release assets `0.7.0` | OPM listing unverified |

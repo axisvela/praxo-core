@@ -68,7 +68,7 @@ def payload(root=ROOT):
     copy(sdk / "api" / f"{version}.txt", f"api/{version}.txt")
     for name in ("praxo_tests.ml", "praxo_adapter_tests.ml"):
         copy(sdk / "tests" / name, "tests/" + name)
-    copy(sdk / "tests/fixtures/process_plugin.py", "tests/tests/fixtures/process_plugin.py")
+    copy(sdk / "tests/process_plugin.ml", "tests/process_plugin.ml")
     if not (root / "spec/vectors").is_dir():
         raise ValueError("Missing shared spec/vectors directory")
     for path in sorted((root / "spec/vectors").rglob("*")):
@@ -82,8 +82,8 @@ Source availability is not registry publication; staging alone does not establis
 
 Independent OCaml runtime with an optional process plugin host.
 Provider HTTP transport is caller-owned; no HTTP client or credentials are bundled.
-Requires OCaml >= 4.14 and Dune >= 3.0; tests run in bytecode mode
-and require Python 3. From this standalone source directory:
+Requires OCaml >= 4.14 and Dune >= 3.0; tests run in bytecode mode.
+From this standalone source directory:
 
 ```sh
 opam install . --with-test
@@ -117,13 +117,18 @@ the canonical tag reference `ocaml/v{version}` does not certify packaged bytes.
  (private_modules {private_modules})
  (libraries unix))
 """.encode()
-    files["tests/dune"] = b"""(test
+    files["tests/dune"] = b"""(executable
+ (name process_plugin)
+ (modules process_plugin)
+ (libraries praxo-core unix))
+
+(test
  (name praxo_tests)
  (modes byte)
  (modules praxo_tests praxo_adapter_tests)
  (libraries praxo-core unix)
  (deps (source_tree spec) (source_tree tests))
- (action (run %{test} spec)))
+ (action (run %{test} spec %{exe:process_plugin.exe})))
 """
     files["praxo-core.opam"] = f'''opam-version: "2.0"
 name: "praxo-core"
@@ -143,7 +148,6 @@ dev-repo: "git+https://github.com/axisvela/praxo-core-ocaml.git"
 depends: [
   "ocaml" {{>= "4.14"}}
   "dune" {{>= "3.0"}}
-  "conf-python-3" {{with-test}}
 ]
 build: [
   ["dune" "build" "-p" name "-j" jobs]

@@ -96,7 +96,7 @@ Kotlin、VB.NET、Scala 等仅示例实现保留在本仓库，作为宿主 Core
 | Perl | `perl/v0.8.0` | CPAN `Praxo-Core==0.8.0` 已发布 | 未记录 `0.8.0` 消费者安装 |
 | PowerShell | `powershell/v0.9.0` | PowerShell Gallery `praxo-core-ps==0.8.1` 已发布 | 发布构建运行 wrapper 测试与 API snapshot；Gallery 报告 `0.8.1` 已发布。CI `current-powershell-consumer` 于 2026-11-21 从 PSGallery 安装 `0.8.1` 并通过 allow/deny（run `44917317881`） |
 | Nim | `nim/v0.8.0` | split 仓库包 `0.1.1`；nim-lang/packages PR #3600 已于 2026-11-05 合并；nimpkgs 待重新抓取 | 未记录 |
-| OCaml | `ocaml/v0.11.0` | 未发布到 opam；替代提交待审核 | split 源码已对齐到 `0.11.0`；包与 bytecode 测试已在本地验证；等待 registry 接受 |
+| OCaml | `ocaml/v0.11.1` | 未发布到 opam；替代提交待审核 | split 源码已对齐到 `0.11.1`；原生 fixture 包测试已在本地验证；等待 registry 接受 |
 | Haskell | `haskell/v0.9.0` | Hackage `praxo-core==0.9.0` 已发布 | 未记录 `0.9.0` 消费者安装 |
 | Delphi / Free Pascal | `delphi/v0.9.0` | OPM `0.2.1`；0.7.0 OPM 资产已发布；OPM 收录待完成 | 未记录；商业 Delphi 未验证 |
 
@@ -127,7 +127,7 @@ Kotlin、VB.NET、Scala 等仅示例实现保留在本仓库，作为宿主 Core
 | Haskell | 0.9.0 | Hackage `0.9.0` | 版本一致；README 陈旧 |
 | R | 0.12.0 | r-universe `0.12.0` | 版本一致；检查有 warnings；未发布 CRAN |
 | Nim | 0.8.0 | Registry 发布未验证 | split 仓库 tag 不等于 Registry 发布证据 |
-| OCaml | 0.11.0 | 未发布到 opam；替代提交待审核 | split 源码已对齐且包已验证 |
+| OCaml | 0.11.1 | 未发布到 opam；替代提交待审核 | split 源码已对齐且原生 fixture 包已验证 |
 | Swift | 0.9.0 | SPI `0.7.2` | split 非流式范围，落后于主仓库流式范围 |
 | V | 0.8.0 | VPM 未验证 | 待完成，未验收 |
 | Delphi / Free Pascal | 0.9.0 | GitHub Release 资产 `0.7.0` | OPM 收录未验证 |

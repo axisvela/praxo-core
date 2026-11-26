@@ -7,7 +7,7 @@ make `opam install praxo-core` available.
 
 Checked 2026-11-26: the monorepo source and the
 [dedicated package repository](https://github.com/axisvela/praxo-core-ocaml)
-are aligned to `0.11.0`. The split root contains `praxo-core.opam`,
+are aligned to `0.11.1`. The split root contains `praxo-core.opam`,
 `dune-project`, and `src/`. The public library is `praxo-core` and its module
 is `Praxo_core`.
 

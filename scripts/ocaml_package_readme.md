@@ -20,8 +20,8 @@ not certify the packaged bytes.
 
 Requires OCaml >= 4.14 and Dune >= 3.0. Tests run in bytecode mode. The `unix`
 library ships with OCaml and is not a separate opam dependency. Tests are
-offline and also require Python 3 (`python` on PATH, or set `PYTHON` to its
-executable).
+offline and use a native OCaml process-plugin fixture; no Python runtime is
+required.
 
 ```sh
 dune build -p praxo-core
@@ -39,9 +39,8 @@ Use `(libraries praxo-core)` in a consumer's Dune library or executable. The
 module is `Praxo_core` (the library is unwrapped). Callers supply provider HTTP
 transports; no network client or credentials are bundled.
 
-The packaged tests include both canonical test modules and all shared vectors
-under `tests/spec/vectors`. `tests/tests/fixtures` preserves the fixture path
-used by the unmodified tests when run from the Dune sandbox.
+The packaged tests include both canonical test modules, a native OCaml
+process-plugin fixture, and all shared vectors under `tests/spec/vectors`.
 
 ## What Is Included
 

@@ -77,7 +77,7 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 | C++ | `cpp/v0.10.0` | no registry publication; xmake-repo PR #11310, vcpkg PR #55192, and Conan Center PR #31503 open, not merged |
 | Fortran | `fortran/v0.12.0` | fpm registry upstream paused |
 | COBOL | `cobol/v0.9.0` | no mainstream registry |
-| OCaml | `ocaml/v0.11.0` | not published to opam; replacement submission pending; split source aligned to `0.11.0` and validated locally; see [publication status](https://github.com/axisvela/praxo-core/blob/main/language/ocaml/PUBLISHING.md) |
+| OCaml | `ocaml/v0.11.1` | not published to opam; replacement submission pending; split source aligned to `0.11.1` and validated locally; see [publication status](https://github.com/axisvela/praxo-core/blob/main/language/ocaml/PUBLISHING.md) |
 | Objective-C | `objc/v0.8.0` | CocoaPods publication deferred; requires macOS/Xcode and a Trunk token |
 | Zig | `zig/v0.9.0` | no central registry |
 | Tcl / Lisp / Prolog | `tcl/v0.1.0`, `lisp/v0.1.0`, `prolog/v0.1.1` | bridge packages; registry publication pending |
