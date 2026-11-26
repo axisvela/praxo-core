@@ -41,7 +41,7 @@ jobs:
           ocaml-compiler: ${{ matrix.compiler }}
       - run: opam install dune conf-python-3 --yes
       - run: python language/ocaml/api-snapshot.py --check
-      - run: opam exec -- python -m unittest discover -s scripts -p test_ocaml_package.py -v
+      - run: opam exec -- python -m unittest discover -s scripts -p "test_ocaml_*.py" -v
       - run: python scripts/build_ocaml_package.py --archive build/praxo-core-ocaml-source.tar.gz
       - run: opam lint build/ocaml-package/praxo-core.opam
       - run: python -m tarfile -e build/praxo-core-ocaml-source.tar.gz build/ocaml-release-check

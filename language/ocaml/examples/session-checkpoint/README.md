@@ -8,7 +8,7 @@ application-owned.
 From the repository root:
 
 ```bash
-ocaml -I language/ocaml language/ocaml/examples/session-checkpoint/session_checkpoint.ml
+ocaml -I language/ocaml/src language/ocaml/examples/session-checkpoint/session_checkpoint.ml
 ```
 
 Expected output:

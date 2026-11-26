@@ -27,6 +27,22 @@ explicitly says those concerns had not been addressed. Passing package CI does
 not resolve them. Before resubmission, address the technical feedback and obtain
 human OCaml review; do not claim that automated checks provide that review.
 
+Technical follow-up completed on 2026-11-26:
+
+- Every exported value in `src/praxo_core.mli` now has an odoc comment, with
+  contract notes for limits, error codes, lexical path checks, and transport
+  seams. `scripts/test_ocaml_api_docs.py` enforces attached docs, the API
+  snapshot, and the source-size guardrail.
+- Duplicated ASCII predicates (`is_digit_char`, repeated alpha tests) were
+  replaced by one `is_alpha` and the existing `is_digit`; prefix/suffix helpers
+  delegate to `String.starts_with`/`String.ends_with`; assistant and tool
+  messages derive from `text_message` instead of repeating record literals.
+- The installed-package consumer performs a governed allow/deny task rather
+  than only parsing JSON.
+
+These are source-level changes verified by the OCaml suite and package staging.
+They do not constitute the human OCaml review requested by maintainers.
+
 A future submission needs a version-aligned source package, package validation,
 and a static release archive with its checksum. The official guide recommends
 static archives rather than forge-generated archives whose checksums may change.

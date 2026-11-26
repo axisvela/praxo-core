@@ -107,17 +107,17 @@ jobs:
       - uses: ocaml/setup-ocaml@v3
         with:
           ocaml-compiler: "5.1"
-      - run: opam exec -- ocaml unix.cma -I language/ocaml language/ocaml/examples/retry/retry.ml
-      - run: opam exec -- ocaml unix.cma -I language/ocaml language/ocaml/examples/checkpoint/checkpoint.ml
-      - run: opam exec -- ocaml unix.cma -I language/ocaml language/ocaml/examples/event-sink/event_sink.ml
-      - run: opam exec -- ocaml unix.cma -I language/ocaml language/ocaml/examples/provider-fallback/fallback.ml
-      - run: opam exec -- ocaml unix.cma -I language/ocaml language/ocaml/examples/structured-output/structured_output.ml
-      - run: opam exec -- ocaml unix.cma -I language/ocaml language/ocaml/examples/streaming/streaming.ml
-      - run: opam exec -- ocaml unix.cma -I language/ocaml language/ocaml/examples/identity-policy/identity_policy.ml
-      - run: opam exec -- ocaml unix.cma -I language/ocaml language/ocaml/examples/service/service.ml
-      - run: opam exec -- ocaml unix.cma -I language/ocaml language/ocaml/examples/mcp/mcp.ml
-      - run: opam exec -- ocaml unix.cma -I language/ocaml language/ocaml/examples/session-checkpoint/session_checkpoint.ml
-      - run: opam exec -- ocaml unix.cma -I language/ocaml language/ocaml/examples/hitl/hitl.ml
+      - run: opam exec -- ocaml unix.cma -I language/ocaml/src language/ocaml/examples/retry/retry.ml
+      - run: opam exec -- ocaml unix.cma -I language/ocaml/src language/ocaml/examples/checkpoint/checkpoint.ml
+      - run: opam exec -- ocaml unix.cma -I language/ocaml/src language/ocaml/examples/event-sink/event_sink.ml
+      - run: opam exec -- ocaml unix.cma -I language/ocaml/src language/ocaml/examples/provider-fallback/fallback.ml
+      - run: opam exec -- ocaml unix.cma -I language/ocaml/src language/ocaml/examples/structured-output/structured_output.ml
+      - run: opam exec -- ocaml unix.cma -I language/ocaml/src language/ocaml/examples/streaming/streaming.ml
+      - run: opam exec -- ocaml unix.cma -I language/ocaml/src language/ocaml/examples/identity-policy/identity_policy.ml
+      - run: opam exec -- ocaml unix.cma -I language/ocaml/src language/ocaml/examples/service/service.ml
+      - run: opam exec -- ocaml unix.cma -I language/ocaml/src language/ocaml/examples/mcp/mcp.ml
+      - run: opam exec -- ocaml unix.cma -I language/ocaml/src language/ocaml/examples/session-checkpoint/session_checkpoint.ml
+      - run: opam exec -- ocaml unix.cma -I language/ocaml/src language/ocaml/examples/hitl/hitl.ml
 
   nim-examples:
     needs: changes

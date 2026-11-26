@@ -9,7 +9,7 @@ This example demonstrates a write tool that requires human approval:
 Run from the repository root:
 
 ```bash
-ocaml -I language/ocaml language/ocaml/examples/hitl/hitl.ml
+ocaml -I language/ocaml/src language/ocaml/examples/hitl/hitl.ml
 ```
 
 Expected output:

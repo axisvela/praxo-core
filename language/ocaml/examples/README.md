@@ -25,7 +25,8 @@
 - [`hitl/`](hitl/): approve a write, then edit it to a denied value and verify
   that reauthorization stops the effect.
 
-The examples use the repository OCaml Core through `#use "praxo_core.ml"` and
-run with `ocaml -I language/ocaml <file>`. They are deterministic and do not
+The examples use the repository OCaml Core through `#use "praxo_core.ml"`,
+resolved from `language/ocaml/src` by `-I`, and run with
+`ocaml -I language/ocaml/src <file>`. They are deterministic and do not
 require network access, credentials, or a model service, except for the
 transport-seam `live-model` example.

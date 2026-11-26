@@ -41,7 +41,7 @@ def payload(root=ROOT):
     version = (sdk / "VERSION").read_text().strip()
     if not re.fullmatch(r"\d+\.\d+\.\d+", version):
         raise ValueError("VERSION must be plain X.Y.Z")
-    source = (sdk / "praxo_core.ml").read_bytes()
+    source = (sdk / "src/praxo_core.ml").read_bytes()
     versions = re.findall(rb'^let sdk_version = "([^"]+)"\s*$', source, re.M)
     if versions != [version.encode()]:
         raise ValueError("VERSION does not match praxo_core.ml sdk_version")
@@ -56,12 +56,12 @@ def payload(root=ROOT):
         inputs[source_path.relative_to(root).as_posix()] = data
 
     for name in ("praxo_core.ml", "praxo_core.mli"):
-        copy(sdk / name, "src/" + name)
+        copy(sdk / "src" / name, "src/" + name)
     for name in ("LICENSE", "CHANGELOG.md", "VERSION"):
         copy(sdk / name, name)
     copy(sdk / "api" / f"{version}.txt", f"api/{version}.txt")
     for name in ("praxo_tests.ml", "praxo_adapter_tests.ml"):
-        copy(sdk / name, "tests/" + name)
+        copy(sdk / "tests" / name, "tests/" + name)
     copy(sdk / "tests/fixtures/process_plugin.py", "tests/tests/fixtures/process_plugin.py")
     if not (root / "spec/vectors").is_dir():
         raise ValueError("Missing shared spec/vectors directory")
@@ -181,7 +181,7 @@ Package-local registry and llms files distinguish source availability from opam 
 
 - [Documentation](https://axisvela.github.io/praxo-core/languages/ocaml/)
 - [Examples]({REPOSITORY}/tree/main/language/ocaml/examples)
-- [API interface]({REPOSITORY}/blob/main/language/ocaml/praxo_core.mli)
+- [API interface]({REPOSITORY}/blob/main/language/ocaml/src/praxo_core.mli)
 - [API snapshot]({REPOSITORY}/blob/main/language/ocaml/api/{version}.txt)
 - [Canonical source]({REPOSITORY}/tree/main/language/ocaml)
 

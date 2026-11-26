@@ -1184,13 +1184,8 @@ let field_object key object_value =
 
 let json_text value = encode_json value
 
-let starts_with prefix text =
-  let n = String.length prefix in
-  String.length text >= n && String.sub text 0 n = prefix
-
-let ends_with suffix text =
-  let n = String.length suffix and m = String.length text in
-  m >= n && String.sub text (m - n) n = suffix
+let starts_with prefix text = String.starts_with ~prefix text
+let ends_with suffix text = String.ends_with ~suffix text
 
 let content_block_make kind text = {
   block_type = kind;
@@ -1213,21 +1208,11 @@ let text_message role content = {
   message_tool_id = None;
 }
 
-let assistant_message content calls = {
-  message_role = "assistant";
-  message_content = content;
-  message_blocks = [];
-  message_calls = calls;
-  message_tool_id = None;
-}
+let assistant_message content calls =
+  { (text_message "assistant" content) with message_calls = calls }
 
-let tool_message content tool_id = {
-  message_role = "tool";
-  message_content = content;
-  message_blocks = [];
-  message_calls = [];
-  message_tool_id = Some tool_id;
-}
+let tool_message content tool_id =
+  { (text_message "tool" content) with message_tool_id = Some tool_id }
 
 let tool_spec_make name description = { spec_name = name; spec_description = description }
 let usage_make input_tokens output_tokens = { input_tokens; output_tokens }
@@ -2357,16 +2342,15 @@ let compact_context budget messages =
       in
       shrink kept
 
+let is_alpha character =
+  (character >= 'a' && character <= 'z') || (character >= 'A' && character <= 'Z')
+
 let is_email_local character =
-  (character >= 'a' && character <= 'z') || (character >= 'A' && character <= 'Z') ||
-  (character >= '0' && character <= '9') || List.mem character ['.'; '_'; '%'; '+'; '-']
+  is_alpha character || is_digit character ||
+  List.mem character ['.'; '_'; '%'; '+'; '-']
 
 let is_domain_character character =
-  (character >= 'a' && character <= 'z') || (character >= 'A' && character <= 'Z') ||
-  (character >= '0' && character <= '9') || List.mem character ['.'; '-']
-
-let is_alpha character = (character >= 'a' && character <= 'z') || (character >= 'A' && character <= 'Z')
-let is_digit_char character = character >= '0' && character <= '9'
+  is_alpha character || is_digit character || List.mem character ['.'; '-']
 
 let pii_redact text =
   let n = String.length text in
@@ -2405,10 +2389,10 @@ let pii_redact text =
   let buffer = Buffer.create (String.length first) in
   let rec ssn i =
     if i >= String.length first then ()
-    else if i + 11 <= String.length first && is_digit_char first.[i] && is_digit_char first.[i+1] &&
-            is_digit_char first.[i+2] && first.[i+3] = '-' && is_digit_char first.[i+4] &&
-            is_digit_char first.[i+5] && first.[i+6] = '-' && is_digit_char first.[i+7] &&
-            is_digit_char first.[i+8] && is_digit_char first.[i+9] && is_digit_char first.[i+10] then begin
+    else if i + 11 <= String.length first && is_digit first.[i] && is_digit first.[i+1] &&
+            is_digit first.[i+2] && first.[i+3] = '-' && is_digit first.[i+4] &&
+            is_digit first.[i+5] && first.[i+6] = '-' && is_digit first.[i+7] &&
+            is_digit first.[i+8] && is_digit first.[i+9] && is_digit first.[i+10] then begin
       Buffer.add_string buffer "[REDACTED:ssn]";
       ssn (i + 11)
     end else begin
@@ -2425,7 +2409,7 @@ let pii_redact text =
     for group = 0 to 3 do
       if group > 0 && !index < String.length second && List.mem second.[!index] [' '; '-'] then incr index;
       for _ = 0 to 3 do
-        if !index >= String.length second || not (is_digit_char second.[!index]) then valid := false
+        if !index >= String.length second || not (is_digit second.[!index]) then valid := false
         else incr index
       done
     done;

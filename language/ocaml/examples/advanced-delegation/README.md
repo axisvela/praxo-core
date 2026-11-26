@@ -5,11 +5,11 @@ Application-level parent/child delegation plus six governance negative checks.
 From `language/ocaml/`:
 
 ```bash
-ocamlc -c praxo_core.mli
-ocamlc -c praxo_core.ml
-ocamlc -I . praxo_core.cmo language/go/examples/advanced-delegation/delegation.ml -o build/praxo-ocaml-delegation
+ocamlc -c src/praxo_core.mli
+ocamlc -c src/praxo_core.ml
+ocamlc -I src src/praxo_core.cmo language/go/examples/advanced-delegation/delegation.ml -o build/praxo-ocaml-delegation
 ocamlrun build/praxo-ocaml-delegation
-ocamlc -I . praxo_core.cmo language/go/examples/advanced-delegation/governance.ml -o build/praxo-ocaml-governance
+ocamlc -I src src/praxo_core.cmo language/go/examples/advanced-delegation/governance.ml -o build/praxo-ocaml-governance
 ocamlrun build/praxo-ocaml-governance
 ```
 

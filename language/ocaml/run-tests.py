@@ -25,13 +25,22 @@ def main():
     subprocess.run([sys.executable, str(ROOT / "api-snapshot.py"), "--check"], check=True)
     build = ROOT / "build"
     build.mkdir(exist_ok=True)
-    subprocess.run([compiler, "-g", "-c", "praxo_core.mli"], cwd=ROOT, check=True)
-    subprocess.run([compiler, "-g", "-c", "praxo_core.ml"], cwd=ROOT, check=True)
-    subprocess.run([compiler, "-g", "-c", "praxo_adapter_tests.ml"], cwd=ROOT, check=True)
-    subprocess.run([compiler, "-g", "-c", "praxo_tests.ml"], cwd=ROOT, check=True)
+    def build_path(name):
+        return str(build / name)
+
+    subprocess.run([compiler, "-g", "-c", "-o", build_path("praxo_core.cmi"),
+                    "src/praxo_core.mli"], cwd=ROOT, check=True)
+    subprocess.run([compiler, "-g", "-c", "-I", str(build), "-o", build_path("praxo_core.cmo"),
+                    "src/praxo_core.ml"], cwd=ROOT, check=True)
+    subprocess.run([compiler, "-g", "-c", "-I", str(build), "-o",
+                    build_path("praxo_adapter_tests.cmo"),
+                    "tests/praxo_adapter_tests.ml"], cwd=ROOT, check=True)
+    subprocess.run([compiler, "-g", "-c", "-I", str(build), "-o", build_path("praxo_tests.cmo"),
+                    "tests/praxo_tests.ml"], cwd=ROOT, check=True)
     executable = build / ("praxo_tests.exe" if os.name == "nt" else "praxo_tests")
-    subprocess.run([compiler, "-g", "-o", str(executable), "unix.cma", "praxo_core.cmo",
-                    "praxo_adapter_tests.cmo", "praxo_tests.cmo"],
+    subprocess.run([compiler, "-g", "-o", str(executable), "-I", str(build),
+                    "unix.cma", build_path("praxo_core.cmo"),
+                    build_path("praxo_adapter_tests.cmo"), build_path("praxo_tests.cmo")],
                    cwd=ROOT, check=True)
     subprocess.run([runtime, str(executable), str(ROOT.parents[1] / "spec")],
                    cwd=ROOT, check=True, timeout=120)

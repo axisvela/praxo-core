@@ -59,9 +59,9 @@ class OcamlPackageTests(unittest.TestCase):
                 self.assertEqual(target.stat().st_mode & 0o777, 0o644, name)
         sdk = package.ROOT / "language/ocaml"
         for name in ("praxo_core.ml", "praxo_core.mli"):
-            self.assertEqual((self.output / "src" / name).read_bytes(), (sdk / name).read_bytes())
+            self.assertEqual((self.output / "src" / name).read_bytes(), (sdk / "src" / name).read_bytes())
         for name in ("praxo_tests.ml", "praxo_adapter_tests.ml"):
-            self.assertEqual((self.output / "tests" / name).read_bytes(), (sdk / name).read_bytes())
+            self.assertEqual((self.output / "tests" / name).read_bytes(), (sdk / "tests" / name).read_bytes())
         for name in ("LICENSE", "CHANGELOG.md", "VERSION"):
             self.assertEqual((self.output / name).read_bytes(), (sdk / name).read_bytes())
         vectors = package.ROOT / "spec/vectors"
@@ -97,7 +97,7 @@ class OcamlPackageTests(unittest.TestCase):
         readme = self.files["README.md"].decode()
         for text in (self.version, "dune build", "dune runtest", "opam install . --with-test",
                      "Standalone Dune/opam source package generated", "staging alone does not establish opam availability",
-                     "HEAD identity", "canonical tag reference", "https://axisvela.github.io/", "/examples)", "/praxo_core.mli)"):
+                     "HEAD identity", "canonical tag reference", "https://axisvela.github.io/", "/examples)", "/src/praxo_core.mli)"):
             self.assertIn(text, readme)
         self.assertNotIn("../../", readme)
         self.assertNotIn("not an official release", readme)
@@ -456,6 +456,7 @@ class OcamlPackageTests(unittest.TestCase):
             "python -m tarfile -e build/praxo-core-ocaml-source.tar.gz build/ocaml-release-check",
             'opam install "./build/ocaml-release-check/praxo-core-$(cat language/ocaml/VERSION)" --with-test --yes',
             "opam exec -- dune exec --root language/ocaml/tests/package-consumer ./main.exe",
+            'discover -s scripts -p "test_ocaml_*.py"',
         ):
             self.assertIn(command, workflow)
         self.assertIn('compiler: ["4.14.2", "5.5.0"]', workflow)

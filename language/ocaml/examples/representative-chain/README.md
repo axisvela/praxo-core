@@ -7,9 +7,9 @@ denial with zero effects.
 From `language/ocaml/`:
 
 ```bash
-ocamlc -c praxo_core.mli
-ocamlc -c praxo_core.ml
-ocamlc -I . praxo_core.cmo language/go/examples/representative-chain/chain.ml -o build/praxo-ocaml-chain
+ocamlc -c src/praxo_core.mli
+ocamlc -c src/praxo_core.ml
+ocamlc -I src src/praxo_core.cmo language/go/examples/representative-chain/chain.ml -o build/praxo-ocaml-chain
 ocamlrun build/praxo-ocaml-chain
 ```
 

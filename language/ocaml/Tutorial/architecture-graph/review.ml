@@ -1,4 +1,4 @@
-#use "../../praxo_core.ml"
+#use "../../src/praxo_core.ml"
 
 let tool_messages request =
   List.filter (fun message -> message.message_role = "tool") request.request_messages

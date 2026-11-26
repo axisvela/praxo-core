@@ -39,10 +39,10 @@ Use the source checkout at `language/ocaml` and the build instructions below.
 
 ## Representative Flows
 
-- [Representative chain](language/go/examples/representative-chain/): deterministic MCP
+- [Representative chain](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/representative-chain): deterministic MCP
   record, final-argument authorization, child delegation, OTel/Harmovela events,
   and an edited denial with zero effects.
-- [Advanced delegation](language/go/examples/advanced-delegation/): application-level
+- [Advanced delegation](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/advanced-delegation): application-level
   parent/child scope plus six governance negative checks.
 
 ## Build and Test
@@ -66,10 +66,10 @@ Staging a package does not publish it to opam.
 To build manually from `language/ocaml/`:
 
 ```bash
-ocamlc -c praxo_core.mli
-ocamlc -c praxo_core.ml
-ocamlc -c praxo_tests.ml
-ocamlc -o build/praxo_tests praxo_core.cmo praxo_tests.cmo
+ocamlc -c src/praxo_core.mli
+ocamlc -c src/praxo_core.ml
+ocamlc -c -I src -I tests tests/praxo_tests.ml
+ocamlc -o build/praxo_tests -I src -I tests src/praxo_core.cmo tests/praxo_tests.cmo
 ocamlrun build/praxo_tests ../../spec
 ```
 
@@ -83,7 +83,7 @@ let _paths = Praxo_core.validate_schema (Praxo_core.parse_json "{\"type\":\"stri
 let _manifest = Praxo_core.validate_manifest "{}"
 ```
 
-Public declarations are inventoried in [`api/0.7.0.txt`](api/0.7.0.txt).
+Public declarations are inventoried in [`api/0.10.0.txt`](api/0.10.0.txt).
 `validate_manifest` returns `Some manifest` only for a valid declaration.
 
 ## Human-in-the-loop Approval

@@ -10,7 +10,7 @@ transport-neutral, so the application must authenticate before `handle`.
 
 ```bash
 ocaml language/ocaml/examples/service/service.ml
-ocaml -I language/ocaml -I language/ocaml/examples/service language/ocaml/examples/service/authentication_test.ml
+ocaml -I language/ocaml/src -I language/ocaml/examples/service language/ocaml/examples/service/authentication_test.ml
 ```
 
 Expected output:
