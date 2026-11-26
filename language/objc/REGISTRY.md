@@ -7,7 +7,7 @@ feature.
 
 ## Positioning
 
-Objective-C is a native Core implementation with source tag `objc/v0.7.0`. It passes all eleven shared vector groups and includes the native agent loop, context compaction, memory store, path policy, checkpoint allowlist, tool selection, tool-call parsing, argument-aware policy, and opt-in PII redaction, structured output validation, call limits, and human-in-the-loop interrupts. Vector coverage does not establish full Core parity or production readiness.
+Objective-C is a native Core implementation with source tag `objc/v0.8.0`. It passes all eleven shared vector groups and includes the native agent loop, context compaction, memory store, path policy, checkpoint allowlist, tool selection, tool-call parsing, argument-aware policy, and opt-in PII redaction, structured output validation, call limits, and human-in-the-loop interrupts. Vector coverage does not establish full Core parity or production readiness.
 
 ## Package
 
