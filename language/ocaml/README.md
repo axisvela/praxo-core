@@ -15,8 +15,11 @@ re-raised; notification failure does not replace it. Do not treat the loop as
 production-ready.
 
 Local validation uses OCaml 4.14.2 in bytecode mode, and the Linux CI job runs
-the same full suite. The split repository `axisvela/praxo-core-ocaml` prepares
-opam package `praxo-core` 0.3.0; opam-repository PR #31106 is pending. Native
+the same full suite. The split repository is `axisvela/praxo-core-ocaml`.
+No opam package is published: opam-repository PR #31222 was closed without merge;
+the split repository still declares `0.8.0`, so resubmission requires source
+alignment and package validation. See [publication status](PUBLISHING.md) and the
+[official opam packaging guide](https://opam.ocaml.org/doc/Packaging.html#Using-opam-publish-with-a-project-hosted-on-Github). Native
 `ocamlopt` compilation, commercial support, production readiness, and a delivery
 date are not claimed.
 
@@ -31,9 +34,8 @@ date are not claimed.
 
 ## Install
 
-```bash
-opam install praxo-core
-```
+Use the source checkout at `language/ocaml` and the build instructions below.
+`opam install praxo-core` is not available while registry submission is pending.
 
 ## Representative Flows
 
@@ -56,6 +58,10 @@ Set `OCAMLC` or pass `--compiler /path/to/ocamlc`. The runner also needs
 `ocamlrun` from the same distribution. Python only launches the native compiler,
 runtime, and API checks; the implementation and tests are OCaml.
 See [SETUP.md](SETUP.md) for the tested toolchain configuration and commands.
+
+For the standalone Dune/opam package layout and installed-library consumer,
+see [source package validation](PUBLISHING.md#source-package-validation).
+Staging a package does not publish it to opam.
 
 To build manually from `language/ocaml/`:
 

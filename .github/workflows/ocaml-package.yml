@@ -1,0 +1,54 @@
+name: ocaml-package
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "language/ocaml/**"
+      - "spec/**"
+      - "scripts/build_ocaml_package.py"
+      - "scripts/test_ocaml_package.py"
+      - ".github/workflows/ocaml-package.yml"
+  pull_request:
+    paths:
+      - "language/ocaml/**"
+      - "spec/**"
+      - "scripts/build_ocaml_package.py"
+      - "scripts/test_ocaml_package.py"
+      - ".github/workflows/ocaml-package.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler: ["4.14.2", "5.5.0"]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: ocaml/setup-ocaml@v3
+        with:
+          ocaml-compiler: ${{ matrix.compiler }}
+      - run: opam install dune conf-python-3 --yes
+      - run: python language/ocaml/api-snapshot.py --check
+      - run: opam exec -- python -m unittest discover -s scripts -p test_ocaml_package.py -v
+      - run: python scripts/build_ocaml_package.py --archive build/praxo-core-ocaml-source.tar.gz
+      - run: opam lint build/ocaml-package/praxo-core.opam
+      - run: opam install ./build/ocaml-package --with-test --yes
+        env:
+          PYTHON: python3
+      - run: opam exec -- dune exec --root language/ocaml/tests/package-consumer ./main.exe
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ocaml-source-${{ matrix.compiler }}
+          path: build/praxo-core-ocaml-source.tar.gz

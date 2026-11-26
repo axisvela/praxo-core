@@ -260,7 +260,9 @@ let test_gemini_adapter () =
   print_endline "test_gemini_adapter passed"
 
 let test_plugin_process () =
-  let python = match Sys.getenv_opt "PYTHON" with Some value -> value | None -> "python" in
+  let python = match Sys.getenv_opt "PYTHON" with
+    | Some value -> value
+    | None -> if Sys.win32 then "python" else "python3" in
   let config = Praxo_core.plugin_process_config_make "com.example.echo" python
     ["tests/fixtures/process_plugin.py"] "" in
   let host = Praxo_core.start_plugin_process config in
