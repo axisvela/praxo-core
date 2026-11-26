@@ -457,22 +457,32 @@ def mirror_readme(entry: dict, has_examples: bool = False, root: Path = ROOT) ->
     application_root = "language/go/application" if is_go else f"{entry['dir']}/application"
     tutorials = _catalog_entries(root, entry, "Tutorial")
     applications = _catalog_entries(root, entry, "application")
-    lines.extend(_catalog_section(
-        "Scenario Tutorials",
-        f"Scenario-oriented tutorials live under `{tutorial_root}`. Planning context: "
-        "[Tutorial Plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/), "
-        "[100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), "
-        "and [Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/).",
-        tutorials,
-    ))
-    lines.extend(_catalog_section(
-        "Reference Applications",
-        f"Complete AI-native reference applications live under `{application_root}`.",
-        applications,
-    ))
-    if not applications:
+    if tutorials:
+        lines.extend(_catalog_section(
+            "Scenario Tutorials",
+            f"Scenario-oriented tutorials live under `{tutorial_root}`. Planning context: "
+            "[Tutorial Plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/), "
+            "[100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), "
+            "and [Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/).",
+            tutorials,
+        ))
+    else:
         lines.extend([
-            "",
+            "", "## Scenario Tutorials", "",
+            "No language-specific tutorial slices are recorded yet. "
+            "See the [Tutorial Plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/), "
+            "[100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), "
+            "and [Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/).",
+        ])
+    if applications:
+        lines.extend(_catalog_section(
+            "Reference Applications",
+            f"Complete AI-native reference applications live under `{application_root}`.",
+            applications,
+        ))
+    else:
+        lines.extend([
+            "", "## Reference Applications", "",
             "No accepted end-to-end reference application is recorded for this language yet. "
             "Candidate goals are tracked in the "
             "[Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).",
