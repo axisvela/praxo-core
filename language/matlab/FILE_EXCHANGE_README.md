@@ -71,6 +71,13 @@ Each tutorial directory has its own README with the exact `octave-cli` or
 | Representative chain | MCP, delegation, OTel/Harmovela, denied edit | `examples/representative-chain` | https://github.com/axisvela/praxo-core/tree/main/language/matlab/examples/representative-chain |
 | Advanced delegation | Parent/child scope and six governance checks | `examples/advanced-delegation` | https://github.com/axisvela/praxo-core/tree/main/language/matlab/examples/advanced-delegation |
 
+## Tutorials, candidate scenarios, and reference applications
+
+- [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/): delivery standards and the reference-application portfolio.
+- [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/): candidate business goals and related slices.
+- [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/): cross-language tutorials, examples, and application paths.
+- [Reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio): planned and existing full host integrations.
+
 ## Documentation
 
 - Language page: https://axisvela.github.io/praxo-core/languages/matlab/

@@ -40,8 +40,8 @@ file set the packager uses:
 - `language/matlab/build/praxo-core-0.9.0.zip`
 - GitHub release asset: <https://github.com/axisvela/praxo-core/releases/download/matlab/v0.9.0/praxo-core-0.9.0.zip>
 - Contents: `+praxo/`, `examples/`, `Tutorial/`, `README.md`, `LICENSE`, `toolbox-image.png`
-- Size: 165,398 bytes
-- SHA-256: `8501DCBFEC00ECEE9EA5EFD9711D52CC1322E345D9E024585C7BC4ECFE0F5A48`
+- Size: 165,609 bytes
+- SHA-256: `03911D6DD58BA722E38E9FDF1C3D061FF57FB52EC2A77C8E583200137D28C609`
 
 The ZIP is the upload artifact. Generate a `.mltbx` in MATLAB when a MATLAB
 runtime is available; do not claim MATLAB execution evidence from this ZIP.
@@ -84,6 +84,18 @@ Examples (15 runnable examples plus two tutorials are bundled):
 
 Example source and commands:
 https://github.com/axisvela/praxo-core/tree/main/language/matlab/examples
+
+Tutorial plan:
+https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/
+
+100 candidate agent scenarios:
+https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/
+
+Unified Tutorial Catalog:
+https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/
+
+Reference application portfolio:
+https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio
 
 Documentation:
 https://axisvela.github.io/praxo-core/languages/matlab/
