@@ -1,6 +1,6 @@
 # Publishing the MATLAB/Octave Core
 
-Source tag `matlab/v0.7.0`. The package is published on MATLAB File Exchange:
+Source tag `matlab/v0.9.0`. The package is published on MATLAB File Exchange:
 <https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core>. It is
 not published to Octave Packages.
 
@@ -23,7 +23,7 @@ MATLAB release and enables only the host platform, not MATLAB Online or all OSes
 This is source execution evidence, not an installed-artifact test. The packager
 has not yet been independently executed in MATLAB.
 
-This creates `praxo-core-0.7.0.mltbx` containing `+praxo`, `README.md`,
+This creates `praxo-core-0.9.0.mltbx` containing `+praxo`, `examples/`, `Tutorial/`, `README.md`,
 `LICENSE`, and `toolbox-image.png`. The image is
 `language/matlab/toolbox-image.png`; use it as the File Exchange thumbnail.
 
@@ -31,17 +31,17 @@ MATLAB package names must be identifiers matching `[A-Za-z][A-Za-z0-9_]*`.
 Use `praxo_core` as the package name; keep `PRAXO-CORE` only as the display
 name. `package_toolbox.m` sets both accordingly.
 
-## Generated Upload ZIP (2026-11-16)
+## Generated Upload ZIP (2026-11-26)
 
 MATLAB is not installed on the local workstation, so `package_toolbox.m` was
 not executed. A File Exchange ZIP upload package was generated from the same
 file set the packager uses:
 
-- `language/matlab/build/praxo-core-0.7.0.zip`
-- GitHub release asset: <https://github.com/axisvela/praxo-core/releases/download/matlab/v0.7.0/praxo-core-0.7.0.zip>
-- Contents: `+praxo/`, `README.md`, `LICENSE`, `toolbox-image.png`
-- Size: 133,753 bytes
-- SHA-256: `1D9969867A28BAB189A742CF39E83A19CFCE3070D18F9BDA3F70FC0EA57217D7`
+- `language/matlab/build/praxo-core-0.9.0.zip`
+- GitHub release asset: <https://github.com/axisvela/praxo-core/releases/download/matlab/v0.9.0/praxo-core-0.9.0.zip>
+- Contents: `+praxo/`, `examples/`, `Tutorial/`, `README.md`, `LICENSE`, `toolbox-image.png`
+- Size: 165,398 bytes
+- SHA-256: `8501DCBFEC00ECEE9EA5EFD9711D52CC1322E345D9E024585C7BC4ECFE0F5A48`
 
 The ZIP is the upload artifact. Generate a `.mltbx` in MATLAB when a MATLAB
 runtime is available; do not claim MATLAB execution evidence from this ZIP.
@@ -50,7 +50,7 @@ runtime is available; do not claim MATLAB execution evidence from this ZIP.
 
 File Exchange shows the submission description, not the repository README or
 the README inside the ZIP. Use the following text in the submission Description
-field when uploading `praxo-core-0.7.0.zip`:
+field when uploading `praxo-core-0.9.0.zip`:
 
 ```text
 PRAXO-CORE is an MIT-licensed embeddable agent framework for MATLAB. It provides
@@ -59,15 +59,15 @@ compaction, events, middleware, HITL decisions, MCP-shaped transport for a
 caller-owned client, OpenAI/Anthropic/Gemini adapters, Harmovela and OTel event
 sinks, retrieval, and synchronous subagent delegation.
 
-Install from File Exchange, or download the 0.7.0 ZIP from
-https://github.com/axisvela/praxo-core/releases/download/matlab/v0.7.0/praxo-core-0.7.0.zip
+Install from File Exchange, or download the 0.9.0 ZIP from
+https://github.com/axisvela/praxo-core/releases/download/matlab/v0.9.0/praxo-core-0.9.0.zip
 and add the installed toolbox to the MATLAB path.
 
 Quickstart:
   result = praxo.agent_run('Hi', @(request) struct('content', 'hello'), {}, struct());
   disp(result.output)
 
-Examples (13 runnable examples in the repository):
+Examples (15 runnable examples plus two tutorials are bundled):
 - consumer: deterministic model, tool, and allow/deny
 - live-model: OpenAI-compatible endpoint and get_time tool
 - service: transport-neutral HTTP handler
@@ -89,13 +89,13 @@ Documentation:
 https://axisvela.github.io/praxo-core/languages/matlab/
 
 Limits: MATLAB runtime compatibility is unverified; current execution evidence
-is GNU Octave 11.3.0. The 13 examples are not bundled in the File Exchange
-toolbox. Commercial MATLAB releases, MATLAB Online, and OS-specific support are
+is GNU Octave 11.3.0. The examples and tutorials are bundled in the File Exchange
+package. Commercial MATLAB releases, MATLAB Online, and OS-specific support are
 not claimed.
 ```
 
 The current live File Exchange page is version 0.5.0 and will not change until
-a MathWorks account uploads the 0.7.0 ZIP and updates the Description field.
+a MathWorks account uploads the 0.9.0 ZIP and updates the Description field.
 Uploading the ZIP alone may leave the visible description unchanged.
 
 ## MATLAB File Exchange

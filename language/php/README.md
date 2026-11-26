@@ -11,7 +11,7 @@ agent service, or model provider.
 
 - `SPEC_VERSION`: `0.2.0`
 - Core version: `0.10.0`
-- The latest Packagist package is `axisvela/praxo-core@0.8.1`
+- The latest Packagist package is `axisvela/praxo-core@0.10.0`
 - License: MIT
 - Dependencies: none beyond the PHP standard library
 - Runtime: use a patched PHP release. On Windows use `8.2.35-1`, `8.3.36-1`,

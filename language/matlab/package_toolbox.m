@@ -14,7 +14,9 @@ if exist(stage, 'dir')
 end
 mkdir(stage);
 copyfile(shared, fullfile(stage, '+praxo'));
-copyfile(fullfile(root, 'README.md'), stage);
+copyfile(fullfile(root, 'FILE_EXCHANGE_README.md'), fullfile(stage, 'README.md'));
+copyfile(fullfile(root, 'examples'), fullfile(stage, 'examples'));
+copyfile(fullfile(root, 'Tutorial'), fullfile(stage, 'Tutorial'));
 copyfile(fullfile(root, 'LICENSE'), stage);
 copyfile(fullfile(root, 'toolbox-image.png'), stage);
 if nargin < 1
@@ -56,7 +58,7 @@ opts.AuthorEmail = 'releases@axisvela.com';
 opts.AuthorCompany = 'AxisVela';
 opts.ToolboxMatlabPath = '.';
 opts.ToolboxImageFile = fullfile(stage, 'toolbox-image.png');
-opts.ToolboxFiles = {'+praxo', 'README.md', 'LICENSE', 'toolbox-image.png'};
+opts.ToolboxFiles = {'+praxo', 'examples', 'Tutorial', 'README.md', 'LICENSE', 'toolbox-image.png'};
 opts.OutputFile = outputFile;
 matlab.addons.toolbox.packageToolbox(opts);
 end

@@ -10,7 +10,7 @@
 | Field | Value |
 | --- | --- |
 | Package | `PRAXO-CORE` (MATLAB toolbox) |
-| Source tag | `matlab/v0.8.0` |
+| Source tag | `matlab/v0.9.0` |
 | File Exchange | [entry 185166](https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core) |
 | Install | File Exchange Add-On, or the release ZIP / source path |
 | License | MIT |
@@ -37,8 +37,7 @@ model = @(request) praxo.openai_compatible(request, options);
 result = praxo.agent_run('Hi', model, {}, struct());
 ```
 
-The File Exchange ZIP contains the `+praxo` Core. The 13 runnable examples remain
-in the repository and are not bundled in the toolbox.
+The File Exchange ZIP contains the `+praxo` Core, `examples/`, and `Tutorial/`.
 
 ## Examples
 
@@ -89,7 +88,7 @@ delegation. It does not delegate its behavior to Go or another language Core.
 
 MATLAB and Octave share the implementation in
 `language/matlab-octave-core/+praxo`. The Octave package root and source tag
-live in `language/octave` (`octave/v0.7.0`). Local validation uses GNU Octave
+live in `language/octave` (`octave/v0.9.0`). Local validation uses GNU Octave
 11.3.0, including the shared service-auth test; native MATLAB compatibility is a
 target, not yet independently verified. The source tag does not imply production
 readiness or a delivery date.
