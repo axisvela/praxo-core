@@ -2,9 +2,9 @@
 
 ## Status
 
-`praxo-core` `0.4.1` is published from source tag `ruby/v0.4.1`. The
-Ruby-specific source repository is `axisvela/praxo-core-ruby`. RubyGems reports
-`0.4.1`, `0.4.0`, `0.3.0`, `0.2.0`, and `0.1.0`.
+`praxo-core` `0.10.0` is published from source tag `ruby/v0.10.0`. The
+Ruby-specific source repository is `axisvela/praxo-core-ruby` and is tagged
+`v0.10.0`. RubyGems reports `0.10.0` and earlier releases.
 
 ## Build
 
@@ -27,7 +27,7 @@ ruby language/ruby/tests/run.rb
 ## Publish
 
 ```bash
-gem push language/ruby/praxo-core-0.3.0.gem
+gem push language/ruby/praxo-core-0.10.0.gem
 ```
 
 ## Credentials and configuration
@@ -54,7 +54,7 @@ $pem = "-----BEGIN CERTIFICATE-----`n" +
 $ca = Join-Path $certDir 'mitmproxy-ca.pem'
 [IO.File]::WriteAllText($ca, $pem, [Text.Encoding]::ASCII)
 $env:SSL_CERT_FILE = $ca
-gem push language/ruby/praxo-core-0.3.0.gem
+gem push language/ruby/praxo-core-0.10.0.gem
 ```
 
 ## Verify
@@ -63,4 +63,4 @@ gem push language/ruby/praxo-core-0.3.0.gem
 gem list -r praxo-core
 ```
 
-Registry: <https://rubygems.org/gems/praxo-core/versions/0.3.0>
+Registry: <https://rubygems.org/gems/praxo-core/versions/0.10.0>

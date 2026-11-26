@@ -204,7 +204,7 @@
     "registry": "Julia General (pending)",
     "source_install": "Pkg.develop(path=\"language/julia\")",
     "source_version": "0.9.0",
-    "status": "not published; General registry merge pending",
+    "status": "not published; General registry merge pending; mirror 0.9.0 tagged",
     "tag": "julia/v0.9.0",
     "tier": "Core",
     "url": "https://github.com/axisvela/PraxoCore.jl"
@@ -372,7 +372,7 @@
     "registry": "RubyGems",
     "source_install": "From language/ruby: gem build praxo-core.gemspec, then gem install ./praxo-core-0.10.0.gem",
     "source_version": "0.10.0",
-    "status": "published; split source repository",
+    "status": "published; split source repository v0.10.0 tagged",
     "tag": "ruby/v0.10.0",
     "tier": "Core",
     "url": "https://rubygems.org/gems/praxo-core/versions/0.10.0"

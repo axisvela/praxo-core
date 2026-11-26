@@ -46,7 +46,7 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 | C# | NuGet | `0.11.0` | https://www.nuget.org/packages/Praxo.Core/0.11.0 | published; README defect recorded in page audit |
 | Elixir | Hex / HexDocs | `0.11.0` | https://hex.pm/packages/praxo_core/0.11.0; https://praxo-core.hexdocs.pm/0.11.0/ | published |
 | Erlang | Hex | `0.10.0` | https://hex.pm/packages/praxo_core_erlang/0.10.0 | published |
-| Ruby | RubyGems | `0.10.0` | https://rubygems.org/gems/praxo-core/versions/0.10.0 | published; Ruby source repo is `axisvela/praxo-core-ruby` |
+| Ruby | RubyGems | `0.10.0` | https://rubygems.org/gems/praxo-core/versions/0.10.0 | published; split source repo `axisvela/praxo-core-ruby` tagged `v0.10.0` |
 | Lua | LuaRocks | `0.9.0-1` | https://luarocks.org/modules/hanhhuiwen/praxo-core/0.9.0-1 | published |
 | PHP | Packagist | `0.10.0` | https://packagist.org/packages/axisvela/praxo-core#v0.10.0 | published |
 | Dart | pub.dev | `0.8.0` | https://pub.dev/packages/praxo_core/versions/0.8.0 | published; README defect recorded in page audit |
@@ -64,7 +64,7 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 
 | Language | Registry | Version | Address | Status |
 | --- | --- | --- | --- | --- |
-| Julia | Julia General Registry | not registered | https://github.com/JuliaRegistries/General/pull/176393 | PR open, not merged; mirror tag is not General availability |
+| Julia | Julia General Registry | not registered | https://github.com/JuliaRegistries/General/pull/176393 | PR open for `0.7.0`, not merged; mirror tagged `0.9.0`; mirror tag is not General availability |
 | Octave | Octave Packages | `0.7.0` | https://github.com/axisvela/praxo-core/releases/tag/octave%2Fv0.7.0 | 0.7.0 release tarball published; package index PR pending |
 | V | VPM | unverified | https://github.com/axisvela/praxo-core-v | registry availability unverified; split repo `0.8.0` tagged; VPM submission pending |
 | Delphi / Free Pascal | OPM / GitHub release | `0.2.1` | https://github.com/axisvela/praxo-core/releases/tag/delphi%2Fv0.7.0 | 0.7.0 OPM assets published; OPM listing pending |

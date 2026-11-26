@@ -1,6 +1,6 @@
 # PRAXO-CORE Ruby Registry Introduction
 
-**Status:** published; split source repository. Source version `0.10.0`, source
+**Status:** published; split source repository v0.10.0 tagged. Source version `0.10.0`, source
 tag `ruby/v0.10.0`. Published registry version: `0.10.0`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.

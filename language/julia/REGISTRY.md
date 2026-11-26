@@ -1,6 +1,6 @@
 # PRAXO-CORE Julia Registry Introduction
 
-**Status:** not published; General registry merge pending. Source version `0.9.0`, source
+**Status:** not published; General registry merge pending; mirror 0.9.0 tagged. Source version `0.9.0`, source
 tag `julia/v0.9.0`. Published registry version: not published. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
