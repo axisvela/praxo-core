@@ -96,9 +96,12 @@ class OcamlPackageTests(unittest.TestCase):
         self.assertIn('dev-repo: "git+https://github.com/axisvela/praxo-core-ocaml.git"', opam)
         self.assertNotIn('dev-repo: "git+https://github.com/axisvela/praxo-core.git"', opam)
         readme = self.files["README.md"].decode()
-        for text in (self.version, "dune build", "dune runtest", "opam install . --with-test",
+        for text in (self.version, "AI agent framework", "native agent loop",
+                     "dune build", "dune runtest", "opam install . --with-test",
                      "Standalone Dune/opam source package generated", "staging alone does not establish opam availability",
-                     "HEAD identity", "canonical tag reference", "https://axisvela.github.io/", "/examples)", "/src/praxo_core.mli)"):
+                     "HEAD identity", "canonical tag reference", "https://axisvela.github.io/",
+                     "Human-in-the-loop Approval", "Anthropic", "Tutorials and Examples",
+                     "Current Limits", "/examples)", "/src/praxo_core.mli)"):
             self.assertIn(text, readme)
         self.assertNotIn("../../", readme)
         self.assertNotIn("not an official release", readme)
