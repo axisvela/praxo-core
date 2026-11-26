@@ -34,6 +34,17 @@ Starter (allow/deny):
 Examples:
   https://github.com/axisvela/praxo-core/tree/main/language/powershell/examples
 
+Tutorials, candidate scenarios, and reference applications:
+  https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/
+  https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/
+  https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/
+  https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio
+
+Community:
+  https://github.com/axisvela/praxo-core/discussions
+  https://x.com/axisvela
+  https://www.linkedin.com/company/axisvela/
+
 Limits:
   - Not a hosted model, identity provider, workflow engine, or production
     sandbox.

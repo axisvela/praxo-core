@@ -85,6 +85,19 @@ Each tutorial directory has its own README with the exact `octave-cli` or
 - Registry status: https://axisvela.github.io/praxo-core/languages/registry-status/
 - Compatibility policy: https://axisvela.github.io/praxo-core/project/compatibility-policy/
 
+## Community
+
+- X: https://x.com/axisvela
+- Weibo: https://weibo.com/u/1936025761
+- LinkedIn: https://www.linkedin.com/company/axisvela/
+- Facebook: https://www.facebook.com/profile.php?id=61596905732406
+- YouTube: https://www.youtube.com/@axisvela
+- Discord: https://discord.com/channels/1575163993767809064/1575164343148875977
+- GitHub Discussions: https://github.com/axisvela/praxo-core/discussions
+- GitHub Issues: https://github.com/axisvela/praxo-core/issues
+- Documentation: https://axisvela.github.io/praxo-core/
+- Architect: https://axisvela.architect.pub
+
 ## Limits
 
 - This is an execution framework, not a hosted model, workflow engine, crawler,

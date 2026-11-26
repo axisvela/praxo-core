@@ -40,8 +40,8 @@ file set the packager uses:
 - `language/matlab/build/praxo-core-0.9.0.zip`
 - GitHub release asset: <https://github.com/axisvela/praxo-core/releases/download/matlab/v0.9.0/praxo-core-0.9.0.zip>
 - Contents: `+praxo/`, `examples/`, `Tutorial/`, `README.md`, `LICENSE`, `toolbox-image.png`
-- Size: 165,609 bytes
-- SHA-256: `03911D6DD58BA722E38E9FDF1C3D061FF57FB52EC2A77C8E583200137D28C609`
+- Size: 165,853 bytes
+- SHA-256: `7356B31955AF3EA3338BF185539E6681DA77C6405C7F2FCCE67EDC856CF8A63D`
 
 The ZIP is the upload artifact. Generate a `.mltbx` in MATLAB when a MATLAB
 runtime is available; do not claim MATLAB execution evidence from this ZIP.
@@ -99,6 +99,11 @@ https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-por
 
 Documentation:
 https://axisvela.github.io/praxo-core/languages/matlab/
+
+Community:
+https://github.com/axisvela/praxo-core/discussions
+https://x.com/axisvela
+https://www.linkedin.com/company/axisvela/
 
 Limits: MATLAB runtime compatibility is unverified; current execution evidence
 is GNU Octave 11.3.0. The examples and tutorials are bundled in the File Exchange
