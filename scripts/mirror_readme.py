@@ -22,6 +22,15 @@ COMMUNITY_LINKS = (
     ("Architect", "https://axisvela.architect.pub"),
 )
 DEFAULT_SPEC_VERSION = "0.2.0"
+GO_CAPABILITIES = (
+    ("Agent loop", "native", "Policy hooks, final-argument authorization, HITL, and typed events"),
+    ("Tools", "native", "Registry, gateway, JSON Schema, retries, and bounded parallel calls"),
+    ("Context", "native", "Memory, context budgets, middleware, checkpoints, and streaming"),
+    ("Providers", "native", "OpenAI-compatible, Anthropic, and Gemini adapters with SSE"),
+    ("Integrations", "seams", "MCP, OpenTelemetry, workspace/VFS, and process/WASM plugin hosts"),
+    ("Retrieval and delegation", "native", "Retriever seam and local subagent delegation"),
+    ("Conformance", "native", "Shared spec vectors and checked-in API snapshots"),
+)
 METADATA_BULLET_PREFIXES = (
     "`spec_version`",
     "core version",
@@ -302,7 +311,7 @@ def mirror_readme(entry: dict, has_examples: bool = False, root: Path = ROOT) ->
             "service."
         )
     positioning = _rewrite_links(positioning, key)
-    capabilities = _capabilities(root, entry)
+    capabilities = GO_CAPABILITIES if is_go else _capabilities(root, entry)
     if not bullets:
         bullets = [
             f"- {name}: {status}"
