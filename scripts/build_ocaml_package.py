@@ -57,7 +57,7 @@ def payload(root=ROOT):
 
     for name in ("praxo_core.ml", "praxo_core.mli"):
         copy(sdk / name, "src/" + name)
-    for name in ("LICENSE", "CHANGELOG.md", "VERSION", "REGISTRY.md", "llms.txt", "llms.md"):
+    for name in ("LICENSE", "CHANGELOG.md", "VERSION"):
         copy(sdk / name, name)
     copy(sdk / "api" / f"{version}.txt", f"api/{version}.txt")
     for name in ("praxo_tests.ml", "praxo_adapter_tests.ml"):
@@ -69,6 +69,33 @@ def payload(root=ROOT):
         if path.is_file():
             copy(path, "tests/spec/vectors/" + path.relative_to(root / "spec/vectors").as_posix())
     inputs[GENERATOR] = (root / GENERATOR).read_bytes()
+
+    metadata = f'''Source version: `{version}` (from `VERSION`).
+opam package: `praxo-core`. Registry status: NOT published; publication pending.
+Source availability is not registry publication; staging alone does not establish opam availability.
+
+Independent OCaml runtime with an optional process plugin host.
+Provider HTTP transport is caller-owned; no HTTP client or credentials are bundled.
+Requires OCaml >= 4.14 and Dune >= 3.0; tests run in bytecode mode
+and require Python 3. From this standalone source directory:
+
+```sh
+opam install . --with-test
+```
+
+Use `(libraries praxo-core)` and module `Praxo_core`.
+See `PROVENANCE.json` for source HEAD and actual input hashes;
+the canonical tag reference `ocaml/v{version}` does not certify packaged bytes.
+
+- [Canonical tag reference]({REPOSITORY}/tree/ocaml/v{version})
+- [Split development repository](https://github.com/axisvela/praxo-core-ocaml)
+- [Documentation](https://axisvela.github.io/praxo-core/languages/ocaml/)
+- [Coding agents](https://axisvela.github.io/praxo-core/getting-started/coding-agents/)
+- [Examples]({REPOSITORY}/tree/main/language/ocaml/examples)
+- [Security]({REPOSITORY}/blob/main/SECURITY.md)
+'''
+    for name in ("REGISTRY.md", "llms.md", "llms.txt"):
+        files[name] = (f"# PRAXO-CORE OCaml {version}\n\n" + metadata).encode()
 
     files["dune-project"] = (
         f"(lang dune 3.0)\n(name praxo_core)\n(version {version})\n"
@@ -103,7 +130,7 @@ license: "MIT"
 homepage: "https://axisvela.github.io/praxo-core/languages/ocaml/"
 doc: "https://axisvela.github.io/praxo-core/languages/ocaml/"
 bug-reports: "{REPOSITORY}/issues"
-dev-repo: "git+{REPOSITORY}.git"
+dev-repo: "git+https://github.com/axisvela/praxo-core-ocaml.git"
 depends: [
   "ocaml" {{>= "4.14"}}
   "dune" {{>= "3.0"}}
@@ -116,8 +143,8 @@ build: [
 '''.encode()
     files["README.md"] = f'''# PRAXO-CORE OCaml {version}
 
-Local Dune/opam source package staged from the canonical repository.
-This is not an official release or evidence of publication in opam.
+Standalone Dune/opam source package generated from the canonical repository;
+staging alone does not establish opam availability.
 See `PROVENANCE.json` for the canonical tag reference, HEAD identity and
 hashes of the actual worktree inputs. Worktree files can differ from HEAD
 and the tag; a tag reference does not certify the packaged bytes.
@@ -148,7 +175,7 @@ provider HTTP transports; no network client or credentials are bundled.
 The packaged tests include both canonical test modules and all shared
 vectors under `tests/spec/vectors`. `tests/tests/fixtures` preserves the
 fixture path used by the unmodified tests when run from the Dune sandbox.
-Copied registry and llms files are source snapshots, not publication evidence.
+Package-local registry and llms files distinguish source availability from opam publication.
 
 ## References
 
@@ -322,7 +349,7 @@ def main():
         files = stage(output, args.archive, sync_split=args.sync_split)
     except (ValueError, OSError, subprocess.SubprocessError) as error:
         parser.error(str(error))
-    print(f"Staged {len(files)} files in {output}; local source package, not an official release")
+    print(f"Staged {len(files)} files in {output}; staging alone does not establish opam availability")
 
 
 if __name__ == "__main__":

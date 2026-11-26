@@ -3,6 +3,7 @@ import io
 import json
 import os
 from pathlib import Path
+import re
 import shutil
 import subprocess
 import sys
@@ -61,7 +62,7 @@ class OcamlPackageTests(unittest.TestCase):
             self.assertEqual((self.output / "src" / name).read_bytes(), (sdk / name).read_bytes())
         for name in ("praxo_tests.ml", "praxo_adapter_tests.ml"):
             self.assertEqual((self.output / "tests" / name).read_bytes(), (sdk / name).read_bytes())
-        for name in ("LICENSE", "CHANGELOG.md", "VERSION", "REGISTRY.md", "llms.txt", "llms.md"):
+        for name in ("LICENSE", "CHANGELOG.md", "VERSION"):
             self.assertEqual((self.output / name).read_bytes(), (sdk / name).read_bytes())
         vectors = package.ROOT / "spec/vectors"
         for source in vectors.rglob("*"):
@@ -91,23 +92,76 @@ class OcamlPackageTests(unittest.TestCase):
                      '"conf-python-3" {with-test}', "hanhuiwen@axisvela.com"):
             self.assertIn(text, opam)
         self.assertNotIn('"unix"', opam)
+        self.assertIn('dev-repo: "git+https://github.com/axisvela/praxo-core-ocaml.git"', opam)
+        self.assertNotIn('dev-repo: "git+https://github.com/axisvela/praxo-core.git"', opam)
         readme = self.files["README.md"].decode()
         for text in (self.version, "dune build", "dune runtest", "opam install . --with-test",
-                     "not an official release", "https://axisvela.github.io/", "/examples)", "/praxo_core.mli)"):
+                     "Standalone Dune/opam source package generated", "staging alone does not establish opam availability",
+                     "HEAD identity", "canonical tag reference", "https://axisvela.github.io/", "/examples)", "/praxo_core.mli)"):
             self.assertIn(text, readme)
         self.assertNotIn("../../", readme)
+        self.assertNotIn("not an official release", readme)
+
+    def test_package_local_registry_and_llms_metadata(self):
+        links = {
+            f"{package.REPOSITORY}/tree/ocaml/v{self.version}",
+            "https://github.com/axisvela/praxo-core-ocaml",
+            "https://axisvela.github.io/praxo-core/languages/ocaml/",
+            "https://axisvela.github.io/praxo-core/getting-started/coding-agents/",
+            f"{package.REPOSITORY}/tree/main/language/ocaml/examples",
+            f"{package.REPOSITORY}/blob/main/SECURITY.md",
+        }
+        for name in ("REGISTRY.md", "llms.md", "llms.txt"):
+            text = self.files[name].decode()
+            for expected in (f"Source version: `{self.version}` (from `VERSION`)",
+                             "opam package: `praxo-core`", "NOT published; publication pending",
+                             "Source availability is not registry publication", "Independent OCaml runtime",
+                             "optional process plugin host", "HTTP transport is caller-owned",
+                             "tests run in bytecode mode", "opam install . --with-test",
+                             "source HEAD", "PROVENANCE.json", f"ocaml/v{self.version}"):
+                self.assertIn(expected, text, name)
+            self.assertEqual(set(re.findall(r"\]\(([^)]+)\)", text)), links, name)
+            for forbidden in ("0.3", "opam install praxo-core", "published version", "plugin host unavailable",
+                              "no process plugin host", "maintainer feedback resolved"):
+                self.assertNotIn(forbidden, text.lower(), name)
+        for name in ("README.md", "REGISTRY.md", "llms.md", "llms.txt"):
+            text = self.files[name].decode()
+            self.assertNotRegex(text, r"(?<![\w/])(?:\.{1,2}/)*language/ocaml/")
+            for target in re.findall(r"\]\(([^)]+)\)", text):
+                if target.startswith("https://"):
+                    self.assertNotIn("/../", target)
+                    if target.startswith(package.REPOSITORY + "/blob/main/"):
+                        self.assertTrue((package.ROOT / target.split("/blob/main/", 1)[1]).is_file(), target)
+                    elif target.startswith(package.REPOSITORY + "/tree/main/"):
+                        self.assertTrue((package.ROOT / target.split("/tree/main/", 1)[1]).is_dir(), target)
+                    elif target.startswith("https://axisvela.github.io/praxo-core/"):
+                        page = target.removeprefix("https://axisvela.github.io/praxo-core/").rstrip("/")
+                        page = package.ROOT / "docs" / page
+                        self.assertTrue(page.with_suffix(".md").is_file() or (page / "index.md").is_file(), target)
+                else:
+                    self.assertIn(target, self.files, name)
+
+    def test_metadata_does_not_copy_source_publication_claims(self):
+        root = self.source_fixture()
+        for name in ("REGISTRY.md", "llms.md", "llms.txt"):
+            (root / "language/ocaml" / name).write_text("Published 0.3.0. No process plugin host.\n")
+        _, files = self.fixture_payload(root)
+        provenance = json.loads(files["PROVENANCE.json"])
+        for name in ("REGISTRY.md", "llms.md", "llms.txt"):
+            self.assertEqual(files[name], self.files[name])
+            self.assertNotIn("language/ocaml/" + name, provenance["inputs"])
 
     def test_provenance_identifies_actual_inputs_not_tagged_content(self):
         root = self.source_fixture()
-        registry = root / "language/ocaml/REGISTRY.md"
-        registry.write_bytes(registry.read_bytes() + b"\nLocal changed registry snapshot.\n")
+        changelog = root / "language/ocaml/CHANGELOG.md"
+        changelog.write_bytes(changelog.read_bytes() + b"\nLocal changed changelog snapshot.\n")
         version, files = self.fixture_payload(root)
         provenance = json.loads(files["PROVENANCE.json"])
         self.assertEqual(provenance["canonical_tag_reference"], f"ocaml/v{version}")
         self.assertEqual(provenance["head_commit"], package.git(package.ROOT, "rev-parse", "HEAD"))
-        record = provenance["inputs"]["language/ocaml/REGISTRY.md"]
+        record = provenance["inputs"]["language/ocaml/CHANGELOG.md"]
         self.assertFalse(record["matches_head"])
-        self.assertEqual(record["worktree_sha256"], package.sha256(registry.read_bytes()))
+        self.assertEqual(record["worktree_sha256"], package.sha256(changelog.read_bytes()))
         self.assertIsNotNone(record["head_blob_oid"])
         self.assertIn("references only", provenance["identity_note"])
         manifest = json.loads(files[package.OWNER])
@@ -399,7 +453,8 @@ class OcamlPackageTests(unittest.TestCase):
         workflow = (package.ROOT / ".github/workflows/ocaml-package.yml").read_text(encoding="utf-8")
         for command in (
             "opam lint build/ocaml-package/praxo-core.opam",
-            "opam install ./build/ocaml-package --with-test --yes",
+            "python -m tarfile -e build/praxo-core-ocaml-source.tar.gz build/ocaml-release-check",
+            'opam install "./build/ocaml-release-check/praxo-core-$(cat language/ocaml/VERSION)" --with-test --yes',
             "opam exec -- dune exec --root language/ocaml/tests/package-consumer ./main.exe",
         ):
             self.assertIn(command, workflow)

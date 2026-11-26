@@ -44,7 +44,8 @@ jobs:
       - run: opam exec -- python -m unittest discover -s scripts -p test_ocaml_package.py -v
       - run: python scripts/build_ocaml_package.py --archive build/praxo-core-ocaml-source.tar.gz
       - run: opam lint build/ocaml-package/praxo-core.opam
-      - run: opam install ./build/ocaml-package --with-test --yes
+      - run: python -m tarfile -e build/praxo-core-ocaml-source.tar.gz build/ocaml-release-check
+      - run: opam install "./build/ocaml-release-check/praxo-core-$(cat language/ocaml/VERSION)" --with-test --yes
         env:
           PYTHON: python3
       - run: opam exec -- dune exec --root language/ocaml/tests/package-consumer ./main.exe
