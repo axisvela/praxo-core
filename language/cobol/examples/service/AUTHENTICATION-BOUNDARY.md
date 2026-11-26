@@ -111,7 +111,7 @@ or any non-200 status. It must send `token_type_hint=access_token`.
 ```bash
 cd language/cobol
 python run-tests.py
-python language/go/examples/service/build.py
+python language/cobol/examples/service/build.py
 ```
 
 These commands were not executed. No authentication runtime module or test is

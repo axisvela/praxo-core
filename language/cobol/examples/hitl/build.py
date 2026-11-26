@@ -17,7 +17,7 @@ if not compiler:
     sys.exit("GnuCOBOL compiler not found; set COBC")
 executable = BUILD / ("hitl-example" + (".exe" if os.name == "nt" else ""))
 subprocess.run(
-    [compiler, "-x", "-free", "-I", "copy", "-I", "language/go/examples/hitl",
+    [compiler, "-x", "-free", "-I", "copy", "-I", str(Path(__file__).parent),
      "-o", str(executable), *[str(part) for part in parts]],
     cwd=ROOT,
     check=True,
