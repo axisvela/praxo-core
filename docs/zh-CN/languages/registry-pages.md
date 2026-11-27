@@ -56,7 +56,7 @@ Latest 的问题，不代表已补齐 Core Release 或修复不可变包 README 
 | Go | [pkg.go.dev](https://pkg.go.dev/github.com/axisvela/praxo-core/v2@v2.11.3) | `v2.11.3` | README 安装 `@v2.11.3` 并声明 `v2.11.3` 为当前版本 | 页面复审待完成 |
 | Python | [PyPI](https://pypi.org/project/praxo-core/0.11.0/) | `0.11.0` | 包内 README 安装 `0.9.1` | 未通过 |
 | TypeScript | [npm](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.10.1) | `0.10.1` | 源码未记录缺陷 | 页面复审待完成 |
-| Java | [Maven POM](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.12.2/praxo-core-0.12.2.pom) | `0.12.2` | SCM tag 为 `java/v0.12.2` | 页面复审待完成 |
+| Java | [Maven POM](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.12.3/praxo-core-0.12.3.pom) | `0.12.3` | SCM tag 为 `java/v0.12.3` | 页面复审待完成 |
 | Rust | [crates.io](https://crates.io/crates/praxo-core/0.11.0) | `0.11.0` | 包内 README 安装 `0.9.2` | 未通过 |
 | C# | [NuGet](https://www.nuget.org/packages/Praxo.Core/0.11.1) | `0.11.1` | 源码未记录缺陷 | 页面复审待完成 |
 | Dart | [pub.dev](https://pub.dev/packages/praxo_core/versions/0.8.0) | `0.8.0` | 包内 README 安装 `0.7.0` | 未通过 |
