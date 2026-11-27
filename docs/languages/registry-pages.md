@@ -54,7 +54,7 @@ do not repair them. A new publication and a fresh audit are still required.
 | Language | Published evidence | Version | Observed defect | Acceptance |
 | --- | --- | --- | --- | --- |
 | Go | [pkg.go.dev](https://pkg.go.dev/github.com/axisvela/praxo-core/v2@v2.11.3) | `v2.11.3` | README installs `@v2.11.3` and calls `v2.11.3` current | Rendered-page re-audit pending |
-| Python | [PyPI](https://pypi.org/project/praxo-core/0.11.1/) | `0.11.1` | None recorded in source | Not accepted |
+| Python | [PyPI](https://pypi.org/project/praxo-core/0.11.2/) | `0.11.2` | None recorded in source | Not accepted |
 | TypeScript | [npm](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.10.1) | `0.10.1` | None recorded in source | Rendered-page re-audit pending |
 | Java | [Maven POM](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.12.3/praxo-core-0.12.3.pom) | `0.12.3` | SCM tag is `java/v0.12.3` | Rendered-page re-audit pending |
 | Rust | [crates.io](https://crates.io/crates/praxo-core/0.11.0) | `0.11.0` | Packaged README installs `0.9.2` | Not accepted |

@@ -301,7 +301,7 @@ CI 链接指向已记录的运行；它们只证明该 run 所指的 revision，
 Registry 链接指向当前已发布版本；上表的消费者 smoke 行指明实际安装的版本。
 
 - [Registry 发布状态（当前版本与地址）](../languages/registry-status.md)
-- [PyPI 上的 praxo-core 0.11.1](https://pypi.org/project/praxo-core/0.11.1/)
+- [PyPI 上的 praxo-core 0.11.2](https://pypi.org/project/praxo-core/0.11.2/)
 - [npm 上的 @axisvela/praxo-core 0.10.1](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.10.1)
 - [crates.io 上的 praxo-core 0.11.1](https://crates.io/crates/praxo-core/0.11.1)
 - [pub.dev 上的 praxo_core 0.8.2](https://pub.dev/packages/praxo_core/versions/0.8.2)

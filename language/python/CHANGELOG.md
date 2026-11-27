@@ -1,5 +1,13 @@
 # Python Core Release Notes
 
+## 0.11.2 - 2026-11-27
+
+Source tag `python/v0.11.2`.
+
+### Fixed
+
+- Correct the package README's current-version status line. No API or wire change.
+
 ## 0.11.1 - 2026-11-27
 
 Source tag `python/v0.11.1`.
