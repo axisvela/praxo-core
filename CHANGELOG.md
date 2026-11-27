@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.11.1] - 2026-11-27
+
+Source tag `v2.11.1`.
+
+### Changed
+
+- Lead the module README with the Go reference implementation and correct the
+  install command to `v2.11.1`. No API or wire change.
+
 ## [2.11.0] - 2026-11-26
 
 Source tag `v2.11.0`.

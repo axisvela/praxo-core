@@ -1,6 +1,6 @@
 # 验证证据
 
-**状态：** 公开证据摘要，2026-11-26 更新；当前核心版本 `2.11.0`。历史记录保留原 revision 和限制。
+**状态：** 公开证据摘要，2026-11-27 更新；当前核心版本 `2.11.1`。历史记录保留原 revision 和限制。
 
 本页汇总 PRAXO-CORE 当前可以支持的验证声明。它是公开摘要，不是生产认证、渗透测试，也不表示
 每个语言实现和部署都会继承相同结果。完整运行记录和环境日志保存在受限内部存储；本页只记录
@@ -46,7 +46,7 @@ HEAD 重新运行并通过完整综合 CI。
 
 | 领域 | 已验证 | 级别 | 限制 |
 | --- | --- | --- | --- |
-| Go Core | Tests、vet、build、API snapshot、race、fuzz 和 module-security CI；绑定 revision 的 main 与发布工作流检查；当前版本为 `v2.11.0`，不自动继承早期证据。历史 `current-go-consumer` CI 任务从 Registry 安装推荐版本并运行确定性 allow/deny 检查；`v2.6.0` 可从公共 module proxy 在干净外部模块解析；另行记录的干净外部模块安装与最小 agent smoke 覆盖 `v2.5.2` | 契约/单元 + CI + 本地集成 | JSON Schema 和 plugin manifest fuzz 曾在 10s deadline 失败、rerun 通过；慢输入风险仍在调查；历史 docs CI 将不改源码的消费者从 `v2.5.0` 升级至 `v2.10.0`，确定性 allow/deny 通过；更早的 tag 提交 `current-go-consumer` 安装 `v2.9.0`，pkg.go.dev 于 2026-11-16 显示 `v2.9.0`；本页尚无 `v2.11.0` 直接页面核对记录；安装证据仍由 CI 驱动，不是独立非作者消费者 |
+| Go Core | Tests、vet、build、API snapshot、race、fuzz 和 module-security CI；绑定 revision 的 main 与发布工作流检查；当前版本为 `v2.11.1`，不自动继承早期证据。历史 `current-go-consumer` CI 任务从 Registry 安装推荐版本并运行确定性 allow/deny 检查；`v2.6.0` 可从公共 module proxy 在干净外部模块解析；另行记录的干净外部模块安装与最小 agent smoke 覆盖 `v2.5.2` | 契约/单元 + CI + 本地集成 | JSON Schema 和 plugin manifest fuzz 曾在 10s deadline 失败、rerun 通过；慢输入风险仍在调查；历史 docs CI 将不改源码的消费者从 `v2.5.0` 升级至 `v2.10.0`，确定性 allow/deny 通过；更早的 tag 提交 `current-go-consumer` 安装 `v2.9.0`，pkg.go.dev 于 2026-11-16 显示 `v2.9.0`；本页尚无 `v2.11.1` 直接页面核对记录；安装证据仍由 CI 驱动，不是独立非作者消费者 |
 | Live-model Ollama 交叉验证 | Go `qwen3.5:4b`、TypeScript/Python `qwen2.5:0.5b`、C# `qwen2.5:0.5b` 与 Rust `qwen2.5:0.5b` 各完成一次本地 Ollama 的 `get_time` 工具调用路径。Python 使用注入的 `http.client` transport，因为本机标准 `urllib` 挂起。C# 通过构建后的 DLL 运行，因为 apphost/`dotnet run` 路径在当前 shell 未返回；2026-11-22 打印时间。Rust 通过 `cargo build --offline` 构建并从二进制运行；其模型生成的时间文本被记录，但不作为正确性声明 | 本地集成 | 一个本地端点/平台；Python transport、C# DLL 调用与 Rust 离线构建是本地 workaround，不是文档化路径；未评估模型输出质量或时间格式正确性；托管端点、计费调用和独立复现未测试 |
 | Go 长时操作配方 | 文件存储覆盖幂等提交、响应丢失、子进程重启、独立 verifier、带 lease 过期/续期/撤销的 fencing、rename 前后确定性故障注入、损坏状态失败关闭、带 health/readiness、基础 metrics、示例 Prometheus scrape/留存/告警配置（仅配置校验；无 live collector）、环境变量配置、file-based token/secret 轮换（签发属外部）与优雅退出的独立服务二进制、可配置 file/SQLite/Postgres lease 后端与 reload-modify-save（SQLite 已验证；Postgres gated 测试需 `PRAXO_POSTGRES_DSN`，本环境未验证）、rename 边界前后进程级崩溃、gated 100 提交负载/故障测试与干净检出复现脚本、使用自己 token/密钥的独立 verifier 二进制，以及无 lease 时的并发写入者边界测试 | 契约/单元 + 本地集成 | L4 应用配方；没有生产部署、live collector/留存/告警、OS 级断电、生产 lease 协调、可信时钟或 exactly-once |
 | 代表性端到端链路 | Go `language/go/examples/representative-chain`：真实 Ollama `qwen3.5:4b` → MCP `record` 工具 → 最终参数策略 → 受治理子代理委派 → OTel span 与 loopback Harmovela 事件 → 编辑后拒绝且零效果。2026-11-17 记录：输出 `DONE`、效果 parent=1/child=1、子代理调用 2 次、10 个 span、10 个事件、拒绝效果 0 | 本地集成 | 一个本地模型/平台；内存 MCP 与 loopback Harmovela；不是远程或生产部署；没有独立复现、负载或故障测试 |

@@ -100,14 +100,14 @@ a merged implementation PR as a support commitment.
 These are separate claims. A source tag records a repository release; a registry
 version records what a package manager can fetch; a consumer smoke records an
 install and run outside the repository. Do not cite one as evidence for another.
-Public audit: 2026-11-26. Versioned evidence URLs are in
+Public audit: 2026-11-27. Versioned evidence URLs are in
 [Registry Publication Status](registry-status.md); known immutable README/POM
 defects are in the [page audit](registry-pages.md). Publication is not page
 acceptance, and no new consumer smoke or remote correction is claimed here.
 
 | Language | Source tag | Registry version | Consumer install smoke |
 | --- | --- | --- | --- |
-| Go | `v2.11.0` | Go proxy `v2.11.0` published | Release docs dated Nov 26; proxy published Nov 25 UTC; no new consumer smoke recorded |
+| Go | 2.11.1 | Go proxy `v2.11.1` | version matches; README updated |
 | Python | `python/v0.11.0` | PyPI `praxo-core==0.11.0` published | Historical docs CI upgrade to `0.10.0` passed; `0.11.0` consumer smoke not recorded |
 | TypeScript | `typescript/v0.10.0` | npm `@axisvela/praxo-core@0.10.0` published as `latest` | Historical docs CI upgrade to `0.9.0` passed; `0.10.0` consumer smoke not recorded |
 | Java | `java/v0.12.0` | Maven Central `com.axisvela:praxo-core:0.12.0` published | Historical `0.11.0` docs CI install passed on 2026-11-20 (run `44731906136`); `0.12.0` consumer smoke not recorded |
@@ -139,7 +139,7 @@ its latest version matches the manifest at the release tag.
 
 | Language | Code/manifest version | Registry latest | Status |
 | --- | --- | --- | --- |
-| Go | 2.11.0 | Go proxy `v2.11.0` | version matches; README stale |
+| Go | 2.11.1 | Go proxy `v2.11.1` | version matches; README updated |
 | Python | 0.11.0 | PyPI `0.11.0` | version matches; README stale |
 | TypeScript | 0.10.0 | npm `0.10.0` | version matches; README stale |
 | Java | 0.12.0 | Maven Central `0.12.0` | version matches; POM SCM stale |
