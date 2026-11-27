@@ -1,6 +1,6 @@
 # Release Overview
 
-Core `2.11.2` is the current framework release. Review the notes for the version
+Core `2.11.3` is the current framework release. Review the notes for the version
 you are adopting and follow the [compatibility policy](../project/compatibility-policy.md).
 Core and adapter versions are independent; see [Core support](../languages/support.md)
 and the [adapter directory](../integrations/index.md).
@@ -13,6 +13,7 @@ declared capability scope. Publication order does not imply a shared version.
 
 | Core version | Release notes |
 | --- | --- |
+| 2.11.3 | [Scenario tutorial and reference-application README](2.11.3.md) |
 | 2.11.2 | [Registry evidence and release metadata refresh](2.11.2.md) |
 | 2.11.1 | [Go reference README correction](2.11.1.md) |
 | 2.11.0 | [Reference applications and examples layout](2.11.0.md) |

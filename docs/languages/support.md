@@ -107,7 +107,7 @@ acceptance, and no new consumer smoke or remote correction is claimed here.
 
 | Language | Source tag | Registry version | Consumer install smoke |
 | --- | --- | --- | --- |
-| Go | 2.11.2 | Go proxy `v2.11.2` | version matches; README updated |
+| Go | 2.11.3 | Go proxy `v2.11.3` | version matches; README updated |
 | Python | `python/v0.11.0` | PyPI `praxo-core==0.11.0` published | Historical docs CI upgrade to `0.10.0` passed; `0.11.0` consumer smoke not recorded |
 | TypeScript | `typescript/v0.10.0` | npm `@axisvela/praxo-core@0.10.0` published as `latest` | Historical docs CI upgrade to `0.9.0` passed; `0.10.0` consumer smoke not recorded |
 | Java | `java/v0.12.2` | Maven Central `com.axisvela:praxo-core:0.12.2` published | Historical `0.11.0` docs CI install passed on 2026-11-20 (run `44731906136`); `0.12.2` docs CI fresh consumer install passed (run `45967285657`) |
@@ -139,7 +139,7 @@ its latest version matches the manifest at the release tag.
 
 | Language | Code/manifest version | Registry latest | Status |
 | --- | --- | --- | --- |
-| Go | 2.11.2 | Go proxy `v2.11.2` | version matches; README updated |
+| Go | 2.11.3 | Go proxy `v2.11.3` | version matches; README updated |
 | Python | 0.11.0 | PyPI `0.11.0` | version matches; README stale |
 | TypeScript | 0.10.0 | npm `0.10.0` | version matches; README stale |
 | Java | 0.12.2 | Maven Central `0.12.2` | version matches; SDK version corrected |

@@ -42,7 +42,7 @@ state, not a promise that every page introduction is current.
 
 GitHub Latest was corrected on 2026-11-26 to the existing
 [Go `v2.9.0` Release](https://github.com/axisvela/praxo-core/releases/tag/v2.9.0).
-The Go proxy has `v2.11.2`, and the GitHub Release is published as latest. This repairs
+The Go proxy has `v2.11.3`, and the GitHub Release is published as latest. This repairs
 the language-release designation error, not the missing Core Release or package
 README snapshots. `scripts/check_public_release.py` checks the live designation
 and expected Core Release separately from local metadata checks.
@@ -53,7 +53,7 @@ do not repair them. A new publication and a fresh audit are still required.
 
 | Language | Published evidence | Version | Observed defect | Acceptance |
 | --- | --- | --- | --- | --- |
-| Go | [pkg.go.dev](https://pkg.go.dev/github.com/axisvela/praxo-core/v2@v2.11.2) | `v2.11.2` | README installs `@v2.11.2` and calls `v2.11.2` current | Rendered-page re-audit pending |
+| Go | [pkg.go.dev](https://pkg.go.dev/github.com/axisvela/praxo-core/v2@v2.11.3) | `v2.11.3` | README installs `@v2.11.3` and calls `v2.11.3` current | Rendered-page re-audit pending |
 | Python | [PyPI](https://pypi.org/project/praxo-core/0.11.0/) | `0.11.0` | Packaged README installs `0.9.1` | Not accepted |
 | TypeScript | [npm](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.10.0) | `0.10.0` | Packaged README installs `0.8.1` | Not accepted |
 | Java | [Maven POM](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.12.2/praxo-core-0.12.2.pom) | `0.12.2` | SCM tag is `java/v0.12.2` | Rendered-page re-audit pending |
@@ -63,7 +63,7 @@ do not repair them. A new publication and a fresh audit are still required.
 | Haskell | [Hackage](https://hackage.haskell.org/package/praxo-core-0.9.0) | `0.9.0` | Packaged README installs `0.7.1` | Not accepted |
 
 The Go release documentation date is 2026-11-27; the
-[proxy publication timestamp](https://proxy.golang.org/github.com/axisvela/praxo-core/v2/@v/v2.11.2.info)
+[proxy publication timestamp](https://proxy.golang.org/github.com/axisvela/praxo-core/v2/@v/v2.11.3.info)
 is 2026-11-27 UTC. Neither supports the earlier claimed 2026-11-16 page acceptance
 or 2026-11-20 release date. No remote correction is claimed here.
 

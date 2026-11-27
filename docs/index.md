@@ -47,7 +47,7 @@ and the [dedicated repository index](languages/repositories.md).
 ## Go Reference Quickstart
 
 ```bash
-go get github.com/axisvela/praxo-core/v2@v2.11.2
+go get github.com/axisvela/praxo-core/v2@v2.11.3
 ```
 
 Follow the [quickstart](getting-started/quickstart.md) to run an agent against
@@ -67,11 +67,11 @@ above; source tags do not imply package-registry availability.
 
 ## Current Release
 
-Core `2.11.2` is a documentation correction release. It refreshes the public
-registry evidence links and release documentation so they identify the current
-published versions. It does not change the exported `pkg/...` API or the shared
-wire contract.
-See the [release notes](releases/2.11.2.md) for changes and limitations, or the
+Core `2.11.3` is a documentation release. It adds scenario-tutorial and
+reference-application lists to the root README and refreshes the public registry
+and release documentation for the current published versions. It does not change
+the exported `pkg/...` API or the shared wire contract.
+See the [release notes](releases/2.11.3.md) for changes and limitations, or the
 [release overview](releases/index.md) for older versions.
 
 PRAXO-CORE is a framework, not a hosted service or a turnkey chat UI.

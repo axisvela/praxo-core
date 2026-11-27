@@ -1,8 +1,8 @@
 # 注册表发布状态
 
 公开审计：2026-11-27。以下版本化 URL 记录发布可用性，不代表包介绍验收或消费者安装验证。
-Go `v2.11.2` 的发布文档日期为 2026-11-27；
-[Go proxy 元数据](https://proxy.golang.org/github.com/axisvela/praxo-core/v2/@v/v2.11.2.info)
+Go `v2.11.3` 的发布文档日期为 2026-11-27；
+[Go proxy 元数据](https://proxy.golang.org/github.com/axisvela/praxo-core/v2/@v/v2.11.3.info)
 记录 2026-11-27 UTC 发布，两者并不矛盾，不应写为 2026-11-20。
 未更新的待处理行保留较早证据。
 
@@ -31,7 +31,7 @@ GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
 
 | 语言 | 注册表 | 版本 | 地址 | 状态 |
 | --- | --- | --- | --- | --- |
-| Go | Go module proxy / pkg.go.dev | `v2.11.2` | https://pkg.go.dev/github.com/axisvela/praxo-core/v2@v2.11.2 | 已发布；README 安装并称 `v2.11.2` 为当前版本 |
+| Go | Go module proxy / pkg.go.dev | `v2.11.3` | https://pkg.go.dev/github.com/axisvela/praxo-core/v2@v2.11.3 | 已发布；README 安装并称 `v2.11.3` 为当前版本 |
 | Python | PyPI | `0.11.0` | https://pypi.org/project/praxo-core/0.11.0/ | 已发布；README 缺陷见页面审计 |
 | TypeScript | npm | `0.10.0` | https://www.npmjs.com/package/@axisvela/praxo-core/v/0.10.0 | 已发布；latest；README 缺陷见页面审计 |
 | Java | Maven Central | `0.12.2` | https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.12.2/ | 已发布；SDK 版本已修正；SCM tag 为 `java/v0.12.2` |
