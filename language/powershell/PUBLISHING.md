@@ -4,13 +4,12 @@
 
 Source tag `powershell/v0.9.0` maps to PowerShell Gallery package
 `praxo-core-ps` version `0.9.0`. The module is a shared-runtime wrapper over
-the C# Core. The PowerShell Gallery currently publishes `0.8.1`; publishing
-`0.9.0` requires the `PSGALLERY_API_KEY` secret and the `powershell-gallery`
-environment. The legacy bridge package `praxo-core-ps-br` is published
-separately as `0.1.0`.
+the C# Core and is published to the PowerShell Gallery. The legacy bridge
+package `praxo-core-ps-br` is published separately as `0.1.0`.
 
-Local build, wrapper tests, and the API snapshot pass for `0.9.0`. The Gallery
-publication is blocked only by the missing API key.
+Local build, wrapper tests, and the API snapshot pass for `0.9.0`. Release
+workflow run 45718060566 published the module with the `powershell-gallery`
+environment secret.
 
 The PowerShell Gallery page does not render `README.md`. Its introduction and
 starter links come from `Description` and `PrivateData.PSData.ReleaseNotes` in
