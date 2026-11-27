@@ -1,7 +1,7 @@
 # PRAXO-CORE C++ Registry Introduction
 
-**Status:** source-only. Source version `0.10.0`, source
-tag `cpp/v0.10.0`. Published registry version: not published. Registry
+**Status:** published on xmake 0.9.0 (source 0.10.0); vcpkg and Conan submissions open. Source version `0.10.0`, source
+tag `cpp/v0.10.0`. Published registry version: `0.9.0`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -14,10 +14,10 @@ C++20 implementation of the PRAXO-CORE agent contract. The normative contract is
 | Field | Value |
 | --- | --- |
 | Package | `praxo-core-cpp` |
-| Registry | Source / CMake |
+| Registry | [xmake](https://packages.xmake.io/packages/praxo-core-cpp) |
 | Source version | `0.10.0` |
-| Published registry version | not published |
-| Install (published) | not published |
+| Published registry version | `0.9.0` |
+| Install (published) | `xrepo install praxo-core-cpp` |
 | Install (source/release prepared) | `CMake source build (see README)` |
 | Source tag | `cpp/v0.10.0` |
 | Tier | Core |

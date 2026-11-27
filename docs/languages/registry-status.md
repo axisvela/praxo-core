@@ -44,6 +44,8 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 | Java | Maven Central | `0.12.0` | https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.12.0/ | published; POM SCM tag still `java/v0.10.0` |
 | Rust | crates.io | `0.11.1` | https://crates.io/crates/praxo-core/0.11.1 | published; README includes scenario tutorials, reference-application status, and community links |
 | C# | NuGet | `0.11.0` | https://www.nuget.org/packages/Praxo.Core/0.11.0 | published; README defect recorded in page audit |
+| C | xmake | `0.13.0` | https://packages.xmake.io/packages/praxo-core | published on xmake; source `c/v0.14.0`; vcpkg and Conan pending |
+| C++ | xmake | `0.9.0` | https://packages.xmake.io/packages/praxo-core-cpp | published on xmake; source `cpp/v0.10.0`; vcpkg and Conan pending |
 | Elixir | Hex / HexDocs | `0.11.0` | https://hex.pm/packages/praxo_core/0.11.0; https://praxo-core.hexdocs.pm/0.11.0/ | published |
 | Erlang | Hex | `0.10.0` | https://hex.pm/packages/praxo_core_erlang/0.10.0 | published |
 | Ruby | RubyGems | `0.10.0` | https://rubygems.org/gems/praxo-core/versions/0.10.0 | published; split source repo `axisvela/praxo-core-ruby` tagged `v0.10.0` |
@@ -73,8 +75,6 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 
 | Language | Source tag | Registry state |
 | --- | --- | --- |
-| C | `c/v0.14.0` | no registry publication; xmake-repo PR #11309, vcpkg PR #55192, and Conan Center PR #31502 open, not merged |
-| C++ | `cpp/v0.10.0` | no registry publication; xmake-repo PR #11310, vcpkg PR #55192, and Conan Center PR #31503 open, not merged |
 | Fortran | `fortran/v0.12.0` | fpm registry upstream paused |
 | COBOL | `cobol/v0.9.0` | no mainstream registry |
 | OCaml | `ocaml/v0.11.1` | not published to opam; replacement submission pending; split source aligned to `0.11.1` and validated locally; see [publication status](https://github.com/axisvela/praxo-core/blob/main/language/ocaml/PUBLISHING.md) |

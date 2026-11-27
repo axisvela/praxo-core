@@ -1,7 +1,7 @@
 # PRAXO-CORE C Registry Introduction
 
-**Status:** source-only. Source version `0.14.0`, source
-tag `c/v0.14.0`. Published registry version: not published. Registry
+**Status:** published on xmake 0.13.0 (source 0.14.0); vcpkg and Conan submissions open. Source version `0.14.0`, source
+tag `c/v0.14.0`. Published registry version: `0.13.0`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -14,10 +14,10 @@ C11 implementation of the PRAXO-CORE Core contract with source version `0.12.0`.
 | Field | Value |
 | --- | --- |
 | Package | `praxo-core-c` |
-| Registry | Source / CMake |
+| Registry | [xmake](https://packages.xmake.io/packages/praxo-core) |
 | Source version | `0.14.0` |
-| Published registry version | not published |
-| Install (published) | not published |
+| Published registry version | `0.13.0` |
+| Install (published) | `xrepo install praxo-core` |
 | Install (source/release prepared) | `CMake source build (see README)` |
 | Source tag | `c/v0.14.0` |
 | Tier | Core |

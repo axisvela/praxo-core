@@ -34,8 +34,8 @@
 - GNU Octave: `praxo-core` — [GitHub release (Octave package index pending)](https://github.com/axisvela/praxo-core/releases/download/octave/v0.9.0/praxo-core-0.9.0.tar.gz) — `0.9.0` — https://axisvela.github.io/praxo-core/languages/octave/
 - Delphi / Free Pascal: `PRAXO-CORE` — [GitHub release (OPM listing unverified)](https://github.com/axisvela/praxo-core/releases/tag/delphi%2Fv0.9.0) — `0.9.0` — https://axisvela.github.io/praxo-core/languages/delphi/
 - Objective-C: `praxo-core-objc` — Source — not published — https://axisvela.github.io/praxo-core/languages/objc/
-- C: `praxo-core-c` — Source / CMake — not published — https://axisvela.github.io/praxo-core/languages/c/
-- C++: `praxo-core-cpp` — Source / CMake — not published — https://axisvela.github.io/praxo-core/languages/cpp/
+- C: `praxo-core-c` — [xmake](https://packages.xmake.io/packages/praxo-core) — `0.13.0` — https://axisvela.github.io/praxo-core/languages/c/
+- C++: `praxo-core-cpp` — [xmake](https://packages.xmake.io/packages/praxo-core-cpp) — `0.9.0` — https://axisvela.github.io/praxo-core/languages/cpp/
 - Fortran: `praxo-core-fortran` — Source / CMake — not published — https://axisvela.github.io/praxo-core/languages/fortran/
 - COBOL: `praxo-core-cobol` — Source — not published — https://axisvela.github.io/praxo-core/languages/cobol/
 - Zig: `praxo-core-zig` — Source — not published — https://axisvela.github.io/praxo-core/languages/zig/

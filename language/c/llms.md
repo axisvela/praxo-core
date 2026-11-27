@@ -7,10 +7,10 @@
 ## Package
 
 - package: `praxo-core-c`
-- registry: Source / CMake
+- registry: [xmake](https://packages.xmake.io/packages/praxo-core)
 - source_version: `0.14.0`
-- published_version: not published
-- install_published: not published
+- published_version: `0.13.0`
+- install_published: `xrepo install praxo-core`
 - install_source: `CMake source build (see README)`
 - source_tag: `c/v0.14.0`
 - tier: Core
