@@ -3,7 +3,7 @@
 ## Status
 
 Source tag `julia/v0.9.0` maps to Julia package `PraxoCore` version `0.9.0`.
-The package is mirrored at `axisvela/PraxoCore.jl` tag `0.9.0`. The General
+The package is mirrored at `axisvela/praxo-core-Julia` tag `0.9.0`. The General
 Registry registration PR now targets `0.9.0`:
 <https://github.com/JuliaRegistries/General/pull/176393>; review is pending.
 
@@ -24,9 +24,9 @@ builds.
 ## Register in General
 
 Registration uses JuliaRegistrator; no separate Julia account is required.
-The package is mirrored at `axisvela/PraxoCore.jl` with tag `0.9.0`.
+The package is mirrored at `axisvela/praxo-core-Julia` with tag `0.9.0`.
 
-1. Install the Registrator GitHub app on `axisvela/praxo-core-julia`.
+1. Install the Registrator GitHub app on `axisvela/praxo-core-Julia`.
 2. Comment `@JuliaRegistrator register` on the mirror commit.
 3. Registrator opens a pull request against `JuliaRegistries/General`.
 4. Respond to review and merge; then verify:

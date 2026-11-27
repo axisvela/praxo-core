@@ -207,7 +207,7 @@
     "status": "not published; General registry PR updated to 0.9.0; merge pending; mirror 0.9.0 tagged",
     "tag": "julia/v0.9.0",
     "tier": "Core",
-    "url": "https://github.com/axisvela/PraxoCore.jl"
+    "url": "https://github.com/axisvela/praxo-core-Julia"
   },
   "Lua": {
     "dir": "language/lua",

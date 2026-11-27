@@ -23,7 +23,7 @@ PRAXO-CORE 是多语言框架。Go 是参考实现；其他语言有独立发布
 | PHP | [axisvela/praxo-core-php](https://github.com/axisvela/praxo-core-php) | Packagist 发布源 |
 | Lua | [axisvela/praxo-core-lua](https://github.com/axisvela/praxo-core-lua) | 独立 Lua 仓库 |
 | Swift | [axisvela/praxo-core-swift](https://github.com/axisvela/praxo-core-swift) | Swift Package Index 源 |
-| Julia | [axisvela/praxo-core-julia](https://github.com/axisvela/praxo-core-julia) | Julia General Registry 镜像 |
+| Julia | [axisvela/praxo-core-Julia](https://github.com/axisvela/praxo-core-Julia) | Julia General Registry 镜像 |
 | V | [axisvela/praxo-core-v](https://github.com/axisvela/praxo-core-v) | V 独立仓库 |
 | OCaml | [axisvela/praxo-core-ocaml](https://github.com/axisvela/praxo-core-ocaml) | OCaml 独立仓库 |
 | Nim | [axisvela/praxo-core-nim](https://github.com/axisvela/praxo-core-nim) | Nim 独立仓库 |
