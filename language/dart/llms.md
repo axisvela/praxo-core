@@ -7,9 +7,9 @@
 ## Package
 
 - package: `praxo_core`
-- registry: [pub.dev](https://pub.dev/packages/praxo_core/versions/0.8.0)
+- registry: [pub.dev](https://pub.dev/packages/praxo_core/versions/0.8.1)
 - source_version: `0.8.1`
-- published_version: `0.8.0`
+- published_version: `0.8.1`
 - install_published: `dart pub add praxo_core:0.8.1`
 - install_source: `dart pub add praxo_core --path language/dart`
 - source_tag: `dart/v0.8.1`

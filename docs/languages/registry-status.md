@@ -51,7 +51,7 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 | Ruby | RubyGems | `0.10.0` | https://rubygems.org/gems/praxo-core/versions/0.10.0 | published; split source repo `axisvela/praxo-core-ruby` tagged `v0.10.0` |
 | Lua | LuaRocks | `0.9.1-1` | https://luarocks.org/modules/hanhhuiwen/praxo-core/0.9.1-1 | published; split repository `v0.9.1` tagged |
 | PHP | Packagist | `0.10.0` | https://packagist.org/packages/axisvela/praxo-core#v0.10.0 | published |
-| Dart | pub.dev | `0.8.0` | https://pub.dev/packages/praxo_core/versions/0.8.0 | published; README defect recorded in page audit |
+| Dart | pub.dev | `0.8.1` | https://pub.dev/packages/praxo_core/versions/0.8.1 | published; README reordered with tutorials, reference-application status, and community |
 | D | DUB | `0.8.0` | https://code.dlang.org/packages/praxo-core/versions/0.8.0 | published; matches source `d/v0.8.0` |
 | Swift | Swift Package Index | `0.7.2` | https://swiftpackageindex.com/axisvela/praxo-core-swift | SPI indexes split `0.7.2`; split repository tagged `0.9.0` with streaming scope; SPI re-index pending |
 | MATLAB | MATLAB File Exchange | `0.9.1` | https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core | published; source `matlab/v0.9.0`; citation still `0.2.1`; MATLAB compatibility unverified |

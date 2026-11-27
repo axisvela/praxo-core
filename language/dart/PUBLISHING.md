@@ -5,10 +5,9 @@ must be performed by an uploader or publisher admin on pub.dev.
 
 ## Current release
 
-`praxo_core==0.8.1` is the current source release from `dart/v0.8.1`; pub.dev
-currently publishes `0.8.0`; `0.8.1` publication is pending. The README is
-reordered and includes examples, tutorials, reference-application status, and
-community links.
+`praxo_core==0.8.1` is published from `dart/v0.8.1`. The README is reordered
+and includes examples, tutorials, reference-application status, and community
+links.
 
 ## pub.dev admin settings
 
