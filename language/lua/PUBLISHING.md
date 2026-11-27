@@ -2,18 +2,23 @@
 
 ## Status
 
-Source tag `lua/v0.4.1` maps to rock revision `0.4.1-1`. The release workflow is
-`.github/workflows/lua-release.yml`. LuaRocks publishes `0.4.1-1`; the earlier
-`0.4.0-1`, `0.3.0-1`, and `0.2.0-1` revisions remain available.
+Source tag `lua/v0.9.0` maps to rock revision `0.9.0-1`. The release workflow is
+`.github/workflows/lua-release.yml`. LuaRocks publishes `0.9.0-1`; earlier
+revisions remain available. The dedicated split repository
+`axisvela/praxo-core-lua` is tagged `v0.9.0`.
 
 <https://luarocks.org/modules/hanhhuiwen/praxo-core>
 
 ## Rockspec
 
-The rockspec is `language/lua/praxo-core-0.4.1-1.rockspec`. Its `source.url`
+The rockspec is `language/lua/praxo-core-0.9.0-1.rockspec`. Its `source.url`
 points at the main repository tag and its `build.modules` paths start with
 `language/lua/`. The source rock is built from that tag, so the source and
 rockspec versions stay aligned.
+
+The split repository keeps a root-layout rockspec for direct use:
+`praxo-core-0.9.0-1.rockspec` points at the split tag `v0.9.0` and uses
+`praxo/` module paths.
 
 ## Local gates
 
@@ -21,7 +26,7 @@ rockspec versions stay aligned.
 lua language/lua/conformance/run.lua
 python language/lua/api-snapshot.py --check
 lua language/lua/tests/run.lua
-luarocks --lua-version 5.4 --tree build/lua-tree make --deps-mode=none language/lua/praxo-core-0.4.1-1.rockspec
+luarocks --lua-version 5.4 --tree build/lua-tree make --deps-mode=none language/lua/praxo-core-0.9.0-1.rockspec
 LUA_PATH="build/lua-tree/share/lua/5.4/?.lua;build/lua-tree/share/lua/5.4/?/init.lua;;" lua language/lua/tests/installed_smoke.lua
 ```
 

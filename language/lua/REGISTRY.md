@@ -1,6 +1,6 @@
 # PRAXO-CORE Lua Registry Introduction
 
-**Status:** published. Source version `0.9.0-1`, source
+**Status:** published; split repository v0.9.0 tagged. Source version `0.9.0-1`, source
 tag `lua/v0.9.0`. Published registry version: `0.9.0-1`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.

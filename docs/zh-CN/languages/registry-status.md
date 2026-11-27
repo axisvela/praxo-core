@@ -40,7 +40,7 @@ GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
 | Elixir | Hex / HexDocs | `0.11.0` | https://hex.pm/packages/praxo_core/0.11.0; https://praxo-core.hexdocs.pm/0.11.0/ | 已发布 |
 | Erlang | Hex | `0.10.0` | https://hex.pm/packages/praxo_core_erlang/0.10.0 | 已发布 |
 | Ruby | RubyGems | `0.10.0` | https://rubygems.org/gems/praxo-core/versions/0.10.0 | 已发布；split 源码仓库 `axisvela/praxo-core-ruby` 已打 tag `v0.10.0` |
-| Lua | LuaRocks | `0.9.0-1` | https://luarocks.org/modules/hanhhuiwen/praxo-core/0.9.0-1 | 已发布 |
+| Lua | LuaRocks | `0.9.0-1` | https://luarocks.org/modules/hanhhuiwen/praxo-core/0.9.0-1 | 已发布；split 仓库 `v0.9.0` 已打 tag |
 | PHP | Packagist | `0.10.0` | https://packagist.org/packages/axisvela/praxo-core#v0.10.0 | 已发布 |
 | Dart | pub.dev | `0.8.0` | https://pub.dev/packages/praxo_core/versions/0.8.0 | 已发布；README 缺陷见页面审计 |
 | D | DUB | `0.8.0` | https://code.dlang.org/packages/praxo-core/versions/0.8.0 | 已发布；与源码 `d/v0.8.0` 一致 |
