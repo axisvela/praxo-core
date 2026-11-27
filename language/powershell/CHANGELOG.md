@@ -1,5 +1,14 @@
 # PowerShell Core Release Notes
 
+## 0.9.1 - 2026-11-27
+
+Source tag `powershell/v0.9.1`.
+
+### Changed
+
+- Add explicit example, scenario-tutorial, and reference-application lists to
+  the PowerShell Gallery description. No public API or wire change.
+
 ## 0.9.0 - 2026-11-26
 
 Source tag `powershell/v0.9.0`.

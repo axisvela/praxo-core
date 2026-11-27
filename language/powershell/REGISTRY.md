@@ -1,7 +1,7 @@
 # PRAXO-CORE PowerShell Registry Introduction
 
-**Status:** published; shared C# runtime. Source version `0.9.0`, source
-tag `powershell/v0.9.0`. Published registry version: `0.9.0`. Registry
+**Status:** published; shared C# runtime. Source version `0.9.1`, source
+tag `powershell/v0.9.1`. Published registry version: `0.9.0`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -15,11 +15,11 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its P
 | --- | --- |
 | Package | `praxo-core-ps` |
 | Registry | [PowerShell Gallery](https://www.powershellgallery.com/packages/praxo-core-ps/0.9.0) |
-| Source version | `0.9.0` |
+| Source version | `0.9.1` |
 | Published registry version | `0.9.0` |
 | Install (published) | `Install-Module praxo-core-ps` |
 | Install (source/release prepared) | `Install-Module praxo-core-ps` |
-| Source tag | `powershell/v0.9.0` |
+| Source tag | `powershell/v0.9.1` |
 | Tier | Core (.NET) |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/powershell/ |

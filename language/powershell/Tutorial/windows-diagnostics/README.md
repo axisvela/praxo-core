@@ -29,11 +29,11 @@ directory:
 pwsh -NoProfile -File diagnostics.ps1
 ```
 
-Published-module mode loads PowerShell Gallery `praxo-core-ps` version `0.8.1`.
+Published-module mode loads PowerShell Gallery `praxo-core-ps` version `0.9.1`.
 Install it first:
 
 ```powershell
-Install-Module praxo-core-ps -RequiredVersion 0.8.1
+Install-Module praxo-core-ps -RequiredVersion 0.9.1
 pwsh -NoProfile -File diagnostics.ps1
 ```
 

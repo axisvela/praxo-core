@@ -34,7 +34,7 @@ PowerShell agent-loop implementation. Requires PowerShell 7.4+ on .NET 8.
 ## Package
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.9.0`
+- Core version: `0.9.1`
 - Package: `praxo-core-ps`
 - Tier: core
 - License: MIT

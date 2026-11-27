@@ -15,7 +15,7 @@ if ($SourceMode) {
     Import-Module (Join-Path $PSScriptRoot '../../praxo-core-ps/praxo-core-ps.psd1') -Force
 } else {
     if ($env:PRAXO_CORE_DLL) { throw 'Unset PRAXO_CORE_DLL before using the published module.' }
-    Import-Module -FullyQualifiedName @{ ModuleName = 'praxo-core-ps'; RequiredVersion = '0.8.1' } -Force
+    Import-Module -FullyQualifiedName @{ ModuleName = 'praxo-core-ps'; RequiredVersion = '0.9.1' } -Force
 }
 $assembly = (Get-PraxoCoreInfo).Assembly
 $references = @(

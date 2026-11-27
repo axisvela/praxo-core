@@ -1,6 +1,6 @@
 @{
     RootModule        = 'praxo-core-ps.psm1'
-    ModuleVersion     = '0.9.0'
+    ModuleVersion     = '0.9.1'
     GUID              = '8f04a4d6-1f3c-4f6e-9d69-7b2f11d3a902'
     Author            = 'AxisVela'
     CompanyName       = 'AxisVela'
@@ -32,13 +32,32 @@ Starter (allow/deny):
   https://github.com/axisvela/praxo-core/tree/main/language/powershell/examples/consumer
 
 Examples:
-  https://github.com/axisvela/praxo-core/tree/main/language/powershell/examples
+  - consumer: published Core runtime with a deterministic model and allow/deny policy checks.
+  - live-model: OpenAI-compatible adapter wired through PRAXO_BASE_URL with a get_time tool.
+  - structured-output: JSON Schema validation with a deterministic valid/invalid check.
+  - mcp: transport-neutral MCP client boundary over a caller-owned transport.
+  - representative-chain: deterministic MCP, policy, delegation, OTel/Harmovela, and edited-denial chain.
+  - advanced-delegation: application-level governance negative checks for delegated child agents.
+  - service: transport-neutral request handler with health, principal, and run cases.
+  - provider-fallback: fallback model after a primary failure, with a deterministic check.
+  - event-sink: lifecycle and tool events through sink composition and filtering.
+  - streaming: delta reconstruction with a deterministic check.
+  - checkpoint: application-owned checkpoint storage with allowlisted payload encoding.
+  - session-checkpoint: multi-turn history save, reload, and continue.
+  - retry: retry transient failures with bounded attempts and a deterministic check.
+  - identity-policy: bind a trusted principal to policy and reject effects before execution.
+  - hitl: approve a write, then edit it to a denied value and verify reauthorization stops the effect.
+  Examples source: https://github.com/axisvela/praxo-core/tree/main/language/powershell/examples
 
-Tutorials, candidate scenarios, and reference applications:
-  https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/
-  https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/
-  https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/
-  https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio
+Scenario tutorials:
+  - Windows diagnostics: read-only service and disk checks, native PowerShell commands, scoped tools, and a structured report.
+    https://github.com/axisvela/praxo-core/tree/main/language/powershell/Tutorial/windows-diagnostics
+  - FinOps review: bounded cloud cost review that selects the highest-cost underused resource and drafts a review-only action; no cloud API or termination.
+    https://github.com/axisvela/praxo-core/tree/main/language/powershell/Tutorial/finops-review
+
+Reference applications:
+  - No accepted end-to-end reference application yet.
+    Candidate goals: https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio
 
 Community:
   https://github.com/axisvela/praxo-core/discussions
@@ -129,8 +148,8 @@ Source and license (MIT):
             LicenseUri = 'https://github.com/axisvela/praxo-core/blob/main/LICENSE'
             ProjectUri = 'https://github.com/axisvela/praxo-core'
             ReleaseNotes = @'
-0.9.0
-- Minor release for AI-native reference applications, scenario tutorials, and the Go examples layout refresh.
+0.9.1
+- Add explicit example, scenario-tutorial, and reference-application lists to the Gallery description.
 '@
         }
     }

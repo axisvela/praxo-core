@@ -4,6 +4,8 @@ Application tutorials live in `Tutorial/`, alongside focused `language/go/exampl
 
 - [Windows diagnostics](windows-diagnostics/README.md): read-only service and
   disk checks, native PowerShell commands, scoped tools, and a structured report.
+- [FinOps review](finops-review/README.md): bounded cloud cost review that
+  selects the highest-cost underused resource and drafts a review-only action.
 
 PowerShell uses the shared C# Core through its module, not a separately
 implemented agent loop. Fixture mode is portable; local machine checks require
@@ -18,6 +20,7 @@ Windows operations with read-only review: object pipelines, cmdlets and the disc
 These PowerShell examples show bounded Agent-shaped workflows rather than complete products. Each one keeps business data, approval and effects in the application:
 
 - [Windows Diagnostics Agent](./windows-diagnostics/README.md)
+- [PowerShell FinOps Review](./finops-review/README.md)
 
 ## Technical capabilities exercised
 

@@ -126,7 +126,7 @@ acceptance, and no new consumer smoke or remote correction is claimed here.
 | Octave | `octave/v0.9.0` | Octave `0.9.0` release tarball published; Octave Packages PR #875 pending | Not recorded; Octave 11.3.0 local execution only |
 | R | `r/v0.12.0` | r-universe `praxocore==0.12.0` published; CRAN not published | Actual build HEAD `9b417e3`; checks include warnings, not all clean. Post-publication consumer install not recorded; CRAN requires `R CMD check --as-cran` |
 | Perl | `perl/v0.8.0` | CPAN `Praxo-Core==0.8.0` published | Consumer install not recorded for `0.8.0` |
-| PowerShell | `powershell/v0.9.0` | PowerShell Gallery `praxo-core-ps==0.9.0` published | Release workflow run `45718060566` published 0.9.0; the earlier 0.8.1 consumer test passed on 2026-11-21 (run `44917317881`) |
+| PowerShell | `powershell/v0.9.1` | PowerShell Gallery `praxo-core-ps==0.9.0` published | 0.9.1 patch adds example, tutorial, and reference-application lists; publication pending. Run `45718060566` published 0.9.0 |
 | Nim | `nim/v0.8.0` | Split repository `v0.8.0` tagged; nim-lang/packages PR #3600 merged; nimpkgs re-crawl pending | Not recorded |
 | OCaml | `ocaml/v0.11.1` | Not published to opam; replacement submission pending | Split source aligned to `0.11.1`; native-fixture package suite validated locally; registry acceptance pending |
 | Haskell | `haskell/v0.9.0` | Hackage `praxo-core==0.9.0` published | Consumer install not recorded for `0.9.0` |
@@ -155,7 +155,7 @@ its latest version matches the manifest at the release tag.
 | MATLAB | 0.9.0 | File Exchange `185166` (`0.9.1`) | different source/registry versions; citation stale; MATLAB unverified |
 | Octave | 0.9.0 | 0.9.0 release tarball; Octave Packages PR #875 pending | archive available; index pending |
 | Perl | 0.8.0 | CPAN `0.8.0` | version matches |
-| PowerShell | 0.9.0 | PowerShell Gallery `0.9.0` | version matches |
+| PowerShell | 0.9.1 | PowerShell Gallery `0.9.0` | 0.9.1 publication pending |
 | Haskell | 0.9.0 | Hackage `0.9.0` | version matches; README stale |
 | R | 0.12.0 | r-universe `0.12.0` | version matches; check warnings; CRAN not published |
 | Nim | 0.8.0 | split source tagged; registry index pending | split repository `v0.8.0` tagged; Nimble/nimpkgs re-crawl pending |
