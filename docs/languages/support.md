@@ -110,7 +110,7 @@ acceptance, and no new consumer smoke or remote correction is claimed here.
 | Go | 2.11.2 | Go proxy `v2.11.2` | version matches; README updated |
 | Python | `python/v0.11.0` | PyPI `praxo-core==0.11.0` published | Historical docs CI upgrade to `0.10.0` passed; `0.11.0` consumer smoke not recorded |
 | TypeScript | `typescript/v0.10.0` | npm `@axisvela/praxo-core@0.10.0` published as `latest` | Historical docs CI upgrade to `0.9.0` passed; `0.10.0` consumer smoke not recorded |
-| Java | `java/v0.12.2` | Maven Central `com.axisvela:praxo-core:0.12.2` published | Historical `0.11.0` docs CI install passed on 2026-11-20 (run `44731906136`); `0.12.2` consumer smoke not recorded |
+| Java | `java/v0.12.2` | Maven Central `com.axisvela:praxo-core:0.12.2` published | Historical `0.11.0` docs CI install passed on 2026-11-20 (run `44731906136`); `0.12.2` docs CI fresh consumer install passed (run `45967285657`) |
 | Rust | `rust/v0.11.1` | crates.io `praxo-core==0.11.1` published | README now includes scenario tutorials, reference-application status, and community links |
 | C# | `csharp/v0.11.0` | NuGet `Praxo.Core==0.11.0` published | Published-package install for `0.9.1` is historical; `0.11.0` smoke not recorded |
 | Elixir | `elixir/v0.11.1` | Hex `praxo_core==0.11.1` published | README reordered with tutorials, reference-application status, and community |
