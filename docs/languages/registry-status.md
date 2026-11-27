@@ -42,7 +42,7 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 | Python | PyPI | `0.11.0` | https://pypi.org/project/praxo-core/0.11.0/ | published; README defect recorded in page audit |
 | TypeScript | npm | `0.10.0` | https://www.npmjs.com/package/@axisvela/praxo-core/v/0.10.0 | published; latest; README defect recorded in page audit |
 | Java | Maven Central | `0.12.0` | https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.12.0/ | published; POM SCM tag still `java/v0.10.0` |
-| Rust | crates.io | `0.11.0` | https://crates.io/crates/praxo-core/0.11.0 | published; README defect recorded in page audit |
+| Rust | crates.io | `0.11.1` | https://crates.io/crates/praxo-core/0.11.1 | published; README includes scenario tutorials, reference-application status, and community links |
 | C# | NuGet | `0.11.0` | https://www.nuget.org/packages/Praxo.Core/0.11.0 | published; README defect recorded in page audit |
 | Elixir | Hex / HexDocs | `0.11.0` | https://hex.pm/packages/praxo_core/0.11.0; https://praxo-core.hexdocs.pm/0.11.0/ | published |
 | Erlang | Hex | `0.10.0` | https://hex.pm/packages/praxo_core_erlang/0.10.0 | published |

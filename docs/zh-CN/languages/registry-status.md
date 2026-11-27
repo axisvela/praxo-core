@@ -35,7 +35,7 @@ GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
 | Python | PyPI | `0.11.0` | https://pypi.org/project/praxo-core/0.11.0/ | 已发布；README 缺陷见页面审计 |
 | TypeScript | npm | `0.10.0` | https://www.npmjs.com/package/@axisvela/praxo-core/v/0.10.0 | 已发布；latest；README 缺陷见页面审计 |
 | Java | Maven Central | `0.12.0` | https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.12.0/ | 已发布；POM SCM tag 仍为 `java/v0.10.0` |
-| Rust | crates.io | `0.11.0` | https://crates.io/crates/praxo-core/0.11.0 | 已发布；README 缺陷见页面审计 |
+| Rust | crates.io | `0.11.1` | https://crates.io/crates/praxo-core/0.11.1 | 已发布；README 包含场景教程、参考应用状态和社区链接 |
 | C# | NuGet | `0.11.0` | https://www.nuget.org/packages/Praxo.Core/0.11.0 | 已发布；README 缺陷见页面审计 |
 | Elixir | Hex / HexDocs | `0.11.0` | https://hex.pm/packages/praxo_core/0.11.0; https://praxo-core.hexdocs.pm/0.11.0/ | 已发布 |
 | Erlang | Hex | `0.10.0` | https://hex.pm/packages/praxo_core_erlang/0.10.0 | 已发布 |
