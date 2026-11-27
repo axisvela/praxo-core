@@ -1,5 +1,14 @@
 # Erlang Core Release Notes
 
+## 0.10.1 - 2026-11-27
+
+Source tag `erlang/v0.10.1`.
+
+### Changed
+
+- Publish the README's scenario tutorials, reference-application status, and
+  community links on the Hex page. No public API or wire change.
+
 ## 0.10.0 - 2026-11-26
 
 Source tag `erlang/v0.10.0`.

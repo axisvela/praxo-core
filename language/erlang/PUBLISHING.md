@@ -2,9 +2,10 @@
 
 ## Status
 
-The Hex package is `praxo_core_erlang`. `0.4.0` is published from source tag
-`erlang/v0.4.0` with an interactive 2FA OTP. Hex reports `0.4.0`, `0.3.1`,
-`0.2.0`, and `0.1.1`.
+The Hex package is `praxo_core_erlang`. `0.10.1` is the current source release;
+Hex currently publishes `0.10.0`; `0.10.1` publication is pending. The package
+is built from source tag `erlang/v0.10.1` and published with the `hex`
+environment `HEX_API_KEY`.
 
 `erlang/v0.3.0` remains a historical tag with stale `app.src` metadata (`0.2.0`);
 do not publish a package from that tag.

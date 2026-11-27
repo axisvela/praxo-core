@@ -114,7 +114,7 @@ acceptance, and no new consumer smoke or remote correction is claimed here.
 | Rust | `rust/v0.11.1` | crates.io `praxo-core==0.11.1` published | README now includes scenario tutorials, reference-application status, and community links |
 | C# | `csharp/v0.11.0` | NuGet `Praxo.Core==0.11.0` published | Published-package install for `0.9.1` is historical; `0.11.0` smoke not recorded |
 | Elixir | `elixir/v0.11.0` | Hex `praxo_core==0.11.0` published | Earlier clean Mix install covered `0.4.1`; `0.11.0` smoke not recorded |
-| Erlang | `erlang/v0.10.0` | Hex `praxo_core_erlang==0.10.0` published | Historical `0.1.1` smoke; `0.10.0` smoke not recorded |
+| Erlang | `erlang/v0.10.1` | Hex `praxo_core_erlang==0.10.0` published | 0.10.1 publication pending; historical `0.1.1` smoke; `0.10.0` smoke not recorded |
 | Ruby | `ruby/v0.10.0` | RubyGems `praxo-core==0.10.0` published | Historical CI allow/deny passed for `0.9.2` on 2026-11-21 (run `44913820352`); `0.10.0` smoke not recorded |
 | Lua | `lua/v0.9.1` | LuaRocks `praxo-core==0.9.1-1` published | `0.9.1-1` adds the README-synced rockspec description; `0.9.0-1` smoke not recorded |
 | PHP | `php/v0.10.0` | Packagist `axisvela/praxo-core==0.10.0` published | Historical Composer allow/deny passed for `0.8.1` on 2026-11-18; `0.10.0` smoke not recorded |
@@ -146,7 +146,7 @@ its latest version matches the manifest at the release tag.
 | Rust | 0.11.1 | crates.io `0.11.1` | version matches; README updated |
 | C# | 0.11.0 | NuGet `0.11.0` | version matches; README stale |
 | Elixir | 0.11.0 | Hex `0.11.0` | version matches |
-| Erlang | 0.10.0 | Hex `0.10.0` | version matches |
+| Erlang | 0.10.1 | Hex `0.10.0` | 0.10.1 publication pending |
 | Ruby | 0.10.0 | RubyGems `0.10.0` | version matches |
 | PHP | 0.10.0 | Packagist `0.10.0` | version matches |
 | Lua | 0.9.1-1 | LuaRocks `0.9.1-1` | version matches |
