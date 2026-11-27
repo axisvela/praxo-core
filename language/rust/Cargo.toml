@@ -1,10 +1,10 @@
 [package]
 name = "praxo-core"
-version = "0.11.0"
+version = "0.11.1"
 edition = "2021"
 rust-version = "1.80"
 license = "MIT"
-description = "Embeddable MIT-licensed agent framework for Rust: tools, policy, events, memory, context, middleware, checkpoints, and an agent loop"
+description = "Embeddable MIT-licensed native Rust agent framework: tools, policy, events, memory, context, middleware, checkpoints, scenario tutorials, and an agent loop"
 repository = "https://github.com/axisvela/praxo-core"
 homepage = "https://axisvela.github.io/praxo-core/"
 documentation = "https://docs.rs/praxo-core"

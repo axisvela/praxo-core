@@ -1,5 +1,14 @@
 # Rust Core Release Notes
 
+## 0.11.1 - 2026-11-27
+
+Source tag `rust/v0.11.1`.
+
+### Changed
+
+- Publish the README's scenario tutorials, reference-application status, and
+  full community links on the crates.io page. No public API or wire change.
+
 ## 0.11.0 - 2026-11-26
 
 Source tag `rust/v0.11.0`.

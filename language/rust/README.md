@@ -16,8 +16,8 @@ included. A streaming SSE parser is always available. An HTTP
 OpenAI-compatible client is available behind the optional `http-ureq` feature;
 VFS and plugin hosts are not yet implemented.
 
-The latest source tag is `rust/v0.11.0`; the published crates.io package is
-`praxo-core@0.11.0`. Supported contract:
+The latest source tag is `rust/v0.11.1`; the published crates.io package is
+`praxo-core@0.11.1`. Supported contract:
 `SPEC_VERSION` `0.2.0` (`praxo_core::SPEC_VERSION`).
 
 ## Registry and Coding-Agent Entry
@@ -34,7 +34,7 @@ The latest source tag is `rust/v0.11.0`; the published crates.io package is
 Install the published package:
 
 ```bash
-cargo add praxo-core@0.11.0
+cargo add praxo-core@0.11.1
 ```
 
 Then run the smallest deterministic example:
@@ -69,7 +69,7 @@ Runnable examples live under [`language/rust/examples`](https://github.com/axisv
 ## Install
 
 ```bash
-cargo add praxo-core@0.11.0
+cargo add praxo-core@0.11.1
 ```
 
 ## Requirements
@@ -118,7 +118,7 @@ Enable the optional feature and use `OpenAICompatible::with_ureq` in the
 published crate:
 
 ```toml
-praxo-core = { version = "0.11.0", features = ["http-ureq"] }
+praxo-core = { version = "0.11.1", features = ["http-ureq"] }
 ```
 
 ```rust
