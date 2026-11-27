@@ -1,6 +1,6 @@
 # Independent Go Consumer
 
-Build a new application using published Core `2.11.2`, without checking out
+Build a new application using published Core `2.11.3`, without checking out
 PRAXO-CORE. This starter uses a deterministic model and an in-memory tool so
 installation and authorization behavior can be checked without credentials,
 a model service, or AxisVela products.
@@ -28,7 +28,7 @@ In a new application directory, run:
 
 ```sh
 go mod init example.com/praxo-starter
-go get github.com/axisvela/praxo-core/v2@v2.11.2
+go get github.com/axisvela/praxo-core/v2@v2.11.3
 ```
 
 ## Application Source

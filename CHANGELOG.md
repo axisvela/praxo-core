@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.11.3] - 2026-11-27
+
+Source tag `v2.11.3`.
+
+### Changed
+
+- Document scenario tutorials and the reference-application portfolio in the
+  root README and refresh registry/evidence pages for current releases. No API
+  or wire change.
+
 ## [2.11.2] - 2026-11-27
 
 Source tag `v2.11.2`.
