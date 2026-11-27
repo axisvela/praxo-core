@@ -1,5 +1,15 @@
 # Lua Core Release Notes
 
+## 0.9.1 - 2026-11-27
+
+Source tag `lua/v0.9.1`.
+
+### Changed
+
+- Expand the LuaRocks rockspec description with the README's features,
+  examples, scenario tutorials, reference-application status, install command,
+  limits, and links. No public API or wire change.
+
 ## 0.9.0 - 2026-11-26
 
 Source tag `lua/v0.9.0`.

@@ -212,14 +212,14 @@
   "Lua": {
     "dir": "language/lua",
     "docs": "https://axisvela.github.io/praxo-core/languages/lua/",
-    "install": "luarocks install praxo-core 0.9.0-1",
+    "install": "luarocks install praxo-core 0.9.1-1",
     "package": "praxo-core",
     "published_version": "0.9.0-1",
     "registry": "LuaRocks",
-    "source_install": "luarocks make language/lua/praxo-core-0.9.0-1.rockspec",
-    "source_version": "0.9.0-1",
+    "source_install": "luarocks make language/lua/praxo-core-0.9.1-1.rockspec",
+    "source_version": "0.9.1-1",
     "status": "published; split repository v0.9.0 tagged",
-    "tag": "lua/v0.9.0",
+    "tag": "lua/v0.9.1",
     "tier": "Core",
     "url": "https://luarocks.org/modules/hanhhuiwen/praxo-core"
   },
