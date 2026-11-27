@@ -2,10 +2,10 @@
 
 ## Status
 
-The Hex package is `praxo_core_erlang`. `0.10.1` is the current source release;
-Hex currently publishes `0.10.0`; `0.10.1` publication is pending. The package
-is built from source tag `erlang/v0.10.1` and published with the `hex`
-environment `HEX_API_KEY`.
+The Hex package is `praxo_core_erlang`. `0.10.1` is published from source tag
+`erlang/v0.10.1`; the Hex README includes scenario tutorials,
+reference-application status, and community links. The package is published
+with the `hex` environment `HEX_API_KEY`.
 
 `erlang/v0.3.0` remains a historical tag with stale `app.src` metadata (`0.2.0`);
 do not publish a package from that tag.

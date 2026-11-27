@@ -116,14 +116,14 @@
     "docs": "https://axisvela.github.io/praxo-core/languages/erlang/",
     "install": "{praxo_core, \"0.10.1\", {pkg, praxo_core_erlang}}",
     "package": "praxo_core_erlang",
-    "published_version": "0.10.0",
+    "published_version": "0.10.1",
     "registry": "Hex",
     "source_install": "{praxo_core, {path, \"language/erlang\"}}",
     "source_version": "0.10.1",
     "status": "published",
     "tag": "erlang/v0.10.1",
     "tier": "Core",
-    "url": "https://hex.pm/packages/praxo_core_erlang/0.10.0"
+    "url": "https://hex.pm/packages/praxo_core_erlang/0.10.1"
   },
   "Fortran": {
     "dir": "language/fortran",

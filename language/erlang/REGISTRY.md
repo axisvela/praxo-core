@@ -1,7 +1,7 @@
 # PRAXO-CORE Erlang Registry Introduction
 
 **Status:** published. Source version `0.10.1`, source
-tag `erlang/v0.10.1`. Published registry version: `0.10.0`. Registry
+tag `erlang/v0.10.1`. Published registry version: `0.10.1`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -14,9 +14,9 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | Field | Value |
 | --- | --- |
 | Package | `praxo_core_erlang` |
-| Registry | [Hex](https://hex.pm/packages/praxo_core_erlang/0.10.0) |
+| Registry | [Hex](https://hex.pm/packages/praxo_core_erlang/0.10.1) |
 | Source version | `0.10.1` |
-| Published registry version | `0.10.0` |
+| Published registry version | `0.10.1` |
 | Install (published) | `{praxo_core, "0.10.1", {pkg, praxo_core_erlang}}` |
 | Install (source/release prepared) | `{praxo_core, {path, "language/erlang"}}` |
 | Source tag | `erlang/v0.10.1` |
