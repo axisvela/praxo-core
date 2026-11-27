@@ -23,7 +23,7 @@
 - Perl: `Praxo::Core` — [CPAN (MetaCPAN index)](https://metacpan.org/dist/Praxo-Core) — `0.8.1` — https://axisvela.github.io/praxo-core/languages/perl/
 - OCaml: `praxo-core` — [opam (pending)](https://github.com/axisvela/praxo-core-ocaml) — not published — https://axisvela.github.io/praxo-core/languages/ocaml/
 - Haskell: `praxo-core` — [Hackage](https://hackage.haskell.org/package/praxo-core-0.9.0) — `0.9.0` — https://axisvela.github.io/praxo-core/languages/haskell/
-- Julia: `PraxoCore` — [Julia General (pending)](https://github.com/axisvela/PraxoCore.jl) — not published — https://axisvela.github.io/praxo-core/languages/julia/
+- Julia: `PraxoCore` — [Julia General (pending)](https://github.com/axisvela/praxo-core-Julia) — not published — https://axisvela.github.io/praxo-core/languages/julia/
 - Swift: `praxo-core-swift` — [Swift Package Index](https://swiftpackageindex.com/axisvela/praxo-core-swift) — `0.7.2` — https://axisvela.github.io/praxo-core/languages/swift/
 - Nim: `praxo_core` — [Nimble/nim-lang packages (unverified)](https://github.com/axisvela/praxo-core-nim) — not published — https://axisvela.github.io/praxo-core/languages/nim/
 - V: `praxo-core` — [VPM (pending)](https://github.com/axisvela/praxo-core-v) — not published — https://axisvela.github.io/praxo-core/languages/v/

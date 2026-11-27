@@ -14,7 +14,7 @@ Julia implementation of the PRAXO-CORE AI agent framework contract.
 | Field | Value |
 | --- | --- |
 | Package | `PraxoCore` |
-| Registry | [Julia General (pending)](https://github.com/axisvela/PraxoCore.jl) |
+| Registry | [Julia General (pending)](https://github.com/axisvela/praxo-core-Julia) |
 | Source version | `0.9.0` |
 | Published registry version | not published |
 | Install (published) | not published |

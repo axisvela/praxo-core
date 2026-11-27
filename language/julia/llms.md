@@ -7,7 +7,7 @@
 ## Package
 
 - package: `PraxoCore`
-- registry: [Julia General (pending)](https://github.com/axisvela/PraxoCore.jl)
+- registry: [Julia General (pending)](https://github.com/axisvela/praxo-core-Julia)
 - source_version: `0.9.0`
 - published_version: not published
 - install_published: not published
