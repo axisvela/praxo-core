@@ -305,7 +305,7 @@ Registry 链接指向当前已发布版本；上表的消费者 smoke 行指明�
 - [npm 上的 @axisvela/praxo-core 0.10.0](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.10.0)
 - [crates.io 上的 praxo-core 0.11.1](https://crates.io/crates/praxo-core/0.11.1)
 - [pub.dev 上的 praxo_core 0.8.2](https://pub.dev/packages/praxo_core/versions/0.8.2)
-- [RubyGems 上的 praxo-core 0.10.1](https://rubygems.org/gems/praxo-core/versions/0.10.1)
+- [RubyGems 上的 praxo-core 0.10.2](https://rubygems.org/gems/praxo-core/versions/0.10.2)
 - [LuaRocks 上的 praxo-core 0.9.1-1](https://luarocks.org/modules/hanhhuiwen/praxo-core/0.9.1-1)
 - [Hex 上的 praxo_core 0.11.1](https://hex.pm/packages/praxo_core/0.11.1)
 - [NuGet 上的 Praxo.Core 0.11.1](https://www.nuget.org/packages/Praxo.Core/0.11.1)

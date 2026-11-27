@@ -1,6 +1,6 @@
 # Ruby Examples
 
-- [`consumer/`](consumer/): published RubyGems `praxo-core==0.10.1` starter with
+- [`consumer/`](consumer/): published RubyGems `praxo-core==0.10.2` starter with
   deterministic allow/deny checks.
 - [`hitl/`](hitl/): approval and edit-reauthorization for a write tool.
 - [`session-checkpoint/`](session-checkpoint/): multi-turn history save, reload,
