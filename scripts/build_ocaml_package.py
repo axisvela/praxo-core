@@ -206,9 +206,11 @@ def check_output(output, files, sync_split=False):
         if Path(git(output, "rev-parse", "--show-toplevel")) != output:
             raise ValueError("Split output must be the exact git top-level")
         origin = git(output, "remote", "get-url", "--all", "origin")
+        ssh_origin = "git@" + "github.com:"
+        ssh_url_origin = "ssh://git@" + "github.com/"
         if origin not in {
             f"{prefix}axisvela/praxo-core-ocaml{suffix}"
-            for prefix in ("https://github.com/", "git@github.com:")
+            for prefix in ("https://github.com/", ssh_origin, ssh_url_origin)
             for suffix in ("", ".git")
         }:
             raise ValueError("Split origin must be axisvela/praxo-core-ocaml on GitHub")

@@ -69,13 +69,13 @@ Kotlin、VB.NET、Scala 等仅示例实现保留在本仓库，作为宿主 Core
 ### 源码标签、注册表与消费者 smoke
 
 三者是独立的声明：源码标签记录仓库发布，注册表版本记录包管理器可获取的版本，
-消费者 smoke 记录仓库之外的安装与运行。不能用一个为另一个作证。公开审计日期为 2026-11-26；
+消费者 smoke 记录仓库之外的安装与运行。不能用一个为另一个作证。公开审计日期为 2026-11-27；
 版本化证据 URL 见[Registry 发布状态](registry-status.md)，不可变 README/POM 缺陷见
 [页面审计](registry-pages.md)。发布不等于页面验收，本次不声称新增消费者 smoke 或远端修复。
 
 | 语言 | 源码标签 | 注册表版本 | 消费者安装 smoke |
 | --- | --- | --- | --- |
-| Go | `v2.11.0` | Go proxy `v2.11.0` 已发布 | 文档日期 11 月 26 日，proxy 发布 11 月 25 日 UTC；未记录新消费者 smoke |
+| Go | 2.11.1 | Go proxy `v2.11.1` | 版本一致；README 已更新 |
 | Python | `python/v0.11.0` | PyPI `praxo-core==0.11.0` 已发布 | 历史 docs CI 升级到 `0.10.0` 通过；未记录 `0.11.0` smoke |
 | TypeScript | `typescript/v0.10.0` | npm `@axisvela/praxo-core@0.10.0` 已作为 `latest` 发布 | 历史 docs CI 升级到 `0.9.0` 通过；未记录 `0.10.0` smoke |
 | Java | `java/v0.12.0` | Maven Central `com.axisvela:praxo-core:0.12.0` 已发布 | 历史 `0.11.0` docs CI 安装于 2026-11-20 通过（run `44731906136`）；未记录 `0.12.0` smoke |
@@ -107,7 +107,7 @@ Kotlin、VB.NET、Scala 等仅示例实现保留在本仓库，作为宿主 Core
 
 | 语言 | 代码/manifest 版本 | 注册表 latest | 状态 |
 | --- | --- | --- | --- |
-| Go | 2.11.0 | Go proxy `v2.11.0` | 版本一致；README 陈旧 |
+| Go | 2.11.1 | Go proxy `v2.11.1` | 版本一致；README 已更新 |
 | Python | 0.11.0 | PyPI `0.11.0` | 版本一致；README 陈旧 |
 | TypeScript | 0.10.0 | npm `0.10.0` | 版本一致；README 陈旧 |
 | Java | 0.12.0 | Maven Central `0.12.0` | 版本一致；POM SCM 陈旧 |

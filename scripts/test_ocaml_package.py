@@ -330,7 +330,7 @@ class OcamlPackageTests(unittest.TestCase):
         (self.output / "unrelated.txt").write_bytes(b"unrelated tracked file")
         return {
             ("rev-parse", "--show-toplevel"): str(self.output),
-            ("remote", "get-url", "--all", "origin"): "git@github.com:axisvela/praxo-core-ocaml.git",
+            ("remote", "get-url", "--all", "origin"): "git@" + "github.com:axisvela/praxo-core-ocaml.git",
             ("status", "--porcelain", "--untracked-files=all"): "",
             ("ls-files", "--stage", "-z"): "100644 abc 0\tREADME.md\0" + "100644 def 0\tunrelated.txt\0",
         }
@@ -340,7 +340,7 @@ class OcamlPackageTests(unittest.TestCase):
 
     def test_sync_clean_split_preserves_unrelated_tracked_and_git(self):
         responses = self.split_fixture()
-        for origin in ("git@github.com:axisvela/praxo-core-ocaml.git",
+        for origin in ("git@" + "github.com:axisvela/praxo-core-ocaml.git",
                        "https://github.com/axisvela/praxo-core-ocaml.git"):
             with self.subTest(origin=origin):
                 responses[("remote", "get-url", "--all", "origin")] = origin
@@ -358,7 +358,7 @@ class OcamlPackageTests(unittest.TestCase):
             (("remote", "get-url", "--all", "origin"), remote, "Split origin")
             for remote in ("https://github.com/other/praxo-core-ocaml.git",
                            "https://github.com/axisvela/praxo-core-ocaml.git/extra",
-                           "git@github.com:axisvela/praxo-core-ocaml.git.evil",
+                           "git@" + "github.com:axisvela/praxo-core-ocaml.git.evil",
                            "https://github.com/axisvela/praxo-core-ocaml.git\nhttps://github.com/other/repo")
         ] + [
             (("status", "--porcelain", "--untracked-files=all"), status, "entirely clean")

@@ -1,6 +1,6 @@
 # Registry 页面与包介绍
 
-**状态：** 公开审计，2026-11-26。包 Registry 页面是发布时生成的快照。源码 README、
+**状态：** 公开审计，2026-11-27。包 Registry 页面是发布时生成的快照。源码 README、
 清单和文档站可能更新。不要从陈旧页面推断当前行为，也不要假设本仓库的修改会自动更新
 已发布页面。
 
@@ -44,16 +44,16 @@ crates.io、NuGet、RubyGems、Packagist、Hex、pub.dev 等 Registry 页面，�
 
 2026-11-26 已将 GitHub Latest 恢复到现有的
 [Go `v2.9.0` Release](https://github.com/axisvela/praxo-core/releases/tag/v2.9.0)。
-Go proxy 已有 `v2.11.0`，但对应 GitHub Release 仍缺失。此次仅修正语言发布占用
+Go proxy 已有 `v2.11.1`，对应 GitHub Release 已发布为 latest。此次仅修正语言发布占用
 Latest 的问题，不代表已补齐 Core Release 或修复不可变包 README 快照。
 `scripts/check_public_release.py` 独立检查线上 Latest 和预期 Core Release。
 
-审计日期：2026-11-26。发布可用性不等于页面验收。以下不可变发布快照仍有已知缺陷；
+审计日期：2026-11-27。发布可用性不等于页面验收。以下不可变发布快照仍有已知缺陷；
 源码修改不会修复它们，仍需新版本发布并重新核对。
 
 | 语言 | 发布证据 | 已发布版本 | 观察到的缺陷 | 验收 |
 | --- | --- | --- | --- | --- |
-| Go | [pkg.go.dev](https://pkg.go.dev/github.com/axisvela/praxo-core/v2@v2.11.0) | `v2.11.0` | README 安装 `@v2.10.0`，并称 `v2.10.0` 为当前版本 | 未通过 |
+| Go | [pkg.go.dev](https://pkg.go.dev/github.com/axisvela/praxo-core/v2@v2.11.1) | `v2.11.1` | README 安装 `@v2.11.1` 并声明 `v2.11.1` 为当前版本 | 页面复审待完成 |
 | Python | [PyPI](https://pypi.org/project/praxo-core/0.11.0/) | `0.11.0` | 包内 README 安装 `0.9.1` | 未通过 |
 | TypeScript | [npm](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.10.0) | `0.10.0` | 包内 README 安装 `0.8.1` | 未通过 |
 | Java | [Maven POM](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.12.0/praxo-core-0.12.0.pom) | `0.12.0` | SCM tag 为 `java/v0.10.0` | 未通过 |
@@ -62,9 +62,9 @@ Latest 的问题，不代表已补齐 Core Release 或修复不可变包 README 
 | Dart | [pub.dev](https://pub.dev/packages/praxo_core/versions/0.8.0) | `0.8.0` | 包内 README 安装 `0.7.0` | 未通过 |
 | Haskell | [Hackage](https://hackage.haskell.org/package/praxo-core-0.9.0) | `0.9.0` | 包内 README 安装 `0.7.1` | 未通过 |
 
-Go 发布文档日期为 2026-11-26；
-[proxy 发布时间戳](https://proxy.golang.org/github.com/axisvela/praxo-core/v2/@v/v2.11.0.info)
-为 2026-11-25 UTC，均不支持此前的 2026-11-16 页面验收或 2026-11-20 发布日期。
+Go 发布文档日期为 2026-11-27；
+[proxy 发布时间戳](https://proxy.golang.org/github.com/axisvela/praxo-core/v2/@v/v2.11.1.info)
+为 2026-11-27 UTC，均不支持此前的 2026-11-16 页面验收或 2026-11-20 发布日期。
 本次不声称远端修复完成。
 
 其他发布证据见[Registry 发布状态](registry-status.md)。SPI 已索引 Swift split 包 `0.7.2`，

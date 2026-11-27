@@ -19,10 +19,24 @@ model providers and integrations. AxisVela products are not required.
 [Language Implementations](docs/languages/index.md) |
 [Examples](language/go/examples)
 
-**PRAXO-CORE is a multi-language framework.** Go is the reference
-implementation; Python, TypeScript, Java, Rust, C#, R, Ruby, PHP, Elixir, Lua,
-and other implementations ship independent packages. It is not a Go-only
-framework.
+## Go Reference Module
+
+This repository's root Go module is the reference implementation:
+`github.com/axisvela/praxo-core/v2`.
+
+```bash
+go get github.com/axisvela/praxo-core/v2@v2.11.1
+```
+
+The Go Core provides the agent loop, policy hooks, tool contracts, memory,
+checkpoints, context compaction, events, streaming, MCP, OpenTelemetry,
+retrieval, and delegation. See the
+[Go consumer](docs/getting-started/consumer-go.md) and
+[Go implementation](docs/languages/go/index.md).
+
+The same repository also ships independent Python, TypeScript, Java, Rust, C#,
+R, Ruby, PHP, Elixir, Lua, and other packages. They do not require the Go
+runtime.
 
 ## Two Paths
 
@@ -75,7 +89,7 @@ Go is the reference implementation; use the language table above for other
 runtimes.
 
 ```bash
-go get github.com/axisvela/praxo-core/v2@v2.11.0
+go get github.com/axisvela/praxo-core/v2@v2.11.1
 ```
 
 First verify the [independent Go consumer](docs/getting-started/consumer-go.md):
@@ -217,10 +231,10 @@ or [optional AxisVela integrations](docs/integrations/ecosystem.md). See the
 
 ## Releases and Contributing
 
-Core `2.11.0` is the current release. It moves the runnable example tree under
-`language/go/examples`, links scenario tutorials and reference applications from
-the language registries, and refreshes source-release metadata. It does not
-change the exported `pkg/...` API or wire contract.
+Core `2.11.1` is the current release. It makes the root README lead with the Go
+reference module and corrects the install command to `v2.11.1`. It also
+reconciles the public release and registry documentation with the current
+version. It does not change the exported `pkg/...` API or wire contract.
 
 The earlier `2.9.0` fixed the Go memory recall role: recalled content is injected
 as untrusted user data with frame/source labels instead of a system message, and
@@ -228,7 +242,7 @@ assistant-written memory records carry `source` and `trust` metadata. That relea
 added two-run regressions without changing the exported `pkg/...` API or wire
 shape. Optional adapters and Core implementations are versioned independently.
 
-- [Latest release notes](docs/releases/2.11.0.md)
+- [Latest release notes](docs/releases/2.11.1.md)
 - [Release history](docs/releases/index.md)
 - [Language Release Index](docs/languages/registry-status.md)
 - [Compatibility policy](docs/project/compatibility-policy.md)

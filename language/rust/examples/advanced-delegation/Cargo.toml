@@ -6,7 +6,7 @@ default-run = "praxo-advanced-delegation"
 
 [dependencies]
 serde_json = "1"
-praxo-core = "0.11.0"
+praxo-core = "0.11.1"
 
 [[bin]]
 name = "governance"
