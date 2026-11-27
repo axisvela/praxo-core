@@ -1,7 +1,7 @@
 # Java Examples
 
 - [`consumer/`](consumer/): published Maven Central
-  `com.axisvela:praxo-core:0.12.0` starter with deterministic allow/deny checks.
+  `com.axisvela:praxo-core:0.12.1` starter with deterministic allow/deny checks.
 - [`live-model/`](live-model/): published Maven artifact connected to an
   OpenAI-compatible endpoint through `get_time`.
 - [`structured-output/`](structured-output/): validated JSON output with

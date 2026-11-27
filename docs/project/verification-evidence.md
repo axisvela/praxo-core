@@ -369,7 +369,7 @@ name the version that was actually installed.
 - [praxo-core-ps 0.9.1 on PowerShell Gallery](https://www.powershellgallery.com/packages/praxo-core-ps/0.9.1)
 - [Praxo-Core 0.8.1 on MetaCPAN](https://metacpan.org/release/HANHHUIWEN/Praxo-Core-0.8.1)
 - [praxo-core 0.8.0 on DUB](https://code.dlang.org/packages/praxo-core/versions/0.8.0)
-- [com.axisvela:praxo-core 0.12.0 on Maven Central](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.12.0/)
+- [com.axisvela:praxo-core 0.12.1 on Maven Central](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.12.1/)
 - [Governed workspace example](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/governed-workspace)
 - [Governed execution design](../reference/governed-execution.md)
 - [OpenTelemetry runnable example](https://github.com/axisvela/praxo-core/tree/main/adapters/otel/example)

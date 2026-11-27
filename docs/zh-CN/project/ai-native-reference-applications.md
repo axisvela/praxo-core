@@ -3,7 +3,7 @@
 **状态：** 设计于 2026-11-25 采纳，证据于 2026-11-26 审核。源码实现不等于完整宿主集成验收。PHP v1 harness 已在
 `language/php/application/ai-editorial-studio` 本地实现；同级 `content-review`
 应用仍是宿主集成前驱。Java v1 源码已添加到 `language/java/application`，使用 Spring Boot
-和已发布 Core 0.11.0，但本地 Windows JVM 阻塞，因此 Java 尚未本地编译或测试。
+和已发布 Core 0.12.1，但本地 Windows JVM 阻塞，因此 Java 尚未本地编译或测试。
 Elixir v1 harness 已在 `language/elixir/application` 本地实现：监督树中的遥测存储与修复
 执行器，源码模式测试 6/6 通过，包含租户拒绝与监督进程重启；结果记录模型
 diagnosis/rationale 与 `agent_trace`。本地 Hex 安装遇到 unknown-CA 失败，因此 CI

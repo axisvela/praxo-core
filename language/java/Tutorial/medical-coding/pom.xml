@@ -10,7 +10,7 @@
   </properties>
   <dependencies>
     <dependency>
-      <groupId>com.axisvela</groupId><artifactId>praxo-core</artifactId><version>0.11.0</version>
+      <groupId>com.axisvela</groupId><artifactId>praxo-core</artifactId><version>0.12.1</version>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId><artifactId>junit-jupiter</artifactId><version>5.11.4</version><scope>test</scope>
