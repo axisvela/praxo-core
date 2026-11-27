@@ -118,7 +118,7 @@ acceptance, and no new consumer smoke or remote correction is claimed here.
 | Ruby | `ruby/v0.10.0` | RubyGems `praxo-core==0.10.0` published | Historical CI allow/deny passed for `0.9.2` on 2026-11-21 (run `44913820352`); `0.10.0` smoke not recorded |
 | Lua | `lua/v0.9.1` | LuaRocks `praxo-core==0.9.1-1` published | `0.9.1-1` adds the README-synced rockspec description; `0.9.0-1` smoke not recorded |
 | PHP | `php/v0.10.0` | Packagist `axisvela/praxo-core==0.10.0` published | Historical Composer allow/deny passed for `0.8.1` on 2026-11-18; `0.10.0` smoke not recorded |
-| Dart | `dart/v0.8.0` | pub.dev `praxo_core==0.8.0` published | Prior clean `0.6.1` smoke passed; `0.8.0` smoke not recorded |
+| Dart | `dart/v0.8.1` | pub.dev `praxo_core==0.8.0` published | 0.8.1 publication pending; prior clean `0.6.1` smoke passed; `0.8.0` smoke not recorded |
 | D | `d/v0.8.0` | DUB `praxo-core==0.8.0` published | Consumer smoke not recorded for `0.8.0` |
 | Swift | `swift/v0.9.0` | SPI split package `0.7.2` indexed; split repository tagged `0.9.0` with streaming scope; SPI re-index pending | Local Windows full test blocked; typecheck passed; consumer smoke not recorded |
 | Julia | `julia/v0.9.0` | General Registry PR #176393 updated to 0.9.0; merge pending | Not recorded |
@@ -150,7 +150,7 @@ its latest version matches the manifest at the release tag.
 | Ruby | 0.10.0 | RubyGems `0.10.0` | version matches |
 | PHP | 0.10.0 | Packagist `0.10.0` | version matches |
 | Lua | 0.9.1-1 | LuaRocks `0.9.1-1` | version matches |
-| Dart | 0.8.0 | pub.dev `0.8.0` | version matches; README stale |
+| Dart | 0.8.1 | pub.dev `0.8.0` | 0.8.1 publication pending; README updated |
 | Julia | 0.9.0 | General Registry PR #176393 updated; merge pending | PR targets 0.9.0; pending |
 | MATLAB | 0.9.0 | File Exchange `185166` (`0.9.1`) | different source/registry versions; citation stale; MATLAB unverified |
 | Octave | 0.9.0 | 0.9.0 release tarball; Octave Packages PR #875 pending | archive available; index pending |

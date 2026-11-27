@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.8.1 - 2026-11-27
+
+Source tag `dart/v0.8.1`.
+
+### Changed
+
+- Reorder the README so install, quickstart, examples, tutorials, and reference
+  applications appear before internals, and publish the scenario tutorials,
+  reference-application status, and community links on pub.dev. No public API
+  or wire change.
+
 ## 0.8.0 - 2026-11-26
 
 Source tag `dart/v0.8.0`.

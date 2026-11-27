@@ -1,6 +1,6 @@
 name: praxo_core
-description: Embeddable MIT-licensed AI agent framework for Dart with tools, policy, events, memory, middleware, and an agent loop.
-version: 0.8.0
+description: Embeddable MIT-licensed native Dart agent framework with tools, policy, events, tutorials, and an agent loop.
+version: 0.8.1
 homepage: https://axisvela.github.io/praxo-core/
 repository: https://github.com/axisvela/praxo-core
 issue_tracker: https://github.com/axisvela/praxo-core/issues

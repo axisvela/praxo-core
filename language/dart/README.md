@@ -10,21 +10,41 @@ The normative contract is [`spec/`](../../spec/README.md); Go remains the
 reference implementation.
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.8.0`
+- Core version: `0.8.1`
 - Tier: core
 - License: MIT
 - Dependencies: Dart standard library only
-- Published on pub.dev as `praxo_core@0.8.0`; source is `0.8.0`
+- Published on pub.dev as `praxo_core@0.8.1`; source is `0.8.1`
 - Publishing setup: [PUBLISHING.md](PUBLISHING.md)
 
-## Registry and Coding-Agent Entry
+## Install
 
-- Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/language/dart/REGISTRY.md)
-- Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/dart/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/dart/llms.md)
-- [Examples](https://github.com/axisvela/praxo-core/tree/main/language/dart/examples): runnable language-specific examples.
-- Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
-- Registry: [pub.dev](https://pub.dev/packages/praxo_core/versions/0.8.0)
-- Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761) · [LinkedIn](https://www.linkedin.com/company/axisvela/) · [Facebook](https://www.facebook.com/profile.php?id=61596905732406) · [YouTube](https://www.youtube.com/@axisvela) · [Discord](https://discord.com/channels/1575163993767809064/1575164343148875977) · [GitHub Discussions](https://github.com/axisvela/praxo-core/discussions) · [GitHub Issues](https://github.com/axisvela/praxo-core/issues) · [Documentation](https://axisvela.github.io/praxo-core/) · [Architect](https://axisvela.architect.pub)
+```bash
+dart pub add praxo_core:0.8.1
+```
+
+## Quickstart
+
+```dart
+import 'package:praxo_core/praxo_core.dart';
+
+void main() {
+  final agent = Agent(AgentOptions(StaticModel('hello')));
+  final result = agent.run(const Session(id: 'demo'), 'hello');
+  print(result.output);
+}
+```
+
+Tools register on the options object:
+
+```dart
+final registry = Registry();
+registry.register(FuncTool('echo', 'Echo arguments', (arguments) => arguments));
+
+final options = AgentOptions(StaticModel('hello'))
+  ..tools = registry
+  ..maxSteps = 8;
+```
 
 ## Examples
 
@@ -52,11 +72,40 @@ repository examples. Fifteen runnable themes live under
 
 These are deterministic local checks, not live-provider or production evidence.
 
-## Install
+## Tutorials and Reference Applications
 
-```bash
-dart pub add praxo_core:0.8.0
-```
+Language-specific scenario tutorials and reference applications for Dart.
+
+### Scenario Tutorials
+
+| Tutorial | What it shows |
+| --- | --- |
+| [audiobook-production](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/audiobook-production) | A bounded first slice of [MD-06](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an audio-production pipeline. It reads a fixed licensed book fixtur... |
+| [cbt-exercise](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/cbt-exercise) | A bounded first slice of [HC-05](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a therapist or crisis service. It walks a fixed synthetic CBT exerc... |
+| [chronic-care](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/chronic-care) | A bounded first slice of [HC-02](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a clinical decision system. It summarizes fixed synthetic wearable... |
+| [digital-twin-memory](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/digital-twin-memory) | A bounded first slice of [OG-06](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a personal memory hub. It stores one consent-scoped synthetic memor... |
+| [marketing-segments](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/marketing-segments) | Fixed customer spend produces two high-value customers and a review-only campaign draft. No customer records, sends or live model. |
+| [meeting-coordination](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/meeting-coordination) | A bounded first slice of [OP-02](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not full multi-party scheduling or calendar control. It reads a fixed c... |
+| [onboarding-plan](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/onboarding-plan) | A bounded first slice of [OP-06](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an HR or permissions system. It reads a fixed employee profile and... |
+| [travel-booking](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/travel-booking) | Fixed trip inventory produces a review-only fare hold. No payment, ticketing or inventory write. |
+| [waste-collection](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/waste-collection) | A bounded first slice of [CT-06](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a fleet-dispatch system. It reads a fixed collection queue and draf... |
+
+Index: [language/dart/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial).
+
+### Reference Applications
+
+No accepted end-to-end reference application is recorded for this language yet. Candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
+
+Planning context: [Tutorial Plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/), [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), and [Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/). Chinese: [教程计划](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/), [候选场景](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/), [教程目录](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/).
+
+## Registry and Coding-Agent Entry
+
+- Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/language/dart/REGISTRY.md)
+- Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/dart/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/dart/llms.md)
+- [Examples](https://github.com/axisvela/praxo-core/tree/main/language/dart/examples): runnable language-specific examples.
+- Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
+- Registry: [pub.dev](https://pub.dev/packages/praxo_core/versions/0.8.0)
+- Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761) · [LinkedIn](https://www.linkedin.com/company/axisvela/) · [Facebook](https://www.facebook.com/profile.php?id=61596905732406) · [YouTube](https://www.youtube.com/@axisvela) · [Discord](https://discord.com/channels/1575163993767809064/1575164343148875977) · [GitHub Discussions](https://github.com/axisvela/praxo-core/discussions) · [GitHub Issues](https://github.com/axisvela/praxo-core/issues) · [Documentation](https://axisvela.github.io/praxo-core/) · [Architect](https://axisvela.architect.pub)
 
 ## Scope
 
@@ -74,29 +123,6 @@ dart run test/run.dart
 
 Run from the `dart/` directory, or use `dart language/dart/conformance/run.dart` from the
 repository root.
-
-## Quickstart
-
-```dart
-import 'package:praxo_core/praxo_core.dart';
-
-void main() {
-  final agent = Agent(AgentOptions(StaticModel('hello')));
-  final result = agent.run(const Session(id: 'demo'), 'hello');
-  print(result.output);
-}
-```
-
-Tools register on the options object:
-
-```dart
-final registry = Registry();
-registry.register(FuncTool('echo', 'Echo arguments', (arguments) => arguments));
-
-final options = AgentOptions(StaticModel('hello'))
-  ..tools = registry
-  ..maxSteps = 8;
-```
 
 ## OpenAI-Compatible Adapter
 
@@ -178,6 +204,7 @@ Use HTTPS and caller-side filtering for sensitive event data.
 `PluginProcessHost` speaks the framework JSON-Lines process plugin protocol with
 token authentication, health handshake, invocation timeout, cooperative cancel,
 and typed call errors.
+
 ## Layout
 
 - `lib/` package source.
@@ -188,33 +215,6 @@ and typed call errors.
 ## Release
 
 Tag shape: `dart/v0.1.0`. The tag targets `SPEC_VERSION` `0.2.0`.
-
-
-## Tutorials and Reference Applications
-
-Language-specific scenario tutorials and reference applications for Dart.
-
-### Scenario Tutorials
-
-| Tutorial | What it shows |
-| --- | --- |
-| [audiobook-production](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/audiobook-production) | A bounded first slice of [MD-06](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an audio-production pipeline. It reads a fixed licensed book fixtur... |
-| [cbt-exercise](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/cbt-exercise) | A bounded first slice of [HC-05](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a therapist or crisis service. It walks a fixed synthetic CBT exerc... |
-| [chronic-care](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/chronic-care) | A bounded first slice of [HC-02](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a clinical decision system. It summarizes fixed synthetic wearable... |
-| [digital-twin-memory](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/digital-twin-memory) | A bounded first slice of [OG-06](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a personal memory hub. It stores one consent-scoped synthetic memor... |
-| [marketing-segments](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/marketing-segments) | Fixed customer spend produces two high-value customers and a review-only campaign draft. No customer records, sends or live model. |
-| [meeting-coordination](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/meeting-coordination) | A bounded first slice of [OP-02](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not full multi-party scheduling or calendar control. It reads a fixed c... |
-| [onboarding-plan](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/onboarding-plan) | A bounded first slice of [OP-06](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an HR or permissions system. It reads a fixed employee profile and... |
-| [travel-booking](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/travel-booking) | Fixed trip inventory produces a review-only fare hold. No payment, ticketing or inventory write. |
-| [waste-collection](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/waste-collection) | A bounded first slice of [CT-06](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a fleet-dispatch system. It reads a fixed collection queue and draf... |
-
-Index: [language/dart/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial).
-
-### Reference Applications
-
-No accepted end-to-end reference application is recorded for this language yet. Candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
-
-Planning context: [Tutorial Plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/), [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), and [Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/). Chinese: [教程计划](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/), [候选场景](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/), [教程目录](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/).
 
 ## Community
 

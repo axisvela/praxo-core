@@ -3,6 +3,13 @@
 This page records the repository-side configuration. The final admin actions
 must be performed by an uploader or publisher admin on pub.dev.
 
+## Current release
+
+`praxo_core==0.8.1` is the current source release from `dart/v0.8.1`; pub.dev
+currently publishes `0.8.0`; `0.8.1` publication is pending. The README is
+reordered and includes examples, tutorials, reference-application status, and
+community links.
+
 ## pub.dev admin settings
 
 Open <https://pub.dev/packages/praxo_core/admin> and configure:
@@ -14,7 +21,7 @@ Open <https://pub.dev/packages/praxo_core/admin> and configure:
 | Unlisted | Mark unlisted | Leave off. Unlisted packages also disappear from normal search. |
 | Manual publishing | Enable manual publishing | Keep enabled until one automated publish succeeds, then disable it if automated publishing is fully configured. |
 | Automated publishing | GitHub Actions | Enable with repository `axisvela/praxo-core`. |
-| Tag pattern | Must contain `{{version}}` | Use `dart/v{{version}}`; it matches the existing `dart/v0.6.0` source-tag shape. |
+| Tag pattern | Must contain `{{version}}` | Use `dart/v{{version}}`; it matches the current `dart/v0.8.1` source-tag shape. |
 | GitHub environment | Optional hardening | Enable `pub.dev` as a required environment if tag protection alone is insufficient. |
 | Google Cloud service account | Long-lived credentials | Do not use when GitHub Actions OIDC is available. |
 | Version retraction | Up to 7 days after publication | Do not retract unless a release is unusable; publish a patch instead. There are currently no retracted versions. |

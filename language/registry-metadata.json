@@ -72,14 +72,14 @@
   "Dart": {
     "dir": "language/dart",
     "docs": "https://axisvela.github.io/praxo-core/languages/dart/",
-    "install": "dart pub add praxo_core:0.8.0",
+    "install": "dart pub add praxo_core:0.8.1",
     "package": "praxo_core",
     "published_version": "0.8.0",
     "registry": "pub.dev",
     "source_install": "dart pub add praxo_core --path language/dart",
-    "source_version": "0.8.0",
+    "source_version": "0.8.1",
     "status": "published",
-    "tag": "dart/v0.8.0",
+    "tag": "dart/v0.8.1",
     "tier": "Core",
     "url": "https://pub.dev/packages/praxo_core/versions/0.8.0"
   },
