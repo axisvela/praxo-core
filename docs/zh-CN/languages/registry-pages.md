@@ -44,7 +44,7 @@ crates.io、NuGet、RubyGems、Packagist、Hex、pub.dev 等 Registry 页面，�
 
 2026-11-26 已将 GitHub Latest 恢复到现有的
 [Go `v2.9.0` Release](https://github.com/axisvela/praxo-core/releases/tag/v2.9.0)。
-Go proxy 已有 `v2.11.1`，对应 GitHub Release 已发布为 latest。此次仅修正语言发布占用
+Go proxy 已有 `v2.11.2`，对应 GitHub Release 已发布为 latest。此次仅修正语言发布占用
 Latest 的问题，不代表已补齐 Core Release 或修复不可变包 README 快照。
 `scripts/check_public_release.py` 独立检查线上 Latest 和预期 Core Release。
 
@@ -53,7 +53,7 @@ Latest 的问题，不代表已补齐 Core Release 或修复不可变包 README 
 
 | 语言 | 发布证据 | 已发布版本 | 观察到的缺陷 | 验收 |
 | --- | --- | --- | --- | --- |
-| Go | [pkg.go.dev](https://pkg.go.dev/github.com/axisvela/praxo-core/v2@v2.11.1) | `v2.11.1` | README 安装 `@v2.11.1` 并声明 `v2.11.1` 为当前版本 | 页面复审待完成 |
+| Go | [pkg.go.dev](https://pkg.go.dev/github.com/axisvela/praxo-core/v2@v2.11.2) | `v2.11.2` | README 安装 `@v2.11.2` 并声明 `v2.11.2` 为当前版本 | 页面复审待完成 |
 | Python | [PyPI](https://pypi.org/project/praxo-core/0.11.0/) | `0.11.0` | 包内 README 安装 `0.9.1` | 未通过 |
 | TypeScript | [npm](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.10.0) | `0.10.0` | 包内 README 安装 `0.8.1` | 未通过 |
 | Java | [Maven POM](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.12.0/praxo-core-0.12.0.pom) | `0.12.0` | SCM tag 为 `java/v0.10.0` | 未通过 |
@@ -63,7 +63,7 @@ Latest 的问题，不代表已补齐 Core Release 或修复不可变包 README 
 | Haskell | [Hackage](https://hackage.haskell.org/package/praxo-core-0.9.0) | `0.9.0` | 包内 README 安装 `0.7.1` | 未通过 |
 
 Go 发布文档日期为 2026-11-27；
-[proxy 发布时间戳](https://proxy.golang.org/github.com/axisvela/praxo-core/v2/@v/v2.11.1.info)
+[proxy 发布时间戳](https://proxy.golang.org/github.com/axisvela/praxo-core/v2/@v/v2.11.2.info)
 为 2026-11-27 UTC，均不支持此前的 2026-11-16 页面验收或 2026-11-20 发布日期。
 本次不声称远端修复完成。
 

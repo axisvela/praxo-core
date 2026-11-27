@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.11.2] - 2026-11-27
+
+Source tag `v2.11.2`.
+
+### Fixed
+
+- Refresh public registry evidence links and release metadata to the current
+  published versions. No API or wire change.
+
 ## [2.11.1] - 2026-11-27
 
 Source tag `v2.11.1`.

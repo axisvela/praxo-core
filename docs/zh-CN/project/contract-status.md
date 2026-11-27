@@ -1,6 +1,6 @@
 # 契约与证据状态
 
-**状态：** 公开规划参考，2026-11-27 更新；当前核心版本 `2.11.1`。本页定义路线图使用的状态词，并记录主要契约
+**状态：** 公开规划参考，2026-11-27 更新；当前核心版本 `2.11.2`。本页定义路线图使用的状态词，并记录主要契约
 领域的当前状态。它不是发布排期，也不扩大任何 API 或 Profile。
 
 ## 状态词
@@ -54,7 +54,7 @@
 | 编程 Agent 集成映射 | 已实现；版本由文档测试校验 | 包映射、集成契约与验证命令；不是安装渠道、自动 Skill 或采用证据 |
 | 编程 Agent 发现辅助 | 已实现；`llms.txt` 存在且链接由测试校验 | 机器可读仓库入口；不保证工具发现、搜索排序、安装或采用 |
 | 编程 Agent Skill 模板 | 实验；两项有范围的工具结果 | 工具中立的 `SKILL.md`。Claude Code `2.1.196` 于 2026-11-08（`bdd36d7`）在临时 home 中安装并列出 Skill 组件；该 CLI 未登录，因此未执行任务。opencode `1.18.18` 发现了项目本地副本，并用已发布 PyPI `praxo-core==0.3.2`、显式工具范围和 allow/deny 测试完成确定性 Python 任务（3/3 通过；模型 `deepseek/deepseek-flash`；2026-11-08，`7004a08`）。Codex、Copilot、自动安装、MCP 与运行时 Skill 行为仍未验证 |
-| Registry 页面元数据 | 版本已发布；2026-11-27 已对齐源码元数据、语言矩阵和公开证据链接；新版本的渲染页面复审仍待完成 | 当前 registry 版本与地址只记录在 [Registry 发布状态](../languages/registry-status.md)。Go `v2.11.1` 是当前发布版本；本页尚未记录其 pkg.go.dev 页面核对结果。源码层对齐不证明 registry 渲染页、下载产物或外部索引已刷新。 |
+| Registry 页面元数据 | 版本已发布；2026-11-27 已对齐源码元数据、语言矩阵和公开证据链接；新版本的渲染页面复审仍待完成 | 当前 registry 版本与地址只记录在 [Registry 发布状态](../languages/registry-status.md)。Go `v2.11.2` 是当前发布版本；本页尚未记录其 pkg.go.dev 页面核对结果。源码层对齐不证明 registry 渲染页、下载产物或外部索引已刷新。 |
 | 参考应用 | 八项优先级均已有源码实现；逐应用验收仍未完成 | 两个 PHP 作业于 2026-11-25 在 `45655799714`、`92ba764c` 通过；该运行因 C++ 失败而整体失败，其他应用跳过。`45720963270`、`f8242fb3` 仅通过 C++ 静态库构建，其他应用全部跳过。Java 仍未验证；Go/Rust 使用本地源码依赖，不是 registry 安装。七个托管真实模型参考应用运行不验证单独的托管 starter 路径，也不证明独立采用。运行时和效果限制见[验证证据](verification-evidence.md) |
 | 每语言 Registry 与编程 Agent 入口 | 已实现；生成并由链接测试校验 | 每个 `language/<language>/` 目录都有 `REGISTRY.md`、`llms.txt` 与 `llms.md`，并提供中央索引和 README 链接。npm、Python sdist、Cargo、NuGet、RubyGems、Hex、CPAN 与 Hackage 的允许清单已包含这些文件；Maven Central 仍以 POM 元数据为主。这是源码证据，不证明 Registry 页面已刷新 |
 | 编程 Agent 采用实验 | 已运行试点；完整基线未运行 | [采用基线协议](adoption-baseline.md)定义轨道、任务、指标与证据。一次 opencode `1.18.18` 与 `deepseek/deepseek-flash` 试点记录：指定集成在有无 Skill 时各通过一次；自由选型无 Skill 时 3/3 次未发现 PRAXO-CORE，有 Skill 时 3/3 次选择它；原不适用 workflow 任务超时且未计分，受限后续任务 3/3 次推荐非 Core workflow/sandbox 组合，并在有 Skill 时 3/3 次明确排除 PRAXO-CORE。预注册的 held-out 任务一次超时、每种条件三次完成：两种条件在全部完成试验中都选择 PRAXO-CORE，与无 Skill 时 3/3 regression 未发现的结果不一致；有 Skill 时一次试验需要一次修复。一次受限升级试点在源码不变的情况下安装 0.3.2 并通过 8/8 测试；后续任务将 `requirements.txt` 更新为 0.3.2，源码不变且 8/8 测试通过。后续变更后的留存仍未观察；不是采用证据 |
