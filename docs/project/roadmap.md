@@ -701,7 +701,7 @@ application jobs were skipped. Neither run is full portfolio acceptance.
 
 Priority 2 has a Spring Boot AI commerce source at
 [`language/java/application`](https://github.com/axisvela/praxo-core/tree/main/language/java/application).
-It uses published `com.axisvela:praxo-core:0.12.1` and implements intent ->
+It uses published `com.axisvela:praxo-core:0.12.2` and implements intent ->
 catalog/inventory -> cart draft -> review-only checkout, with checkout always
 denied. The source now records model rationale and `agent_trace`, but the local
 Windows JVM remains blocked, so it has not been compiled or tested locally and no

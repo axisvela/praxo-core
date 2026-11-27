@@ -546,7 +546,7 @@ AI-native 两个版本；其他语言直接实现 AI-native 流程，不再先�
 
 优先级 2 已有 Spring Boot AI 电商源码：
 [`language/java/application`](https://github.com/axisvela/praxo-core/tree/main/language/java/application)。
-它使用已发布 `com.axisvela:praxo-core:0.12.1`，实现意图 -> 商品/库存 -> 购物车草案 ->
+它使用已发布 `com.axisvela:praxo-core:0.12.2`，实现意图 -> 商品/库存 -> 购物车草案 ->
 仅审阅结算，checkout 始终拒绝。源码现已记录模型理由与 `agent_trace`，但本地 Windows JVM
 仍阻塞，因此尚未本地编译或测试，也没有真实模型运行记录；Linux CI 作业已添加但尚未运行。
 在该作业通过前，不把 Java 视为已验证。
