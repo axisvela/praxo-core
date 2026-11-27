@@ -1,6 +1,6 @@
 # MCP Client
 
-This example uses published NuGet `Praxo.Core==0.11.0` with an in-process MCP
+This example uses published NuGet `Praxo.Core==0.11.1` with an in-process MCP
 transport. It exercises the same `initialize`, `tools/list`, and `tools/call`
 flow as a stdio session without requiring another runtime.
 

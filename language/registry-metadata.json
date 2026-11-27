@@ -16,16 +16,16 @@
   "C#": {
     "dir": "language/csharp",
     "docs": "https://axisvela.github.io/praxo-core/languages/csharp/",
-    "install": "dotnet add package Praxo.Core --version 0.11.0",
+    "install": "dotnet add package Praxo.Core --version 0.11.1",
     "package": "Praxo.Core",
-    "published_version": "0.11.0",
+    "published_version": "0.11.1",
     "registry": "NuGet",
     "source_install": "ProjectReference to language/csharp/Praxo.Core",
-    "source_version": "0.11.0",
+    "source_version": "0.11.1",
     "status": "published",
-    "tag": "csharp/v0.11.0",
+    "tag": "csharp/v0.11.1",
     "tier": "Core",
-    "url": "https://www.nuget.org/packages/Praxo.Core/0.11.0"
+    "url": "https://www.nuget.org/packages/Praxo.Core/0.11.1"
   },
   "C++": {
     "dir": "language/cpp",

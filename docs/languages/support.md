@@ -112,7 +112,7 @@ acceptance, and no new consumer smoke or remote correction is claimed here.
 | TypeScript | `typescript/v0.10.0` | npm `@axisvela/praxo-core@0.10.0` published as `latest` | Historical docs CI upgrade to `0.9.0` passed; `0.10.0` consumer smoke not recorded |
 | Java | `java/v0.12.2` | Maven Central `com.axisvela:praxo-core:0.12.2` published | Historical `0.11.0` docs CI install passed on 2026-11-20 (run `44731906136`); `0.12.2` docs CI fresh consumer install passed (run `45967285657`) |
 | Rust | `rust/v0.11.1` | crates.io `praxo-core==0.11.1` published | README now includes scenario tutorials, reference-application status, and community links |
-| C# | `csharp/v0.11.0` | NuGet `Praxo.Core==0.11.0` published | Published-package install for `0.9.1` is historical; `0.11.0` smoke not recorded |
+| C# | `csharp/v0.11.1` | NuGet `Praxo.Core==0.11.1` published | Published-package install for `0.9.1` is historical; `0.11.1` smoke not recorded |
 | Elixir | `elixir/v0.11.1` | Hex `praxo_core==0.11.1` published | README reordered with tutorials, reference-application status, and community |
 | Erlang | `erlang/v0.10.1` | Hex `praxo_core_erlang==0.10.1` published | README includes scenario tutorials, reference-application status, and community |
 | Ruby | `ruby/v0.10.0` | RubyGems `praxo-core==0.10.0` published | Historical CI allow/deny passed for `0.9.2` on 2026-11-21 (run `44913820352`); `0.10.0` smoke not recorded |
@@ -144,7 +144,7 @@ its latest version matches the manifest at the release tag.
 | TypeScript | 0.10.0 | npm `0.10.0` | version matches; README stale |
 | Java | 0.12.2 | Maven Central `0.12.2` | version matches; SDK version corrected |
 | Rust | 0.11.1 | crates.io `0.11.1` | version matches; README updated |
-| C# | 0.11.0 | NuGet `0.11.0` | version matches; README stale |
+| C# | 0.11.1 | NuGet `0.11.1` | version matches; README updated |
 | Elixir | 0.11.1 | Hex `0.11.1` | version matches |
 | Erlang | 0.10.1 | Hex `0.10.1` | version matches |
 | Ruby | 0.10.0 | RubyGems `0.10.0` | version matches |
