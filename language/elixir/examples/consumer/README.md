@@ -1,6 +1,6 @@
 # Independent Elixir Consumer
 
-This module uses published Hex `praxo_core` `0.11.0` and verifies an allow/deny
+This module uses published Hex `praxo_core` `0.11.1` and verifies an allow/deny
 governed tool path without local replacements.
 
 This is the recommended package pin, not new execution evidence. The consumer

@@ -100,14 +100,14 @@
   "Elixir": {
     "dir": "language/elixir",
     "docs": "https://axisvela.github.io/praxo-core/languages/elixir/",
-    "install": "{:praxo_core, \"~> 0.11.0\"}",
+    "install": "{:praxo_core, \"~> 0.11.1\"}",
     "package": "praxo_core",
     "published_version": "0.11.0",
     "registry": "Hex",
     "source_install": "{:praxo_core, path: \"language/elixir\"}",
-    "source_version": "0.11.0",
+    "source_version": "0.11.1",
     "status": "published",
-    "tag": "elixir/v0.11.0",
+    "tag": "elixir/v0.11.1",
     "tier": "Core",
     "url": "https://hex.pm/packages/praxo_core/0.11.0"
   },

@@ -1,7 +1,7 @@
 # PRAXO-CORE for Elixir
 
 PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its
-native Elixir Core with source tag `elixir/v0.11.0`. It passes all eleven shared
+native Elixir Core with source tag `elixir/v0.11.1`. It passes all eleven shared
 vector groups with `Elixir 1.20.4` on `Erlang/OTP 29` and includes the native
 agent loop, context compaction, memory store, path policy, checkpoint allowlist,
 tool-call parsing, and opt-in tool selection, PII redaction, structured output
@@ -22,24 +22,21 @@ are included; plugin hosts remain outside the declared Core scope.
 and `finish_reason`, and invokes the delta callback. Inject `stream_transport`
 to return raw SSE text. Set `on_delta` in `AgentOptions` to use it.
 
-The latest Hex package is `praxo_core@0.11.0`. HexDocs:
-<https://praxo-core.hexdocs.pm/0.11.0/>.
+The latest Hex package is `praxo_core@0.11.1`. HexDocs:
+<https://praxo-core.hexdocs.pm/0.11.1/>.
 
-## Registry and Coding-Agent Entry
+## Install
 
-- Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/language/elixir/REGISTRY.md)
-- Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/elixir/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/elixir/llms.md)
-- [Examples](https://github.com/axisvela/praxo-core/tree/main/language/elixir/examples): runnable language-specific examples.
-- Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
-- Registry: [Hex](https://hex.pm/packages/praxo_core/0.11.0)
-- Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761) · [LinkedIn](https://www.linkedin.com/company/axisvela/) · [Facebook](https://www.facebook.com/profile.php?id=61596905732406) · [YouTube](https://www.youtube.com/@axisvela) · [Discord](https://discord.com/channels/1575163993767809064/1575164343148875977) · [GitHub Discussions](https://github.com/axisvela/praxo-core/discussions) · [GitHub Issues](https://github.com/axisvela/praxo-core/issues) · [Documentation](https://axisvela.github.io/praxo-core/) · [Architect](https://axisvela.architect.pub)
+```elixir
+{:praxo_core, "~> 0.11.1"}
+```
 
 ## Get started
 
 Install the published package:
 
 ```bash
-{:praxo_core, "~> 0.11.0"}
+{:praxo_core, "~> 0.11.1"}
 ```
 
 Then run the smallest deterministic example:
@@ -71,54 +68,35 @@ Runnable examples live under [`language/elixir/examples`](https://github.com/axi
 | Add provider fallback | [provider-fallback](https://github.com/axisvela/praxo-core/tree/main/language/elixir/examples/provider-fallback) |
 | Observe agent events | [event-sink](https://github.com/axisvela/praxo-core/tree/main/language/elixir/examples/event-sink) |
 
-## Install
+## Tutorials and Reference Applications
 
-```elixir
-{:praxo_core, "~> 0.11.0"}
-```
+Language-specific scenario tutorials and reference applications for Elixir.
 
-## Harmovela Event Sink
+### Scenario Tutorials
 
-`Praxo.HarmovelaSink` posts lifecycle events to `{base_url}/events` as JSON
-envelopes with `spec_version`, `id`, `type`, `source`, `created_at`, and a
-payload that merges the event data with `session_id` and `run_id` when present.
+| Tutorial | What it shows |
+| --- | --- |
+| [aiops-rca](https://github.com/axisvela/praxo-core/tree/main/language/elixir/Tutorial/aiops-rca) | Fixed trace/metric/log signals yield suspect `checkout-api` and a review-only rollback. No live telemetry or remediation. |
+| [community-governance](https://github.com/axisvela/praxo-core/tree/main/language/elixir/Tutorial/community-governance) | Fixed issues produce four classified items and a review-only reviewer request. No GitHub API, closure or impersonation. |
+| [knowledge-maintenance](https://github.com/axisvela/praxo-core/tree/main/language/elixir/Tutorial/knowledge-maintenance) | A bounded first slice of [OP-03](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an autonomous Wiki service. It diffs two fixed knowledge versions,... |
+| [soc-correlation](https://github.com/axisvela/praxo-core/tree/main/language/elixir/Tutorial/soc-correlation) | Fixed EDR/firewall events produce a critical count; one critical event selects an isolation review, clean input selects monitoring. No host blocking. |
 
-```elixir
-sink =
-  Praxo.HarmovelaSink.new(
-    base_url: "http://127.0.0.1:8790/aep/api"
-  )
+Index: [language/elixir/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/elixir/Tutorial).
 
-options = %{Praxo.Agent.new_agent_options(model) | events: sink}
-```
+### Reference Applications
 
-Pass `transport` as a one-argument function that receives the request map and
-returns `{:ok, status, body}` or `{:error, reason}` to run without network
-access. Limits: the sink adds no authentication, retries, buffering,
-acknowledgements, ordering, or exactly-once delivery. Filter sensitive event
-data at the caller, and use HTTPS for remote endpoints.
+No accepted end-to-end reference application is recorded for this language yet. Candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
 
-## Build And Test
+Planning context: [Tutorial Plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/), [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), and [Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/). Chinese: [教程计划](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/), [候选场景](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/), [教程目录](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/).
 
-From `language/elixir`:
+## Registry and Coding-Agent Entry
 
-```bash
-elixirc -o build/ebin lib/praxo/*.ex lib/praxo/adapters/*.ex
-elixir -pa build/ebin tests/run_tests.exs
-cd ../..
-python language/elixir/api-snapshot.py --check
-elixir -pa language/elixir/build/ebin language/elixir/conformance/run.exs
-```
-
-The conformance runner reads `spec/` from the repository root. On PowerShell,
-expand the source files explicitly:
-
-```powershell
-elixirc -o build/ebin (Get-ChildItem lib/praxo/*.ex).FullName
-```
-
-The complete local environment procedure, including manual Erlang and Elixir
-installation, is in [SETUP.md](SETUP.md).
+- Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/language/elixir/REGISTRY.md)
+- Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/elixir/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/elixir/llms.md)
+- [Examples](https://github.com/axisvela/praxo-core/tree/main/language/elixir/examples): runnable language-specific examples.
+- Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
+- Registry: [Hex](https://hex.pm/packages/praxo_core/0.11.0)
+- Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761) · [LinkedIn](https://www.linkedin.com/company/axisvela/) · [Facebook](https://www.facebook.com/profile.php?id=61596905732406) · [YouTube](https://www.youtube.com/@axisvela) · [Discord](https://discord.com/channels/1575163993767809064/1575164343148875977) · [GitHub Discussions](https://github.com/axisvela/praxo-core/discussions) · [GitHub Issues](https://github.com/axisvela/praxo-core/issues) · [Documentation](https://axisvela.github.io/praxo-core/) · [Architect](https://axisvela.architect.pub)
 
 ## API
 
@@ -217,6 +195,27 @@ Tool selection and existence are checked before consuming the tool budget.
 Counters reset on every run, including when returned options are reused. These
 limits do not restrict direct calls or external work performed by callbacks.
 
+## Harmovela Event Sink
+
+`Praxo.HarmovelaSink` posts lifecycle events to `{base_url}/events` as JSON
+envelopes with `spec_version`, `id`, `type`, `source`, `created_at`, and a
+payload that merges the event data with `session_id` and `run_id` when present.
+
+```elixir
+sink =
+  Praxo.HarmovelaSink.new(
+    base_url: "http://127.0.0.1:8790/aep/api"
+  )
+
+options = %{Praxo.Agent.new_agent_options(model) | events: sink}
+```
+
+Pass `transport` as a one-argument function that receives the request map and
+returns `{:ok, status, body}` or `{:error, reason}` to run without network
+access. Limits: the sink adds no authentication, retries, buffering,
+acknowledgements, ordering, or exactly-once delivery. Filter sensitive event
+data at the caller, and use HTTPS for remote endpoints.
+
 ## MCP Client
 
 `Praxo.Mcp` spawns a child process over newline-delimited JSON-RPC 2.0 using an
@@ -249,6 +248,29 @@ is untrusted content. Timeouts and caller cancellation send
 `Praxo.PluginProcess` speaks the framework JSON-Lines process plugin protocol
 with token authentication, health handshake, invocation timeout, cooperative
 cancel, and typed call errors.
+
+## Build And Test
+
+From `language/elixir`:
+
+```bash
+elixirc -o build/ebin lib/praxo/*.ex lib/praxo/adapters/*.ex
+elixir -pa build/ebin tests/run_tests.exs
+cd ../..
+python language/elixir/api-snapshot.py --check
+elixir -pa language/elixir/build/ebin language/elixir/conformance/run.exs
+```
+
+The conformance runner reads `spec/` from the repository root. On PowerShell,
+expand the source files explicitly:
+
+```powershell
+elixirc -o build/ebin (Get-ChildItem lib/praxo/*.ex).FullName
+```
+
+The complete local environment procedure, including manual Erlang and Elixir
+installation, is in [SETUP.md](SETUP.md).
+
 ## Current Limits
 
 - Verified with `Elixir 1.20.4` and `Erlang/OTP 29` on Windows and in Linux CI.
@@ -277,28 +299,6 @@ See [CHANGELOG.md](CHANGELOG.md) for per-release changes and compatibility notes
 See [language policy](../../docs/contributing/language-policy.md),
 [parity inventory](../../spec/parity/elixir.md), and
 [implementation support](../../docs/languages/support.md).
-
-
-## Tutorials and Reference Applications
-
-Language-specific scenario tutorials and reference applications for Elixir.
-
-### Scenario Tutorials
-
-| Tutorial | What it shows |
-| --- | --- |
-| [aiops-rca](https://github.com/axisvela/praxo-core/tree/main/language/elixir/Tutorial/aiops-rca) | Fixed trace/metric/log signals yield suspect `checkout-api` and a review-only rollback. No live telemetry or remediation. |
-| [community-governance](https://github.com/axisvela/praxo-core/tree/main/language/elixir/Tutorial/community-governance) | Fixed issues produce four classified items and a review-only reviewer request. No GitHub API, closure or impersonation. |
-| [knowledge-maintenance](https://github.com/axisvela/praxo-core/tree/main/language/elixir/Tutorial/knowledge-maintenance) | A bounded first slice of [OP-03](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an autonomous Wiki service. It diffs two fixed knowledge versions,... |
-| [soc-correlation](https://github.com/axisvela/praxo-core/tree/main/language/elixir/Tutorial/soc-correlation) | Fixed EDR/firewall events produce a critical count; one critical event selects an isolation review, clean input selects monitoring. No host blocking. |
-
-Index: [language/elixir/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/elixir/Tutorial).
-
-### Reference Applications
-
-No accepted end-to-end reference application is recorded for this language yet. Candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
-
-Planning context: [Tutorial Plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/), [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), and [Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/). Chinese: [教程计划](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/), [候选场景](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/), [教程目录](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/).
 
 ## Community
 

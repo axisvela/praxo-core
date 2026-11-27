@@ -81,7 +81,7 @@ Kotlin、VB.NET、Scala 等仅示例实现保留在本仓库，作为宿主 Core
 | Java | `java/v0.12.0` | Maven Central `com.axisvela:praxo-core:0.12.0` 已发布 | 历史 `0.11.0` docs CI 安装于 2026-11-20 通过（run `44731906136`）；未记录 `0.12.0` smoke |
 | Rust | `rust/v0.11.1` | crates.io `praxo-core==0.11.1` 已发布 | README 已包含场景教程、参考应用状态和社区链接 |
 | C# | `csharp/v0.11.0` | NuGet `Praxo.Core==0.11.0` 已发布 | `0.9.1` 安装为历史记录；未记录 `0.11.0` smoke |
-| Elixir | `elixir/v0.11.0` | Hex `praxo_core==0.11.0` 已发布 | 历史 Mix 安装覆盖 `0.4.1`；未记录 `0.11.0` smoke |
+| Elixir | `elixir/v0.11.1` | Hex `praxo_core==0.11.0` 已发布 | 0.11.1 发布待完成；历史 Mix 安装覆盖 `0.4.1`；未记录 `0.11.0` smoke |
 | Erlang | `erlang/v0.10.1` | Hex `praxo_core_erlang==0.10.1` 已发布 | README 包含场景教程、参考应用状态和社区信息 |
 | Ruby | `ruby/v0.10.0` | RubyGems `praxo-core==0.10.0` 已发布 | 历史 CI 于 2026-11-21 通过 `0.9.2` allow/deny（run `44913820352`）；未记录 `0.10.0` smoke |
 | Lua | `lua/v0.9.1` | LuaRocks `praxo-core==0.9.1-1` 已发布 | `0.9.1-1` 增加与 README 同步的 rockspec 描述；未记录 `0.9.0-1` smoke |
@@ -113,7 +113,7 @@ Kotlin、VB.NET、Scala 等仅示例实现保留在本仓库，作为宿主 Core
 | Java | 0.12.0 | Maven Central `0.12.0` | 版本一致；POM SCM 陈旧 |
 | Rust | 0.11.1 | crates.io `0.11.1` | 版本一致；README 已更新 |
 | C# | 0.11.0 | NuGet `0.11.0` | 版本一致；README 陈旧 |
-| Elixir | 0.11.0 | Hex `0.11.0` | 版本一致 |
+| Elixir | 0.11.1 | Hex `0.11.0` | 0.11.1 发布待完成 |
 | Erlang | 0.10.1 | Hex `0.10.1` | 版本一致 |
 | Ruby | 0.10.0 | RubyGems `0.10.0` | 版本一致 |
 | PHP | 0.10.0 | Packagist `0.10.0` | 版本一致 |

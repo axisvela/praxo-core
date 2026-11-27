@@ -1,5 +1,16 @@
 # Elixir Core Release Notes
 
+## 0.11.1 - 2026-11-27
+
+Source tag `elixir/v0.11.1`.
+
+### Changed
+
+- Reorder the README so install, quickstart, examples, tutorials, and reference
+  applications appear before internals, and publish the scenario tutorials,
+  reference-application status, and community links on the Hex page. No public
+  API or wire change.
+
 ## 0.11.0 - 2026-11-26
 
 Source tag `elixir/v0.11.0`.
