@@ -152,6 +152,47 @@ optional。当前覆盖见[行为实验](docs/zh-CN/languages/behavior-lab.md)�
 [文档示例页](docs/zh-CN/getting-started/examples.md)和
 [language/go/examples/README.md](language/go/examples/README.md)。
 
+## 场景教程与参考应用
+
+场景教程是有界的教学切片；参考应用是组合级集成，源码实现已存在，端到端验收仍由路线图跟踪。
+
+### 场景教程
+
+| 场景 | 语言 | 教程 |
+| --- | --- | --- |
+| SE-01 全栈开发 | Go | [fullstack-workspace](language/go/Tutorial/fullstack-workspace) |
+| SE-02 缺陷诊断与修复 | Python | [bug-repair](language/python/Tutorial/bug-repair) |
+| SE-03 遗留系统重构与迁移 | Java | [legacy-migration](language/java/Tutorial/legacy-migration) |
+| SE-04 测试生成 | C# | [test-generation](language/csharp/Tutorial/test-generation) |
+| SE-05 代码审查与安全审计 | Go | [evidence-vault](language/go/Tutorial/evidence-vault)、[soc-alert-triage](language/go/Tutorial/soc-alert-triage) |
+| SE-06 AIOps 根因分析与修复 | Erlang | [aiops-rca](language/erlang/Tutorial/aiops-rca)、[otp-recovery](language/erlang/Tutorial/otp-recovery) |
+| SE-07 云与 FinOps 治理 | Ruby | [finops-review](language/ruby/Tutorial/finops-review) |
+| SE-08 API 编排 | PHP | [api-orchestration](language/php/Tutorial/api-orchestration) |
+| OP-01 服务台 | C# | [internal-service-desk](language/csharp/Tutorial/internal-service-desk) |
+| OP-03 知识维护 | Python | [office-qa](language/python/Tutorial/office-qa) |
+| OP-04 跨系统 RPA | Java | [rpa-reconciliation](language/java/Tutorial/rpa-reconciliation) |
+| OP-05 招聘匹配 | Ruby | [recruiting-match](language/ruby/Tutorial/recruiting-match) |
+| OP-06 员工入职 | Dart | [onboarding-plan](language/dart/Tutorial/onboarding-plan) |
+| OP-07 高管经营简报 | R | [executive-brief](language/r/Tutorial/executive-brief) |
+
+完整列表见[100 个候选 Agent 场景](docs/zh-CN/getting-started/agent-scenarios.md)与
+[统一教程目录](docs/zh-CN/getting-started/tutorial-catalog.md)。
+
+### 参考应用
+
+| 优先级 | 语言 | 应用 | 状态 |
+| --- | --- | --- | --- |
+| 1 | PHP | [Drupal/Laravel 内容门户](language/php/application) | 源码实现；端到端验收待完成 |
+| 2 | Java | [Spring Boot 电商](language/java/application) | 源码实现；端到端验收待完成 |
+| 3 | Elixir / Erlang | [OTP 实时运维](language/elixir/application)、[Erlang](language/erlang/application) | 源码实现；端到端验收待完成 |
+| 4 | Go | [云与 DevOps](language/go/application) | 源码实现；端到端验收待完成 |
+| 5 | C++ / Rust | [工业/嵌入式](language/cpp/application)、[系统/边缘](language/rust/application) | 源码实现；端到端验收待完成 |
+| 6 | COBOL | [批处理异常分析](language/cobol/application) | 源码实现；端到端验收待完成 |
+| 7 | Julia | [科学计算](language/julia/application) | 源码实现；端到端验收待完成 |
+| 8 | Ruby | [Rails 后台](language/ruby/application) | 源码实现；端到端验收待完成 |
+
+验收标准与当前限制见[参考应用组合](docs/zh-CN/project/roadmap.md)。
+
 ## 仓库导览
 
 | 位置 | 职责 |
