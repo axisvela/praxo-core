@@ -1,5 +1,15 @@
 # TypeScript Core Release Notes
 
+## 0.10.1 - 2026-11-27
+
+Source tag `typescript/v0.10.1`.
+
+### Changed
+
+- Reorder the package README so examples, scenario tutorials, reference
+  applications, and community links appear before internal implementation
+  details. No API or wire change.
+
 ## 0.10.0 - 2026-11-26
 
 Source tag `typescript/v0.10.0`.

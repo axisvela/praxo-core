@@ -109,7 +109,7 @@ acceptance, and no new consumer smoke or remote correction is claimed here.
 | --- | --- | --- | --- |
 | Go | 2.11.3 | Go proxy `v2.11.3` | version matches; README updated |
 | Python | `python/v0.11.0` | PyPI `praxo-core==0.11.0` published | Historical docs CI upgrade to `0.10.0` passed; `0.11.0` consumer smoke not recorded |
-| TypeScript | `typescript/v0.10.0` | npm `@axisvela/praxo-core@0.10.0` published as `latest` | Historical docs CI upgrade to `0.9.0` passed; `0.10.0` consumer smoke not recorded |
+| TypeScript | `typescript/v0.10.1` | npm `@axisvela/praxo-core@0.10.1` published as `latest` | Historical docs CI upgrade to `0.9.0` passed; `0.10.1` consumer smoke not recorded |
 | Java | `java/v0.12.2` | Maven Central `com.axisvela:praxo-core:0.12.2` published | Historical `0.11.0` docs CI install passed on 2026-11-20 (run `44731906136`); `0.12.2` docs CI fresh consumer install passed (run `45967285657`) |
 | Rust | `rust/v0.11.1` | crates.io `praxo-core==0.11.1` published | README now includes scenario tutorials, reference-application status, and community links |
 | C# | `csharp/v0.11.1` | NuGet `Praxo.Core==0.11.1` published | Published-package install for `0.9.1` is historical; `0.11.1` smoke not recorded |
@@ -141,7 +141,7 @@ its latest version matches the manifest at the release tag.
 | --- | --- | --- | --- |
 | Go | 2.11.3 | Go proxy `v2.11.3` | version matches; README updated |
 | Python | 0.11.0 | PyPI `0.11.0` | version matches; README stale |
-| TypeScript | 0.10.0 | npm `0.10.0` | version matches; README stale |
+| TypeScript | 0.10.1 | npm `0.10.1` | version matches; README updated |
 | Java | 0.12.2 | Maven Central `0.12.2` | version matches; SDK version corrected |
 | Rust | 0.11.1 | crates.io `0.11.1` | version matches; README updated |
 | C# | 0.11.1 | NuGet `0.11.1` | version matches; README updated |
