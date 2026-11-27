@@ -113,7 +113,7 @@ acceptance, and no new consumer smoke or remote correction is claimed here.
 | Java | `java/v0.12.0` | Maven Central `com.axisvela:praxo-core:0.12.0` published | Historical `0.11.0` docs CI install passed on 2026-11-20 (run `44731906136`); `0.12.0` consumer smoke not recorded |
 | Rust | `rust/v0.11.1` | crates.io `praxo-core==0.11.1` published | README now includes scenario tutorials, reference-application status, and community links |
 | C# | `csharp/v0.11.0` | NuGet `Praxo.Core==0.11.0` published | Published-package install for `0.9.1` is historical; `0.11.0` smoke not recorded |
-| Elixir | `elixir/v0.11.1` | Hex `praxo_core==0.11.0` published | 0.11.1 publication pending; earlier clean Mix install covered `0.4.1`; `0.11.0` smoke not recorded |
+| Elixir | `elixir/v0.11.1` | Hex `praxo_core==0.11.1` published | README reordered with tutorials, reference-application status, and community |
 | Erlang | `erlang/v0.10.1` | Hex `praxo_core_erlang==0.10.1` published | README includes scenario tutorials, reference-application status, and community |
 | Ruby | `ruby/v0.10.0` | RubyGems `praxo-core==0.10.0` published | Historical CI allow/deny passed for `0.9.2` on 2026-11-21 (run `44913820352`); `0.10.0` smoke not recorded |
 | Lua | `lua/v0.9.1` | LuaRocks `praxo-core==0.9.1-1` published | `0.9.1-1` adds the README-synced rockspec description; `0.9.0-1` smoke not recorded |
@@ -145,7 +145,7 @@ its latest version matches the manifest at the release tag.
 | Java | 0.12.0 | Maven Central `0.12.0` | version matches; POM SCM stale |
 | Rust | 0.11.1 | crates.io `0.11.1` | version matches; README updated |
 | C# | 0.11.0 | NuGet `0.11.0` | version matches; README stale |
-| Elixir | 0.11.1 | Hex `0.11.0` | 0.11.1 publication pending |
+| Elixir | 0.11.1 | Hex `0.11.1` | version matches |
 | Erlang | 0.10.1 | Hex `0.10.1` | version matches |
 | Ruby | 0.10.0 | RubyGems `0.10.0` | version matches |
 | PHP | 0.10.0 | Packagist `0.10.0` | version matches |

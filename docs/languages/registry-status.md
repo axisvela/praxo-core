@@ -46,7 +46,7 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 | C# | NuGet | `0.11.0` | https://www.nuget.org/packages/Praxo.Core/0.11.0 | published; README defect recorded in page audit |
 | C | xmake | `0.13.0` | https://packages.xmake.io/packages/praxo-core | published on xmake; source `c/v0.14.0`; vcpkg and Conan pending |
 | C++ | xmake | `0.9.0` | https://packages.xmake.io/packages/praxo-core-cpp | published on xmake; source `cpp/v0.10.0`; vcpkg and Conan pending |
-| Elixir | Hex / HexDocs | `0.11.0` | https://hex.pm/packages/praxo_core/0.11.0; https://praxo-core.hexdocs.pm/0.11.0/ | published |
+| Elixir | Hex / HexDocs | `0.11.1` | https://hex.pm/packages/praxo_core/0.11.1; https://praxo-core.hexdocs.pm/0.11.1/ | published; README reordered with tutorials, reference-application status, and community |
 | Erlang | Hex | `0.10.1` | https://hex.pm/packages/praxo_core_erlang/0.10.1 | published; README includes scenario tutorials, reference-application status, and community |
 | Ruby | RubyGems | `0.10.0` | https://rubygems.org/gems/praxo-core/versions/0.10.0 | published; split source repo `axisvela/praxo-core-ruby` tagged `v0.10.0` |
 | Lua | LuaRocks | `0.9.1-1` | https://luarocks.org/modules/hanhhuiwen/praxo-core/0.9.1-1 | published; split repository `v0.9.1` tagged |

@@ -2,9 +2,9 @@
 
 ## Status
 
-`praxo_core==0.11.1` is the current source release from tag `elixir/v0.11.1`
-by `.github/workflows/elixir-release.yml`. Hex currently publishes `0.11.0`;
-`0.11.1` publication is pending. HexDocs will be published at
+`praxo_core==0.11.1` is published from source tag `elixir/v0.11.1` by
+`.github/workflows/elixir-release.yml`. The Hex README is reordered and includes
+scenario tutorials, reference-application status, and community links. HexDocs:
 <https://praxo-core.hexdocs.pm/0.11.1/>.
 
 ## Build

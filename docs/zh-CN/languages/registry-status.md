@@ -39,7 +39,7 @@ GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
 | C# | NuGet | `0.11.0` | https://www.nuget.org/packages/Praxo.Core/0.11.0 | 已发布；README 缺陷见页面审计 |
 | C | xmake | `0.13.0` | https://packages.xmake.io/packages/praxo-core | xmake 已发布；源码 `c/v0.14.0`；vcpkg 与 Conan 待完成 |
 | C++ | xmake | `0.9.0` | https://packages.xmake.io/packages/praxo-core-cpp | xmake 已发布；源码 `cpp/v0.10.0`；vcpkg 与 Conan 待完成 |
-| Elixir | Hex / HexDocs | `0.11.0` | https://hex.pm/packages/praxo_core/0.11.0; https://praxo-core.hexdocs.pm/0.11.0/ | 已发布 |
+| Elixir | Hex / HexDocs | `0.11.1` | https://hex.pm/packages/praxo_core/0.11.1; https://praxo-core.hexdocs.pm/0.11.1/ | 已发布；README 已重排并包含教程、参考应用状态和社区信息 |
 | Erlang | Hex | `0.10.1` | https://hex.pm/packages/praxo_core_erlang/0.10.1 | 已发布；README 包含场景教程、参考应用状态和社区信息 |
 | Ruby | RubyGems | `0.10.0` | https://rubygems.org/gems/praxo-core/versions/0.10.0 | 已发布；split 源码仓库 `axisvela/praxo-core-ruby` 已打 tag `v0.10.0` |
 | Lua | LuaRocks | `0.9.1-1` | https://luarocks.org/modules/hanhhuiwen/praxo-core/0.9.1-1 | 已发布；split 仓库 `v0.9.1` 已打 tag |
