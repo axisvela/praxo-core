@@ -361,7 +361,7 @@ name the version that was actually installed.
 - [@axisvela/praxo-core 0.10.0 on npm](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.10.0)
 - [praxo-core 0.11.1 on crates.io](https://crates.io/crates/praxo-core/0.11.1)
 - [praxo_core 0.8.2 on pub.dev](https://pub.dev/packages/praxo_core/versions/0.8.2)
-- [praxo-core 0.10.1 on RubyGems](https://rubygems.org/gems/praxo-core/versions/0.10.1)
+- [praxo-core 0.10.2 on RubyGems](https://rubygems.org/gems/praxo-core/versions/0.10.2)
 - [praxo-core 0.9.1-1 on LuaRocks](https://luarocks.org/modules/hanhhuiwen/praxo-core/0.9.1-1)
 - [praxo_core 0.11.1 on Hex](https://hex.pm/packages/praxo_core/0.11.1)
 - [Praxo.Core 0.11.1 on NuGet](https://www.nuget.org/packages/Praxo.Core/0.11.1)
