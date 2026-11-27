@@ -204,7 +204,7 @@
     "registry": "Julia General (pending)",
     "source_install": "Pkg.develop(path=\"language/julia\")",
     "source_version": "0.9.0",
-    "status": "not published; General registry merge pending; mirror 0.9.0 tagged",
+    "status": "not published; General registry PR updated to 0.9.0; merge pending; mirror 0.9.0 tagged",
     "tag": "julia/v0.9.0",
     "tier": "Core",
     "url": "https://github.com/axisvela/PraxoCore.jl"

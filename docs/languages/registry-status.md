@@ -64,7 +64,7 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 
 | Language | Registry | Version | Address | Status |
 | --- | --- | --- | --- | --- |
-| Julia | Julia General Registry | not registered | https://github.com/JuliaRegistries/General/pull/176393 | PR open for `0.7.0`, not merged; mirror tagged `0.9.0`; mirror tag is not General availability |
+| Julia | Julia General Registry | not registered | https://github.com/JuliaRegistries/General/pull/176393 | PR updated to `0.9.0`, pending review; mirror tagged `0.9.0`; mirror tag is not General availability |
 | Octave | Octave Packages | `0.9.0` | https://github.com/axisvela/praxo-core/releases/tag/octave%2Fv0.9.0 | 0.9.0 release tarball published; package index PR pending |
 | V | VPM | unverified | https://github.com/axisvela/praxo-core-v | registry availability unverified; split repo `0.8.0` tagged; VPM submission pending |
 | Delphi / Free Pascal | OPM / GitHub release | `0.9.0` | https://github.com/axisvela/praxo-core/releases/tag/delphi%2Fv0.9.0 | 0.9.0 OPM assets published; OPM listing pending |

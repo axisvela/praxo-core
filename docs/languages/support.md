@@ -121,7 +121,7 @@ acceptance, and no new consumer smoke or remote correction is claimed here.
 | Dart | `dart/v0.8.0` | pub.dev `praxo_core==0.8.0` published | Prior clean `0.6.1` smoke passed; `0.8.0` smoke not recorded |
 | D | `d/v0.8.0` | DUB `praxo-core==0.8.0` published | Consumer smoke not recorded for `0.8.0` |
 | Swift | `swift/v0.9.0` | SPI split package `0.7.2` indexed; split repository tagged `0.9.0` with streaming scope; SPI re-index pending | Local Windows full test blocked; typecheck passed; consumer smoke not recorded |
-| Julia | `julia/v0.9.0` | General Registry PR #176393 open; merge pending | Not recorded |
+| Julia | `julia/v0.9.0` | General Registry PR #176393 updated to 0.9.0; merge pending | Not recorded |
 | MATLAB | `matlab/v0.9.0` | MATLAB File Exchange `185166` published (`0.9.1`) | Citation still `0.2.1`; broad compatibility and native MATLAB execution unverified |
 | Octave | `octave/v0.9.0` | Octave `0.9.0` release tarball published; Octave Packages PR #875 pending | Not recorded; Octave 11.3.0 local execution only |
 | R | `r/v0.12.0` | r-universe `praxocore==0.12.0` published; CRAN not published | Actual build HEAD `9b417e3`; checks include warnings, not all clean. Post-publication consumer install not recorded; CRAN requires `R CMD check --as-cran` |
@@ -151,7 +151,7 @@ its latest version matches the manifest at the release tag.
 | PHP | 0.10.0 | Packagist `0.10.0` | version matches |
 | Lua | 0.9.0-1 | LuaRocks `0.9.0-1` | version matches |
 | Dart | 0.8.0 | pub.dev `0.8.0` | version matches; README stale |
-| Julia | 0.9.0 | General Registry PR #176393 open; merge pending | pending |
+| Julia | 0.9.0 | General Registry PR #176393 updated; merge pending | PR targets 0.9.0; pending |
 | MATLAB | 0.9.0 | File Exchange `185166` (`0.9.1`) | different source/registry versions; citation stale; MATLAB unverified |
 | Octave | 0.9.0 | 0.9.0 release tarball; Octave Packages PR #875 pending | archive available; index pending |
 | Perl | 0.8.0 | CPAN `0.8.0` | version matches |

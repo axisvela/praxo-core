@@ -89,7 +89,7 @@ Kotlin、VB.NET、Scala 等仅示例实现保留在本仓库，作为宿主 Core
 | Dart | `dart/v0.8.0` | pub.dev `praxo_core==0.8.0` 已发布 | 历史 `0.6.1` smoke 通过；未记录 `0.8.0` smoke |
 | D | `d/v0.8.0` | DUB `praxo-core==0.8.0` 已发布 | 未记录 `0.8.0` 消费者 smoke |
 | Swift | `swift/v0.9.0` | SPI split 包 `0.7.2` 已索引；split 仓库已打 tag `0.9.0`（流式范围）；SPI 重新索引待完成 | 本地 Windows 完整测试受阻；typecheck 通过；未记录消费者 smoke |
-| Julia | `julia/v0.9.0` | General Registry PR #176393 待合并 | 未记录 |
+| Julia | `julia/v0.9.0` | General Registry PR #176393 已更新为 0.9.0，待合并 | 未记录 |
 | MATLAB | `matlab/v0.9.0` | MATLAB File Exchange `185166` 已发布（`0.9.1`） | 引用仍为 `0.2.1`；广泛兼容性和原生 MATLAB 执行未验证 |
 | Octave | `octave/v0.9.0` | Octave `0.9.0` release tarball 已发布；Octave Packages PR #875 待合并 | 未记录；仅 Octave 11.3.0 本地执行 |
 | R | `r/v0.12.0` | r-universe `praxocore==0.12.0` 已发布；CRAN 未发布 | 实际构建 HEAD `9b417e3`；检查有 warnings，并非全部无警告通过。未记录发布后消费者安装；CRAN 需 `R CMD check --as-cran` |
@@ -119,7 +119,7 @@ Kotlin、VB.NET、Scala 等仅示例实现保留在本仓库，作为宿主 Core
 | PHP | 0.10.0 | Packagist `0.10.0` | 版本一致 |
 | Lua | 0.9.0-1 | LuaRocks `0.9.0-1` | 版本一致 |
 | Dart | 0.8.0 | pub.dev `0.8.0` | 版本一致；README 陈旧 |
-| Julia | 0.9.0 | General Registry PR #176393 待合并 | 待完成 |
+| Julia | 0.9.0 | General Registry PR #176393 已更新为 0.9.0，待合并 | 待完成 |
 | MATLAB | 0.9.0 | File Exchange `185166`（`0.9.1`） | 源码与 registry 版本不同；引用陈旧；MATLAB 未验证 |
 | Octave | 0.9.0 | 0.9.0 release tarball；Octave Packages PR #875 待合并 | 归档可用；索引待合并 |
 | Perl | 0.8.0 | CPAN `0.8.0` | 版本一致 |

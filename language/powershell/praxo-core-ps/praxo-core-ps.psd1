@@ -129,9 +129,8 @@ Source and license (MIT):
             LicenseUri = 'https://github.com/axisvela/praxo-core/blob/main/LICENSE'
             ProjectUri = 'https://github.com/axisvela/praxo-core'
             ReleaseNotes = @'
-0.8.0
-- Add a project introduction and starter, examples, and documentation links to the PowerShell Gallery page.
-- Resolve the module version and SPEC_VERSION from the packaged manifest when source version files are not present.
+0.9.0
+- Minor release for AI-native reference applications, scenario tutorials, and the Go examples layout refresh.
 '@
         }
     }

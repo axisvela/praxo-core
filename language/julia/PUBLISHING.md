@@ -4,9 +4,8 @@
 
 Source tag `julia/v0.9.0` maps to Julia package `PraxoCore` version `0.9.0`.
 The package is mirrored at `axisvela/PraxoCore.jl` tag `0.9.0`. The General
-Registry registration PR for `0.7.0` is still open:
-<https://github.com/JuliaRegistries/General/pull/176393>; `0.9.0` is not
-registered yet.
+Registry registration PR now targets `0.9.0`:
+<https://github.com/JuliaRegistries/General/pull/176393>; review is pending.
 
 ## Build and validate
 
