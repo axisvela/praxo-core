@@ -83,8 +83,8 @@ class ReleasePresentationTests(unittest.TestCase):
         for prefix in ('', 'zh-CN/'):
             page = (ROOT / 'docs' / prefix / 'languages/registry-pages.md').read_text(encoding='utf-8')
             self.assertRegex(page, r'2026-\d{2}-\d{2}')
-            self.assertIn('0.12.0', page)
-            self.assertIn('java/v0.10.0', page)
+            self.assertIn('0.12.1', page)
+            self.assertIn('java/v0.12.1', page)
             self.assertIn('Maven', page)
             self.assertIn('MATLAB', page)
             release = (ROOT / 'docs' / prefix / 'project/releasing.md').read_text(encoding='utf-8')

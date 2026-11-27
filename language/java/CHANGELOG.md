@@ -1,5 +1,14 @@
 # Java Core Release Notes
 
+## 0.12.1 - 2026-11-27
+
+Source tag `java/v0.12.1`.
+
+### Fixed
+
+- Align `Version.SDK_VERSION` with the published Maven artifact version.
+- Refresh SCM tag metadata to `java/v0.12.1`. No API or wire change.
+
 ## 0.12.0 - 2026-11-26
 
 Source tag `java/v0.12.0`.

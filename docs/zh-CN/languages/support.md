@@ -78,7 +78,7 @@ Kotlin、VB.NET、Scala 等仅示例实现保留在本仓库，作为宿主 Core
 | Go | 2.11.2 | Go proxy `v2.11.2` | 版本一致；README 已更新 |
 | Python | `python/v0.11.0` | PyPI `praxo-core==0.11.0` 已发布 | 历史 docs CI 升级到 `0.10.0` 通过；未记录 `0.11.0` smoke |
 | TypeScript | `typescript/v0.10.0` | npm `@axisvela/praxo-core@0.10.0` 已作为 `latest` 发布 | 历史 docs CI 升级到 `0.9.0` 通过；未记录 `0.10.0` smoke |
-| Java | `java/v0.12.0` | Maven Central `com.axisvela:praxo-core:0.12.0` 已发布 | 历史 `0.11.0` docs CI 安装于 2026-11-20 通过（run `44731906136`）；未记录 `0.12.0` smoke |
+| Java | `java/v0.12.1` | Maven Central `com.axisvela:praxo-core:0.12.1` 已发布 | 历史 `0.11.0` docs CI 安装于 2026-11-20 通过（run `44731906136`）；未记录 `0.12.1` smoke |
 | Rust | `rust/v0.11.1` | crates.io `praxo-core==0.11.1` 已发布 | README 已包含场景教程、参考应用状态和社区链接 |
 | C# | `csharp/v0.11.0` | NuGet `Praxo.Core==0.11.0` 已发布 | `0.9.1` 安装为历史记录；未记录 `0.11.0` smoke |
 | Elixir | `elixir/v0.11.1` | Hex `praxo_core==0.11.1` 已发布 | README 已重排并包含教程、参考应用状态和社区信息 |
@@ -110,7 +110,7 @@ Kotlin、VB.NET、Scala 等仅示例实现保留在本仓库，作为宿主 Core
 | Go | 2.11.2 | Go proxy `v2.11.2` | 版本一致；README 已更新 |
 | Python | 0.11.0 | PyPI `0.11.0` | 版本一致；README 陈旧 |
 | TypeScript | 0.10.0 | npm `0.10.0` | 版本一致；README 陈旧 |
-| Java | 0.12.0 | Maven Central `0.12.0` | 版本一致；POM SCM 陈旧 |
+| Java | 0.12.1 | Maven Central `0.12.1` | 版本一致；SDK 版本已修正 |
 | Rust | 0.11.1 | crates.io `0.11.1` | 版本一致；README 已更新 |
 | C# | 0.11.0 | NuGet `0.11.0` | 版本一致；README 陈旧 |
 | Elixir | 0.11.1 | Hex `0.11.1` | 版本一致 |

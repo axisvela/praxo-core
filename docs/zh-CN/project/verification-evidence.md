@@ -313,7 +313,7 @@ Registry 链接指向当前已发布版本；上表的消费者 smoke 行指明�
 - [MetaCPAN 上的 Praxo-Core 0.8.1](https://metacpan.org/release/HANHHUIWEN/Praxo-Core-0.8.1)
 - [Hex 上的 praxo_core_erlang 0.10.1](https://hex.pm/packages/praxo_core_erlang/0.10.1)
 - [DUB 上的 praxo-core 0.8.0](https://code.dlang.org/packages/praxo-core/versions/0.8.0)
-- [Maven Central 上的 com.axisvela:praxo-core 0.12.0](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.12.0/)
+- [Maven Central 上的 com.axisvela:praxo-core 0.12.1](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.12.1/)
 - [受治理工作区示例](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/governed-workspace)
 - [受治理执行设计](../reference/governed-execution.md)
 - [OpenTelemetry 可运行示例](https://github.com/axisvela/praxo-core/tree/main/adapters/otel/example)
