@@ -84,7 +84,7 @@ Kotlin、VB.NET、Scala 等仅示例实现保留在本仓库，作为宿主 Core
 | Elixir | `elixir/v0.11.0` | Hex `praxo_core==0.11.0` 已发布 | 历史 Mix 安装覆盖 `0.4.1`；未记录 `0.11.0` smoke |
 | Erlang | `erlang/v0.10.0` | Hex `praxo_core_erlang==0.10.0` 已发布 | 历史 `0.1.1` smoke；未记录 `0.10.0` smoke |
 | Ruby | `ruby/v0.10.0` | RubyGems `praxo-core==0.10.0` 已发布 | 历史 CI 于 2026-11-21 通过 `0.9.2` allow/deny（run `44913820352`）；未记录 `0.10.0` smoke |
-| Lua | `lua/v0.9.1` | LuaRocks `praxo-core==0.9.0-1` 已发布 | `0.9.1-1` 发布待完成；未记录 `0.9.0-1` smoke |
+| Lua | `lua/v0.9.1` | LuaRocks `praxo-core==0.9.1-1` 已发布 | `0.9.1-1` 增加与 README 同步的 rockspec 描述；未记录 `0.9.0-1` smoke |
 | PHP | `php/v0.10.0` | Packagist `axisvela/praxo-core==0.10.0` 已发布 | 历史 Composer 于 2026-11-18 通过 `0.8.1` allow/deny；未记录 `0.10.0` smoke |
 | Dart | `dart/v0.8.0` | pub.dev `praxo_core==0.8.0` 已发布 | 历史 `0.6.1` smoke 通过；未记录 `0.8.0` smoke |
 | D | `d/v0.8.0` | DUB `praxo-core==0.8.0` 已发布 | 未记录 `0.8.0` 消费者 smoke |
@@ -117,7 +117,7 @@ Kotlin、VB.NET、Scala 等仅示例实现保留在本仓库，作为宿主 Core
 | Erlang | 0.10.0 | Hex `0.10.0` | 版本一致 |
 | Ruby | 0.10.0 | RubyGems `0.10.0` | 版本一致 |
 | PHP | 0.10.0 | Packagist `0.10.0` | 版本一致 |
-| Lua | 0.9.1-1 | LuaRocks `0.9.0-1` | 0.9.1-1 发布待完成 |
+| Lua | 0.9.1-1 | LuaRocks `0.9.1-1` | 版本一致 |
 | Dart | 0.8.0 | pub.dev `0.8.0` | 版本一致；README 陈旧 |
 | Julia | 0.9.0 | General Registry PR #176393 已更新为 0.9.0，待合并 | 待完成 |
 | MATLAB | 0.9.0 | File Exchange `185166`（`0.9.1`） | 源码与 registry 版本不同；引用陈旧；MATLAB 未验证 |

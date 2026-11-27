@@ -35,7 +35,7 @@ class LanguageRegistryDocsTests(unittest.TestCase):
             "Java": "0.12.0", "Rust": "0.11.0", "C#": "0.11.0",
             "R": "0.12.0", "Ruby": "0.10.0", "PHP": "0.10.0",
             "Dart": "0.8.0", "Elixir": "0.11.0", "Erlang": "0.10.0",
-            "Lua": "0.9.0-1", "Perl": "0.8.0", "Haskell": "0.9.0",
+            "Lua": "0.9.1-1", "Perl": "0.8.0", "Haskell": "0.9.0",
             "D": "0.8.0", "Swift": "0.7.2", "MATLAB": "0.9.1",
             "GNU Octave": "0.9.0", "Delphi / Free Pascal": "0.9.0",
         }

@@ -3,10 +3,8 @@
 ## Status
 
 Source tag `lua/v0.9.1` maps to rock revision `0.9.1-1`. The release workflow is
-`.github/workflows/lua-release.yml`. LuaRocks publishes `0.9.0-1`; `0.9.1-1`
-publication is pending. The dedicated split repository
-`axisvela/praxo-core-lua` currently carries `v0.9.0`; it will be retagged
-`v0.9.1` with the expanded description.
+`.github/workflows/lua-release.yml`. LuaRocks publishes `0.9.1-1`. The dedicated
+split repository `axisvela/praxo-core-lua` is tagged `v0.9.1`.
 
 <https://luarocks.org/modules/hanhhuiwen/praxo-core>
 
@@ -19,9 +17,18 @@ rockspec versions stay aligned. The detailed description mirrors the README's
 features, examples, scenario tutorials, reference-application status, install
 command, limits, and links.
 
-The split repository will keep a root-layout rockspec for direct use:
+The split repository keeps a root-layout rockspec for direct use:
 `praxo-core-0.9.1-1.rockspec` points at the split tag `v0.9.1` and uses
 `praxo/` module paths.
+
+## Module description
+
+LuaRocks stores the module-level Summary and Description when the module is
+first created; uploading a new rockspec does not update them. After changing
+the rockspec description, edit the module page and paste the same Summary and
+Description:
+
+<https://luarocks.org/edit/modules/hanhhuiwen/praxo-core>
 
 ## Local gates
 

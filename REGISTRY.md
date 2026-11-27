@@ -23,7 +23,7 @@ controls, checkpoints, and event tracing. It is not a Go-only framework.
 | Dart | `praxo_core` | [pub.dev](https://pub.dev/packages/praxo_core/versions/0.8.0) | `0.8.0` | https://axisvela.github.io/praxo-core/languages/dart/ |
 | Elixir | `praxo_core` | [Hex](https://hex.pm/packages/praxo_core/0.11.0) | `0.11.0` | https://axisvela.github.io/praxo-core/languages/elixir/ |
 | Erlang | `praxo_core_erlang` | [Hex](https://hex.pm/packages/praxo_core_erlang/0.10.0) | `0.10.0` | https://axisvela.github.io/praxo-core/languages/erlang/ |
-| Lua | `praxo-core` | [LuaRocks](https://luarocks.org/modules/hanhhuiwen/praxo-core) | `0.9.0-1` | https://axisvela.github.io/praxo-core/languages/lua/ |
+| Lua | `praxo-core` | [LuaRocks](https://luarocks.org/modules/hanhhuiwen/praxo-core) | `0.9.1-1` | https://axisvela.github.io/praxo-core/languages/lua/ |
 | Perl | `Praxo::Core` | [CPAN (MetaCPAN index)](https://metacpan.org/dist/Praxo-Core) | `0.8.0` | https://axisvela.github.io/praxo-core/languages/perl/ |
 | OCaml | `praxo-core` | [opam (pending)](https://github.com/axisvela/praxo-core-ocaml) | not published | https://axisvela.github.io/praxo-core/languages/ocaml/ |
 | Haskell | `praxo-core` | [Hackage](https://hackage.haskell.org/package/praxo-core-0.9.0) | `0.9.0` | https://axisvela.github.io/praxo-core/languages/haskell/ |
