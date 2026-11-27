@@ -41,7 +41,7 @@ mvn -q compile exec:java
 ```
 
 The CLI prints JSON containing an order and a `draft_only` resolution. It uses
-Maven Central `com.axisvela:praxo-core:0.12.1`. `DEMO_BASE_URL` selects the business
+Maven Central `com.axisvela:praxo-core:0.12.2`. `DEMO_BASE_URL` selects the business
 service, `DEMO_TOKEN` selects the fixture credential, and `DEMO_ORDER` selects
 the requested order (Agent policy permits only `order-100`).
 

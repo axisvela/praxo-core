@@ -10,7 +10,7 @@
 | Go | `github.com/axisvela/praxo-core/v2` | `2.11.2` | [Go 消费者](consumer-go.md) |
 | Python | `praxo-core` | `0.11.0` | [Python 消费者](consumer-python.md) |
 | TypeScript | `@axisvela/praxo-core` | `0.10.0` | [TypeScript 消费者](consumer-typescript.md) |
-| Java | `com.axisvela:praxo-core` | `0.12.1` | [Java 消费者](consumer-java.md) |
+| Java | `com.axisvela:praxo-core` | `0.12.2` | [Java 消费者](consumer-java.md) |
 | Ruby | `praxo-core` | `0.10.0` | [Ruby Starter](https://github.com/axisvela/praxo-core/tree/main/language/ruby/examples/consumer) |
 | PHP | `axisvela/praxo-core` | `0.10.0` | [PHP Starter](https://github.com/axisvela/praxo-core/tree/main/language/php/examples/consumer) |
 | Elixir | `praxo_core` | `0.11.1` | [Elixir Starter](https://github.com/axisvela/praxo-core/tree/main/language/elixir/examples/consumer) |

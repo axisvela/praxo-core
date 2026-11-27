@@ -9,8 +9,8 @@ the OpenAI-compatible, Anthropic, and Gemini adapters, Harmovela sink, stdio MCP
 client, HITL interrupt decisions, the process plugin host, and the agent loop
 are included. VFS and other plugin hosts are not yet implemented.
 
-The latest source tag is `java/v0.12.1`; the earlier `java/v0.2.3` tag retains
-`io.axisvela.praxo`. Maven Central publishes `0.12.1`.
+The latest source tag is `java/v0.12.2`; the earlier `java/v0.2.3` tag retains
+`io.axisvela.praxo`. Maven Central publishes `0.12.2`.
 Supported contract:
 `SPEC_VERSION` `0.2.0` (`com.axisvela.praxo.Version.SPEC_VERSION`).
 
@@ -23,7 +23,7 @@ source version when upgrading.
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/java/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/java/llms.md)
 - [Examples](https://github.com/axisvela/praxo-core/tree/main/language/java/examples): runnable language-specific examples.
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
-- Registry: [Maven Central](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.12.1/)
+- Registry: [Maven Central](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.12.2/)
 - Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761) · [LinkedIn](https://www.linkedin.com/company/axisvela/) · [Facebook](https://www.facebook.com/profile.php?id=61596905732406) · [YouTube](https://www.youtube.com/@axisvela) · [Discord](https://discord.com/channels/1575163993767809064/1575164343148875977) · [GitHub Discussions](https://github.com/axisvela/praxo-core/discussions) · [GitHub Issues](https://github.com/axisvela/praxo-core/issues) · [Documentation](https://axisvela.github.io/praxo-core/) · [Architect](https://axisvela.architect.pub)
 
 ## Get started
@@ -31,7 +31,7 @@ source version when upgrading.
 Install the published package:
 
 ```bash
-Maven: com.axisvela:praxo-core:0.12.1
+Maven: com.axisvela:praxo-core:0.12.2
 ```
 
 Then run the smallest deterministic example:
@@ -69,7 +69,7 @@ Runnable examples live under [`language/java/examples`](https://github.com/axisv
 <dependency>
   <groupId>com.axisvela</groupId>
   <artifactId>praxo-core</artifactId>
-  <version>0.12.1</version>
+  <version>0.12.2</version>
 </dependency>
 ```
 

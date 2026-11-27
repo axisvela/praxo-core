@@ -14,8 +14,10 @@ class ReleasePresentationTests(unittest.TestCase):
     def test_java_scm_tag_tracks_package_version(self):
         pom = ET.parse(ROOT / 'language/java/pom.xml')
         ns = {'m': 'http://maven.apache.org/POM/4.0.0'}
-        self.assertEqual(pom.findtext('m:scm/m:tag', namespaces=ns),
-                         'java/v${project.version}')
+        version = pom.findtext('m:version', namespaces=ns)
+        tag = pom.findtext('m:scm/m:tag', namespaces=ns)
+        self.assertEqual(tag, f'java/v{version}')
+        self.assertNotIn('${', tag)
 
     def test_delphi_runner_example_sources_exist(self):
         root = ROOT / 'language/delphi'
@@ -83,8 +85,8 @@ class ReleasePresentationTests(unittest.TestCase):
         for prefix in ('', 'zh-CN/'):
             page = (ROOT / 'docs' / prefix / 'languages/registry-pages.md').read_text(encoding='utf-8')
             self.assertRegex(page, r'2026-\d{2}-\d{2}')
-            self.assertIn('0.12.1', page)
-            self.assertIn('java/v0.12.1', page)
+            self.assertIn('0.12.2', page)
+            self.assertIn('java/v0.12.2', page)
             self.assertIn('Maven', page)
             self.assertIn('MATLAB', page)
             release = (ROOT / 'docs' / prefix / 'project/releasing.md').read_text(encoding='utf-8')

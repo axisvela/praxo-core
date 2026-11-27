@@ -1,5 +1,15 @@
 # Java Core Release Notes
 
+## 0.12.2 - 2026-11-27
+
+Source tag `java/v0.12.2`.
+
+### Fixed
+
+- Publish a literal SCM tag in the Maven POM instead of the unresolved
+  `${project.version}` property, and keep `Version.SDK_VERSION` aligned. No API
+  or wire change.
+
 ## 0.12.1 - 2026-11-27
 
 Source tag `java/v0.12.1`.

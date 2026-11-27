@@ -5,7 +5,7 @@ implementation is not full host-integration acceptance. PHP v1 harness is
 implemented locally at
 `language/php/application/ai-editorial-studio`; the sibling `content-review`
 application remains a host-integration precursor. Java v1 source is added at
-`language/java/application` using Spring Boot and published Core 0.12.1, but the
+`language/java/application` using Spring Boot and published Core 0.12.2, but the
 local Windows JVM is blocked, so Java has not been compiled or tested locally.
 Elixir v1 harness is implemented locally at `language/elixir/application` with a
 supervised telemetry store and remediation executor; source-mode tests pass 6/6,
