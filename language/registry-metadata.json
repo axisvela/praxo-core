@@ -312,11 +312,11 @@
     "docs": "https://axisvela.github.io/praxo-core/languages/perl/",
     "install": "cpanm Praxo::Core@0.8.1",
     "package": "Praxo::Core",
-    "published_version": "0.8.0",
+    "published_version": "0.8.1",
     "registry": "CPAN (MetaCPAN index)",
     "source_install": "cpanm ./language/perl",
     "source_version": "0.8.1",
-    "status": "published on CPAN; README.pod indexed",
+    "status": "published on CPAN; README.pod includes examples, tutorials, reference-application status, and community",
     "tag": "perl/v0.8.1",
     "tier": "Core",
     "url": "https://metacpan.org/dist/Praxo-Core"

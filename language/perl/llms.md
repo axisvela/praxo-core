@@ -9,7 +9,7 @@
 - package: `Praxo::Core`
 - registry: [CPAN (MetaCPAN index)](https://metacpan.org/dist/Praxo-Core)
 - source_version: `0.8.1`
-- published_version: `0.8.0`
+- published_version: `0.8.1`
 - install_published: `cpanm Praxo::Core@0.8.1`
 - install_source: `cpanm ./language/perl`
 - source_tag: `perl/v0.8.1`

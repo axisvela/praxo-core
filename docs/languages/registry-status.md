@@ -57,7 +57,7 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 | MATLAB | MATLAB File Exchange | `0.9.1` | https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core | published; source `matlab/v0.9.0`; citation still `0.2.1`; MATLAB compatibility unverified |
 | PowerShell Core | PowerShell Gallery | `0.9.1` | https://www.powershellgallery.com/packages/praxo-core-ps/0.9.1 | published; release workflow 45922472866 |
 | PowerShell Bridge | PowerShell Gallery | `0.1.0` | https://www.powershellgallery.com/packages/praxo-core-ps-br/0.1.0 | published |
-| Perl | CPAN | `0.8.0` | https://metacpan.org/dist/Praxo-Core | published |
+| Perl | CPAN | `0.8.1` | https://metacpan.org/dist/Praxo-Core | published; README.pod includes examples, tutorials, reference-application status, and community |
 | Haskell | Hackage | `0.9.0` | https://hackage.haskell.org/package/praxo-core-0.9.0 | published; README defect recorded in page audit |
 | R | r-universe | `0.12.0` | https://axisvela.r-universe.dev/praxocore | actual build HEAD `9b417e3`; checks have warnings, not all clean; CRAN not published |
 | Nim | nim-lang/packages (Nimble) | `0.1.1` | https://github.com/axisvela/praxo-core-nim | split repo `v0.8.0` tagged; nim-lang/packages PR #3600 merged 2026-11-05; nimpkgs re-crawl pending |

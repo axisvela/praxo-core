@@ -3,9 +3,9 @@
 ## Status
 
 Source tag `perl/v0.8.1` maps to CPAN distribution `Praxo-Core` version
-`0.8.1`. CPAN currently publishes `0.8.0`; `0.8.1` publication is pending. The
-distribution provides the root package `Praxo::Core` and the `Praxo::Agent`
-modules. The release workflow is `.github/workflows/perl-release.yml`.
+`0.8.1`. CPAN publishes `0.8.1`; the README.pod includes examples, scenario
+tutorials, reference-application status, and community links. The distribution
+provides the root package `Praxo::Core` and the `Praxo::Agent` modules. The release workflow is `.github/workflows/perl-release.yml`.
 
 ## Build
 
