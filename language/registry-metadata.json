@@ -366,16 +366,16 @@
   "Ruby": {
     "dir": "language/ruby",
     "docs": "https://axisvela.github.io/praxo-core/languages/ruby/",
-    "install": "gem install praxo-core -v 0.10.0",
+    "install": "gem install praxo-core -v 0.10.1",
     "package": "praxo-core",
-    "published_version": "0.10.0",
+    "published_version": "0.10.1",
     "registry": "RubyGems",
-    "source_install": "From language/ruby: gem build praxo-core.gemspec, then gem install ./praxo-core-0.10.0.gem",
-    "source_version": "0.10.0",
-    "status": "published; split source repository v0.10.0 tagged",
-    "tag": "ruby/v0.10.0",
+    "source_install": "From language/ruby: gem build praxo-core.gemspec, then gem install ./praxo-core-0.10.1.gem",
+    "source_version": "0.10.1",
+    "status": "published; split source repository v0.10.1 tagged",
+    "tag": "ruby/v0.10.1",
     "tier": "Core",
-    "url": "https://rubygems.org/gems/praxo-core/versions/0.10.0"
+    "url": "https://rubygems.org/gems/praxo-core/versions/0.10.1"
   },
   "Rust": {
     "dir": "language/rust",

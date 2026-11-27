@@ -115,7 +115,7 @@ acceptance, and no new consumer smoke or remote correction is claimed here.
 | C# | `csharp/v0.11.1` | NuGet `Praxo.Core==0.11.1` published | Published-package install for `0.9.1` is historical; `0.11.1` smoke not recorded |
 | Elixir | `elixir/v0.11.1` | Hex `praxo_core==0.11.1` published | README reordered with tutorials, reference-application status, and community |
 | Erlang | `erlang/v0.10.1` | Hex `praxo_core_erlang==0.10.1` published | README includes scenario tutorials, reference-application status, and community |
-| Ruby | `ruby/v0.10.0` | RubyGems `praxo-core==0.10.0` published | Historical CI allow/deny passed for `0.9.2` on 2026-11-21 (run `44913820352`); `0.10.0` smoke not recorded |
+| Ruby | `ruby/v0.10.1` | RubyGems `praxo-core==0.10.1` published | Historical CI allow/deny passed for `0.9.2` on 2026-11-21 (run `44913820352`); `0.10.1` smoke not recorded |
 | Lua | `lua/v0.9.1` | LuaRocks `praxo-core==0.9.1-1` published | `0.9.1-1` adds the README-synced rockspec description; `0.9.0-1` smoke not recorded |
 | PHP | `php/v0.10.1` | Packagist `axisvela/praxo-core==0.10.1` published | Historical Composer allow/deny passed for `0.8.1` on 2026-11-18; `0.10.1` smoke not recorded |
 | Dart | `dart/v0.8.2` | pub.dev `praxo_core==0.8.2` published | public API has dartdoc coverage |
@@ -147,7 +147,7 @@ its latest version matches the manifest at the release tag.
 | C# | 0.11.1 | NuGet `0.11.1` | version matches; README updated |
 | Elixir | 0.11.1 | Hex `0.11.1` | version matches |
 | Erlang | 0.10.1 | Hex `0.10.1` | version matches |
-| Ruby | 0.10.0 | RubyGems `0.10.0` | version matches |
+| Ruby | 0.10.1 | RubyGems `0.10.1` | version matches |
 | PHP | 0.10.1 | Packagist `0.10.1` | version matches |
 | Lua | 0.9.1-1 | LuaRocks `0.9.1-1` | version matches |
 | Dart | 0.8.2 | pub.dev `0.8.2` | version matches; docs coverage added |

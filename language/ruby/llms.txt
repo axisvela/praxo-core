@@ -7,12 +7,12 @@
 # Package
 
 - package: `praxo-core`
-- registry: [RubyGems](https://rubygems.org/gems/praxo-core/versions/0.10.0)
-- source_version: `0.10.0`
-- published_version: `0.10.0`
-- install_published: `gem install praxo-core -v 0.10.0`
-- install_source: `From language/ruby: gem build praxo-core.gemspec, then gem install ./praxo-core-0.10.0.gem`
-- source_tag: `ruby/v0.10.0`
+- registry: [RubyGems](https://rubygems.org/gems/praxo-core/versions/0.10.1)
+- source_version: `0.10.1`
+- published_version: `0.10.1`
+- install_published: `gem install praxo-core -v 0.10.1`
+- install_source: `From language/ruby: gem build praxo-core.gemspec, then gem install ./praxo-core-0.10.1.gem`
+- source_tag: `ruby/v0.10.1`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/ruby/

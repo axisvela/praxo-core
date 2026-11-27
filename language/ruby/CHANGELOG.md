@@ -1,5 +1,17 @@
 # Ruby Core Release Notes
 
+## 0.10.1 - 2026-11-27
+
+Source tag `ruby/v0.10.1`.
+
+### Changed
+
+- Reorder the package README so examples, scenario tutorials, reference
+  applications, and community links appear before internal implementation
+  details.
+- Expand the RubyGems description with the same discovery entry points. No API
+  or wire change.
+
 ## 0.10.0 - 2026-11-26
 
 Source tag `ruby/v0.10.0`.

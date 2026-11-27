@@ -25,33 +25,12 @@ crawler, hosted agent service, or model provider.
 The normative contract is [`spec/`](../../spec/README.md); Go remains the
 reference implementation.
 
-## Package
-
-- `SPEC_VERSION`: `0.2.0`
-- Core version: `0.10.0`
-- Tier: core
-- License: MIT
-- Dependencies: Ruby standard library only
-- Ruby source repository: https://github.com/axisvela/praxo-core-ruby
-- The latest RubyGems package is `praxo-core@0.10.0`
-- `0.9.2` refreshes the RubyGems README and gem description; `0.9.1` fixed
-  Ruby 3.4 Bundler loading by removing the undeclared `base64` dependency
-
-## Registry and Coding-Agent Entry
-
-- Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/language/ruby/REGISTRY.md)
-- Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/ruby/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/ruby/llms.md)
-- [Examples](https://github.com/axisvela/praxo-core/tree/main/language/ruby/examples): runnable language-specific examples.
-- Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
-- Registry: [RubyGems](https://rubygems.org/gems/praxo-core/versions/0.10.0)
-- Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761) · [LinkedIn](https://www.linkedin.com/company/axisvela/) · [Facebook](https://www.facebook.com/profile.php?id=61596905732406) · [YouTube](https://www.youtube.com/@axisvela) · [Discord](https://discord.com/channels/1575163993767809064/1575164343148875977) · [GitHub Discussions](https://github.com/axisvela/praxo-core/discussions) · [GitHub Issues](https://github.com/axisvela/praxo-core/issues) · [Documentation](https://axisvela.github.io/praxo-core/) · [Architect](https://axisvela.architect.pub)
-
 ## Get started
 
 Install the published package:
 
 ```bash
-gem install praxo-core -v 0.10.0
+gem install praxo-core -v 0.10.1
 ```
 
 Then run the smallest deterministic example:
@@ -84,10 +63,76 @@ Runnable examples live under [`language/ruby/examples`](https://github.com/axisv
 | Add provider fallback | [provider-fallback](https://github.com/axisvela/praxo-core/tree/main/language/ruby/examples/provider-fallback) |
 | Observe agent events | [event-sink](https://github.com/axisvela/praxo-core/tree/main/language/ruby/examples/event-sink) |
 
+## Tutorials and Reference Applications
+
+Scenario tutorials are bounded teaching slices. Reference applications are
+portfolio integrations whose end-to-end acceptance remains in the roadmap.
+
+### Scenario Tutorials
+
+| Scenario | Tutorial |
+| --- | --- |
+| OG-04 Community governance | [community-governance](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/community-governance) |
+| LJ-03 Due diligence | [due-diligence](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/due-diligence) |
+| SE-07 FinOps review | [finops-review](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/finops-review) |
+| CS-02 Lead nurture | [lead-nurture](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/lead-nurture) |
+| OP-05 Recruiting match | [recruiting-match](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/recruiting-match) |
+| Retail replenishment | [retail-replenishment](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/retail-replenishment) |
+| CY-07 Supply-chain review | [supply-chain-review](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/supply-chain-review) |
+| Supply disruption | [supply-disruption](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/supply-disruption) |
+
+Index: [language/ruby/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial).
+
+### Reference Applications
+
+| Application | Status |
+| --- | --- |
+| [Rails commerce copilot](https://github.com/axisvela/praxo-core/tree/main/language/ruby/application) | Source implementation; acceptance pending |
+
+See the [reference application portfolio](https://github.com/axisvela/praxo-core/blob/main/docs/project/roadmap.md#reference-application-portfolio)
+for acceptance criteria and current limits.
+
+Planning context: [Tutorial Plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/), [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), and [Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/). Chinese: [教程计划](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/), [候选场景](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/), [教程目录](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/).
+
+## Community
+
+- X: <https://x.com/axisvela>
+- Weibo: <https://weibo.com/u/1936025761>
+- LinkedIn: <https://www.linkedin.com/company/axisvela/>
+- Facebook: <https://www.facebook.com/profile.php?id=61596905732406>
+- YouTube: <https://www.youtube.com/@axisvela>
+- Discord: <https://discord.com/channels/1575163993767809064/1575164343148875977>
+- GitHub Discussions: <https://github.com/axisvela/praxo-core/discussions>
+- GitHub Issues: <https://github.com/axisvela/praxo-core/issues>
+- Documentation: <https://axisvela.github.io/praxo-core/>
+- Architect: <https://axisvela.architect.pub>
+
+
+## Registry and Coding-Agent Entry
+
+- Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/language/ruby/REGISTRY.md)
+- Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/ruby/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/ruby/llms.md)
+- [Examples](https://github.com/axisvela/praxo-core/tree/main/language/ruby/examples): runnable language-specific examples.
+- Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
+- Registry: [RubyGems](https://rubygems.org/gems/praxo-core/versions/0.10.1)
+- Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761) · [LinkedIn](https://www.linkedin.com/company/axisvela/) · [Facebook](https://www.facebook.com/profile.php?id=61596905732406) · [YouTube](https://www.youtube.com/@axisvela) · [Discord](https://discord.com/channels/1575163993767809064/1575164343148875977) · [GitHub Discussions](https://github.com/axisvela/praxo-core/discussions) · [GitHub Issues](https://github.com/axisvela/praxo-core/issues) · [Documentation](https://axisvela.github.io/praxo-core/) · [Architect](https://axisvela.architect.pub)
+
+## Package
+
+- `SPEC_VERSION`: `0.2.0`
+- Core version: `0.10.1`
+- Tier: core
+- License: MIT
+- Dependencies: Ruby standard library only
+- Ruby source repository: https://github.com/axisvela/praxo-core-ruby
+- The latest RubyGems package is `praxo-core@0.10.1`
+- `0.9.2` refreshes the RubyGems README and gem description; `0.9.1` fixed
+  Ruby 3.4 Bundler loading by removing the undeclared `base64` dependency
+
 ## Install
 
 ```bash
-gem install praxo-core -v 0.10.0
+gem install praxo-core -v 0.10.1
 ```
 
 ## Scope
@@ -215,45 +260,6 @@ cooperative cancel, and typed call errors.
 
 ## Release
 
-Tag shape: `ruby/v0.9.0`. The tag targets `SPEC_VERSION` `0.2.0`. See
+Tag shape: `ruby/v0.10.1`. The tag targets `SPEC_VERSION` `0.2.0`. See
 [CHANGELOG.md](CHANGELOG.md) for per-release changes and compatibility notes.
-
-
-## Tutorials and Reference Applications
-
-Language-specific scenario tutorials and reference applications for Ruby.
-
-### Scenario Tutorials
-
-| Tutorial | What it shows |
-| --- | --- |
-| [community-governance](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/community-governance) | A bounded first slice of [OG-04](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a maintainer bot. It classifies fixed synthetic issues and drafts a... |
-| [due-diligence](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/due-diligence) | A bounded first slice of [LJ-03](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an acquisition opinion. It reconciles fixed ownership, contract and... |
-| [finops-review](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/finops-review) | A bounded first slice of [SE-07](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not autonomous multi-cloud governance. This uses the native Ruby Core i... |
-| [lead-nurture](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/lead-nurture) | A bounded first slice of [CS-02](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an outreach-automation product. It ranks fixed synthetic business p... |
-| [recruiting-match](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/recruiting-match) | A bounded first slice of [OP-05](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an automated hiring system. It matches fixed synthetic candidates a... |
-| [retail-replenishment](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/retail-replenishment) | Fixed stock, daily sales and lead-time data produce a reorder quantity (22) and a review-only purchase order. No live pricing, supplier order or inventory write. |
-| [supply-chain-review](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/supply-chain-review) | A bounded first slice of [CY-07](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a malware-detection system. It compares one fixed pinned manifest w... |
-| [supply-disruption](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/supply-disruption) | A fixed supplier network with a port closure yields an alternative supplier (`supplier-2`) and a review-only sourcing plan. No purchase order, supplier contact or live logistics... |
-
-Index: [language/ruby/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial).
-
-### Reference Applications
-
-No accepted end-to-end reference application is recorded for this language yet. Candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
-
-Planning context: [Tutorial Plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/), [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), and [Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/). Chinese: [教程计划](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/), [候选场景](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/), [教程目录](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/).
-
-## Community
-
-- X: <https://x.com/axisvela>
-- Weibo: <https://weibo.com/u/1936025761>
-- LinkedIn: <https://www.linkedin.com/company/axisvela/>
-- Facebook: <https://www.facebook.com/profile.php?id=61596905732406>
-- YouTube: <https://www.youtube.com/@axisvela>
-- Discord: <https://discord.com/channels/1575163993767809064/1575164343148875977>
-- GitHub Discussions: <https://github.com/axisvela/praxo-core/discussions>
-- GitHub Issues: <https://github.com/axisvela/praxo-core/issues>
-- Documentation: <https://axisvela.github.io/praxo-core/>
-- Architect: <https://axisvela.architect.pub>
 
