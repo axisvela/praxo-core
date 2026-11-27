@@ -10,7 +10,7 @@ language and run the verification commands.
 | Language | Package | Current recommended version | Starter |
 | --- | --- | --- | --- |
 | Go | `github.com/axisvela/praxo-core/v2` | `2.11.3` | [Go consumer](consumer-go.md) |
-| Python | `praxo-core` | `0.11.0` | [Python consumer](consumer-python.md) |
+| Python | `praxo-core` | `0.11.1` | [Python consumer](consumer-python.md) |
 | TypeScript | `@axisvela/praxo-core` | `0.10.1` | [TypeScript consumer](consumer-typescript.md) |
 | Java | `com.axisvela:praxo-core` | `0.12.3` | [Java consumer](consumer-java.md) |
 | Ruby | `praxo-core` | `0.10.2` | [Ruby starter](https://github.com/axisvela/praxo-core/tree/main/language/ruby/examples/consumer) |

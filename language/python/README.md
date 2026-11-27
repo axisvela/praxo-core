@@ -14,21 +14,12 @@ orchestration platform:
   adapters.
 - No runtime dependencies; Python 3.11 or newer.
 
-## Registry and Coding-Agent Entry
-
-- Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/language/python/REGISTRY.md)
-- Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/python/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/python/llms.md)
-- [Examples](https://github.com/axisvela/praxo-core/tree/main/language/python/examples): runnable language-specific examples.
-- Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
-- Registry: [PyPI](https://pypi.org/project/praxo-core/0.11.0/)
-- Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761) · [LinkedIn](https://www.linkedin.com/company/axisvela/) · [Facebook](https://www.facebook.com/profile.php?id=61596905732406) · [YouTube](https://www.youtube.com/@axisvela) · [Discord](https://discord.com/channels/1575163993767809064/1575164343148875977) · [GitHub Discussions](https://github.com/axisvela/praxo-core/discussions) · [GitHub Issues](https://github.com/axisvela/praxo-core/issues) · [Documentation](https://axisvela.github.io/praxo-core/) · [Architect](https://axisvela.architect.pub)
-
 ## Get started
 
 Install the published package:
 
 ```bash
-pip install praxo-core==0.11.0
+pip install praxo-core==0.11.1
 ```
 
 Then run the smallest deterministic example:
@@ -61,10 +52,79 @@ Runnable examples live under [`language/python/examples`](https://github.com/axi
 | Add provider fallback | [provider-fallback](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/provider-fallback) |
 | Observe agent events | [event-sink](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/event-sink) |
 
+## Tutorials and Reference Applications
+
+Scenario tutorials are bounded teaching slices. Reference applications are
+portfolio integrations whose end-to-end acceptance remains in the roadmap.
+
+### Scenario Tutorials
+
+| Scenario | Tutorial |
+| --- | --- |
+| Audiobook production | [audiobook-production](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/audiobook-production) |
+| AE-05 Biodiversity alerts | [biodiversity-alerts](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/biodiversity-alerts) |
+| SE-02 Bug repair | [bug-repair](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/bug-repair) |
+| HC-05 CBT exercise | [cbt-exercise](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/cbt-exercise) |
+| HC-01 Clinical guidelines | [clinical-guidelines](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/clinical-guidelines) |
+| FC-03 Credit diligence | [credit-diligence](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/credit-diligence) |
+| MD-04 Dubbing plan | [dubbing-plan](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/dubbing-plan) |
+| Education tutoring | [education-tutoring](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/education-tutoring) |
+| Insurance claims | [insurance-claims](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/insurance-claims) |
+| Legal compliance | [legal-compliance](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/legal-compliance) |
+| Literature review | [literature-review](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/literature-review) |
+| Litigation timeline | [litigation-timeline](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/litigation-timeline) |
+| Marketing segments | [marketing-segments](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/marketing-segments) |
+| SC-02 Molecule screen | [molecule-screen](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/molecule-screen) |
+| Negotiation interpretation | [negotiation-interpretation](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/negotiation-interpretation) |
+| Office Q&A | [office-qa](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/office-qa) |
+| Order review | [order-review](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/order-review) |
+| LJ-02 Patent FTO | [patent-fto](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/patent-fto) |
+| Pentest lab review | [pentest-lab-review](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/pentest-lab-review) |
+| CY-04 Phishing awareness | [phishing-awareness](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/phishing-awareness) |
+| CT-05 Pollution tracing | [pollution-tracing](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/pollution-tracing) |
+| LJ-04 Precedent outline | [precedent-outline](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/precedent-outline) |
+| OP-05 Recruiting match | [recruiting-match](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/recruiting-match) |
+| Threat hunting | [threat-hunting](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/threat-hunting) |
+| HC-03 Trial screening | [trial-screening](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/trial-screening) |
+| OG-07 Virtual PI | [virtual-pi](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/virtual-pi) |
+
+Index: [language/python/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial).
+
+### Reference Applications
+
+No accepted end-to-end reference application is recorded for Python yet.
+Candidate goals are tracked in the
+[reference application portfolio](https://github.com/axisvela/praxo-core/blob/main/docs/project/roadmap.md#reference-application-portfolio).
+
+Planning context: [Tutorial Plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/), [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), and [Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/). Chinese: [教程计划](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/), [候选场景](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/), [教程目录](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/).
+
+## Community
+
+- X: <https://x.com/axisvela>
+- Weibo: <https://weibo.com/u/1936025761>
+- LinkedIn: <https://www.linkedin.com/company/axisvela/>
+- Facebook: <https://www.facebook.com/profile.php?id=61596905732406>
+- YouTube: <https://www.youtube.com/@axisvela>
+- Discord: <https://discord.com/channels/1575163993767809064/1575164343148875977>
+- GitHub Discussions: <https://github.com/axisvela/praxo-core/discussions>
+- GitHub Issues: <https://github.com/axisvela/praxo-core/issues>
+- Documentation: <https://axisvela.github.io/praxo-core/>
+- Architect: <https://axisvela.architect.pub>
+
+
+## Registry and Coding-Agent Entry
+
+- Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/language/python/REGISTRY.md)
+- Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/python/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/python/llms.md)
+- [Examples](https://github.com/axisvela/praxo-core/tree/main/language/python/examples): runnable language-specific examples.
+- Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
+- Registry: [PyPI](https://pypi.org/project/praxo-core/0.11.1/)
+- Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761) · [LinkedIn](https://www.linkedin.com/company/axisvela/) · [Facebook](https://www.facebook.com/profile.php?id=61596905732406) · [YouTube](https://www.youtube.com/@axisvela) · [Discord](https://discord.com/channels/1575163993767809064/1575164343148875977) · [GitHub Discussions](https://github.com/axisvela/praxo-core/discussions) · [GitHub Issues](https://github.com/axisvela/praxo-core/issues) · [Documentation](https://axisvela.github.io/praxo-core/) · [Architect](https://axisvela.architect.pub)
+
 ## Install
 
 ```bash
-pip install praxo-core==0.11.0
+pip install praxo-core==0.11.1
 ```
 
 For a source checkout:
@@ -246,69 +306,12 @@ the packaged artifacts, not the checkout. It does not prove PyPI publication or
 installation from a package registry.
 
 
-## Tutorials and Reference Applications
-
-Language-specific scenario tutorials and reference applications for Python.
-
-### Scenario Tutorials
-
-| Tutorial | What it shows |
-| --- | --- |
-| [audiobook-production](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/audiobook-production) | Plans fixed licensed voices and mixing cues and drafts a review-only plan. No synthesis, rendering or rights guarantee. |
-| [biodiversity-alerts](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/biodiversity-alerts) | A bounded first slice of [AE-05](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an anti-poaching dispatch system. It classifies fixed labeled obser... |
-| [bug-repair](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/bug-repair) | A bounded first slice of [SE-02](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an autonomous coding agent. It reproduces a seeded defect, applies... |
-| [cbt-exercise](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/cbt-exercise) | A bounded first slice of [HC-05](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a therapist or crisis service. It walks a fixed synthetic CBT exerc... |
-| [clinical-guidelines](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/clinical-guidelines) | A bounded first slice of [HC-01](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not diagnosis or treatment advice. It retrieves fixed synthetic guideli... |
-| [credit-diligence](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/credit-diligence) | A bounded first slice of [FC-03](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a credit decision or fraud adjudication system. It computes fixed r... |
-| [dubbing-plan](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/dubbing-plan) | A bounded first slice of [MD-04](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a dubbing or voice-cloning product. It reads fixed licensed media s... |
-| [education-tutoring](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/education-tutoring) | A native Python Core tutorial for a guided study plan. An application-owned `LessonRetriever` implements the Core `Retriever` protocol and returns typed `Document`s with metadat... |
-| [insurance-claims](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/insurance-claims) | A native Python Core tutorial for review-only claim triage. Two fixed tools read a synthetic claim file and draft a decision; the deterministic model packages the tool-computed... |
-| [legal-compliance](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/legal-compliance) | A native Python Core tutorial for a compliance memo with a human-review gate. One tool searches fixed policy fixtures; a second tool publishes the memo only after the applicatio... |
-| [literature-review](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/literature-review) | Retrieves two fixed abstracts and drafts unverified hypotheses with citations. No fabricated papers or verified conclusions. |
-| [litigation-timeline](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/litigation-timeline) | Builds a cited timeline from fixed documents and drafts a review-only examination outline. No legal advice or admissibility claim. |
-| [marketing-segments](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/marketing-segments) | Computes fixed consent-aware segments and drafts review-only content. No publication or tracking. |
-| [molecule-screen](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/molecule-screen) | A bounded first slice of [SC-02](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not drug discovery. It ranks fixed synthetic molecular descriptors unde... |
-| [negotiation-interpretation](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/negotiation-interpretation) | Compares fixed transcript terms, flags uncertainty and drafts review-only notes. No mind reading, micro-expression inference or live interpretation guarantee. |
-| [office-qa](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/office-qa) | A native Python Core tutorial for office-policy Q&A with citations. The Agent has one fixed tool, `search_documents`, which searches three synthetic policy documents. The determ... |
-| [order-review](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/order-review) | First local integration slice, not a completed HR or Web tutorial. The native Python Core chooses a scoped `review_order` tool. The tool reads a synthetic order through HTTP and... |
-| [patent-fto](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/patent-fto) | A bounded first slice of [LJ-02](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a freedom-to-operate or patentability opinion. It compares fixed sy... |
-| [pentest-lab-review](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/pentest-lab-review) | Inventories one fixed loopback lab and drafts a review-only report. No external scanning or exploit chain. |
-| [phishing-awareness](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/phishing-awareness) | A bounded first slice of [CY-04](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a mail-security product. It analyzes one fixed synthetic email and... |
-| [pollution-tracing](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/pollution-tracing) | A bounded first slice of [CT-05](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an environmental enforcement system. It compares fixed sensor and w... |
-| [precedent-outline](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/precedent-outline) | A bounded first slice of [LJ-04](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not legal research or advice. It retrieves fixed synthetic precedents a... |
-| [recruiting-match](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/recruiting-match) | A bounded first slice of [OP-05](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an automated hiring system. It matches fixed synthetic candidates a... |
-| [threat-hunting](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/threat-hunting) | Searches fixed logs and drafts a cited synthetic TTP timeline. No external intelligence or APT detection guarantee. |
-| [trial-screening](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/trial-screening) | A bounded first slice of [HC-03](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not patient recruitment or eligibility adjudication. It evaluates fixed... |
-| [virtual-pi](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/virtual-pi) | A bounded first slice of [OG-07](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an autonomous research team. It coordinates three fixed literature/... |
-
-Index: [language/python/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial).
-
-### Reference Applications
-
-No accepted end-to-end reference application is recorded for this language yet. Candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
-
-Planning context: [Tutorial Plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/), [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), and [Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/). Chinese: [教程计划](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/), [候选场景](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/), [教程目录](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/).
-
-## Community
-
-- X: <https://x.com/axisvela>
-- Weibo: <https://weibo.com/u/1936025761>
-- LinkedIn: <https://www.linkedin.com/company/axisvela/>
-- Facebook: <https://www.facebook.com/profile.php?id=61596905732406>
-- YouTube: <https://www.youtube.com/@axisvela>
-- Discord: <https://discord.com/channels/1575163993767809064/1575164343148875977>
-- GitHub Discussions: <https://github.com/axisvela/praxo-core/discussions>
-- GitHub Issues: <https://github.com/axisvela/praxo-core/issues>
-- Documentation: <https://axisvela.github.io/praxo-core/>
-- Architect: <https://axisvela.architect.pub>
-
-
-## License
-
-MIT. See [LICENSE](../../LICENSE).
-
 ## Process plugin host
 
 `praxo.ProcessHost` speaks the framework JSON-Lines process plugin contract
 with token authentication, health handshake, invocation timeout, cancellation,
 and typed call errors. See `docs/guides/plugins.md`.
+
+## License
+
+MIT. See [LICENSE](../../LICENSE).
