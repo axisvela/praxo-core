@@ -206,6 +206,50 @@ Task-oriented and language-organized catalogs:
 [docs Examples](docs/getting-started/examples.md) and
 [language/go/examples/README.md](language/go/examples/README.md).
 
+## Scenario Tutorials and Reference Applications
+
+Scenario tutorials are bounded teaching slices. Reference applications are
+portfolio integrations: source implementations exist, while end-to-end portfolio
+acceptance remains tracked in the roadmap.
+
+### Scenario Tutorials
+
+| Scenario | Language | Tutorial |
+| --- | --- | --- |
+| SE-01 Full-stack development | Go | [fullstack-workspace](language/go/Tutorial/fullstack-workspace) |
+| SE-02 Bug diagnosis and repair | Python | [bug-repair](language/python/Tutorial/bug-repair) |
+| SE-03 Legacy refactoring and migration | Java | [legacy-migration](language/java/Tutorial/legacy-migration) |
+| SE-04 Test generation | C# | [test-generation](language/csharp/Tutorial/test-generation) |
+| SE-05 Code review and security audit | Go | [evidence-vault](language/go/Tutorial/evidence-vault), [soc-alert-triage](language/go/Tutorial/soc-alert-triage) |
+| SE-06 AIOps RCA and remediation | Erlang | [aiops-rca](language/erlang/Tutorial/aiops-rca), [otp-recovery](language/erlang/Tutorial/otp-recovery) |
+| SE-07 Cloud and FinOps governance | Ruby | [finops-review](language/ruby/Tutorial/finops-review) |
+| SE-08 API orchestration | PHP | [api-orchestration](language/php/Tutorial/api-orchestration) |
+| OP-01 Service desk | C# | [internal-service-desk](language/csharp/Tutorial/internal-service-desk) |
+| OP-03 Knowledge maintenance | Python | [office-qa](language/python/Tutorial/office-qa) |
+| OP-04 Cross-system RPA | Java | [rpa-reconciliation](language/java/Tutorial/rpa-reconciliation) |
+| OP-05 Recruiting match | Ruby | [recruiting-match](language/ruby/Tutorial/recruiting-match) |
+| OP-06 Employee onboarding | Dart | [onboarding-plan](language/dart/Tutorial/onboarding-plan) |
+| OP-07 Executive brief | R | [executive-brief](language/r/Tutorial/executive-brief) |
+
+Full lists: [100 candidate agent scenarios](docs/getting-started/agent-scenarios.md)
+and the [unified Tutorial Catalog](docs/getting-started/tutorial-catalog.md).
+
+### Reference Applications
+
+| Priority | Language | Application | Status |
+| --- | --- | --- | --- |
+| 1 | PHP | [Drupal/Laravel content portal](language/php/application) | Source implementation; acceptance pending |
+| 2 | Java | [Spring Boot commerce](language/java/application) | Source implementation; acceptance pending |
+| 3 | Elixir / Erlang | [OTP real-time operations](language/elixir/application), [Erlang](language/erlang/application) | Source implementations; acceptance pending |
+| 4 | Go | [Cloud and DevOps](language/go/application) | Source implementation; acceptance pending |
+| 5 | C++ / Rust | [Industrial/embedded](language/cpp/application), [Systems/edge](language/rust/application) | Source implementations; acceptance pending |
+| 6 | COBOL | [Batch exception analysis](language/cobol/application) | Source implementation; acceptance pending |
+| 7 | Julia | [Scientific computing](language/julia/application) | Source implementation; acceptance pending |
+| 8 | Ruby | [Rails back-office](language/ruby/application) | Source implementation; acceptance pending |
+
+See the [reference application portfolio](docs/project/roadmap.md#reference-application-portfolio)
+for acceptance criteria and current limits.
+
 ## Repository Map
 
 | Location | Purpose |
