@@ -1,7 +1,7 @@
 # PRAXO-CORE Java Registry Introduction
 
-**Status:** published. Source version `0.12.2`, source
-tag `java/v0.12.2`. Published registry version: `0.12.2`. Registry
+**Status:** published. Source version `0.12.3`, source
+tag `java/v0.12.3`. Published registry version: `0.12.3`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -14,12 +14,12 @@ Java implementation of the PRAXO-CORE contract. The normative contract is [`spec
 | Field | Value |
 | --- | --- |
 | Package | `com.axisvela:praxo-core` |
-| Registry | [Maven Central](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.12.2/) |
-| Source version | `0.12.2` |
-| Published registry version | `0.12.2` |
-| Install (published) | `Maven: com.axisvela:praxo-core:0.12.2` |
+| Registry | [Maven Central](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.12.3/) |
+| Source version | `0.12.3` |
+| Published registry version | `0.12.3` |
+| Install (published) | `Maven: com.axisvela:praxo-core:0.12.3` |
 | Install (source/release prepared) | `Maven source build (see README)` |
-| Source tag | `java/v0.12.2` |
+| Source tag | `java/v0.12.3` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/java/ |

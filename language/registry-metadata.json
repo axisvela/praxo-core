@@ -184,16 +184,16 @@
   "Java": {
     "dir": "language/java",
     "docs": "https://axisvela.github.io/praxo-core/languages/java/",
-    "install": "Maven: com.axisvela:praxo-core:0.12.2",
+    "install": "Maven: com.axisvela:praxo-core:0.12.3",
     "package": "com.axisvela:praxo-core",
-    "published_version": "0.12.2",
+    "published_version": "0.12.3",
     "registry": "Maven Central",
     "source_install": "Maven source build (see README)",
-    "source_version": "0.12.2",
+    "source_version": "0.12.3",
     "status": "published",
-    "tag": "java/v0.12.2",
+    "tag": "java/v0.12.3",
     "tier": "Core",
-    "url": "https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.12.2/"
+    "url": "https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.12.3/"
   },
   "Julia": {
     "dir": "language/julia",

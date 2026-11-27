@@ -1,5 +1,14 @@
 # Java Core Release Notes
 
+## 0.12.3 - 2026-11-27
+
+Source tag `java/v0.12.3`.
+
+### Changed
+
+- Expand the published Maven description with scenario tutorials, reference
+  applications, and community entry points. No API or wire change.
+
 ## 0.12.2 - 2026-11-27
 
 Source tag `java/v0.12.2`.

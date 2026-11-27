@@ -6,11 +6,11 @@
 
   <groupId>com.axisvela</groupId>
   <artifactId>praxo-core</artifactId>
-  <version>0.12.2</version>
+  <version>0.12.3</version>
   <packaging>jar</packaging>
 
   <name>PRAXO-CORE Java SDK</name>
-  <description>Embeddable MIT-licensed Java agent runtime with policy, human-in-the-loop approvals, checkpoints, tools, events, memory, and an agent loop. Examples: https://github.com/axisvela/praxo-core/tree/main/language/java/examples</description>
+  <description>Embeddable MIT-licensed Java agent runtime with policy, human-in-the-loop approvals, checkpoints, tools, events, memory, and an agent loop. Includes OpenAI-compatible, Anthropic, and Gemini adapters, MCP, OpenTelemetry, retriever, and delegation. Scenario tutorials: https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial. Reference applications: https://github.com/axisvela/praxo-core/tree/main/language/java/application. Examples: https://github.com/axisvela/praxo-core/tree/main/language/java/examples. Community: https://x.com/axisvela | https://github.com/axisvela/praxo-core/discussions | https://axisvela.github.io/praxo-core/</description>
   <url>https://axisvela.github.io/praxo-core/</url>
 
   <licenses>
@@ -32,7 +32,7 @@
     <connection>scm:git:https://github.com/axisvela/praxo-core.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/axisvela/praxo-core.git</developerConnection>
     <url>https://github.com/axisvela/praxo-core</url>
-    <tag>java/v0.12.2</tag>
+    <tag>java/v0.12.3</tag>
   </scm>
 
   <properties>

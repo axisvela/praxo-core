@@ -28,7 +28,7 @@ mvn -q compile exec:java
 
 The CLI prints JSON with `draft.status=draft_only`, the current/target equity
 percentages, citations and an empty `executed_trades` list. It uses Maven Central
-`com.axisvela:praxo-core:0.12.2`, with no local Core replacement.
+`com.axisvela:praxo-core:0.12.3`, with no local Core replacement.
 
 ## HTTP Entry
 
