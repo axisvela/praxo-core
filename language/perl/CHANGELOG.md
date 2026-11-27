@@ -1,5 +1,15 @@
 # Perl Core Release Notes
 
+## 0.8.1 - 2026-11-27
+
+Source tag `perl/v0.8.1`.
+
+### Changed
+
+- Expand the MetaCPAN README.pod with explicit examples, scenario tutorials,
+  reference-application status, and community links. No public API or wire
+  change.
+
 ## 0.8.0 - 2026-11-26
 
 Source tag `perl/v0.8.0`.
