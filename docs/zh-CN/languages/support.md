@@ -76,7 +76,7 @@ Kotlin、VB.NET、Scala 等仅示例实现保留在本仓库，作为宿主 Core
 | 语言 | 源码标签 | 注册表版本 | 消费者安装 smoke |
 | --- | --- | --- | --- |
 | Go | 2.11.3 | Go proxy `v2.11.3` | 版本一致；README 已更新 |
-| Python | `python/v0.11.0` | PyPI `praxo-core==0.11.0` 已发布 | 历史 docs CI 升级到 `0.10.0` 通过；未记录 `0.11.0` smoke |
+| Python | `python/v0.11.1` | PyPI `praxo-core==0.11.1` 已发布 | 历史 docs CI 升级到 `0.10.0` 通过；未记录 `0.11.1` smoke |
 | TypeScript | `typescript/v0.10.1` | npm `@axisvela/praxo-core@0.10.1` 已作为 `latest` 发布 | 历史 docs CI 升级到 `0.9.0` 通过；未记录 `0.10.1` smoke |
 | Java | `java/v0.12.2` | Maven Central `com.axisvela:praxo-core:0.12.2` 已发布 | 历史 `0.11.0` docs CI 安装于 2026-11-20 通过（run `44731906136`）；`0.12.2` docs CI 全新消费者安装通过（run `45967285657`） |
 | Rust | `rust/v0.11.1` | crates.io `praxo-core==0.11.1` 已发布 | README 已包含场景教程、参考应用状态和社区链接 |
@@ -108,7 +108,7 @@ Kotlin、VB.NET、Scala 等仅示例实现保留在本仓库，作为宿主 Core
 | 语言 | 代码/manifest 版本 | 注册表 latest | 状态 |
 | --- | --- | --- | --- |
 | Go | 2.11.3 | Go proxy `v2.11.3` | 版本一致；README 已更新 |
-| Python | 0.11.0 | PyPI `0.11.0` | 版本一致；README 陈旧 |
+| Python | 0.11.1 | PyPI `0.11.1` | 版本一致；README 已更新 |
 | TypeScript | 0.10.1 | npm `0.10.1` | 版本一致；README 已更新 |
 | Java | 0.12.2 | Maven Central `0.12.2` | 版本一致；SDK 版本已修正 |
 | Rust | 0.11.1 | crates.io `0.11.1` | 版本一致；README 已更新 |

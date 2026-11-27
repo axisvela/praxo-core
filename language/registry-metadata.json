@@ -338,16 +338,16 @@
   "Python": {
     "dir": "language/python",
     "docs": "https://axisvela.github.io/praxo-core/languages/python/",
-    "install": "pip install praxo-core==0.11.0",
+    "install": "pip install praxo-core==0.11.1",
     "package": "praxo-core",
-    "published_version": "0.11.0",
+    "published_version": "0.11.1",
     "registry": "PyPI",
     "source_install": "pip install ./language/python",
-    "source_version": "0.11.0",
+    "source_version": "0.11.1",
     "status": "published",
-    "tag": "python/v0.11.0",
+    "tag": "python/v0.11.1",
     "tier": "Core",
-    "url": "https://pypi.org/project/praxo-core/0.11.0/"
+    "url": "https://pypi.org/project/praxo-core/0.11.1/"
   },
   "R": {
     "dir": "language/r",
