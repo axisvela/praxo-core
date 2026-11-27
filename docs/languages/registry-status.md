@@ -50,7 +50,7 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 | Erlang | Hex | `0.10.1` | https://hex.pm/packages/praxo_core_erlang/0.10.1 | published; README includes scenario tutorials, reference-application status, and community |
 | Ruby | RubyGems | `0.10.0` | https://rubygems.org/gems/praxo-core/versions/0.10.0 | published; split source repo `axisvela/praxo-core-ruby` tagged `v0.10.0` |
 | Lua | LuaRocks | `0.9.1-1` | https://luarocks.org/modules/hanhhuiwen/praxo-core/0.9.1-1 | published; split repository `v0.9.1` tagged |
-| PHP | Packagist | `0.10.0` | https://packagist.org/packages/axisvela/praxo-core#v0.10.0 | published |
+| PHP | Packagist | `0.10.1` | https://packagist.org/packages/axisvela/praxo-core#v0.10.1 | published |
 | Dart | pub.dev | `0.8.2` | https://pub.dev/packages/praxo_core/versions/0.8.2 | published; public API has dartdoc coverage |
 | D | DUB | `0.8.0` | https://code.dlang.org/packages/praxo-core/versions/0.8.0 | published; matches source `d/v0.8.0` |
 | Swift | Swift Package Index | `0.7.2` | https://swiftpackageindex.com/axisvela/praxo-core-swift | SPI indexes split `0.7.2`; split repository tagged `0.9.0` with streaming scope; SPI re-index pending |

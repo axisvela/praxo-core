@@ -85,7 +85,7 @@ Kotlin、VB.NET、Scala 等仅示例实现保留在本仓库，作为宿主 Core
 | Erlang | `erlang/v0.10.1` | Hex `praxo_core_erlang==0.10.1` 已发布 | README 包含场景教程、参考应用状态和社区信息 |
 | Ruby | `ruby/v0.10.0` | RubyGems `praxo-core==0.10.0` 已发布 | 历史 CI 于 2026-11-21 通过 `0.9.2` allow/deny（run `44913820352`）；未记录 `0.10.0` smoke |
 | Lua | `lua/v0.9.1` | LuaRocks `praxo-core==0.9.1-1` 已发布 | `0.9.1-1` 增加与 README 同步的 rockspec 描述；未记录 `0.9.0-1` smoke |
-| PHP | `php/v0.10.0` | Packagist `axisvela/praxo-core==0.10.0` 已发布 | 历史 Composer 于 2026-11-18 通过 `0.8.1` allow/deny；未记录 `0.10.0` smoke |
+| PHP | `php/v0.10.1` | Packagist `axisvela/praxo-core==0.10.1` 已发布 | 历史 Composer 于 2026-11-18 通过 `0.8.1` allow/deny；未记录 `0.10.1` smoke |
 | Dart | `dart/v0.8.2` | pub.dev `praxo_core==0.8.2` 已发布 | 公共 API 已有 dartdoc 注释覆盖 |
 | D | `d/v0.8.0` | DUB `praxo-core==0.8.0` 已发布 | 未记录 `0.8.0` 消费者 smoke |
 | Swift | `swift/v0.9.0` | SPI split 包 `0.7.2` 已索引；split 仓库已打 tag `0.9.0`（流式范围）；SPI 重新索引待完成 | 本地 Windows 完整测试受阻；typecheck 通过；未记录消费者 smoke |
@@ -116,7 +116,7 @@ Kotlin、VB.NET、Scala 等仅示例实现保留在本仓库，作为宿主 Core
 | Elixir | 0.11.1 | Hex `0.11.1` | 版本一致 |
 | Erlang | 0.10.1 | Hex `0.10.1` | 版本一致 |
 | Ruby | 0.10.0 | RubyGems `0.10.0` | 版本一致 |
-| PHP | 0.10.0 | Packagist `0.10.0` | 版本一致 |
+| PHP | 0.10.1 | Packagist `0.10.1` | 版本一致 |
 | Lua | 0.9.1-1 | LuaRocks `0.9.1-1` | 版本一致 |
 | Dart | 0.8.2 | pub.dev `0.8.2` | 版本一致；文档覆盖已增加 |
 | Julia | 0.9.0 | General Registry PR #176393 已更新为 0.9.0，待合并 | 待完成 |

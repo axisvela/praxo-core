@@ -1,5 +1,15 @@
 # PHP Core Release Notes
 
+## 0.10.1 - 2026-11-27
+
+Source tag `php/v0.10.1`.
+
+### Fixed
+
+- Publish a new Packagist tag after the previous split tag reference diverged.
+- Refresh the package README with scenario tutorials, reference applications,
+  and community links. No API or wire change.
+
 ## 0.10.0 - 2026-11-26
 
 Source tag `php/v0.10.0`.
