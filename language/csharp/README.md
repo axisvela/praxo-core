@@ -7,26 +7,17 @@ Schema validation, and plugin manifest parsing. It runs in-process and does not
 require a hosted service.
 
 - `SPEC_VERSION`: `0.2.0`
-- Source version: `0.11.0` (latest source tag `csharp/v0.11.0`)
+- Source version: `0.11.1` (latest source tag `csharp/v0.11.1`)
 - License: MIT
 - Dependencies: none beyond the .NET base class library
-- The latest NuGet package is `Praxo.Core@0.11.0`.
-
-## Registry and Coding-Agent Entry
-
-- Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/language/csharp/REGISTRY.md)
-- Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/csharp/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/csharp/llms.md)
-- [Examples](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples): runnable language-specific examples.
-- Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
-- Registry: [NuGet](https://www.nuget.org/packages/Praxo.Core/0.11.0)
-- Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761) · [LinkedIn](https://www.linkedin.com/company/axisvela/) · [Facebook](https://www.facebook.com/profile.php?id=61596905732406) · [YouTube](https://www.youtube.com/@axisvela) · [Discord](https://discord.com/channels/1575163993767809064/1575164343148875977) · [GitHub Discussions](https://github.com/axisvela/praxo-core/discussions) · [GitHub Issues](https://github.com/axisvela/praxo-core/issues) · [Documentation](https://axisvela.github.io/praxo-core/) · [Architect](https://axisvela.architect.pub)
+- The latest NuGet package is `Praxo.Core@0.11.1`.
 
 ## Get started
 
 Install the published package:
 
 ```bash
-dotnet add package Praxo.Core --version 0.11.0
+dotnet add package Praxo.Core --version 0.11.1
 ```
 
 Then run the smallest deterministic example:
@@ -58,10 +49,73 @@ Runnable examples live under [`language/csharp/examples`](https://github.com/axi
 | Add provider fallback | [provider-fallback](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/provider-fallback) |
 | Observe agent events | [event-sink](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/event-sink) |
 
+## Tutorials and Reference Applications
+
+Scenario tutorials are bounded teaching slices. Reference applications are
+portfolio integrations whose end-to-end acceptance remains in the roadmap.
+
+### Scenario Tutorials
+
+| Scenario | Tutorial |
+| --- | --- |
+| TL-07 Airport recovery | [airport-recovery](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/airport-recovery) |
+| Architecture graph | [architecture-graph](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/architecture-graph) |
+| BOM review | [bom-review](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/bom-review) |
+| Construction safety | [construction-safety](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/construction-safety) |
+| Contract review | [contract-review](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/contract-review) |
+| Due diligence | [due-diligence](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/due-diligence) |
+| Healthcare scheduling | [healthcare-scheduling](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/healthcare-scheduling) |
+| OP-01 Internal service desk | [internal-service-desk](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/internal-service-desk) |
+| HC-04 Medical coding | [medical-coding](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/medical-coding) |
+| Order review | [order-review](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/order-review) |
+| Phishing awareness | [phishing-awareness](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/phishing-awareness) |
+| CT-03 Public approval | [public-approval](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/public-approval) |
+| OP-04 RPA reconciliation | [rpa-reconciliation](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/rpa-reconciliation) |
+| Sales CRM | [sales-crm](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/sales-crm) |
+| SE-04 Test generation | [test-generation](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/test-generation) |
+| Trial screening | [trial-screening](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/trial-screening) |
+| SE-05 Zero-trust review | [zero-trust-review](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/zero-trust-review) |
+
+Index: [language/csharp/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial).
+
+### Reference Applications
+
+| Application | Status |
+| --- | --- |
+| Enterprise line-of-business / ASP.NET Core service | Candidate; no accepted end-to-end implementation |
+
+See the [reference application portfolio](https://github.com/axisvela/praxo-core/blob/main/docs/project/roadmap.md#reference-application-portfolio)
+for acceptance criteria and current limits.
+
+Planning context: [Tutorial Plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/), [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), and [Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/). Chinese: [教程计划](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/), [候选场景](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/), [教程目录](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/).
+
+## Community
+
+- X: <https://x.com/axisvela>
+- Weibo: <https://weibo.com/u/1936025761>
+- LinkedIn: <https://www.linkedin.com/company/axisvela/>
+- Facebook: <https://www.facebook.com/profile.php?id=61596905732406>
+- YouTube: <https://www.youtube.com/@axisvela>
+- Discord: <https://discord.com/channels/1575163993767809064/1575164343148875977>
+- GitHub Discussions: <https://github.com/axisvela/praxo-core/discussions>
+- GitHub Issues: <https://github.com/axisvela/praxo-core/issues>
+- Documentation: <https://axisvela.github.io/praxo-core/>
+- Architect: <https://axisvela.architect.pub>
+
+
+## Registry and Coding-Agent Entry
+
+- Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/language/csharp/REGISTRY.md)
+- Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/csharp/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/csharp/llms.md)
+- [Examples](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples): runnable language-specific examples.
+- Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
+- Registry: [NuGet](https://www.nuget.org/packages/Praxo.Core/0.11.1)
+- Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761) · [LinkedIn](https://www.linkedin.com/company/axisvela/) · [Facebook](https://www.facebook.com/profile.php?id=61596905732406) · [YouTube](https://www.youtube.com/@axisvela) · [Discord](https://discord.com/channels/1575163993767809064/1575164343148875977) · [GitHub Discussions](https://github.com/axisvela/praxo-core/discussions) · [GitHub Issues](https://github.com/axisvela/praxo-core/issues) · [Documentation](https://axisvela.github.io/praxo-core/) · [Architect](https://axisvela.architect.pub)
+
 ## Install
 
 ```bash
-dotnet add package Praxo.Core --version 0.11.0
+dotnet add package Praxo.Core --version 0.11.1
 ```
 
 ## Scope
@@ -191,54 +245,6 @@ invocation timeout, cooperative cancel, and typed call errors.
 
 ## Release
 
-Latest source tag: `csharp/v0.10.0`. It targets `SPEC_VERSION` `0.2.0`. See
+Latest source tag: `csharp/v0.11.1`. It targets `SPEC_VERSION` `0.2.0`. See
 [CHANGELOG.md](CHANGELOG.md) for per-release changes and compatibility notes.
-
-
-## Tutorials and Reference Applications
-
-Language-specific scenario tutorials and reference applications for C#.
-
-### Scenario Tutorials
-
-| Tutorial | What it shows |
-| --- | --- |
-| [airport-recovery](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/airport-recovery) | A bounded first slice of [TL-07](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an airport operations system. It reads fixed gate/crew/connection c... |
-| [architecture-graph](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/architecture-graph) | A bounded tutorial slice over the native .NET Core. It reads one fixed fixture, enforces scope and drafts a review-only result. No production write or external system access. |
-| [bom-review](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/bom-review) | A bounded tutorial slice over the native .NET Core. It reads one fixed fixture, enforces scope and drafts a review-only result. No production write or external system access. |
-| [construction-safety](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/construction-safety) | A bounded tutorial slice over the native .NET Core. It reads one fixed fixture, enforces scope and drafts a review-only result. No production write or external system access. |
-| [contract-review](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/contract-review) | A bounded tutorial slice over the native .NET Core. It reads one fixed fixture, enforces scope and drafts a review-only result. No production write or external system access. |
-| [due-diligence](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/due-diligence) | A bounded tutorial slice over the native .NET Core. It reads one fixed fixture, enforces scope and drafts a review-only result. No production write or external system access. |
-| [healthcare-scheduling](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/healthcare-scheduling) | A native C# Core tutorial for review-only appointment scheduling. It reads a fixed `appointment-100` clinic schedule, checks slot availability, and drafts a booking for human re... |
-| [internal-service-desk](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/internal-service-desk) | A bounded tutorial slice over the native .NET Core. It reads one fixed fixture, enforces scope and drafts a review-only result. No production write or external system access. |
-| [medical-coding](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/medical-coding) | A bounded first slice of [HC-04](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a billing or reimbursement system. It checks fixed record completen... |
-| [order-review](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/order-review) | Embed the native C# Core in an ASP.NET Core minimal API. The Agent invokes a scoped order-review tool over the public synthetic business service. The same application also offer... |
-| [phishing-awareness](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/phishing-awareness) | A bounded tutorial slice over the native .NET Core. It reads one fixed fixture, enforces scope and drafts a review-only result. No production write or external system access. |
-| [public-approval](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/public-approval) | A bounded tutorial slice over the native .NET Core. It reads one fixed fixture, enforces scope and drafts a review-only result. No production write or external system access. |
-| [rpa-reconciliation](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/rpa-reconciliation) | A bounded tutorial slice over the native .NET Core. It reads one fixed fixture, enforces scope and drafts a review-only result. No production write or external system access. |
-| [sales-crm](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/sales-crm) | A native C# Core tutorial for a review-only sales workflow. The Agent has two fixed tools: `read_customer` reads synthetic customer `customer-100`, and `draft_followup` produces... |
-| [test-generation](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/test-generation) | A bounded first slice of [SE-04](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a test-execution or load-testing service. It generates three bounde... |
-| [trial-screening](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/trial-screening) | A bounded tutorial slice over the native .NET Core. It reads one fixed fixture, enforces scope and drafts a review-only result. No production write or external system access. |
-| [zero-trust-review](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/zero-trust-review) | A bounded tutorial slice over the native .NET Core. It reads one fixed fixture, enforces scope and drafts a review-only result. No production write or external system access. |
-
-Index: [language/csharp/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial).
-
-### Reference Applications
-
-No accepted end-to-end reference application is recorded for this language yet. Candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
-
-Planning context: [Tutorial Plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/), [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), and [Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/). Chinese: [教程计划](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/), [候选场景](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/), [教程目录](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/).
-
-## Community
-
-- X: <https://x.com/axisvela>
-- Weibo: <https://weibo.com/u/1936025761>
-- LinkedIn: <https://www.linkedin.com/company/axisvela/>
-- Facebook: <https://www.facebook.com/profile.php?id=61596905732406>
-- YouTube: <https://www.youtube.com/@axisvela>
-- Discord: <https://discord.com/channels/1575163993767809064/1575164343148875977>
-- GitHub Discussions: <https://github.com/axisvela/praxo-core/discussions>
-- GitHub Issues: <https://github.com/axisvela/praxo-core/issues>
-- Documentation: <https://axisvela.github.io/praxo-core/>
-- Architect: <https://axisvela.architect.pub>
 

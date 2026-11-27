@@ -364,7 +364,7 @@ name the version that was actually installed.
 - [praxo-core 0.10.0 on RubyGems](https://rubygems.org/gems/praxo-core/versions/0.10.0)
 - [praxo-core 0.9.1-1 on LuaRocks](https://luarocks.org/modules/hanhhuiwen/praxo-core/0.9.1-1)
 - [praxo_core 0.11.1 on Hex](https://hex.pm/packages/praxo_core/0.11.1)
-- [Praxo.Core 0.11.0 on NuGet](https://www.nuget.org/packages/Praxo.Core/0.11.0)
+- [Praxo.Core 0.11.1 on NuGet](https://www.nuget.org/packages/Praxo.Core/0.11.1)
 - [axisvela/praxo-core 0.10.1 on Packagist](https://packagist.org/packages/axisvela/praxo-core#v0.10.1)
 - [praxo_core_erlang 0.10.1 on Hex](https://hex.pm/packages/praxo_core_erlang/0.10.1)
 - [praxo-core-ps 0.9.1 on PowerShell Gallery](https://www.powershellgallery.com/packages/praxo-core-ps/0.9.1)

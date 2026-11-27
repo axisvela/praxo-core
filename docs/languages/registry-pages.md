@@ -58,7 +58,7 @@ do not repair them. A new publication and a fresh audit are still required.
 | TypeScript | [npm](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.10.0) | `0.10.0` | Packaged README installs `0.8.1` | Not accepted |
 | Java | [Maven POM](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.12.2/praxo-core-0.12.2.pom) | `0.12.2` | SCM tag is `java/v0.12.2` | Rendered-page re-audit pending |
 | Rust | [crates.io](https://crates.io/crates/praxo-core/0.11.0) | `0.11.0` | Packaged README installs `0.9.2` | Not accepted |
-| C# | [NuGet](https://www.nuget.org/packages/Praxo.Core/0.11.0) | `0.11.0` | Packaged README installs `0.10.0` | Not accepted |
+| C# | [NuGet](https://www.nuget.org/packages/Praxo.Core/0.11.1) | `0.11.1` | None recorded in source | Rendered-page re-audit pending |
 | Dart | [pub.dev](https://pub.dev/packages/praxo_core/versions/0.8.0) | `0.8.0` | Packaged README installs `0.7.0` | Not accepted |
 | Haskell | [Hackage](https://hackage.haskell.org/package/praxo-core-0.9.0) | `0.9.0` | Packaged README installs `0.7.1` | Not accepted |
 

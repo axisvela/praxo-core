@@ -1,5 +1,14 @@
 # C# Core Release Notes
 
+## 0.11.1 - 2026-11-27
+
+Source tag `csharp/v0.11.1`.
+
+### Fixed
+
+- Publish the README with scenario tutorials, reference applications, and
+  community links in package-friendly order. No API or wire change.
+
 ## 0.11.0 - 2026-11-26
 
 Source tag `csharp/v0.11.0`.

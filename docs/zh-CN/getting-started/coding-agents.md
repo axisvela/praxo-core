@@ -15,7 +15,7 @@
 | PHP | `axisvela/praxo-core` | `0.10.1` | [PHP Starter](https://github.com/axisvela/praxo-core/tree/main/language/php/examples/consumer) |
 | Elixir | `praxo_core` | `0.11.1` | [Elixir Starter](https://github.com/axisvela/praxo-core/tree/main/language/elixir/examples/consumer) |
 | Lua | `praxo-core` | `0.9.1-1` | [Lua Starter](https://github.com/axisvela/praxo-core/tree/main/language/lua/examples/consumer) |
-| C# | `Praxo.Core` | `0.11.0` | [C# Starter](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/consumer) |
+| C# | `Praxo.Core` | `0.11.1` | [C# Starter](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/consumer) |
 | Rust | `praxo-core` | `0.11.1` | [Rust Starter](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples/consumer) |
 | R | `praxocore` | `0.12.0` | [R Starter](https://github.com/axisvela/praxo-core/tree/main/language/r/examples/consumer) |
 
