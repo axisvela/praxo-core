@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'errors.dart';
 import 'models.dart';
 
+/// Handles parseSseResponse().
 Response parseSseResponse(String text, void Function(String) onDelta) {
   final content = StringBuffer();
   final calls = <int, Map<String, String>>{};

@@ -3,11 +3,17 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
+/// The pluginProtocolVersion value.
 const pluginProtocolVersion = 1;
+/// The pluginControlService value.
 const pluginControlService = 'host.control';
+/// The pluginHealthMethod value.
 const pluginHealthMethod = 'health';
+/// The pluginShutdownMethod value.
 const pluginShutdownMethod = 'shutdown';
+/// The pluginCancelMethod value.
 const pluginCancelMethod = 'cancel';
+/// The pluginDefaultTokenEnv value.
 const pluginDefaultTokenEnv = 'PRAXOVELA_PLUGIN_TOKEN';
 
 const _callCodes = {
@@ -20,10 +26,14 @@ const _callCodes = {
   'CANCELED',
 };
 
+/// The PluginCallException API.
 class PluginCallException implements Exception {
+  /// The code value.
   final String code;
+  /// The message value.
   final String message;
 
+  /// Creates a PluginCallException instance.
   PluginCallException(String code, [String message = ''])
       : code = _callCodes.contains(code) ? code : 'INTERNAL',
         message = message.isEmpty ? code : message;
@@ -32,19 +42,32 @@ class PluginCallException implements Exception {
   String toString() => '$code: $message';
 }
 
+/// The PluginProcessConfig API.
 class PluginProcessConfig {
+  /// The pluginId value.
   final String pluginId;
+  /// The path value.
   final String path;
+  /// The args value.
   final List<String> args;
+  /// The dir value.
   final String? dir;
+  /// The String value.
   final Map<String, String>? env;
+  /// The token value.
   final String token;
+  /// The tokenEnvVar value.
   final String tokenEnvVar;
+  /// The startTimeout value.
   final Duration startTimeout;
+  /// The invokeTimeout value.
   final Duration invokeTimeout;
+  /// The gracePeriod value.
   final Duration gracePeriod;
+  /// The maxFrameBytes value.
   final int maxFrameBytes;
 
+  /// Creates a PluginProcessConfig instance.
   const PluginProcessConfig({
     required this.pluginId,
     required this.path,
@@ -60,7 +83,9 @@ class PluginProcessConfig {
   });
 }
 
+/// The PluginProcessHost API.
 class PluginProcessHost {
+  /// The config value.
   final PluginProcessConfig config;
   final String _token;
   Process? _process;
@@ -69,6 +94,7 @@ class PluginProcessHost {
   int _sequence = 0;
   bool _active = false;
 
+  /// Creates a PluginProcessHost instance.
   PluginProcessHost(this.config)
       : _token = config.token.isNotEmpty ? config.token : _randomToken() {
     if (config.pluginId.isEmpty) {
@@ -79,12 +105,16 @@ class PluginProcessHost {
     }
   }
 
+  /// Returns the pluginId value.
   String get pluginId => config.pluginId;
 
+  /// Returns the isActive value.
   bool get isActive => _active;
 
+  /// Returns the stderrText value.
   String get stderrText => _stderr.toString();
 
+  /// Handles start().
   Future<void> start() async {
     if (_process != null) {
       throw StateError('plugin: host already started');
@@ -120,6 +150,7 @@ class PluginProcessHost {
     _active = true;
   }
 
+  /// Handles invoke().
   Future<List<int>> invoke(
     String service,
     String method, [
@@ -132,6 +163,7 @@ class PluginProcessHost {
     return _call(service, method, payload, timeout ?? config.invokeTimeout);
   }
 
+  /// Handles stop().
   Future<void> stop() async {
     final process = _process;
     if (process == null) return;

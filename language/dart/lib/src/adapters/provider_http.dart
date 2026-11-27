@@ -5,6 +5,7 @@ import 'dart:io';
 import '../errors.dart';
 import '../json.dart';
 
+/// Handles postSync().
 dynamic postSync({
   required Uri uri,
   required Map<String, dynamic> payload,
@@ -43,6 +44,7 @@ dynamic postSync({
   }
 }
 
+/// Handles postTextSync().
 String postTextSync({
   required Uri uri,
   required Map<String, dynamic> payload,
@@ -80,6 +82,7 @@ String postTextSync({
   }
 }
 
+/// Handles postAsync().
 Future<dynamic> postAsync({
   required Uri uri,
   required Map<String, dynamic> payload,
@@ -102,6 +105,7 @@ Future<dynamic> postAsync({
   }
 }
 
+/// Handles decodeHttpResponse().
 dynamic decodeHttpResponse(int status, String body) {
   if (status < 200 || status >= 300) {
     throw PraxoError(
@@ -115,6 +119,7 @@ dynamic decodeHttpResponse(int status, String body) {
   }
 }
 
+/// Handles bounded().
 String bounded(String value) =>
     value.length <= 512 ? value : value.substring(0, 512);
 

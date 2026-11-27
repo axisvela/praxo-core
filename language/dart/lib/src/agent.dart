@@ -4,40 +4,54 @@ import 'json.dart';
 import 'models.dart';
 import 'runtime.dart';
 
+/// A model adapter that generates responses for requests.
 abstract class Model {
+  /// Handles generate().
   Response generate(Request request);
 }
 
+/// The StreamingModel API.
 abstract class StreamingModel implements Model {
+  /// Handles generateStream().
   Response generateStream(Request request, void Function(String) onDelta);
 }
 
+/// A callable tool exposed to the agent.
 abstract class Tool {
+  /// Returns the name value.
   String get name;
+  /// Returns the description value.
   String get description;
+  /// Handles invoke().
   dynamic invoke(Map<String, dynamic> arguments);
 }
 
+/// The FuncTool API.
 class FuncTool implements Tool {
   @override
   final String name;
   @override
   final String description;
+  /// Handles Function().
   final dynamic Function(Map<String, dynamic>) function;
 
+  /// Creates a FuncTool instance.
   FuncTool(this.name, this.description, this.function);
 
   @override
   dynamic invoke(Map<String, dynamic> arguments) => function(arguments);
 }
 
+/// The Registry API.
 class Registry {
   final Map<String, Tool> _tools = {};
 
+  /// Handles register().
   void register(Tool tool) {
     _tools[tool.name] = tool;
   }
 
+  /// Handles get().
   Tool get(String name) {
     final tool = _tools[name];
     if (tool == null) {
@@ -46,6 +60,7 @@ class Registry {
     return tool;
   }
 
+  /// Handles specs().
   List<ToolSpec> specs() {
     final specs = _tools.values
         .map((tool) => ToolSpec(name: tool.name, description: tool.description))
@@ -55,9 +70,12 @@ class Registry {
   }
 }
 
+/// The StaticModel API.
 class StaticModel implements Model {
+  /// The content value.
   final String content;
 
+  /// Creates a StaticModel instance.
   StaticModel(this.content);
 
   @override
@@ -65,24 +83,42 @@ class StaticModel implements Model {
       Response(message: Message.assistant(content));
 }
 
+/// Options controlling the agent loop.
 class AgentOptions {
+  /// The model value.
   final Model model;
+  /// The tools value.
   Registry? tools;
+  /// The events value.
   EventSink? events;
+  /// Handles Function().
   Decision Function(Action action)? policy;
+  /// The systemPrompt value.
   String systemPrompt;
+  /// The context value.
   ContextBudget? context;
+  /// The maxSteps value.
   int maxSteps;
+  /// The maxTokens value.
   int maxTokens;
+  /// The toolChoice value.
   String? toolChoice;
+  /// The allowedTools value.
   List<String> allowedTools;
+  /// The interruptOn value.
   List<String> interruptOn;
+  /// The onInterruptDecision value.
   InterruptHandler? onInterruptDecision;
+  /// The onInterrupt value.
   InterruptApproval? onInterrupt;
+  /// The requirePolicy value.
   bool requirePolicy;
+  /// The requireToolScope value.
   bool requireToolScope;
+  /// Handles Function().
   void Function(String)? onDelta;
 
+  /// Creates a AgentOptions instance.
   AgentOptions(
     this.model, {
     this.tools,
@@ -103,9 +139,12 @@ class AgentOptions {
   });
 }
 
+/// The Agent API.
 class Agent {
+  /// The options value.
   final AgentOptions options;
 
+  /// Creates a Agent instance.
   Agent(this.options) {
     if (options.requirePolicy && options.policy == null) {
       throw const PraxoError(
@@ -117,6 +156,7 @@ class Agent {
     }
   }
 
+  /// Handles run().
   RunResult run(Session session, String prompt) {
     final maxSteps = options.maxSteps > 0 ? options.maxSteps : 8;
     final runId = 'run-${DateTime.now().millisecondsSinceEpoch}';
@@ -325,5 +365,6 @@ class Agent {
   }
 }
 
+/// Handles runAgent().
 RunResult runAgent(AgentOptions options, Session session, String prompt) =>
     Agent(options).run(session, prompt);

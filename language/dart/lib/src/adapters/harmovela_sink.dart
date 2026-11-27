@@ -6,15 +6,21 @@ import '../json.dart';
 import '../models.dart';
 import '../runtime.dart';
 
+/// Signature for HarmovelaClock.
 typedef HarmovelaClock = ({int seconds, int nanos}) Function();
 
+/// Signature for HarmovelaTransport.
 typedef HarmovelaTransport = HarmovelaResponse Function(
     String baseUrl, String path, String body, Map<String, String> headers);
 
+/// The HarmovelaResponse API.
 class HarmovelaResponse {
+  /// The status value.
   final int status;
+  /// The body value.
   final String body;
 
+  /// Creates a HarmovelaResponse instance.
   const HarmovelaResponse(this.status, this.body);
 }
 
@@ -23,15 +29,23 @@ class HarmovelaResponse {
   return (seconds: micros ~/ 1000000, nanos: (micros % 1000000) * 1000);
 }
 
+/// The HarmovelaSink API.
 class HarmovelaSink implements EventSink {
+  /// The maxBody value.
   static const int maxBody = 1024;
 
+  /// The baseUrl value.
   final String baseUrl;
+  /// The source value.
   final String source;
+  /// The specVersion value.
   final String specVersion;
+  /// The transport value.
   final HarmovelaTransport? transport;
+  /// The clock value.
   final HarmovelaClock? clock;
 
+  /// Creates a HarmovelaSink instance.
   HarmovelaSink({
     required String baseUrl,
     this.source = 'praxo-core',

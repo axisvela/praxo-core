@@ -6,30 +6,44 @@ import '../json.dart';
 import '../models.dart';
 import '../runtime.dart';
 
+/// Signature for OtelClock.
 typedef OtelClock = int Function();
 
+/// Signature for OtelTransport.
 typedef OtelTransport = OtelResponse Function(
     String method, String url, String body, Map<String, String> headers);
 
+/// The OtelResponse API.
 class OtelResponse {
+  /// The status value.
   final int status;
+  /// The body value.
   final String body;
 
+  /// Creates a OtelResponse instance.
   const OtelResponse(this.status, this.body);
 }
 
 int _otelDefaultClock() =>
     DateTime.now().toUtc().microsecondsSinceEpoch * 1000;
 
+/// The OtelSink API.
 class OtelSink implements EventSink {
+  /// The maxBody value.
   static const int maxBody = 512;
 
+  /// The endpoint value.
   final String endpoint;
+  /// The serviceName value.
   final String serviceName;
+  /// The allowedDataKeys value.
   final List<String> allowedDataKeys;
+  /// The transport value.
   final OtelTransport? transport;
+  /// The clock value.
   final OtelClock? clock;
 
+  /// Creates a OtelSink instance.
   OtelSink({
     required this.endpoint,
     this.serviceName = 'praxo-core',

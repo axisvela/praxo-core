@@ -3,9 +3,12 @@ import 'jsonschema.dart';
 import 'json.dart';
 import 'models.dart';
 
+/// Signature for ModelHandler.
 typedef ModelHandler = Response Function(Request request);
+/// Signature for ModelMiddleware.
 typedef ModelMiddleware = ModelHandler Function(ModelHandler next);
 
+/// The PiiRedactor API.
 class PiiRedactor {
   static final List<(RegExp, String)> _rules = [
     (RegExp(r'[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}'), '[REDACTED:email]'),
@@ -13,6 +16,7 @@ class PiiRedactor {
     (RegExp(r'\b(?:\d{4}[ -]?){3}\d{4}\b'), '[REDACTED:credit_card]'),
   ];
 
+  /// Handles redact().
   String redact(String text) {
     var output = text;
     for (final (pattern, replacement) in _rules) {
@@ -21,6 +25,7 @@ class PiiRedactor {
     return output;
   }
 
+  /// Handles redactValue().
   dynamic redactValue(dynamic value) {
     if (value is String) return redact(value);
     if (value is List) return value.map(redactValue).toList();
@@ -31,17 +36,23 @@ class PiiRedactor {
   }
 }
 
+/// The StructuredOutput API.
 class StructuredOutput {
+  /// The String value.
   final Map<String, dynamic> schema;
+  /// The maxRepairs value.
   final int maxRepairs;
+  /// Handles Function().
   final String? Function(String output)? repairer;
 
+  /// Creates a StructuredOutput instance.
   const StructuredOutput({
     required this.schema,
     this.maxRepairs = 0,
     this.repairer,
   });
 
+  /// Handles apply().
   (String?, String?) apply(String text) {
     var output = text;
     for (var attempt = 0; attempt <= maxRepairs; attempt++) {
@@ -59,6 +70,7 @@ class StructuredOutput {
   }
 }
 
+/// Handles extractJson().
 dynamic extractJson(String text) {
   var value = text.trim();
   if (value.startsWith('```')) {
@@ -82,14 +94,19 @@ dynamic extractJson(String text) {
   return Json.parse(value.substring(start));
 }
 
+/// The CallLimit API.
 class CallLimit {
+  /// The modelLimit value.
   final int modelLimit;
+  /// The toolLimit value.
   final int toolLimit;
   int _models = 0;
   int _tools = 0;
 
+  /// Creates a CallLimit instance.
   CallLimit({this.modelLimit = 0, this.toolLimit = 0});
 
+  /// Handles beforeModel().
   void beforeModel() {
     _models++;
     if (modelLimit > 0 && _models > modelLimit) {
@@ -97,6 +114,7 @@ class CallLimit {
     }
   }
 
+  /// Handles beforeTool().
   void beforeTool() {
     _tools++;
     if (toolLimit > 0 && _tools > toolLimit) {
@@ -105,14 +123,19 @@ class CallLimit {
   }
 }
 
+/// The ToolSelection API.
 class ToolSelection {
+  /// The selected value.
   final Set<String> selected;
 
+  /// Creates a ToolSelection instance.
   ToolSelection(Iterable<String> selected) : selected = selected.toSet();
 
+  /// Handles filter().
   List<ToolSpec> filter(List<ToolSpec> tools) =>
       tools.where((tool) => selected.contains(tool.name)).toList();
 
+  /// Handles reject().
   void reject(String name) {
     if (!selected.contains(name)) {
       throw const PraxoError('AGENT_TOOL_NOT_SELECTED', 'tool not selected');
@@ -120,6 +143,7 @@ class ToolSelection {
   }
 }
 
+/// Handles fallbackModel().
 ModelMiddleware fallbackModel(ModelHandler fallback) {
   return (ModelHandler next) {
     return (Request request) {

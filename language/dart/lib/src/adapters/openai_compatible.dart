@@ -8,22 +8,34 @@ import '../json.dart';
 import '../models.dart';
 import '../sse.dart';
 
+/// Signature for OpenAISyncTransport.
 typedef OpenAISyncTransport = dynamic Function(
     String path, Map<String, dynamic> payload);
+/// Signature for OpenAIAsyncTransport.
 typedef OpenAIAsyncTransport = Future<dynamic> Function(
     String path, Map<String, dynamic> payload);
+/// Signature for OpenAIStreamTransport.
 typedef OpenAIStreamTransport = dynamic Function(
     String path, Map<String, dynamic> payload);
 
+/// The OpenAICompatibleModel API.
 class OpenAICompatibleModel implements StreamingModel {
+  /// The baseUrl value.
   final String baseUrl;
+  /// The model value.
   final String model;
+  /// The apiKey value.
   final String? apiKey;
+  /// The transport value.
   final OpenAISyncTransport? transport;
+  /// The asyncTransport value.
   final OpenAIAsyncTransport? asyncTransport;
+  /// The streamTransport value.
   final OpenAIStreamTransport? streamTransport;
+  /// The timeout value.
   final Duration timeout;
 
+  /// Creates a OpenAICompatibleModel instance.
   OpenAICompatibleModel({
     required this.baseUrl,
     required this.model,
@@ -58,6 +70,7 @@ class OpenAICompatibleModel implements StreamingModel {
     return parseSseResponse(text, onDelta);
   }
 
+  /// Handles generateAsync().
   Future<Response> generateAsync(Request request) async {
     _requireBaseUrl();
     final payload = buildPayload(request);
@@ -67,6 +80,7 @@ class OpenAICompatibleModel implements StreamingModel {
     return parseResponse(data);
   }
 
+  /// Handles buildPayload().
   Map<String, dynamic> buildPayload(Request request) {
     final messages =
         request.messages.map((message) => _messagePayload(message)).toList();
@@ -99,6 +113,7 @@ class OpenAICompatibleModel implements StreamingModel {
     return payload;
   }
 
+  /// Handles parseResponse().
   Response parseResponse(dynamic data) {
     final choices = Json.array(data, 'choices');
     if (choices.isEmpty) {
@@ -131,6 +146,7 @@ class OpenAICompatibleModel implements StreamingModel {
     );
   }
 
+  /// Handles decodeHttpResponse().
   static dynamic decodeHttpResponse(int status, String body) {
     if (status < 200 || status >= 300) {
       throw PraxoError(

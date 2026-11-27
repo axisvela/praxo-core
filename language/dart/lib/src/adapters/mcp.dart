@@ -4,32 +4,45 @@ import 'dart:io';
 
 import '../errors.dart';
 
+/// The McpTransport API.
 abstract class McpTransport {
+  /// Handles request().
   Future<Map<String, dynamic>> request(
     String method,
     Map<String, dynamic> params,
     Duration timeout,
   );
 
+  /// Handles notify().
   void notify(String method, Map<String, dynamic> params);
 
+  /// Handles close().
   Future<void> close();
 }
 
+/// The McpClient API.
 class McpClient {
+  /// The defaultProtocolVersion value.
   static const defaultProtocolVersion = '2024-11-05';
 
+  /// The transport value.
   final McpTransport transport;
+  /// The clientVersion value.
   final String clientVersion;
+  /// The timeout value.
   final Duration timeout;
+  /// The protocolVersion value.
   String protocolVersion = '';
+  /// The String value.
   Map<String, dynamic> serverInfo = {};
 
   bool _connected = false;
   bool _closed = false;
 
+  /// The requestedProtocolVersion value.
   final String requestedProtocolVersion;
 
+  /// Creates a McpClient instance.
   McpClient({
     required this.transport,
     this.clientVersion = '0.3.0',
@@ -37,6 +50,7 @@ class McpClient {
     this.requestedProtocolVersion = defaultProtocolVersion,
   });
 
+  /// Handles start().
   Future<McpClient> start() async {
     if (_connected) return this;
     final result = await transport.request(
@@ -62,6 +76,7 @@ class McpClient {
     return this;
   }
 
+  /// Handles listTools().
   Future<List<Map<String, dynamic>>> listTools() async {
     await _ensureConnected();
     final tools = <Map<String, dynamic>>[];
@@ -96,6 +111,7 @@ class McpClient {
     return tools;
   }
 
+  /// Handles callTool().
   Future<dynamic> callTool(
     String name, [
     Map<String, dynamic> arguments = const {},
@@ -121,6 +137,7 @@ class McpClient {
     return texts.length == 1 ? texts.first : texts;
   }
 
+  /// Handles close().
   Future<void> close() async {
     if (_closed) return;
     _closed = true;
@@ -136,9 +153,13 @@ class McpClient {
   }
 }
 
+/// The StdioMcpTransport API.
 class StdioMcpTransport implements McpTransport {
+  /// The command value.
   final String command;
+  /// The args value.
   final List<String> args;
+  /// The String value.
   final Map<String, String>? environment;
 
   Process? _process;
@@ -147,12 +168,14 @@ class StdioMcpTransport implements McpTransport {
   int _nextId = 0;
   bool _closed = false;
 
+  /// Creates a StdioMcpTransport instance.
   StdioMcpTransport(
     this.command, {
     this.args = const [],
     this.environment,
   });
 
+  /// Handles start().
   Future<void> start() async {
     if (_process != null) return;
     final process = await Process.start(command, args, environment: environment);

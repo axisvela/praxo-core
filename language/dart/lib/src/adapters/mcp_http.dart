@@ -5,9 +5,13 @@ import 'dart:io';
 import '../errors.dart';
 import 'mcp.dart';
 
+/// The McpStreamableHttpTransport API.
 class McpStreamableHttpTransport implements McpTransport {
+  /// The endpoint value.
   final String endpoint;
+  /// The String value.
   final Map<String, String> headers;
+  /// The protocolVersion value.
   final String protocolVersion;
   final HttpClient _client;
 
@@ -15,6 +19,7 @@ class McpStreamableHttpTransport implements McpTransport {
   int _nextId = 0;
   bool _closed = false;
 
+  /// Creates a McpStreamableHttpTransport instance.
   McpStreamableHttpTransport({
     required this.endpoint,
     this.headers = const {},

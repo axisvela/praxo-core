@@ -1,19 +1,32 @@
 import 'errors.dart';
 import 'json.dart';
 
+/// The PluginManifest API.
 class PluginManifest {
+  /// The schemaVersion value.
   final int schemaVersion;
+  /// The id value.
   final String id;
+  /// The version value.
   final String version;
+  /// The action kind.
   final String kind;
+  /// The String value.
   final Map<String, dynamic> entrypoint;
+  /// The protocol value.
   final String protocol;
+  /// The capabilities value.
   final List<String> capabilities;
+  /// The String value.
   final Map<String, dynamic> permissions;
+  /// The String value.
   final Map<String, dynamic> limits;
+  /// The isolation value.
   final String isolation;
+  /// The String value.
   final Map<String, dynamic> health;
 
+  /// Creates a PluginManifest instance.
   const PluginManifest({
     required this.schemaVersion,
     required this.id,
@@ -47,6 +60,7 @@ const _limitKeys = {'memoryMB', 'cpuMillis', 'timeoutMs', 'maxInflight'};
 const _healthKeys = {'method', 'intervalMs'};
 const _signatureKeys = {'algorithm', 'keyId'};
 
+/// Handles parseManifest().
 PluginManifest parseManifest(String raw) {
   if (raw.trim().isEmpty) {
     throw const PraxoError('PLUGIN_INVALID', 'plugin: manifest is empty');

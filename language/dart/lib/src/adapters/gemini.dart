@@ -4,21 +4,33 @@ import '../json.dart';
 import '../models.dart';
 import 'provider_http.dart';
 
+/// Signature for GeminiSyncTransport.
 typedef GeminiSyncTransport = dynamic Function(
     String path, Map<String, dynamic> payload);
+/// Signature for GeminiAsyncTransport.
 typedef GeminiAsyncTransport = Future<dynamic> Function(
     String path, Map<String, dynamic> payload);
 
+/// The GeminiModel API.
 class GeminiModel implements StreamingModel {
+  /// The baseUrl value.
   final String baseUrl;
+  /// The model value.
   final String model;
+  /// The apiKey value.
   final String? apiKey;
+  /// The maxOutputTokens value.
   final int maxOutputTokens;
+  /// The transport value.
   final GeminiSyncTransport? transport;
+  /// The asyncTransport value.
   final GeminiAsyncTransport? asyncTransport;
+  /// The streamTransport value.
   final GeminiSyncTransport? streamTransport;
+  /// The timeout value.
   final Duration timeout;
 
+  /// Creates a GeminiModel instance.
   GeminiModel({
     this.baseUrl = 'https://generativelanguage.googleapis.com',
     required this.model,
@@ -45,6 +57,7 @@ class GeminiModel implements StreamingModel {
     return parseResponse(data);
   }
 
+  /// Handles generateAsync().
   Future<Response> generateAsync(Request request) async {
     _validate();
     final payload = buildPayload(request);
@@ -85,6 +98,7 @@ class GeminiModel implements StreamingModel {
     return parseStream(text, onDelta);
   }
 
+  /// Handles parseStream().
   Response parseStream(String text, void Function(String) onDelta) {
     final content = StringBuffer();
     final calls = <ToolCall>[];
@@ -151,6 +165,7 @@ class GeminiModel implements StreamingModel {
     );
   }
 
+  /// Handles buildPayload().
   Map<String, dynamic> buildPayload(Request request) {
     final built = _buildContents(request.messages);
     final payload = <String, dynamic>{'contents': built.contents};
@@ -186,6 +201,7 @@ class GeminiModel implements StreamingModel {
     return payload;
   }
 
+  /// Handles parseResponse().
   Response parseResponse(dynamic data) {
     final error = Json.get(data, 'error');
     if (error != null) {

@@ -1,37 +1,47 @@
 import 'dart:convert';
 
+/// The Json API.
 class Json {
+  /// Handles parse().
   static dynamic parse(String text) => jsonDecode(text);
 
+  /// Handles stringify().
   static String stringify(dynamic value) => jsonEncode(value);
 
+  /// Handles get().
   static dynamic get(dynamic node, String key) {
     if (node is Map) return node[key];
     return null;
   }
 
+  /// Handles has().
   static bool has(dynamic node, String key) => node is Map && node.containsKey(key);
 
+  /// Handles string().
   static String? string(dynamic node, String key) {
     final value = get(node, key);
     return value is String ? value : null;
   }
 
+  /// Handles boolean().
   static bool boolean(dynamic node, String key, [bool fallback = false]) {
     final value = get(node, key);
     return value is bool ? value : fallback;
   }
 
+  /// Handles integer().
   static int integer(dynamic node, String key, [int fallback = 0]) {
     final value = get(node, key);
     return value is num ? value.toInt() : fallback;
   }
 
+  /// Handles array().
   static List<dynamic> array(dynamic node, String key) {
     final value = get(node, key);
     return value is List ? value : const [];
   }
 
+  /// Handles equals().
   static bool equals(dynamic left, dynamic right) {
     if (identical(left, right)) return true;
     if (left == null || right == null) return left == right;

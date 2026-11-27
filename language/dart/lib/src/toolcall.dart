@@ -1,15 +1,25 @@
 import 'json.dart';
 
+/// The ParsedToolCall API.
 class ParsedToolCall {
+  /// The callId value.
   String callId;
+  /// The name value.
   final String name;
+  /// The String value.
   final Map<String, dynamic> input;
+  /// The operation value.
   final String operation;
+  /// The resource value.
   final String resource;
+  /// The risk value.
   final String risk;
+  /// The reason value.
   final String reason;
+  /// The idempotencyKey value.
   final String idempotencyKey;
 
+  /// Creates a ParsedToolCall instance.
   ParsedToolCall({
     this.callId = '',
     required this.name,
@@ -22,7 +32,9 @@ class ParsedToolCall {
   });
 }
 
+/// The ToolCallParser API.
 class ToolCallParser {
+  /// Handles parse().
   static ParsedToolCall? parse(String content) {
     final call = _parseJson(content) ??
         _parseXml(content) ??
@@ -33,6 +45,7 @@ class ToolCallParser {
     return call;
   }
 
+  /// Handles stripMarkup().
   static String stripMarkup(String content) {
     var output = content;
     output = output.replaceAll(
@@ -54,6 +67,7 @@ class ToolCallParser {
     return output.trim();
   }
 
+  /// Handles parseInputJson().
   static Map<String, dynamic>? parseInputJson(String raw) {
     try {
       final value = Json.parse(raw.trim());

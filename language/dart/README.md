@@ -10,17 +10,17 @@ The normative contract is [`spec/`](../../spec/README.md); Go remains the
 reference implementation.
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.8.1`
+- Core version: `0.8.2`
 - Tier: core
 - License: MIT
 - Dependencies: Dart standard library only
-- Published on pub.dev as `praxo_core@0.8.1`; source is `0.8.1`
+- Published on pub.dev as `praxo_core@0.8.2`; source is `0.8.2`
 - Publishing setup: [PUBLISHING.md](PUBLISHING.md)
 
 ## Install
 
 ```bash
-dart pub add praxo_core:0.8.1
+dart pub add praxo_core:0.8.2
 ```
 
 ## Quickstart

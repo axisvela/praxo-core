@@ -4,23 +4,36 @@ import '../json.dart';
 import '../models.dart';
 import 'provider_http.dart';
 
+/// Signature for AnthropicSyncTransport.
 typedef AnthropicSyncTransport = dynamic Function(
     String path, Map<String, dynamic> payload);
+/// Signature for AnthropicAsyncTransport.
 typedef AnthropicAsyncTransport = Future<dynamic> Function(
     String path, Map<String, dynamic> payload);
 
+/// The AnthropicModel API.
 class AnthropicModel implements StreamingModel {
+  /// The baseUrl value.
   final String baseUrl;
+  /// The model value.
   final String model;
+  /// The apiKey value.
   final String? apiKey;
+  /// The version value.
   final String version;
+  /// The maxTokens value.
   final int maxTokens;
+  /// The transport value.
   final AnthropicSyncTransport? transport;
+  /// The asyncTransport value.
   final AnthropicAsyncTransport? asyncTransport;
+  /// The streamTransport value.
   final dynamic Function(String path, Map<String, dynamic> payload)?
       streamTransport;
+  /// The timeout value.
   final Duration timeout;
 
+  /// Creates a AnthropicModel instance.
   AnthropicModel({
     this.baseUrl = 'https://api.anthropic.com',
     required this.model,
@@ -47,6 +60,7 @@ class AnthropicModel implements StreamingModel {
     return parseResponse(data);
   }
 
+  /// Handles generateAsync().
   Future<Response> generateAsync(Request request) async {
     _validate();
     final payload = buildPayload(request);
@@ -84,6 +98,7 @@ class AnthropicModel implements StreamingModel {
     return parseStream(text, onDelta);
   }
 
+  /// Handles parseStream().
   Response parseStream(String text, void Function(String) onDelta) {
     final content = StringBuffer();
     final calls = <int, Map<String, String>>{};
@@ -201,6 +216,7 @@ class AnthropicModel implements StreamingModel {
     );
   }
 
+  /// Handles buildPayload().
   Map<String, dynamic> buildPayload(Request request) {
     final built = _buildMessages(request.messages);
     final payload = <String, dynamic>{
@@ -230,6 +246,7 @@ class AnthropicModel implements StreamingModel {
     return payload;
   }
 
+  /// Handles parseResponse().
   Response parseResponse(dynamic data) {
     final error = Json.get(data, 'error');
     if (error != null) {

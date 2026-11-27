@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.8.2 - 2026-11-27
+
+Source tag `dart/v0.8.2`.
+
+### Changed
+
+- Add dartdoc comments across the public API so pub.dev documents the exported
+  classes, constructors, fields, methods, and typedefs. No public API or wire
+  change.
+
 ## 0.8.1 - 2026-11-27
 
 Source tag `dart/v0.8.1`.

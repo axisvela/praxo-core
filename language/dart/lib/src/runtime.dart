@@ -4,13 +4,18 @@ import 'errors.dart';
 import 'json.dart';
 import 'models.dart';
 
+/// The EventSink API.
 abstract class EventSink {
+  /// Handles emit().
   void emit(Event event);
 }
 
+/// The MultiSink API.
 class MultiSink implements EventSink {
+  /// The sinks value.
   final List<EventSink> sinks;
 
+  /// Creates a MultiSink instance.
   MultiSink(this.sinks);
 
   @override
@@ -21,10 +26,14 @@ class MultiSink implements EventSink {
   }
 }
 
+/// The FilterSink API.
 class FilterSink implements EventSink {
+  /// The sink value.
   final EventSink sink;
+  /// Handles Function().
   final bool Function(Event) predicate;
 
+  /// Creates a FilterSink instance.
   FilterSink(this.sink, this.predicate);
 
   @override
@@ -33,10 +42,12 @@ class FilterSink implements EventSink {
   }
 }
 
+/// The MemoryStore API.
 class MemoryStore {
   final Map<String, List<MemoryRecord>> _records = {};
   int _sequence = 0;
 
+  /// Handles put().
   MemoryRecord put(String sessionId, MemoryRecord record) {
     if (record.id.isEmpty) {
       record.id = 'mem-${DateTime.now().millisecondsSinceEpoch}-${_sequence++}';
@@ -46,6 +57,7 @@ class MemoryStore {
     return record;
   }
 
+  /// Handles search().
   List<MemoryRecord> search(String sessionId, String query, int limit) {
     final needle = query.trim().toLowerCase();
     final matches = (_records[sessionId] ?? [])
@@ -57,9 +69,11 @@ class MemoryStore {
   }
 }
 
+/// The CheckpointAllowlist API.
 class CheckpointAllowlist {
   final Set<String> _registered = {};
 
+  /// Handles register().
   void register(String type) {
     if (type.isEmpty) {
       throw const PraxoError('CHECKPOINT_ERROR', 'checkpoint: type is required');
@@ -67,6 +81,7 @@ class CheckpointAllowlist {
     _registered.add(type);
   }
 
+  /// Handles marshal().
   String marshal(String type, dynamic value) {
     if (!_registered.contains(type)) {
       throw PraxoError('CHECKPOINT_TYPE_NOT_ALLOWED',
@@ -75,6 +90,7 @@ class CheckpointAllowlist {
     return Json.stringify({'type': type, 'data': value});
   }
 
+  /// Handles unmarshal().
   dynamic unmarshal(String data) {
     final envelope = Json.parse(data);
     if (envelope is! Map) {
@@ -90,11 +106,15 @@ class CheckpointAllowlist {
   }
 }
 
+/// The PathChecker API.
 class PathChecker {
+  /// The grants value.
   final List<PathGrant> grants;
 
+  /// Creates a PathChecker instance.
   PathChecker(this.grants);
 
+  /// Handles check().
   Decision check(String target, String need) {
     if (!const {'read', 'write', 'readwrite'}.contains(need)) {
       throw const PraxoError('POLICY_ERROR', 'policy: invalid access');
@@ -118,6 +138,7 @@ class PathChecker {
     );
   }
 
+  /// Handles allowed().
   bool allowed(String target, String need) {
     try {
       return check(target, need).allowed;
@@ -161,12 +182,17 @@ bool _allows(String grant, String need) {
   return grant == 'readwrite';
 }
 
+/// The ContextBudget API.
 class ContextBudget {
+  /// The maxTokens value.
   final int maxTokens;
+  /// The keepRecent value.
   final int keepRecent;
 
+  /// Creates a ContextBudget instance.
   const ContextBudget({this.maxTokens = 0, this.keepRecent = 0});
 
+  /// Handles compact().
   (List<Message>, bool) compact(List<Message> messages) {
     if (maxTokens <= 0 || estimateTokens(messages) <= maxTokens) {
       return (messages, true);
@@ -219,6 +245,7 @@ class ContextBudget {
   }
 }
 
+/// Handles estimateTokens().
 int estimateTokens(List<Message> messages) {
   var total = 0;
   for (final message in messages) {
@@ -237,6 +264,7 @@ int estimateTokens(List<Message> messages) {
   return total;
 }
 
+/// Handles truncateToTokens().
 String truncateToTokens(String value, int tokens) {
   if (tokens <= 0) return '';
   final limit = tokens * 4;

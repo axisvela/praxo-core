@@ -1,3 +1,6 @@
+/// PRAXO-CORE Dart Core: an embeddable, MIT-licensed agent framework.
+library;
+
 export 'src/adapters/anthropic.dart';
 export 'src/adapters/gemini.dart';
 export 'src/adapters/delegation.dart';

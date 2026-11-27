@@ -1,12 +1,17 @@
 import 'json.dart';
 
+/// The ValidationError API.
 class ValidationError {
+  /// The path value.
   final String path;
+  /// The message value.
   final String message;
 
+  /// Creates a ValidationError instance.
   const ValidationError(this.path, this.message);
 }
 
+/// Handles validate().
 List<ValidationError> validate(dynamic schema, dynamic data) {
   final errors = <ValidationError>[];
   _visit(schema, data, r'$', errors);
