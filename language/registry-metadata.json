@@ -400,7 +400,7 @@
     "registry": "Swift Package Index",
     "source_install": ".package(path: \"language/swift\")",
     "source_version": "0.9.0",
-    "status": "published",
+    "status": "published; split repository v0.9.0 tagged; SPI re-index pending",
     "tag": "swift/v0.9.0",
     "tier": "Core",
     "url": "https://swiftpackageindex.com/axisvela/praxo-core-swift"

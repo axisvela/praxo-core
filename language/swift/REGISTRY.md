@@ -1,6 +1,6 @@
 # PRAXO-CORE Swift Registry Introduction
 
-**Status:** published. Source version `0.9.0`, source
+**Status:** published; split repository v0.9.0 tagged; SPI re-index pending. Source version `0.9.0`, source
 tag `swift/v0.9.0`. Published registry version: `0.7.2`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.

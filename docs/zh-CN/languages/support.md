@@ -88,7 +88,7 @@ Kotlin、VB.NET、Scala 等仅示例实现保留在本仓库，作为宿主 Core
 | PHP | `php/v0.10.0` | Packagist `axisvela/praxo-core==0.10.0` 已发布 | 历史 Composer 于 2026-11-18 通过 `0.8.1` allow/deny；未记录 `0.10.0` smoke |
 | Dart | `dart/v0.8.0` | pub.dev `praxo_core==0.8.0` 已发布 | 历史 `0.6.1` smoke 通过；未记录 `0.8.0` smoke |
 | D | `d/v0.8.0` | DUB `praxo-core==0.8.0` 已发布 | 未记录 `0.8.0` 消费者 smoke |
-| Swift | `swift/v0.9.0` | SPI split 包 `0.7.2` 已索引 | split 非流式范围不代表主仓库流式范围；未记录消费者 smoke |
+| Swift | `swift/v0.9.0` | SPI split 包 `0.7.2` 已索引；split 仓库已打 tag `0.9.0`（流式范围）；SPI 重新索引待完成 | 本地 Windows 完整测试受阻；typecheck 通过；未记录消费者 smoke |
 | Julia | `julia/v0.9.0` | General Registry PR #176393 待合并 | 未记录 |
 | MATLAB | `matlab/v0.9.0` | MATLAB File Exchange `185166` 已发布（`0.9.1`） | 引用仍为 `0.2.1`；广泛兼容性和原生 MATLAB 执行未验证 |
 | Octave | `octave/v0.9.0` | Octave `0.9.0` release tarball 已发布；Octave Packages PR #875 待合并 | 未记录；仅 Octave 11.3.0 本地执行 |
@@ -128,7 +128,7 @@ Kotlin、VB.NET、Scala 等仅示例实现保留在本仓库，作为宿主 Core
 | R | 0.12.0 | r-universe `0.12.0` | 版本一致；检查有 warnings；未发布 CRAN |
 | Nim | 0.8.0 | split 源码已打 tag；registry 索引待更新 | split 仓库 `v0.8.0` 已打 tag；Nimble/nimpkgs 待重新抓取 |
 | OCaml | 0.11.1 | 未发布到 opam；替代提交待审核 | split 源码已对齐且原生 fixture 包已验证 |
-| Swift | 0.9.0 | SPI `0.7.2` | split 非流式范围，落后于主仓库流式范围 |
+| Swift | 0.9.0 | SPI `0.7.2` | split 仓库 `0.9.0` 已打 tag；SPI 重新索引待完成 |
 | V | 0.8.0 | split 仓库 `0.8.0` 已打 tag | VPM 提交待完成，未验收 |
 | Delphi / Free Pascal | 0.9.0 | GitHub Release 资产 `0.9.0` | OPM 收录未验证 |
 | D | 0.8.0 | DUB `0.8.0` | 版本一致 |

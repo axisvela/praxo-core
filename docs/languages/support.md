@@ -120,7 +120,7 @@ acceptance, and no new consumer smoke or remote correction is claimed here.
 | PHP | `php/v0.10.0` | Packagist `axisvela/praxo-core==0.10.0` published | Historical Composer allow/deny passed for `0.8.1` on 2026-11-18; `0.10.0` smoke not recorded |
 | Dart | `dart/v0.8.0` | pub.dev `praxo_core==0.8.0` published | Prior clean `0.6.1` smoke passed; `0.8.0` smoke not recorded |
 | D | `d/v0.8.0` | DUB `praxo-core==0.8.0` published | Consumer smoke not recorded for `0.8.0` |
-| Swift | `swift/v0.9.0` | SPI split package `0.7.2` indexed | Published split scope is non-streaming; monorepo streaming scope is not implied; consumer smoke not recorded |
+| Swift | `swift/v0.9.0` | SPI split package `0.7.2` indexed; split repository tagged `0.9.0` with streaming scope; SPI re-index pending | Local Windows full test blocked; typecheck passed; consumer smoke not recorded |
 | Julia | `julia/v0.9.0` | General Registry PR #176393 open; merge pending | Not recorded |
 | MATLAB | `matlab/v0.9.0` | MATLAB File Exchange `185166` published (`0.9.1`) | Citation still `0.2.1`; broad compatibility and native MATLAB execution unverified |
 | Octave | `octave/v0.9.0` | Octave `0.9.0` release tarball published; Octave Packages PR #875 pending | Not recorded; Octave 11.3.0 local execution only |
@@ -160,7 +160,7 @@ its latest version matches the manifest at the release tag.
 | R | 0.12.0 | r-universe `0.12.0` | version matches; check warnings; CRAN not published |
 | Nim | 0.8.0 | split source tagged; registry index pending | split repository `v0.8.0` tagged; Nimble/nimpkgs re-crawl pending |
 | OCaml | 0.11.1 | not published to opam; replacement submission pending | split source aligned and native-fixture package validated |
-| Swift | 0.9.0 | SPI `0.7.2` | split non-streaming scope; behind monorepo streaming scope |
+| Swift | 0.9.0 | SPI `0.7.2` | split repository `0.9.0` tagged; SPI re-index pending |
 | V | 0.8.0 | split repository `0.8.0` tagged | VPM submission pending; not accepted |
 | Delphi / Free Pascal | 0.9.0 | GitHub release assets `0.9.0` | OPM listing unverified |
 | D | 0.8.0 | DUB `0.8.0` | version matches |
@@ -292,8 +292,8 @@ installation index. Use the tables above and
   V publishes package `praxo-core` from `axisvela/praxo-core-v`; the split
   repository is tagged `0.8.0`, while VPM submission is pending and registry
   availability remains unverified. Objective-C remains source-only. Swift
-   publishes SPM tag `0.7.2` from `axisvela/praxo-core-swift`; Swift Package
-   Index `0.7.2` is indexed with non-streaming split scope. Production readiness and complete Go parity are not
+   publishes SPM tag `0.9.0` from `axisvela/praxo-core-swift`; Swift Package
+   Index `0.7.2` remains indexed while `0.9.0` re-indexing is pending. Production readiness and complete Go parity are not
   claimed; optional Go hooks and provider adapters are not included.
 - Erlang source tag `erlang/v0.5.0` adds HITL interrupt decisions to policy
   hooks, middleware, final-tool allowlist checks, reauthorization, lifecycle
