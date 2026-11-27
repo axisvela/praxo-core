@@ -1,6 +1,6 @@
 # Independent PHP Consumer
 
-This module installs published `axisvela/praxo-core` `0.10.0` and verifies an
+This module installs published `axisvela/praxo-core` `0.10.1` and verifies an
 allow/deny governed tool path without local replacements.
 
 This is the recommended package pin, not new execution evidence. The consumer

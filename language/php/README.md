@@ -10,8 +10,8 @@ adding a Python or Go sidecar. It is not an HTTP user agent, crawler, hosted
 agent service, or model provider.
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.10.0`
-- The latest Packagist package is `axisvela/praxo-core@0.10.0`
+- Core version: `0.10.1`
+- The latest Packagist package is `axisvela/praxo-core@0.10.1`
 - License: MIT
 - Dependencies: none beyond the PHP standard library
 - Runtime: use a patched PHP release. On Windows use `8.2.35-1`, `8.3.36-1`,
@@ -31,7 +31,7 @@ agent service, or model provider.
 Install the published package:
 
 ```bash
-composer require axisvela/praxo-core:0.10.0
+composer require axisvela/praxo-core:0.10.1
 ```
 
 Then run the smallest deterministic example:
@@ -66,7 +66,7 @@ Runnable examples live under [`language/php/examples`](https://github.com/axisve
 ## Install
 
 ```bash
-composer require axisvela/praxo-core:0.10.0
+composer require axisvela/praxo-core:0.10.1
 ```
 
 ## Scope
@@ -167,11 +167,11 @@ exactly-once delivery. Use HTTPS and filter sensitive event data first.
 - `src/` library (PSR-4 `Praxo\Core\`).
 - `conformance/run.php` vector runner, API snapshot, and check mode.
 - `tests/run.php` dependency-free core tests.
-- `api/0.10.0.txt` checked-in public API snapshot.
+- `api/0.10.1.txt` checked-in public API snapshot.
 
 ## Release
 
-Tag shape: `php/v0.10.0`. The tag targets `SPEC_VERSION` `0.2.0`. See
+Tag shape: `php/v0.10.1`. The tag targets `SPEC_VERSION` `0.2.0`. See
 [CHANGELOG.md](CHANGELOG.md) for per-release changes and compatibility notes.
 
 ## Tutorials and Reference Applications

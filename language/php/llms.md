@@ -8,11 +8,11 @@
 
 - package: `axisvela/praxo-core`
 - registry: [Packagist](https://packagist.org/packages/axisvela/praxo-core)
-- source_version: `0.10.0`
-- published_version: `0.10.0`
-- install_published: `composer require axisvela/praxo-core:0.10.0`
+- source_version: `0.10.1`
+- published_version: `0.10.1`
+- install_published: `composer require axisvela/praxo-core:0.10.1`
 - install_source: `Composer path repository: language/php`
-- source_tag: `php/v0.10.0`
+- source_tag: `php/v0.10.1`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/php/

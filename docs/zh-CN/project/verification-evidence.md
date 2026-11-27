@@ -309,7 +309,7 @@ Registry 链接指向当前已发布版本；上表的消费者 smoke 行指明�
 - [LuaRocks 上的 praxo-core 0.9.1-1](https://luarocks.org/modules/hanhhuiwen/praxo-core/0.9.1-1)
 - [Hex 上的 praxo_core 0.11.1](https://hex.pm/packages/praxo_core/0.11.1)
 - [NuGet 上的 Praxo.Core 0.11.0](https://www.nuget.org/packages/Praxo.Core/0.11.0)
-- [Packagist 上的 axisvela/praxo-core 0.10.0](https://packagist.org/packages/axisvela/praxo-core#v0.10.0)
+- [Packagist 上的 axisvela/praxo-core 0.10.1](https://packagist.org/packages/axisvela/praxo-core#v0.10.1)
 - [PowerShell Gallery 上的 praxo-core-ps 0.9.1](https://www.powershellgallery.com/packages/praxo-core-ps/0.9.1)
 - [MetaCPAN 上的 Praxo-Core 0.8.1](https://metacpan.org/release/HANHHUIWEN/Praxo-Core-0.8.1)
 - [Hex 上的 praxo_core_erlang 0.10.1](https://hex.pm/packages/praxo_core_erlang/0.10.1)
