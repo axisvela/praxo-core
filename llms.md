@@ -28,7 +28,7 @@
 - Nim: `praxo_core` — [Nimble/nim-lang packages (unverified)](https://github.com/axisvela/praxo-core-nim) — not published — https://axisvela.github.io/praxo-core/languages/nim/
 - V: `praxo-core` — [VPM (pending)](https://github.com/axisvela/praxo-core-v) — not published — https://axisvela.github.io/praxo-core/languages/v/
 - D: `praxo-core` — [DUB](https://code.dlang.org/packages/praxo-core) — `0.8.0` — https://axisvela.github.io/praxo-core/languages/d/
-- PowerShell: `praxo-core-ps` — [PowerShell Gallery](https://www.powershellgallery.com/packages/praxo-core-ps/0.9.0) — `0.9.0` — https://axisvela.github.io/praxo-core/languages/powershell/
+- PowerShell: `praxo-core-ps` — [PowerShell Gallery](https://www.powershellgallery.com/packages/praxo-core-ps/0.9.1) — `0.9.1` — https://axisvela.github.io/praxo-core/languages/powershell/
 - R: `praxocore` — [r-universe](https://axisvela.r-universe.dev/praxocore) — `0.12.0` — https://axisvela.github.io/praxo-core/languages/r/
 - MATLAB: `PRAXO-CORE` — [MATLAB File Exchange](https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core) — `0.9.1` — https://axisvela.github.io/praxo-core/languages/matlab/
 - GNU Octave: `praxo-core` — [GitHub release (Octave package index pending)](https://github.com/axisvela/praxo-core/releases/download/octave/v0.9.0/praxo-core-0.9.0.tar.gz) — `0.9.0` — https://axisvela.github.io/praxo-core/languages/octave/

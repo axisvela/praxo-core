@@ -46,7 +46,7 @@ GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
 | D | DUB | `0.8.0` | https://code.dlang.org/packages/praxo-core/versions/0.8.0 | 已发布；与源码 `d/v0.8.0` 一致 |
 | Swift | Swift Package Index | `0.7.2` | https://swiftpackageindex.com/axisvela/praxo-core-swift | SPI 索引 split `0.7.2`；split 仓库已打 tag `0.9.0`（流式范围）；SPI 重新索引待完成 |
 | MATLAB | MATLAB File Exchange | `0.9.1` | https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core | 已发布；源码 `matlab/v0.9.0`；引用仍为 `0.2.1`；MATLAB 兼容性未验证 |
-| PowerShell Core | PowerShell Gallery | `0.9.0` | https://www.powershellgallery.com/packages/praxo-core-ps/0.9.0 | 已发布；发布工作流 45718060566 |
+| PowerShell Core | PowerShell Gallery | `0.9.1` | https://www.powershellgallery.com/packages/praxo-core-ps/0.9.1 | 已发布；发布工作流 45922472866 |
 | PowerShell Bridge | PowerShell Gallery | `0.1.0` | https://www.powershellgallery.com/packages/praxo-core-ps-br/0.1.0 | 已发布 |
 | Perl | CPAN | `0.8.0` | https://metacpan.org/dist/Praxo-Core | 已发布 |
 | Haskell | Hackage | `0.9.0` | https://hackage.haskell.org/package/praxo-core-0.9.0 | 已发布；README 缺陷见页面审计 |

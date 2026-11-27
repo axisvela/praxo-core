@@ -94,7 +94,7 @@ Kotlin、VB.NET、Scala 等仅示例实现保留在本仓库，作为宿主 Core
 | Octave | `octave/v0.9.0` | Octave `0.9.0` release tarball 已发布；Octave Packages PR #875 待合并 | 未记录；仅 Octave 11.3.0 本地执行 |
 | R | `r/v0.12.0` | r-universe `praxocore==0.12.0` 已发布；CRAN 未发布 | 实际构建 HEAD `9b417e3`；检查有 warnings，并非全部无警告通过。未记录发布后消费者安装；CRAN 需 `R CMD check --as-cran` |
 | Perl | `perl/v0.8.0` | CPAN `Praxo-Core==0.8.0` 已发布 | 未记录 `0.8.0` 消费者安装 |
-| PowerShell | `powershell/v0.9.1` | PowerShell Gallery `praxo-core-ps==0.9.0` 已发布 | 0.9.1 补丁增加示例、教程和参考应用列表；发布待完成。run `45718060566` 发布了 0.9.0 |
+| PowerShell | `powershell/v0.9.1` | PowerShell Gallery `praxo-core-ps==0.9.1` 已发布 | 发布工作流 run `45922472866` 发布了 0.9.1，Gallery 描述包含示例、教程和参考应用列表 |
 | Nim | `nim/v0.8.0` | split 仓库包 `0.1.1`；nim-lang/packages PR #3600 已于 2026-11-05 合并；nimpkgs 待重新抓取 | 未记录 |
 | OCaml | `ocaml/v0.11.1` | 未发布到 opam；替代提交待审核 | split 源码已对齐到 `0.11.1`；原生 fixture 包测试已在本地验证；等待 registry 接受 |
 | Haskell | `haskell/v0.9.0` | Hackage `praxo-core==0.9.0` 已发布 | 未记录 `0.9.0` 消费者安装 |
@@ -123,7 +123,7 @@ Kotlin、VB.NET、Scala 等仅示例实现保留在本仓库，作为宿主 Core
 | MATLAB | 0.9.0 | File Exchange `185166`（`0.9.1`） | 源码与 registry 版本不同；引用陈旧；MATLAB 未验证 |
 | Octave | 0.9.0 | 0.9.0 release tarball；Octave Packages PR #875 待合并 | 归档可用；索引待合并 |
 | Perl | 0.8.0 | CPAN `0.8.0` | 版本一致 |
-| PowerShell | 0.9.1 | PowerShell Gallery `0.9.0` | 0.9.1 发布待完成 |
+| PowerShell | 0.9.1 | PowerShell Gallery `0.9.1` | 版本一致 |
 | Haskell | 0.9.0 | Hackage `0.9.0` | 版本一致；README 陈旧 |
 | R | 0.12.0 | r-universe `0.12.0` | 版本一致；检查有 warnings；未发布 CRAN |
 | Nim | 0.8.0 | split 源码已打 tag；registry 索引待更新 | split 仓库 `v0.8.0` 已打 tag；Nimble/nimpkgs 待重新抓取 |

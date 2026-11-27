@@ -326,14 +326,14 @@
     "docs": "https://axisvela.github.io/praxo-core/languages/powershell/",
     "install": "Install-Module praxo-core-ps",
     "package": "praxo-core-ps",
-    "published_version": "0.9.0",
+    "published_version": "0.9.1",
     "registry": "PowerShell Gallery",
     "source_install": "Install-Module praxo-core-ps",
     "source_version": "0.9.1",
     "status": "published; shared C# runtime",
     "tag": "powershell/v0.9.1",
     "tier": "Core (.NET)",
-    "url": "https://www.powershellgallery.com/packages/praxo-core-ps/0.9.0"
+    "url": "https://www.powershellgallery.com/packages/praxo-core-ps/0.9.1"
   },
   "Python": {
     "dir": "language/python",
