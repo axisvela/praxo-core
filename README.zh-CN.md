@@ -59,7 +59,7 @@ Ruby、PHP、Elixir、Lua 等语言都有独立发布包。它不是 Go 专用�
 Go 是参考实现；其他运行时请使用上表。
 
 ```bash
-go get github.com/axisvela/praxo-core/v2@v2.11.1
+go get github.com/axisvela/praxo-core/v2@v2.11.2
 ```
 
 先通过[Go 独立消费者](docs/zh-CN/getting-started/consumer-go.md)在自己的应用安装发布包，
@@ -179,9 +179,9 @@ PRAXO-CORE 是独立的 MIT 框架。
 
 ## 版本与贡献
 
-当前核心版本为 `2.11.1`，本版本让根 README 以 Go 参考模块为主并修正安装命令为 `v2.11.1`，同时对齐公开发布与注册表文档；不改变导出的 `pkg/...` API 或 Wire 形状。适配器和 Core 实现独立版本化。
+当前核心版本为 `2.11.2`，本版本刷新公开注册表证据链接与发布文档，使其指向当前已发布版本；不改变导出的 `pkg/...` API 或 Wire 形状。适配器和 Core 实现独立版本化。
 
-- [最新发布说明](docs/zh-CN/releases/2.11.1.md)
+- [最新发布说明](docs/zh-CN/releases/2.11.2.md)
 - [版本历史](docs/zh-CN/releases/index.md)
 - [兼容政策](docs/zh-CN/project/compatibility-policy.md)
 - [v2 迁移](docs/zh-CN/project/migration-v2.md)

@@ -2,8 +2,8 @@
 
 Public audit: 2026-11-27. The versioned registry URLs below record published
 availability, not acceptance of package descriptions or consumer installation.
-Go `v2.11.1` is the reference release dated 2026-11-27 in the release docs;
-the [Go proxy metadata](https://proxy.golang.org/github.com/axisvela/praxo-core/v2/@v/v2.11.1.info)
+Go `v2.11.2` is the reference release dated 2026-11-27 in the release docs;
+the [Go proxy metadata](https://proxy.golang.org/github.com/axisvela/praxo-core/v2/@v/v2.11.2.info)
 records publication on 2026-11-27 UTC. These are different dates, not a
 2026-11-20 release. Unchanged pending rows retain their earlier evidence.
 
@@ -38,7 +38,7 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 
 | Language | Registry | Version | Address | Status |
 | --- | --- | --- | --- | --- |
-| Go | Go module proxy / pkg.go.dev | `v2.11.1` | https://pkg.go.dev/github.com/axisvela/praxo-core/v2@v2.11.1 | published; rendered README installs and calls current `v2.11.1` |
+| Go | Go module proxy / pkg.go.dev | `v2.11.2` | https://pkg.go.dev/github.com/axisvela/praxo-core/v2@v2.11.2 | published; rendered README installs and calls current `v2.11.2` |
 | Python | PyPI | `0.11.0` | https://pypi.org/project/praxo-core/0.11.0/ | published; README defect recorded in page audit |
 | TypeScript | npm | `0.10.0` | https://www.npmjs.com/package/@axisvela/praxo-core/v/0.10.0 | published; latest; README defect recorded in page audit |
 | Java | Maven Central | `0.12.0` | https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.12.0/ | published; POM SCM tag still `java/v0.10.0` |
