@@ -302,7 +302,7 @@ Registry 链接指向当前已发布版本；上表的消费者 smoke 行指明�
 
 - [Registry 发布状态（当前版本与地址）](../languages/registry-status.md)
 - [PyPI 上的 praxo-core 0.11.0](https://pypi.org/project/praxo-core/0.11.0/)
-- [npm 上的 @axisvela/praxo-core 0.10.0](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.10.0)
+- [npm 上的 @axisvela/praxo-core 0.10.1](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.10.1)
 - [crates.io 上的 praxo-core 0.11.1](https://crates.io/crates/praxo-core/0.11.1)
 - [pub.dev 上的 praxo_core 0.8.2](https://pub.dev/packages/praxo_core/versions/0.8.2)
 - [RubyGems 上的 praxo-core 0.10.2](https://rubygems.org/gems/praxo-core/versions/0.10.2)

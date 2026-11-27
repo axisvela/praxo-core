@@ -31,7 +31,7 @@ NON_REGISTRY = SAMPLE_ONLY | {"go"}
 class LanguageRegistryDocsTests(unittest.TestCase):
     def test_audited_published_versions(self):
         expected = {
-            "Go": "v2.11.3", "Python": "0.11.0", "TypeScript": "0.10.0",
+            "Go": "v2.11.3", "Python": "0.11.0", "TypeScript": "0.10.1",
             "Java": "0.12.2", "Rust": "0.11.1", "C#": "0.11.1",
             "R": "0.12.0", "Ruby": "0.10.2", "PHP": "0.10.1",
             "Dart": "0.8.2", "Elixir": "0.11.1", "Erlang": "0.10.1",

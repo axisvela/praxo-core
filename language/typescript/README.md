@@ -14,21 +14,12 @@ orchestration platform:
   Gemini adapters.
 - No runtime dependencies; Node.js 20 or newer.
 
-## Registry and Coding-Agent Entry
-
-- Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/language/typescript/REGISTRY.md)
-- Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/typescript/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/typescript/llms.md)
-- [Examples](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples): runnable language-specific examples.
-- Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
-- Registry: [npm](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.10.0)
-- Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761) · [LinkedIn](https://www.linkedin.com/company/axisvela/) · [Facebook](https://www.facebook.com/profile.php?id=61596905732406) · [YouTube](https://www.youtube.com/@axisvela) · [Discord](https://discord.com/channels/1575163993767809064/1575164343148875977) · [GitHub Discussions](https://github.com/axisvela/praxo-core/discussions) · [GitHub Issues](https://github.com/axisvela/praxo-core/issues) · [Documentation](https://axisvela.github.io/praxo-core/) · [Architect](https://axisvela.architect.pub)
-
 ## Get started
 
 Install the published package:
 
 ```bash
-npm install @axisvela/praxo-core@0.10.0
+npm install @axisvela/praxo-core@0.10.1
 ```
 
 Then run the smallest deterministic example:
@@ -61,10 +52,68 @@ Runnable examples live under [`language/typescript/examples`](https://github.com
 | Add provider fallback | [provider-fallback](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/provider-fallback) |
 | Observe agent events | [event-sink](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/event-sink) |
 
+## Tutorials and Reference Applications
+
+Scenario tutorials are bounded teaching slices. Reference applications are
+portfolio integrations whose end-to-end acceptance remains in the roadmap.
+
+### Scenario Tutorials
+
+| Scenario | Tutorial |
+| --- | --- |
+| SE-08 API orchestration | [api-orchestration](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/api-orchestration) |
+| Copyright evidence | [copyright-evidence](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/copyright-evidence) |
+| Customer support | [customer-support](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/customer-support) |
+| Education tutoring | [education-tutoring](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/education-tutoring) |
+| Live show | [live-show](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/live-show) |
+| CS-07 Localization draft | [localization-draft](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/localization-draft) |
+| OP-02 Meeting coordination | [meeting-coordination](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/meeting-coordination) |
+| OG-03 Negotiation interpretation | [negotiation-interpretation](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/negotiation-interpretation) |
+| Order review | [order-review](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/order-review) |
+| Phishing awareness | [phishing-awareness](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/phishing-awareness) |
+| CS-05 Retail replenishment | [retail-replenishment](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/retail-replenishment) |
+| Sales CRM | [sales-crm](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/sales-crm) |
+| Storyboard previs | [storyboard-previs](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/storyboard-previs) |
+| Travel booking | [travel-booking](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/travel-booking) |
+| SE-01 Workspace plan | [workspace-plan](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/workspace-plan) |
+
+Index: [language/typescript/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial).
+
+### Reference Applications
+
+No accepted end-to-end reference application is recorded for TypeScript yet.
+Candidate goals are tracked in the
+[reference application portfolio](https://github.com/axisvela/praxo-core/blob/main/docs/project/roadmap.md#reference-application-portfolio).
+
+Planning context: [Tutorial Plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/), [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), and [Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/). Chinese: [教程计划](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/), [候选场景](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/), [教程目录](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/).
+
+## Community
+
+- X: <https://x.com/axisvela>
+- Weibo: <https://weibo.com/u/1936025761>
+- LinkedIn: <https://www.linkedin.com/company/axisvela/>
+- Facebook: <https://www.facebook.com/profile.php?id=61596905732406>
+- YouTube: <https://www.youtube.com/@axisvela>
+- Discord: <https://discord.com/channels/1575163993767809064/1575164343148875977>
+- GitHub Discussions: <https://github.com/axisvela/praxo-core/discussions>
+- GitHub Issues: <https://github.com/axisvela/praxo-core/issues>
+- Documentation: <https://axisvela.github.io/praxo-core/>
+- Architect: <https://axisvela.architect.pub>
+
+
+## Registry and Coding-Agent Entry
+
+- Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/language/typescript/REGISTRY.md)
+- Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/typescript/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/typescript/llms.md)
+- [Examples](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples): runnable language-specific examples.
+- Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
+- Registry: [npm](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.10.1)
+- Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761) · [LinkedIn](https://www.linkedin.com/company/axisvela/) · [Facebook](https://www.facebook.com/profile.php?id=61596905732406) · [YouTube](https://www.youtube.com/@axisvela) · [Discord](https://discord.com/channels/1575163993767809064/1575164343148875977) · [GitHub Discussions](https://github.com/axisvela/praxo-core/discussions) · [GitHub Issues](https://github.com/axisvela/praxo-core/issues) · [Documentation](https://axisvela.github.io/praxo-core/) · [Architect](https://axisvela.architect.pub)
+
 ## Install
 
 ```bash
-npm install @axisvela/praxo-core@0.10.0
+npm install @axisvela/praxo-core@0.10.1
 ```
 
 ## Quickstart
@@ -172,8 +221,8 @@ output remains untrusted content.
 The normative contract is [`spec/`](../../spec/README.md); Go remains the
 reference implementation. This package supports `SPEC_VERSION` `0.2.0` and
 passes the TypeScript conformance and parity checks. The latest source tag is
-`typescript/v0.10.0`; the published npm package is
-`@axisvela/praxo-core@0.10.0`. VFS and plugin hosts are
+`typescript/v0.10.1`; the published npm package is
+`@axisvela/praxo-core@0.10.1`. VFS and plugin hosts are
 not yet implemented.
 
 ## Requirements
@@ -236,58 +285,12 @@ The runner reads `../../spec/vectors/*.json`. A released Core implementation mus
 and keep `spec/parity.md` current. `SPEC_VERSION` is exported from the package.
 
 
-## Tutorials and Reference Applications
-
-Language-specific scenario tutorials and reference applications for TypeScript.
-
-### Scenario Tutorials
-
-| Tutorial | What it shows |
-| --- | --- |
-| [api-orchestration](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/api-orchestration) | A bounded first slice of [SE-08](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an integration platform. It maps two fixed synthetic APIs, validate... |
-| [copyright-evidence](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/copyright-evidence) | Compares fixed authorized assets and drafts a review-only evidence packet. No broad crawl, DMCA notice or infringement verdict. |
-| [customer-support](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/customer-support) | A native TypeScript Core tutorial for a customer-support reply streamed over SSE. The Agent has two fixed tools: `lookup_order` reads `order-100`, and `search_policy` reads a fi... |
-| [education-tutoring](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/education-tutoring) | Tracks a fixed learner fixture and drafts a graded Socratic question for review. No adaptive model or issued grade. |
-| [live-show](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/live-show) | Replays fixed engagement events and drafts a review-only running order. No audience profiling, coupon sends or stream control. |
-| [localization-draft](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/localization-draft) | A bounded first slice of [CS-07](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a legal or tax compliance system. It compares fixed localization ru... |
-| [meeting-coordination](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/meeting-coordination) | Reconciles fixed calendar evidence and drafts review-only minutes. No invitations or live calendar writes. |
-| [negotiation-interpretation](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/negotiation-interpretation) | A bounded first slice of [OG-03](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an interpreter or cultural-profiling system. It compares a fixed bi... |
-| [order-review](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/order-review) | First deterministic native TypeScript Core integration slice. It shares the synthetic order HTTP service with the Python example, not a remote Agent loop. The `review_order` too... |
-| [phishing-awareness](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/phishing-awareness) | Classifies a fixed synthetic email and drafts an authorized review-only awareness exercise. No sends, links or infrastructure attacks. |
-| [retail-replenishment](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/retail-replenishment) | A bounded first slice of [CS-05](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not live pricing or procurement. It checks a fixed SKU's stock and pric... |
-| [sales-crm](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/sales-crm) | Extracts fixed objections from a transcript and drafts a review-only CRM update. No CRM write or customer message. |
-| [storyboard-previs](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/storyboard-previs) | Turns a fixed script scene into a review-only shot plan. No rendering or virtual-production engine. |
-| [travel-booking](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/travel-booking) | A native TypeScript Core tutorial for review-only flight booking. It checks fixed `trip-100` inventory and drafts a fare hold with no payment or booking write. The model package... |
-| [workspace-plan](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/workspace-plan) | A bounded first slice of [SE-01](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a code-generation or deployment product. It reads a fixed allowlist... |
-
-Index: [language/typescript/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial).
-
-### Reference Applications
-
-No accepted end-to-end reference application is recorded for this language yet. Candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
-
-Planning context: [Tutorial Plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/), [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), and [Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/). Chinese: [教程计划](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/), [候选场景](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/), [教程目录](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/).
-
-## Community
-
-- X: <https://x.com/axisvela>
-- Weibo: <https://weibo.com/u/1936025761>
-- LinkedIn: <https://www.linkedin.com/company/axisvela/>
-- Facebook: <https://www.facebook.com/profile.php?id=61596905732406>
-- YouTube: <https://www.youtube.com/@axisvela>
-- Discord: <https://discord.com/channels/1575163993767809064/1575164343148875977>
-- GitHub Discussions: <https://github.com/axisvela/praxo-core/discussions>
-- GitHub Issues: <https://github.com/axisvela/praxo-core/issues>
-- Documentation: <https://axisvela.github.io/praxo-core/>
-- Architect: <https://axisvela.architect.pub>
-
-
-## License
-
-MIT. See [LICENSE](LICENSE).
-
 ## Process plugin host
 
 `ProcessHost` speaks the framework JSON-Lines process plugin contract with
 token authentication, health handshake, invocation timeout, cancellation, and
 typed call errors. See `docs/guides/plugins.md`.
+
+## License
+
+MIT. See [LICENSE](LICENSE).

@@ -1,4 +1,4 @@
-export const SDK_VERSION = "0.10.0";
+export const SDK_VERSION = "0.10.1";
 export const SPEC_VERSION = "0.2.0";
 
 export * from "./adapters";
