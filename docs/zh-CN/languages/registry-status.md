@@ -44,7 +44,7 @@ GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
 | Ruby | RubyGems | `0.10.0` | https://rubygems.org/gems/praxo-core/versions/0.10.0 | 已发布；split 源码仓库 `axisvela/praxo-core-ruby` 已打 tag `v0.10.0` |
 | Lua | LuaRocks | `0.9.1-1` | https://luarocks.org/modules/hanhhuiwen/praxo-core/0.9.1-1 | 已发布；split 仓库 `v0.9.1` 已打 tag |
 | PHP | Packagist | `0.10.0` | https://packagist.org/packages/axisvela/praxo-core#v0.10.0 | 已发布 |
-| Dart | pub.dev | `0.8.1` | https://pub.dev/packages/praxo_core/versions/0.8.1 | 已发布；README 已重排并包含教程、参考应用状态和社区信息 |
+| Dart | pub.dev | `0.8.2` | https://pub.dev/packages/praxo_core/versions/0.8.2 | 已发布；公共 API 已有 dartdoc 注释覆盖 |
 | D | DUB | `0.8.0` | https://code.dlang.org/packages/praxo-core/versions/0.8.0 | 已发布；与源码 `d/v0.8.0` 一致 |
 | Swift | Swift Package Index | `0.7.2` | https://swiftpackageindex.com/axisvela/praxo-core-swift | SPI 索引 split `0.7.2`；split 仓库已打 tag `0.9.0`（流式范围）；SPI 重新索引待完成 |
 | MATLAB | MATLAB File Exchange | `0.9.1` | https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core | 已发布；源码 `matlab/v0.9.0`；引用仍为 `0.2.1`；MATLAB 兼容性未验证 |

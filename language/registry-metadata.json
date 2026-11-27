@@ -74,14 +74,14 @@
     "docs": "https://axisvela.github.io/praxo-core/languages/dart/",
     "install": "dart pub add praxo_core:0.8.2",
     "package": "praxo_core",
-    "published_version": "0.8.1",
+    "published_version": "0.8.2",
     "registry": "pub.dev",
     "source_install": "dart pub add praxo_core --path language/dart",
     "source_version": "0.8.2",
     "status": "published",
     "tag": "dart/v0.8.2",
     "tier": "Core",
-    "url": "https://pub.dev/packages/praxo_core/versions/0.8.1"
+    "url": "https://pub.dev/packages/praxo_core/versions/0.8.2"
   },
   "Delphi / Free Pascal": {
     "dir": "language/delphi",
