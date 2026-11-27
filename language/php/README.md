@@ -167,42 +167,43 @@ exactly-once delivery. Use HTTPS and filter sensitive event data first.
 - `src/` library (PSR-4 `Praxo\Core\`).
 - `conformance/run.php` vector runner, API snapshot, and check mode.
 - `tests/run.php` dependency-free core tests.
-- `api/0.9.0.txt` checked-in public API snapshot.
+- `api/0.10.0.txt` checked-in public API snapshot.
 
 ## Release
 
-Tag shape: `php/v0.9.0`. The tag targets `SPEC_VERSION` `0.2.0`. See
+Tag shape: `php/v0.10.0`. The tag targets `SPEC_VERSION` `0.2.0`. See
 [CHANGELOG.md](CHANGELOG.md) for per-release changes and compatibility notes.
-
 
 ## Tutorials and Reference Applications
 
-Language-specific scenario tutorials and reference applications for PHP.
+Scenario tutorials are bounded teaching slices; reference applications are
+portfolio integrations whose end-to-end acceptance remains in the roadmap.
 
 ### Scenario Tutorials
 
-| Tutorial | What it shows |
+| Scenario | Tutorial |
 | --- | --- |
-| [api-orchestration](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/api-orchestration) | A bounded first slice of [SE-08](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a general integration platform. It reads two synthetic upstream API... |
-| [copyright-evidence](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/copyright-evidence) | A bounded first slice of [LJ-05](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a rights-enforcement service. It compares fixed authorized assets a... |
-| [customer-support](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/customer-support) | Routes one fixed ticket and drafts a review-only billing reply. No CRM send, refund or account change. |
-| [customs-reroute](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/customs-reroute) | A bounded first slice of [TL-05](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a customs-filing system. It validates fixed document fields, compar... |
-| [internal-service-desk](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/internal-service-desk) | A bounded first slice of [OP-01](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an identity or provisioning system. It reads a fixed employee reque... |
-| [lead-nurture](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/lead-nurture) | A bounded first slice of [CS-02](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an outreach-automation product. It ranks fixed synthetic business p... |
-| [localization-draft](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/localization-draft) | A bounded first slice of [CS-07](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a legal or tax compliance system. It compares fixed localization ru... |
-| [public-approval](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/public-approval) | A bounded first slice of [CT-03](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a government identity or approval system. It validates a fixed appl... |
-| [recruiting-match](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/recruiting-match) | Matches fixed candidates against one role and drafts a review-only shortlist. No outreach, ranking model or hiring decision. |
-| [retail-replenishment](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/retail-replenishment) | Computes a reorder quantity from fixed stock and drafts a review-only order. No purchase order or supplier call. |
-| [tender-review](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/tender-review) | A bounded first slice of [BE-04](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a bid-submission or collusion-detection system. It validates fixed... |
+| SE-08 API orchestration | [api-orchestration](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/api-orchestration) |
+| OP-01 Internal service desk | [internal-service-desk](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/internal-service-desk) |
+| OP-05 Recruiting match | [recruiting-match](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/recruiting-match) |
+| Customer support | [customer-support](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/customer-support) |
+| Customs reroute | [customs-reroute](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/customs-reroute) |
+| Lead nurture | [lead-nurture](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/lead-nurture) |
+| Localization draft | [localization-draft](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/localization-draft) |
+| Public approval | [public-approval](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/public-approval) |
+| Retail replenishment | [retail-replenishment](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/retail-replenishment) |
+| Tender review | [tender-review](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/tender-review) |
+| Copyright evidence | [copyright-evidence](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/copyright-evidence) |
 
 Index: [language/php/Tutorial](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial).
 
 ### Reference Applications
 
-| Application | What it shows |
+| Application | Status |
 | --- | --- |
-| [ai-editorial-studio](https://github.com/axisvela/praxo-core/tree/main/language/php/application/ai-editorial-studio) | A Laravel 12 content-portal application where the agent drives the primary editorial workflow: an editor submits a brief, the agent retrieves related content, drafts an article... |
-| [content-review](https://github.com/axisvela/praxo-core/tree/main/language/php/application/content-review) | A Laravel 12 content portal that routes one existing draft article through a governed PRAXO-CORE agent. The agent reads the article through an application-owned content store, d... |
+| [Laravel content review portal](https://github.com/axisvela/praxo-core/tree/main/language/php/application/content-review) | Source implementation; acceptance pending |
+| [AI editorial studio](https://github.com/axisvela/praxo-core/tree/main/language/php/application/ai-editorial-studio) | Source implementation; acceptance pending |
+| Drupal module host | Planned; see the portfolio |
 
 Index: [language/php/application](https://github.com/axisvela/praxo-core/tree/main/language/php/application).
 
