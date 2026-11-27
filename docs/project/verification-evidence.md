@@ -357,7 +357,7 @@ Registry links name the current published version; the consumer-smoke rows above
 name the version that was actually installed.
 
 - [Current registry versions and addresses](../languages/registry-status.md)
-- [praxo-core 0.11.1 on PyPI](https://pypi.org/project/praxo-core/0.11.1/)
+- [praxo-core 0.11.2 on PyPI](https://pypi.org/project/praxo-core/0.11.2/)
 - [@axisvela/praxo-core 0.10.1 on npm](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.10.1)
 - [praxo-core 0.11.1 on crates.io](https://crates.io/crates/praxo-core/0.11.1)
 - [praxo_core 0.8.2 on pub.dev](https://pub.dev/packages/praxo_core/versions/0.8.2)
