@@ -514,6 +514,12 @@ type InterruptDecision struct {
 type InterruptHandler func(ctx context.Context, interrupt Interrupt) (InterruptDecision, error)
 
 
+### github.com/axisvela/praxo-core/v2/pkg/agent/internal/runid
+FUNCTIONS
+
+func From(ctx context.Context) string
+func With(ctx context.Context, id string) context.Context
+
 ### github.com/axisvela/praxo-core/v2/pkg/agent/middleware
 VARIABLES
 
