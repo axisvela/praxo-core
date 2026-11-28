@@ -98,6 +98,17 @@ public:
     void emit(const Event& event) override { types.push_back(event.type); }
 };
 
+class FailingSink : public EventSink {
+public:
+    std::vector<std::string> types;
+    void emit(const Event& event) override {
+        types.push_back(event.type);
+        if (event.type == "run.started") {
+            throw PraxoError("SINK_FAILED", "sink unavailable");
+        }
+    }
+};
+
 class CancelModel : public Model {
 public:
     explicit CancelModel(bool& flag) : flag_(flag) {}
@@ -455,6 +466,35 @@ int main() {
         }
         check(caught && startup_calls == std::vector<std::string>{
             "first.before", "first.after", "second.after"}, "cpp startup cleanup");
+
+        std::vector<std::string> startup_event_calls;
+        AgentOptions startup_event_options(std::make_shared<StaticModel>("done"));
+        FailingSink startup_event_sink;
+        startup_event_options.events = &startup_event_sink;
+        Middleware startup_event_middleware;
+        startup_event_middleware.before_run =
+            [&](const std::string&, const std::string&) {
+                startup_event_calls.push_back("acquire");
+            };
+        startup_event_middleware.after_run =
+            [&](const RunResult*, const std::string* error) {
+                startup_event_calls.push_back(
+                    error ? "release:" + *error : "release");
+            };
+        startup_event_options.middleware = {startup_event_middleware};
+        caught = false;
+        try {
+            (void)run_agent(std::move(startup_event_options),
+                            Session{"s1", {}}, "go");
+        } catch (const PraxoError& error) {
+            caught = error.code() == "SINK_FAILED";
+        }
+        check(caught && startup_event_calls == std::vector<std::string>{
+            "acquire", "release:sink unavailable"},
+            "cpp startup event cleanup");
+        check(startup_event_sink.types == std::vector<std::string>{
+            "run.started", "run.failed"},
+            "cpp startup event failure events");
 
         std::vector<std::string> continue_calls;
         AgentOptions continue_options(std::make_shared<FailingModel>());

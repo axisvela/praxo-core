@@ -1,6 +1,7 @@
 #include "praxo/agent.hpp"
 
 #include <algorithm>
+#include <atomic>
 #include <chrono>
 #include <future>
 
@@ -277,7 +278,9 @@ RunResult Agent::run(const Session& session, const std::string& prompt) {
     int max_steps = options_.max_steps > 0 ? options_.max_steps : 8;
     auto millis = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();
-    std::string run_id = "run-" + std::to_string(millis);
+    static std::atomic<unsigned long long> run_sequence{0};
+    std::string run_id = "run-" + std::to_string(millis) + "-" +
+        std::to_string(run_sequence.fetch_add(1) + 1);
     std::vector<Message> messages = session.messages;
     if (!options_.system_prompt.empty()) {
         messages.insert(messages.begin(), text_message(SYSTEM, options_.system_prompt));
@@ -292,10 +295,10 @@ RunResult Agent::run(const Session& session, const std::string& prompt) {
         (void)after_run(entered, nullptr, &message);
         throw;
     }
-    emit("run.started", session.id, run_id);
-    emit_stream(run_id, session.id, "values", 0, Json(prompt));
     bool after_run_invoked = false;
     try {
+        emit("run.started", session.id, run_id);
+        emit_stream(run_id, session.id, "values", 0, Json(prompt));
         for (int step = 1; step <= max_steps; ++step) {
             check_cancelled();
             Action action;
@@ -344,7 +347,11 @@ RunResult Agent::run(const Session& session, const std::string& prompt) {
         }
         Json data = Json::object();
         data["error"] = error.what();
-        emit("run.failed", session.id, run_id, data);
+        try {
+            emit("run.failed", session.id, run_id, data);
+        } catch (...) {
+            // event sinks must not mask the run error
+        }
         throw;
     }
 }
