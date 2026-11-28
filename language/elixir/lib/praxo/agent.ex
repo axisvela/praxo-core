@@ -172,34 +172,38 @@ defmodule Praxo.Agent do
         {:error, Exception.message(error), options}
 
       {:ok, options} ->
-        options = emit(options, "run.started")
+        case safe_emit(options, "run.started") do
+          {:error, error} ->
+            fail(options, run_id, Exception.message(error))
 
-        case emit_stream(options, run_id, "values", 0, prompt) do
-          :ok ->
-            case compact(options, messages) do
-              {:ok, messages} ->
-                case loop(options, messages, run_id, 1, max_steps, %Usage{}, limit) do
-                  {:ok, result, options} ->
-                    case after_run(options, result, nil) do
-                      nil ->
-                        options = emit(options, "run.completed", run_id)
-                        {:ok, result, options}
+          {:ok, options} ->
+            case emit_stream(options, run_id, "values", 0, prompt) do
+              :ok ->
+                case compact(options, messages) do
+                  {:ok, messages} ->
+                    case loop(options, messages, run_id, 1, max_steps, %Usage{}, limit) do
+                      {:ok, result, options} ->
+                        case after_run(options, result, nil) do
+                          nil ->
+                            options = emit(options, "run.completed", run_id, :null)
+                            {:ok, result, options}
 
-                      error ->
-                        options = emit(options, "run.failed", run_id, %{"error" => Exception.message(error)})
-                        {:error, Exception.message(error), options}
+                          error ->
+                            options = emit(options, "run.failed", run_id, %{"error" => Exception.message(error)})
+                            {:error, Exception.message(error), options}
+                        end
+
+                      other ->
+                        other
                     end
 
-                  other ->
-                    other
+                  {:error, code} ->
+                    fail(options, run_id, code)
                 end
 
               {:error, code} ->
                 fail(options, run_id, code)
             end
-
-          {:error, code} ->
-            fail(options, run_id, code)
         end
     end
   end
@@ -567,13 +571,21 @@ defmodule Praxo.Agent do
     end)
   end
 
-  defp emit(options, kind, run_id \\ nil, data \\ :null) do
+  defp emit(options, kind, run_id, data) do
     if options.events == nil do
       options
     else
       event = Models.event(kind, options.session_id, run_id, data)
       sink = Sink.emit(options.events, event)
       %{options | events: sink}
+    end
+  end
+
+  defp safe_emit(options, kind, run_id \\ nil, data \\ :null) do
+    try do
+      {:ok, emit(options, kind, run_id, data)}
+    rescue
+      error -> {:error, error}
     end
   end
 
@@ -603,7 +615,12 @@ defmodule Praxo.Agent do
 
   defp fail(options, run_id, code) do
     _ = after_run(options, nil, code)
-    options = emit(options, "run.failed", run_id, %{"error" => code})
+    options =
+      try do
+        emit(options, "run.failed", run_id, %{"error" => code})
+      rescue
+        _ -> options
+      end
     {:error, code, options}
   end
 end

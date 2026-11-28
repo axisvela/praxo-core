@@ -596,6 +596,19 @@ defmodule Praxo.Tests do
 
     parent = self()
     options =
+      %{Agent.new_agent_options(Agent.static_model("done")) |
+        events: %Sink{kinds: nil},
+        middleware: [
+          %{before_run: fn _ -> send(parent, :acquire) end,
+            after_run: fn _, error -> send(parent, {:release, error}) end}
+        ]}
+
+    check(match?({:error, _, _}, Agent.run_agent(options, Models.session("s1"), "go")),
+      "elixir startup event failure")
+    check(match?([:acquire, {:release, _}], receive_messages()), "elixir startup event cleanup")
+
+    parent = self()
+    options =
       %{Agent.new_agent_options(Agent.failing_model()) |
         middleware: [
           %{after_run: fn _, _ -> send(parent, :first_after); raise "cleanup failed" end},
