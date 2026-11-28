@@ -4,69 +4,190 @@ on:
   push:
     branches: [main]
     paths:
-      - "language/go/examples/**"
-      - "language/go/examples/**"
-      - "language/clojure/examples/**"
-      - "language/fsharp/examples/**"
-      - "language/groovy/examples/**"
-      - "language/javascript/examples/**"
-      - "language/kotlin/examples/**"
-      - "language/scala/examples/**"
-      - "language/opencl/examples/**"
-      - "language/python/examples/**"
-      - "language/typescript/examples/**"
-      - "language/csharp/examples/**"
-      - "language/rust/examples/**"
-      - "language/java/examples/**"
-      - "language/ruby/examples/**"
-      - "language/php/examples/**"
-      - "language/c/examples/**"
-      - "language/cpp/examples/**"
-      - "language/fortran/examples/**"
-      - "language/elixir/examples/**"
-      - "language/erlang/examples/**"
-      - "language/lua/examples/**"
-      - "language/r/examples/**"
-      - "language/cobol/examples/**"
+      - "spec/**"
+      - "scripts/**"
+      - "pkg/**"
+      - "internal/**"
+      - "cmd/**"
+      - "bindings/**"
+      - "adapters/**"
+      - "go.mod"
+      - "go.sum"
+      - "VERSION"
+      - "Makefile"
+      - ".github/actions/**"
+      - "language/c/**"
+      - "language/cobol/**"
+      - "language/cpp/**"
+      - "language/csharp/**"
+      - "language/elixir/**"
+      - "language/erlang/**"
+      - "language/fortran/**"
+      - "language/go/**"
+      - "language/java/**"
+      - "language/lua/**"
+      - "language/php/**"
+      - "language/python/**"
+      - "language/r/**"
+      - "language/ruby/**"
+      - "language/rust/**"
+      - "language/typescript/**"
+      - "global.json"
       - ".github/workflows/ci-examples.yml"
+      - "!scripts/check_adapter_status.py"
+      - "!scripts/check_consumer_pins.py"
+      - "!scripts/check_language_releases.py"
+      - "!scripts/check_registry_pages.py"
+      - "!scripts/check_registry_state.py"
+      - "!scripts/docs_hooks.py"
+      - "!scripts/mirror_readme.py"
+      - "!scripts/registry_catalog.py"
+      - "!scripts/registry_discovery.py"
+      - "!scripts/repository_discovery.py"
+      - "!scripts/sync_language_mirrors.py"
+      - "!scripts/sync_language_registry_docs.py"
+      - "!scripts/test_adapter_status.py"
+      - "!scripts/test_consumer_pins.py"
+      - "!scripts/test_discovery.py"
+      - "!scripts/test_docs.py"
+      - "!scripts/test_language_registry_docs.py"
+      - "!scripts/test_language_releases.py"
+      - "!scripts/test_layout.py"
+      - "!scripts/test_registry_pages.py"
+      - "!scripts/test_registry_state.py"
+      - "!scripts/test_roadmap.py"
+      - "!scripts/test_sync_language_mirrors.py"
+      - "!language/discovery.json"
+      - "!language/registry-metadata.json"
+      - "!spec/languages.md"
+      - "!language/**/AGENTS.md"
+      - "!language/**/CONTRIBUTING.md"
+      - "!language/**/LICENSE.md"
+      - "!language/**/PUBLISHING.md"
+      - "!language/**/README.md"
+      - "!language/**/README.pod"
+      - "!language/**/README.zh-CN.md"
+      - "!language/**/REGISTRY.md"
+      - "!language/**/SECURITY.md"
+      - "!language/**/llms.md"
+      - "!language/**/llms.txt"
+      - "!language/*/application/**"
+      - "!language/**/README*.md"
+      - "!language/**/CHANGELOG*.md"
+      - "!language/**/docs/**/*.md"
   pull_request:
     paths:
-      - "language/go/examples/**"
-      - "language/go/examples/**"
-      - "language/clojure/examples/**"
-      - "language/fsharp/examples/**"
-      - "language/groovy/examples/**"
-      - "language/javascript/examples/**"
-      - "language/kotlin/examples/**"
-      - "language/scala/examples/**"
-      - "language/opencl/examples/**"
-      - "language/python/examples/**"
-      - "language/typescript/examples/**"
-      - "language/csharp/examples/**"
-      - "language/rust/examples/**"
-      - "language/java/examples/**"
-      - "language/ruby/examples/**"
-      - "language/php/examples/**"
-      - "language/c/examples/**"
-      - "language/cpp/examples/**"
-      - "language/fortran/examples/**"
-      - "language/elixir/examples/**"
-      - "language/erlang/examples/**"
-      - "language/lua/examples/**"
-      - "language/r/examples/**"
-      - "language/cobol/examples/**"
+      - "spec/**"
+      - "scripts/**"
+      - "pkg/**"
+      - "internal/**"
+      - "cmd/**"
+      - "bindings/**"
+      - "adapters/**"
+      - "go.mod"
+      - "go.sum"
+      - "VERSION"
+      - "Makefile"
+      - ".github/actions/**"
+      - "language/c/**"
+      - "language/cobol/**"
+      - "language/cpp/**"
+      - "language/csharp/**"
+      - "language/elixir/**"
+      - "language/erlang/**"
+      - "language/fortran/**"
+      - "language/go/**"
+      - "language/java/**"
+      - "language/lua/**"
+      - "language/php/**"
+      - "language/python/**"
+      - "language/r/**"
+      - "language/ruby/**"
+      - "language/rust/**"
+      - "language/typescript/**"
+      - "global.json"
       - ".github/workflows/ci-examples.yml"
+      - "!scripts/check_adapter_status.py"
+      - "!scripts/check_consumer_pins.py"
+      - "!scripts/check_language_releases.py"
+      - "!scripts/check_registry_pages.py"
+      - "!scripts/check_registry_state.py"
+      - "!scripts/docs_hooks.py"
+      - "!scripts/mirror_readme.py"
+      - "!scripts/registry_catalog.py"
+      - "!scripts/registry_discovery.py"
+      - "!scripts/repository_discovery.py"
+      - "!scripts/sync_language_mirrors.py"
+      - "!scripts/sync_language_registry_docs.py"
+      - "!scripts/test_adapter_status.py"
+      - "!scripts/test_consumer_pins.py"
+      - "!scripts/test_discovery.py"
+      - "!scripts/test_docs.py"
+      - "!scripts/test_language_registry_docs.py"
+      - "!scripts/test_language_releases.py"
+      - "!scripts/test_layout.py"
+      - "!scripts/test_registry_pages.py"
+      - "!scripts/test_registry_state.py"
+      - "!scripts/test_roadmap.py"
+      - "!scripts/test_sync_language_mirrors.py"
+      - "!language/discovery.json"
+      - "!language/registry-metadata.json"
+      - "!spec/languages.md"
+      - "!language/**/AGENTS.md"
+      - "!language/**/CONTRIBUTING.md"
+      - "!language/**/LICENSE.md"
+      - "!language/**/PUBLISHING.md"
+      - "!language/**/README.md"
+      - "!language/**/README.pod"
+      - "!language/**/README.zh-CN.md"
+      - "!language/**/REGISTRY.md"
+      - "!language/**/SECURITY.md"
+      - "!language/**/llms.md"
+      - "!language/**/llms.txt"
+      - "!language/*/application/**"
+      - "!language/**/README*.md"
+      - "!language/**/CHANGELOG*.md"
+      - "!language/**/docs/**/*.md"
   workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: ci-examples-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' || github.event_name == 'push' }}
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      full: ${{ steps.filter.outputs.full }}
+      core: ${{ steps.filter.outputs.core }}
+      docs: ${{ steps.filter.outputs.docs }}
+      examples: ${{ steps.filter.outputs.examples }}
+      consumers: ${{ steps.filter.outputs.consumers }}
+      adapters: ${{ steps.filter.outputs.adapters }}
+      languages: ${{ steps.filter.outputs.languages }}
+      applications: ${{ steps.filter.outputs.applications }}
+      compatibility_languages: ${{ steps.filter.outputs.compatibility_languages }}
+      behavior_languages: ${{ steps.filter.outputs.behavior_languages }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: filter
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          REF_TYPE: ${{ github.ref_type }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PUSH_BEFORE: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.sha }}
+          WORKFLOW_FILE: .github/workflows/ci-examples.yml
+        run: python scripts/ci_changes.py
+
   examples:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'go') || needs.changes.outputs.core == 'true'
     runs-on: ubuntu-latest
     env:
       GOWORK: "off"
@@ -124,19 +245,24 @@ jobs:
         working-directory: language/go/examples/representative-chain
 
   example-sdks:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'c') || contains(fromJSON(needs.changes.outputs.languages), 'cobol') || contains(fromJSON(needs.changes.outputs.languages), 'cpp') || contains(fromJSON(needs.changes.outputs.languages), 'csharp') || contains(fromJSON(needs.changes.outputs.languages), 'elixir') || contains(fromJSON(needs.changes.outputs.languages), 'erlang') || contains(fromJSON(needs.changes.outputs.languages), 'fortran') || contains(fromJSON(needs.changes.outputs.languages), 'java') || contains(fromJSON(needs.changes.outputs.languages), 'lua') || contains(fromJSON(needs.changes.outputs.languages), 'php') || contains(fromJSON(needs.changes.outputs.languages), 'python') || contains(fromJSON(needs.changes.outputs.languages), 'r') || contains(fromJSON(needs.changes.outputs.languages), 'ruby') || contains(fromJSON(needs.changes.outputs.languages), 'rust') || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
     runs-on: ubuntu-latest
     env:
       GOWORK: "off"
     steps:
       - uses: actions/checkout@v4
       - uses: erlef/setup-beam@v1
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'elixir') || contains(fromJSON(needs.changes.outputs.languages), 'erlang')
         with:
           otp-version: "29"
           elixir-version: "1.20.4"
       - uses: luarocks/gh-actions-lua@v10
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'lua')
         with:
           luaVersion: "5.4"
       - uses: actions/setup-go@v5
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'go')
         with:
           go-version: "1.26.11"
       - run: python scripts/check_example_coverage.py
@@ -145,286 +271,508 @@ jobs:
         with:
           python-version: "3.12"
       - uses: actions/setup-node@v4
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
         with:
           node-version: "20"
       - uses: actions/setup-dotnet@v4
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'csharp')
         with:
           dotnet-version: "8.0.x"
       - uses: dtolnay/rust-toolchain@stable
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'rust')
       - uses: actions/setup-java@v4
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'java')
         with:
           distribution: temurin
           java-version: "21"
+      - uses: shivammathur/setup-php@v2
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'php')
+        with:
+          php-version: "8.4.27"
+      - uses: ruby/setup-ruby@v1
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'ruby')
+        with:
+          ruby-version: "3.4"
       - run: python -m pip install -r requirements.txt
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
         working-directory: language/python/examples/mcp
       - run: python -m unittest test_client.py -v
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
         working-directory: language/python/examples/mcp
       - run: python -m pip install -r requirements.txt
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
         working-directory: language/python/examples/structured-output
       - run: python -m unittest test_summarize.py -v
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
         working-directory: language/python/examples/structured-output
       - run: python -m pip install -r requirements.txt
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
         working-directory: language/python/examples/structured-output-app
       - run: python -m unittest test_app.py -v
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
         working-directory: language/python/examples/structured-output-app
       - run: python -m pip install -r requirements.txt
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
         working-directory: language/python/examples/service
       - run: python -m unittest test_service.py -v
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
         working-directory: language/python/examples/service
       - run: python -m pip install -r requirements.txt
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
         working-directory: language/python/examples/service-auth
       - run: python -m unittest test_service.py -v
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
         working-directory: language/python/examples/service-auth
       - run: python -m pip install -r requirements.txt
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
         working-directory: language/python/examples/provider-fallback
       - run: python -m unittest test_fallback.py -v
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
         working-directory: language/python/examples/provider-fallback
       - run: python -m pip install -r requirements.txt
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
         working-directory: language/python/examples/event-sink
       - run: python -m unittest test_event_sink.py -v
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
         working-directory: language/python/examples/event-sink
       - run: python -m pip install -r requirements.txt
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
         working-directory: language/python/examples/streaming
       - run: python -m unittest test_streaming.py -v
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
         working-directory: language/python/examples/streaming
       - run: python -m pip install -r requirements.txt
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
         working-directory: language/python/examples/checkpoint
       - run: python -m unittest test_checkpoint_store.py -v
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
         working-directory: language/python/examples/checkpoint
       - run: python -m pip install -r requirements.txt
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
         working-directory: language/python/examples/retry
       - run: python -m unittest test_retry.py -v
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
         working-directory: language/python/examples/retry
       - run: python -m pip install -r requirements.txt
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
         working-directory: language/python/examples/identity-policy
       - run: python -m unittest test_identity_policy.py -v
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
         working-directory: language/python/examples/identity-policy
       - run: npm ci --no-audit --no-fund
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
         working-directory: language/typescript/examples/mcp
       - run: npm test
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
         working-directory: language/typescript/examples/mcp
       - run: npm ci --no-audit --no-fund
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
         working-directory: language/typescript/examples/structured-output
       - run: npm test
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
         working-directory: language/typescript/examples/structured-output
       - run: npm ci --no-audit --no-fund
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
         working-directory: language/typescript/examples/provider-fallback
       - run: npm test
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
         working-directory: language/typescript/examples/provider-fallback
       - run: npm ci --no-audit --no-fund
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
         working-directory: language/typescript/examples/event-sink
       - run: npm test
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
         working-directory: language/typescript/examples/event-sink
       - run: npm ci --no-audit --no-fund
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
         working-directory: language/typescript/examples/streaming
       - run: npm test
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
         working-directory: language/typescript/examples/streaming
       - run: npm ci --no-audit --no-fund
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
         working-directory: language/typescript/examples/checkpoint
       - run: npm test
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
         working-directory: language/typescript/examples/checkpoint
       - run: npm ci --no-audit --no-fund
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
         working-directory: language/typescript/examples/retry
       - run: npm test
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
         working-directory: language/typescript/examples/retry
       - run: npm ci --no-audit --no-fund
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
         working-directory: language/typescript/examples/service
       - run: npm test
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
         working-directory: language/typescript/examples/service
       - run: npm ci --no-audit --no-fund
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
         working-directory: language/typescript/examples/service-auth
       - run: npm test
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
         working-directory: language/typescript/examples/service-auth
       - run: npm ci --no-audit --no-fund
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
         working-directory: language/typescript/examples/identity-policy
       - run: npm test
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
         working-directory: language/typescript/examples/identity-policy
       - run: dotnet run --project language/csharp/examples/mcp/Mcp.csproj -- --test
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'csharp')
       - run: dotnet run --project language/csharp/examples/structured-output/StructuredOutput.csproj -- --test
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'csharp')
       - run: dotnet run --project language/csharp/examples/provider-fallback/ProviderFallback.csproj -- --test
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'csharp')
       - run: dotnet run --project language/csharp/examples/event-sink/EventSink.csproj -- --test
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'csharp')
       - run: dotnet run --project language/csharp/examples/streaming/Streaming.csproj -- --test
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'csharp')
       - run: dotnet run --project language/csharp/examples/checkpoint/Checkpoint.csproj -- --test
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'csharp')
       - run: dotnet run --project language/csharp/examples/retry/Retry.csproj -- --test
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'csharp')
       - run: dotnet run --project language/csharp/examples/service/Service.csproj -- --test
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'csharp')
       - run: dotnet run --project language/csharp/examples/identity-policy/IdentityPolicy.csproj -- --test
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'csharp')
       - run: mvn -q -f language/java/examples/event-sink/pom.xml compile exec:java
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'java')
       - run: mvn -q -f language/java/examples/streaming/pom.xml compile exec:java
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'java')
       - run: mvn -q -f language/java/examples/retry/pom.xml compile exec:java
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'java')
       - run: mvn -q -f language/java/examples/identity-policy/pom.xml compile exec:java
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'java')
       - run: mvn -q -f language/java/examples/checkpoint/pom.xml compile exec:java
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'java')
       - run: mvn -q -f language/java/examples/service/pom.xml compile exec:java -Dexec.args=--test
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'java')
       - run: mvn -q -f language/java/examples/provider-fallback/pom.xml compile exec:java
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'java')
       - run: ruby -I language/ruby/lib language/ruby/examples/event-sink/test_event_sink.rb
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'ruby')
       - run: ruby -I language/ruby/lib language/ruby/examples/retry/test_retry.rb
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'ruby')
       - run: php language/php/examples/event-sink/test_event_sink.php
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'php')
       - run: php language/php/examples/retry/test_retry.php
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'php')
       - run: ruby -I language/ruby/lib language/ruby/examples/checkpoint/checkpoint.rb
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'ruby')
       - run: php language/php/examples/checkpoint/checkpoint.php
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'php')
       - run: mkdir -p language/elixir/build/ebin
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'elixir')
       - run: elixirc -o language/elixir/build/ebin language/elixir/lib/praxo/*.ex language/elixir/lib/praxo/adapters/*.ex
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'elixir')
       - run: elixir -pa language/elixir/build/ebin language/elixir/examples/checkpoint/checkpoint.exs
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'elixir')
       - run: mkdir -p language/erlang/build/ebin
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'erlang')
       - run: erlc -I language/erlang/src -o language/erlang/build/ebin language/erlang/src/*.erl language/erlang/src/adapters/*.erl
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'erlang')
       - run: escript language/erlang/examples/checkpoint/checkpoint.escript
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'erlang')
       - run: lua language/lua/examples/checkpoint/checkpoint.lua
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'lua')
       - run: cmake -S language/c -B language/c/build
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'c')
       - run: cmake --build language/c/build
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'c')
       - run: gcc -std=c11 -I language/c/include language/c/examples/checkpoint/main.c language/c/build/libpraxo_core.a -lm -o language/c/build/c-checkpoint
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'c')
       - run: language/c/build/c-checkpoint
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'c')
       - run: cmake -S language/cpp -B language/cpp/build
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cpp')
       - run: cmake --build language/cpp/build --target praxo-cpp-checkpoint-example praxo-cpp-event-sink-example praxo-cpp-streaming-example praxo-cpp-structured-output-example praxo-cpp-identity-policy-example praxo-cpp-mcp-example
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cpp')
       - run: language/cpp/build/praxo-cpp-checkpoint-example
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cpp')
       - run: language/cpp/build/praxo-cpp-event-sink-example
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cpp')
       - run: language/cpp/build/praxo-cpp-streaming-example
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cpp')
       - run: language/cpp/build/praxo-cpp-structured-output-example
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cpp')
       - run: language/cpp/build/praxo-cpp-identity-policy-example
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cpp')
       - run: language/cpp/build/praxo-cpp-mcp-example
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cpp')
       - run: python language/fortran/examples/checkpoint/run.py
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'fortran')
       - run: sudo apt-get update
-      - run: sudo apt-get install -y gnucobol r-base-core
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'c') || contains(fromJSON(needs.changes.outputs.languages), 'cobol') || contains(fromJSON(needs.changes.outputs.languages), 'cpp') || contains(fromJSON(needs.changes.outputs.languages), 'fortran') || contains(fromJSON(needs.changes.outputs.languages), 'lua') || contains(fromJSON(needs.changes.outputs.languages), 'r')
+      - run: sudo apt-get install -y gnucobol
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cobol')
+      - run: sudo apt-get install -y r-base-core
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'r')
+      - run: sudo apt-get install -y gfortran
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'fortran')
       - run: Rscript language/r/examples/checkpoint/checkpoint.R
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'r')
       - run: Rscript language/r/examples/advanced-delegation/test_governance.R
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'r')
       - run: Rscript language/r/examples/representative-chain/chain.R
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'r')
       - run: python language/cobol/examples/checkpoint/build.py
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cobol')
       - run: gcc -std=c11 -I language/c/include language/c/examples/event-sink/main.c language/c/build/libpraxo_core.a -lm -o language/c/build/c-event-sink
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'c')
       - run: language/c/build/c-event-sink
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'c')
       - run: python language/fortran/examples/event-sink/run.py
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'fortran')
       - run: elixir -pa language/elixir/build/ebin language/elixir/examples/event-sink/event_sink.exs
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'elixir')
       - run: escript language/erlang/examples/event-sink/event_sink.escript
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'erlang')
       - run: lua language/lua/examples/event-sink/event_sink.lua
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'lua')
       - run: Rscript language/r/examples/event-sink/event_sink.R
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'r')
       - run: python language/cobol/examples/event-sink/build.py
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cobol')
       - run: gcc -std=c11 language/c/examples/retry/main.c -o language/c/build/c-retry
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'c')
       - run: language/c/build/c-retry
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'c')
       - run: g++ -std=c++20 language/cpp/examples/retry/main.cpp -o language/cpp/build/cpp-retry
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cpp')
       - run: language/cpp/build/cpp-retry
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cpp')
       - run: gfortran language/fortran/examples/retry/retry_example.f90 -o language/fortran/build/fortran-retry
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'fortran')
       - run: language/fortran/build/fortran-retry
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'fortran')
       - run: elixir language/elixir/examples/retry/retry.exs
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'elixir')
       - run: escript language/erlang/examples/retry/retry.escript
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'erlang')
       - run: lua language/lua/examples/retry/retry.lua
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'lua')
       - run: Rscript language/r/examples/retry/retry.R
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'r')
       - run: python language/cobol/examples/retry/build.py
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cobol')
       - run: ruby -I language/ruby/lib language/ruby/examples/provider-fallback/test_fallback.rb
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'ruby')
       - run: php language/php/examples/provider-fallback/test_fallback.php
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'php')
       - run: gcc -std=c11 language/c/examples/provider-fallback/main.c -o language/c/build/c-fallback
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'c')
       - run: language/c/build/c-fallback
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'c')
       - run: g++ -std=c++20 language/cpp/examples/provider-fallback/main.cpp -o language/cpp/build/cpp-fallback
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cpp')
       - run: language/cpp/build/cpp-fallback
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cpp')
       - run: gfortran language/fortran/examples/provider-fallback/fallback_example.f90 -o language/fortran/build/fortran-fallback
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'fortran')
       - run: language/fortran/build/fortran-fallback
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'fortran')
       - run: elixir language/elixir/examples/provider-fallback/fallback.exs
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'elixir')
       - run: escript language/erlang/examples/provider-fallback/fallback.escript
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'erlang')
       - run: lua language/lua/examples/provider-fallback/fallback.lua
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'lua')
       - run: Rscript language/r/examples/provider-fallback/fallback.R
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'r')
       - run: python language/cobol/examples/provider-fallback/build.py
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cobol')
       - run: ruby -I language/ruby/lib language/ruby/examples/streaming/streaming.rb
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'ruby')
       - run: php language/php/examples/streaming/streaming.php
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'php')
       - run: gcc -std=c11 -I language/c/include language/c/examples/streaming/main.c language/c/build/libpraxo_core.a -lm -o language/c/build/c-streaming
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'c')
       - run: language/c/build/c-streaming
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'c')
       - run: elixir -pa language/elixir/build/ebin language/elixir/examples/streaming/streaming.exs
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'elixir')
       - run: escript language/erlang/examples/streaming/streaming.escript
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'erlang')
       - run: lua language/lua/examples/streaming/streaming.lua
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'lua')
       - run: Rscript language/r/examples/streaming/streaming.R
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'r')
       - run: python language/cobol/examples/streaming/build.py
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cobol')
       - run: ruby -I language/ruby/lib language/ruby/examples/structured-output/structured_output.rb
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'ruby')
       - run: php language/php/examples/structured-output/structured_output.php
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'php')
       - run: gcc -std=c11 -I language/c/include language/c/examples/structured-output/main.c language/c/build/libpraxo_core.a -lm -o language/c/build/c-structured-output
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'c')
       - run: language/c/build/c-structured-output
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'c')
       - run: python3 language/fortran/run-tests.py --re2-only
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'fortran')
       - run: python language/fortran/examples/structured-output/run.py
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'fortran')
       - run: python language/fortran/examples/streaming/run.py
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'fortran')
       - run: elixir -pa language/elixir/build/ebin language/elixir/examples/structured-output/structured_output.exs
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'elixir')
       - run: escript language/erlang/examples/structured-output/structured_output.escript
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'erlang')
       - run: lua language/lua/examples/structured-output/structured_output.lua
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'lua')
       - run: Rscript language/r/examples/structured-output/structured_output.R
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'r')
       - run: python language/cobol/examples/structured-output/build.py
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cobol')
       - run: ruby -I language/ruby/lib language/ruby/examples/identity-policy/identity_policy.rb
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'ruby')
       - run: php language/php/examples/identity-policy/identity_policy.php
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'php')
       - run: gcc -std=c11 -I language/c/include language/c/examples/identity-policy/main.c language/c/build/libpraxo_core.a -lm -o language/c/build/c-identity-policy
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'c')
       - run: language/c/build/c-identity-policy
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'c')
       - run: gfortran -I language/fortran/build language/fortran/src/praxo_types.f90 language/fortran/examples/identity-policy/identity_policy_example.f90 -o language/fortran/build/fortran-identity-policy
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'fortran')
       - run: language/fortran/build/fortran-identity-policy
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'fortran')
       - run: elixir language/elixir/examples/identity-policy/identity_policy.exs
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'elixir')
       - run: escript language/erlang/examples/identity-policy/identity_policy.escript
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'erlang')
       - run: lua language/lua/examples/identity-policy/identity_policy.lua
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'lua')
       - run: Rscript language/r/examples/identity-policy/identity_policy.R
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'r')
       - run: python language/cobol/examples/identity-policy/build.py
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cobol')
       - run: ruby language/ruby/examples/service/service.rb
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'ruby')
       - run: php language/php/examples/service/service.php
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'php')
       - run: gcc -std=c11 language/c/examples/service/main.c -o language/c/build/c-service
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'c')
       - run: language/c/build/c-service
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'c')
       - run: g++ -std=c++20 language/cpp/examples/service/main.cpp -o language/cpp/build/cpp-service
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cpp')
       - run: language/cpp/build/cpp-service
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cpp')
       - run: gfortran language/fortran/examples/service/service_example.f90 -o language/fortran/build/fortran-service
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'fortran')
       - run: language/fortran/build/fortran-service
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'fortran')
       - run: elixir language/elixir/examples/service/service.exs
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'elixir')
       - run: escript language/erlang/examples/service/service.escript
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'erlang')
       - run: lua language/lua/examples/service/service.lua
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'lua')
       - run: Rscript language/r/examples/service/service.R
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'r')
       - run: python language/cobol/examples/service/build.py
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cobol')
       - run: mvn -q -f language/java/examples/structured-output/pom.xml test
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'java')
       - run: mvn -q -f language/java/examples/mcp/pom.xml compile exec:java
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'java')
       - run: ruby -I language/ruby/lib language/ruby/examples/mcp/mcp.rb
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'ruby')
       - run: php language/php/examples/mcp/mcp.php
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'php')
       - run: elixir -pa language/elixir/build/ebin language/elixir/examples/mcp/mcp.exs
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'elixir')
       - run: escript language/erlang/examples/mcp/mcp.escript
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'erlang')
       - run: lua language/lua/examples/mcp/mcp.lua
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'lua')
       - run: Rscript language/r/examples/mcp/mcp.R
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'r')
       - run: gcc -std=c11 -I language/c/include -I language/c/src language/c/examples/mcp/main.c language/c/src/mcp.c language/c/build/libpraxo_core.a -lm -o language/c/build/c-mcp
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'c')
       - run: language/c/build/c-mcp
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'c')
       - run: python language/fortran/examples/mcp/run.py
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'fortran')
       - run: python language/cobol/examples/mcp/build.py
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cobol')
       - run: cargo run --quiet
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'rust')
         working-directory: language/rust/examples/provider-fallback
       - run: cargo run --quiet
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'rust')
         working-directory: language/rust/examples/event-sink
       - run: cargo run --quiet
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'rust')
         working-directory: language/rust/examples/streaming
       - run: cargo run --quiet
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'rust')
         working-directory: language/rust/examples/mcp
       - run: cargo run --quiet
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'rust')
         working-directory: language/rust/examples/structured-output
       - run: cargo run --quiet
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'rust')
         working-directory: language/rust/examples/checkpoint
       - run: cargo run --quiet
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'rust')
         working-directory: language/rust/examples/retry
       - run: cargo run --quiet -- --test
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'rust')
         working-directory: language/rust/examples/service
       - run: cargo test --quiet
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'rust')
         working-directory: language/rust/examples/service
       - run: cargo run --quiet
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'rust')
         working-directory: language/rust/examples/identity-policy
 
       - run: python -m pip install -r requirements.txt
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
         working-directory: language/python/examples/advanced-delegation
       - run: python delegation.py
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
         working-directory: language/python/examples/advanced-delegation
       - run: python -m unittest test_governance.py -v
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
         working-directory: language/python/examples/advanced-delegation
       - run: python -m pip install -r requirements.txt
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
         working-directory: language/python/examples/representative-chain
       - run: python chain.py
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
         working-directory: language/python/examples/representative-chain
       - run: npm install --no-audit --no-fund
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
         working-directory: language/typescript/examples/advanced-delegation
       - run: npm test
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
         working-directory: language/typescript/examples/advanced-delegation
       - run: npm install --no-audit --no-fund
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
         working-directory: language/typescript/examples/representative-chain
       - run: npm test
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
         working-directory: language/typescript/examples/representative-chain
       - run: mvn -q -f language/java/examples/advanced-delegation/pom.xml compile exec:java
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'java')
       - run: mvn -q -f language/java/examples/advanced-delegation/pom.xml compile exec:java -Dexec.args=governance
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'java')
       - run: dotnet run --project language/csharp/examples/advanced-delegation/AdvancedDelegation.csproj
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'csharp')
       - run: dotnet run --project language/csharp/examples/advanced-delegation/AdvancedDelegation.csproj -- --governance
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'csharp')
       - run: cargo run --quiet
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'rust')
         working-directory: language/rust/examples/advanced-delegation
       - run: cargo run --quiet --bin governance
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'rust')
         working-directory: language/rust/examples/advanced-delegation
 
   current-go-consumer:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'go') || needs.changes.outputs.core == 'true'
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:

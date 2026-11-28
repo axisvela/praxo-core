@@ -4,31 +4,166 @@ on:
   push:
     branches: [main]
     paths:
-      - "language/ruby/**"
-      - "language/php/**"
+      - "spec/**"
+      - "scripts/**"
+      - "pkg/**"
+      - "internal/**"
+      - "cmd/**"
+      - "bindings/**"
+      - "adapters/**"
+      - "go.mod"
+      - "go.sum"
+      - "VERSION"
+      - "Makefile"
+      - ".github/actions/**"
       - "language/elixir/**"
       - "language/erlang/**"
       - "language/lua/**"
+      - "language/php/**"
+      - "language/ruby/**"
       - ".github/workflows/ci-extended.yml"
+      - "!scripts/check_adapter_status.py"
+      - "!scripts/check_consumer_pins.py"
+      - "!scripts/check_language_releases.py"
+      - "!scripts/check_registry_pages.py"
+      - "!scripts/check_registry_state.py"
+      - "!scripts/docs_hooks.py"
+      - "!scripts/mirror_readme.py"
+      - "!scripts/registry_catalog.py"
+      - "!scripts/registry_discovery.py"
+      - "!scripts/repository_discovery.py"
+      - "!scripts/sync_language_mirrors.py"
+      - "!scripts/sync_language_registry_docs.py"
+      - "!scripts/test_adapter_status.py"
+      - "!scripts/test_consumer_pins.py"
+      - "!scripts/test_discovery.py"
+      - "!scripts/test_docs.py"
+      - "!scripts/test_language_registry_docs.py"
+      - "!scripts/test_language_releases.py"
+      - "!scripts/test_layout.py"
+      - "!scripts/test_registry_pages.py"
+      - "!scripts/test_registry_state.py"
+      - "!scripts/test_roadmap.py"
+      - "!scripts/test_sync_language_mirrors.py"
+      - "!language/discovery.json"
+      - "!language/registry-metadata.json"
+      - "!spec/languages.md"
+      - "!language/**/AGENTS.md"
+      - "!language/**/CONTRIBUTING.md"
+      - "!language/**/LICENSE.md"
+      - "!language/**/PUBLISHING.md"
+      - "!language/**/README.md"
+      - "!language/**/README.pod"
+      - "!language/**/README.zh-CN.md"
+      - "!language/**/REGISTRY.md"
+      - "!language/**/SECURITY.md"
+      - "!language/**/llms.md"
+      - "!language/**/llms.txt"
+      - "!language/*/application/**"
+      - "!language/**/README*.md"
+      - "!language/**/CHANGELOG*.md"
+      - "!language/**/docs/**/*.md"
   pull_request:
     paths:
-      - "language/ruby/**"
-      - "language/php/**"
+      - "spec/**"
+      - "scripts/**"
+      - "pkg/**"
+      - "internal/**"
+      - "cmd/**"
+      - "bindings/**"
+      - "adapters/**"
+      - "go.mod"
+      - "go.sum"
+      - "VERSION"
+      - "Makefile"
+      - ".github/actions/**"
       - "language/elixir/**"
       - "language/erlang/**"
       - "language/lua/**"
+      - "language/php/**"
+      - "language/ruby/**"
       - ".github/workflows/ci-extended.yml"
+      - "!scripts/check_adapter_status.py"
+      - "!scripts/check_consumer_pins.py"
+      - "!scripts/check_language_releases.py"
+      - "!scripts/check_registry_pages.py"
+      - "!scripts/check_registry_state.py"
+      - "!scripts/docs_hooks.py"
+      - "!scripts/mirror_readme.py"
+      - "!scripts/registry_catalog.py"
+      - "!scripts/registry_discovery.py"
+      - "!scripts/repository_discovery.py"
+      - "!scripts/sync_language_mirrors.py"
+      - "!scripts/sync_language_registry_docs.py"
+      - "!scripts/test_adapter_status.py"
+      - "!scripts/test_consumer_pins.py"
+      - "!scripts/test_discovery.py"
+      - "!scripts/test_docs.py"
+      - "!scripts/test_language_registry_docs.py"
+      - "!scripts/test_language_releases.py"
+      - "!scripts/test_layout.py"
+      - "!scripts/test_registry_pages.py"
+      - "!scripts/test_registry_state.py"
+      - "!scripts/test_roadmap.py"
+      - "!scripts/test_sync_language_mirrors.py"
+      - "!language/discovery.json"
+      - "!language/registry-metadata.json"
+      - "!spec/languages.md"
+      - "!language/**/AGENTS.md"
+      - "!language/**/CONTRIBUTING.md"
+      - "!language/**/LICENSE.md"
+      - "!language/**/PUBLISHING.md"
+      - "!language/**/README.md"
+      - "!language/**/README.pod"
+      - "!language/**/README.zh-CN.md"
+      - "!language/**/REGISTRY.md"
+      - "!language/**/SECURITY.md"
+      - "!language/**/llms.md"
+      - "!language/**/llms.txt"
+      - "!language/*/application/**"
+      - "!language/**/README*.md"
+      - "!language/**/CHANGELOG*.md"
+      - "!language/**/docs/**/*.md"
   workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: ci-extended-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' || github.event_name == 'push' }}
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      full: ${{ steps.filter.outputs.full }}
+      core: ${{ steps.filter.outputs.core }}
+      docs: ${{ steps.filter.outputs.docs }}
+      examples: ${{ steps.filter.outputs.examples }}
+      consumers: ${{ steps.filter.outputs.consumers }}
+      adapters: ${{ steps.filter.outputs.adapters }}
+      languages: ${{ steps.filter.outputs.languages }}
+      applications: ${{ steps.filter.outputs.applications }}
+      compatibility_languages: ${{ steps.filter.outputs.compatibility_languages }}
+      behavior_languages: ${{ steps.filter.outputs.behavior_languages }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: filter
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          REF_TYPE: ${{ github.ref_type }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PUSH_BEFORE: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.sha }}
+          WORKFLOW_FILE: .github/workflows/ci-extended.yml
+        run: python scripts/ci_changes.py
+
   ruby-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'ruby')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -42,6 +177,8 @@ jobs:
       - run: ruby -I language/ruby/lib language/ruby/examples/representative-chain/chain.rb
 
   current-ruby-consumer:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'ruby')
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -55,6 +192,8 @@ jobs:
       - run: bundle exec ruby test_starter.rb
 
   php-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'php')
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -67,23 +206,55 @@ jobs:
       - run: php language/php/conformance/run.php
       - run: php language/php/conformance/run.php --check-api
       - run: php language/php/tests/run.php
+      - run: php language/php/tests/plugin_process.php
       - run: php language/php/examples/advanced-delegation/governance_test.php
       - run: php language/php/examples/representative-chain/chain.php
 
   php-windows-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'php')
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
         with:
           php-version: "8.4.27"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - shell: pwsh
+        run: |
+          $python = (python -c "import sys; print(sys.executable)")
+          "PRAXO_PYTHON=$python" | Out-File -FilePath $env:GITHUB_ENV -Append
       - run: php language/php/conformance/run.php
       - run: php language/php/conformance/run.php --check-api
       - run: php language/php/tests/run.php
+      - run: php language/php/tests/plugin_process.php
       - run: php language/php/examples/advanced-delegation/governance_test.php
       - run: php language/php/examples/representative-chain/chain.php
 
+  php-package:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'php')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4.27"
+          tools: composer
+          extensions: openssl, mbstring
+      - run: python scripts/test_php_package.py
+        env:
+          PRAXO_PHP: php
+          PRAXO_COMPOSER: composer
+
   current-php-consumer:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'php')
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -98,6 +269,8 @@ jobs:
       - run: composer test
 
   elixir-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'elixir')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -119,6 +292,8 @@ jobs:
       - run: elixir -pa language/elixir/build/ebin language/elixir/examples/representative-chain/chain.exs
 
   current-elixir-consumer:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'elixir')
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -133,6 +308,8 @@ jobs:
       - run: mix run test_starter.exs
 
   erlang-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'erlang')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -150,6 +327,8 @@ jobs:
       - run: escript language/erlang/examples/representative-chain/chain.escript
 
   lua-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'lua')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -169,6 +348,8 @@ jobs:
             lua5.4 language/lua/tests/installed_smoke.lua
 
   current-lua-consumer:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'lua')
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -180,7 +361,7 @@ jobs:
         shell: bash
         run: |
           tree="$RUNNER_TEMP/praxo-luarocks"
-          luarocks --lua-version 5.4 --tree "$tree" install praxo-core 0.4.1-1
+          luarocks --lua-version 5.4 --tree "$tree" install praxo-core 0.8.1-1
           consumer="$RUNNER_TEMP/praxo-lua-consumer"
           mkdir -p "$consumer"
           cp starter.lua test_starter.lua "$consumer"

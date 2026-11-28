@@ -4,37 +4,248 @@ on:
   push:
     branches: [main]
     paths:
-      - 'language/*/Tutorial/**'
-      - 'docs/**/agent-scenarios.md'
-      - 'scripts/test_agent_scenarios.py'
-      - 'scripts/*tutorial_catalog.py'
-      - 'scripts/check_example_coverage.py'
-      - 'docs/**/tutorial-catalog.md'
-      - 'docs/**/tutorial-plan.md'
-      - 'language/*/examples/**'
-      - 'language/go/examples/**'
-      - 'mkdocs.yml'
-      - '.github/workflows/ci-tutorials.yml'
+      - "spec/**"
+      - "scripts/**"
+      - "pkg/**"
+      - "internal/**"
+      - "cmd/**"
+      - "bindings/**"
+      - "adapters/**"
+      - "go.mod"
+      - "go.sum"
+      - "VERSION"
+      - "Makefile"
+      - ".github/actions/**"
+      - "language/c/**"
+      - "language/cobol/**"
+      - "language/cpp/**"
+      - "language/csharp/**"
+      - "language/d/**"
+      - "language/dart/**"
+      - "language/delphi/**"
+      - "language/elixir/**"
+      - "language/erlang/**"
+      - "language/fortran/**"
+      - "language/go/**"
+      - "language/haskell/**"
+      - "language/java/**"
+      - "language/julia/**"
+      - "language/lua/**"
+      - "language/matlab/**"
+      - "language/nim/**"
+      - "language/objc/**"
+      - "language/ocaml/**"
+      - "language/octave/**"
+      - "language/perl/**"
+      - "language/php/**"
+      - "language/powershell/**"
+      - "language/python/**"
+      - "language/r/**"
+      - "language/ruby/**"
+      - "language/rust/**"
+      - "language/swift/**"
+      - "language/typescript/**"
+      - "language/v/**"
+      - "language/zig/**"
+      - "language/matlab-octave-core/**"
+      - "global.json"
+      - "docs/**/agent-scenarios.md"
+      - "docs/**/tutorial-catalog.md"
+      - "docs/**/tutorial-plan.md"
+      - "mkdocs.yml"
+      - ".github/workflows/ci-tutorials.yml"
+      - "!scripts/check_adapter_status.py"
+      - "!scripts/check_consumer_pins.py"
+      - "!scripts/check_language_releases.py"
+      - "!scripts/check_registry_pages.py"
+      - "!scripts/check_registry_state.py"
+      - "!scripts/docs_hooks.py"
+      - "!scripts/mirror_readme.py"
+      - "!scripts/registry_catalog.py"
+      - "!scripts/registry_discovery.py"
+      - "!scripts/repository_discovery.py"
+      - "!scripts/sync_language_mirrors.py"
+      - "!scripts/sync_language_registry_docs.py"
+      - "!scripts/test_adapter_status.py"
+      - "!scripts/test_consumer_pins.py"
+      - "!scripts/test_discovery.py"
+      - "!scripts/test_docs.py"
+      - "!scripts/test_language_registry_docs.py"
+      - "!scripts/test_language_releases.py"
+      - "!scripts/test_layout.py"
+      - "!scripts/test_registry_pages.py"
+      - "!scripts/test_registry_state.py"
+      - "!scripts/test_roadmap.py"
+      - "!scripts/test_sync_language_mirrors.py"
+      - "!language/discovery.json"
+      - "!language/registry-metadata.json"
+      - "!spec/languages.md"
+      - "!language/**/AGENTS.md"
+      - "!language/**/CONTRIBUTING.md"
+      - "!language/**/LICENSE.md"
+      - "!language/**/PUBLISHING.md"
+      - "!language/**/README.md"
+      - "!language/**/README.pod"
+      - "!language/**/README.zh-CN.md"
+      - "!language/**/REGISTRY.md"
+      - "!language/**/SECURITY.md"
+      - "!language/**/llms.md"
+      - "!language/**/llms.txt"
+      - "!language/*/application/**"
+      - "language/**/AGENTS.md"
+      - "language/**/CONTRIBUTING.md"
+      - "language/**/LICENSE.md"
+      - "language/**/PUBLISHING.md"
+      - "language/**/README.md"
+      - "language/**/README.zh-CN.md"
+      - "language/**/REGISTRY.md"
+      - "language/**/SECURITY.md"
+      - "language/**/llms.md"
+      - "language/**/README*.md"
+      - "language/**/CHANGELOG*.md"
+      - "language/**/docs/**/*.md"
   pull_request:
     paths:
-      - 'language/*/Tutorial/**'
-      - 'docs/**/agent-scenarios.md'
-      - 'scripts/test_agent_scenarios.py'
-      - 'scripts/*tutorial_catalog.py'
-      - 'scripts/check_example_coverage.py'
-      - 'docs/**/tutorial-catalog.md'
-      - 'docs/**/tutorial-plan.md'
-      - 'language/*/examples/**'
-      - 'language/go/examples/**'
-      - 'mkdocs.yml'
-      - '.github/workflows/ci-tutorials.yml'
+      - "spec/**"
+      - "scripts/**"
+      - "pkg/**"
+      - "internal/**"
+      - "cmd/**"
+      - "bindings/**"
+      - "adapters/**"
+      - "go.mod"
+      - "go.sum"
+      - "VERSION"
+      - "Makefile"
+      - ".github/actions/**"
+      - "language/c/**"
+      - "language/cobol/**"
+      - "language/cpp/**"
+      - "language/csharp/**"
+      - "language/d/**"
+      - "language/dart/**"
+      - "language/delphi/**"
+      - "language/elixir/**"
+      - "language/erlang/**"
+      - "language/fortran/**"
+      - "language/go/**"
+      - "language/haskell/**"
+      - "language/java/**"
+      - "language/julia/**"
+      - "language/lua/**"
+      - "language/matlab/**"
+      - "language/nim/**"
+      - "language/objc/**"
+      - "language/ocaml/**"
+      - "language/octave/**"
+      - "language/perl/**"
+      - "language/php/**"
+      - "language/powershell/**"
+      - "language/python/**"
+      - "language/r/**"
+      - "language/ruby/**"
+      - "language/rust/**"
+      - "language/swift/**"
+      - "language/typescript/**"
+      - "language/v/**"
+      - "language/zig/**"
+      - "language/matlab-octave-core/**"
+      - "global.json"
+      - "docs/**/agent-scenarios.md"
+      - "docs/**/tutorial-catalog.md"
+      - "docs/**/tutorial-plan.md"
+      - "mkdocs.yml"
+      - ".github/workflows/ci-tutorials.yml"
+      - "!scripts/check_adapter_status.py"
+      - "!scripts/check_consumer_pins.py"
+      - "!scripts/check_language_releases.py"
+      - "!scripts/check_registry_pages.py"
+      - "!scripts/check_registry_state.py"
+      - "!scripts/docs_hooks.py"
+      - "!scripts/mirror_readme.py"
+      - "!scripts/registry_catalog.py"
+      - "!scripts/registry_discovery.py"
+      - "!scripts/repository_discovery.py"
+      - "!scripts/sync_language_mirrors.py"
+      - "!scripts/sync_language_registry_docs.py"
+      - "!scripts/test_adapter_status.py"
+      - "!scripts/test_consumer_pins.py"
+      - "!scripts/test_discovery.py"
+      - "!scripts/test_docs.py"
+      - "!scripts/test_language_registry_docs.py"
+      - "!scripts/test_language_releases.py"
+      - "!scripts/test_layout.py"
+      - "!scripts/test_registry_pages.py"
+      - "!scripts/test_registry_state.py"
+      - "!scripts/test_roadmap.py"
+      - "!scripts/test_sync_language_mirrors.py"
+      - "!language/discovery.json"
+      - "!language/registry-metadata.json"
+      - "!spec/languages.md"
+      - "!language/**/AGENTS.md"
+      - "!language/**/CONTRIBUTING.md"
+      - "!language/**/LICENSE.md"
+      - "!language/**/PUBLISHING.md"
+      - "!language/**/README.md"
+      - "!language/**/README.pod"
+      - "!language/**/README.zh-CN.md"
+      - "!language/**/REGISTRY.md"
+      - "!language/**/SECURITY.md"
+      - "!language/**/llms.md"
+      - "!language/**/llms.txt"
+      - "!language/*/application/**"
+      - "language/**/AGENTS.md"
+      - "language/**/CONTRIBUTING.md"
+      - "language/**/LICENSE.md"
+      - "language/**/PUBLISHING.md"
+      - "language/**/README.md"
+      - "language/**/README.zh-CN.md"
+      - "language/**/REGISTRY.md"
+      - "language/**/SECURITY.md"
+      - "language/**/llms.md"
+      - "language/**/README*.md"
+      - "language/**/CHANGELOG*.md"
+      - "language/**/docs/**/*.md"
   workflow_dispatch:
 
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' || github.event_name == 'push' }}
+
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      full: ${{ steps.filter.outputs.full }}
+      core: ${{ steps.filter.outputs.core }}
+      docs: ${{ steps.filter.outputs.docs }}
+      examples: ${{ steps.filter.outputs.examples }}
+      consumers: ${{ steps.filter.outputs.consumers }}
+      adapters: ${{ steps.filter.outputs.adapters }}
+      languages: ${{ steps.filter.outputs.languages }}
+      applications: ${{ steps.filter.outputs.applications }}
+      compatibility_languages: ${{ steps.filter.outputs.compatibility_languages }}
+      behavior_languages: ${{ steps.filter.outputs.behavior_languages }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: filter
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          REF_TYPE: ${{ github.ref_type }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PUSH_BEFORE: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.sha }}
+          WORKFLOW_FILE: .github/workflows/ci-tutorials.yml
+        run: python scripts/ci_changes.py
+
   scenario-catalog:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || needs.changes.outputs.core == 'true' || needs.changes.outputs.docs == 'true' || needs.changes.outputs.examples == 'true' || needs.changes.outputs.languages != '[]'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -45,8 +256,12 @@ jobs:
       - run: python scripts/test_agent_scenarios.py
       - run: python scripts/tutorial_catalog.py --check
       - run: python scripts/test_tutorial_catalog.py
+      - run: python scripts/check_example_coverage.py
+      - run: python scripts/test_example_coverage.py -q
 
   objc-privacy-agent:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'c') || contains(fromJSON(needs.changes.outputs.languages), 'objc')
     runs-on: macos-latest
     timeout-minutes: 15
     steps:
@@ -69,6 +284,8 @@ jobs:
       - run: ./build/objc-privacy --test
 
   delphi-legacy-migration:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'delphi')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -81,6 +298,8 @@ jobs:
         working-directory: language/delphi
 
   ocaml-code-review:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'ocaml')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -92,6 +311,8 @@ jobs:
         working-directory: language/ocaml/Tutorial/code-review
 
   erlang-aiops-rca:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'erlang')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -106,6 +327,8 @@ jobs:
       - run: escript language/erlang/Tutorial/aiops-rca/rca.escript --test
 
   elixir-knowledge-maintenance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'elixir')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -121,6 +344,8 @@ jobs:
       - run: elixir -pa language/elixir/build/ebin language/elixir/Tutorial/knowledge-maintenance/app.exs --test
 
   v-production-scheduling:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'v')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -131,6 +356,8 @@ jobs:
       - run: ./build/v-schedule --test
 
   d-executive-brief:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'd')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -141,6 +368,8 @@ jobs:
       - run: dmd -i -Ilanguage/d/source -run language/d/Tutorial/executive-brief/brief.d --test
 
   nim-maintenance-triage:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'nim')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -152,6 +381,8 @@ jobs:
       - run: ./build/nim-maintenance --test
 
   haskell-literature-review:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'haskell')
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -162,6 +393,8 @@ jobs:
       - run: runghc -ilanguage/haskell/src language/haskell/Tutorial/literature-review/app.hs --test
 
   dart-onboarding-plan:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'dart')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -172,6 +405,8 @@ jobs:
       - run: dart language/dart/Tutorial/onboarding-plan/onboarding.dart --test
 
   dart-meeting-coordination:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'dart')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -182,6 +417,8 @@ jobs:
       - run: dart language/dart/Tutorial/meeting-coordination/meeting.dart --test
 
   php-internal-service-desk:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'php')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -192,6 +429,8 @@ jobs:
       - run: php language/php/Tutorial/internal-service-desk/app.php --test
 
   delphi-rpa-reconciliation:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'delphi')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -204,6 +443,8 @@ jobs:
         working-directory: language/delphi
 
   php-api-orchestration:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'php')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -214,6 +455,8 @@ jobs:
       - run: php language/php/Tutorial/api-orchestration/app.php --test
 
   d-quant-risk:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'd')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -224,6 +467,8 @@ jobs:
       - run: dmd -i -Ilanguage/d/source -run language/d/Tutorial/quant-risk/risk.d --test
 
   elixir-aiops-rca:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'elixir')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -239,6 +484,8 @@ jobs:
       - run: elixir -pa language/elixir/build/ebin language/elixir/Tutorial/aiops-rca/app.exs --test
 
   elixir-soc-correlation:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'elixir')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -254,6 +501,8 @@ jobs:
       - run: elixir -pa language/elixir/build/ebin language/elixir/Tutorial/soc-correlation/app.exs --test
 
   elixir-community-governance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'elixir')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -269,6 +518,8 @@ jobs:
       - run: elixir -pa language/elixir/build/ebin language/elixir/Tutorial/community-governance/app.exs --test
 
   php-new-tutorials:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'php')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     strategy:
@@ -282,6 +533,8 @@ jobs:
       - run: php language/php/Tutorial/${{ matrix.tutorial }}/app.php --test
 
   cobol-new-tutorials:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cobol')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     strategy:
@@ -296,6 +549,8 @@ jobs:
       - run: python language/cobol/Tutorial/${{ matrix.tutorial }}/run.py
 
   objc-new-tutorials:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'c') || contains(fromJSON(needs.changes.outputs.languages), 'objc')
     runs-on: macos-latest
     timeout-minutes: 20
     strategy:
@@ -309,6 +564,8 @@ jobs:
       - run: ./build/${{ matrix.tutorial }} --test
 
   nim-new-tutorials:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'nim')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     strategy:
@@ -326,6 +583,8 @@ jobs:
       - run: nim check --path:language/nim/src --hints:off language/nim/Tutorial/${{ matrix.dir }}/${{ matrix.src }}.nim
 
   r-new-tutorials:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'r')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     strategy:
@@ -343,6 +602,8 @@ jobs:
       - run: Rscript language/r/Tutorial/${{ matrix.dir }}/${{ matrix.src }}.R --test
 
   python-new-tutorials:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     strategy:
@@ -356,6 +617,8 @@ jobs:
       - run: PYTHONPATH=language/python python language/python/Tutorial/${{ matrix.tutorial }}/app.py --test
 
   typescript-new-tutorials:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     strategy:
@@ -372,6 +635,8 @@ jobs:
         working-directory: language/typescript/Tutorial/${{ matrix.tutorial }}
 
   c-new-tutorials:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'c')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     strategy:
@@ -385,6 +650,8 @@ jobs:
       - run: ./build/${{ matrix.tutorial }} --test
 
   fortran-new-tutorials:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'fortran')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     strategy:
@@ -399,6 +666,8 @@ jobs:
       - run: python language/fortran/Tutorial/${{ matrix.tutorial }}/run.py
 
   rust-new-tutorials:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'rust')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     strategy:
@@ -411,6 +680,8 @@ jobs:
         working-directory: language/rust/Tutorial/${{ matrix.tutorial }}
 
   julia-new-tutorials:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'julia')
     runs-on: ubuntu-latest
     timeout-minutes: 30
     strategy:
@@ -442,6 +713,8 @@ jobs:
       - run: julia --project=language/julia language/julia/Tutorial/${{ matrix.dir }}/${{ matrix.file }}.jl --test
 
   java-new-tutorials:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'java')
     runs-on: ubuntu-latest
     timeout-minutes: 20
     strategy:
@@ -457,6 +730,8 @@ jobs:
         working-directory: language/java/Tutorial/${{ matrix.tutorial }}
 
   cpp-new-tutorials:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cpp')
     runs-on: ubuntu-latest
     timeout-minutes: 20
     strategy:
@@ -469,6 +744,8 @@ jobs:
       - run: ./language/cpp/build/praxo-cpp-${{ matrix.tutorial }}-tutorial --test
 
   csharp-new-tutorials:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'csharp')
     runs-on: ubuntu-latest
     timeout-minutes: 20
     strategy:
@@ -496,6 +773,8 @@ jobs:
         working-directory: language/csharp/Tutorial/${{ matrix.dir }}
 
   swift-new-tutorials:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'swift')
     runs-on: macos-latest
     timeout-minutes: 25
     strategy:
@@ -507,6 +786,8 @@ jobs:
         working-directory: language/swift
 
   perl-localization-draft:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'perl')
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -514,6 +795,8 @@ jobs:
       - run: perl language/perl/Tutorial/localization-draft/app.pl --test
 
   perl-compliance-tracking:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'perl')
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -521,6 +804,8 @@ jobs:
       - run: perl language/perl/Tutorial/compliance-tracking/app.pl --test
 
   perl-community-governance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'perl')
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -528,6 +813,8 @@ jobs:
       - run: perl language/perl/Tutorial/community-governance/app.pl --test
 
   erlang-soc-correlation:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'erlang')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -542,6 +829,8 @@ jobs:
       - run: escript language/erlang/Tutorial/soc-correlation/soc.escript --test
 
   erlang-policy-simulation:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'erlang')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -556,6 +845,8 @@ jobs:
       - run: escript language/erlang/Tutorial/policy-simulation/policy.escript --test
 
   dart-marketing-segments:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'dart')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -566,6 +857,8 @@ jobs:
       - run: dart language/dart/Tutorial/marketing-segments/marketing.dart --test
 
   dart-travel-booking:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'dart')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -576,6 +869,8 @@ jobs:
       - run: dart language/dart/Tutorial/travel-booking/travel.dart --test
 
   ruby-retail-replenishment:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'ruby')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -586,6 +881,8 @@ jobs:
       - run: ruby -I language/ruby/lib language/ruby/Tutorial/retail-replenishment/app.rb --test
 
   ruby-supply-disruption:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'ruby')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -596,6 +893,8 @@ jobs:
       - run: ruby -I language/ruby/lib language/ruby/Tutorial/supply-disruption/app.rb --test
 
   powershell-finops-review:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'csharp') || contains(fromJSON(needs.changes.outputs.languages), 'powershell')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -607,6 +906,8 @@ jobs:
       - run: pwsh -NoProfile -File language/powershell/Tutorial/finops-review/finops.ps1 -SourceMode -Test
 
   matlab-data-quality:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'matlab')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -615,6 +916,8 @@ jobs:
       - run: octave --no-gui --quiet language/matlab/Tutorial/data-quality/run.m --test
 
   delphi-tax-review:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'delphi')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -627,6 +930,8 @@ jobs:
         working-directory: language/delphi
 
   octave-water-quality:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'octave')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -635,6 +940,8 @@ jobs:
       - run: octave --no-gui --quiet language/octave/Tutorial/water-quality/run.m --test
 
   swift-chronic-care:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'swift')
     runs-on: macos-latest
     timeout-minutes: 20
     steps:
@@ -642,6 +949,8 @@ jobs:
       - run: swift run --package-path language/swift praxo-chronic-care-tutorial --test
 
   octave-vibration-review:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'octave')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -650,6 +959,8 @@ jobs:
       - run: octave --no-gui --quiet language/octave/Tutorial/vibration-review/run.m --test
 
   julia-dispatch-review:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'julia')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -661,6 +972,8 @@ jobs:
       - run: julia --project=language/julia language/julia/Tutorial/dispatch-review/dispatch_review.jl --test
 
   erlang-otp-recovery:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'erlang')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -676,6 +989,8 @@ jobs:
       - run: escript language/erlang/Tutorial/otp-recovery/recovery.escript --test
 
   ocaml-static-diagnostics:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'ocaml')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -687,6 +1002,8 @@ jobs:
         working-directory: language/ocaml/Tutorial/static-diagnostics
 
   haskell-rule-dsl:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'haskell')
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -697,6 +1014,8 @@ jobs:
       - run: runghc -ilanguage/haskell/src language/haskell/Tutorial/rule-dsl/app.hs --test
 
   v-release-preflight:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'v')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -706,6 +1025,8 @@ jobs:
       - run: /tmp/v/v -path "language/v|@vlib|@vmodules" run language/v/Tutorial/release-preflight/preflight.v --test
 
   d-data-pipeline:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'd')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -716,6 +1037,8 @@ jobs:
       - run: dmd -i -Ilanguage/d/source -run language/d/Tutorial/data-pipeline/pipeline.d --test
 
   ruby-finops-review:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'ruby')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -726,6 +1049,8 @@ jobs:
       - run: ruby -I language/ruby/lib language/ruby/Tutorial/finops-review/app.rb --test
 
   csharp-order-review:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'csharp')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -737,6 +1062,8 @@ jobs:
       - run: dotnet language/csharp/Tutorial/order-review/bin/Debug/net8.0/Praxo.OrderReview.dll --test
 
   powershell-windows-diagnostics:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'csharp') || contains(fromJSON(needs.changes.outputs.languages), 'powershell')
     runs-on: windows-latest
     timeout-minutes: 10
     steps:
@@ -748,6 +1075,8 @@ jobs:
       - run: pwsh -NoProfile -File language/powershell/Tutorial/windows-diagnostics/tests.ps1 -SourceMode -IncludeLocalMachine
 
   perl-log-triage:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'perl')
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -755,6 +1084,8 @@ jobs:
       - run: perl language/perl/Tutorial/log-triage/triage.pl --test
 
   r-wealth-analysis:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'r')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -765,6 +1096,8 @@ jobs:
       - run: Rscript language/r/Tutorial/wealth-analysis/wealth.R --test
 
   r-marketing-segmentation:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'r')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -775,6 +1108,8 @@ jobs:
       - run: Rscript language/r/Tutorial/marketing-segmentation/marketing.R --test
 
   r-data-quality:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'r')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -785,6 +1120,8 @@ jobs:
       - run: Rscript language/r/Tutorial/data-quality/data_quality.R --test
 
   typescript-retail-replenishment:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -798,6 +1135,8 @@ jobs:
         working-directory: language/typescript/Tutorial/retail-replenishment
 
   typescript-travel-booking:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -811,6 +1150,8 @@ jobs:
         working-directory: language/typescript/Tutorial/travel-booking
 
   typescript-customer-support:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -824,6 +1165,8 @@ jobs:
         working-directory: language/typescript/Tutorial/customer-support
 
   java-wealth-service:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'java')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -837,6 +1180,8 @@ jobs:
         working-directory: language/java/Tutorial/wealth-service
 
   lua-host-embedding:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'lua')
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -845,6 +1190,8 @@ jobs:
       - run: lua5.4 language/lua/Tutorial/host-embedding/app.lua --test
 
   rust-iot-gateway:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'rust')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -854,6 +1201,8 @@ jobs:
         working-directory: language/rust/Tutorial/iot-gateway
 
   zig-gateway-health:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'zig')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -866,6 +1215,8 @@ jobs:
       - run: ./build/praxo-zig-gateway --test
 
   c-device-diagnostics:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'c')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -875,6 +1226,8 @@ jobs:
       - run: ./language/c/build/praxo-c-device-diagnostics-tutorial --test
 
   cpp-industrial-edge:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cpp')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -884,6 +1237,8 @@ jobs:
       - run: ./language/cpp/build/praxo-cpp-industrial-edge-tutorial --test
 
   go-incident-coordination:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'go') || needs.changes.outputs.core == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -895,6 +1250,8 @@ jobs:
       - run: go test ./language/go/Tutorial/incident-coordination
 
   fortran-simulation-metrics:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'fortran')
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -904,6 +1261,8 @@ jobs:
       - run: python language/fortran/Tutorial/simulation-metrics/run.py
 
   go-evidence-vault:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'go') || needs.changes.outputs.core == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -915,6 +1274,8 @@ jobs:
       - run: go test ./language/go/Tutorial/evidence-vault
 
   go-logistics-checkpoint:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'go') || needs.changes.outputs.core == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -926,6 +1287,8 @@ jobs:
       - run: go test ./language/go/Tutorial/logistics-checkpoint
 
   go-zero-trust-review:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'go') || needs.changes.outputs.core == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -937,6 +1300,8 @@ jobs:
       - run: go test ./language/go/Tutorial/zero-trust-review
 
   go-soc-alert-triage:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'go') || needs.changes.outputs.core == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -948,6 +1313,8 @@ jobs:
       - run: go test ./language/go/Tutorial/soc-alert-triage
 
   cpp-materials-design:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cpp')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -957,6 +1324,8 @@ jobs:
       - run: ./language/cpp/build/praxo-cpp-materials-design-tutorial --test
 
   php-customs-reroute:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'php')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -967,6 +1336,8 @@ jobs:
       - run: php language/php/Tutorial/customs-reroute/app.php --test
 
   r-weather-anomaly:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'r')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -977,6 +1348,8 @@ jobs:
       - run: Rscript language/r/Tutorial/weather-anomaly/weather.R --test
 
   lua-irrigation-plan:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'lua')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -985,6 +1358,8 @@ jobs:
       - run: lua5.4 language/lua/Tutorial/irrigation-plan/app.lua --test
 
   cpp-molecule-screen:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cpp')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -994,6 +1369,8 @@ jobs:
       - run: ./language/cpp/build/praxo-cpp-molecule-screen-tutorial --test
 
   d-property-forecast:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'd')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1004,6 +1381,8 @@ jobs:
       - run: dmd -i -Ilanguage/d/source -run language/d/Tutorial/property-forecast/forecast.d --test
 
   php-localization-draft:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'php')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1014,6 +1393,8 @@ jobs:
       - run: php language/php/Tutorial/localization-draft/app.php --test
 
   dart-cbt-exercise:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'dart')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1024,6 +1405,8 @@ jobs:
       - run: dart language/dart/Tutorial/cbt-exercise/cbt_exercise.dart --test
 
   typescript-workspace-plan:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1037,6 +1420,8 @@ jobs:
         working-directory: language/typescript/Tutorial/workspace-plan
 
   csharp-test-generation:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'csharp')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1048,6 +1433,8 @@ jobs:
       - run: dotnet language/csharp/Tutorial/test-generation/bin/Debug/net8.0/Praxo.TestGeneration.dll --test
 
   csharp-airport-recovery:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'csharp')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1059,6 +1446,8 @@ jobs:
       - run: dotnet language/csharp/Tutorial/airport-recovery/bin/Debug/net8.0/Praxo.AirportRecovery.dll --test
 
   php-lead-nurture:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'php')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1069,6 +1458,8 @@ jobs:
       - run: php language/php/Tutorial/lead-nurture/app.php --test
 
   go-fullstack-workspace:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'go') || needs.changes.outputs.core == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1080,6 +1471,8 @@ jobs:
       - run: go test ./language/go/Tutorial/fullstack-workspace
 
   csharp-medical-coding:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'csharp')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1091,6 +1484,8 @@ jobs:
       - run: dotnet language/csharp/Tutorial/medical-coding/bin/Debug/net8.0/Praxo.MedicalCoding.dll --test
 
   dart-chronic-care:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'dart')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1101,6 +1496,8 @@ jobs:
       - run: dart language/dart/Tutorial/chronic-care/chronic_care.dart --test
 
   haskell-test-generation:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'haskell')
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -1111,6 +1508,8 @@ jobs:
       - run: runghc -ilanguage/haskell/src language/haskell/Tutorial/test-generation/app.hs --test
 
   typescript-api-orchestration:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1124,6 +1523,8 @@ jobs:
         working-directory: language/typescript/Tutorial/api-orchestration
 
   python-recruiting-match:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1134,6 +1535,8 @@ jobs:
       - run: PYTHONPATH=language/python python language/python/Tutorial/recruiting-match/app.py --test
 
   python-bug-repair:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1144,6 +1547,8 @@ jobs:
       - run: PYTHONPATH=language/python python language/python/Tutorial/bug-repair/app.py --test
 
   python-cbt-exercise:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1154,6 +1559,8 @@ jobs:
       - run: PYTHONPATH=language/python python language/python/Tutorial/cbt-exercise/app.py --test
 
   rust-household-robot:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'rust')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1163,6 +1570,8 @@ jobs:
         working-directory: language/rust/Tutorial/household-robot
 
   rust-lab-loop:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'rust')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1172,6 +1581,8 @@ jobs:
         working-directory: language/rust/Tutorial/lab-loop
 
   typescript-localization-draft:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1185,6 +1596,8 @@ jobs:
         working-directory: language/typescript/Tutorial/localization-draft
 
   ruby-lead-nurture:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'ruby')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1195,6 +1608,8 @@ jobs:
       - run: ruby -I language/ruby/lib language/ruby/Tutorial/lead-nurture/app.rb --test
 
   python-molecule-screen:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1205,6 +1620,8 @@ jobs:
       - run: PYTHONPATH=language/python python language/python/Tutorial/molecule-screen/app.py --test
 
   rust-leak-localization:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'rust')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1214,6 +1631,8 @@ jobs:
         working-directory: language/rust/Tutorial/leak-localization
 
   cpp-container-yard:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cpp')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1223,6 +1642,8 @@ jobs:
       - run: ./language/cpp/build/praxo-cpp-container-yard-tutorial --test
 
   haskell-policy-simulation:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'haskell')
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -1233,6 +1654,8 @@ jobs:
       - run: runghc -ilanguage/haskell/src language/haskell/Tutorial/policy-simulation/app.hs --test
 
   delphi-hvac-settings:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'delphi')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -1245,6 +1668,8 @@ jobs:
         working-directory: language/delphi
 
   cpp-ocean-routing:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cpp')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1254,6 +1679,8 @@ jobs:
       - run: ./language/cpp/build/praxo-cpp-ocean-routing-tutorial --test
 
   d-fleet-map:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'd')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1264,6 +1691,8 @@ jobs:
       - run: dmd -i -Ilanguage/d/source -run language/d/Tutorial/fleet-map/map_patch.d --test
 
   go-customs-reroute:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'go') || needs.changes.outputs.core == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1275,6 +1704,8 @@ jobs:
       - run: go test ./language/go/Tutorial/customs-reroute
 
   rust-cold-chain:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'rust')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1284,6 +1715,8 @@ jobs:
         working-directory: language/rust/Tutorial/cold-chain
 
   cpp-mesh-review:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cpp')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1293,6 +1726,8 @@ jobs:
       - run: ./language/cpp/build/praxo-cpp-mesh-review-tutorial --test
 
   lua-aquaculture-water:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'lua')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1301,6 +1736,8 @@ jobs:
       - run: lua5.4 language/lua/Tutorial/aquaculture-water/app.lua --test
 
   rust-mining-slope:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'rust')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1310,6 +1747,8 @@ jobs:
         working-directory: language/rust/Tutorial/mining-slope
 
   rust-livestock-monitor:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'rust')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1319,6 +1758,8 @@ jobs:
         working-directory: language/rust/Tutorial/livestock-monitor
 
   python-virtual-pi:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1329,6 +1770,8 @@ jobs:
       - run: PYTHONPATH=language/python python language/python/Tutorial/virtual-pi/app.py --test
 
   r-fire-spread:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'r')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1339,6 +1782,8 @@ jobs:
       - run: Rscript language/r/Tutorial/fire-spread/fire.R --test
 
   python-precedent-outline:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1349,6 +1794,8 @@ jobs:
       - run: PYTHONPATH=language/python python language/python/Tutorial/precedent-outline/app.py --test
 
   r-property-forecast:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'r')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1359,6 +1806,8 @@ jobs:
       - run: Rscript language/r/Tutorial/property-forecast/property.R --test
 
   dart-digital-twin-memory:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'dart')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1369,6 +1818,8 @@ jobs:
       - run: dart language/dart/Tutorial/digital-twin-memory/digital_twin.dart --test
 
   go-litigation-timeline:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'go') || needs.changes.outputs.core == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1380,6 +1831,8 @@ jobs:
       - run: go test ./language/go/Tutorial/litigation-timeline
 
   dart-audiobook-production:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'dart')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1390,6 +1843,8 @@ jobs:
       - run: dart language/dart/Tutorial/audiobook-production/audiobook.dart --test
 
   cpp-eda-placement:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cpp')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1399,6 +1854,8 @@ jobs:
       - run: ./language/cpp/build/praxo-cpp-eda-placement-tutorial --test
 
   php-tender-review:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'php')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1409,6 +1866,8 @@ jobs:
       - run: php language/php/Tutorial/tender-review/app.php --test
 
   r-hedge-plan:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'r')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1419,6 +1878,8 @@ jobs:
       - run: Rscript language/r/Tutorial/hedge-plan/hedge.R --test
 
   ruby-due-diligence:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'ruby')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1429,6 +1890,8 @@ jobs:
       - run: ruby -I language/ruby/lib language/ruby/Tutorial/due-diligence/app.rb --test
 
   python-dubbing-plan:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1439,6 +1902,8 @@ jobs:
       - run: PYTHONPATH=language/python python language/python/Tutorial/dubbing-plan/app.py --test
 
   r-budget-review:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'r')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1449,6 +1914,8 @@ jobs:
       - run: Rscript language/r/Tutorial/budget-review/budget.R --test
 
   php-copyright-evidence:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'php')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1459,6 +1926,8 @@ jobs:
       - run: php language/php/Tutorial/copyright-evidence/app.php --test
 
   typescript-negotiation-interpretation:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1472,6 +1941,8 @@ jobs:
         working-directory: language/typescript/Tutorial/negotiation-interpretation
 
   python-biodiversity-alerts:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1482,6 +1953,8 @@ jobs:
       - run: PYTHONPATH=language/python python language/python/Tutorial/biodiversity-alerts/app.py --test
 
   lua-live-show:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'lua')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1490,6 +1963,8 @@ jobs:
       - run: lua5.4 language/lua/Tutorial/live-show/app.lua --test
 
   dart-waste-collection:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'dart')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1500,6 +1975,8 @@ jobs:
       - run: dart language/dart/Tutorial/waste-collection/waste.dart --test
 
   ocaml-architecture-graph:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'ocaml')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1511,6 +1988,8 @@ jobs:
         working-directory: language/ocaml/Tutorial/architecture-graph
 
   python-pollution-tracing:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1521,6 +2000,8 @@ jobs:
       - run: PYTHONPATH=language/python python language/python/Tutorial/pollution-tracing/app.py --test
 
   ruby-community-governance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'ruby')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1531,6 +2012,8 @@ jobs:
       - run: ruby -I language/ruby/lib language/ruby/Tutorial/community-governance/app.rb --test
 
   lua-world-economy:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'lua')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1539,6 +2022,8 @@ jobs:
       - run: lua5.4 language/lua/Tutorial/world-economy/app.lua --test
 
   go-emergency-route-plan:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'go') || needs.changes.outputs.core == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1550,6 +2035,8 @@ jobs:
       - run: go test ./language/go/Tutorial/emergency-route-plan
 
   python-patent-fto:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1560,6 +2047,8 @@ jobs:
       - run: PYTHONPATH=language/python python language/python/Tutorial/patent-fto/app.py --test
 
   rust-construction-safety:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'rust')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1569,6 +2058,8 @@ jobs:
         working-directory: language/rust/Tutorial/construction-safety
 
   perl-news-factcheck:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'perl')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1576,6 +2067,8 @@ jobs:
       - run: perl language/perl/Tutorial/news-factcheck/app.pl --test
 
   python-phishing-awareness:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1586,6 +2079,8 @@ jobs:
       - run: PYTHONPATH=language/python python language/python/Tutorial/phishing-awareness/app.py --test
 
   ruby-supply-chain-review:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'ruby')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1596,6 +2091,8 @@ jobs:
       - run: ruby -I language/ruby/lib language/ruby/Tutorial/supply-chain-review/app.rb --test
 
   cpp-traffic-signal-plan:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cpp')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1605,6 +2102,8 @@ jobs:
       - run: ./language/cpp/build/praxo-cpp-traffic-signal-plan-tutorial --test
 
   zig-drone-fleet-plan:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'zig')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1617,6 +2116,8 @@ jobs:
       - run: ./build/praxo-zig-drone-fleet --test
 
   go-pentest-lab-review:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'go') || needs.changes.outputs.core == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1628,6 +2129,8 @@ jobs:
       - run: go test ./language/go/Tutorial/pentest-lab-review
 
   lua-storyboard-previs:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'lua')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1636,6 +2139,8 @@ jobs:
       - run: lua5.4 language/lua/Tutorial/storyboard-previs/app.lua --test
 
   python-trial-screening:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1647,6 +2152,8 @@ jobs:
       - run: PYTHONPATH=tutorial-packages python language/python/Tutorial/trial-screening/app.py --test
 
   php-public-approval:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'php')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1657,6 +2164,8 @@ jobs:
       - run: php language/php/Tutorial/public-approval/app.php --test
 
   python-clinical-guidelines:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1668,6 +2177,8 @@ jobs:
       - run: PYTHONPATH=tutorial-packages python language/python/Tutorial/clinical-guidelines/app.py --test
 
   ocaml-bom-review:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'ocaml')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1679,6 +2190,8 @@ jobs:
         working-directory: language/ocaml/Tutorial/bom-review
 
   python-credit-diligence:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1690,6 +2203,8 @@ jobs:
       - run: PYTHONPATH=tutorial-packages python language/python/Tutorial/credit-diligence/app.py --test
 
   ocaml-contract-review:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'ocaml')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1701,6 +2216,8 @@ jobs:
         working-directory: language/ocaml/Tutorial/contract-review
 
   python-education-tutoring:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1712,6 +2229,8 @@ jobs:
       - run: PYTHONPATH=tutorial-packages python language/python/Tutorial/education-tutoring/app.py --test
 
   python-legal-compliance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1723,6 +2242,8 @@ jobs:
       - run: PYTHONPATH=tutorial-packages python language/python/Tutorial/legal-compliance/app.py --test
 
   python-insurance-claims:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1734,6 +2255,8 @@ jobs:
       - run: PYTHONPATH=tutorial-packages python language/python/Tutorial/insurance-claims/app.py --test
 
   python-office-qa:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1745,6 +2268,8 @@ jobs:
       - run: PYTHONPATH=tutorial-packages python language/python/Tutorial/office-qa/app.py --test
 
   cobol-batch-review:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cobol')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1756,6 +2281,8 @@ jobs:
       - run: python language/cobol/Tutorial/batch-exception-review/run.py
 
   julia-experiment-comparison:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'julia')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -1767,6 +2294,8 @@ jobs:
       - run: julia --project=language/julia language/julia/Tutorial/experiment-comparison/experiment_comparison.jl --test
 
   octave-signal-trends:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'octave')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1775,6 +2304,8 @@ jobs:
       - run: octave --no-gui --quiet language/octave/Tutorial/signal-trends/run.m
 
   csharp-healthcare-scheduling:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'csharp')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1786,6 +2317,8 @@ jobs:
       - run: dotnet language/csharp/Tutorial/healthcare-scheduling/bin/Debug/net8.0/Praxo.HealthcareScheduling.dll --test
 
   csharp-sales-crm:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'csharp')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1797,6 +2330,8 @@ jobs:
       - run: dotnet language/csharp/Tutorial/sales-crm/bin/Debug/net8.0/Praxo.SalesCrm.dll --test
 
   java-order-review:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'java')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1810,6 +2345,8 @@ jobs:
         working-directory: language/java/Tutorial/order-review
 
   shared-service-integrations:
+    needs: changes
+    if: needs.changes.outputs.full == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:

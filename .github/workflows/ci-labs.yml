@@ -6,12 +6,148 @@ on:
     paths:
       - "spec/**"
       - "scripts/**"
+      - "pkg/**"
+      - "internal/**"
+      - "cmd/**"
+      - "bindings/**"
+      - "adapters/**"
+      - "go.mod"
+      - "go.sum"
+      - "VERSION"
+      - "Makefile"
+      - ".github/actions/**"
+      - "language/c/**"
+      - "language/cobol/**"
+      - "language/cpp/**"
+      - "language/csharp/**"
+      - "language/elixir/**"
+      - "language/erlang/**"
+      - "language/fortran/**"
+      - "language/go/**"
+      - "language/java/**"
+      - "language/lua/**"
+      - "language/php/**"
+      - "language/python/**"
+      - "language/r/**"
+      - "language/ruby/**"
+      - "language/rust/**"
+      - "language/typescript/**"
+      - "global.json"
       - ".github/workflows/ci-labs.yml"
+      - "!scripts/check_adapter_status.py"
+      - "!scripts/check_consumer_pins.py"
+      - "!scripts/check_language_releases.py"
+      - "!scripts/check_registry_pages.py"
+      - "!scripts/check_registry_state.py"
+      - "!scripts/docs_hooks.py"
+      - "!scripts/mirror_readme.py"
+      - "!scripts/registry_catalog.py"
+      - "!scripts/registry_discovery.py"
+      - "!scripts/repository_discovery.py"
+      - "!scripts/sync_language_mirrors.py"
+      - "!scripts/sync_language_registry_docs.py"
+      - "!scripts/test_adapter_status.py"
+      - "!scripts/test_consumer_pins.py"
+      - "!scripts/test_discovery.py"
+      - "!scripts/test_docs.py"
+      - "!scripts/test_language_registry_docs.py"
+      - "!scripts/test_language_releases.py"
+      - "!scripts/test_layout.py"
+      - "!scripts/test_registry_pages.py"
+      - "!scripts/test_registry_state.py"
+      - "!scripts/test_roadmap.py"
+      - "!scripts/test_sync_language_mirrors.py"
+      - "!language/discovery.json"
+      - "!language/registry-metadata.json"
+      - "!spec/languages.md"
+      - "!language/**/AGENTS.md"
+      - "!language/**/CONTRIBUTING.md"
+      - "!language/**/LICENSE.md"
+      - "!language/**/PUBLISHING.md"
+      - "!language/**/README.md"
+      - "!language/**/README.pod"
+      - "!language/**/README.zh-CN.md"
+      - "!language/**/REGISTRY.md"
+      - "!language/**/SECURITY.md"
+      - "!language/**/llms.md"
+      - "!language/**/llms.txt"
+      - "!language/*/application/**"
+      - "!language/**/README*.md"
+      - "!language/**/CHANGELOG*.md"
+      - "!language/**/docs/**/*.md"
   pull_request:
     paths:
       - "spec/**"
       - "scripts/**"
+      - "pkg/**"
+      - "internal/**"
+      - "cmd/**"
+      - "bindings/**"
+      - "adapters/**"
+      - "go.mod"
+      - "go.sum"
+      - "VERSION"
+      - "Makefile"
+      - ".github/actions/**"
+      - "language/c/**"
+      - "language/cobol/**"
+      - "language/cpp/**"
+      - "language/csharp/**"
+      - "language/elixir/**"
+      - "language/erlang/**"
+      - "language/fortran/**"
+      - "language/go/**"
+      - "language/java/**"
+      - "language/lua/**"
+      - "language/php/**"
+      - "language/python/**"
+      - "language/r/**"
+      - "language/ruby/**"
+      - "language/rust/**"
+      - "language/typescript/**"
+      - "global.json"
       - ".github/workflows/ci-labs.yml"
+      - "!scripts/check_adapter_status.py"
+      - "!scripts/check_consumer_pins.py"
+      - "!scripts/check_language_releases.py"
+      - "!scripts/check_registry_pages.py"
+      - "!scripts/check_registry_state.py"
+      - "!scripts/docs_hooks.py"
+      - "!scripts/mirror_readme.py"
+      - "!scripts/registry_catalog.py"
+      - "!scripts/registry_discovery.py"
+      - "!scripts/repository_discovery.py"
+      - "!scripts/sync_language_mirrors.py"
+      - "!scripts/sync_language_registry_docs.py"
+      - "!scripts/test_adapter_status.py"
+      - "!scripts/test_consumer_pins.py"
+      - "!scripts/test_discovery.py"
+      - "!scripts/test_docs.py"
+      - "!scripts/test_language_registry_docs.py"
+      - "!scripts/test_language_releases.py"
+      - "!scripts/test_layout.py"
+      - "!scripts/test_registry_pages.py"
+      - "!scripts/test_registry_state.py"
+      - "!scripts/test_roadmap.py"
+      - "!scripts/test_sync_language_mirrors.py"
+      - "!language/discovery.json"
+      - "!language/registry-metadata.json"
+      - "!spec/languages.md"
+      - "!language/**/AGENTS.md"
+      - "!language/**/CONTRIBUTING.md"
+      - "!language/**/LICENSE.md"
+      - "!language/**/PUBLISHING.md"
+      - "!language/**/README.md"
+      - "!language/**/README.pod"
+      - "!language/**/README.zh-CN.md"
+      - "!language/**/REGISTRY.md"
+      - "!language/**/SECURITY.md"
+      - "!language/**/llms.md"
+      - "!language/**/llms.txt"
+      - "!language/*/application/**"
+      - "!language/**/README*.md"
+      - "!language/**/CHANGELOG*.md"
+      - "!language/**/docs/**/*.md"
   workflow_dispatch:
   schedule:
     - cron: '0 3 * * *'
@@ -20,32 +156,72 @@ permissions:
   contents: read
 
 concurrency:
-  group: ci-labs-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' || github.event_name == 'push' }}
 
 jobs:
-  compatibility-lab:
+  changes:
     runs-on: ubuntu-latest
+    outputs:
+      full: ${{ steps.filter.outputs.full }}
+      core: ${{ steps.filter.outputs.core }}
+      docs: ${{ steps.filter.outputs.docs }}
+      examples: ${{ steps.filter.outputs.examples }}
+      consumers: ${{ steps.filter.outputs.consumers }}
+      adapters: ${{ steps.filter.outputs.adapters }}
+      languages: ${{ steps.filter.outputs.languages }}
+      applications: ${{ steps.filter.outputs.applications }}
+      compatibility_languages: ${{ steps.filter.outputs.compatibility_languages }}
+      behavior_languages: ${{ steps.filter.outputs.behavior_languages }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: filter
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          REF_TYPE: ${{ github.ref_type }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PUSH_BEFORE: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.sha }}
+          WORKFLOW_FILE: .github/workflows/ci-labs.yml
+        run: python scripts/ci_changes.py
+
+  compatibility-lab:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || needs.changes.outputs.compatibility_languages != '[]'
+    runs-on: ubuntu-latest
+    env:
+      LAB_LANGUAGES: ${{ join(fromJSON(needs.changes.outputs.compatibility_languages), ',') }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - uses: actions/setup-node@v4
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.compatibility_languages), 'typescript')
         with:
           node-version: "20"
           cache: npm
           cache-dependency-path: language/typescript/package-lock.json
       - uses: actions/setup-java@v4
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.compatibility_languages), 'java')
         with:
           distribution: temurin
           java-version: "21"
           cache: maven
       - uses: dtolnay/rust-toolchain@stable
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.compatibility_languages), 'rust')
       - run: sudo apt-get update
-      - run: sudo apt-get install -y gfortran gnucobol g++ cmake ninja-build
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.compatibility_languages), 'c') || contains(fromJSON(needs.changes.outputs.compatibility_languages), 'cobol') || contains(fromJSON(needs.changes.outputs.compatibility_languages), 'cpp') || contains(fromJSON(needs.changes.outputs.compatibility_languages), 'fortran') || contains(fromJSON(needs.changes.outputs.compatibility_languages), 'lua') || contains(fromJSON(needs.changes.outputs.compatibility_languages), 'r')
+      - run: sudo apt-get install -y g++ cmake ninja-build
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.compatibility_languages), 'c') || contains(fromJSON(needs.changes.outputs.compatibility_languages), 'cobol') || contains(fromJSON(needs.changes.outputs.compatibility_languages), 'cpp') || contains(fromJSON(needs.changes.outputs.compatibility_languages), 'fortran')
+      - run: sudo apt-get install -y gfortran
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.compatibility_languages), 'fortran')
+      - run: sudo apt-get install -y gnucobol
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.compatibility_languages), 'cobol')
       - run: python -m unittest discover -s scripts -p "test_compatibility_lab.py" -v
-      - run: python scripts/compatibility_lab.py --install --strict --timeout 1200 --languages python,typescript,java,rust,fortran,cobol
+      - run: python scripts/compatibility_lab.py --install --strict --timeout 1200 --languages "$LAB_LANGUAGES"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -54,54 +230,85 @@ jobs:
           if-no-files-found: warn
 
   behavior-lab:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || needs.changes.outputs.behavior_languages != '[]'
     runs-on: ubuntu-latest
     env:
+      LAB_LANGUAGES: ${{ join(fromJSON(needs.changes.outputs.behavior_languages), ',') }}
       GOWORK: "off"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.behavior_languages), 'go')
         with:
           go-version: "1.26.11"
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - uses: actions/setup-node@v4
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.behavior_languages), 'typescript')
         with:
           node-version: "20"
           cache: npm
           cache-dependency-path: language/typescript/package-lock.json
       - uses: actions/setup-java@v4
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.behavior_languages), 'java')
         with:
           distribution: temurin
           java-version: "21"
           cache: maven
       - uses: dtolnay/rust-toolchain@stable
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.behavior_languages), 'rust')
       - uses: erlef/setup-beam@v1
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.behavior_languages), 'elixir') || contains(fromJSON(needs.changes.outputs.behavior_languages), 'erlang')
         with:
           otp-version: "29"
           elixir-version: "1.20.4"
           install-hex: false
           install-rebar: false
       - uses: shivammathur/setup-php@v2
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.behavior_languages), 'php')
         with:
           php-version: "8.4.27"
       - uses: actions/setup-dotnet@v4
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.behavior_languages), 'csharp')
         with:
           dotnet-version: "8.0.x"
       - run: sudo apt-get update
-      - run: sudo apt-get install -y gfortran gnucobol g++ cmake ninja-build lua5.4 r-base
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.behavior_languages), 'c') || contains(fromJSON(needs.changes.outputs.behavior_languages), 'cobol') || contains(fromJSON(needs.changes.outputs.behavior_languages), 'cpp') || contains(fromJSON(needs.changes.outputs.behavior_languages), 'fortran') || contains(fromJSON(needs.changes.outputs.behavior_languages), 'lua') || contains(fromJSON(needs.changes.outputs.behavior_languages), 'r')
+      - run: sudo apt-get install -y g++ cmake ninja-build
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.behavior_languages), 'c') || contains(fromJSON(needs.changes.outputs.behavior_languages), 'cobol') || contains(fromJSON(needs.changes.outputs.behavior_languages), 'cpp') || contains(fromJSON(needs.changes.outputs.behavior_languages), 'fortran')
+      - run: sudo apt-get install -y gfortran
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.behavior_languages), 'fortran')
+      - run: sudo apt-get install -y gnucobol
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.behavior_languages), 'cobol')
+      - run: sudo apt-get install -y lua5.4
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.behavior_languages), 'lua')
+      - run: sudo apt-get install -y r-base
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.behavior_languages), 'r')
+      - uses: ruby/setup-ruby@v1
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.behavior_languages), 'ruby')
+        with:
+          ruby-version: "3.4"
       - run: python -m unittest discover -s scripts -p "test_behavior_lab.py" -v
       - run: npm ci
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.behavior_languages), 'typescript')
         working-directory: language/typescript
       - run: npm run build
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.behavior_languages), 'typescript')
         working-directory: language/typescript
       - run: mvn -q -DskipTests test-compile
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.behavior_languages), 'java')
         working-directory: language/java
       - run: cmake -S language/cpp -B language/cpp/build
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.behavior_languages), 'cpp')
       - run: cmake --build language/cpp/build
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.behavior_languages), 'cpp')
       - run: cmake -S language/c -B language/c/build
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.behavior_languages), 'c')
       - run: cmake --build language/c/build
-      - run: python scripts/behavior_lab.py --strict --timeout 600 --languages go,python,typescript,java,rust,fortran,cobol,ruby,elixir,erlang,cpp,php,csharp,lua,r,c
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.behavior_languages), 'c')
+      - run: python scripts/behavior_lab.py --strict --timeout 600 --languages "$LAB_LANGUAGES"
       - uses: actions/upload-artifact@v4
         if: always()
         with:

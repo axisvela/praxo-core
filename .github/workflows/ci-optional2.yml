@@ -4,39 +4,182 @@ on:
   push:
     branches: [main]
     paths:
-      - "language/matlab/**"
-      - "language/octave/**"
-      - "language/ocaml/**"
-      - "language/objc/**"
-      - "language/nim/**"
-      - "language/v/**"
+      - "spec/**"
+      - "scripts/**"
+      - "pkg/**"
+      - "internal/**"
+      - "cmd/**"
+      - "bindings/**"
+      - "adapters/**"
+      - "go.mod"
+      - "go.sum"
+      - "VERSION"
+      - "Makefile"
+      - ".github/actions/**"
+      - "language/c/**"
       - "language/d/**"
-      - "language/zig/**"
+      - "language/matlab/**"
+      - "language/nim/**"
+      - "language/objc/**"
+      - "language/ocaml/**"
+      - "language/octave/**"
       - "language/perl/**"
+      - "language/v/**"
+      - "language/zig/**"
+      - "language/matlab-octave-core/**"
       - ".github/workflows/ci-optional2.yml"
+      - "!scripts/check_adapter_status.py"
+      - "!scripts/check_consumer_pins.py"
+      - "!scripts/check_language_releases.py"
+      - "!scripts/check_registry_pages.py"
+      - "!scripts/check_registry_state.py"
+      - "!scripts/docs_hooks.py"
+      - "!scripts/mirror_readme.py"
+      - "!scripts/registry_catalog.py"
+      - "!scripts/registry_discovery.py"
+      - "!scripts/repository_discovery.py"
+      - "!scripts/sync_language_mirrors.py"
+      - "!scripts/sync_language_registry_docs.py"
+      - "!scripts/test_adapter_status.py"
+      - "!scripts/test_consumer_pins.py"
+      - "!scripts/test_discovery.py"
+      - "!scripts/test_docs.py"
+      - "!scripts/test_language_registry_docs.py"
+      - "!scripts/test_language_releases.py"
+      - "!scripts/test_layout.py"
+      - "!scripts/test_registry_pages.py"
+      - "!scripts/test_registry_state.py"
+      - "!scripts/test_roadmap.py"
+      - "!scripts/test_sync_language_mirrors.py"
+      - "!language/discovery.json"
+      - "!language/registry-metadata.json"
+      - "!spec/languages.md"
+      - "!language/**/AGENTS.md"
+      - "!language/**/CONTRIBUTING.md"
+      - "!language/**/LICENSE.md"
+      - "!language/**/PUBLISHING.md"
+      - "!language/**/README.md"
+      - "!language/**/README.pod"
+      - "!language/**/README.zh-CN.md"
+      - "!language/**/REGISTRY.md"
+      - "!language/**/SECURITY.md"
+      - "!language/**/llms.md"
+      - "!language/**/llms.txt"
+      - "!language/*/application/**"
+      - "!language/**/README*.md"
+      - "!language/**/CHANGELOG*.md"
+      - "!language/**/docs/**/*.md"
+      - "!scripts/build_php_package.py"
+      - "!scripts/test_php_package.py"
   pull_request:
     paths:
-      - "language/matlab/**"
-      - "language/octave/**"
-      - "language/ocaml/**"
-      - "language/objc/**"
-      - "language/nim/**"
-      - "language/v/**"
+      - "spec/**"
+      - "scripts/**"
+      - "pkg/**"
+      - "internal/**"
+      - "cmd/**"
+      - "bindings/**"
+      - "adapters/**"
+      - "go.mod"
+      - "go.sum"
+      - "VERSION"
+      - "Makefile"
+      - ".github/actions/**"
+      - "language/c/**"
       - "language/d/**"
-      - "language/zig/**"
+      - "language/matlab/**"
+      - "language/nim/**"
+      - "language/objc/**"
+      - "language/ocaml/**"
+      - "language/octave/**"
       - "language/perl/**"
+      - "language/v/**"
+      - "language/zig/**"
+      - "language/matlab-octave-core/**"
       - ".github/workflows/ci-optional2.yml"
+      - "!scripts/check_adapter_status.py"
+      - "!scripts/check_consumer_pins.py"
+      - "!scripts/check_language_releases.py"
+      - "!scripts/check_registry_pages.py"
+      - "!scripts/check_registry_state.py"
+      - "!scripts/docs_hooks.py"
+      - "!scripts/mirror_readme.py"
+      - "!scripts/registry_catalog.py"
+      - "!scripts/registry_discovery.py"
+      - "!scripts/repository_discovery.py"
+      - "!scripts/sync_language_mirrors.py"
+      - "!scripts/sync_language_registry_docs.py"
+      - "!scripts/test_adapter_status.py"
+      - "!scripts/test_consumer_pins.py"
+      - "!scripts/test_discovery.py"
+      - "!scripts/test_docs.py"
+      - "!scripts/test_language_registry_docs.py"
+      - "!scripts/test_language_releases.py"
+      - "!scripts/test_layout.py"
+      - "!scripts/test_registry_pages.py"
+      - "!scripts/test_registry_state.py"
+      - "!scripts/test_roadmap.py"
+      - "!scripts/test_sync_language_mirrors.py"
+      - "!language/discovery.json"
+      - "!language/registry-metadata.json"
+      - "!spec/languages.md"
+      - "!language/**/AGENTS.md"
+      - "!language/**/CONTRIBUTING.md"
+      - "!language/**/LICENSE.md"
+      - "!language/**/PUBLISHING.md"
+      - "!language/**/README.md"
+      - "!language/**/README.pod"
+      - "!language/**/README.zh-CN.md"
+      - "!language/**/REGISTRY.md"
+      - "!language/**/SECURITY.md"
+      - "!language/**/llms.md"
+      - "!language/**/llms.txt"
+      - "!language/*/application/**"
+      - "!language/**/README*.md"
+      - "!language/**/CHANGELOG*.md"
+      - "!language/**/docs/**/*.md"
+      - "!scripts/build_php_package.py"
+      - "!scripts/test_php_package.py"
   workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: ci-optional2-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' || github.event_name == 'push' }}
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      full: ${{ steps.filter.outputs.full }}
+      core: ${{ steps.filter.outputs.core }}
+      docs: ${{ steps.filter.outputs.docs }}
+      examples: ${{ steps.filter.outputs.examples }}
+      consumers: ${{ steps.filter.outputs.consumers }}
+      adapters: ${{ steps.filter.outputs.adapters }}
+      languages: ${{ steps.filter.outputs.languages }}
+      applications: ${{ steps.filter.outputs.applications }}
+      compatibility_languages: ${{ steps.filter.outputs.compatibility_languages }}
+      behavior_languages: ${{ steps.filter.outputs.behavior_languages }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: filter
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          REF_TYPE: ${{ github.ref_type }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PUSH_BEFORE: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.sha }}
+          WORKFLOW_FILE: .github/workflows/ci-optional2.yml
+        run: python scripts/ci_changes.py
+
   matlab-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'matlab')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -47,6 +190,8 @@ jobs:
       - run: python language/matlab/run-tests.py --octave octave-cli
 
   octave-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'octave')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -57,6 +202,8 @@ jobs:
       - run: python language/octave/run-tests.py --octave octave-cli
 
   octave-package:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'octave')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -70,6 +217,8 @@ jobs:
           octave-cli --quiet --eval "pkg install '$PWD/language/octave/build/octave/praxo-core-${version}.tar.gz'; pkg load praxo-core; assert(strcmp(praxo.sdk_version(), '${version}'));"
 
   ocaml-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'ocaml')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -80,6 +229,8 @@ jobs:
       - run: python language/ocaml/run-tests.py --compiler ocamlc
 
   objc-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'c') || contains(fromJSON(needs.changes.outputs.languages), 'objc')
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
@@ -91,6 +242,8 @@ jobs:
       - run: python language/objc/run-tests.py --compiler clang
 
   nim-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'c') || contains(fromJSON(needs.changes.outputs.languages), 'nim')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -106,8 +259,14 @@ jobs:
       - run: ./build/praxo-nim-conformance
       - run: nim c --path:language/nim/src --hints:off --out:build/praxo-nim-tests language/nim/tests/run_tests.nim
       - run: ./build/praxo-nim-tests
+      - run: cmake -S language/c -B language/c/build
+      - run: cmake --build language/c/build
+      - run: nim c --path:language/nim/src --hints:off --passL:language/c/build/libpraxo_core.a --passL:-lm --out:build/praxo-nim-plugin-process language/nim/tests/plugin_process.nim
+      - run: ./build/praxo-nim-plugin-process
 
   v-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'v')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -131,6 +290,8 @@ jobs:
       - run: ./build/praxo-v-tests
 
   d-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'd')
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -150,9 +311,13 @@ jobs:
       - run: ./build/conformance
       - run: dmd -i -Isource -O -release source/tests.d -of=build/tests
       - run: ./build/tests
+      - run: dmd -i -Isource -O -release source/plugin_process_tests.d -of=build/plugin_process_tests
+      - run: ./build/plugin_process_tests
       - run: python3 api-snapshot.py --check
 
   zig-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'c') || contains(fromJSON(needs.changes.outputs.languages), 'zig')
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -171,9 +336,14 @@ jobs:
       - run: zig test src/pii_test.zig
       - run: zig test src/openaicompat_test.zig
       - run: zig test src/agent_test.zig
+      - run: cmake -S ../../language/c -B ../../language/c/build
+      - run: cmake --build ../../language/c/build
+      - run: zig test src/plugin_process.zig -I ../../language/c/include -L ../../language/c/build -lpraxo_core -lc
       - run: python3 api-snapshot.py --check
 
   perl-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'perl')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

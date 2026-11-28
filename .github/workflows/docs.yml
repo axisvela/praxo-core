@@ -6,6 +6,7 @@ on:
   pull_request:
     paths:
       - "docs/**"
+      - "language/**/*.md"
       - "mkdocs.yml"
       - "requirements-docs.txt"
       - "scripts/docs_hooks.py"
@@ -16,6 +17,17 @@ on:
       - "scripts/test_adapter_status.py"
       - "scripts/sync_language_registry_docs.py"
       - "scripts/test_language_registry_docs.py"
+      - "scripts/registry_catalog.py"
+      - "scripts/registry_discovery.py"
+      - "scripts/repository_discovery.py"
+      - "scripts/test_discovery.py"
+      - "scripts/mirror_readme.py"
+      - "scripts/sync_language_mirrors.py"
+      - "scripts/test_sync_language_mirrors.py"
+      - "language/discovery.json"
+      - "REGISTRY.md"
+      - "llms.md"
+      - "llms.txt"
       - "language/REGISTRY-INDEX.md"
       - "language/*/REGISTRY.md"
       - "language/*/llms.txt"
@@ -39,8 +51,10 @@ on:
       - "language/*/pom.xml"
       - "language/*/Cargo.toml"
       - "language/*/*.csproj"
+      - "language/csharp/Praxo.Core/Praxo.Core.csproj"
       - "language/*/mix.exs"
       - "language/*/*.app.src"
+      - "language/erlang/src/praxo_core.app.src"
       - "language/*/composer.json"
       - "language/*/*.rockspec"
       - "language/*/pubspec.yaml"
@@ -51,6 +65,10 @@ on:
       - "language/*/*.nimble"
       - "language/*/v.mod"
       - "language/*/dub.json"
+      - "language/*/*.gemspec"
+      - "language/*/Makefile.PL"
+      - "language/powershell/praxo-core-ps/*.psd1"
+      - "language/*/README.pod"
       - "docs/languages/registry-status.md"
       - "docs/languages/registry-pages.md"
       - "docs/getting-started/agent-integration.json"
@@ -87,8 +105,8 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
-  cancel-in-progress: false
+  group: pages-${{ github.event_name == 'pull_request' && github.event.pull_request.number || 'deploy' }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   build:
@@ -107,7 +125,16 @@ jobs:
       - run: python scripts/check_registry_pages.py
       - run: python scripts/check_consumer_pins.py
       - run: python scripts/check_language_releases.py --no-tags
-      - run: python -m unittest discover -s scripts -p "test_*.py" -v
+      - run: python scripts/test_discovery.py -v
+      - run: python scripts/sync_language_registry_docs.py --check
+      - run: python scripts/repository_discovery.py --check
+      - name: Run documentation and metadata tests
+        working-directory: scripts
+        run: >-
+          python -m unittest -v test_docs test_roadmap test_layout test_adapter_status
+          test_language_registry_docs test_discovery test_registry_state test_registry_pages
+          test_consumer_pins test_language_releases test_sync_language_mirrors
+          test_release_checks test_release_manifest test_ci_changes test_ci_execution
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site
