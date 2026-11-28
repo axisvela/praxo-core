@@ -156,6 +156,8 @@ final class AgentOptions
 
 final class Agent
 {
+    private static int $runSequence = 0;
+
     private string $systemPrompt;
     /** @var list<BaseMiddleware> */
     private array $middleware;
@@ -218,7 +220,7 @@ final class Agent
     {
         $this->throwIfCancelled();
         $maxSteps = $this->options->maxSteps > 0 ? $this->options->maxSteps : 8;
-        $runId = 'run-' . (int) floor(microtime(true) * 1000);
+        $runId = 'run-' . getmypid() . '-' . hrtime(true) . '-' . (++self::$runSequence);
         $messages = array_map(self::cloneMessage(...), $session->messages);
         if ($this->systemPrompt !== '') {
             array_unshift($messages, Message::text(Roles::SYSTEM, $this->systemPrompt));
@@ -233,9 +235,9 @@ final class Agent
             $this->afterRun($entered, null, self::asPraxoException($startupError));
             throw $startupError;
         }
-        $this->emit('run.started', $session->id, $runId);
         $afterRunInvoked = false;
         try {
+            $this->emit('run.started', $session->id, $runId);
             for ($step = 1; $step <= $maxSteps; $step++) {
                 $this->throwIfCancelled();
                 $this->authorize(new Action('model.generate', $session->id));

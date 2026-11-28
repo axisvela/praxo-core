@@ -293,6 +293,8 @@ final class CallLimitMiddleware extends BaseMiddleware
 {
     /** @var array<string, array{models: int, tools: int}> */
     private array $counts = [];
+    /** @var list<string> */
+    private array $activeRuns = [];
 
     public function __construct(
         private int $modelLimit,
@@ -307,6 +309,7 @@ final class CallLimitMiddleware extends BaseMiddleware
 
     public function beforeRun(RunState $state): void
     {
+        $this->activeRuns[] = $state->runId;
         $this->counts[$state->runId] = ['models' => 0, 'tools' => 0];
     }
 
@@ -332,8 +335,9 @@ final class CallLimitMiddleware extends BaseMiddleware
 
     public function afterRun(?RunResult $result, ?PraxoException $error): void
     {
-        if ($result !== null) {
-            unset($this->counts[$result->runId]);
+        $runId = array_pop($this->activeRuns) ?? $result?->runId;
+        if ($runId !== null) {
+            unset($this->counts[$runId]);
         }
     }
 }
@@ -351,6 +355,8 @@ final class ToolSelectionMiddleware extends BaseMiddleware
 {
     /** @var array<string, array<string, true>> */
     private array $selected = [];
+    /** @var list<string> */
+    private array $activeRuns = [];
 
     public function __construct(private ToolSelector $selector)
     {
@@ -366,6 +372,9 @@ final class ToolSelectionMiddleware extends BaseMiddleware
         $chosen = [];
         foreach ($this->selector->select(self::lastUserMessage($call->request->messages), $call->request->tools) as $name) {
             $chosen[$name] = true;
+        }
+        if ($this->activeRuns === [] || end($this->activeRuns) !== $call->runId) {
+            $this->activeRuns[] = $call->runId;
         }
         $this->selected[$call->runId] = $chosen;
         $call->request->tools = array_values(array_filter(
@@ -383,8 +392,9 @@ final class ToolSelectionMiddleware extends BaseMiddleware
 
     public function afterRun(?RunResult $result, ?PraxoException $error): void
     {
-        if ($result !== null) {
-            unset($this->selected[$result->runId]);
+        $runId = array_pop($this->activeRuns) ?? $result?->runId;
+        if ($runId !== null) {
+            unset($this->selected[$runId]);
         }
     }
 

@@ -172,6 +172,20 @@ final class RecordingSink implements EventSink
     }
 }
 
+final class FailingSink implements EventSink
+{
+    /** @var list<string> */
+    public array $types = [];
+
+    public function emit(Event $event): void
+    {
+        $this->types[] = $event->type;
+        if ($event->type === 'run.started') {
+            throw new PraxoException('SINK_FAILED', 'sink unavailable');
+        }
+    }
+}
+
 final class FailingModel implements Model
 {
     public function generate(Request $request): Response
@@ -339,6 +353,18 @@ try {
     check(false, 'call limit run isolation');
 } catch (PraxoException $error) {
     check($error->praxoCode === 'AGENT_MODEL_CALL_LIMIT', 'call limit run isolation code');
+}
+
+$failedLimit = new CallLimitMiddleware(1, 0);
+$failedRun = new ModelCall('failed');
+$failedLimit->beforeRun(new RunState('failed'));
+$failedLimit->beforeModel($failedRun);
+$failedLimit->afterRun(null, new PraxoException('RUN_FAILED', 'run failed'));
+try {
+    $failedLimit->beforeModel($failedRun);
+    check(true, 'call limit releases failed run');
+} catch (PraxoException $error) {
+    check(false, 'call limit releases failed run state');
 }
 
 $capacityOptions = new AgentOptions(new StaticModel('done'));
@@ -563,6 +589,30 @@ try {
 }
 check($calls === ['first.before', 'second.before', 'first.after', 'second.after'], 'startup cleanup order');
 check($sink->events === [], 'startup emits no run events');
+
+$calls = [];
+$sink = new FailingSink();
+$lifecycle = new LifecycleMiddleware();
+$lifecycle->before = static function (RunState $state) use (&$calls): void {
+    $calls[] = 'acquire';
+};
+$lifecycle->after = static function (?RunResult $result, ?PraxoException $error) use (&$calls): void {
+    $calls[] = 'release:' . ($error?->praxoCode ?? '');
+};
+$options = new AgentOptions(new StaticModel('done'));
+$options->events = $sink;
+$options->middleware = [$lifecycle];
+try {
+    (new Agent($options))->run(new Session('s1'), 'go');
+    check(false, 'startup event failure');
+} catch (PraxoException $error) {
+    check(
+        $error->praxoCode === 'SINK_FAILED' && $error->getMessage() === 'sink unavailable',
+        'startup event failure preserved',
+    );
+}
+check($calls === ['acquire', 'release:SINK_FAILED'], 'startup event cleanup');
+check($sink->types === ['run.started', 'run.failed'], 'startup event failure events');
 
 $calls = [];
 $first = new LifecycleMiddleware();
