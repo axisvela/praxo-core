@@ -129,6 +129,21 @@ proc testRunIds() =
   let second = runAgent(newAgentOptions(model), newSession("s1"), "hi")
   assert first.runId != second.runId
 
+proc testStartupEventFailure() =
+  let sink = newSink()
+  sink.handler = proc(event: Event) =
+    if event.kind == "run.started":
+      raise newException(ValueError, "sink unavailable")
+  var options = newAgentOptions(staticModel("ok"))
+  options.events = sink
+  var caught = ""
+  try:
+    discard runAgent(options, newSession("s1"), "hi")
+  except ValueError as error:
+    caught = error.msg
+  assert caught == "sink unavailable"
+  assert sink.kinds == @["run.failed"]
+
 proc testAgentTool() =
   let model = scriptedModel(@[
     newResponse(newMessageAssistant("", @[
@@ -539,6 +554,7 @@ testContext()
 testPii()
 testAgent()
 testRunIds()
+testStartupEventFailure()
 testAgentTool()
 testCallbackModel()
 testCallbackErrors()

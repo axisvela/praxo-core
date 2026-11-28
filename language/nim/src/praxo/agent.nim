@@ -206,8 +206,8 @@ proc runAgent*(options: AgentOptions, session: Session, prompt: string): RunResu
   if options.systemPrompt.len > 0:
     messages.insert(newMessage(ROLE_SYSTEM, options.systemPrompt), 0)
   messages.add(newMessage(ROLE_USER, prompt))
-  emitEvent(options.events, "run.started", session.id, runId, newJNull())
   try:
+    emitEvent(options.events, "run.started", session.id, runId, newJNull())
     let maxSteps = if options.maxSteps > 0: options.maxSteps else: 8
     var total = newUsage()
     let limits = callLimit(options.modelCallLimit, options.toolCallLimit)
@@ -296,5 +296,8 @@ proc runAgent*(options: AgentOptions, session: Session, prompt: string): RunResu
   except CatchableError as error:
     var data = newJObject()
     data["error"] = %error.msg
-    emitEvent(options.events, "run.failed", session.id, runId, data)
+    try:
+      emitEvent(options.events, "run.failed", session.id, runId, data)
+    except CatchableError:
+      discard
     raise
