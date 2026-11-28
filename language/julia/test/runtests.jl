@@ -638,6 +638,12 @@ function PraxoCore.Middleware.after_run!(middleware::FailingBefore, result, erro
     push!(middleware.calls, "after")
 end
 
+@testset "PraxoCore run ids" begin
+    first = PraxoCore.run_agent(Agent(AgentOptions(StaticModel("ok"))), Session("s1"), "hi")
+    second = PraxoCore.run_agent(Agent(AgentOptions(StaticModel("ok"))), Session("s1"), "hi")
+    @test first.run_id != second.run_id
+end
+
 @testset "PraxoCore startup failure cleanup" begin
     first = LifecycleRecorder(String[])
     second = FailingBefore(String[])

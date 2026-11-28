@@ -123,9 +123,12 @@ function Agent(options::AgentOptions)
     Agent(options, options.system_prompt, merged, model_middleware)
 end
 
+const _RUN_SEQUENCE = Base.Threads.Atomic{Int}(0)
+
 function run(agent::Agent, session::Session, prompt::String)
     max_steps = agent.options.max_steps > 0 ? agent.options.max_steps : 8
-    run_id = "run-$(round(Int, time() * 1000))"
+    sequence = Base.Threads.atomic_add!(_RUN_SEQUENCE, 1)
+    run_id = "run-$(time_ns())-$(sequence)"
     messages = copy(session.messages)
     isempty(agent.system_prompt) || pushfirst!(messages, Message(Roles.SYSTEM, agent.system_prompt))
     push!(messages, Message(Roles.USER, prompt))
