@@ -89,3 +89,9 @@ Composer 检查共 8 项通过，另有 166 项原生测试通过。
 
 成熟度、行为证据和 consumer smoke 的区别见[支持政策](support.md)。
 不是生产就绪证据。
+
+## 下载指标
+
+历史 registry 下载快照与长表数据保存在
+[`data/registry-downloads`](https://github.com/axisvela/praxo-core/blob/main/data/registry-downloads/summary.md)。
+这些数字是 registry 活动，不是采用证据；缺失值不视为零。

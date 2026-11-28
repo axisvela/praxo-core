@@ -98,3 +98,10 @@ builder and isolated Composer checks pass 8 checks, alongside 166 native tests.
 Use the [support policy](support.md) for maturity, behavior evidence, and
 consumer-smoke distinctions. Package-registry availability is not evidence of production
 readiness.
+
+## Download Metrics
+
+Historical registry download snapshots and the long-form series are maintained in
+[`data/registry-downloads`](https://github.com/axisvela/praxo-core/blob/main/data/registry-downloads/summary.md).
+These counts are registry activity, not adoption evidence; missing values are
+not zero.
