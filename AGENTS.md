@@ -94,6 +94,23 @@ this framework.
   before publication. Source tests and a successful upload do not prove that a
   split archive contains every required runtime file.
 
+### CI Naming And Composition
+
+- Name workflows `<layer>-<subject>.yml`, encoding the responsibility boundary:
+  `ci-core.yml`, `ci-security.yml`, `ci-tutorial-php.yml`, `ci-delphi.yml`.
+- Name jobs `<subject>/<check>`, for example `php/conformance (8.4)` or
+  `php/consumer`, so a failing required check identifies scope without opening the
+  workflow.
+- Keep `ci.yml` as the small release gate, not the full portfolio. Put scheduled
+  or manual full matrices in a separate workflow such as `portfolio.yml`.
+- Share setup and repeated logic through composite actions or reusable workflows,
+  but keep required checks in direct workflows. Do not nest required checks deeply;
+  a required-check name must stay stable and readable as
+  `<workflow> / <job>`.
+- Split language-specific jobs before adding another matrix row. Do not put
+  hundreds of tutorial or SDK jobs in one static workflow when a language-scoped
+  workflow would create only the relevant checks.
+
 ### Discovery And Publication Content
 
 - Introduce the product as `praxo-core (praxocore)` or
