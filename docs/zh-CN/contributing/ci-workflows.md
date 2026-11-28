@@ -23,14 +23,15 @@ CI 按路径拆分，语言专属改动不再运行完整矩阵。`ci.yml` 继�
 | `ci-additional3.yml` | Swift、Julia、Haskell、OCaml、Nim、V、Zig、Objective-C 示例矩阵 | 示例及 SDK 源码依赖 |
 | `ci-examples.yml` | Go 示例、SDK 示例、Go 消费者与配方 | `language/go/examples/**` 和选定语言示例路径 |
 | `docs.yml` | 文档构建、Registry 检查、消费者 pin | `docs/**`、元数据、选定脚本和 workflow |
-| `ci-applications.yml` | 参考应用 | 应用及其 SDK 依赖 |
-| `ci-tutorials.yml` | 教程目录和可运行教程 | 目录输入、教程及 SDK 依赖 |
-| `ci-labs.yml` | Behavior/Compatibility Lab | 所选 SDK、共享依赖、定时和手动 |
+| `ci-applications.yml` | 参考应用 | 应用目录及 Go/核心依赖 |
+| `ci-tutorials.yml` | 教程目录和可运行教程 | 教程目录与目录输入 |
+| `ci-labs.yml` | Behavior/Compatibility Lab | Lab/核心改动、定时和手动 |
 | `ci-bridge.yml` | Go Bridge 和共享运行时绑定 | Bridge 和 Go/核心依赖 |
 
 `spec/`、`.github/actions/` 以及没有明确文档作用域的脚本修改仍会触发完整测试矩阵。
 已知文档、Registry/Discovery 和 Mirror 脚本列在 `scripts/ci_changes.py` 的 `DOCS_SCRIPTS`
-中，只运行文档或 Mirror 校验。Discovery JSON、SDK Markdown 和生成的 README、REGISTRY、llms
+中，只运行文档或 Mirror 校验。路由与覆盖率脚本列在 `CI_SCRIPTS`，只运行路由/文档检查，
+不启动运行时组合。Discovery JSON、SDK Markdown 和生成的 README、REGISTRY、llms
 文件只运行文档、Mirror 或目录检查，包括嵌套教程 README。规范 `spec/` 下的 Markdown
 仍是共享契约输入，但纯文档实现状态页 `spec/languages.md` 除外。
 源码目录中嵌入提示词等 Markdown 保留运行时检查，除非匹配约定的
@@ -45,10 +46,12 @@ PR 触发器保留路径过滤。每次 main push 都启动 `ci.yml` 和 `docs.y
 纯文档以及由独立 workflow 负责的 SDK/应用修改只运行 `ci.yml` 中真实的变更分类和路由检查，
 不会选择其运行时组合测试。独立 SDK 检查仍按依赖运行。Mirror PR 检查与串行写入隔离。
 
-Job 在矩阵展开前过滤。SDK 修改运行对应 SDK 的测试、消费者、示例、教程、应用以及
-依赖该共享运行时的示例。仅应用修改不会运行 SDK 或消费者 Job。Go/核心修改保留
+Job 在矩阵展开前过滤。SDK 源码修改运行对应 SDK 的测试、消费者、打包检查以及
+依赖该共享运行时的示例。示例、教程和应用修改分别运行各自 workflow；消费者 pin 不会启动
+Lab、教程、应用或示例组合。仅应用修改不会运行 SDK 或消费者 Job。Go/核心修改保留
 Go、Bridge、Adapter、安全与质量检查。普通 push/PR 使用独立 workflow；`ci.yml` 中重复的
-组合测试只在全量请求时运行，独有检查保持按依赖运行。Lab 参数取所选语言的交集，
+组合测试只在全量请求时运行，独有检查保持按依赖运行。Lab 只在 Lab/核心改动、定时或手动时运行，
+Lab 参数取所选语言的交集，
 工具链安装和构建也按语言过滤。组合 SDK 示例保留全部检查，但只执行所选 SDK 的步骤。
 跨 SDK 服务集成需要全量请求。
 

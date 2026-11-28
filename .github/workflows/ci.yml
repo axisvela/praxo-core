@@ -93,6 +93,9 @@ jobs:
       adapters: ${{ steps.filter.outputs.adapters }}
       languages: ${{ steps.filter.outputs.languages }}
       applications: ${{ steps.filter.outputs.applications }}
+      tutorials: ${{ steps.filter.outputs.tutorials }}
+      example_languages: ${{ steps.filter.outputs.example_languages }}
+      labs: ${{ steps.filter.outputs.labs }}
       compatibility_languages: ${{ steps.filter.outputs.compatibility_languages }}
       behavior_languages: ${{ steps.filter.outputs.behavior_languages }}
     steps:

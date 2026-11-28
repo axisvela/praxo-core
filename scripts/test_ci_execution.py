@@ -53,13 +53,15 @@ def runner_counts(files, event="pull_request"):
 
 
 class CiExecutionTests(unittest.TestCase):
-    def test_nested_markdown_only_runs_catalog_and_docs(self):
+    def test_nested_markdown_only_runs_docs(self):
         for file in ("language/python/Tutorial/bug-repair/README.md",
                      "language/php/examples/retry/README.md", "language/java/application/README.md"):
             with self.subTest(file=file):
                 self.assertEqual(json.loads(classify([file])["languages"]), [])
                 for path in sync_ci_routing.WORKFLOWS.glob("ci*.yml"):
-                    expected = {"scenario-catalog"} if path.name == "ci-tutorials.yml" else set()
+                    expected = {"scenario-catalog"} if (
+                        path.name == "ci-tutorials.yml" and "/Tutorial/" in file
+                    ) else set()
                     self.assertEqual(selected_jobs([file], path.name), expected)
         self.assertEqual(classify(["spec/agent.md"])["full"], "true")
         self.assertIn("python-conformance", selected_jobs(["language/python/src/prompts/repair.md"], "ci-python.yml"))
@@ -117,7 +119,8 @@ class CiExecutionTests(unittest.TestCase):
                 self.assertTrue(commands <= owned, (name, commands - owned))
 
     def test_examples_execute_only_the_changed_sdk(self):
-        for language, file in (("php", "src/Agent.php"), ("python", "praxo/agent.py")):
+        for language, file in (("php", "examples/retry/retry.php"),
+                               ("python", "examples/structured-output-app/app.py")):
             files = [f"language/{language}/{file}"]
             steps = active_steps(files, "ci-examples.yml", "example-sdks")
             text = "\n".join(str(step) for step in steps)
@@ -135,27 +138,32 @@ class CiExecutionTests(unittest.TestCase):
             self.assertNotIn("shared-service-integrations", selected_jobs(files, "ci-tutorials.yml"))
 
     def test_labs_intersect_languages_and_skip_unrelated_preparation(self):
-        for language, file in (("php", "src/Agent.php"), ("python", "praxo/agent.py")):
-            files = [f"language/{language}/{file}"]
-            values = classify(files, "ci-labs.yml")
-            for lab, available in ci_changes.LAB_LANGUAGES.items():
-                expected = [language] if language in available else []
-                self.assertEqual(json.loads(values[f"{lab}_languages"]), expected)
-                steps = active_steps(files, "ci-labs.yml", lab + "-lab")
-                if not expected:
-                    self.assertEqual(steps, [])
-                    continue
-                text = str(steps)
-                self.assertIn('--languages "$LAB_LANGUAGES"', text)
-                for unrelated in ("npm ci", "mvn -q", "cmake --build", "apt-get install", "setup-go@",
-                                  "setup-node@", "setup-java@", "rust-toolchain@", "setup-dotnet@", "setup-beam@"):
-                    self.assertNotIn(unrelated, text)
-                if language == "php":
-                    self.assertIn("shivammathur/setup-php@v2", text)
-                else:
-                    self.assertNotIn("setup-php@", text)
-                env = workflow("ci-labs.yml")["jobs"][lab + "-lab"]["env"]["LAB_LANGUAGES"]
-                self.assertIn(f"fromJSON(needs.changes.outputs.{lab}_languages)", env)
+        files = ["pkg/agent/agent.go"]
+        values = classify(files, "ci-labs.yml")
+        self.assertEqual(values["labs"], "true")
+        self.assertEqual(json.loads(values["behavior_languages"]), ["go"])
+        self.assertEqual(json.loads(values["compatibility_languages"]), [])
+        steps = active_steps(files, "ci-labs.yml", "behavior-lab")
+        text = str(steps)
+        self.assertIn('--languages "$LAB_LANGUAGES"', text)
+        self.assertIn("actions/setup-go@v5", text)
+        for unrelated in ("npm ci", "mvn -q", "cmake --build", "setup-node@", "setup-java@",
+                          "rust-toolchain@", "setup-dotnet@", "setup-beam@", "setup-php@",
+                          "gh-actions-lua@", "setup-ruby@"):
+            self.assertNotIn(unrelated, text)
+        env = workflow("ci-labs.yml")["jobs"]["behavior-lab"]["env"]["LAB_LANGUAGES"]
+        self.assertIn("fromJSON(needs.changes.outputs.behavior_languages)", env)
+        self.assertEqual(active_steps(files, "ci-labs.yml", "compatibility-lab"), [])
+
+    def test_lab_script_changes_do_not_expand_the_full_portfolio(self):
+        files = ["scripts/test_behavior_lab.py"]
+        values = classify(files, "ci-labs.yml")
+        self.assertEqual(values["full"], "false")
+        self.assertEqual(values["labs"], "true")
+        self.assertEqual(json.loads(values["languages"]), [])
+        self.assertIn("behavior-lab", selected_jobs(files, "ci-labs.yml"))
+        for workflow_name in ("ci-python.yml", "ci-java.yml", "ci-extended.yml", "ci-applications.yml"):
+            self.assertEqual(selected_jobs(files, workflow_name), set())
 
     def test_all_selected_runtime_jobs_stay_within_the_changed_sdk(self):
         for language, file in (("php", "src/Agent.php"), ("python", "praxo/agent.py")):
@@ -222,8 +230,10 @@ class CiExecutionTests(unittest.TestCase):
 
     def test_representative_runner_counts(self):
         cases = {"README.md": (1, 3), "language/python/Tutorial/bug-repair/README.md": (4, 7),
-                 "language/php/src/Agent.php": (29, 33), "language/python/praxo/agent.py": (41, 45),
-                 "language/java/application/src/main/java/App.java": (3, 7)}
+                 "language/php/src/Agent.php": (9, 13), "language/python/praxo/agent.py": (9, 13),
+                 "language/java/application/src/main/java/App.java": (3, 7),
+                 "language/php/examples/consumer/composer.json": (10, 13),
+                 "scripts/test_behavior_lab.py": (19, 21)}
         for file, (pull_request, push) in cases.items():
             with self.subTest(file=file):
                 self.assertEqual(sum(runner_counts([file]).values()), pull_request)

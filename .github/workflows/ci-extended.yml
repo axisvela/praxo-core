@@ -45,6 +45,11 @@ on:
       - "!scripts/test_registry_state.py"
       - "!scripts/test_roadmap.py"
       - "!scripts/test_sync_language_mirrors.py"
+      - "!scripts/check_ci_workflow_coverage.py"
+      - "!scripts/ci_changes.py"
+      - "!scripts/sync_ci_routing.py"
+      - "!scripts/test_ci_changes.py"
+      - "!scripts/test_ci_execution.py"
       - "!language/discovery.json"
       - "!language/registry-metadata.json"
       - "!spec/languages.md"
@@ -106,6 +111,11 @@ on:
       - "!scripts/test_registry_state.py"
       - "!scripts/test_roadmap.py"
       - "!scripts/test_sync_language_mirrors.py"
+      - "!scripts/check_ci_workflow_coverage.py"
+      - "!scripts/ci_changes.py"
+      - "!scripts/sync_ci_routing.py"
+      - "!scripts/test_ci_changes.py"
+      - "!scripts/test_ci_execution.py"
       - "!language/discovery.json"
       - "!language/registry-metadata.json"
       - "!spec/languages.md"
@@ -145,6 +155,9 @@ jobs:
       adapters: ${{ steps.filter.outputs.adapters }}
       languages: ${{ steps.filter.outputs.languages }}
       applications: ${{ steps.filter.outputs.applications }}
+      tutorials: ${{ steps.filter.outputs.tutorials }}
+      example_languages: ${{ steps.filter.outputs.example_languages }}
+      labs: ${{ steps.filter.outputs.labs }}
       compatibility_languages: ${{ steps.filter.outputs.compatibility_languages }}
       behavior_languages: ${{ steps.filter.outputs.behavior_languages }}
     steps:

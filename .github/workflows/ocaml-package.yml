@@ -8,6 +8,8 @@ on:
       - "spec/**"
       - "scripts/build_ocaml_package.py"
       - "scripts/test_ocaml_package.py"
+      - "!spec/languages.md"
+      - "!language/ocaml/**/*.md"
       - ".github/workflows/ocaml-package.yml"
   pull_request:
     paths:
@@ -15,6 +17,8 @@ on:
       - "spec/**"
       - "scripts/build_ocaml_package.py"
       - "scripts/test_ocaml_package.py"
+      - "!spec/languages.md"
+      - "!language/ocaml/**/*.md"
       - ".github/workflows/ocaml-package.yml"
   workflow_dispatch:
 

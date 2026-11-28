@@ -23,15 +23,17 @@ CI is split by path so a language-only change does not run the full matrix.
 | `ci-additional3.yml` | Swift, Julia, Haskell, OCaml, Nim, V, Zig, Objective-C example matrix | Their example and SDK source dependencies |
 | `ci-examples.yml` | Go examples, SDK examples, Go consumer and recipes | `language/go/examples/**` and selected language example paths |
 | `docs.yml` | Documentation build, registry checks, consumer pins | `docs/**`, metadata, selected scripts and workflows |
-| `ci-applications.yml` | Reference applications | Application changes and their SDK dependencies |
-| `ci-tutorials.yml` | Tutorial catalog and runnable tutorials | Catalog inputs and tutorial/SDK dependencies |
-| `ci-labs.yml` | Behavior and compatibility labs | Selected SDKs, shared dependencies, schedule, manual dispatch |
+| `ci-applications.yml` | Reference applications | Application directories and Go/core dependencies |
+| `ci-tutorials.yml` | Tutorial catalog and runnable tutorials | Tutorial directories and catalog inputs |
+| `ci-labs.yml` | Behavior and compatibility labs | Lab/core changes, schedule, manual dispatch |
 | `ci-bridge.yml` | Go bridge and shared-runtime bindings | Bridge and Go/core dependencies |
 
 Shared changes under `spec/` and `.github/actions/`, plus scripts without an
 explicit docs-only scope, still trigger full test matrices. Known documentation,
 registry/discovery, and mirror helpers are listed in `DOCS_SCRIPTS` in
 `scripts/ci_changes.py`; they run docs/mirror validation rather than SDK runtimes.
+Routing and coverage scripts are listed in `CI_SCRIPTS` and run the routing/docs
+checks without starting runtime portfolios.
 Discovery JSON and SDK documentation Markdown, README, REGISTRY, and llms entries
 also stay in docs/mirror/catalog checks, including nested tutorial READMEs.
 Markdown under normative `spec/` is still a shared contract input, except the
@@ -54,13 +56,14 @@ and routing checks without selecting its runtime portfolio. Dedicated SDK gates
 remain scoped. Mirror pull-request checks are isolated from serialized mirror
 writes.
 
-Jobs are filtered before expanding their matrices. SDK changes select that SDK's
-tests, consumers, examples, tutorials, applications, and dependent shared-runtime
-samples. Application-only changes select application jobs, not SDK or consumer
+Jobs are filtered before expanding their matrices. SDK source changes select that SDK's
+tests, consumers, packaging, and dependent shared-runtime
+samples. Example changes select the example bundle only for the changed SDK;
+tutorial changes select tutorial jobs; application-only changes select application jobs, not SDK or consumer
 jobs. Go/core changes retain Go, bridge, adapter, security, and quality coverage.
 Ordinary push/PR jobs belong to their dedicated workflows. Duplicate portfolio
 jobs in `ci.yml` run only for full requests; unique portfolio gates remain scoped.
-Lab language arguments are intersections with the selected languages, and their
+Labs run for lab/core changes, schedule, or manual dispatch. Lab language arguments are intersections with the selected languages, and their
 toolchain setup and build steps are filtered too. The bundled SDK examples keep
 all their checks but execute only the selected SDK's steps. Cross-SDK service
 integration runs require a full request.

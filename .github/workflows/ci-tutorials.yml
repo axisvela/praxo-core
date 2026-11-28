@@ -4,208 +4,20 @@ on:
   push:
     branches: [main]
     paths:
-      - "spec/**"
-      - "scripts/**"
-      - "pkg/**"
-      - "internal/**"
-      - "cmd/**"
-      - "bindings/**"
-      - "adapters/**"
-      - "go.mod"
-      - "go.sum"
-      - "VERSION"
-      - "Makefile"
-      - ".github/actions/**"
-      - "language/c/**"
-      - "language/cobol/**"
-      - "language/cpp/**"
-      - "language/csharp/**"
-      - "language/d/**"
-      - "language/dart/**"
-      - "language/delphi/**"
-      - "language/elixir/**"
-      - "language/erlang/**"
-      - "language/fortran/**"
-      - "language/go/**"
-      - "language/haskell/**"
-      - "language/java/**"
-      - "language/julia/**"
-      - "language/lua/**"
-      - "language/matlab/**"
-      - "language/nim/**"
-      - "language/objc/**"
-      - "language/ocaml/**"
-      - "language/octave/**"
-      - "language/perl/**"
-      - "language/php/**"
-      - "language/powershell/**"
-      - "language/python/**"
-      - "language/r/**"
-      - "language/ruby/**"
-      - "language/rust/**"
-      - "language/swift/**"
-      - "language/typescript/**"
-      - "language/v/**"
-      - "language/zig/**"
-      - "language/matlab-octave-core/**"
-      - "global.json"
+      - "language/*/Tutorial/**"
       - "docs/**/agent-scenarios.md"
       - "docs/**/tutorial-catalog.md"
       - "docs/**/tutorial-plan.md"
       - "mkdocs.yml"
       - ".github/workflows/ci-tutorials.yml"
-      - "!scripts/check_adapter_status.py"
-      - "!scripts/check_consumer_pins.py"
-      - "!scripts/check_language_releases.py"
-      - "!scripts/check_registry_pages.py"
-      - "!scripts/check_registry_state.py"
-      - "!scripts/docs_hooks.py"
-      - "!scripts/mirror_readme.py"
-      - "!scripts/registry_catalog.py"
-      - "!scripts/registry_discovery.py"
-      - "!scripts/repository_discovery.py"
-      - "!scripts/sync_language_mirrors.py"
-      - "!scripts/sync_language_registry_docs.py"
-      - "!scripts/test_adapter_status.py"
-      - "!scripts/test_consumer_pins.py"
-      - "!scripts/test_discovery.py"
-      - "!scripts/test_docs.py"
-      - "!scripts/test_language_registry_docs.py"
-      - "!scripts/test_language_releases.py"
-      - "!scripts/test_layout.py"
-      - "!scripts/test_registry_pages.py"
-      - "!scripts/test_registry_state.py"
-      - "!scripts/test_roadmap.py"
-      - "!scripts/test_sync_language_mirrors.py"
-      - "!language/discovery.json"
-      - "!language/registry-metadata.json"
-      - "!spec/languages.md"
-      - "!language/**/AGENTS.md"
-      - "!language/**/CONTRIBUTING.md"
-      - "!language/**/LICENSE.md"
-      - "!language/**/PUBLISHING.md"
-      - "!language/**/README.md"
-      - "!language/**/README.pod"
-      - "!language/**/README.zh-CN.md"
-      - "!language/**/REGISTRY.md"
-      - "!language/**/SECURITY.md"
-      - "!language/**/llms.md"
-      - "!language/**/llms.txt"
-      - "!language/*/application/**"
-      - "language/**/AGENTS.md"
-      - "language/**/CONTRIBUTING.md"
-      - "language/**/LICENSE.md"
-      - "language/**/PUBLISHING.md"
-      - "language/**/README.md"
-      - "language/**/README.zh-CN.md"
-      - "language/**/REGISTRY.md"
-      - "language/**/SECURITY.md"
-      - "language/**/llms.md"
-      - "language/**/README*.md"
-      - "language/**/CHANGELOG*.md"
-      - "language/**/docs/**/*.md"
   pull_request:
     paths:
-      - "spec/**"
-      - "scripts/**"
-      - "pkg/**"
-      - "internal/**"
-      - "cmd/**"
-      - "bindings/**"
-      - "adapters/**"
-      - "go.mod"
-      - "go.sum"
-      - "VERSION"
-      - "Makefile"
-      - ".github/actions/**"
-      - "language/c/**"
-      - "language/cobol/**"
-      - "language/cpp/**"
-      - "language/csharp/**"
-      - "language/d/**"
-      - "language/dart/**"
-      - "language/delphi/**"
-      - "language/elixir/**"
-      - "language/erlang/**"
-      - "language/fortran/**"
-      - "language/go/**"
-      - "language/haskell/**"
-      - "language/java/**"
-      - "language/julia/**"
-      - "language/lua/**"
-      - "language/matlab/**"
-      - "language/nim/**"
-      - "language/objc/**"
-      - "language/ocaml/**"
-      - "language/octave/**"
-      - "language/perl/**"
-      - "language/php/**"
-      - "language/powershell/**"
-      - "language/python/**"
-      - "language/r/**"
-      - "language/ruby/**"
-      - "language/rust/**"
-      - "language/swift/**"
-      - "language/typescript/**"
-      - "language/v/**"
-      - "language/zig/**"
-      - "language/matlab-octave-core/**"
-      - "global.json"
+      - "language/*/Tutorial/**"
       - "docs/**/agent-scenarios.md"
       - "docs/**/tutorial-catalog.md"
       - "docs/**/tutorial-plan.md"
       - "mkdocs.yml"
       - ".github/workflows/ci-tutorials.yml"
-      - "!scripts/check_adapter_status.py"
-      - "!scripts/check_consumer_pins.py"
-      - "!scripts/check_language_releases.py"
-      - "!scripts/check_registry_pages.py"
-      - "!scripts/check_registry_state.py"
-      - "!scripts/docs_hooks.py"
-      - "!scripts/mirror_readme.py"
-      - "!scripts/registry_catalog.py"
-      - "!scripts/registry_discovery.py"
-      - "!scripts/repository_discovery.py"
-      - "!scripts/sync_language_mirrors.py"
-      - "!scripts/sync_language_registry_docs.py"
-      - "!scripts/test_adapter_status.py"
-      - "!scripts/test_consumer_pins.py"
-      - "!scripts/test_discovery.py"
-      - "!scripts/test_docs.py"
-      - "!scripts/test_language_registry_docs.py"
-      - "!scripts/test_language_releases.py"
-      - "!scripts/test_layout.py"
-      - "!scripts/test_registry_pages.py"
-      - "!scripts/test_registry_state.py"
-      - "!scripts/test_roadmap.py"
-      - "!scripts/test_sync_language_mirrors.py"
-      - "!language/discovery.json"
-      - "!language/registry-metadata.json"
-      - "!spec/languages.md"
-      - "!language/**/AGENTS.md"
-      - "!language/**/CONTRIBUTING.md"
-      - "!language/**/LICENSE.md"
-      - "!language/**/PUBLISHING.md"
-      - "!language/**/README.md"
-      - "!language/**/README.pod"
-      - "!language/**/README.zh-CN.md"
-      - "!language/**/REGISTRY.md"
-      - "!language/**/SECURITY.md"
-      - "!language/**/llms.md"
-      - "!language/**/llms.txt"
-      - "!language/*/application/**"
-      - "language/**/AGENTS.md"
-      - "language/**/CONTRIBUTING.md"
-      - "language/**/LICENSE.md"
-      - "language/**/PUBLISHING.md"
-      - "language/**/README.md"
-      - "language/**/README.zh-CN.md"
-      - "language/**/REGISTRY.md"
-      - "language/**/SECURITY.md"
-      - "language/**/llms.md"
-      - "language/**/README*.md"
-      - "language/**/CHANGELOG*.md"
-      - "language/**/docs/**/*.md"
   workflow_dispatch:
 
 permissions:
@@ -227,6 +39,9 @@ jobs:
       adapters: ${{ steps.filter.outputs.adapters }}
       languages: ${{ steps.filter.outputs.languages }}
       applications: ${{ steps.filter.outputs.applications }}
+      tutorials: ${{ steps.filter.outputs.tutorials }}
+      example_languages: ${{ steps.filter.outputs.example_languages }}
+      labs: ${{ steps.filter.outputs.labs }}
       compatibility_languages: ${{ steps.filter.outputs.compatibility_languages }}
       behavior_languages: ${{ steps.filter.outputs.behavior_languages }}
     steps:
@@ -261,7 +76,7 @@ jobs:
 
   objc-privacy-agent:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'c') || contains(fromJSON(needs.changes.outputs.languages), 'objc')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'c') || contains(fromJSON(needs.changes.outputs.tutorials), 'objc')
     runs-on: macos-latest
     timeout-minutes: 15
     steps:
@@ -285,7 +100,7 @@ jobs:
 
   delphi-legacy-migration:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'delphi')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'delphi')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -299,7 +114,7 @@ jobs:
 
   ocaml-code-review:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'ocaml')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'ocaml')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -312,7 +127,7 @@ jobs:
 
   erlang-aiops-rca:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'erlang')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'erlang')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -328,7 +143,7 @@ jobs:
 
   elixir-knowledge-maintenance:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'elixir')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'elixir')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -345,7 +160,7 @@ jobs:
 
   v-production-scheduling:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'v')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'v')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -357,7 +172,7 @@ jobs:
 
   d-executive-brief:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'd')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'd')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -369,7 +184,7 @@ jobs:
 
   nim-maintenance-triage:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'nim')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'nim')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -382,7 +197,7 @@ jobs:
 
   haskell-literature-review:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'haskell')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'haskell')
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -394,7 +209,7 @@ jobs:
 
   dart-onboarding-plan:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'dart')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'dart')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -406,7 +221,7 @@ jobs:
 
   dart-meeting-coordination:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'dart')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'dart')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -418,7 +233,7 @@ jobs:
 
   php-internal-service-desk:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'php')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'php')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -430,7 +245,7 @@ jobs:
 
   delphi-rpa-reconciliation:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'delphi')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'delphi')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -444,7 +259,7 @@ jobs:
 
   php-api-orchestration:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'php')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'php')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -456,7 +271,7 @@ jobs:
 
   d-quant-risk:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'd')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'd')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -468,7 +283,7 @@ jobs:
 
   elixir-aiops-rca:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'elixir')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'elixir')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -485,7 +300,7 @@ jobs:
 
   elixir-soc-correlation:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'elixir')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'elixir')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -502,7 +317,7 @@ jobs:
 
   elixir-community-governance:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'elixir')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'elixir')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -519,7 +334,7 @@ jobs:
 
   php-new-tutorials:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'php')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'php')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     strategy:
@@ -534,7 +349,7 @@ jobs:
 
   cobol-new-tutorials:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cobol')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'cobol')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     strategy:
@@ -550,7 +365,7 @@ jobs:
 
   objc-new-tutorials:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'c') || contains(fromJSON(needs.changes.outputs.languages), 'objc')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'c') || contains(fromJSON(needs.changes.outputs.tutorials), 'objc')
     runs-on: macos-latest
     timeout-minutes: 20
     strategy:
@@ -565,7 +380,7 @@ jobs:
 
   nim-new-tutorials:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'nim')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'nim')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     strategy:
@@ -584,7 +399,7 @@ jobs:
 
   r-new-tutorials:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'r')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'r')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     strategy:
@@ -603,7 +418,7 @@ jobs:
 
   python-new-tutorials:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'python')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     strategy:
@@ -618,7 +433,7 @@ jobs:
 
   typescript-new-tutorials:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'typescript')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     strategy:
@@ -636,7 +451,7 @@ jobs:
 
   c-new-tutorials:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'c')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'c')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     strategy:
@@ -651,7 +466,7 @@ jobs:
 
   fortran-new-tutorials:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'fortran')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'fortran')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     strategy:
@@ -667,7 +482,7 @@ jobs:
 
   rust-new-tutorials:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'rust')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'rust')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     strategy:
@@ -681,7 +496,7 @@ jobs:
 
   julia-new-tutorials:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'julia')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'julia')
     runs-on: ubuntu-latest
     timeout-minutes: 30
     strategy:
@@ -714,7 +529,7 @@ jobs:
 
   java-new-tutorials:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'java')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'java')
     runs-on: ubuntu-latest
     timeout-minutes: 20
     strategy:
@@ -731,7 +546,7 @@ jobs:
 
   cpp-new-tutorials:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cpp')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'cpp')
     runs-on: ubuntu-latest
     timeout-minutes: 20
     strategy:
@@ -745,7 +560,7 @@ jobs:
 
   csharp-new-tutorials:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'csharp')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'csharp')
     runs-on: ubuntu-latest
     timeout-minutes: 20
     strategy:
@@ -774,7 +589,7 @@ jobs:
 
   swift-new-tutorials:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'swift')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'swift')
     runs-on: macos-latest
     timeout-minutes: 25
     strategy:
@@ -787,7 +602,7 @@ jobs:
 
   perl-localization-draft:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'perl')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'perl')
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -796,7 +611,7 @@ jobs:
 
   perl-compliance-tracking:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'perl')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'perl')
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -805,7 +620,7 @@ jobs:
 
   perl-community-governance:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'perl')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'perl')
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -814,7 +629,7 @@ jobs:
 
   erlang-soc-correlation:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'erlang')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'erlang')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -830,7 +645,7 @@ jobs:
 
   erlang-policy-simulation:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'erlang')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'erlang')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -846,7 +661,7 @@ jobs:
 
   dart-marketing-segments:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'dart')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'dart')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -858,7 +673,7 @@ jobs:
 
   dart-travel-booking:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'dart')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'dart')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -870,7 +685,7 @@ jobs:
 
   ruby-retail-replenishment:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'ruby')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'ruby')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -882,7 +697,7 @@ jobs:
 
   ruby-supply-disruption:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'ruby')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'ruby')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -894,7 +709,7 @@ jobs:
 
   powershell-finops-review:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'csharp') || contains(fromJSON(needs.changes.outputs.languages), 'powershell')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'csharp') || contains(fromJSON(needs.changes.outputs.tutorials), 'powershell')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -907,7 +722,7 @@ jobs:
 
   matlab-data-quality:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'matlab')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'matlab')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -917,7 +732,7 @@ jobs:
 
   delphi-tax-review:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'delphi')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'delphi')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -931,7 +746,7 @@ jobs:
 
   octave-water-quality:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'octave')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'octave')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -941,7 +756,7 @@ jobs:
 
   swift-chronic-care:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'swift')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'swift')
     runs-on: macos-latest
     timeout-minutes: 20
     steps:
@@ -950,7 +765,7 @@ jobs:
 
   octave-vibration-review:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'octave')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'octave')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -960,7 +775,7 @@ jobs:
 
   julia-dispatch-review:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'julia')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'julia')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -973,7 +788,7 @@ jobs:
 
   erlang-otp-recovery:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'erlang')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'erlang')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -990,7 +805,7 @@ jobs:
 
   ocaml-static-diagnostics:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'ocaml')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'ocaml')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1003,7 +818,7 @@ jobs:
 
   haskell-rule-dsl:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'haskell')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'haskell')
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -1015,7 +830,7 @@ jobs:
 
   v-release-preflight:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'v')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'v')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1026,7 +841,7 @@ jobs:
 
   d-data-pipeline:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'd')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'd')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1038,7 +853,7 @@ jobs:
 
   ruby-finops-review:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'ruby')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'ruby')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1050,7 +865,7 @@ jobs:
 
   csharp-order-review:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'csharp')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'csharp')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1063,7 +878,7 @@ jobs:
 
   powershell-windows-diagnostics:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'csharp') || contains(fromJSON(needs.changes.outputs.languages), 'powershell')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'csharp') || contains(fromJSON(needs.changes.outputs.tutorials), 'powershell')
     runs-on: windows-latest
     timeout-minutes: 10
     steps:
@@ -1076,7 +891,7 @@ jobs:
 
   perl-log-triage:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'perl')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'perl')
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -1085,7 +900,7 @@ jobs:
 
   r-wealth-analysis:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'r')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'r')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1097,7 +912,7 @@ jobs:
 
   r-marketing-segmentation:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'r')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'r')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1109,7 +924,7 @@ jobs:
 
   r-data-quality:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'r')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'r')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1121,7 +936,7 @@ jobs:
 
   typescript-retail-replenishment:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'typescript')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1136,7 +951,7 @@ jobs:
 
   typescript-travel-booking:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'typescript')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1151,7 +966,7 @@ jobs:
 
   typescript-customer-support:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'typescript')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1166,7 +981,7 @@ jobs:
 
   java-wealth-service:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'java')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'java')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1181,7 +996,7 @@ jobs:
 
   lua-host-embedding:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'lua')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'lua')
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -1191,7 +1006,7 @@ jobs:
 
   rust-iot-gateway:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'rust')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'rust')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1202,7 +1017,7 @@ jobs:
 
   zig-gateway-health:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'zig')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'zig')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1216,7 +1031,7 @@ jobs:
 
   c-device-diagnostics:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'c')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'c')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1227,7 +1042,7 @@ jobs:
 
   cpp-industrial-edge:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cpp')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'cpp')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1238,7 +1053,7 @@ jobs:
 
   go-incident-coordination:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'go') || needs.changes.outputs.core == 'true'
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'go')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1251,7 +1066,7 @@ jobs:
 
   fortran-simulation-metrics:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'fortran')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'fortran')
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -1262,7 +1077,7 @@ jobs:
 
   go-evidence-vault:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'go') || needs.changes.outputs.core == 'true'
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'go')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1275,7 +1090,7 @@ jobs:
 
   go-logistics-checkpoint:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'go') || needs.changes.outputs.core == 'true'
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'go')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1288,7 +1103,7 @@ jobs:
 
   go-zero-trust-review:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'go') || needs.changes.outputs.core == 'true'
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'go')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1301,7 +1116,7 @@ jobs:
 
   go-soc-alert-triage:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'go') || needs.changes.outputs.core == 'true'
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'go')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1314,7 +1129,7 @@ jobs:
 
   cpp-materials-design:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cpp')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'cpp')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1325,7 +1140,7 @@ jobs:
 
   php-customs-reroute:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'php')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'php')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1337,7 +1152,7 @@ jobs:
 
   r-weather-anomaly:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'r')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'r')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1349,7 +1164,7 @@ jobs:
 
   lua-irrigation-plan:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'lua')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'lua')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1359,7 +1174,7 @@ jobs:
 
   cpp-molecule-screen:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cpp')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'cpp')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1370,7 +1185,7 @@ jobs:
 
   d-property-forecast:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'd')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'd')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1382,7 +1197,7 @@ jobs:
 
   php-localization-draft:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'php')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'php')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1394,7 +1209,7 @@ jobs:
 
   dart-cbt-exercise:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'dart')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'dart')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1406,7 +1221,7 @@ jobs:
 
   typescript-workspace-plan:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'typescript')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1421,7 +1236,7 @@ jobs:
 
   csharp-test-generation:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'csharp')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'csharp')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1434,7 +1249,7 @@ jobs:
 
   csharp-airport-recovery:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'csharp')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'csharp')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1447,7 +1262,7 @@ jobs:
 
   php-lead-nurture:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'php')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'php')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1459,7 +1274,7 @@ jobs:
 
   go-fullstack-workspace:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'go') || needs.changes.outputs.core == 'true'
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'go')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1472,7 +1287,7 @@ jobs:
 
   csharp-medical-coding:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'csharp')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'csharp')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1485,7 +1300,7 @@ jobs:
 
   dart-chronic-care:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'dart')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'dart')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1497,7 +1312,7 @@ jobs:
 
   haskell-test-generation:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'haskell')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'haskell')
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -1509,7 +1324,7 @@ jobs:
 
   typescript-api-orchestration:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'typescript')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1524,7 +1339,7 @@ jobs:
 
   python-recruiting-match:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'python')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1536,7 +1351,7 @@ jobs:
 
   python-bug-repair:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'python')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1548,7 +1363,7 @@ jobs:
 
   python-cbt-exercise:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'python')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1560,7 +1375,7 @@ jobs:
 
   rust-household-robot:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'rust')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'rust')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1571,7 +1386,7 @@ jobs:
 
   rust-lab-loop:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'rust')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'rust')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1582,7 +1397,7 @@ jobs:
 
   typescript-localization-draft:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'typescript')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1597,7 +1412,7 @@ jobs:
 
   ruby-lead-nurture:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'ruby')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'ruby')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1609,7 +1424,7 @@ jobs:
 
   python-molecule-screen:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'python')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1621,7 +1436,7 @@ jobs:
 
   rust-leak-localization:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'rust')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'rust')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1632,7 +1447,7 @@ jobs:
 
   cpp-container-yard:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cpp')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'cpp')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1643,7 +1458,7 @@ jobs:
 
   haskell-policy-simulation:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'haskell')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'haskell')
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -1655,7 +1470,7 @@ jobs:
 
   delphi-hvac-settings:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'delphi')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'delphi')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -1669,7 +1484,7 @@ jobs:
 
   cpp-ocean-routing:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cpp')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'cpp')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1680,7 +1495,7 @@ jobs:
 
   d-fleet-map:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'd')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'd')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1692,7 +1507,7 @@ jobs:
 
   go-customs-reroute:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'go') || needs.changes.outputs.core == 'true'
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'go')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1705,7 +1520,7 @@ jobs:
 
   rust-cold-chain:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'rust')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'rust')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1716,7 +1531,7 @@ jobs:
 
   cpp-mesh-review:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cpp')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'cpp')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1727,7 +1542,7 @@ jobs:
 
   lua-aquaculture-water:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'lua')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'lua')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1737,7 +1552,7 @@ jobs:
 
   rust-mining-slope:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'rust')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'rust')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1748,7 +1563,7 @@ jobs:
 
   rust-livestock-monitor:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'rust')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'rust')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1759,7 +1574,7 @@ jobs:
 
   python-virtual-pi:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'python')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1771,7 +1586,7 @@ jobs:
 
   r-fire-spread:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'r')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'r')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1783,7 +1598,7 @@ jobs:
 
   python-precedent-outline:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'python')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1795,7 +1610,7 @@ jobs:
 
   r-property-forecast:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'r')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'r')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1807,7 +1622,7 @@ jobs:
 
   dart-digital-twin-memory:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'dart')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'dart')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1819,7 +1634,7 @@ jobs:
 
   go-litigation-timeline:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'go') || needs.changes.outputs.core == 'true'
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'go')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1832,7 +1647,7 @@ jobs:
 
   dart-audiobook-production:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'dart')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'dart')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1844,7 +1659,7 @@ jobs:
 
   cpp-eda-placement:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cpp')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'cpp')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1855,7 +1670,7 @@ jobs:
 
   php-tender-review:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'php')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'php')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1867,7 +1682,7 @@ jobs:
 
   r-hedge-plan:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'r')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'r')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1879,7 +1694,7 @@ jobs:
 
   ruby-due-diligence:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'ruby')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'ruby')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1891,7 +1706,7 @@ jobs:
 
   python-dubbing-plan:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'python')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1903,7 +1718,7 @@ jobs:
 
   r-budget-review:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'r')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'r')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1915,7 +1730,7 @@ jobs:
 
   php-copyright-evidence:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'php')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'php')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1927,7 +1742,7 @@ jobs:
 
   typescript-negotiation-interpretation:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'typescript')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1942,7 +1757,7 @@ jobs:
 
   python-biodiversity-alerts:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'python')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1954,7 +1769,7 @@ jobs:
 
   lua-live-show:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'lua')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'lua')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1964,7 +1779,7 @@ jobs:
 
   dart-waste-collection:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'dart')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'dart')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1976,7 +1791,7 @@ jobs:
 
   ocaml-architecture-graph:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'ocaml')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'ocaml')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1989,7 +1804,7 @@ jobs:
 
   python-pollution-tracing:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'python')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -2001,7 +1816,7 @@ jobs:
 
   ruby-community-governance:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'ruby')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'ruby')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -2013,7 +1828,7 @@ jobs:
 
   lua-world-economy:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'lua')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'lua')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -2023,7 +1838,7 @@ jobs:
 
   go-emergency-route-plan:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'go') || needs.changes.outputs.core == 'true'
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'go')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -2036,7 +1851,7 @@ jobs:
 
   python-patent-fto:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'python')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -2048,7 +1863,7 @@ jobs:
 
   rust-construction-safety:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'rust')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'rust')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -2059,7 +1874,7 @@ jobs:
 
   perl-news-factcheck:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'perl')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'perl')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -2068,7 +1883,7 @@ jobs:
 
   python-phishing-awareness:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'python')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -2080,7 +1895,7 @@ jobs:
 
   ruby-supply-chain-review:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'ruby')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'ruby')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -2092,7 +1907,7 @@ jobs:
 
   cpp-traffic-signal-plan:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cpp')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'cpp')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -2103,7 +1918,7 @@ jobs:
 
   zig-drone-fleet-plan:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'zig')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'zig')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -2117,7 +1932,7 @@ jobs:
 
   go-pentest-lab-review:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'go') || needs.changes.outputs.core == 'true'
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'go')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -2130,7 +1945,7 @@ jobs:
 
   lua-storyboard-previs:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'lua')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'lua')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -2140,7 +1955,7 @@ jobs:
 
   python-trial-screening:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'python')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -2153,7 +1968,7 @@ jobs:
 
   php-public-approval:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'php')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'php')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -2165,7 +1980,7 @@ jobs:
 
   python-clinical-guidelines:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'python')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -2178,7 +1993,7 @@ jobs:
 
   ocaml-bom-review:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'ocaml')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'ocaml')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -2191,7 +2006,7 @@ jobs:
 
   python-credit-diligence:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'python')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -2204,7 +2019,7 @@ jobs:
 
   ocaml-contract-review:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'ocaml')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'ocaml')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -2217,7 +2032,7 @@ jobs:
 
   python-education-tutoring:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'python')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -2230,7 +2045,7 @@ jobs:
 
   python-legal-compliance:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'python')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -2243,7 +2058,7 @@ jobs:
 
   python-insurance-claims:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'python')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -2256,7 +2071,7 @@ jobs:
 
   python-office-qa:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'python')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -2269,7 +2084,7 @@ jobs:
 
   cobol-batch-review:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cobol')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'cobol')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -2282,7 +2097,7 @@ jobs:
 
   julia-experiment-comparison:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'julia')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'julia')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -2295,7 +2110,7 @@ jobs:
 
   octave-signal-trends:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'octave')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'octave')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -2305,7 +2120,7 @@ jobs:
 
   csharp-healthcare-scheduling:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'csharp')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'csharp')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -2318,7 +2133,7 @@ jobs:
 
   csharp-sales-crm:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'csharp')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'csharp')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -2331,7 +2146,7 @@ jobs:
 
   java-order-review:
     needs: changes
-    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'java')
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'java')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:

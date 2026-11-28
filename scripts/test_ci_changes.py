@@ -68,11 +68,15 @@ def condition_matches(condition, values):
     for term in condition.split(" || "):
         contains = re.fullmatch(r"contains\(fromJSON\(needs.changes.outputs.(\w+)\), '([^']+)'\)", term)
         comparison = re.fullmatch(r"needs.changes.outputs.(\w+) (==|!=) '([^']*)'", term)
+        compound = re.fullmatch(
+            r"\(needs\.changes\.outputs\.(\w+) == '([^']*)' && needs\.changes\.outputs\.(\w+) != '\[\]'\)", term)
         if contains:
             matched = contains[2] in json.loads(values[contains[1]])
         elif comparison:
             equal = values[comparison[1]] == comparison[3]
             matched = equal if comparison[2] == "==" else not equal
+        elif compound:
+            matched = values[compound[1]] == compound[2] and json.loads(values[compound[3]]) != []
         else:
             raise AssertionError("Unsupported routing condition: " + term)
         if matched:
@@ -144,10 +148,36 @@ class CiChangesTests(unittest.TestCase):
         self.assertNotIn("ruby-conformance", selected)
         self.assertNotIn("elixir-conformance", selected)
         self.assertEqual(selected_jobs(files, "ci-java.yml"), set())
-        self.assertEqual(selected_jobs(files, "ci-applications.yml"), {"php-reference-applications"})
-        tutorials = selected_jobs(files, "ci-tutorials.yml")
+        self.assertEqual(selected_jobs(files, "ci-applications.yml"), set())
+        self.assertEqual(selected_jobs(files, "ci-tutorials.yml"), set())
+        self.assertEqual(selected_jobs(files, "ci-labs.yml"), set())
+        self.assertEqual(selected_jobs(files, "ci-examples.yml"), set())
+
+    def test_php_consumer_pin_does_not_fan_out_to_apps_tutorials_labs_or_examples(self):
+        files = ["language/php/examples/consumer/composer.json"]
+        self.assertEqual(classify(files)["languages"], '["php"]')
+        self.assertEqual(classify(files)["applications"], "[]")
+        self.assertEqual(classify(files)["tutorials"], "[]")
+        self.assertEqual(classify(files)["example_languages"], "[]")
+        self.assertEqual(classify(files)["labs"], "false")
+        self.assertIn("current-php-consumer", selected_jobs(files, "ci-extended.yml"))
+        for workflow in ("ci-applications.yml", "ci-tutorials.yml", "ci-labs.yml", "ci-examples.yml"):
+            self.assertEqual(selected_jobs(files, workflow), set(), workflow)
+
+    def test_tutorial_and_example_changes_select_only_their_own_targets(self):
+        tutorial = ["language/php/Tutorial/api-orchestration/app.php"]
+        self.assertEqual(classify(tutorial)["tutorials"], '["php"]')
+        tutorials = selected_jobs(tutorial, "ci-tutorials.yml")
         self.assertTrue(any(name.startswith("php-") for name in tutorials))
         self.assertFalse(any(name.startswith("java-") for name in tutorials))
+        self.assertEqual(selected_jobs(tutorial, "ci-applications.yml"), set())
+        self.assertEqual(selected_jobs(tutorial, "ci-labs.yml"), set())
+        example = ["language/python/examples/structured-output/app.py"]
+        self.assertEqual(classify(example)["example_languages"], '["python"]')
+        examples = selected_jobs(example, "ci-examples.yml")
+        self.assertTrue(examples)
+        self.assertEqual(selected_jobs(example, "ci-tutorials.yml"), set())
+        self.assertEqual(selected_jobs(example, "ci-labs.yml"), set())
 
     def test_java_application_does_not_run_sdk_or_consumers(self):
         files = ["language/java/application/src/main/java/App.java"]
@@ -163,12 +193,14 @@ class CiChangesTests(unittest.TestCase):
         self.assertEqual(classify([".github/workflows/php-release.yml"])["full"], "false")
 
     def test_shared_spec_and_manual_dispatch_keep_every_gate(self):
+        targeted = {"ci-tutorials.yml", "ci-examples.yml", "ci-applications.yml"}
         for path in sync_ci_routing.WORKFLOWS.glob("ci*.yml"):
             body = path.read_text(encoding="utf-8")
             expected = {name for name, job in sync_ci_routing.jobs(body)
                         if name != "changes" and not re.search(r"^    if: always\(\)$", job, re.M)}
             with self.subTest(workflow=path.name):
-                self.assertEqual(selected_jobs(["spec/vectors/agent.json"], path.name), expected)
+                spec = set() if path.name in targeted else expected
+                self.assertEqual(selected_jobs(["spec/vectors/agent.json"], path.name), spec)
                 self.assertEqual(selected_jobs([], path.name, "workflow_dispatch"), expected)
 
     def test_shared_runtime_dependencies(self):
@@ -212,9 +244,12 @@ class CiChangesTests(unittest.TestCase):
         self.assertEqual(classify(["scripts/check_contract.py"])["full"], "true")
         self.assertEqual(classify([], event="schedule")["full"], "true")
 
-    def test_lab_language_arguments_are_dependencies(self):
-        self.assertIn("behavior-lab", selected_jobs(["language/php/src/Agent.php"], "ci-labs.yml"))
-        self.assertIn("compatibility-lab", selected_jobs(["language/python/praxo/agent.py"], "ci-labs.yml"))
+    def test_labs_run_for_lab_or_core_changes_not_every_sdk_source_change(self):
+        self.assertIn("behavior-lab", selected_jobs(["scripts/test_behavior_lab.py"], "ci-labs.yml"))
+        self.assertIn("compatibility-lab", selected_jobs(["scripts/test_compatibility_lab.py"], "ci-labs.yml"))
+        self.assertIn("behavior-lab", selected_jobs(["pkg/agent/agent.go"], "ci-labs.yml"))
+        self.assertEqual(selected_jobs(["language/php/src/Agent.php"], "ci-labs.yml"), set())
+        self.assertEqual(selected_jobs(["language/python/praxo/agent.py"], "ci-labs.yml"), set())
 
     def test_docs_and_mirror_concurrency_keep_writes_serialized(self):
         workflows = ROOT / ".github/workflows"
@@ -270,6 +305,17 @@ class CiChangesTests(unittest.TestCase):
                         else:
                             self.assertFalse(workflow_triggered([file], path.name, event), path.name)
 
+    def test_routing_script_changes_do_not_launch_runtime_portfolios(self):
+        for file in sorted(ci_changes.CI_SCRIPTS):
+            values = classify([file])
+            with self.subTest(file=file):
+                self.assertEqual(values["full"], "false")
+                self.assertEqual(values["languages"], "[]")
+                self.assertTrue(workflow_triggered([file], "ci.yml"))
+                for path in sync_ci_routing.WORKFLOWS.glob("ci*.yml"):
+                    if path.name != "ci.yml":
+                        self.assertFalse(workflow_triggered([file], path.name), path.name)
+
     def test_discovery_metadata_and_generated_entries_do_not_select_sdks(self):
         files = ["language/discovery.json", "language/registry-metadata.json", "spec/languages.md",
                  "language/php/README.md", "language/java/REGISTRY.md",
@@ -284,16 +330,13 @@ class CiChangesTests(unittest.TestCase):
                 self.assertTrue(workflow_triggered([file], "docs.yml"))
                 self.assertTrue(workflow_triggered([file], "language-mirrors.yml"))
                 for path in sync_ci_routing.WORKFLOWS.glob("ci*.yml"):
-                    if path.name == "ci-tutorials.yml" and file.startswith("language/") and file.endswith(".md"):
-                        self.assertEqual(selected_jobs([file], path.name), {"scenario-catalog"})
-                    else:
-                        self.assertFalse(workflow_triggered([file], path.name), path.name)
+                    self.assertFalse(workflow_triggered([file], path.name), path.name)
 
     def test_mixed_metadata_and_source_changes_keep_runtime_gates(self):
         files = ["scripts/docs_hooks.py", "language/php/README.md", "language/php/src/Agent.php"]
         self.assertEqual(classify(files)["full"], "false")
         self.assertIn("php-conformance", selected_jobs(files, "ci-extended.yml"))
-        self.assertIn("php-reference-applications", selected_jobs(files, "ci-applications.yml"))
+        self.assertEqual(selected_jobs(files, "ci-applications.yml"), set())
         self.assertNotIn("ruby-conformance", selected_jobs(files, "ci-extended.yml"))
         self.assertIn("csharp-conformance", selected_jobs([
             "language/discovery.json", "language/csharp/Praxo.Core/Praxo.Core.csproj"], "ci-dotnet.yml"))
@@ -302,6 +345,8 @@ class CiChangesTests(unittest.TestCase):
         files = ["scripts/new_shared_check.py", "scripts/registry_discovery.py"]
         self.assertEqual(classify(files)["full"], "true")
         for path in sync_ci_routing.WORKFLOWS.glob("ci*.yml"):
+            if path.name in {"ci-applications.yml", "ci-examples.yml", "ci-tutorials.yml"}:
+                continue
             with self.subTest(workflow=path.name):
                 self.assertEqual(selected_jobs(files, path.name), selected_jobs([], path.name, "workflow_dispatch"))
 

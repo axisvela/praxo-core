@@ -4,7 +4,10 @@ import argparse
 import re
 from pathlib import Path
 
-from ci_changes import DISCOVERY_INPUTS, DOCS_SCRIPTS, DOC_MARKDOWN_PATTERNS, LAB_LANGUAGES, LANGUAGE_DOC_FILES, LANGUAGE_SCRIPTS
+from ci_changes import (
+    CI_SCRIPTS, DISCOVERY_INPUTS, DOCS_SCRIPTS, DOC_MARKDOWN_PATTERNS,
+    LAB_LANGUAGES, LANGUAGE_DOC_FILES, LANGUAGE_SCRIPTS,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOWS = ROOT / ".github/workflows"
@@ -85,27 +88,44 @@ def render(path):
     for name, job in original_jobs:
         if name != "changes" and name not in portfolio:
             owned.update(languages(name, job))
-    patterns = SHARED + [f"language/{language}/**" for language in sorted(owned)]
-    if {"matlab", "octave"} & owned:
-        patterns.append("language/matlab-octave-core/**")
-    if {"csharp", "powershell", "fsharp"} & owned:
-        patterns.append("global.json")
-    if path.name == "ci.yml":
-        patterns += ["api/**", "benchmarks/**", "tests/**", "*.go", ".github/**"]
-    if path.name == "ci-tutorials.yml":
-        patterns += ["docs/**/agent-scenarios.md", "docs/**/tutorial-catalog.md",
-                     "docs/**/tutorial-plan.md", "mkdocs.yml"]
-    patterns.append(f".github/workflows/{path.name}")
-    patterns += [f"!{script}" for script in sorted(DOCS_SCRIPTS)]
-    patterns += [f"!{name}" for name in sorted(DISCOVERY_INPUTS)]
-    patterns += [f"!language/**/{name}" for name in sorted(LANGUAGE_DOC_FILES)]
-    if path.name != "ci-applications.yml":
-        patterns.append("!language/*/application/**")
-    if path.name == "ci-tutorials.yml":
-        patterns += DOC_MARKDOWN_PATTERNS
+    workflow = f".github/workflows/{path.name}"
+    targeted = {
+        "ci-applications.yml": [
+            "language/*/application/**", "language/cpp/CMakeLists.txt",
+            "language/ruby/lib/**", "pkg/**", "internal/**", "cmd/**",
+            "bindings/**", "adapters/**", "go.mod", "go.sum", "VERSION",
+            "Makefile", workflow,
+        ],
+        "ci-tutorials.yml": [
+            "language/*/Tutorial/**", "docs/**/agent-scenarios.md",
+            "docs/**/tutorial-catalog.md", "docs/**/tutorial-plan.md",
+            "mkdocs.yml", workflow,
+        ],
+        "ci-examples.yml": [
+            "language/*/examples/**", "!language/*/examples/consumer/**", workflow,
+        ],
+        "ci-labs.yml": [*SHARED, "!spec/languages.md",
+                        *[f"!{script}" for script in sorted(DOCS_SCRIPTS | CI_SCRIPTS)], workflow],
+    }.get(path.name)
+    if targeted is not None:
+        patterns = targeted
     else:
+        patterns = SHARED + [f"language/{language}/**" for language in sorted(owned)]
+        if {"matlab", "octave"} & owned:
+            patterns.append("language/matlab-octave-core/**")
+        if {"csharp", "powershell", "fsharp"} & owned:
+            patterns.append("global.json")
+        if path.name == "ci.yml":
+            patterns += ["api/**", "benchmarks/**", "tests/**", "*.go", ".github/**"]
+        patterns.append(workflow)
+        patterns += [f"!{script}" for script in sorted(DOCS_SCRIPTS)]
+        if path.name != "ci.yml":
+            patterns += [f"!{script}" for script in sorted(CI_SCRIPTS)]
+        patterns += [f"!{name}" for name in sorted(DISCOVERY_INPUTS)]
+        patterns += [f"!language/**/{name}" for name in sorted(LANGUAGE_DOC_FILES)]
+        patterns.append("!language/*/application/**")
         patterns += [f"!{pattern}" for pattern in DOC_MARKDOWN_PATTERNS]
-    patterns += [f"!{script}" for script, language in sorted(LANGUAGE_SCRIPTS.items()) if language not in owned]
+        patterns += [f"!{script}" for script, language in sorted(LANGUAGE_SCRIPTS.items()) if language not in owned]
     paths = "    paths:\n" + "".join(f'      - "{p}"\n' for p in dict.fromkeys(patterns))
     push_paths = "" if path.name == "ci.yml" else paths
     events = "on:\n  push:\n    branches: [main]\n" + push_paths + "  pull_request:\n" + paths
@@ -126,6 +146,9 @@ def render(path):
       adapters: ${{ steps.filter.outputs.adapters }}
       languages: ${{ steps.filter.outputs.languages }}
       applications: ${{ steps.filter.outputs.applications }}
+      tutorials: ${{ steps.filter.outputs.tutorials }}
+      example_languages: ${{ steps.filter.outputs.example_languages }}
+      labs: ${{ steps.filter.outputs.labs }}
       compatibility_languages: ${{ steps.filter.outputs.compatibility_languages }}
       behavior_languages: ${{ steps.filter.outputs.behavior_languages }}
     steps:
@@ -160,9 +183,13 @@ def render(path):
         deps = languages(name, job)
         if deps:
             output = "applications" if path.name == "ci-applications.yml" else "languages"
+            if path.name == "ci-tutorials.yml":
+                output = "tutorials"
+            if path.name == "ci-examples.yml" and name == "example-sdks":
+                output = "example_languages"
             condition = "needs.changes.outputs.full == 'true' || " + " || ".join(
                 f"contains(fromJSON(needs.changes.outputs.{output}), '{lang}')" for lang in sorted(deps))
-            if "go" in deps:
+            if "go" in deps and output == "languages":
                 condition += " || needs.changes.outputs.core == 'true'"
         else:
             existing = re.search(r"^    if: (.+)$", job, re.M)
@@ -177,7 +204,8 @@ def render(path):
             condition = "needs.changes.outputs.full == 'true'"
         if path.name == "ci-labs.yml" and name.endswith("-lab"):
             output = name.removesuffix("-lab") + "_languages"
-            condition = f"needs.changes.outputs.full == 'true' || needs.changes.outputs.{output} != '[]'"
+            condition = (f"needs.changes.outputs.full == 'true' || "
+                         f"(needs.changes.outputs.labs == 'true' && needs.changes.outputs.{output} != '[]')")
             job = re.sub(r'--languages (?:[a-z,]+|"\$LAB_LANGUAGES")', '--languages "$LAB_LANGUAGES"', job)
             job = re.sub(r"^      LAB_LANGUAGES:.*\n", "", job, flags=re.M)
             if "    env:\n" not in job:
@@ -185,7 +213,7 @@ def render(path):
             job = job.replace("    env:\n", f"    env:\n      LAB_LANGUAGES: ${{{{ join(fromJSON(needs.changes.outputs.{output}), ',') }}}}\n", 1)
             job = scoped_steps(job, output)
         if path.name == "ci-examples.yml" and name == "example-sdks":
-            job = scoped_steps(job)
+            job = scoped_steps(job, "example_languages")
         job = re.sub(r"^    (?:needs|if):.*\n", "", job, flags=re.M)
         rendered.append(f"  {name}:\n    needs: changes\n    if: {condition}\n{job}")
     return body.split("\njobs:\n", 1)[0] + "\njobs:\n" + changes + "\n" + "".join(rendered)

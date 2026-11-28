@@ -28,6 +28,16 @@ LANGUAGE_DOC_FILES = {"README.md", "README.zh-CN.md", "README.pod", "REGISTRY.md
 DOC_MARKDOWN_PATTERNS = [f"language/**/{name}" for name in sorted(LANGUAGE_DOC_FILES) if name.endswith(".md")]
 DOC_MARKDOWN_PATTERNS += ["language/**/README*.md", "language/**/CHANGELOG*.md", "language/**/docs/**/*.md"]
 LANGUAGE_SCRIPTS = {"scripts/build_php_package.py": "php", "scripts/test_php_package.py": "php"}
+LAB_SCRIPTS = {
+    "scripts/behavior_lab.py", "scripts/compatibility_lab.py",
+    "scripts/test_behavior_lab.py", "scripts/test_compatibility_lab.py",
+    "scripts/cpp_behavior_suite.py",
+}
+CI_SCRIPTS = {
+    "scripts/ci_changes.py", "scripts/sync_ci_routing.py",
+    "scripts/test_ci_changes.py", "scripts/test_ci_execution.py",
+    "scripts/check_ci_workflow_coverage.py",
+}
 LAB_LANGUAGES = {
     "compatibility": ("python", "typescript", "java", "rust", "fortran", "cobol"),
     "behavior": ("go", "python", "typescript", "java", "rust", "fortran", "cobol", "ruby",
@@ -78,7 +88,10 @@ def main() -> int:
     examples = full
     consumers = full
     adapters = full
+    labs = full
     applications = set(LANGUAGES) if full else set()
+    tutorials = set(LANGUAGES) if full else set()
+    example_languages = set(LANGUAGES) if full else set()
 
     for name in files:
         parts = name.split("/")
@@ -90,7 +103,12 @@ def main() -> int:
             continue
         if name in LANGUAGE_SCRIPTS:
             languages.add(LANGUAGE_SCRIPTS[name])
-            applications.add(LANGUAGE_SCRIPTS[name])
+            continue
+        if name in CI_SCRIPTS:
+            docs = True
+            continue
+        if name in LAB_SCRIPTS:
+            labs = True
             continue
         if name == "llms.txt":
             docs = True
@@ -102,11 +120,17 @@ def main() -> int:
                 languages.update({"matlab", "octave"})
             elif language in LANGUAGES:
                 languages.add(language)
-                applications.add(language)
+                if len(parts) > 2 and parts[2] == "Tutorial":
+                    tutorials.add(language)
+                if len(parts) > 2 and parts[2] == "examples" and (
+                    len(parts) < 4 or parts[3] != "consumer"
+                ):
+                    example_languages.add(language)
         if name.startswith(("language/go/examples/consumer-", "language/go/examples/consumer-go/")):
             consumers = True
         elif name.startswith(("language/go/examples/", "language/go/examples/live-model/")):
             examples = True
+            example_languages.add("go")
         if name.startswith("docs/") or name.endswith(".md"):
             docs = True
         if name.startswith(("spec/", "scripts/", ".github/actions/")) or name == os.environ.get("WORKFLOW_FILE"):
@@ -128,7 +152,9 @@ def main() -> int:
     if full:
         languages = set(LANGUAGES)
         applications = set(LANGUAGES)
-        core = docs = examples = consumers = adapters = True
+        tutorials = set(LANGUAGES)
+        example_languages = set(LANGUAGES)
+        core = docs = examples = consumers = adapters = labs = True
 
     dependencies = {
         "c": {"cpp", "objc", "fortran", "cobol", "nim", "opencl"},
@@ -138,9 +164,9 @@ def main() -> int:
     }
     for language in list(languages):
         languages.update(dependencies.get(language, set()))
-    applications.update(languages)
     if core:
-        examples = consumers = adapters = True
+        examples = consumers = adapters = labs = True
+        applications.add("go")
 
     values = {
         "full": str(full).lower(),
@@ -149,13 +175,17 @@ def main() -> int:
         "examples": str(examples).lower(),
         "consumers": str(consumers).lower(),
         "adapters": str(adapters).lower(),
+        "labs": str(labs).lower(),
         "languages": json.dumps(sorted(languages), separators=(",", ":")),
         "applications": json.dumps(sorted(applications), separators=(",", ":")),
+        "tutorials": json.dumps(sorted(tutorials), separators=(",", ":")),
+        "example_languages": json.dumps(sorted(example_languages), separators=(",", ":")),
     }
     selected = languages | ({"go"} if core else set())
     for lab, available in LAB_LANGUAGES.items():
+        chosen = available if full or (labs and not selected) else selected
         values[f"{lab}_languages"] = json.dumps(
-            [language for language in available if full or language in selected], separators=(",", ":"))
+            [language for language in available if language in chosen], separators=(",", ":"))
     output = os.environ.get("GITHUB_OUTPUT")
     if output:
         with open(output, "a", encoding="utf-8") as stream:
