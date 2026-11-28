@@ -52,9 +52,9 @@ class LanguageRegistryDocsTests(unittest.TestCase):
         entry = next(entry for entry in SYNC.LANGUAGES if entry["name"] == "PHP")
         self.assertTrue(SYNC.published_available(entry))
         self.assertEqual(entry["published_version"], "0.10.1")
-        self.assertIn("published but broken", entry["status"])
+        self.assertIn("0.10.1 is broken", entry["status"])
         self.assertIn("src/PluginProcessHost.php", entry["status"])
-        self.assertIn("no new release authorized", entry["status"])
+        self.assertIn("registry verification pending", entry["status"])
         directory = ROOT / entry["dir"]
         self.assertIn(entry["status"], SYNC.render_registry(entry, directory))
         self.assertEqual(SYNC.manifest_data()["PHP"]["status"], entry["status"])
@@ -111,6 +111,10 @@ class LanguageRegistryDocsTests(unittest.TestCase):
                 continue
             with self.subTest(language=entry["name"]):
                 text = (ROOT / entry["dir"] / "README.md").read_text(encoding="utf-8")
+                if "registry verification pending" in entry["status"]:
+                    self.assertIn(f"axisvela/praxo-core:{entry['source_version']}", text)
+                    self.assertNotIn(f"axisvela/praxo-core:{entry['published_version']}", text)
+                    continue
                 self.assertIn(entry["install"], text)
                 for command in re.findall(r"```[^\n]*\n(.*?)```", text, re.DOTALL):
                     for line in command.splitlines():

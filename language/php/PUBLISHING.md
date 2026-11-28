@@ -39,6 +39,12 @@ Examples and tutorials remain linked canonical sources, not split runtime files.
 The checker compares the complete artifact file inventory and bytes, ignoring
 only `.git` metadata; missing, modified, stale, and symlinked files fail.
 
+For a clean standalone clone of `axisvela/praxo-core-php`, `--sync-split` replaces
+the full tracked payload while preserving `.git`, removing obsolete split files.
+It refuses a different origin, symlinks, local edits, and untracked/ignored files.
+It never creates a commit, tag, or push. Always review the resulting diff and run
+`--check` before publication.
+
 The packaging tests require PHP and Composer on PATH, or `PRAXO_PHP` and
 `PRAXO_COMPOSER` set to their executable paths (`composer.phar` is supported).
 They install a staged split via a Composer path repository with mirroring, not

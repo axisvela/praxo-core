@@ -148,7 +148,7 @@ its latest version matches the manifest at the release tag.
 | Elixir | 0.11.1 | Hex `0.11.1` | version matches |
 | Erlang | 0.10.1 | Hex `0.10.1` | version matches |
 | Ruby | 0.10.2 | RubyGems `0.10.2` | version matches |
-| PHP | 0.10.1 | Packagist `0.10.1` | version matches |
+| PHP | 0.10.2 | Packagist `0.10.1` | correction prepared; published 0.10.1 is broken |
 | Lua | 0.9.1-1 | LuaRocks `0.9.1-1` | version matches |
 | Dart | 0.8.2 | pub.dev `0.8.2` | version matches; docs coverage added |
 | Julia | 0.9.0 | General Registry PR #176393 updated; merge pending | PR targets 0.9.0; pending |

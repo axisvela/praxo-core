@@ -832,9 +832,9 @@
     "published_version": "0.10.1",
     "registry": "Packagist",
     "source_install": "Composer path repository: language/php",
-    "source_version": "0.10.1",
-    "status": "published but broken: split artifact missing src/PluginProcessHost.php; staged fix verified, no new release authorized",
-    "tag": "php/v0.10.1",
+    "source_version": "0.10.2",
+    "status": "published 0.10.1 is broken: split artifact missing src/PluginProcessHost.php; source 0.10.2 prepares the complete artifact, registry verification pending",
+    "tag": "php/v0.10.2",
     "tier": "Core",
     "url": "https://packagist.org/packages/axisvela/praxo-core"
   },

@@ -1,6 +1,7 @@
 import argparse
 import json
 from pathlib import Path
+import subprocess
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -69,15 +70,49 @@ def stage(output, files):
     check(output, files)
 
 
+def sync_checkout(output, files):
+    output = output.resolve()
+    if not (output / ".git").is_dir():
+        raise ValueError("Split synchronization requires a standalone Git checkout")
+
+    def git(*arguments):
+        return subprocess.check_output(["git", "-C", str(output), *arguments], text=True).strip()
+
+    if Path(git("rev-parse", "--show-toplevel")).resolve() != output:
+        raise ValueError("Output must be the split repository root")
+    remote = git("remote", "get-url", "origin").removesuffix(".git")
+    if remote not in {"https://github.com/axisvela/praxo-core-php", "git@github.com:axisvela/praxo-core-php"}:
+        raise ValueError("Refusing to synchronize an unexpected split remote")
+    if git("status", "--porcelain", "--untracked-files=all", "--ignored"):
+        raise ValueError("Refusing to synchronize a dirty split checkout")
+    paths = [path for path in output.rglob("*") if ".git" not in path.relative_to(output).parts]
+    if any(path.is_symlink() for path in paths):
+        raise ValueError("Refusing symlinked split contents")
+    for path in sorted(paths, key=lambda item: len(item.parts), reverse=True):
+        if path.is_dir():
+            path.rmdir()
+        else:
+            path.unlink()
+    for name, data in sorted(files.items()):
+        target = output / name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(data)
+    check(output, files)
+
+
 def main():
     parser = argparse.ArgumentParser(description="Stage or verify the canonical PHP split artifact.")
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--check", action="store_true")
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument("--check", action="store_true")
+    mode.add_argument("--sync-split", action="store_true", help="replace a clean PHP split checkout payload, preserving .git")
     args = parser.parse_args()
     try:
         version, files = payload()
         if args.check:
             check(args.output, files)
+        elif args.sync_split:
+            sync_checkout(args.output, files)
         else:
             stage(args.output, files)
     except (ValueError, OSError, KeyError) as error:

@@ -25,7 +25,7 @@
   ],
   "type": "library",
   "license": "MIT",
-  "version": "0.10.1",
+  "version": "0.10.2",
   "require": {
     "php": ">=8.2"
   },

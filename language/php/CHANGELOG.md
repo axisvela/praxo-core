@@ -1,5 +1,22 @@
 # PHP Core Release Notes
 
+## 0.10.2 - 2026-11-28
+
+Source tag `php/v0.10.2`.
+
+### Fixed
+
+- Include `src/PluginProcessHost.php` and every canonical runtime file in the
+  Packagist split artifact, restoring Composer autoload and the consumer path.
+- Verify the full split inventory and an isolated Composer allow/deny consumer,
+  including a missing-plugin negative control, before publication.
+
+### Changed
+
+- Add the `praxocore` discovery alias, relevant Composer keywords, and ordered
+  installation, example, tutorial, application, and community entries.
+- No public API or shared wire change. The API snapshot is unchanged from 0.10.1.
+
 ## 0.10.1 - 2026-11-27
 
 Source tag `php/v0.10.1`.

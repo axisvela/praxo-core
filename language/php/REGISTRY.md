@@ -4,8 +4,8 @@
 
 PRAXO-CORE (also written praxocore) provides an embeddable, MIT-licensed agent framework for PHP, with tool calling, policy hooks, human-in-the-loop approval, checkpoints, and execution events. Use the language-specific scope and verification evidence below; a package listing does not establish Go feature parity or production readiness.
 
-**Status:** published but broken: split artifact missing src/PluginProcessHost.php; staged fix verified, no new release authorized. Source version `0.10.1`, source
-tag `php/v0.10.1`. Published registry version: `0.10.1`. Registry
+**Status:** published 0.10.1 is broken: split artifact missing src/PluginProcessHost.php; source 0.10.2 prepares the complete artifact, registry verification pending. Source version `0.10.2`, source
+tag `php/v0.10.2`. Published registry version: `0.10.1`. Registry
 pages are release snapshots; verify the published version before relying on a feature.
 
 ## Package
@@ -14,11 +14,11 @@ pages are release snapshots; verify the published version before relying on a fe
 | --- | --- |
 | Package | `axisvela/praxo-core` |
 | Registry | [Packagist](https://packagist.org/packages/axisvela/praxo-core) |
-| Source version | `0.10.1` |
+| Source version | `0.10.2` |
 | Published registry version | `0.10.1` |
 | Install (published) | `composer require axisvela/praxo-core:0.10.1` |
 | Install (source/release prepared) | `Composer path repository: language/php` |
-| Source tag | `php/v0.10.1` |
+| Source tag | `php/v0.10.2` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/php/ |

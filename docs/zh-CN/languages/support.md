@@ -116,7 +116,7 @@ Kotlin、VB.NET、Scala 等仅示例实现保留在本仓库，作为宿主 Core
 | Elixir | 0.11.1 | Hex `0.11.1` | 版本一致 |
 | Erlang | 0.10.1 | Hex `0.10.1` | 版本一致 |
 | Ruby | 0.10.0 | RubyGems `0.10.0` | 版本一致 |
-| PHP | 0.10.1 | Packagist `0.10.1` | 版本一致 |
+| PHP | 0.10.2 | Packagist `0.10.1` | 已准备修正；已发布的 0.10.1 损坏 |
 | Lua | 0.9.1-1 | LuaRocks `0.9.1-1` | 版本一致 |
 | Dart | 0.8.2 | pub.dev `0.8.2` | 版本一致；文档覆盖已增加 |
 | Julia | 0.9.0 | General Registry PR #176393 已更新为 0.9.0，待合并 | 待完成 |
