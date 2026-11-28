@@ -2,6 +2,7 @@ import argparse
 import json
 from pathlib import Path
 import subprocess
+from urllib.parse import urlsplit
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -85,8 +86,14 @@ def sync_checkout(output, files):
 
     if Path(git("rev-parse", "--show-toplevel")).resolve() != output:
         raise ValueError("Output must be the split repository root")
-    remote = git("remote", "get-url", "origin").removesuffix(".git")
-    if remote not in {"https://github.com/axisvela/praxo-core-php", "git@github.com:axisvela/praxo-core-php"}:
+    remote = git("remote", "get-url", "origin")
+    if "://" in remote:
+        parsed = urlsplit(remote)
+        host, path = parsed.hostname or "", parsed.path
+    else:
+        prefix, _, path = remote.partition(":")
+        host = prefix.rsplit("@", 1)[-1]
+    if host != "github.com" or path.strip("/").removesuffix(".git") != "axisvela/praxo-core-php":
         raise ValueError("Refusing to synchronize an unexpected split remote")
     if git("status", "--porcelain", "--untracked-files=all", "--ignored"):
         raise ValueError("Refusing to synchronize a dirty split checkout")
