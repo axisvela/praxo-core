@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/axisvela/praxo-core/v2/internal/runid"
+	"github.com/axisvela/praxo-core/v2/pkg/agent/internal/runid"
 	"github.com/axisvela/praxo-core/v2/pkg/event"
 	"github.com/axisvela/praxo-core/v2/pkg/memory"
 	"github.com/axisvela/praxo-core/v2/pkg/model"

@@ -5,7 +5,7 @@ import (
 	"errors"
 	"sync"
 
-	"github.com/axisvela/praxo-core/v2/internal/runid"
+	"github.com/axisvela/praxo-core/v2/pkg/agent/internal/runid"
 	"github.com/axisvela/praxo-core/v2/pkg/agent/types"
 	"github.com/axisvela/praxo-core/v2/pkg/model"
 )

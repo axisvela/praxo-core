@@ -7,7 +7,7 @@ import (
 	"io"
 	"os"
 
-	"github.com/axisvela/praxo-core/v2/internal/bridge"
+	"github.com/axisvela/praxo-core/v2/cmd/praxo-bridge/internal/bridge"
 )
 
 func main() {

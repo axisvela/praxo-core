@@ -21,4 +21,4 @@ surface, so a bridge-local chain/delegation example is not applicable. Use the
 [Go representative chain](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/representative-chain)
 and [Go multi-agent example](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/multiagent).
 The wrapper path itself is covered by the bridge tests:
-`go test ./internal/bridge ./cmd/praxo-bridge`.
+`go test ./cmd/praxo-bridge/...`.

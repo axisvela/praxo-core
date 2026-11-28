@@ -245,7 +245,7 @@ cd language/rust; cargo test
 cd language/rust; cargo run --quiet --bin conformance
 cd language/rust; python api-snapshot.py --check
 cd language/rust; python -m unittest discover -s tests -p "test_*.py" -v
-go test ./internal/bridge ./cmd/praxo-bridge
+go test ./cmd/praxo-bridge/...
 go run ./cmd/praxo-bridge version
 python language/haskell/run-tests.py
 python language/haskell/api-snapshot.py --check
