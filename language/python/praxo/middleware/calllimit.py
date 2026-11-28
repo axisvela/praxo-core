@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+from contextvars import ContextVar
 from dataclasses import dataclass
 
 from ..errors import ModelCallLimitError, ToolCallLimitError
@@ -16,8 +17,12 @@ class _Count:
 def call_limit_middleware(model_limit: int, tool_limit: int) -> Middleware:
     counts: dict[str, _Count] = {}
     lock = asyncio.Lock()
+    active: ContextVar[tuple[str, ...]] = ContextVar(
+        "praxo_call_limit_runs", default=()
+    )
 
     async def before_run(state: RunState) -> None:
+        active.set(active.get() + (state.run_id,))
         async with lock:
             counts[state.run_id] = _Count()
 
@@ -40,9 +45,15 @@ def call_limit_middleware(model_limit: int, tool_limit: int) -> Middleware:
                 )
 
     async def after_run(result: object, error: BaseException | None) -> None:
-        if result is None:
+        run_id = ""
+        runs = active.get()
+        if runs:
+            run_id = runs[-1]
+            active.set(runs[:-1])
+        if not run_id:
+            run_id = getattr(result, "run_id", "")
+        if not run_id:
             return
-        run_id = getattr(result, "run_id", "")
         async with lock:
             counts.pop(run_id, None)
 

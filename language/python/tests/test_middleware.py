@@ -156,6 +156,17 @@ class MiddlewareTest(unittest.IsolatedAsyncioTestCase):
             ModelCall("b", "s1", Request(messages=[]))
         )
 
+    async def test_call_limit_releases_failed_run(self) -> None:
+        middleware = call_limit_middleware(1, 1)
+        await middleware.before_run(RunState("failed", None, ""))
+        await middleware.before_model(
+            ModelCall("failed", "s1", Request(messages=[]))
+        )
+        await middleware.after_run(None, RuntimeError("run failed"))
+        await middleware.before_model(
+            ModelCall("failed", "s1", Request(messages=[]))
+        )
+
     async def test_fallback_model(self) -> None:
         primary = ScriptModel([RuntimeError("primary")])
         fallback = ScriptModel([response("fallback")])

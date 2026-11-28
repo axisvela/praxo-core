@@ -185,9 +185,9 @@ class Agent:
             except BaseException:
                 pass
             raise
-        await self._emit(Event("run.started", session.id, run_id))
         after_run_invoked = False
         try:
+            await self._emit(Event("run.started", session.id, run_id))
             for step in range(1, max_steps + 1):
                 await self._authorize(
                     Action(kind="model.generate", session_id=session.id)

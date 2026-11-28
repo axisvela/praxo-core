@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+from contextvars import ContextVar
 from typing import Any, Protocol, runtime_checkable
 
 from ..errors import ToolNotSelectedError
@@ -8,6 +9,7 @@ from ..model import Model, Request, ROLE_SYSTEM, ROLE_USER, ToolSpec, Message
 from .base import (
     Middleware,
     ModelCall,
+    RunState,
     ToolCall,
     maybe_await,
 )
@@ -28,6 +30,12 @@ class ToolSelector(Protocol):
 def tool_selection_middleware(selector: ToolSelector | None) -> Middleware:
     selected: dict[str, set[str]] = {}
     lock = asyncio.Lock()
+    active: ContextVar[tuple[str, ...]] = ContextVar(
+        "praxo_tool_selection_runs", default=()
+    )
+
+    async def before_run(state: RunState) -> None:
+        active.set(active.get() + (state.run_id,))
 
     async def before_model(call: ModelCall) -> None:
         if call.request is None or selector is None:
@@ -56,14 +64,21 @@ def tool_selection_middleware(selector: ToolSelector | None) -> Middleware:
             raise ToolNotSelectedError("agent: tool not selected")
 
     async def after_run(result: Any, error: BaseException | None) -> None:
-        if result is None:
+        run_id = ""
+        runs = active.get()
+        if runs:
+            run_id = runs[-1]
+            active.set(runs[:-1])
+        if not run_id:
+            run_id = getattr(result, "run_id", "")
+        if not run_id:
             return
-        run_id = getattr(result, "run_id", "")
         async with lock:
             selected.pop(run_id, None)
 
     return Middleware(
         name="tool-selection",
+        before_run=before_run,
         before_model=before_model,
         before_tool=before_tool,
         after_run=after_run,

@@ -75,6 +75,38 @@ class LifecycleTest(unittest.IsolatedAsyncioTestCase):
         )
         self.assertEqual(sink.events, [])
 
+    async def test_startup_event_failure_runs_after_run(self) -> None:
+        calls: list[str] = []
+        event_types: list[str] = []
+
+        class FailingSink:
+            async def emit(self, event: Event) -> None:
+                event_types.append(event.type)
+                if event.type == "run.started":
+                    raise RuntimeError("sink unavailable")
+
+        class FailModel:
+            async def generate(self, request):
+                raise AssertionError("model must not run")
+
+        middleware = Middleware(
+            before_run=lambda state: calls.append("acquire"),
+            after_run=lambda result, error: calls.append(
+                f"release:{type(error).__name__}"
+            ),
+        )
+        agent = Agent(
+            AgentOptions(
+                model=FailModel(),
+                events=FailingSink(),
+                middleware=[middleware],
+            )
+        )
+        with self.assertRaisesRegex(RuntimeError, "sink unavailable"):
+            await agent.run(Session(id="s1"), "go")
+        self.assertEqual(calls, ["acquire", "release:RuntimeError"])
+        self.assertEqual(event_types, ["run.started", "run.failed"])
+
     async def test_cleanup_continues_and_preserves_run_error(self) -> None:
         calls: list[str] = []
         def fail_cleanup(result, error):
