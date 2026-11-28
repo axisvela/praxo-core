@@ -16,6 +16,7 @@ function go {
     if ($args[0] -eq 'list') {
         if (-not $state.Empty) {
             'github.com/axisvela/praxo-core/v2/pkg/example'
+            'github.com/axisvela/praxo-core/v2/pkg/example/internal/hidden'
             'github.com/axisvela/praxo-core/v2/pkg/second'
         }
         return
@@ -51,6 +52,7 @@ try {
     }
     $original = [System.IO.File]::ReadAllText($baseline)
     if ($original.Contains('Non-API prose')) { throw 'snapshot retained package prose' }
+    if ($original.Contains('/internal/')) { throw 'snapshot included an internal package' }
     $stamp = [datetime]'2001-01-01T00:00:00Z'
     [System.IO.File]::SetLastWriteTimeUtc($baseline, $stamp)
     $stamp = [System.IO.File]::GetLastWriteTimeUtc($baseline)

@@ -36,7 +36,7 @@ $env:GOWORK = 'off'
 try {
     Push-Location $root
     [Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)
-    $packages = go list ./pkg/...
+    $packages = @(go list ./pkg/... | Where-Object { $_ -notmatch '/internal(?:/|$)' })
     if ($LASTEXITCODE -ne 0) {
         throw "go list failed (exit $LASTEXITCODE)"
     }
