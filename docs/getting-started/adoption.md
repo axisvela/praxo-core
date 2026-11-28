@@ -7,24 +7,30 @@ evaluation path, a minimal prototype, production checks, and common pitfalls.
 
 PRAXO-CORE is a good fit when you need:
 
-- a governed agent loop with explicit policy, sandbox, checkpoint, memory, and
+- a governed agent kernel with explicit policy, sandbox, checkpoint, memory, and
   event boundaries
-- provider-neutral contracts with adapters owned by your product
+- provider-neutral contracts with optional in-tree adapters; your product still
+  owns credentials, routing, and external services
 - an MIT-licensed framework you can embed without AGPL obligations
 - first-class seams for the AxisVela ecosystem
 
-It is not a hosted agent service, a model provider, a vector database, or a
-turnkey chat UI. If you need one of those, or a durable graph runtime, see
+The current scope is broader than the initial Go-only kernel: more than thirty
+Core entries share the contract, several Cores provide native OpenAI-compatible,
+Anthropic, and Gemini adapters, and optional MCP, A2A, OpenTelemetry, and
+Harmovela integrations exist. It is still not a hosted agent service, a model
+provider, a vector database, or a turnkey chat UI. If you need one of those, or a
+durable graph runtime, see
 [When Not to Use PRAXO-CORE](when-not-to-use.md) before investing in a prototype.
 
 ## 2. Build a 30-Minute Prototype
 
 Choose the [integration level](../reference/execution-profiles.md) explicitly:
-Standard Embedding is available today; Governed Execution Profile defines
-additional proposed acceptance requirements, including a mandatory product entry
-before model/tool access; Embodied Integration Profile adds remote-action and
-observation requirements for a future consumer pilot. The prototype below does
-not implement or certify either profile. Adding Policy alone is insufficient.
+Standard Embedding is available today; Governed Execution Profile defines an
+acceptance design with partial integration evidence, including a mandatory
+product entry before model/tool access; Embodied Integration Profile is a
+proposed design for the AKROVELA pilot, with local P1/F5 and E1-E8 gates passing
+but no accepted P2/P3 run. The prototype below does not implement or certify any
+profile. Adding Policy alone is insufficient.
 
 First run the [independent Go consumer](consumer-go.md) to verify the published
 package and allow/deny behavior without a model service. The endpoint prototype
@@ -42,7 +48,7 @@ modules or security fixes are supported on that toolchain.
 1. Add the module:
 
    ```bash
-   go get github.com/axisvela/praxo-core/v2@v2.9.0
+   go get github.com/axisvela/praxo-core/v2@v2.11.3
    ```
 
 2. Use the OpenAI-compatible adapter with Ollama or a hosted endpoint:

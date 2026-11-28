@@ -7,19 +7,19 @@
 
 在需要以下能力时，PRAXO-CORE 是合适的选择：
 
-- 具有明确策略、沙箱、检查点、记忆和事件边界的受治理 Agent 循环
-- 提供商中立的契约，以及由产品拥有的适配器
+- 具有明确策略、沙箱、检查点、记忆和事件边界的受治理 Agent 内核
+- 提供商中立的契约，以及可选的内置适配器；凭证、路由和外部服务仍由产品负责
 - 可嵌入且不产生 AGPL 义务的 MIT 许可框架
 - AxisVela 生态的一等接缝
 
-它不是托管式 Agent 服务、模型提供商、向量数据库或开箱即用的聊天 UI。如果这些正是你的需求，或需要持久图运行时，请先阅读[何时不应选择 PRAXO-CORE](when-not-to-use.md)。
+当前范围已超出最初的 Go 单内核：超过三十个 Core 条目共享契约，多个 Core 提供原生 OpenAI 兼容、Anthropic 和 Gemini 适配器，并可选接入 MCP、A2A、OpenTelemetry 和 Harmovela。它仍不是托管式 Agent 服务、模型提供商、向量数据库或开箱即用的聊天 UI。如果这些正是你的需求，或需要持久图运行时，请先阅读[何时不应选择 PRAXO-CORE](when-not-to-use.md)。
 
 ## 2. 构建 30 分钟原型
 
 显式选择[集成层次](../reference/execution-profiles.md)：Standard Embedding 是当前能力；
-Governed Execution Profile 提出额外验收要求，包括模型/工具访问前的产品强制入口；
-Embodied Integration Profile 为未来消费者试点增加远程动作与观测要求。以下原型不实现或认证
-任一 Profile，仅添加 Policy 并不足以满足治理要求。
+Governed Execution Profile 是验收设计，已有部分集成证据，包括模型/工具访问前的产品强制入口；
+Embodied Integration Profile 是面向 AKROVELA 试点的设计提案，本地 P1/F5 与 E1-E8 门禁已通过，
+但尚无已接受的 P2/P3 运行。以下原型不实现或认证任一 Profile，仅添加 Policy 并不足以满足治理要求。
 
 先运行[Go 独立消费者](consumer-go.md)，无需模型服务即可验证发布包与允许/拒绝行为。
 以下端点原型是后续步骤，不是完整独立应用。
@@ -31,7 +31,7 @@ Java 应用可从 [Java 独立消费者](consumer-java.md)开始。
 1. 添加模块：
 
    ```bash
-   go get github.com/axisvela/praxo-core/v2@v2.9.0
+   go get github.com/axisvela/praxo-core/v2@v2.11.3
    ```
 
 2. 使用 OpenAI 兼容适配器连接 Ollama 或托管端点：
