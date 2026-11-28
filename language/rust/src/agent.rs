@@ -19,6 +19,8 @@ use crate::model::{
 use crate::policy::{Action, Hook};
 use crate::tool::{Registry, Tool};
 
+static RUN_SEQUENCE: AtomicUsize = AtomicUsize::new(0);
+
 pub struct Session {
     pub id: String,
     pub tenant_id: String,
@@ -219,11 +221,12 @@ impl Agent {
             8
         };
         let run_id = format!(
-            "run-{}",
+            "run-{}-{}",
             std::time::SystemTime::now()
                 .duration_since(std::time::UNIX_EPOCH)
                 .unwrap_or_default()
-                .as_nanos()
+                .as_nanos(),
+            RUN_SEQUENCE.fetch_add(1, Ordering::Relaxed) + 1
         );
         let mut messages = session.messages.clone();
         if !self.system_prompt.is_empty() {
@@ -237,9 +240,9 @@ impl Agent {
             let _ = self.after_run_entered(&entered, None, Some(&error));
             return Err(error);
         }
-        self.emit("run.started", &session.id, &run_id, None)?;
         let mut after_run_invoked = false;
         let outcome = (|| -> Result<RunResult> {
+            self.emit("run.started", &session.id, &run_id, None)?;
             for step in 1..=max_steps {
                 self.throw_if_cancelled()?;
                 self.authorize(&Action {

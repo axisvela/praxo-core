@@ -2,6 +2,7 @@ mod base;
 mod calllimit;
 mod fallback;
 mod pii;
+mod runscope;
 mod structured;
 mod toolselect;
 

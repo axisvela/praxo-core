@@ -54,6 +54,45 @@ impl Sink for RecordingSink {
     }
 }
 
+struct FailingSink {
+    types: Mutex<Vec<String>>,
+}
+
+impl Sink for FailingSink {
+    fn emit(&self, event: &Event) -> praxo_core::errors::Result<()> {
+        self.types.lock().expect("sink").push(event.kind.clone());
+        if event.kind == "run.started" {
+            return Err(praxo_core::errors::PraxoError::new(
+                "SINK_FAILED",
+                "sink unavailable",
+            ));
+        }
+        Ok(())
+    }
+}
+
+struct CollectSink {
+    ids: Arc<Mutex<std::collections::HashSet<String>>>,
+}
+
+impl Sink for CollectSink {
+    fn emit(&self, event: &Event) -> praxo_core::errors::Result<()> {
+        if event.kind == "run.started" {
+            let run_id = event.run_id.clone().unwrap_or_default();
+            assert!(self.ids.lock().expect("ids").insert(run_id));
+        }
+        Ok(())
+    }
+}
+
+struct AlwaysModel;
+
+impl Model for AlwaysModel {
+    fn generate(&self, _request: &Request) -> praxo_core::errors::Result<Response> {
+        Ok(done_response())
+    }
+}
+
 #[test]
 fn agent_runs_tool_then_final() {
     let tool_call = ToolCall {
@@ -186,6 +225,56 @@ fn call_limit_state_is_isolated_by_run() {
     };
     middleware.before_model(&mut first).expect("first run");
     middleware.before_model(&mut second).expect("second run");
+}
+
+#[test]
+fn call_limit_releases_failed_run() {
+    let middleware = CallLimitMiddleware::new(1, 1);
+    middleware
+        .before_run(&RunState {
+            run_id: "failed".into(),
+            prompt: "go".into(),
+        })
+        .expect("run");
+    let mut call = ModelCall {
+        run_id: "failed".into(),
+        session_id: "s1".into(),
+        request: Request::of(vec![]),
+        skip: false,
+        response: None,
+    };
+    middleware.before_model(&mut call).expect("first model");
+    middleware
+        .after_run(
+            None,
+            Some(&praxo_core::errors::PraxoError::new(
+                "RUN_FAILED",
+                "run failed",
+            )),
+        )
+        .expect("cleanup");
+    middleware.before_model(&mut call).expect("released");
+}
+
+#[test]
+fn concurrent_run_ids_are_unique() {
+    let ids = Arc::new(Mutex::new(std::collections::HashSet::new()));
+    let mut handles = Vec::new();
+    for _ in 0..64 {
+        let ids = ids.clone();
+        handles.push(std::thread::spawn(move || {
+            let mut options = AgentOptions::new(Arc::new(AlwaysModel));
+            options.events = Some(Arc::new(CollectSink { ids }));
+            Agent::new(options)
+                .expect("agent")
+                .run(&Session::new("s1"), "go")
+                .expect("run");
+        }));
+    }
+    for handle in handles {
+        handle.join().expect("join");
+    }
+    assert_eq!(ids.lock().expect("ids").len(), 64);
 }
 
 #[test]
@@ -733,6 +822,42 @@ fn startup_failure_cleans_entered_without_events() {
         ]
     );
     assert!(sink.types.lock().expect("sink").is_empty());
+}
+
+#[test]
+fn startup_event_failure_runs_after_run() {
+    let calls = Arc::new(Mutex::new(Vec::new()));
+    let sink = Arc::new(FailingSink {
+        types: Mutex::new(Vec::new()),
+    });
+    let after_calls = calls.clone();
+    let middleware = LifecycleMiddleware::new(
+        None,
+        Some(Box::new(move |_, error| {
+            after_calls
+                .lock()
+                .expect("calls")
+                .push(error.map(|value| value.code.to_string()).unwrap_or_default());
+            Ok(())
+        })),
+    );
+    let model = Arc::new(ScriptedModel::new(vec![done_response()]));
+    let mut options = AgentOptions::new(model);
+    options.events = Some(sink.clone());
+    options.middleware.push(Box::new(middleware));
+    let error = Agent::new(options)
+        .expect("agent")
+        .run(&Session::new("s1"), "go")
+        .expect_err("sink failure");
+    assert_eq!(error.code, "SINK_FAILED");
+    assert_eq!(
+        calls.lock().expect("calls").as_slice(),
+        &["SINK_FAILED".to_string()]
+    );
+    assert_eq!(
+        sink.types.lock().expect("sink").as_slice(),
+        &["run.started".to_string(), "run.failed".to_string()]
+    );
 }
 
 #[test]

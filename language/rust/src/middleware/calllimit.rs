@@ -3,6 +3,7 @@ use std::sync::Mutex;
 
 use crate::agent::RunResult;
 use crate::errors::{PraxoError, Result};
+use crate::middleware::runscope::RunScopes;
 use crate::middleware::{Middleware, MiddlewareToolCall, ModelCall, RunState};
 
 #[derive(Default)]
@@ -15,6 +16,7 @@ pub struct CallLimitMiddleware {
     model_limit: usize,
     tool_limit: usize,
     counts: Mutex<HashMap<String, Count>>,
+    runs: RunScopes,
 }
 
 impl CallLimitMiddleware {
@@ -23,6 +25,7 @@ impl CallLimitMiddleware {
             model_limit,
             tool_limit,
             counts: Mutex::new(HashMap::new()),
+            runs: RunScopes::new(),
         }
     }
 }
@@ -33,6 +36,7 @@ impl Middleware for CallLimitMiddleware {
     }
 
     fn before_run(&self, state: &RunState) -> Result<()> {
+        self.runs.push(&state.run_id);
         self.counts
             .lock()
             .expect("call limit poisoned")
@@ -61,11 +65,12 @@ impl Middleware for CallLimitMiddleware {
     }
 
     fn after_run(&self, result: Option<&mut RunResult>, _error: Option<&PraxoError>) -> Result<()> {
-        if let Some(result) = result {
+        let run_id = self.runs.pop().or_else(|| result.map(|result| result.run_id.clone()));
+        if let Some(run_id) = run_id {
             self.counts
                 .lock()
                 .expect("call limit poisoned")
-                .remove(&result.run_id);
+                .remove(&run_id);
         }
         Ok(())
     }

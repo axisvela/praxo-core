@@ -5,6 +5,7 @@ use serde_json::Value;
 
 use crate::agent::RunResult;
 use crate::errors::{PraxoError, Result};
+use crate::middleware::runscope::RunScopes;
 use crate::middleware::structured::extract_json;
 use crate::middleware::{Middleware, MiddlewareToolCall, ModelCall};
 use crate::model::{Message, Model, Request, ToolSpec, ROLE_SYSTEM, ROLE_USER};
@@ -21,6 +22,7 @@ pub trait ToolSelector: Send + Sync {
 pub struct ToolSelectionMiddleware {
     selector: Arc<dyn ToolSelector>,
     selected: Mutex<HashMap<String, HashSet<String>>>,
+    runs: RunScopes,
 }
 
 impl ToolSelectionMiddleware {
@@ -28,6 +30,7 @@ impl ToolSelectionMiddleware {
         Self {
             selector,
             selected: Mutex::new(HashMap::new()),
+            runs: RunScopes::new(),
         }
     }
 }
@@ -43,6 +46,7 @@ impl Middleware for ToolSelectionMiddleware {
             &call.request.tools,
         )?;
         let chosen: HashSet<String> = names.into_iter().collect();
+        self.runs.push(&call.run_id);
         self.selected
             .lock()
             .expect("tool selection poisoned")
@@ -68,11 +72,12 @@ impl Middleware for ToolSelectionMiddleware {
     }
 
     fn after_run(&self, result: Option<&mut RunResult>, _error: Option<&PraxoError>) -> Result<()> {
-        if let Some(result) = result {
+        let run_id = self.runs.pop().or_else(|| result.map(|result| result.run_id.clone()));
+        if let Some(run_id) = run_id {
             self.selected
                 .lock()
                 .expect("tool selection poisoned")
-                .remove(&result.run_id);
+                .remove(&run_id);
         }
         Ok(())
     }
