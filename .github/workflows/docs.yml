@@ -108,7 +108,7 @@ jobs:
       - run: python -m scripts.discovery.repository_discovery --check
       - name: Run documentation and metadata tests
         run: >-
-          python -m unittest -v scripts.validation.test_docs scripts.validation.test_roadmap
+          python -m unittest -v scripts.validation.test_docs_content scripts.validation.test_docs_consumers scripts.validation.test_docs_build scripts.validation.test_roadmap
           scripts.validation.test_layout scripts.checks.test_adapter_status
           scripts.discovery.test_language_registry_docs scripts.discovery.test_discovery
           scripts.checks.test_registry_state scripts.checks.test_registry_pages

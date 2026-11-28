@@ -297,7 +297,7 @@ class CiChangesTests(unittest.TestCase):
             "scripts/checks/check_registry_state.py",
             "scripts/release/release_manifest.py",
             "scripts/execution/execution_correctness.py",
-            "scripts/validation/test_docs.py",
+            "scripts/validation/test_docs_content.py",
         ]
         for file in files:
             values = classify([file])
