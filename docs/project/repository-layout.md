@@ -16,8 +16,7 @@ unchanged. This is a source-tree migration, not a new framework release.
 | `spec/` | Normative contract, shared vectors, and parity inventories |
 | `docs/` | Public documentation |
 | `docs/languages/<language>/` | Per-language documentation; may hold examples, adapter notes, and release pages |
-| `build/common/` | Cross-language lab reports and shared artifacts |
-| `build/<language>/` | Per-language build and test artifacts |
+| `build/` | Local, Git-ignored artifacts, environments, logs, drafts, and scratch files |
 
 ## Updating a Source Checkout
 
@@ -66,19 +65,27 @@ shared language root.
 Language release notes live next to the implementation at
 `language/<language>/CHANGELOG.md` and are linked from the language README.
 
-Build artifacts follow the same ownership split:
+`build/` is a local, Git-ignored workspace. Keep generated output out of
+version control and group it by lifecycle:
 
 ```text
 build/
-  common/       cross-language labs and shared reports
-  <language>/   per-language build and test output
+  artifacts/    release archives and compiled binaries
+  envs/         virtualenvs, Composer homes, consumer installs
+  caches/       CMake, Nim, Composer, Elixir, and OCaml caches
+  logs/         timestamped logs and CI snapshots
+  drafts/       issue and release drafts awaiting a durable home
+  scratch/      one-off scripts and temporary inputs
+  toolchain/    reusable local tool assets such as a CA bundle
+  work/         publication checkouts and ad-hoc package validation
 ```
 
-Use `build/common` for Behavior Lab, Compatibility Lab, and other shared
-evidence. Do not place one language's artifacts in another language's directory.
-Existing language-specific build caches may remain under
+`build/php-split/` and `build/ocaml-package/` are fixed tool outputs referenced
+by package documentation. Language-specific build caches may remain under
 `language/<language>/build` during migration; new tooling should prefer the
-owned build directory and document any exception.
+owned build directory and document any exception. Anything under `build/` is
+disposable unless it is a draft, retained evidence, or a reusable tool asset
+that has been moved to a durable location.
 
 ## What Did Not Change
 

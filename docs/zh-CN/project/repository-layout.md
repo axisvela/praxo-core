@@ -14,8 +14,7 @@
 | `adapters/` | 可选集成 |
 | `spec/` | 规范契约、共享向量与 parity 清单 |
 | `docs/languages/<language>/` | 语言独立文档目录；可放示例、适配器说明和发布页面 |
-| `build/common/` | 跨语言实验报告和共享工件 |
-| `build/<language>/` | 语言级构建与测试工件 |
+| `build/` | 本地、Git 忽略的产物、环境、日志、草稿与临时文件 |
 
 ## 使用方需要更新的路径
 
@@ -52,17 +51,24 @@ CMake 应使用全新构建目录，不要复用绑定旧源码位置的缓存�
 
 语言发布说明放在实现旁的 `language/<language>/CHANGELOG.md`，并由语言 README 链接。
 
-构建产物按同样方式归属：
+`build/` 是本地、Git 忽略的工作区。生成输出不进入版本控制，并按生命周期分组：
 
 ```text
 build/
-  common/       跨语言实验和共享报告
-  <language>/   语言级构建与测试产物
+  artifacts/    发布归档与编译产物
+  envs/         虚拟环境、Composer home、消费者安装
+  caches/       CMake、Nim、Composer、Elixir、OCaml 缓存
+  logs/         带时间戳的日志与 CI 快照
+  drafts/       等待进入 Issue 或内部文档的草稿
+  scratch/      一次性脚本与临时输入
+  toolchain/    可复用的本地工具资产，如 CA bundle
+  work/         发布 checkout 与临时包验证
 ```
 
-Behavior Lab、Compatibility Lab 等共享证据放在 `build/common`，不要把某个语言的
-产物放进另一个语言目录。迁移期间既有缓存可以暂时保留在
-`language/<language>/build`；新工具应优先使用语言自己的构建目录，并记录例外。
+`build/php-split/` 和 `build/ocaml-package/` 是包文档引用的固定工具输出。
+语言级构建缓存迁移期间仍可位于 `language/<language>/build`；新工具应优先使用
+所属语言的构建目录并记录例外。`build/` 下的内容默认可删除，除非它是已转移到
+持久位置的草稿、保留证据或可复用工具资产。
 
 包名、代码导入和既有标签前缀不随目录变更。源码标签仍不等于已发布到包管理器。
 请在新位置执行语言 README 中的一致性、API 与测试命令，功能限制见
