@@ -10,7 +10,7 @@
 也不承诺全部语言具备全部能力。100 个完整目标仍无已记录的端到端参考应用；
 切片按自身有界范围独立验收。
 
-下一阶段优先[参考应用组合](../project/roadmap.md)：PHP、Java、Elixir/Erlang、Go、
+下一阶段优先[参考应用组合](../project/delivery-history.md)：PHP、Java、Elixir/Erlang、Go、
 C++/Rust、COBOL、Julia、Ruby。复用有用切片，证明宿主生态和运行时集成，而非再次证明
 该语言能实现通用 Agent Loop。
 

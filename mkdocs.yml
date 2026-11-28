@@ -136,6 +136,7 @@ plugins:
             Comparison: 框架对比
             Benchmarks: 基准测试
             Roadmap: 公开路线图
+            Delivery History: 交付历史
             AI-Native Reference Applications: AI-Native 参考应用设计
             Verification Evidence: 验证证据
             License and Provenance: 许可证与来源
@@ -294,6 +295,7 @@ nav:
       - Comparison: project/comparison.md
       - Benchmarks: project/benchmarks.md
       - Roadmap: project/roadmap.md
+      - Delivery History: project/delivery-history.md
       - AI-Native Reference Applications: project/ai-native-reference-applications.md
       - Verification Evidence: project/verification-evidence.md
       - License and Provenance: project/provenance.md

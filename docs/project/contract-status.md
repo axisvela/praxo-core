@@ -5,6 +5,12 @@
 status words used in the roadmap and records the current state of major contract
 areas. It is not a release schedule and does not expand any API or profile.
 
+## Related Pages
+
+- [Roadmap](roadmap.md) sets public direction and current priorities.
+- [Delivery History and Application Status](delivery-history.md) records delivered stages and application status.
+- [Verification Evidence](verification-evidence.md) holds exact run evidence and limits.
+
 ## Status Words
 
 | Status | Meaning | Minimum evidence |

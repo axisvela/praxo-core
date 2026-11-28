@@ -5,9 +5,15 @@ next-stage Agent Selection Benchmark are **Not run.** A bounded selection,
 integration, and upgrade pilot ran on 2026-11-08; its scoped results are below.
 Retention remains unobserved, and the pilot is not independent adoption evidence.
 
+## Related Pages
+
+- [Roadmap](roadmap.md) sets public direction and priorities.
+- [Delivery History and Application Status](delivery-history.md) records adoption evidence and outcomes.
+- [Verification Evidence](verification-evidence.md) records exact runs and limits.
+
 ## Purpose
 
-The [roadmap](roadmap.md#adoption-evidence) separates three questions: free
+The [roadmap](delivery-history.md#adoption-evidence) separates three questions: free
 selection, directed integration, and upgrade/maintenance. This protocol defines a
 repeatable baseline before discovery materials, skills, or integration guidance
 are changed.

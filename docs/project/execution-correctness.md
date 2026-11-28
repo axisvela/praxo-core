@@ -6,6 +6,12 @@ The runner covers only the declared local mechanics scope; the full EC inventory
 is planned/not-run. Existing tests may be reused after assertion review; this
 page does not recertify them.
 
+## Related Pages
+
+- [Execution Correctness Evidence](execution-correctness-evidence.md) records evidence for each requirement.
+- [Verification Evidence](verification-evidence.md) holds exact runs and limits.
+- [Contract Status](contract-status.md) summarizes the current implementation state.
+
 ## Purpose
 
 Complement the [Behavior Lab](../languages/behavior-lab.md) with failure-boundary

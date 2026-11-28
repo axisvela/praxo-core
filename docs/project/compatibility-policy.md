@@ -4,6 +4,12 @@
 PRAXO-CORE treats as compatible, how additions are reviewed, and how removals
 happen.
 
+## Related Pages
+
+- [Compatibility](compatibility.md) is the reference for compatibility behavior.
+- [Contract Status](contract-status.md) records the current implementation state.
+- [Roadmap](roadmap.md) states public compatibility commitments.
+
 ## Versioning
 
 PRAXO-CORE uses clean semantic versioning:

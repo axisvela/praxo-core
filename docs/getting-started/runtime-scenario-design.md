@@ -12,7 +12,7 @@ The final column preserves the initial local snapshot: its "remote CI unverified
 notes describe that earlier snapshot, not current CI. Hosted execution does not
 establish live-provider, hardware, production or independent adoption evidence.
 These bounded paths are reusable inputs to the
-[reference application portfolio](../project/roadmap.md#reference-application-portfolio),
+[reference application portfolio](../project/delivery-history.md#reference-application-portfolio),
 not substitutes for full host integration.
 
 | Language | Primary tutorial direction | Related goal | Ecosystem basis | Required behavior | Initial local snapshot (superseded for CI above) |

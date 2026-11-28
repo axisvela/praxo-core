@@ -13,7 +13,7 @@ It is not a release schedule, independent adoption, or a promise of every featur
 in every language. No end-to-end reference application for the hundred full goals
 is recorded. A bounded slice is accepted against its own scope.
 
-The next-stage priority is the [reference application portfolio](../project/roadmap.md#reference-application-portfolio):
+The next-stage priority is the [reference application portfolio](../project/delivery-history.md#reference-application-portfolio):
 PHP, Java, Elixir/Erlang, Go, C++/Rust, COBOL, Julia, then Ruby. Reuse useful slices,
 but demonstrate the host ecosystem and runtime rather than another generic loop.
 
@@ -76,7 +76,7 @@ This is a claim-quality gate, not a requirement to deepen every unused tutorial.
 
 ## Scenario Map
 
-The [reference application portfolio](../project/roadmap.md#reference-application-portfolio)
+The [reference application portfolio](../project/delivery-history.md#reference-application-portfolio)
 defines the next ordered host integrations. Existing source paths and their
 capabilities are indexed in the [catalog](tutorial-catalog.md); the roadmap's host
 names are acceptance targets. Source implementations exist for all eight priorities,

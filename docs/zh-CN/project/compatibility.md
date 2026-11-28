@@ -1,5 +1,11 @@
 # 兼容性
 
+## 相关页面
+
+- [兼容性政策](compatibility-policy.md)：定义政策决策。
+- [路线图](roadmap.md)：公开兼容性承诺。
+- [契约状态](contract-status.md)：当前实现状态。
+
 ## 版本管理
 
 - `v2` 使用 `github.com/axisvela/praxo-core/v2` 模块路径。

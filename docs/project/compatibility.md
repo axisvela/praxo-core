@@ -1,5 +1,11 @@
 # Compatibility
 
+## Related Pages
+
+- [Compatibility Policy](compatibility-policy.md) defines policy decisions.
+- [Roadmap](roadmap.md) states public compatibility commitments.
+- [Contract Status](contract-status.md) records the current implementation state.
+
 ## Versioning
 
 - `v2` uses the `github.com/axisvela/praxo-core/v2` module path.

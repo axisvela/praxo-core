@@ -8,6 +8,12 @@
 
 记录要求见[测试证据规范](../contributing/test-evidence.md)：环境、配置、过程、数据、结果和发现。
 
+## 相关页面
+
+- [契约状态](contract-status.md)：汇总状态用语与当前实现状态。
+- [执行正确性证据](execution-correctness-evidence.md)：把正确性要求映射到证据。
+- [路线图](roadmap.md)：说明公开方向与优先级。
+
 ## 证据级别
 
 | 级别 | 含义 |

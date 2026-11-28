@@ -60,7 +60,7 @@ published-package starter path tracked in #31.
 
 ## Purpose
 
-The [reference application portfolio](roadmap.md#reference-application-portfolio)
+The [reference application portfolio](delivery-history.md#reference-application-portfolio)
 selects a typical workload for each language. This design adds the missing
 quality bar: the agent must be the primary product workflow, not an assistant
 bolted onto a conventional application.

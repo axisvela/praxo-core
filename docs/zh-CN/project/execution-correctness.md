@@ -4,6 +4,12 @@
 Execution Correctness Suite（EC）；runner 只覆盖声明的局部机制范围，完整 EC 清单仍为
 计划/not-run。已有测试须复核断言后复用，不能由本文重新认证。
 
+## 相关页面
+
+- [执行正确性证据](execution-correctness-evidence.md)：记录每项要求的证据。
+- [验证证据](verification-evidence.md)：准确运行与限制。
+- [契约状态](contract-status.md)：汇总当前实现状态。
+
 ## 目标
 
 在 [Behavior Lab](../languages/behavior-lab.md)之外，验证自主执行的失败边界，不向所有语言

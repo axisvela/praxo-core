@@ -249,7 +249,7 @@ and the [unified Tutorial Catalog](docs/getting-started/tutorial-catalog.md).
 | 7 | Julia | [Scientific computing](language/julia/application) | Source implementation; acceptance pending |
 | 8 | Ruby | [Rails back-office](language/ruby/application) | Source implementation; acceptance pending |
 
-See the [reference application portfolio](docs/project/roadmap.md#reference-application-portfolio)
+See the [reference application portfolio](docs/project/delivery-history.md#reference-application-portfolio)
 for acceptance criteria and current limits.
 
 ## Repository Map

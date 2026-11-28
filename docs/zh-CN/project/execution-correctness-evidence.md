@@ -7,6 +7,12 @@ EC 契约定义在 [execution-correctness.md](execution-correctness.md)。检查
 Core 负责本地机制，产品仓库负责数据库、效果、sandbox、部署和消费者证据。原始
 日志和内部运行记录保留在所属产品仓库或私有规划存储中。
 
+## 相关页面
+
+- [执行正确性](execution-correctness.md)：定义模型与要求。
+- [验证证据](verification-evidence.md)：更广泛的运行证据。
+- [契约状态](contract-status.md)：汇总当前实现状态。
+
 ## 快照
 
 | 项目 | 结果 |

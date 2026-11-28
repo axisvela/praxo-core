@@ -39,7 +39,7 @@ DeepSeek `deepseek-flash` 真实运行记录 `model=live`、模型选择工具�
 
 ## 目的
 
-[参考应用组合](roadmap.md)为各语言选择典型工作负载。本设计补充缺失的质量标准：
+[参考应用组合](delivery-history.md)为各语言选择典型工作负载。本设计补充缺失的质量标准：
 Agent 必须是产品主流程，而不是传统应用外加一个 AI 审阅接口。
 
 一个 CRUD 门户只加一个“用 AI 审阅”端点，不算合格。AI-native 参考应用应从用户意图或
