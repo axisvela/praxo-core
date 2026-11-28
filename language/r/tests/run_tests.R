@@ -234,6 +234,13 @@ initial_denial_test <- function() {
   stopifnot(before_tool_calls == 0L, length(invoked$items) == 0L)
 }
 
+run_id_test <- function() {
+  model <- function(request) done_response
+  first <- agent_run(model, "go")
+  second <- agent_run(model, "go")
+  stopifnot(!identical(first$runId, second$runId))
+}
+
 lifecycle_startup_test <- function() {
   calls <- character()
   events <- character()
@@ -322,6 +329,7 @@ lifecycle_failclosed_test <- function() {
   stopifnot(identical(events, c("run.started", "run.failed")))
 }
 
+run_id_test()
 arguments_test()
 final_name_test()
 unchanged_test()

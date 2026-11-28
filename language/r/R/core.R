@@ -356,7 +356,7 @@ agent_run <- function(model, prompt, tools = list(), events = NULL, max_steps = 
     praxo_error("AGENT_INVALID_OPTIONS",
                 "agent: require tool scope: allowed_tools must not be empty")
   }
-  run_id <- paste0("run-", format(Sys.time(), "%s"))
+  run_id <- paste0("run-", Sys.getpid(), "-", format(Sys.time(), "%s%OS6"))
   if (max_steps <= 0L) max_steps <- 8L
   if (!is.null(session)) {
     if (missing(session_id)) session_id <- session$id
