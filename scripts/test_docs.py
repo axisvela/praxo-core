@@ -45,7 +45,7 @@ class DocumentationTests(unittest.TestCase):
                               "CANCELLED", "2026-11-28"):
                     self.assertIn(value, evidence)
                 status = (ROOT / "docs" / prefix / "languages/registry-status.md").read_text(encoding="utf-8")
-                for value in ("0.10.1", "src/PluginProcessHost.php", "46030983730", "166"):
+                for value in ("0.10.1", "0.10.2", "src/PluginProcessHost.php", "46030983730", "166", "ff9d2fe"):
                     self.assertIn(value, status)
 
     def test_go_governed_acceptance_docs(self):

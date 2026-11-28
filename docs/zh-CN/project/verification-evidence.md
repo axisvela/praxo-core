@@ -211,6 +211,7 @@ Zig 网关健康教程（2026-11-23）：本地 Zig 0.17.0 与原生 Zig Core �
 | Dart 已发布包 | pub.dev 已从源码标签 `dart/v0.7.0` 发布 `praxo_core==0.7.0`。先前干净项目安装 `0.6.1` 并通过确定性消费者检查；`0.7.0` 发布工作流通过 conformance、API snapshot、tests、dry-run 和 archive 检查，未重跑发布后安装 | Registry 发布 + 干净项目安装 smoke | 一个平台；同机项目，不是独立或非作者消费者；未验证真实 provider 或目标平台；pub.dev 分数/下载量不是采用证据 |
 | Ruby 已发布 gem | RubyGems `praxo-core==0.9.2` 已从源码标签 `ruby/v0.9.2` 发布。发布工作流运行 conformance、API snapshot、原生测试、gem build、隔离 Bundler 检查和发布。`0.9.2` 更新 RubyGems README 与 gem 描述；`0.9.1` 移除了未声明的 `base64` 依赖 | Registry 发布 + 发布工作流门禁 + CI 消费者 | CI `current-ruby-consumer` 于 2026-11-21 安装发布包并通过 allow/deny starter（run `44913820352`）；一个平台；不是独立消费者；不含 provider 或生产证据 |
 | Lua 已发布 rock | LuaRocks `praxo-core==0.8.1-1` 已通过 `.github/workflows/lua-release.yml` 发布；工作流构建 source rock、在干净目录安装、运行安装后 smoke 并发布。`0.8.1-1` 扩展 rockspec 描述与 README | Registry 发布 + 发布工作流安装 smoke + CI 消费者 | CI `current-lua-consumer` 于 2026-11-21 安装 `0.8.1-1` 并通过（run `44917317881`）；一个平台；不是独立消费者；不含 provider 或生产证据 |
+| PHP 0.10.2 修正 | Packagist 从 split 标签 `v0.10.2`（`ff9d2fe`）索引 `axisvela/praxo-core==0.10.2`。全新外部 Composer 消费者不使用 path 仓库或本地回退，锁定 `v0.10.2`、安装 dist，并通过自动加载、插件类、allow（`effects=1`）和 deny（`effects=0`）检查。split 包含 `src/PluginProcessHost.php`；`0.10.1` 仍然损坏 | Registry 发布 + 全新 dist 安装 + 发布包消费者 | 一个 Windows 平台和 PHP 8.5.12，使用可信代理 CA 且开启 TLS 校验；确定性模型；不是独立消费者；不含真实 provider、生产身份或部署证据 |
 | PHP 已发布包 | Packagist 从 split 标签 `v0.8.1` 发布 `axisvela/praxo-core==0.8.1`。2026-11-18 使用 Composer 2.11.2 和全新缓存安装；`composer test` 输出 `php consumer tests passed`。源码标签 `php/v0.9.0` 更新，但 Packagist 仍列 `0.8.1` | Registry 发布 + 全新 Composer 安装 + 发布包消费者 | Windows / PHP 8.5.12；按命令启用 TLS 扩展并指定可信代理 CA，未关闭证书校验。一个平台；不是独立消费者；不含 provider 或生产证据 |
 | C# 已发布包 | `Praxo.Core==0.10.0` 已从源码标签 `csharp/v0.10.0` 发布。发布工作流构建、测试、打包并推送；公开 NuGet 索引列出 `0.10.0` | Registry 发布 + 发布工作流门禁 | 未记录 `0.10.0` 的干净消费者安装；一个平台；不是独立消费者；不含 provider 或生产证据 |
 | C# OIDC/JWKS 服务认证 | `language/csharp/examples/service` 使用 issuer/audience 检查、Provider 发现、5 分钟 JWKS 缓存和对未知 `kid` 的一次刷新验证 RS256/RS384/RS512 JWT。loopback discovery/JWKS 测试覆盖允许、错误 audience、过期 Token、错误 issuer、未知 key 与 Provider 不可用；运行 `dotnet run --project language/csharp/examples/service -- --test`（2026-11-22） | 契约/单元 + 本地 loopback | 一个示例与平台；没有 hosted 身份提供商、密钥轮换、撤销集成或独立复现；不是身份提供商或生产安全保证 |
@@ -321,7 +322,7 @@ Registry 链接指向当前已发布版本；上表的消费者 smoke 行指明�
 - [LuaRocks 上的 praxo-core 0.9.1-1](https://luarocks.org/modules/hanhhuiwen/praxo-core/0.9.1-1)
 - [Hex 上的 praxo_core 0.11.1](https://hex.pm/packages/praxo_core/0.11.1)
 - [NuGet 上的 Praxo.Core 0.11.1](https://www.nuget.org/packages/Praxo.Core/0.11.1)
-- [Packagist 上的 axisvela/praxo-core 0.10.1](https://packagist.org/packages/axisvela/praxo-core#v0.10.1)
+- [Packagist 上的 axisvela/praxo-core 0.10.2](https://packagist.org/packages/axisvela/praxo-core/0.10.2)
 - [PowerShell Gallery 上的 praxo-core-ps 0.9.1](https://www.powershellgallery.com/packages/praxo-core-ps/0.9.1)
 - [MetaCPAN 上的 Praxo-Core 0.8.1](https://metacpan.org/release/HANHHUIWEN/Praxo-Core-0.8.1)
 - [Hex 上的 praxo_core_erlang 0.10.1](https://hex.pm/packages/praxo_core_erlang/0.10.1)

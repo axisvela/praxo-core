@@ -33,7 +33,7 @@ class LanguageRegistryDocsTests(unittest.TestCase):
         expected = {
             "Go": "v2.11.3", "Python": "0.11.2", "TypeScript": "0.10.1",
             "Java": "0.12.3", "Rust": "0.11.1", "C#": "0.11.1",
-            "R": "0.12.0", "Ruby": "0.10.2", "PHP": "0.10.1",
+            "R": "0.12.0", "Ruby": "0.10.2", "PHP": "0.10.2",
             "Dart": "0.8.2", "Elixir": "0.11.1", "Erlang": "0.10.1",
             "Lua": "0.9.1-1", "Perl": "0.8.1", "Haskell": "0.9.0",
             "D": "0.8.0", "Swift": "0.7.2", "MATLAB": "0.9.1",
@@ -48,16 +48,16 @@ class LanguageRegistryDocsTests(unittest.TestCase):
         matlab = next(entry for entry in SYNC.LANGUAGES if entry["name"] == "MATLAB")
         self.assertEqual(matlab["source_version"], "0.9.0")
 
-    def test_php_published_artifact_warning(self):
+    def test_php_published_artifact_correction(self):
         entry = next(entry for entry in SYNC.LANGUAGES if entry["name"] == "PHP")
         self.assertTrue(SYNC.published_available(entry))
-        self.assertEqual(entry["published_version"], "0.10.1")
-        self.assertIn("0.10.1 is broken", entry["status"])
-        self.assertIn("src/PluginProcessHost.php", entry["status"])
-        self.assertIn("registry verification pending", entry["status"])
+        self.assertEqual(entry["published_version"], "0.10.2")
+        self.assertIn("0.10.2 fixes", entry["status"])
+        self.assertIn("Packagist dist install", entry["status"])
         directory = ROOT / entry["dir"]
         self.assertIn(entry["status"], SYNC.render_registry(entry, directory))
         self.assertEqual(SYNC.manifest_data()["PHP"]["status"], entry["status"])
+        self.assertIn("0.10.1 is broken", (directory / "PUBLISHING.md").read_text(encoding="utf-8"))
 
     def test_publication_requires_positive_evidence(self):
         entry = {"status": "published", "published_version": "0.1.0", "url": "https://example.com/package"}

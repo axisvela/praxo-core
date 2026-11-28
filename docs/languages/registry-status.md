@@ -50,7 +50,7 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 | Erlang | Hex | `0.10.1` | https://hex.pm/packages/praxo_core_erlang/0.10.1 | published; README includes scenario tutorials, reference-application status, and community |
 | Ruby | RubyGems | `0.10.2` | https://rubygems.org/gems/praxo-core/versions/0.10.2 | published; split source repo `axisvela/praxo-core-ruby` tagged `v0.10.2` |
 | Lua | LuaRocks | `0.9.1-1` | https://luarocks.org/modules/hanhhuiwen/praxo-core/0.9.1-1 | published; split repository `v0.9.1` tagged |
-| PHP | Packagist | `0.10.1` | https://packagist.org/packages/axisvela/praxo-core#v0.10.1 | published but broken: split artifact omits `src/PluginProcessHost.php`; see warning below |
+| PHP | Packagist | `0.10.2` | https://packagist.org/packages/axisvela/praxo-core#v0.10.2 | published; fixes the incomplete `0.10.1` split artifact; fresh dist install and allow/deny verified |
 | Dart | pub.dev | `0.8.2` | https://pub.dev/packages/praxo_core/versions/0.8.2 | published; public API has dartdoc coverage |
 | D | DUB | `0.8.0` | https://code.dlang.org/packages/praxo-core/versions/0.8.0 | published; matches source `d/v0.8.0` |
 | Swift | Swift Package Index | `0.7.2` | https://swiftpackageindex.com/axisvela/praxo-core-swift | SPI indexes split `0.7.2`; split repository tagged `0.9.0` with streaming scope; SPI re-index pending |
@@ -62,16 +62,18 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 | R | r-universe | `0.12.0` | https://axisvela.r-universe.dev/praxocore | actual build HEAD `9b417e3`; checks have warnings, not all clean; CRAN not published |
 | Nim | nim-lang/packages (Nimble) | `0.1.1` | https://github.com/axisvela/praxo-core-nim | split repo `v0.8.0` tagged; nim-lang/packages PR #3600 merged 2026-11-05; nimpkgs re-crawl pending |
 
-### PHP 0.10.1 Warning (2026-11-28)
+### PHP 0.10.1 Defect and 0.10.2 Correction (2026-11-28)
 
-Packagist `axisvela/praxo-core==0.10.1` is currently broken: the verified split
-artifact omits `src/PluginProcessHost.php`, which `src/autoload.php` requires.
+Packagist `axisvela/praxo-core==0.10.1` is broken: its split artifact omitted
+`src/PluginProcessHost.php`, which `src/autoload.php` requires.
 [CI 46030983730](https://github.com/axisvela/praxo-core/actions/runs/46030983730)
-installed the package but failed at Composer autoload time. The source builder
-and isolated Composer consumer checks pass 6 checks, alongside 166 native tests,
-for the corrected staged artifact only. No new release is authorized or published;
-staging does not fix published `0.10.1`. Earlier PHP application CI used `0.8.1`
-and does not verify this artifact.
+installed the package but failed at Composer autoload time. Do not use `0.10.1`.
+
+`0.10.2` publishes the complete runtime payload from split commit `ff9d2fe`.
+Packagist indexed `v0.10.2`, and a fresh external consumer installed that dist
+without a path repository or local fallback. The consumer verified autoload,
+plugin-host classes, allow with one effect, and deny with zero effects. The source
+builder and isolated Composer checks pass 8 checks, alongside 166 native tests.
 
 ## Uploaded or awaiting indexing
 

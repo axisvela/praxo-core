@@ -11,7 +11,7 @@ agent service, or model provider.
 
 - `SPEC_VERSION`: `0.2.0`
 - Core version: `0.10.2`
-- Release package: `axisvela/praxo-core@0.10.2`; verify Packagist availability before installing.
+- Published package: `axisvela/praxo-core@0.10.2` on Packagist.
 - License: MIT
 - Dependencies: none beyond the PHP standard library
 - Runtime: use a patched PHP release. On Windows use `8.2.35-1`, `8.3.36-1`,
@@ -28,7 +28,7 @@ PRAXO-CORE (also written praxocore) provides an embeddable, MIT-licensed agent f
 - Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/language/php/REGISTRY.md)
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/php/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/php/llms.md)
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
-- Registry: [Packagist](https://packagist.org/packages/axisvela/praxo-core)
+- Registry: [Packagist](https://packagist.org/packages/axisvela/praxo-core/0.10.2)
 - Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761) · [LinkedIn](https://www.linkedin.com/company/axisvela/) · [Facebook](https://www.facebook.com/profile.php?id=61596905732406) · [YouTube](https://www.youtube.com/@axisvela) · [Discord](https://discord.com/channels/1575163993767809064/1575164343148875977) · [GitHub Discussions](https://github.com/axisvela/praxo-core/discussions) · [GitHub Issues](https://github.com/axisvela/praxo-core/issues) · [Documentation](https://axisvela.github.io/praxo-core/) · [Architect](https://axisvela.architect.pub)
 
 ## Get started

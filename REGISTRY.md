@@ -26,7 +26,7 @@ require separately configured providers and credentials.
 | Rust | `praxo-core` | [crates.io](https://crates.io/crates/praxo-core/0.11.1) | `0.11.1` | https://axisvela.github.io/praxo-core/languages/rust/ |
 | C# | `Praxo.Core` | [NuGet](https://www.nuget.org/packages/Praxo.Core/0.11.1) | `0.11.1` | https://axisvela.github.io/praxo-core/languages/csharp/ |
 | Ruby | `praxo-core` | [RubyGems](https://rubygems.org/gems/praxo-core/versions/0.10.2) | `0.10.2` | https://axisvela.github.io/praxo-core/languages/ruby/ |
-| PHP | `axisvela/praxo-core` | [Packagist](https://packagist.org/packages/axisvela/praxo-core) | `0.10.1` | https://axisvela.github.io/praxo-core/languages/php/ |
+| PHP | `axisvela/praxo-core` | [Packagist](https://packagist.org/packages/axisvela/praxo-core/0.10.2) | `0.10.2` | https://axisvela.github.io/praxo-core/languages/php/ |
 | Dart | `praxo_core` | [pub.dev](https://pub.dev/packages/praxo_core/versions/0.8.2) | `0.8.2` | https://axisvela.github.io/praxo-core/languages/dart/ |
 | Elixir | `praxo_core` | [Hex](https://hex.pm/packages/praxo_core/0.11.1) | `0.11.1` | https://axisvela.github.io/praxo-core/languages/elixir/ |
 | Erlang | `praxo_core_erlang` | [Hex](https://hex.pm/packages/praxo_core_erlang/0.10.1) | `0.10.1` | https://axisvela.github.io/praxo-core/languages/erlang/ |

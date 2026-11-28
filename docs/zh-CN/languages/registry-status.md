@@ -41,9 +41,9 @@ GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
 | C++ | xmake | `0.9.0` | https://packages.xmake.io/packages/praxo-core-cpp | xmake 已发布；源码 `cpp/v0.10.0`；vcpkg 与 Conan 待完成 |
 | Elixir | Hex / HexDocs | `0.11.1` | https://hex.pm/packages/praxo_core/0.11.1; https://praxo-core.hexdocs.pm/0.11.1/ | 已发布；README 已重排并包含教程、参考应用状态和社区信息 |
 | Erlang | Hex | `0.10.1` | https://hex.pm/packages/praxo_core_erlang/0.10.1 | 已发布；README 包含场景教程、参考应用状态和社区信息 |
-| Ruby | RubyGems | `0.10.0` | https://rubygems.org/gems/praxo-core/versions/0.10.0 | 已发布；split 源码仓库 `axisvela/praxo-core-ruby` 已打 tag `v0.10.0` |
+| Ruby | RubyGems | `0.10.2` | https://rubygems.org/gems/praxo-core/versions/0.10.2 | 已发布；split 源码仓库 `axisvela/praxo-core-ruby` 已打 tag `v0.10.2` |
 | Lua | LuaRocks | `0.9.1-1` | https://luarocks.org/modules/hanhhuiwen/praxo-core/0.9.1-1 | 已发布；split 仓库 `v0.9.1` 已打 tag |
-| PHP | Packagist | `0.10.1` | https://packagist.org/packages/axisvela/praxo-core#v0.10.1 | 已发布但损坏：split 产物缺少 `src/PluginProcessHost.php`；见下方警告 |
+| PHP | Packagist | `0.10.2` | https://packagist.org/packages/axisvela/praxo-core#v0.10.2 | 已发布；修复不完整的 `0.10.1` split 产物；全新 dist 安装和 allow/deny 已验证 |
 | Dart | pub.dev | `0.8.2` | https://pub.dev/packages/praxo_core/versions/0.8.2 | 已发布；公共 API 已有 dartdoc 注释覆盖 |
 | D | DUB | `0.8.0` | https://code.dlang.org/packages/praxo-core/versions/0.8.0 | 已发布；与源码 `d/v0.8.0` 一致 |
 | Swift | Swift Package Index | `0.7.2` | https://swiftpackageindex.com/axisvela/praxo-core-swift | SPI 索引 split `0.7.2`；split 仓库已打 tag `0.9.0`（流式范围）；SPI 重新索引待完成 |
@@ -55,14 +55,17 @@ GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
 | R | r-universe | `0.12.0` | https://axisvela.r-universe.dev/praxocore | 实际构建 HEAD `9b417e3`；检查有 warnings，非全部通过且无警告；未发布 CRAN |
 | Nim | nim-lang/packages（Nimble） | `0.1.1` | https://github.com/axisvela/praxo-core-nim | split 仓库 `v0.8.0` 已打 tag；nim-lang/packages PR #3600 已于 2026-11-05 合并；nimpkgs 待重新抓取 |
 
-### PHP 0.10.1 警告（2026-11-28）
+### PHP 0.10.1 缺陷与 0.10.2 修正（2026-11-28）
 
-Packagist `axisvela/praxo-core==0.10.1` 当前损坏：已核验的 split 产物缺少
+Packagist `axisvela/praxo-core==0.10.1` 损坏：其 split 产物缺少
 `src/autoload.php` 必需的 `src/PluginProcessHost.php`。
 [CI 46030983730](https://github.com/axisvela/praxo-core/actions/runs/46030983730)
-安装成功后在 Composer autoload 阶段失败。源码构建器与隔离 Composer 消费者检查共 6 项通过，
-另有 166 项原生测试通过，但仅验证修正后的暂存产物。没有授权或发布新版本；
-暂存修正不代表已发布 `0.10.1` 已修复。早先 PHP 应用 CI 使用 `0.8.1`，不验证此产物。
+安装成功后在 Composer autoload 阶段失败。不要使用 `0.10.1`。
+
+`0.10.2` 从 split commit `ff9d2fe` 发布完整运行时载荷。Packagist 已索引
+`v0.10.2`；全新外部消费者在不使用 path 仓库或本地回退的情况下安装了该 dist，
+并验证自动加载、插件宿主类、allow 产生一次效果、deny 零效果。源码构建器与隔离
+Composer 检查共 8 项通过，另有 166 项原生测试通过。
 
 ## 已上传或等待索引
 

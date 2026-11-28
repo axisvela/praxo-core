@@ -13,7 +13,11 @@ CI run `46030983730` installed that version successfully, then failed at Compose
 autoload time. The canonical file exists.
 This is an incomplete split artifact, not an optional feature or a PHP version
 problem. Do not guard the require, remove the feature, or rewrite the old tag.
-A new patch release is required; local staging does not repair published 0.10.1.
+
+`0.10.2` publishes the complete runtime payload from split `v0.10.2` (`ff9d2fe`).
+A fresh external consumer installed the Packagist dist with no path repository or
+local fallback and verified autoload, plugin-host classes, allow with one effect,
+and deny with zero effects. Do not retag `0.10.1`; use `0.10.2` or newer.
 
 ## Local Gates
 

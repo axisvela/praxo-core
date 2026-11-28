@@ -95,7 +95,7 @@ README, and [verification evidence](../project/verification-evidence.md).
 | RubyGems / Hex / DUB / Nimble / V / r-universe / Octave | Native description/summary and README | Do not invent unsupported keyword fields; RubyGems metadata URI fields are not tags |
 | LuaRocks | Current rockspec summary/detailed introduction and README | Historical rockspecs are not rewritten; live labels require a separate registry audit |
 | Swift / Julia / C / C++ / Fortran / COBOL / Delphi / Objective-C / Zig / MATLAB | Source README, registry and coding-agent entries, repository topic proposal | No universal keyword field; external package indexes and File Exchange metadata need their own audit |
-| PHP / Packagist | Generated README, registry and coding-agent entries, repository topic proposal | Composer metadata is maintained separately; this discovery change does not update it |
+| PHP / Packagist | Generated README, registry and coding-agent entries, repository topic proposal | Composer metadata and the complete runtime payload were published in `0.10.2`; rendered-page re-audit pending |
 
 These are source changes, not claims that an already-published artifact or
 rendered registry page has been refreshed. A future authorized release must

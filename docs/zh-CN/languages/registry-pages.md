@@ -85,7 +85,7 @@ python -m unittest discover -s scripts -p test_discovery.py -v
 | RubyGems / Hex / DUB / Nimble / V / r-universe / Octave | 原生描述与 README | 不添加不支持的关键词字段，URI 元数据不是 tags |
 | LuaRocks | 当前 rockspec 简介、详细说明与 README | 不重写历史 rockspec，线上 labels 仍需单独审计 |
 | Swift / Julia / C / C++ / Fortran / COBOL / Delphi / Objective-C / Zig / MATLAB | README、Registry 与编程工具入口、topics 提案 | 无通用关键词字段，外部索引和 File Exchange 元数据需要单独审核 |
-| PHP / Packagist | 生成的 README、Registry 与编程工具入口、topics 提案 | Composer 元数据由另一项工作维护，本次未修改 |
+| PHP / Packagist | 生成的 README、Registry 与编程工具入口、topics 提案 | Composer 元数据与完整运行时载荷已在 `0.10.2` 发布；渲染页面复审待完成 |
 
 源码更新不会刷新既有包或 Registry 页面。后续经授权发布时，必须检查实际包内容、页面、关键词、
 topics 和消费者安装再记录验收。发布源码拆分仓库需要独立审核更新；镜像分支同步不会更新这些布局或 topics。

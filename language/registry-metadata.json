@@ -827,16 +827,16 @@
       ]
     },
     "docs": "https://axisvela.github.io/praxo-core/languages/php/",
-    "install": "composer require axisvela/praxo-core:0.10.1",
+    "install": "composer require axisvela/praxo-core:0.10.2",
     "package": "axisvela/praxo-core",
-    "published_version": "0.10.1",
+    "published_version": "0.10.2",
     "registry": "Packagist",
     "source_install": "Composer path repository: language/php",
     "source_version": "0.10.2",
-    "status": "published 0.10.1 is broken: split artifact missing src/PluginProcessHost.php; source 0.10.2 prepares the complete artifact, registry verification pending",
+    "status": "published; 0.10.2 fixes the incomplete 0.10.1 split artifact; fresh Packagist dist install and allow/deny verified",
     "tag": "php/v0.10.2",
     "tier": "Core",
-    "url": "https://packagist.org/packages/axisvela/praxo-core"
+    "url": "https://packagist.org/packages/axisvela/praxo-core/0.10.2"
   },
   "Perl": {
     "dir": "language/perl",
