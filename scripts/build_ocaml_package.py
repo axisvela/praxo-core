@@ -76,12 +76,17 @@ def payload(root=ROOT):
             copy(path, "tests/spec/vectors/" + path.relative_to(root / "spec/vectors").as_posix())
     inputs[GENERATOR] = (root / GENERATOR).read_bytes()
 
-    metadata = f'''Source version: `{version}` (from `VERSION`).
+    metadata = f'''PRAXO-CORE (also written praxocore) is an embeddable, MIT-licensed OCaml AI agent framework.
+
+Source version: `{version}` (from `VERSION`).
 opam package: `praxo-core`. Registry status: NOT published; publication pending.
 Source availability is not registry publication; staging alone does not establish opam availability.
 
 Independent OCaml runtime with an optional process plugin host.
 Provider HTTP transport is caller-owned; no HTTP client or credentials are bundled.
+
+## Get Started
+
 Requires OCaml >= 4.14 and Dune >= 3.0; tests run in bytecode mode.
 From this standalone source directory:
 
@@ -99,6 +104,27 @@ the canonical tag reference `ocaml/v{version}` does not certify packaged bytes.
 - [Coding agents](https://axisvela.github.io/praxo-core/getting-started/coding-agents/)
 - [Examples]({REPOSITORY}/tree/main/language/ocaml/examples)
 - [Security]({REPOSITORY}/blob/main/SECURITY.md)
+
+## Scenario Tutorials
+
+- [OCaml tutorials]({REPOSITORY}/tree/main/language/ocaml/Tutorial): bounded teaching slices; read each README for scope and checks.
+- [Tutorial catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/)
+
+## Reference Applications
+
+No accepted end-to-end OCaml reference application is recorded yet.
+See the [portfolio](https://axisvela.github.io/praxo-core/project/roadmap/).
+
+## Boundaries
+
+Source staging is not registry publication, live-provider verification, or production acceptance.
+Policy hooks are not sandbox isolation; checkpoints are not external transactions or exactly-once execution.
+
+## Community
+
+- [Discussions](https://github.com/axisvela/praxo-core/discussions)
+- [Issues](https://github.com/axisvela/praxo-core/issues)
+- [Documentation](https://axisvela.github.io/praxo-core/)
 '''
     for name in ("REGISTRY.md", "llms.md", "llms.txt"):
         files[name] = (f"# PRAXO-CORE OCaml {version}\n\n" + metadata).encode()
@@ -135,12 +161,13 @@ name: "praxo-core"
 version: "{version}"
 synopsis: "Embeddable native OCaml AI agent framework"
 description: """
-MIT-licensed native OCaml Core with agent execution, tools, memory,
+PRAXO-CORE (praxocore): MIT-licensed native OCaml Core with agent execution, tools, memory,
 checkpoints and provider transport seams. No bundled HTTP client.
 """
 maintainer: "hanhuiwen <hanhuiwen@axisvela.com>"
 authors: ["PRAXO-CORE contributors"]
 license: "MIT"
+tags: ["praxocore" "ai-agents" "agent-framework" "llm" "tool-calling" "human-in-the-loop" "checkpoints" "ocaml"]
 homepage: "https://axisvela.github.io/praxo-core/languages/ocaml/"
 doc: "https://axisvela.github.io/praxo-core/languages/ocaml/"
 bug-reports: "{REPOSITORY}/issues"

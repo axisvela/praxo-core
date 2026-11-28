@@ -5,8 +5,15 @@ language implementation has its own package, documented scope, and evidence.
 
 ## Positioning
 
-PRAXO-CORE is an embeddable, MIT-licensed agent framework with explicit policy
+PRAXO-CORE (also written praxocore) is an embeddable, MIT-licensed agent framework with explicit policy
 controls, checkpoints, and event tracing. It is not a Go-only framework.
+
+## Get Started
+
+Choose a package below, then follow its language documentation for prerequisites,
+installation, and a first run. The [consumer starters](docs/getting-started/coding-agents.md)
+exercise published packages with deterministic allow/deny checks; live models
+require separately configured providers and credentials.
 
 ## Languages
 
@@ -68,6 +75,16 @@ documentation before relying on a version or feature.
 - [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and reference-application paths.
 
 
+## Boundaries
+
+- PRAXO-CORE is an embeddable, MIT-licensed execution kernel, not a hosted
+  model, workflow engine, identity provider, or safety controller.
+- Do not infer exactly-once execution, complete sandbox isolation, production
+  security certification, live-provider behavior, or physical safety from a
+  package.
+- Registry pages are release snapshots; the canonical documentation may be newer.
+- Reference application source does not establish end-to-end portfolio acceptance.
+
 ## Community
 
 - X: <https://x.com/axisvela>
@@ -80,12 +97,3 @@ documentation before relying on a version or feature.
 - GitHub Issues: <https://github.com/axisvela/praxo-core/issues>
 - Documentation: <https://axisvela.github.io/praxo-core/>
 - Architect: <https://axisvela.architect.pub>
-
-## Boundaries
-
-- PRAXO-CORE is an embeddable, MIT-licensed execution kernel, not a hosted
-  model, workflow engine, identity provider, or safety controller.
-- Do not infer exactly-once execution, complete sandbox isolation, production
-  security certification, live-provider behavior, or physical safety from a
-  package.
-- Registry pages are release snapshots; the canonical documentation may be newer.

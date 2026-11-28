@@ -6,7 +6,7 @@ WriteMakefile(
     NAME             => 'Praxo::Core',
     DISTNAME         => 'Praxo-Core',
     VERSION          => '0.8.1',
-    ABSTRACT         => 'Embeddable AI agent framework with tool calling and policy hooks for Perl',
+    ABSTRACT         => 'PRAXO-CORE (praxocore): Embeddable AI agent framework with tool calling and policy hooks for Perl',
     AUTHOR           => 'AxisVela <releases@axisvela.com>',
     LICENSE          => 'mit',
     MIN_PERL_VERSION => '5.020',
@@ -17,6 +17,7 @@ WriteMakefile(
         'Cwd'       => 0,
     },
     META_MERGE => {
+        keywords => [qw(praxo-core praxocore perl ai-agents agent-framework llm tool-calling human-in-the-loop checkpoints)],
         provides => {
             'Praxo::Core' => {
                 file    => 'lib/Praxo/Core.pm',

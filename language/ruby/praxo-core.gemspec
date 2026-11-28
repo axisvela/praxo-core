@@ -4,9 +4,9 @@ Gem::Specification.new do |spec|
   spec.authors = ["AxisVela"]
   spec.email = ["releases@axisvela.com"]
 
-  spec.summary = "Embeddable, policy-governed AI agent framework for Ruby"
+  spec.summary = "PRAXO-CORE (praxocore): embeddable, policy-governed AI agent framework for Ruby"
   spec.description = <<~DESC.strip
-    PRAXO-CORE Ruby Core is a dependency-free, in-process agent framework for Ruby.
+    PRAXO-CORE (praxocore) Ruby Core is a dependency-free, in-process agent framework for Ruby.
 
     Highlights:
     - Governed agent loop with tool registration, policy hooks, final-argument authorization, HITL approve/edit/reject/respond, and typed events.

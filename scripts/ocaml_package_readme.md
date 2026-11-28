@@ -1,7 +1,7 @@
 # PRAXO-CORE OCaml __VERSION__
 
-PRAXO-CORE is an embeddable, MIT-licensed AI agent framework. This standalone
-source package is its native OCaml Core, published as `praxo-core`.
+PRAXO-CORE (also written praxocore) is an embeddable, MIT-licensed AI agent framework. This standalone
+source package is its native OCaml Core, prepared as `praxo-core`; opam publication is pending.
 
 It includes the native agent loop, tools and tool-call parsing, memory,
 checkpoint allowlists, lexical path policy, context compaction, event sinks,

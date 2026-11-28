@@ -7,21 +7,11 @@ import re
 from pathlib import Path
 from urllib.parse import urljoin
 
+from registry_discovery import COMMUNITY_LINKS
+
 ROOT = Path(__file__).resolve().parents[1]
 ORGANIZATION = "axisvela"
 REPO_PREFIX = "praxo-core-"
-COMMUNITY_LINKS = (
-    ("X", "https://x.com/axisvela"),
-    ("Weibo", "https://weibo.com/u/1936025761"),
-    ("LinkedIn", "https://www.linkedin.com/company/axisvela/"),
-    ("Facebook", "https://www.facebook.com/profile.php?id=61596905732406"),
-    ("YouTube", "https://www.youtube.com/@axisvela"),
-    ("Discord", "https://discord.com/channels/1575163993767809064/1575164343148875977"),
-    ("GitHub Discussions", "https://github.com/axisvela/praxo-core/discussions"),
-    ("GitHub Issues", "https://github.com/axisvela/praxo-core/issues"),
-    ("Documentation", "https://axisvela.github.io/praxo-core/"),
-    ("Architect", "https://axisvela.architect.pub"),
-)
 DEFAULT_SPEC_VERSION = "0.2.0"
 GO_CAPABILITIES = (
     ("Agent loop", "native", "Policy hooks, final-argument authorization, HITL, and typed events"),
@@ -139,8 +129,6 @@ def _example_description(path: Path, root: Path) -> str:
             continue
         paragraphs.append(stripped)
     description = " ".join(paragraphs).strip()
-    if len(description) > 180 and "](" not in description:
-        description = description[:177].rstrip() + "..."
     return _rewrite_links(description, (path / "README.md").relative_to(root).as_posix())
 
 
@@ -278,6 +266,8 @@ def mirror_readme(entry: dict, has_examples: bool = False, root: Path = ROOT) ->
             "service."
         )
     positioning = _rewrite_links(positioning, readme_source)
+    if "praxocore" not in positioning.lower():
+        positioning = "PRAXO-CORE (also written praxocore) is an embeddable, MIT-licensed agent framework. " + positioning
     bullets = [_rewrite_links(bullet, readme_source) for bullet in bullets]
     capabilities = GO_CAPABILITIES if is_go else _capabilities(root, entry)
     if not bullets:
@@ -478,6 +468,12 @@ def mirror_readme(entry: dict, has_examples: bool = False, root: Path = ROOT) ->
             f"`language/{key}/llms.md`"
         )
     lines.extend([
+        "", "## Boundaries", "",
+        "Reference application source is not end-to-end portfolio acceptance; follow each README's scope and evidence.",
+        "PRAXO-CORE is not a hosted model, workflow engine, identity provider, "
+        "or safety controller. Do not infer exactly-once execution, complete "
+        "sandbox isolation, production security certification, live-provider "
+        "behavior, or physical safety from this package.",
         "", _community(), "", "## Repository layout", "", *layout,
         "", "## Canonical source", "", canonical, registry_intro, machine_entry,
         f"- Mirror repository: https://github.com/{ORGANIZATION}/{REPO_PREFIX}{key}",
@@ -490,10 +486,6 @@ def mirror_readme(entry: dict, has_examples: bool = False, root: Path = ROOT) ->
         "are not necessarily present in this mirror; syncing the branch does "
         "not publish mirror tags or registry packages.",
         "",
-        "PRAXO-CORE is not a hosted model, workflow engine, identity provider, "
-        "or safety controller. Do not infer exactly-once execution, complete "
-        "sandbox isolation, production security certification, live-provider "
-        "behavior, or physical safety from this package.",
         "", "MIT licensed.", "",
     ])
     return "\n".join(lines)

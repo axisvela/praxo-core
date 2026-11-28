@@ -1,13 +1,12 @@
 # PRAXO-CORE MATLAB/Octave shared core Registry Introduction
 
-**Status:** shared implementation; use MATLAB or Octave package. Source version `0.9.0`, source
-tag `matlab/v0.9.0 and octave/v0.9.0`. Published registry version: not published. Registry
-pages are release snapshots; verify the published version before relying on a
-feature.
-
 ## Positioning
 
-Shared implementation used by the MATLAB and Octave packages. It is not a standalone package; use the MATLAB or Octave registry entry.
+PRAXO-CORE (also written praxocore) is an embeddable, MIT-licensed agent framework. This is shared MATLAB/Octave implementation source, not a standalone package.
+
+**Status:** shared implementation; use MATLAB or Octave package. Source version `0.9.0`, source
+tag `matlab/v0.9.0 and octave/v0.9.0`. Published registry version: not published. Registry
+pages are release snapshots; verify the published version before relying on a feature.
 
 ## Package
 
@@ -24,16 +23,45 @@ Shared implementation used by the MATLAB and Octave packages. It is not a standa
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/ |
 
-## Coding-agent entry
+## Get Started
+
+Follow the [language README](https://axisvela.github.io/praxo-core/languages/) for runtime prerequisites,
+installation, a first run, and local verification. The package table distinguishes
+published installation from source builds; a pending registry is not available.
+
+## Examples, Tutorials, and Applications
+
+- Examples: no language-specific examples recorded yet.
+
+### Scenario tutorials
+
+No language-specific tutorial slices are recorded yet.
+
+### Reference applications
+
+No accepted end-to-end reference application is recorded for this language yet.
+
+Application source is not end-to-end portfolio acceptance; read each README for scope and evidence.
 
 - [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): delivery standards and the [reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
 - [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and their existing related slices.
 - [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and reference-application paths.
-- Reference applications: no accepted end-to-end application yet; candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
 - [llms.txt](llms.txt): compact machine-readable entry for this language.
 - [llms.md](llms.md): Markdown version of the same entry.
 - [Coding-agent contract](../../docs/getting-started/coding-agents.md): explicit
   scope, final-argument authorization, denial tests, and verification commands.
+
+## Boundaries
+
+- PRAXO-CORE is an embeddable, MIT-licensed execution kernel, not a hosted
+  model, workflow engine, identity provider, or safety controller.
+- Do not infer exactly-once execution, complete sandbox isolation, production
+  security certification, live-provider behavior, or physical safety from this
+  package.
+- Check the registry page and source tag for the exact version; source READMEs
+  and canonical documentation may be newer than a published registry page.
+- Reference application sources are not end-to-end portfolio acceptance. See each
+  README and the [verification evidence](https://axisvela.github.io/praxo-core/project/verification-evidence/).
 
 ## Community
 
@@ -47,13 +75,3 @@ Shared implementation used by the MATLAB and Octave packages. It is not a standa
 - GitHub Issues: <https://github.com/axisvela/praxo-core/issues>
 - Documentation: <https://axisvela.github.io/praxo-core/>
 - Architect: <https://axisvela.architect.pub>
-
-## Boundaries
-
-- PRAXO-CORE is an embeddable, MIT-licensed execution kernel, not a hosted
-  model, workflow engine, identity provider, or safety controller.
-- Do not infer exactly-once execution, complete sandbox isolation, production
-  security certification, live-provider behavior, or physical safety from this
-  package.
-- Check the registry page and source tag for the exact version; source READMEs
-  and canonical documentation may be newer than a published registry page.

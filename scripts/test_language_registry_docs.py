@@ -48,6 +48,17 @@ class LanguageRegistryDocsTests(unittest.TestCase):
         matlab = next(entry for entry in SYNC.LANGUAGES if entry["name"] == "MATLAB")
         self.assertEqual(matlab["source_version"], "0.9.0")
 
+    def test_php_published_artifact_warning(self):
+        entry = next(entry for entry in SYNC.LANGUAGES if entry["name"] == "PHP")
+        self.assertTrue(SYNC.published_available(entry))
+        self.assertEqual(entry["published_version"], "0.10.1")
+        self.assertIn("published but broken", entry["status"])
+        self.assertIn("src/PluginProcessHost.php", entry["status"])
+        self.assertIn("no new release authorized", entry["status"])
+        directory = ROOT / entry["dir"]
+        self.assertIn(entry["status"], SYNC.render_registry(entry, directory))
+        self.assertEqual(SYNC.manifest_data()["PHP"]["status"], entry["status"])
+
     def test_publication_requires_positive_evidence(self):
         entry = {"status": "published", "published_version": "0.1.0", "url": "https://example.com/package"}
         self.assertTrue(SYNC.published_available(entry))

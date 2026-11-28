@@ -17,11 +17,16 @@ Supported contract:
 Check Central metadata rather than inferring availability from the working-tree
 source version when upgrading.
 
+PRAXO-CORE (also written praxocore) provides an embeddable, MIT-licensed agent framework for Java, with tool calling, policy hooks, human-in-the-loop approval, checkpoints, and execution events. Use the language-specific scope and verification evidence below; a package listing does not establish Go feature parity or production readiness.
+
 ## Registry and Coding-Agent Entry
 
+- Get started, prerequisites, and installation: [language documentation](https://axisvela.github.io/praxo-core/languages/java/)
+- [Examples](https://github.com/axisvela/praxo-core/tree/main/language/java/examples): runnable language-specific examples; see each README for prerequisites and verification.
+- [Scenario tutorials](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial): read the scope and validation status; source is not portfolio acceptance.
+- [Reference applications](https://github.com/axisvela/praxo-core/tree/main/language/java/application): read the scope and validation status; source is not portfolio acceptance.
 - Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/language/java/REGISTRY.md)
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/java/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/java/llms.md)
-- [Examples](https://github.com/axisvela/praxo-core/tree/main/language/java/examples): runnable language-specific examples.
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
 - Registry: [Maven Central](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.12.3/)
 - Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761) · [LinkedIn](https://www.linkedin.com/company/axisvela/) · [Facebook](https://www.facebook.com/profile.php?id=61596905732406) · [YouTube](https://www.youtube.com/@axisvela) · [Discord](https://discord.com/channels/1575163993767809064/1575164343148875977) · [GitHub Discussions](https://github.com/axisvela/praxo-core/discussions) · [GitHub Issues](https://github.com/axisvela/praxo-core/issues) · [Documentation](https://axisvela.github.io/praxo-core/) · [Architect](https://axisvela.architect.pub)

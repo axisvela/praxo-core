@@ -10,7 +10,7 @@
 **An embeddable MIT-licensed agent framework with explicit policy controls,
 checkpoints, and event tracing.**
 
-Build governed agents inside your own product without rebuilding the agent
+PRAXO-CORE (also written praxocore) lets you build governed agents inside your own product without rebuilding the agent
 loop, model abstraction, tool contracts, or execution boundaries. Use your own
 model providers and integrations. AxisVela products are not required.
 
@@ -77,6 +77,10 @@ See the full [implementation directory](docs/languages/index.md) and the
 
 ## Registry and Coding-Agent Entry
 
+- Get started, prerequisites, and installation: [language documentation](https://axisvela.github.io/praxo-core/)
+- [Examples](https://github.com/axisvela/praxo-core/tree/main/language/go/examples): runnable language-specific examples; see each README for prerequisites and verification.
+- [Scenario tutorials](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial): read the scope and validation status; source is not portfolio acceptance.
+- [Reference applications](https://github.com/axisvela/praxo-core/tree/main/language/go/application): read the scope and validation status; source is not portfolio acceptance.
 - Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/REGISTRY.md)
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/llms.md)
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
@@ -156,7 +160,7 @@ or turnkey chat UI. Review the [adoption guide](docs/getting-started/adoption.md
 [security model](docs/security/index.md), and
 [framework comparison](docs/project/comparison.md) before choosing it.
 
-## Choose Your Language
+## Runtime Scope and Evidence
 
 Go is the reference implementation. Core implementations share a normative contract in
 [`spec/`](spec/README.md), with language-specific APIs and declared limitations.
@@ -239,7 +243,7 @@ and the [unified Tutorial Catalog](docs/getting-started/tutorial-catalog.md).
 | Priority | Language | Application | Status |
 | --- | --- | --- | --- |
 | 1 | PHP | [Drupal/Laravel content portal](language/php/application) | Source implementation; acceptance pending |
-| 2 | Java | [Spring Boot commerce](language/java/application) | Source implementation; acceptance pending |
+| 2 | Java | [Spring Boot commerce](language/java/application) | Hosted deterministic CI passed (2026-11-28); no live model; full acceptance pending |
 | 3 | Elixir / Erlang | [OTP real-time operations](language/elixir/application), [Erlang](language/erlang/application) | Source implementations; acceptance pending |
 | 4 | Go | [Cloud and DevOps](language/go/application) | Source implementation; acceptance pending |
 | 5 | C++ / Rust | [Industrial/embedded](language/cpp/application), [Systems/edge](language/rust/application) | Source implementations; acceptance pending |

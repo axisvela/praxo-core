@@ -25,6 +25,9 @@ state, not a promise that every page introduction is current.
 
 ## Page Checklist
 
+- Product description first, then get started/install, examples, scenario tutorials,
+  reference applications, capability evidence, limits, and community. Distinguish
+  a bounded teaching slice or application source from accepted end-to-end behavior.
 - Exact package name, version, install command, and supported runtime version.
 - One-sentence positioning: embeddable, governed agent runtime with policy,
   human-in-the-loop approval, checkpoints, and tool calling.
@@ -37,6 +40,69 @@ state, not a promise that every page introduction is current.
 - No unsupported claim of exactly-once execution, complete sandbox isolation,
   production security certification, or real-time/physical safety.
 - Version metadata consistent with the source tag and the registry.
+
+## Product Discovery
+
+PRAXO-CORE (also written **praxocore**) is an embeddable, MIT-licensed
+multi-language AI agent framework. Both spellings identify the same framework;
+the alias does not rename imports, modules, package coordinates, or repositories.
+R's existing package name `praxocore` is unchanged.
+
+`language/discovery.json` configures the product aliases, shared and
+language/ecosystem-specific GitHub topics, publication-source split keys, and
+repository-name overrides (including `praxo-core-Julia`). The registry generator
+embeds this discovery metadata in `language/registry-metadata.json`. The shared
+MATLAB/Octave implementation is not a standalone package or mirror.
+
+The English and Chinese site homepages also expose `SoftwareSourceCode` JSON-LD
+with the product name, aliases, canonical repository, MIT license, description,
+and shared discovery terms. This identifies source software, not a hosted
+service, rated product, or independently certified security system.
+
+Local checks and a **proposal only**, with no network calls or remote mutation:
+
+```bash
+python scripts/sync_language_registry_docs.py --check
+python scripts/repository_discovery.py --check
+python scripts/repository_discovery.py
+python -m unittest discover -s scripts -p test_discovery.py -v
+```
+
+The proposal covers the canonical repository, 22 discovery mirrors, and nine
+publication-source splits. Topics follow GitHub's 20-topic limit and syntax.
+The canonical proposal retains the existing descriptive topics and adds both
+product spellings; language proposals combine shared product terms with their
+own language and ecosystem terms. Review differences against live topics before
+any separately authorized update. The proposal is not wired to mirror sync and
+does not publish packages, tags, branches, or topics.
+
+Discovery files and natural-language aliases help readers and search/coding
+tools identify the framework. They do not guarantee SEO ranking, generative
+engine citations, crawler indexing, package discovery, or adoption. Capability
+claims still come from [adapter status](adapter-status.md), each implementation's
+README, and [verification evidence](../project/verification-evidence.md).
+
+### Metadata Coverage
+
+| Ecosystem | Source discovery fields | Constraints and remaining gaps |
+| --- | --- | --- |
+| PyPI / npm | Description, keywords, README, canonical URLs | Rich task and ecosystem terms; package IDs and versions are unchanged |
+| crates.io | Description, five focused keywords, Cargo categories, README | Five keywords maximum, 20 characters each; alias is also in the description |
+| NuGet / PowerShell Gallery | Description and package/module tags, README | C#/.NET and PowerShell-specific terms; PowerShell wraps the C# runtime |
+| pub.dev | Description and five topics, README | Five topics maximum; do not invent Flutter-specific support |
+| CPAN / opam | CPAN `META_MERGE` keywords and POD; generated opam tags and source README | OCaml publication remains pending; staged metadata is not an opam listing |
+| Maven Central | POM description and canonical links | No standard POM keywords field; description contains ordered discovery links and limits |
+| RubyGems / Hex / DUB / Nimble / V / r-universe / Octave | Native description/summary and README | Do not invent unsupported keyword fields; RubyGems metadata URI fields are not tags |
+| LuaRocks | Current rockspec summary/detailed introduction and README | Historical rockspecs are not rewritten; live labels require a separate registry audit |
+| Swift / Julia / C / C++ / Fortran / COBOL / Delphi / Objective-C / Zig / MATLAB | Source README, registry and coding-agent entries, repository topic proposal | No universal keyword field; external package indexes and File Exchange metadata need their own audit |
+| PHP / Packagist | Generated README, registry and coding-agent entries, repository topic proposal | Composer metadata is maintained separately; this discovery change does not update it |
+
+These are source changes, not claims that an already-published artifact or
+rendered registry page has been refreshed. A future authorized release must
+inspect packaged bytes, rendered introductions, keywords/topics, and consumer
+installation before recording page acceptance. Split publication repositories
+also require their own reviewed source update; mirror branch sync does not
+update those layouts or topics.
 
 ## Public Page Audit
 

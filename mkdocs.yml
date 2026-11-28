@@ -1,5 +1,5 @@
 site_name: PRAXO-CORE
-site_description: An embeddable MIT-licensed agent framework with explicit policy controls, checkpoints, and event tracing.
+site_description: PRAXO-CORE (praxocore) is an embeddable MIT-licensed multi-language AI agent framework with tool calling, policy controls, human-in-the-loop approval, checkpoints, and event tracing.
 site_url: https://axisvela.github.io/praxo-core/
 repo_url: https://github.com/axisvela/praxo-core
 repo_name: axisvela/praxo-core

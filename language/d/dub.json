@@ -1,6 +1,6 @@
 {
   "name": "praxo-core",
-  "description": "Embeddable MIT-licensed AI agent framework for D: tools, policy, events, memory, context, middleware, checkpoints, provider adapters, OpenTelemetry, delegation, retrieval, and an agent loop",
+  "description": "PRAXO-CORE (praxocore): embeddable MIT-licensed AI agent framework for D with tools, policy, events, memory, checkpoints, provider adapters, OpenTelemetry, delegation, and retrieval",
   "authors": ["AxisVela"],
   "copyright": "Copyright © 2026, AxisVela",
   "license": "MIT",

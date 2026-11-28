@@ -1,0 +1,24 @@
+{
+  "aliases": ["praxo-core", "praxocore"],
+  "topics": ["praxo-core", "praxocore", "ai-agents", "agent-framework", "agent-runtime", "llm", "tool-calling", "tool-authorization", "policy", "human-in-the-loop", "checkpoints", "embeddable", "mit"],
+  "canonical_topics": ["praxo-core", "praxocore", "agent-framework", "agent-loop", "ai-agents", "llm", "llm-agents", "policy", "tool-calling", "mcp", "ai-governance", "ai-governance-framework", "ai-governance-layer", "agent-governance", "embeddable", "human-in-the-loop", "policy-engine", "checkpoint"],
+  "split_sources": ["ruby", "php", "lua", "swift", "julia", "v", "ocaml", "nim", "d"],
+  "repository_overrides": {"julia": "axisvela/praxo-core-Julia"},
+  "language_topics": {
+    "go": ["golang"], "python": ["python", "pypi"],
+    "typescript": ["typescript", "javascript", "nodejs", "npm"],
+    "java": ["java", "jvm", "maven"], "rust": ["rust", "cargo"],
+    "csharp": ["csharp", "dotnet", "nuget"], "ruby": ["ruby", "rubygems"],
+    "php": ["php", "composer"], "dart": ["dart"],
+    "elixir": ["elixir", "beam", "hex"], "erlang": ["erlang", "beam", "otp", "hex"],
+    "lua": ["lua", "luarocks"], "perl": ["perl", "cpan"],
+    "ocaml": ["ocaml", "opam"], "haskell": ["haskell", "cabal"],
+    "julia": ["julia"], "swift": ["swift", "swift-package-manager"],
+    "nim": ["nim", "nimble"], "v": ["vlang"], "d": ["dlang", "dub"],
+    "powershell": ["powershell", "dotnet"], "r": ["r", "rstats"],
+    "matlab": ["matlab"], "octave": ["octave"],
+    "delphi": ["delphi", "freepascal"], "objc": ["objective-c"],
+    "c": ["c", "cmake"], "cpp": ["cpp", "cmake"],
+    "fortran": ["fortran"], "cobol": ["cobol"], "zig": ["zig"]
+  }
+}

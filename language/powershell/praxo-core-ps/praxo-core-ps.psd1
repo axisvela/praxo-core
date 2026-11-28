@@ -6,7 +6,7 @@
     CompanyName       = 'AxisVela'
     Copyright         = '(c) AxisVela. MIT License.'
     Description       = @'
-PRAXO-CORE for PowerShell is an embeddable, policy-governed agent execution
+PRAXO-CORE (praxocore) for PowerShell is an embeddable, policy-governed agent execution
 kernel for PowerShell 7.4+ on .NET 8. It wraps the C# PRAXO-CORE agent loop.
 
 Features:
@@ -144,7 +144,7 @@ Source and license (MIT):
     PrivateData = @{
         PraxoSpecVersion = '0.2.0'
         PSData = @{
-            Tags       = @('praxo', 'agent', 'core', 'dotnet')
+            Tags       = @('praxo-core', 'praxocore', 'powershell', 'dotnet', 'ai-agents', 'agent-framework', 'llm', 'tool-calling', 'human-in-the-loop', 'checkpoints', 'mcp', 'opentelemetry')
             LicenseUri = 'https://github.com/axisvela/praxo-core/blob/main/LICENSE'
             ProjectUri = 'https://github.com/axisvela/praxo-core'
             ReleaseNotes = @'

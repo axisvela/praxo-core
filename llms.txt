@@ -1,6 +1,6 @@
 # PRAXO-CORE
 
-> Governed, embeddable multi-language agent framework. Go is the reference
+> PRAXO-CORE (also written praxocore) is a governed, embeddable MIT-licensed multi-language agent framework. Go is the reference
 > implementation; Python, TypeScript, Java, Rust, C#, R, Ruby, PHP, Elixir, Lua,
 > and other implementations ship independent packages. This file is a
 > machine-readable entry point for coding tools; it does not guarantee discovery,

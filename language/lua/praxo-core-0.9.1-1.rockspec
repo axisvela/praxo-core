@@ -7,9 +7,9 @@ source = {
 }
 
 description = {
-  summary = "Embeddable, policy-governed native Lua 5.4 AI agent framework",
+  summary = "PRAXO-CORE (praxocore): embeddable, policy-governed native Lua 5.4 AI agent framework",
   detailed = [[
-    PRAXO-CORE for Lua is an embeddable, MIT-licensed agent framework. This
+    PRAXO-CORE (praxocore) for Lua is an embeddable, MIT-licensed agent framework. This
     rock is its native Lua 5.4 Core: an agent loop with tool registration and
     dispatch, policy hooks, typed events, memory, checkpoints, context budgets,
     middleware, JSON Schema validation, plugin manifest parsing, and

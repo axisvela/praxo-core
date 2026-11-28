@@ -1,5 +1,5 @@
 {application, praxo_core,
- [{description, "Embeddable MIT-licensed native Erlang agent framework with tools, policy, events, tutorials, and an agent loop"},
+ [{description, "PRAXO-CORE (praxocore): embeddable native Erlang AI agent framework with tool calling, policy hooks, approvals, checkpoints, and events"},
   {pkg_name, "praxo_core_erlang"},
   {vsn, "0.10.1"},
   {registered, []},

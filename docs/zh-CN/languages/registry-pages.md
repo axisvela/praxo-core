@@ -29,6 +29,8 @@ crates.io、NuGet、RubyGems、Packagist、Hex、pub.dev 等 Registry 页面，�
 
 ## 页面检查清单
 
+- 按产品说明、开始使用/安装、示例、场景教程、参考应用、能力证据、边界和社区排序。
+  教学切片或应用源码不等于端到端验收通过。
 - 精确包名、版本、安装命令与运行时版本。
 - 一句话定位：可嵌入、可治理的 Agent 运行时，包含 Policy、人工审批、Checkpoint 与
   工具调用。
@@ -39,6 +41,54 @@ crates.io、NuGet、RubyGems、Packagist、Hex、pub.dev 等 Registry 页面，�
 - 许可证与源码/仓库链接。
 - 不声明 exactly-once、完整沙箱隔离、生产安全认证或实时/物理安全。
 - 版本元数据与源码 tag、Registry 一致。
+
+## 产品发现
+
+PRAXO-CORE（也写作 **praxocore**）是可嵌入、多语言、MIT 许可的 AI Agent 框架。
+两个拼写指向同一框架；别名不改变 import、模块名、包坐标或仓库名。R 现有的
+`praxocore` 包名保持不变。
+
+`language/discovery.json` 配置别名、通用和语言/生态专属 GitHub topics、发布源码拆分仓库
+以及仓库名称覆盖（包括 `praxo-core-Julia`）。Registry 生成器将其写入
+`language/registry-metadata.json`。MATLAB/Octave 共享实现不是独立包或镜像仓库。
+
+中英文首页还输出 `SoftwareSourceCode` JSON-LD，包含产品名、别名、规范仓库、MIT 许可、
+简介和通用发现词。这是源码软件标识，不是托管服务、用户评分或独立安全认证声明。
+
+以下命令只验证本地配置或输出提案，不调用网络，不修改远端：
+
+```bash
+python scripts/sync_language_registry_docs.py --check
+python scripts/repository_discovery.py --check
+python scripts/repository_discovery.py
+python -m unittest discover -s scripts -p test_discovery.py -v
+```
+
+提案覆盖主仓库、22 个发现镜像和 9 个发布源码拆分仓库，检查 GitHub 的 20-topic 上限与格式。
+主仓库提案保留现有描述词并补充两种产品拼写；语言仓库组合产品词与各自语言、生态词。
+实际更新前必须单独授权并审核与远端的差异；提案没有接入镜像同步，不发布包、tag、分支或 topics。
+
+这些入口可以帮助读者、搜索工具和编程工具识别框架，但不保证 SEO 排名、生成式引擎引用、
+索引、包发现或采用。能力声明仍以[适配器状态](adapter-status.md)、各语言 README 和
+[验证证据](../project/verification-evidence.md)为准。
+
+### 元数据覆盖
+
+| 生态 | 本次源码入口 | 约束与缺口 |
+| --- | --- | --- |
+| PyPI / npm | description、keywords、README、规范链接 | 保留包名和版本，补充任务与生态词 |
+| crates.io | description、5 个关键词、categories、README | 最多 5 个关键词，每个最多 20 个字符 |
+| NuGet / PowerShell Gallery | description、包/模块 tags、README | PowerShell 使用 C# 运行时，不能宣称独立运行时 |
+| pub.dev | description、5 个 topics、README | 最多 5 个 topics，不推断 Flutter 支持 |
+| CPAN / opam | `META_MERGE` keywords、POD、生成的 opam tags 与 README | OCaml 发布仍待完成，本地打包不等于上架 |
+| Maven Central | POM description 与规范链接 | 无标准 keywords 字段；description 提供有序入口和边界 |
+| RubyGems / Hex / DUB / Nimble / V / r-universe / Octave | 原生描述与 README | 不添加不支持的关键词字段，URI 元数据不是 tags |
+| LuaRocks | 当前 rockspec 简介、详细说明与 README | 不重写历史 rockspec，线上 labels 仍需单独审计 |
+| Swift / Julia / C / C++ / Fortran / COBOL / Delphi / Objective-C / Zig / MATLAB | README、Registry 与编程工具入口、topics 提案 | 无通用关键词字段，外部索引和 File Exchange 元数据需要单独审核 |
+| PHP / Packagist | 生成的 README、Registry 与编程工具入口、topics 提案 | Composer 元数据由另一项工作维护，本次未修改 |
+
+源码更新不会刷新既有包或 Registry 页面。后续经授权发布时，必须检查实际包内容、页面、关键词、
+topics 和消费者安装再记录验收。发布源码拆分仓库需要独立审核更新；镜像分支同步不会更新这些布局或 topics。
 
 ## 公开页面审计
 

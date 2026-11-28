@@ -1,13 +1,23 @@
 {
   "name": "@axisvela/praxo-core",
   "version": "0.10.1",
-  "description": "Embeddable TypeScript agent runtime with policy, human-in-the-loop approvals, checkpoints, and tool calling.",
+  "description": "PRAXO-CORE (praxocore): embeddable TypeScript/JavaScript AI agent framework with policy, human-in-the-loop approvals, checkpoints, and tool calling.",
   "homepage": "https://axisvela.github.io/praxo-core/languages/typescript/",
   "bugs": {
     "url": "https://github.com/axisvela/praxo-core/issues"
   },
   "license": "MIT",
   "keywords": [
+    "praxo-core",
+    "praxocore",
+    "typescript",
+    "javascript",
+    "nodejs",
+    "ai-agents",
+    "mcp",
+    "opentelemetry",
+    "structured-output",
+    "streaming",
     "agents",
     "agent-runtime",
     "agent-framework",

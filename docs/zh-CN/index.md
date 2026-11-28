@@ -2,7 +2,7 @@
 
 **可嵌入产品的 MIT 许可 Agent 框架，提供显式策略控制、检查点与事件追踪。**
 
-无需重复实现 Agent 循环、模型抽象、工具契约和执行边界。可以使用自己的模型
+PRAXO-CORE（也写作 praxocore）无需重复实现 Agent 循环、模型抽象、工具契约和执行边界。可以使用自己的模型
 提供商和集成，不要求使用任何 AxisVela 产品。
 
 [快速开始](getting-started/quickstart.md){ .md-button .md-button--primary }

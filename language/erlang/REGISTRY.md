@@ -1,13 +1,12 @@
 # PRAXO-CORE Erlang Registry Introduction
 
-**Status:** published. Source version `0.10.1`, source
-tag `erlang/v0.10.1`. Published registry version: `0.10.1`. Registry
-pages are release snapshots; verify the published version before relying on a
-feature.
-
 ## Positioning
 
-PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its native Erlang Core with source tag `erlang/v0.10.1`. It passes all eleven shared vector groups on Erlang/OTP 29 and includes the native agent loop, memory store, checkpoint allowlist, lexical path policy, context compaction, event sinks, middleware helpers, tool selection, and human-in-the-loop interrupt decisions. It does not call Go or another Core.
+PRAXO-CORE (also written praxocore) provides an embeddable, MIT-licensed agent framework for Erlang, with tool calling, policy hooks, human-in-the-loop approval, checkpoints, and execution events. Use the language-specific scope and verification evidence below; a package listing does not establish Go feature parity or production readiness.
+
+**Status:** published. Source version `0.10.1`, source
+tag `erlang/v0.10.1`. Published registry version: `0.10.1`. Registry
+pages are release snapshots; verify the published version before relying on a feature.
 
 ## Package
 
@@ -24,6 +23,37 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/erlang/ |
 
+## Get Started
+
+Follow the [language README](https://axisvela.github.io/praxo-core/languages/erlang/) for runtime prerequisites,
+installation, a first run, and local verification. The package table distinguishes
+published installation from source builds; a pending registry is not available.
+
+## Examples, Tutorials, and Applications
+
+- [Examples](https://github.com/axisvela/praxo-core/tree/main/language/erlang/examples): runnable language-specific examples; see each README for prerequisites and verification.
+
+### Scenario tutorials
+
+- [aiops-rca](https://github.com/axisvela/praxo-core/tree/main/language/erlang/Tutorial/aiops-rca): A bounded first slice of [SE-06](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a production incident platform. It correlates fixed trace/metric/log signals and drafts a review-only rollback. This uses the source Erlang Core through `escript`; no network, credentials or packages beyond Erlang/OTP are required.
+- [otp-recovery](https://github.com/axisvela/praxo-core/tree/main/language/erlang/Tutorial/otp-recovery): A bounded OTP supervision tutorial. It starts a real `one_for_one` supervisor and worker, injects one child crash, observes the restarted PID and start count, then lets Core choose a review action from that evidence. No production cluster is touched.
+- [policy-simulation](https://github.com/axisvela/praxo-core/tree/main/language/erlang/Tutorial/policy-simulation): A bounded concurrent simulation: twelve Erlang processes compute household subsidies for base and alternate policies, yielding 1200 and 1800. Core drafts a review-only sensitivity report with no policy prediction.
+- [soc-correlation](https://github.com/axisvela/praxo-core/tree/main/language/erlang/Tutorial/soc-correlation): Fixed EDR and firewall events are correlated; one critical event selects an isolation-review branch, while clean input selects monitoring review. No host is blocked and no live SIEM is queried.
+
+### Reference applications
+
+- [application](https://github.com/axisvela/praxo-core/tree/main/language/erlang/application): An OTP application where the agent drives the primary incident workflow: an operator submits an incident intent, the agent searches supervised telemetry, diagnoses the suspect, and drafts a review-only remediation. The agent never executes remediation.
+
+Application source is not end-to-end portfolio acceptance; read each README for scope and evidence.
+
+- [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): delivery standards and the [reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
+- [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and their existing related slices.
+- [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and reference-application paths.
+- [llms.txt](llms.txt): compact machine-readable entry for this language.
+- [llms.md](llms.md): Markdown version of the same entry.
+- [Coding-agent contract](../../docs/getting-started/coding-agents.md): explicit
+  scope, final-argument authorization, denial tests, and verification commands.
+
 ## Capabilities and Status
 
 | Adapter | Status | Detail |
@@ -37,22 +67,17 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | Subagent delegation | native (synchronous seam) | `praxo_delegation:subagent_run/2`; no asynchronous manager |
 | Retriever | native | `praxo_retriever:document`, `func_retriever`, `retrieve/3` |
 
-## Coding-agent entry
+## Boundaries
 
-- [Examples](https://github.com/axisvela/praxo-core/tree/main/language/erlang/examples): runnable language-specific examples.
-- [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): delivery standards and the [reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
-- [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and their existing related slices.
-- [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and reference-application paths.
-- Scenario tutorials:
-  - [aiops-rca](https://github.com/axisvela/praxo-core/tree/main/language/erlang/Tutorial/aiops-rca): A bounded first slice of [SE-06](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a production incident platform. It correlates fixed trace/metric/log signals and drafts a review-only rollback. This uses the source Erlang Core through `escript`; no network, credentials or packages beyond Erlang/OTP are required.
-  - [otp-recovery](https://github.com/axisvela/praxo-core/tree/main/language/erlang/Tutorial/otp-recovery): A bounded OTP supervision tutorial. It starts a real `one_for_one` supervisor and worker, injects one child crash, observes the restarted PID and start count, then lets Core cho...
-  - [policy-simulation](https://github.com/axisvela/praxo-core/tree/main/language/erlang/Tutorial/policy-simulation): A bounded concurrent simulation: twelve Erlang processes compute household subsidies for base and alternate policies, yielding 1200 and 1800. Core drafts a review-only sensitivi...
-  - [soc-correlation](https://github.com/axisvela/praxo-core/tree/main/language/erlang/Tutorial/soc-correlation): Fixed EDR and firewall events are correlated; one critical event selects an isolation-review branch, while clean input selects monitoring review. No host is blocked and no live...
-- Reference applications: no accepted end-to-end application yet; candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
-- [llms.txt](llms.txt): compact machine-readable entry for this language.
-- [llms.md](llms.md): Markdown version of the same entry.
-- [Coding-agent contract](../../docs/getting-started/coding-agents.md): explicit
-  scope, final-argument authorization, denial tests, and verification commands.
+- PRAXO-CORE is an embeddable, MIT-licensed execution kernel, not a hosted
+  model, workflow engine, identity provider, or safety controller.
+- Do not infer exactly-once execution, complete sandbox isolation, production
+  security certification, live-provider behavior, or physical safety from this
+  package.
+- Check the registry page and source tag for the exact version; source READMEs
+  and canonical documentation may be newer than a published registry page.
+- Reference application sources are not end-to-end portfolio acceptance. See each
+  README and the [verification evidence](https://axisvela.github.io/praxo-core/project/verification-evidence/).
 
 ## Community
 
@@ -66,13 +91,3 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 - GitHub Issues: <https://github.com/axisvela/praxo-core/issues>
 - Documentation: <https://axisvela.github.io/praxo-core/>
 - Architect: <https://axisvela.architect.pub>
-
-## Boundaries
-
-- PRAXO-CORE is an embeddable, MIT-licensed execution kernel, not a hosted
-  model, workflow engine, identity provider, or safety controller.
-- Do not infer exactly-once execution, complete sandbox isolation, production
-  security certification, live-provider behavior, or physical safety from this
-  package.
-- Check the registry page and source tag for the exact version; source READMEs
-  and canonical documentation may be newer than a published registry page.

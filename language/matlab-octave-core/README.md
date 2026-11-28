@@ -3,8 +3,14 @@
 Shared implementation used by the MATLAB and Octave packages. It is not a
 standalone package; use the MATLAB or Octave registry entry.
 
+PRAXO-CORE (also written praxocore) is an embeddable, MIT-licensed agent framework. This is shared MATLAB/Octave implementation source, not a standalone package.
+
 ## Registry and Coding-Agent Entry
 
+- Get started, prerequisites, and installation: [language documentation](https://axisvela.github.io/praxo-core/languages/)
+- Examples: no language-specific examples recorded yet.
+- Scenario tutorials: no language-specific slices recorded; see the [tutorial catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/).
+- Reference applications: no language-specific accepted end-to-end application recorded; see the [tutorial catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/).
 - Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/language/matlab-octave-core/REGISTRY.md)
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/matlab-octave-core/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/matlab-octave-core/llms.md)
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)

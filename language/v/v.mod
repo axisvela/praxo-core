@@ -1,6 +1,6 @@
 Module {
 	name: 'praxo-core'
-	description: 'Embeddable MIT-licensed agent framework for V'
+	description: 'PRAXO-CORE (praxocore): embeddable MIT-licensed AI agent framework for V with tools, policy, checkpoints, and events'
 	version: '0.8.0'
 	license: 'MIT'
 	dependencies: []

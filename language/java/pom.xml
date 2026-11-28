@@ -10,7 +10,7 @@
   <packaging>jar</packaging>
 
   <name>PRAXO-CORE Java SDK</name>
-  <description>Embeddable MIT-licensed Java agent runtime with policy, human-in-the-loop approvals, checkpoints, tools, events, memory, and an agent loop. Includes OpenAI-compatible, Anthropic, and Gemini adapters, MCP, OpenTelemetry, retriever, and delegation. Scenario tutorials: https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial. Reference applications: https://github.com/axisvela/praxo-core/tree/main/language/java/application. Examples: https://github.com/axisvela/praxo-core/tree/main/language/java/examples. Community: https://x.com/axisvela | https://github.com/axisvela/praxo-core/discussions | https://axisvela.github.io/praxo-core/</description>
+  <description>PRAXO-CORE (praxocore) is an embeddable MIT-licensed Java AI agent framework with tool calling, policy hooks, human-in-the-loop approvals, checkpoints, events, and memory. Includes OpenAI-compatible, Anthropic, and Gemini adapters, MCP, OpenTelemetry, retrieval, and delegation. Get started: https://axisvela.github.io/praxo-core/getting-started/consumer-java/. Examples: https://github.com/axisvela/praxo-core/tree/main/language/java/examples. Scenario tutorials: https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial. Reference applications (source, not end-to-end portfolio acceptance): https://github.com/axisvela/praxo-core/tree/main/language/java/application. Limits: checkpoints are not transactions; policy hooks are not sandbox isolation or security certification. Community: https://x.com/axisvela | https://github.com/axisvela/praxo-core/discussions | https://axisvela.github.io/praxo-core/</description>
   <url>https://axisvela.github.io/praxo-core/</url>
 
   <licenses>

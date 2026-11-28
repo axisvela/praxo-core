@@ -1,13 +1,12 @@
 # PRAXO-CORE Dart Registry Introduction
 
-**Status:** published. Source version `0.8.2`, source
-tag `dart/v0.8.2`. Published registry version: `0.8.2`. Registry
-pages are release snapshots; verify the published version before relying on a
-feature.
-
 ## Positioning
 
-PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its native Dart Core: an agent loop with tool registration and dispatch, policy hooks, typed events, memory, checkpoints, context budgets, middleware, OTel and Harmovela sinks, MCP, retriever and synchronous delegation seams, JSON Schema validation, and plugin manifest parsing. It runs in-process and does not require a hosted service.
+PRAXO-CORE (also written praxocore) provides an embeddable, MIT-licensed agent framework for Dart, with tool calling, policy hooks, human-in-the-loop approval, checkpoints, and execution events. Use the language-specific scope and verification evidence below; a package listing does not establish Go feature parity or production readiness.
+
+**Status:** published. Source version `0.8.2`, source
+tag `dart/v0.8.2`. Published registry version: `0.8.2`. Registry
+pages are release snapshots; verify the published version before relying on a feature.
 
 ## Package
 
@@ -24,6 +23,42 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/dart/ |
 
+## Get Started
+
+Follow the [language README](https://axisvela.github.io/praxo-core/languages/dart/) for runtime prerequisites,
+installation, a first run, and local verification. The package table distinguishes
+published installation from source builds; a pending registry is not available.
+
+## Examples, Tutorials, and Applications
+
+- [Examples](https://github.com/axisvela/praxo-core/tree/main/language/dart/examples): runnable language-specific examples; see each README for prerequisites and verification.
+
+### Scenario tutorials
+
+- [audiobook-production](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/audiobook-production): A bounded first slice of [MD-06](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an audio-production pipeline. It reads a fixed licensed book fixture and drafts a review-only production plan with character and mixing cues. No synthesized audio, voice cloning or rights guarantee.
+- [cbt-exercise](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/cbt-exercise): A bounded first slice of [HC-05](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a therapist or crisis service. It walks a fixed synthetic CBT exercise, keeps an explicit `human_review` escalation branch and drafts a review-only summary. No live session, diagnosis, therapist replacement or unsupervised crisis handling.
+- [chronic-care](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/chronic-care): A bounded first slice of [HC-02](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a clinical decision system. It summarizes fixed synthetic wearable trends and routes a review-only care alert. No dosage change, individualized treatment change or live device feed.
+- [digital-twin-memory](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/digital-twin-memory): A bounded first slice of [OG-06](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a personal memory hub. It stores one consent-scoped synthetic memory, recalls only that scope and confirms deletion. No real inbox, passwords, cross-app access or unrestricted recall.
+- [marketing-segments](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/marketing-segments): Fixed customer spend produces two high-value customers and a review-only campaign draft. No customer records, sends or live model.
+- [meeting-coordination](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/meeting-coordination): A bounded first slice of [OP-02](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not full multi-party scheduling or calendar control. It reads a fixed calendar fixture, checks conflicts, and drafts review-only minutes and tasks. This uses the source Dart Core with a relative import; no network, credentials or packages are required.
+- [onboarding-plan](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/onboarding-plan): A bounded first slice of [OP-06](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an HR or permissions system. It reads a fixed employee profile and drafts a review-only learning path. No account provisioning, permissions or live model are used.
+- [travel-booking](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/travel-booking): Fixed trip inventory produces a review-only fare hold. No payment, ticketing or inventory write.
+- [waste-collection](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/waste-collection): A bounded first slice of [CT-06](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a fleet-dispatch system. It reads a fixed collection queue and drafts a review-only schedule under vehicle limits. No vehicle commands, live telemetry or live model.
+
+### Reference applications
+
+No accepted end-to-end reference application is recorded for this language yet.
+
+Application source is not end-to-end portfolio acceptance; read each README for scope and evidence.
+
+- [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): delivery standards and the [reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
+- [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and their existing related slices.
+- [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and reference-application paths.
+- [llms.txt](llms.txt): compact machine-readable entry for this language.
+- [llms.md](llms.md): Markdown version of the same entry.
+- [Coding-agent contract](../../docs/getting-started/coding-agents.md): explicit
+  scope, final-argument authorization, denial tests, and verification commands.
+
 ## Capabilities and Status
 
 | Adapter | Status | Detail |
@@ -37,27 +72,17 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | Subagent delegation | native (synchronous seam) | `SubagentManager.run`; no asynchronous manager |
 | Retriever | native | `Document`, `FuncRetriever`, `retrieveDocuments` |
 
-## Coding-agent entry
+## Boundaries
 
-- [Examples](https://github.com/axisvela/praxo-core/tree/main/language/dart/examples): runnable language-specific examples.
-- [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): delivery standards and the [reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
-- [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and their existing related slices.
-- [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and reference-application paths.
-- Scenario tutorials:
-  - [audiobook-production](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/audiobook-production): A bounded first slice of [MD-06](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an audio-production pipeline. It reads a fixed licensed book fixture and drafts a review-only production plan with character and mixing cues. No synthesized audio, voice cloning or rights guarantee.
-  - [cbt-exercise](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/cbt-exercise): A bounded first slice of [HC-05](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a therapist or crisis service. It walks a fixed synthetic CBT exercise, keeps an explicit `human_review` escalation branch and drafts a review-only summary. No live session, diagnosis, therapist replacement or unsupervised crisis handling.
-  - [chronic-care](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/chronic-care): A bounded first slice of [HC-02](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a clinical decision system. It summarizes fixed synthetic wearable trends and routes a review-only care alert. No dosage change, individualized treatment change or live device feed.
-  - [digital-twin-memory](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/digital-twin-memory): A bounded first slice of [OG-06](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a personal memory hub. It stores one consent-scoped synthetic memory, recalls only that scope and confirms deletion. No real inbox, passwords, cross-app access or unrestricted recall.
-  - [marketing-segments](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/marketing-segments): Fixed customer spend produces two high-value customers and a review-only campaign draft. No customer records, sends or live model.
-  - [meeting-coordination](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/meeting-coordination): A bounded first slice of [OP-02](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not full multi-party scheduling or calendar control. It reads a fixed calendar fixture, checks conflicts, and drafts review-only minutes and tasks. This uses the source Dart Core with a relative import; no network, credentials or packages are required.
-  - [onboarding-plan](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/onboarding-plan): A bounded first slice of [OP-06](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an HR or permissions system. It reads a fixed employee profile and drafts a review-only learning path. No account provisioning, permissions or live model are used.
-  - [travel-booking](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/travel-booking): Fixed trip inventory produces a review-only fare hold. No payment, ticketing or inventory write.
-  - [waste-collection](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/waste-collection): A bounded first slice of [CT-06](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a fleet-dispatch system. It reads a fixed collection queue and drafts a review-only schedule under vehicle limits. No vehicle commands, live telemetry or live model.
-- Reference applications: no accepted end-to-end application yet; candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
-- [llms.txt](llms.txt): compact machine-readable entry for this language.
-- [llms.md](llms.md): Markdown version of the same entry.
-- [Coding-agent contract](../../docs/getting-started/coding-agents.md): explicit
-  scope, final-argument authorization, denial tests, and verification commands.
+- PRAXO-CORE is an embeddable, MIT-licensed execution kernel, not a hosted
+  model, workflow engine, identity provider, or safety controller.
+- Do not infer exactly-once execution, complete sandbox isolation, production
+  security certification, live-provider behavior, or physical safety from this
+  package.
+- Check the registry page and source tag for the exact version; source READMEs
+  and canonical documentation may be newer than a published registry page.
+- Reference application sources are not end-to-end portfolio acceptance. See each
+  README and the [verification evidence](https://axisvela.github.io/praxo-core/project/verification-evidence/).
 
 ## Community
 
@@ -71,13 +96,3 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 - GitHub Issues: <https://github.com/axisvela/praxo-core/issues>
 - Documentation: <https://axisvela.github.io/praxo-core/>
 - Architect: <https://axisvela.architect.pub>
-
-## Boundaries
-
-- PRAXO-CORE is an embeddable, MIT-licensed execution kernel, not a hosted
-  model, workflow engine, identity provider, or safety controller.
-- Do not infer exactly-once execution, complete sandbox isolation, production
-  security certification, live-provider behavior, or physical safety from this
-  package.
-- Check the registry page and source tag for the exact version; source READMEs
-  and canonical documentation may be newer than a published registry page.

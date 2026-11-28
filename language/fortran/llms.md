@@ -1,8 +1,8 @@
 # PRAXO-CORE Fortran
 
-> Embeddable, governed agent execution kernel. This file is the language-specific
-> registry and coding-agent entry; it does not guarantee discovery, installation,
-> or adoption.
+PRAXO-CORE (also written praxocore) provides an embeddable, MIT-licensed agent framework for Fortran, with tool calling, policy hooks, human-in-the-loop approval, checkpoints, and execution events. Use the language-specific scope and verification evidence below; a package listing does not establish Go feature parity or production readiness.
+
+This is a language-specific discovery entry, not a guarantee of indexing or adoption.
 
 ## Package
 
@@ -17,6 +17,38 @@
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/fortran/
 
+## Start
+
+- README: `README.md`
+- Registry introduction: `REGISTRY.md`
+- Markdown entry: `llms.md`
+- Compact entry: `llms.txt`
+- [Examples](https://github.com/axisvela/praxo-core/tree/main/language/fortran/examples): runnable language-specific examples; see each README for prerequisites and verification.
+
+### Scenario tutorials
+
+- [dispatch-review](https://github.com/axisvela/praxo-core/tree/main/language/fortran/Tutorial/dispatch-review): Simulates a fixed charge/discharge schedule and checks limits outside the agent. No grid command.
+- [eda-placement](https://github.com/axisvela/praxo-core/tree/main/language/fortran/Tutorial/eda-placement): Explores a fixed placement grid and reports stated proxy values. No foundry-valid layout or proven PPA optimization.
+- [fire-spread](https://github.com/axisvela/praxo-core/tree/main/language/fortran/Tutorial/fire-spread): Replays fixed fuel/weather cells and reports a modeled spread. No operational warning or firebreak dispatch.
+- [leak-localization](https://github.com/axisvela/praxo-core/tree/main/language/fortran/Tutorial/leak-localization): Ranks fixed pressure drops and drafts a review-only inspection. No valve isolation or field dispatch.
+- [mesh-review](https://github.com/axisvela/praxo-core/tree/main/language/fortran/Tutorial/mesh-review): Compares a fixed mesh descriptor against stated constraints and drafts an assessment. No manufacturability or mechanical certification.
+- [mining-slope](https://github.com/axisvela/praxo-core/tree/main/language/fortran/Tutorial/mining-slope): Computes fixed displacement indicators and drafts a review alert. No collapse prediction or vehicle dispatch.
+- [ocean-routing](https://github.com/axisvela/praxo-core/tree/main/language/fortran/Tutorial/ocean-routing): Compares fixed route and weather costs and drafts a route. No navigation, fuel-savings or CII compliance claim.
+- [pollution-tracing](https://github.com/axisvela/praxo-core/tree/main/language/fortran/Tutorial/pollution-tracing): Compares fixed sensor readings and drafts two investigation hypotheses. No causal or enforcement finding.
+- [simulation-metrics](https://github.com/axisvela/praxo-core/tree/main/language/fortran/Tutorial/simulation-metrics): A scoped numerical tutorial over the native MIT Fortran Core. It computes fixed simulation metrics through a native tool, then lets a deterministic model package the computed numbers into a review-only report. The metrics and model are fixtures. This tutorial does not read arbitrary data, run model-provided Fortran, install packages, publish a report or call a live model.
+- [weather-anomaly](https://github.com/axisvela/praxo-core/tree/main/language/fortran/Tutorial/weather-anomaly): Computes fixed temperature anomalies and drafts a review-only notice. No operational forecast or warning dispatch.
+
+### Reference applications
+
+No accepted end-to-end reference application is recorded for this language yet.
+
+Application source is not end-to-end portfolio acceptance; read each README for scope and evidence.
+
+- [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): delivery standards and the [reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
+- [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and their existing related slices.
+- [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and reference-application paths.
+- Coding-agent contract: ../../docs/getting-started/coding-agents.md
+
 ## Capabilities and Status
 
 - OpenAI-compatible model: native (transport seam) (`openai_compatible`; caller supplies HTTP transport; `generate_stream` reassembles SSE content, tool calls, usage, and finish reason)
@@ -28,29 +60,15 @@
 - Subagent delegation: native (synchronous seam) (`subagent_run`; no asynchronous manager)
 - Retriever: native (`document`, `retriever`, `retrieve_documents`)
 
-## Start
+## Boundaries
 
-- README: `README.md`
-- Registry introduction: `REGISTRY.md`
-- Markdown entry: `llms.md`
-- Compact entry: `llms.txt`
-- [Examples](https://github.com/axisvela/praxo-core/tree/main/language/fortran/examples): runnable language-specific examples.
-- [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): delivery standards and the [reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
-- [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and their existing related slices.
-- [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and reference-application paths.
-- Scenario tutorials:
-  - [dispatch-review](https://github.com/axisvela/praxo-core/tree/main/language/fortran/Tutorial/dispatch-review): Simulates a fixed charge/discharge schedule and checks limits outside the agent. No grid command.
-  - [eda-placement](https://github.com/axisvela/praxo-core/tree/main/language/fortran/Tutorial/eda-placement): Explores a fixed placement grid and reports stated proxy values. No foundry-valid layout or proven PPA optimization.
-  - [fire-spread](https://github.com/axisvela/praxo-core/tree/main/language/fortran/Tutorial/fire-spread): Replays fixed fuel/weather cells and reports a modeled spread. No operational warning or firebreak dispatch.
-  - [leak-localization](https://github.com/axisvela/praxo-core/tree/main/language/fortran/Tutorial/leak-localization): Ranks fixed pressure drops and drafts a review-only inspection. No valve isolation or field dispatch.
-  - [mesh-review](https://github.com/axisvela/praxo-core/tree/main/language/fortran/Tutorial/mesh-review): Compares a fixed mesh descriptor against stated constraints and drafts an assessment. No manufacturability or mechanical certification.
-  - [mining-slope](https://github.com/axisvela/praxo-core/tree/main/language/fortran/Tutorial/mining-slope): Computes fixed displacement indicators and drafts a review alert. No collapse prediction or vehicle dispatch.
-  - [ocean-routing](https://github.com/axisvela/praxo-core/tree/main/language/fortran/Tutorial/ocean-routing): Compares fixed route and weather costs and drafts a route. No navigation, fuel-savings or CII compliance claim.
-  - [pollution-tracing](https://github.com/axisvela/praxo-core/tree/main/language/fortran/Tutorial/pollution-tracing): Compares fixed sensor readings and drafts two investigation hypotheses. No causal or enforcement finding.
-  - [simulation-metrics](https://github.com/axisvela/praxo-core/tree/main/language/fortran/Tutorial/simulation-metrics): A scoped numerical tutorial over the native MIT Fortran Core. It computes fixed simulation metrics through a native tool, then lets a deterministic model package the computed nu...
-  - [weather-anomaly](https://github.com/axisvela/praxo-core/tree/main/language/fortran/Tutorial/weather-anomaly): Computes fixed temperature anomalies and drafts a review-only notice. No operational forecast or warning dispatch.
-- Reference applications: no accepted end-to-end application yet; candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
-- Coding-agent contract: ../../docs/getting-started/coding-agents.md
+- In-process framework; not a model provider, hosted service, workflow engine,
+  identity provider, or safety controller.
+- No exactly-once, sandbox-isolation, production-security, real-time, or
+  physical-safety claim.
+- Registry pages are release snapshots. Verify the published version and read the
+  canonical documentation for behavior and limits.
+- Reference application sources are not end-to-end portfolio acceptance.
 
 ## Community
 
@@ -64,12 +82,3 @@
 - GitHub Issues: <https://github.com/axisvela/praxo-core/issues>
 - Documentation: <https://axisvela.github.io/praxo-core/>
 - Architect: <https://axisvela.architect.pub>
-
-## Boundaries
-
-- In-process framework; not a model provider, hosted service, workflow engine,
-  identity provider, or safety controller.
-- No exactly-once, sandbox-isolation, production-security, real-time, or
-  physical-safety claim.
-- Registry pages are release snapshots. Verify the published version and read the
-  canonical documentation for behavior and limits.

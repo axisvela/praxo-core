@@ -1,8 +1,8 @@
 # PRAXO-CORE TypeScript
 
-> Embeddable, governed agent execution kernel. This file is the language-specific
-> registry and coding-agent entry; it does not guarantee discovery, installation,
-> or adoption.
+PRAXO-CORE (also written praxocore) provides an embeddable, MIT-licensed agent framework for TypeScript, with tool calling, policy hooks, human-in-the-loop approval, checkpoints, and execution events. Use the language-specific scope and verification evidence below; a package listing does not establish Go feature parity or production readiness.
+
+This is a language-specific discovery entry, not a guarantee of indexing or adoption.
 
 ## Package
 
@@ -17,6 +17,43 @@
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/typescript/
 
+## Start
+
+- README: `README.md`
+- Registry introduction: `REGISTRY.md`
+- Markdown entry: `llms.md`
+- Compact entry: `llms.txt`
+- [Examples](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples): runnable language-specific examples; see each README for prerequisites and verification.
+
+### Scenario tutorials
+
+- [api-orchestration](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/api-orchestration): A bounded first slice of [SE-08](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an integration platform. It maps two fixed synthetic APIs, validates the order schema, and either drafts a review-only mapping or stops on a schema mismatch. No network, credentials or partner system is accessed.
+- [copyright-evidence](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/copyright-evidence): Compares fixed authorized assets and drafts a review-only evidence packet. No broad crawl, DMCA notice or infringement verdict.
+- [customer-support](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/customer-support): A native TypeScript Core tutorial for a customer-support reply streamed over SSE. The Agent has two fixed tools: `lookup_order` reads `order-100`, and `search_policy` reads a fixed public shipping policy. The deterministic model returns an answer with a document citation; it does not send a reply, change an order or issue a refund.
+- [education-tutoring](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/education-tutoring): Tracks a fixed learner fixture and drafts a graded Socratic question for review. No adaptive model or issued grade.
+- [live-show](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/live-show): Replays fixed engagement events and drafts a review-only running order. No audience profiling, coupon sends or stream control.
+- [localization-draft](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/localization-draft): A bounded first slice of [CS-07](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a legal or tax compliance system. It compares fixed localization rules and drafts review-only localized product text. No legal/tax guarantee, live content system or publication.
+- [meeting-coordination](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/meeting-coordination): Reconciles fixed calendar evidence and drafts review-only minutes. No invitations or live calendar writes.
+- [negotiation-interpretation](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/negotiation-interpretation): A bounded first slice of [OG-03](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an interpreter or cultural-profiling system. It compares a fixed bilingual transcript excerpt and drafts review-only negotiation notes. No micro-expression inference, mind reading or live interpretation guarantee.
+- [order-review](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/order-review): First deterministic native TypeScript Core integration slice. It shares the synthetic order HTTP service with the Python example, not a remote Agent loop. The `review_order` tool reads an order and creates a draft; final arguments are restricted to `order-100` by Agent policy and checked again by service scope.
+- [phishing-awareness](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/phishing-awareness): Classifies a fixed synthetic email and drafts an authorized review-only awareness exercise. No sends, links or infrastructure attacks.
+- [retail-replenishment](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/retail-replenishment): A bounded first slice of [CS-05](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not live pricing or procurement. It checks a fixed SKU's stock and pricing fixture and drafts a review-only purchase order. No network, credentials or live model are used.
+- [sales-crm](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/sales-crm): Extracts fixed objections from a transcript and drafts a review-only CRM update. No CRM write or customer message.
+- [storyboard-previs](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/storyboard-previs): Turns a fixed script scene into a review-only shot plan. No rendering or virtual-production engine.
+- [travel-booking](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/travel-booking): A native TypeScript Core tutorial for review-only flight booking. It checks fixed `trip-100` inventory and drafts a fare hold with no payment or booking write. The model packages computed evidence into a JSON report. This tutorial does not pay, ticket, change inventory, read arbitrary data or call a live model.
+- [workspace-plan](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/workspace-plan): A bounded first slice of [SE-01](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a code-generation or deployment product. It reads a fixed allowlisted workspace, applies one bounded edit to `app.js` and inspects synthetic diagnostics. In-process fixtures only; no host filesystem, compiler or deployment.
+
+### Reference applications
+
+No accepted end-to-end reference application is recorded for this language yet.
+
+Application source is not end-to-end portfolio acceptance; read each README for scope and evidence.
+
+- [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): delivery standards and the [reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
+- [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and their existing related slices.
+- [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and reference-application paths.
+- Coding-agent contract: ../../docs/getting-started/coding-agents.md
+
 ## Capabilities and Status
 
 - OpenAI-compatible model: native (`src/adapters/openaicompat.ts`)
@@ -28,34 +65,15 @@
 - Subagent delegation: native (`src/delegation.ts` `SubagentManager`)
 - Retriever: native (`src/retriever.ts` `Document` and `Retriever`)
 
-## Start
+## Boundaries
 
-- README: `README.md`
-- Registry introduction: `REGISTRY.md`
-- Markdown entry: `llms.md`
-- Compact entry: `llms.txt`
-- [Examples](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples): runnable language-specific examples.
-- [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): delivery standards and the [reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
-- [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and their existing related slices.
-- [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and reference-application paths.
-- Scenario tutorials:
-  - [api-orchestration](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/api-orchestration): A bounded first slice of [SE-08](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an integration platform. It maps two fixed synthetic APIs, validates the order schema, and either drafts a review-only mapping or stops on a schema mismatch. No network, credentials or partner system is accessed.
-  - [copyright-evidence](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/copyright-evidence): Compares fixed authorized assets and drafts a review-only evidence packet. No broad crawl, DMCA notice or infringement verdict.
-  - [customer-support](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/customer-support): A native TypeScript Core tutorial for a customer-support reply streamed over SSE. The Agent has two fixed tools: `lookup_order` reads `order-100`, and `search_policy` reads a fi...
-  - [education-tutoring](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/education-tutoring): Tracks a fixed learner fixture and drafts a graded Socratic question for review. No adaptive model or issued grade.
-  - [live-show](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/live-show): Replays fixed engagement events and drafts a review-only running order. No audience profiling, coupon sends or stream control.
-  - [localization-draft](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/localization-draft): A bounded first slice of [CS-07](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a legal or tax compliance system. It compares fixed localization rules and drafts review-only localized product text. No legal/tax guarantee, live content system or publication.
-  - [meeting-coordination](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/meeting-coordination): Reconciles fixed calendar evidence and drafts review-only minutes. No invitations or live calendar writes.
-  - [negotiation-interpretation](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/negotiation-interpretation): A bounded first slice of [OG-03](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an interpreter or cultural-profiling system. It compares a fixed bilingual transcript excerpt and drafts review-only negotiation notes. No micro-expression inference, mind reading or live interpretation guarantee.
-  - [order-review](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/order-review): First deterministic native TypeScript Core integration slice. It shares the synthetic order HTTP service with the Python example, not a remote Agent loop. The `review_order` too...
-  - [phishing-awareness](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/phishing-awareness): Classifies a fixed synthetic email and drafts an authorized review-only awareness exercise. No sends, links or infrastructure attacks.
-  - [retail-replenishment](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/retail-replenishment): A bounded first slice of [CS-05](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not live pricing or procurement. It checks a fixed SKU's stock and pricing fixture and drafts a review-only purchase order. No network, credentials or live model are used.
-  - [sales-crm](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/sales-crm): Extracts fixed objections from a transcript and drafts a review-only CRM update. No CRM write or customer message.
-  - [storyboard-previs](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/storyboard-previs): Turns a fixed script scene into a review-only shot plan. No rendering or virtual-production engine.
-  - [travel-booking](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/travel-booking): A native TypeScript Core tutorial for review-only flight booking. It checks fixed `trip-100` inventory and drafts a fare hold with no payment or booking write. The model package...
-  - [workspace-plan](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/workspace-plan): A bounded first slice of [SE-01](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a code-generation or deployment product. It reads a fixed allowlisted workspace, applies one bounded edit to `app.js` and inspects synthetic diagnostics. In-process fixtures only; no host filesystem, compiler or deployment.
-- Reference applications: no accepted end-to-end application yet; candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
-- Coding-agent contract: ../../docs/getting-started/coding-agents.md
+- In-process framework; not a model provider, hosted service, workflow engine,
+  identity provider, or safety controller.
+- No exactly-once, sandbox-isolation, production-security, real-time, or
+  physical-safety claim.
+- Registry pages are release snapshots. Verify the published version and read the
+  canonical documentation for behavior and limits.
+- Reference application sources are not end-to-end portfolio acceptance.
 
 ## Community
 
@@ -69,12 +87,3 @@
 - GitHub Issues: <https://github.com/axisvela/praxo-core/issues>
 - Documentation: <https://axisvela.github.io/praxo-core/>
 - Architect: <https://axisvela.architect.pub>
-
-## Boundaries
-
-- In-process framework; not a model provider, hosted service, workflow engine,
-  identity provider, or safety controller.
-- No exactly-once, sandbox-isolation, production-security, real-time, or
-  physical-safety claim.
-- Registry pages are release snapshots. Verify the published version and read the
-  canonical documentation for behavior and limits.

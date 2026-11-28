@@ -20,7 +20,7 @@ Praxo::Core - embeddable AI agent framework for Perl
 
 =head1 DESCRIPTION
 
-PRAXO-CORE is an embeddable, MIT-licensed AI agent framework. This distribution
+PRAXO-CORE (also written praxocore) is an embeddable, MIT-licensed AI agent framework. This distribution
 is its native Perl Core: an agent loop with tool registration and dispatch,
 policy hooks, human-in-the-loop interrupt decisions, typed events, memory,
 checkpoints, context budgets, middleware, OpenTelemetry and Harmovela sinks,

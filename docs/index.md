@@ -3,7 +3,7 @@
 **An embeddable MIT-licensed agent framework with explicit policy controls,
 checkpoints, and event tracing.**
 
-Build agents inside your own product without rebuilding the loop, model
+PRAXO-CORE (also written praxocore) lets you build agents inside your own product without rebuilding the loop, model
 abstraction, tool contracts, or execution boundaries. Use your own providers
 and integrations; AxisVela products are not required.
 

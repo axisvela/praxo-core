@@ -1,4 +1,5 @@
 from pathlib import Path
+import json
 import re
 from urllib.parse import urljoin
 
@@ -168,3 +169,22 @@ def on_page_markdown(markdown, page, config, files):
             raise ValueError("Core documentation must reference a repository README.md")
         return markdown + "\n\n" + sdk_readme(path.read_text(encoding="utf-8"), source)
     return markdown
+
+
+def on_post_page(output, page, config):
+    if page.file.src_uri not in ("index.md", "zh-CN/index.md"):
+        return output
+    discovery = json.loads((ROOT / "language/discovery.json").read_text(encoding="utf-8"))
+    data = {
+        "@context": "https://schema.org",
+        "@type": "SoftwareSourceCode",
+        "name": "PRAXO-CORE",
+        "alternateName": discovery["aliases"],
+        "description": config["site_description"],
+        "url": config["site_url"],
+        "codeRepository": "https://github.com/axisvela/praxo-core",
+        "license": "https://spdx.org/licenses/MIT.html",
+        "keywords": discovery["topics"],
+    }
+    payload = json.dumps(data, ensure_ascii=True).replace("<", "\\u003c").replace(">", "\\u003e").replace("&", "\\u0026")
+    return output.replace("</head>", f'<script type="application/ld+json">{payload}</script>\n</head>', 1)

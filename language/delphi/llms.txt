@@ -1,8 +1,8 @@
 # PRAXO-CORE Delphi / Free Pascal
 
-> Embeddable, governed agent execution kernel. This file is the language-specific
-> registry and coding-agent entry; it does not guarantee discovery, installation,
-> or adoption.
+PRAXO-CORE (also written praxocore) provides an embeddable, MIT-licensed agent framework for Delphi / Free Pascal, with tool calling, policy hooks, human-in-the-loop approval, checkpoints, and execution events. Use the language-specific scope and verification evidence below; a package listing does not establish Go feature parity or production readiness.
+
+This is a language-specific discovery entry, not a guarantee of indexing or adoption.
 
 # Package
 
@@ -17,6 +17,32 @@
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/delphi/
 
+# Start
+
+- README: `README.md`
+- Registry introduction: `REGISTRY.md`
+- Markdown entry: `llms.md`
+- Compact entry: `llms.txt`
+- [Examples](https://github.com/axisvela/praxo-core/tree/main/language/delphi/examples): runnable language-specific examples; see each README for prerequisites and verification.
+
+## Scenario tutorials
+
+- [hvac-settings](https://github.com/axisvela/praxo-core/tree/main/language/delphi/Tutorial/hvac-settings): A bounded first slice of BE-02, not a building-management system. It reads a fixed building environment and drafts a review-only settings plan using the source Delphi/Free Pascal Core. No BMS command, energy-savings claim or occupancy surveillance.
+- [legacy-migration](https://github.com/axisvela/praxo-core/tree/main/language/delphi/Tutorial/legacy-migration): A bounded first slice of [SE-03](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an automatic production migration. It inventories fixed legacy modules and dependencies and drafts a review-only migration plan. This uses the source Delphi/Free Pascal Core; no network, credentials or additional units are required.
+- [rpa-reconciliation](https://github.com/axisvela/praxo-core/tree/main/language/delphi/Tutorial/rpa-reconciliation): A bounded first slice of [OP-04](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a production RPA platform. It reconciles a fixed purchase order and invoice, flags a delta above the threshold, and drafts a review-only exception. No ERP connector, posting or live model is used.
+- [tax-review](https://github.com/axisvela/praxo-core/tree/main/language/delphi/Tutorial/tax-review): A bounded tax-planning tutorial. It reads a fixed ledger, computes taxable income and tax due, then drafts a review-only filing. No filing is submitted and no tax advice is given.
+
+## Reference applications
+
+No accepted end-to-end reference application is recorded for this language yet.
+
+Application source is not end-to-end portfolio acceptance; read each README for scope and evidence.
+
+- [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): delivery standards and the [reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
+- [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and their existing related slices.
+- [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and reference-application paths.
+- Coding-agent contract: ../../docs/getting-started/coding-agents.md
+
 # Capabilities and Status
 
 - OpenAI-compatible model: native (`TPraxoOpenAIAdapter` with FPC HTTP transport; SSE streaming reassembly)
@@ -28,23 +54,15 @@
 - Subagent delegation: native (synchronous seam) (`TPraxoSubagentManager.Run`; no asynchronous manager)
 - Retriever: native (`TPraxoDocument`, `TPraxoRetriever`, `PraxoRetrieveDocuments`)
 
-# Start
+# Boundaries
 
-- README: `README.md`
-- Registry introduction: `REGISTRY.md`
-- Markdown entry: `llms.md`
-- Compact entry: `llms.txt`
-- [Examples](https://github.com/axisvela/praxo-core/tree/main/language/delphi/examples): runnable language-specific examples.
-- [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): delivery standards and the [reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
-- [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and their existing related slices.
-- [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and reference-application paths.
-- Scenario tutorials:
-  - [hvac-settings](https://github.com/axisvela/praxo-core/tree/main/language/delphi/Tutorial/hvac-settings): A bounded first slice of BE-02, not a building-management system. It reads a fixed building environment and drafts a review-only settings plan using the source Delphi/Free Pasca...
-  - [legacy-migration](https://github.com/axisvela/praxo-core/tree/main/language/delphi/Tutorial/legacy-migration): A bounded first slice of [SE-03](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not an automatic production migration. It inventories fixed legacy modules and dependencies and drafts a review-only migration plan. This uses the source Delphi/Free Pascal Core; no network, credentials or additional units are required.
-  - [rpa-reconciliation](https://github.com/axisvela/praxo-core/tree/main/language/delphi/Tutorial/rpa-reconciliation): A bounded first slice of [OP-04](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), not a production RPA platform. It reconciles a fixed purchase order and invoice, flags a delta above the threshold, and drafts a review-only exception. No ERP connector, posting or live model is used.
-  - [tax-review](https://github.com/axisvela/praxo-core/tree/main/language/delphi/Tutorial/tax-review): A bounded tax-planning tutorial. It reads a fixed ledger, computes taxable income and tax due, then drafts a review-only filing. No filing is submitted and no tax advice is given.
-- Reference applications: no accepted end-to-end application yet; candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
-- Coding-agent contract: ../../docs/getting-started/coding-agents.md
+- In-process framework; not a model provider, hosted service, workflow engine,
+  identity provider, or safety controller.
+- No exactly-once, sandbox-isolation, production-security, real-time, or
+  physical-safety claim.
+- Registry pages are release snapshots. Verify the published version and read the
+  canonical documentation for behavior and limits.
+- Reference application sources are not end-to-end portfolio acceptance.
 
 # Community
 
@@ -58,12 +76,3 @@
 - GitHub Issues: <https://github.com/axisvela/praxo-core/issues>
 - Documentation: <https://axisvela.github.io/praxo-core/>
 - Architect: <https://axisvela.architect.pub>
-
-# Boundaries
-
-- In-process framework; not a model provider, hosted service, workflow engine,
-  identity provider, or safety controller.
-- No exactly-once, sandbox-isolation, production-security, real-time, or
-  physical-safety claim.
-- Registry pages are release snapshots. Verify the published version and read the
-  canonical documentation for behavior and limits.

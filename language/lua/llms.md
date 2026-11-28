@@ -1,8 +1,8 @@
 # PRAXO-CORE Lua
 
-> Embeddable, governed agent execution kernel. This file is the language-specific
-> registry and coding-agent entry; it does not guarantee discovery, installation,
-> or adoption.
+PRAXO-CORE (also written praxocore) provides an embeddable, MIT-licensed agent framework for Lua, with tool calling, policy hooks, human-in-the-loop approval, checkpoints, and execution events. Use the language-specific scope and verification evidence below; a package listing does not establish Go feature parity or production readiness.
+
+This is a language-specific discovery entry, not a guarantee of indexing or adoption.
 
 ## Package
 
@@ -17,6 +17,34 @@
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/lua/
 
+## Start
+
+- README: `README.md`
+- Registry introduction: `REGISTRY.md`
+- Markdown entry: `llms.md`
+- Compact entry: `llms.txt`
+- [Examples](https://github.com/axisvela/praxo-core/tree/main/language/lua/examples): runnable language-specific examples; see each README for prerequisites and verification.
+
+### Scenario tutorials
+
+- [aquaculture-water](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/aquaculture-water): A bounded first slice of AE-03, not a pond-control system. It computes fixed oxygen and temperature indicators and drafts a review-only bounded action. No aerator or feeder commands, actuator access or live model.
+- [host-embedding](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/host-embedding): A native Lua Core tutorial for embedding an Agent inside an existing host. The host receives a device event, exposes two fixed callbacks, and receives a review-only report. It does not send a device command, open a socket or require a model endpoint.
+- [irrigation-plan](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/irrigation-plan): A bounded first slice of IN-06, not an irrigation controller. It evaluates fixed soil/weather observations and drafts a review-only bounded irrigation request. No valve command, drone dispatch or actuator access.
+- [live-show](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/live-show): A bounded first slice of MD-07, not a live-stream controller. It replays fixed synthetic engagement events and drafts a review-only presentation order. No audience profiling, coupon sends or stream control.
+- [storyboard-previs](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/storyboard-previs): A bounded first slice of MD-01, not a virtual-production pipeline. It reads one fixed script scene, drafts a review-only shot plan and records zero renders and zero engine calls. No Unreal integration, media generation or licensed assets.
+- [world-economy](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/world-economy): A bounded first slice of MD-03, not an open-world simulation engine. It reads a fixed synthetic world economy at one tick and drafts a review-only balance with no applied change. No scale, equilibrium or long-term stability guarantee.
+
+### Reference applications
+
+No accepted end-to-end reference application is recorded for this language yet.
+
+Application source is not end-to-end portfolio acceptance; read each README for scope and evidence.
+
+- [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): delivery standards and the [reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
+- [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and their existing related slices.
+- [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and reference-application paths.
+- Coding-agent contract: ../../docs/getting-started/coding-agents.md
+
 ## Capabilities and Status
 
 - OpenAI-compatible model: native (`praxo.openai_compatible`; `stream` reassembles SSE content, tool calls, usage, and finish reason)
@@ -28,25 +56,15 @@
 - Subagent delegation: native (synchronous seam) (`subagent_run`; no asynchronous manager)
 - Retriever: native (`document`, `func_retriever`, `retriever_retrieve`)
 
-## Start
+## Boundaries
 
-- README: `README.md`
-- Registry introduction: `REGISTRY.md`
-- Markdown entry: `llms.md`
-- Compact entry: `llms.txt`
-- [Examples](https://github.com/axisvela/praxo-core/tree/main/language/lua/examples): runnable language-specific examples.
-- [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): delivery standards and the [reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
-- [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): candidate business goals and their existing related slices.
-- [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) ([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): cross-language tutorials, examples, and reference-application paths.
-- Scenario tutorials:
-  - [aquaculture-water](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/aquaculture-water): A bounded first slice of AE-03, not a pond-control system. It computes fixed oxygen and temperature indicators and drafts a review-only bounded action. No aerator or feeder comm...
-  - [host-embedding](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/host-embedding): A native Lua Core tutorial for embedding an Agent inside an existing host. The host receives a device event, exposes two fixed callbacks, and receives a review-only report. It d...
-  - [irrigation-plan](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/irrigation-plan): A bounded first slice of IN-06, not an irrigation controller. It evaluates fixed soil/weather observations and drafts a review-only bounded irrigation request. No valve command,...
-  - [live-show](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/live-show): A bounded first slice of MD-07, not a live-stream controller. It replays fixed synthetic engagement events and drafts a review-only presentation order. No audience profiling, co...
-  - [storyboard-previs](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/storyboard-previs): A bounded first slice of MD-01, not a virtual-production pipeline. It reads one fixed script scene, drafts a review-only shot plan and records zero renders and zero engine calls...
-  - [world-economy](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/world-economy): A bounded first slice of MD-03, not an open-world simulation engine. It reads a fixed synthetic world economy at one tick and drafts a review-only balance with no applied change...
-- Reference applications: no accepted end-to-end application yet; candidate goals are tracked in the [Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).
-- Coding-agent contract: ../../docs/getting-started/coding-agents.md
+- In-process framework; not a model provider, hosted service, workflow engine,
+  identity provider, or safety controller.
+- No exactly-once, sandbox-isolation, production-security, real-time, or
+  physical-safety claim.
+- Registry pages are release snapshots. Verify the published version and read the
+  canonical documentation for behavior and limits.
+- Reference application sources are not end-to-end portfolio acceptance.
 
 ## Community
 
@@ -60,12 +78,3 @@
 - GitHub Issues: <https://github.com/axisvela/praxo-core/issues>
 - Documentation: <https://axisvela.github.io/praxo-core/>
 - Architect: <https://axisvela.architect.pub>
-
-## Boundaries
-
-- In-process framework; not a model provider, hosted service, workflow engine,
-  identity provider, or safety controller.
-- No exactly-once, sandbox-isolation, production-security, real-time, or
-  physical-safety claim.
-- Registry pages are release snapshots. Verify the published version and read the
-  canonical documentation for behavior and limits.

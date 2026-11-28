@@ -9,8 +9,8 @@
     <PackageId>Praxo.Core</PackageId>
     <Version>0.11.1</Version>
     <Authors>AxisVela</Authors>
-    <Description>Embeddable MIT-licensed agent framework for .NET: tools, policy, events, memory, middleware, and an agent loop</Description>
-    <PackageTags>agents;llm;agent-framework;tool-calling;ai</PackageTags>
+    <Description>PRAXO-CORE (praxocore): embeddable MIT-licensed AI agent framework for C# and .NET with tool calling, policy hooks, human-in-the-loop approvals, checkpoints, streaming, and events</Description>
+    <PackageTags>praxo-core;praxocore;csharp;dotnet;ai-agents;llm;agent-framework;tool-calling;tool-authorization;human-in-the-loop;checkpoints;streaming;mcp;opentelemetry;embeddable</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://axisvela.github.io/praxo-core/</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>

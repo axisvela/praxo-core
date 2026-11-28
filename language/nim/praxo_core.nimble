@@ -1,6 +1,6 @@
 version = "0.8.0"
 author = "AxisVela"
-description = "Embeddable MIT-licensed agent framework for Nim: tools, policy, events, memory, context, middleware, checkpoints, and an agent loop"
+description = "PRAXO-CORE (praxocore): embeddable MIT-licensed Nim AI agent framework with tools, policy, events, memory, middleware, and checkpoints"
 license = "MIT"
 srcDir = "src"
 requires "nim >= 1.6.0"

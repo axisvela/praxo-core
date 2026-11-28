@@ -5,37 +5,16 @@ import json
 import re
 from pathlib import Path
 
-from mirror_readme import _catalog_entries
+from registry_catalog import content_links, examples_line, readme_routes, scenario_links
+from registry_discovery import (
+    community_entry, community_section, discovery, product_intro,
+    render_root_llms as root_llms,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 SPEC = ROOT / "spec" / "languages.md"
 BLOCK_START = "## Registry and Coding-Agent Entry"
 BLOCK_END = "## "
-COMMUNITY_LINKS = (
-    ("X", "https://x.com/axisvela"),
-    ("Weibo", "https://weibo.com/u/1936025761"),
-    ("LinkedIn", "https://www.linkedin.com/company/axisvela/"),
-    ("Facebook", "https://www.facebook.com/profile.php?id=61596905732406"),
-    ("YouTube", "https://www.youtube.com/@axisvela"),
-    ("Discord", "https://discord.com/channels/1575163993767809064/1575164343148875977"),
-    ("GitHub Discussions", "https://github.com/axisvela/praxo-core/discussions"),
-    ("GitHub Issues", "https://github.com/axisvela/praxo-core/issues"),
-    ("Documentation", "https://axisvela.github.io/praxo-core/"),
-    ("Architect", "https://axisvela.architect.pub"),
-)
-
-
-def community_section() -> str:
-    lines = ["## Community", ""]
-    for name, link in COMMUNITY_LINKS:
-        lines.append(f"- {name}: <{link}>")
-    return "\n".join(lines) + "\n\n"
-
-
-def community_entry() -> str:
-    links = " · ".join(f"[{name}]({link})" for name, link in COMMUNITY_LINKS)
-    return f"- Community: {links}\n"
-
 LANGUAGES = [
     {"dir": ".", "name": "Go", "package": "github.com/axisvela/praxo-core/v2", "registry": "Go module proxy / pkg.go.dev", "version": "v2.11.3", "source_version": "v2.11.3", "published_version": "v2.11.3", "tag": "v2.11.3", "install": "go get github.com/axisvela/praxo-core/v2@v2.11.3", "url": "https://pkg.go.dev/github.com/axisvela/praxo-core/v2", "status": "published", "tier": "Core (reference)", "docs": "https://axisvela.github.io/praxo-core/"},
     {"dir": "language/python", "name": "Python", "package": "praxo-core", "registry": "PyPI", "version": "0.11.2", "source_version": "0.11.2", "published_version": "0.11.2", "tag": "python/v0.11.2", "install": "pip install praxo-core==0.11.2", "source_install": "pip install ./language/python", "url": "https://pypi.org/project/praxo-core/0.11.2/", "status": "published", "tier": "Core", "docs": "https://axisvela.github.io/praxo-core/languages/python/"},
@@ -44,7 +23,7 @@ LANGUAGES = [
     {"dir": "language/rust", "name": "Rust", "package": "praxo-core", "registry": "crates.io", "version": "0.11.1", "source_version": "0.11.1", "published_version": "0.11.1", "tag": "rust/v0.11.1", "install": "cargo add praxo-core@0.11.1", "source_install": "cargo add --path language/rust", "url": "https://crates.io/crates/praxo-core/0.11.1", "status": "published", "tier": "Core", "docs": "https://axisvela.github.io/praxo-core/languages/rust/"},
     {"dir": "language/csharp", "name": "C#", "package": "Praxo.Core", "registry": "NuGet", "version": "0.11.1", "source_version": "0.11.1", "published_version": "0.11.1", "tag": "csharp/v0.11.1", "install": "dotnet add package Praxo.Core --version 0.11.1", "source_install": "ProjectReference to language/csharp/Praxo.Core", "url": "https://www.nuget.org/packages/Praxo.Core/0.11.1", "status": "published", "tier": "Core", "docs": "https://axisvela.github.io/praxo-core/languages/csharp/"},
     {"dir": "language/ruby", "name": "Ruby", "package": "praxo-core", "registry": "RubyGems", "version": "0.10.2", "source_version": "0.10.2", "published_version": "0.10.2", "source_install": "From language/ruby: gem build praxo-core.gemspec, then gem install ./praxo-core-0.10.2.gem", "tag": "ruby/v0.10.2", "install": "gem install praxo-core -v 0.10.2", "url": "https://rubygems.org/gems/praxo-core/versions/0.10.2", "status": "published; split source repository v0.10.2 tagged", "tier": "Core", "docs": "https://axisvela.github.io/praxo-core/languages/ruby/"},
-    {"dir": "language/php", "name": "PHP", "package": "axisvela/praxo-core", "registry": "Packagist", "version": "0.10.1", "source_version": "0.10.1", "published_version": "0.10.1", "source_install": "Composer path repository: language/php", "tag": "php/v0.10.1", "install": "composer require axisvela/praxo-core:0.10.1", "url": "https://packagist.org/packages/axisvela/praxo-core", "status": "published", "tier": "Core", "docs": "https://axisvela.github.io/praxo-core/languages/php/"},
+    {"dir": "language/php", "name": "PHP", "package": "axisvela/praxo-core", "registry": "Packagist", "version": "0.10.1", "source_version": "0.10.1", "published_version": "0.10.1", "source_install": "Composer path repository: language/php", "tag": "php/v0.10.1", "install": "composer require axisvela/praxo-core:0.10.1", "url": "https://packagist.org/packages/axisvela/praxo-core", "status": "published but broken: split artifact missing src/PluginProcessHost.php; staged fix verified, no new release authorized", "tier": "Core", "docs": "https://axisvela.github.io/praxo-core/languages/php/"},
     {"dir": "language/dart", "name": "Dart", "package": "praxo_core", "registry": "pub.dev", "version": "0.8.2", "source_version": "0.8.2", "published_version": "0.8.2", "source_install": "dart pub add praxo_core --path language/dart", "tag": "dart/v0.8.2", "install": "dart pub add praxo_core:0.8.2", "url": "https://pub.dev/packages/praxo_core/versions/0.8.2", "status": "published", "tier": "Core", "docs": "https://axisvela.github.io/praxo-core/languages/dart/"},
     {"dir": "language/elixir", "name": "Elixir", "package": "praxo_core", "registry": "Hex", "version": "0.11.1", "source_version": "0.11.1", "published_version": "0.11.1", "tag": "elixir/v0.11.1", "install": '{:praxo_core, "~> 0.11.1"}', "source_install": '{:praxo_core, path: "language/elixir"}', "url": "https://hex.pm/packages/praxo_core/0.11.1", "status": "published", "tier": "Core", "docs": "https://axisvela.github.io/praxo-core/languages/elixir/"},
     {"dir": "language/erlang", "name": "Erlang", "package": "praxo_core_erlang", "registry": "Hex", "version": "0.10.1", "source_version": "0.10.1", "published_version": "0.10.1", "source_install": '{praxo_core, {path, "language/erlang"}}', "tag": "erlang/v0.10.1", "install": '{praxo_core, "0.10.1", {pkg, praxo_core_erlang}}', "url": "https://hex.pm/packages/praxo_core_erlang/0.10.1", "status": "published", "tier": "Core", "docs": "https://axisvela.github.io/praxo-core/languages/erlang/"},
@@ -171,13 +150,13 @@ def published_install_label(entry: dict) -> str:
     return f"`{entry['install']}`" if published_available(entry) else "not published"
 
 
-def manifest_data() -> dict[str, dict[str, str]]:
+def manifest_data() -> dict[str, dict]:
     fields = (
         "dir", "package", "registry", "source_version", "published_version",
         "install", "source_install", "tag", "status", "docs", "url", "tier",
     )
     return {
-        entry["name"]: {field: entry[field] for field in fields}
+        entry["name"]: {field: entry[field] for field in fields} | {"discovery": discovery(entry)}
         for entry in LANGUAGES
     }
 
@@ -189,32 +168,6 @@ def load_spec_versions() -> dict[str, str]:
         if match:
             values[match.group(1).strip().lower()] = match.group(2).strip()
     return values
-
-
-def first_paragraph(readme: Path) -> str:
-    if not readme.is_file():
-        return "Shared implementation used by the MATLAB and Octave packages."
-    text = readme.read_text(encoding="utf-8")
-    lines = text.splitlines()
-    paragraphs: list[str] = []
-    current: list[str] = []
-    for line in lines:
-        if line.startswith("# "):
-            continue
-        if not line.strip():
-            if current:
-                paragraph = " ".join(part.strip() for part in current).strip()
-                if paragraph and not paragraph.startswith("```"):
-                    paragraphs.append(paragraph)
-                    break
-                current = []
-            continue
-        if line.startswith("## "):
-            if current:
-                break
-            continue
-        current.append(line)
-    return paragraphs[0] if paragraphs else f"Native {readme.parent.name} implementation of the PRAXO-CORE contract."
 
 
 def rel_link(target: str, entry_dir: Path) -> str:
@@ -239,12 +192,12 @@ def block(entry: dict, directory: Path) -> str:
     registry = f"[{entry['registry']}]({entry['url']})" if entry["url"] else entry["registry"]
     if relative == ".":
         registry = "[Language Release Index](docs/languages/registry-status.md)"
-    examples = examples_line(directory)
     return (
         f"{BLOCK_START}\n\n"
+        f"{readme_routes(entry)}"
         f"- Registry introduction: [REGISTRY.md]({prefix}/REGISTRY.md)\n"
         f"- Machine-readable entry: [llms.txt]({prefix}/llms.txt) and [llms.md]({prefix}/llms.md)\n"
-        f"{examples}- Coding-agent contract: [docs/getting-started/coding-agents.md]({coding})\n"
+        f"- Coding-agent contract: [docs/getting-started/coding-agents.md]({coding})\n"
         f"- Registry: {registry}\n"
         f"{community_entry()}"
     )
@@ -255,13 +208,16 @@ def insert_block(readme: Path, entry: dict) -> None:
     if not readme.is_file():
         readme.write_text(
             f"# PRAXO-CORE {entry['name']}\n\n"
-            "Shared implementation used by the MATLAB and Octave packages. It is not a\n"
-            "standalone package; use the MATLAB or Octave registry entry.\n\n"
+            + product_intro(entry) + "\n\n"
             + block(entry, directory),
             encoding="utf-8",
         )
         return
     text = readme.read_text(encoding="utf-8")
+    intro_end = text.find("\n## ")
+    intro_end = len(text) if intro_end == -1 else intro_end
+    if "praxocore" not in text[:intro_end].lower():
+        text = text[:intro_end].rstrip() + "\n\n" + product_intro(entry) + "\n" + text[intro_end:]
     if BLOCK_START in text:
         pattern = re.compile(
             r"## Registry and Coding-Agent Entry\n.*?(?=\n## |\Z)",
@@ -279,76 +235,21 @@ def insert_block(readme: Path, entry: dict) -> None:
     readme.write_text(text, encoding="utf-8")
 
 
-def examples_line(directory: Path) -> str:
-    if not (directory / "examples").is_dir():
-        return ""
-    relative = directory.relative_to(ROOT).as_posix()
-    target = "examples" if relative == "." else f"{relative}/examples"
-    return (
-        f"- [Examples](https://github.com/axisvela/praxo-core/tree/main/{target}): "
-        "runnable language-specific examples.\n"
-    )
-
-
-def scenario_links() -> str:
-    return (
-        "- [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) "
-        "([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): "
-        "delivery standards and the [reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).\n"
-        "- [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) "
-        "([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): "
-        "candidate business goals and their existing related slices.\n"
-        "- [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) "
-        "([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)): "
-        "cross-language tutorials, examples, and reference-application paths.\n"
-    )
-
-
-def content_links(directory: Path) -> str:
-    lines = [scenario_links()]
-    relative = directory.relative_to(ROOT).as_posix()
-    key = "go" if directory == ROOT else directory.name
-    entry = {"key": key, "dir": "." if key == "go" else relative}
-    for folder, label in (
-        ("Tutorial", "Scenario tutorials"),
-        ("application", "Reference applications"),
-    ):
-        items = [
-            item for item in _catalog_entries(ROOT, entry, folder)
-            if item[0] != folder
-        ]
-        if items:
-            lines.append(f"- {label}:\n")
-            for name, target, description in items:
-                lines.append(
-                    f"  - [{name}](https://github.com/axisvela/praxo-core/tree/main/{target}): "
-                    f"{description or 'See the tutorial README.'}\n"
-                )
-        elif folder == "application":
-            lines.append(
-                "- Reference applications: no accepted end-to-end application yet; "
-                "candidate goals are tracked in the "
-                "[Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).\n"
-            )
-    return "".join(lines)
-
-
 def render_registry(entry: dict, directory: Path) -> str:
-    summary = first_paragraph(directory / "README.md")
+    summary = product_intro(entry)
     registry = f"[{entry['registry']}]({entry['url']})" if entry["url"] else entry["registry"]
     published_version = published_version_label(entry)
     published_install = published_install_label(entry)
     examples = examples_line(directory)
     return f"""# PRAXO-CORE {entry['name']} Registry Introduction
 
-**Status:** {entry['status']}. Source version `{entry['source_version']}`, source
-tag `{entry['tag']}`. Published registry version: {published_version}. Registry
-pages are release snapshots; verify the published version before relying on a
-feature.
-
 ## Positioning
 
 {summary}
+
+**Status:** {entry['status']}. Source version `{entry['source_version']}`, source
+tag `{entry['tag']}`. Published registry version: {published_version}. Registry
+pages are release snapshots; verify the published version before relying on a feature.
 
 ## Package
 
@@ -365,14 +266,20 @@ feature.
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | {entry['docs']} |
 
-{capabilities_registry(entry)}## Coding-agent entry
+## Get Started
+
+Follow the [language README]({entry['docs']}) for runtime prerequisites,
+installation, a first run, and local verification. The package table distinguishes
+published installation from source builds; a pending registry is not available.
+
+## Examples, Tutorials, and Applications
 
 {examples}{content_links(directory)}- [llms.txt](llms.txt): compact machine-readable entry for this language.
 - [llms.md](llms.md): Markdown version of the same entry.
 - [Coding-agent contract]({rel_link(ROOT / 'docs/getting-started/coding-agents.md', directory)}): explicit
   scope, final-argument authorization, denial tests, and verification commands.
 
-{community_section()}## Boundaries
+{capabilities_registry(entry)}## Boundaries
 
 - PRAXO-CORE is an embeddable, MIT-licensed execution kernel, not a hosted
   model, workflow engine, identity provider, or safety controller.
@@ -381,7 +288,11 @@ feature.
   package.
 - Check the registry page and source tag for the exact version; source READMEs
   and canonical documentation may be newer than a published registry page.
-"""
+- Reference application sources are not end-to-end portfolio acceptance. See each
+  README and the [verification evidence](https://axisvela.github.io/praxo-core/project/verification-evidence/).
+
+{community_section()}
+""".rstrip() + "\n"
 
 
 def render_llms(entry: dict, directory: Path, markdown: bool) -> str:
@@ -393,9 +304,9 @@ def render_llms(entry: dict, directory: Path, markdown: bool) -> str:
     examples = examples_line(directory)
     body = f"""{heading} PRAXO-CORE {entry['name']}
 
-> Embeddable, governed agent execution kernel. This file is the language-specific
-> registry and coding-agent entry; it does not guarantee discovery, installation,
-> or adoption.
+{product_intro(entry)}
+
+This is a language-specific discovery entry, not a guarantee of indexing or adoption.
 
 ## Package
 
@@ -410,7 +321,7 @@ def render_llms(entry: dict, directory: Path, markdown: bool) -> str:
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: {entry['docs']}
 
-{capabilities_llms(entry)}## Start
+## Start
 
 - README: `README.md`
 - Registry introduction: `REGISTRY.md`
@@ -418,7 +329,7 @@ def render_llms(entry: dict, directory: Path, markdown: bool) -> str:
 - Compact entry: `llms.txt`
 {examples}{content_links(directory)}- Coding-agent contract: {coding}
 
-{community_section()}## Boundaries
+{capabilities_llms(entry)}## Boundaries
 
 - In-process framework; not a model provider, hosted service, workflow engine,
   identity provider, or safety controller.
@@ -426,8 +337,11 @@ def render_llms(entry: dict, directory: Path, markdown: bool) -> str:
   physical-safety claim.
 - Registry pages are release snapshots. Verify the published version and read the
   canonical documentation for behavior and limits.
+- Reference application sources are not end-to-end portfolio acceptance.
+
+{community_section()}
 """
-    return body if markdown else body.replace("## ", "# ")
+    return (body if markdown else body.replace("## ", "# ")).rstrip() + "\n"
 
 
 def root_language_rows() -> list[tuple[str, str, str, str, str]]:
@@ -457,8 +371,15 @@ language implementation has its own package, documented scope, and evidence.
 
 ## Positioning
 
-PRAXO-CORE is an embeddable, MIT-licensed agent framework with explicit policy
+PRAXO-CORE (also written praxocore) is an embeddable, MIT-licensed agent framework with explicit policy
 controls, checkpoints, and event tracing. It is not a Go-only framework.
+
+## Get Started
+
+Choose a package below, then follow its language documentation for prerequisites,
+installation, and a first run. The [consumer starters](docs/getting-started/coding-agents.md)
+exercise published packages with deterministic allow/deny checks; live models
+require separately configured providers and credentials.
 
 ## Languages
 
@@ -487,7 +408,7 @@ documentation before relying on a version or feature.
 - Language examples: `language/<language>/examples/`
 {scenario_links()}
 
-{community_section()}## Boundaries
+## Boundaries
 
 - PRAXO-CORE is an embeddable, MIT-licensed execution kernel, not a hosted
   model, workflow engine, identity provider, or safety controller.
@@ -495,51 +416,14 @@ documentation before relying on a version or feature.
   security certification, live-provider behavior, or physical safety from a
   package.
 - Registry pages are release snapshots; the canonical documentation may be newer.
-"""
+- Reference application source does not establish end-to-end portfolio acceptance.
+
+{community_section()}
+""".rstrip() + "\n"
 
 
 def render_root_llms() -> str:
-    lines = []
-    for name, package, registry, published, docs in root_language_rows():
-        lines.append(
-            f"- {name}: {package} — {registry} — {published} — {docs}"
-        )
-    languages = "\n".join(lines)
-    return f"""# PRAXO-CORE
-
-> Multi-language governed agent execution kernel. Go is the reference
-> implementation; Python, TypeScript, Java, Rust, C#, R, Ruby, PHP, Elixir, Lua,
-> and other implementations ship independent packages. This file is a
-> machine-readable entry point for coding tools; it does not guarantee discovery,
-> installation, or adoption.
-
-## Languages
-
-{languages}
-
-## Start
-
-- README: https://github.com/axisvela/praxo-core/blob/main/README.md
-- Quickstart: https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/quickstart.md
-- Examples: https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/examples.md
-- Examples directory: https://github.com/axisvela/praxo-core/blob/main/language/go/examples/README.md
-- Live model: https://github.com/axisvela/praxo-core/blob/main/language/go/examples/live-model/README.md
-- Scenario tutorials: https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial
-- Reference application: https://github.com/axisvela/praxo-core/tree/main/language/go/application
-{scenario_links()}- Start Here: https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/index.md
-- Coding-agent contract: https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md
-- Language repository index: https://github.com/axisvela/praxo-core/blob/main/docs/languages/repositories.md
-- When Not To Use: https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/when-not-to-use.md
-
-{community_section()}## Boundaries
-
-- In-process framework; not a model provider, hosted service, workflow engine,
-  identity provider, or safety controller.
-- No exactly-once, sandbox-isolation, production-security, real-time, or
-  physical-safety claim.
-- Registry pages are release snapshots. Verify the published version and read the
-  canonical documentation for behavior and limits.
-"""
+    return root_llms(root_language_rows(), scenario_links())
 
 
 def write_entry(entry: dict) -> None:
@@ -569,6 +453,13 @@ def main() -> int:
                     missing.append(str(path.relative_to(ROOT)))
             if readme.is_file() and BLOCK_START not in readme.read_text(encoding="utf-8"):
                 missing.append(f"{readme.relative_to(ROOT)}: missing registry block")
+            if readme.is_file():
+                text = readme.read_text(encoding="utf-8")
+                match = re.search(r"## Registry and Coding-Agent Entry\n.*?(?=\n## |\Z)", text, re.DOTALL)
+                if match and match[0].strip() != block(entry, readme.parent).strip():
+                    missing.append(f"{readme.relative_to(ROOT)}: stale registry block")
+                if "praxocore" not in text.split("\n## ", 1)[0].lower():
+                    missing.append(f"{readme.relative_to(ROOT)}: missing product alias in introduction")
             if entry["dir"] == ".":
                 if registry.is_file() and registry.read_text(encoding="utf-8") != render_root_registry():
                     missing.append(f"{registry.relative_to(ROOT)}: stale multi-language registry entry")

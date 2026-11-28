@@ -7,7 +7,7 @@ defmodule Praxo.MixProject do
       version: "0.11.1",
       elixir: "~> 1.14",
       start_permanent: Mix.env() == :prod,
-      description: "Embeddable MIT-licensed native Elixir agent framework with tools, policy, events, tutorials, and an agent loop",
+      description: "PRAXO-CORE (praxocore): embeddable native Elixir AI agent framework with tool calling, policy hooks, approvals, checkpoints, and events",
       package: package(),
       docs: docs(),
       deps: deps()

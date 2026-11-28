@@ -17,6 +17,8 @@ interrupt decisions remain Fortran. All 63 normative vectors across eleven
 groups and native regressions pass locally. Source tags do not imply
 package-registry publication.
 
+PRAXO-CORE (also written praxocore) provides an embeddable, MIT-licensed agent framework for Fortran, with tool calling, policy hooks, human-in-the-loop approval, checkpoints, and execution events. Use the language-specific scope and verification evidence below; a package listing does not establish Go feature parity or production readiness.
+
 ## Harmovela Event Sink
 
 ```fortran
@@ -49,9 +51,12 @@ may contain sensitive content, and use HTTPS for remote endpoints.
 
 ## Registry and Coding-Agent Entry
 
+- Get started, prerequisites, and installation: [language documentation](https://axisvela.github.io/praxo-core/languages/fortran/)
+- [Examples](https://github.com/axisvela/praxo-core/tree/main/language/fortran/examples): runnable language-specific examples; see each README for prerequisites and verification.
+- [Scenario tutorials](https://github.com/axisvela/praxo-core/tree/main/language/fortran/Tutorial): read the scope and validation status; source is not portfolio acceptance.
+- Reference applications: no language-specific accepted end-to-end application recorded; see the [tutorial catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/).
 - Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/language/fortran/REGISTRY.md)
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/fortran/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/fortran/llms.md)
-- [Examples](https://github.com/axisvela/praxo-core/tree/main/language/fortran/examples): runnable language-specific examples.
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
 - Registry: Source / CMake
 - Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761) · [LinkedIn](https://www.linkedin.com/company/axisvela/) · [Facebook](https://www.facebook.com/profile.php?id=61596905732406) · [YouTube](https://www.youtube.com/@axisvela) · [Discord](https://discord.com/channels/1575163993767809064/1575164343148875977) · [GitHub Discussions](https://github.com/axisvela/praxo-core/discussions) · [GitHub Issues](https://github.com/axisvela/praxo-core/issues) · [Documentation](https://axisvela.github.io/praxo-core/) · [Architect](https://axisvela.architect.pub)

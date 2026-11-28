@@ -5,12 +5,12 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "praxo-core"
 version = "0.11.2"
-description = "Embeddable Python agent runtime with policy, human-in-the-loop approvals, checkpoints, and tool calling."
+description = "PRAXO-CORE (praxocore): embeddable Python AI agent framework with policy, human-in-the-loop approvals, checkpoints, and tool calling."
 readme = "README.md"
 requires-python = ">=3.11"
 license = "MIT"
 authors = [{ name = "AxisVela" }]
-keywords = ["agents", "agent-runtime", "agent-framework", "llm", "tool-calling", "tool-authorization", "policy-enforcement", "human-in-the-loop", "checkpoint", "embeddable"]
+keywords = ["praxo-core", "praxocore", "python", "ai-agents", "agent-runtime", "agent-framework", "llm", "tool-calling", "tool-authorization", "policy-enforcement", "human-in-the-loop", "checkpoint", "embeddable", "mcp", "opentelemetry", "structured-output", "streaming"]
 classifiers = [
   "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3.11",

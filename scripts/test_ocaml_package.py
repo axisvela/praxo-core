@@ -96,6 +96,8 @@ class OcamlPackageTests(unittest.TestCase):
             self.assertIn(text, opam)
         self.assertNotIn('"unix"', opam)
         self.assertNotIn("conf-python-3", opam)
+        self.assertIn("PRAXO-CORE (praxocore)", opam)
+        self.assertIn('tags: ["praxocore" "ai-agents" "agent-framework"', opam)
         self.assertIn('dev-repo: "git+https://github.com/axisvela/praxo-core-ocaml.git"', opam)
         self.assertNotIn('dev-repo: "git+https://github.com/axisvela/praxo-core.git"', opam)
         readme = self.files["README.md"].decode()
@@ -117,6 +119,12 @@ class OcamlPackageTests(unittest.TestCase):
             "https://axisvela.github.io/praxo-core/getting-started/coding-agents/",
             f"{package.REPOSITORY}/tree/main/language/ocaml/examples",
             f"{package.REPOSITORY}/blob/main/SECURITY.md",
+            f"{package.REPOSITORY}/tree/main/language/ocaml/Tutorial",
+            "https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/",
+            "https://axisvela.github.io/praxo-core/project/roadmap/",
+            "https://github.com/axisvela/praxo-core/discussions",
+            "https://github.com/axisvela/praxo-core/issues",
+            "https://axisvela.github.io/praxo-core/",
         }
         for name in ("REGISTRY.md", "llms.md", "llms.txt"):
             text = self.files[name].decode()
@@ -125,8 +133,11 @@ class OcamlPackageTests(unittest.TestCase):
                              "Source availability is not registry publication", "Independent OCaml runtime",
                              "optional process plugin host", "HTTP transport is caller-owned",
                              "tests run in bytecode mode", "opam install . --with-test",
-                             "source HEAD", "PROVENANCE.json", f"ocaml/v{self.version}"):
+                              "source HEAD", "PROVENANCE.json", f"ocaml/v{self.version}"):
                 self.assertIn(expected, text, name)
+            self.assertIn("PRAXO-CORE (also written praxocore)", text, name)
+            headings = ("## Get Started", "## Scenario Tutorials", "## Reference Applications", "## Boundaries", "## Community")
+            self.assertEqual([text.index(h) for h in headings], sorted(text.index(h) for h in headings))
             self.assertEqual(set(re.findall(r"\]\(([^)]+)\)", text)), links, name)
             for forbidden in ("0.3", "opam install praxo-core", "published version", "plugin host unavailable",
                               "no process plugin host", "maintainer feedback resolved"):

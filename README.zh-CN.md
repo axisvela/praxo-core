@@ -9,7 +9,7 @@
 
 **可嵌入产品的 MIT 许可 Agent 框架，提供显式策略控制、检查点与事件追踪。**
 
-无需重复实现 Agent 循环、模型抽象、工具契约和执行边界。可以使用自己的模型
+PRAXO-CORE（也写作 praxocore）无需重复实现 Agent 循环、模型抽象、工具契约和执行边界。可以使用自己的模型
 提供商与集成，不要求使用 AxisVela 产品。
 
 [中文文档](https://axisvela.github.io/praxo-core/zh-CN/) |
@@ -183,7 +183,7 @@ optional。当前覆盖见[行为实验](docs/zh-CN/languages/behavior-lab.md)�
 | 优先级 | 语言 | 应用 | 状态 |
 | --- | --- | --- | --- |
 | 1 | PHP | [Drupal/Laravel 内容门户](language/php/application) | 源码实现；端到端验收待完成 |
-| 2 | Java | [Spring Boot 电商](language/java/application) | 源码实现；端到端验收待完成 |
+| 2 | Java | [Spring Boot 电商](language/java/application) | 托管确定性 CI 已通过（2026-11-28）；无真实模型；完整验收待完成 |
 | 3 | Elixir / Erlang | [OTP 实时运维](language/elixir/application)、[Erlang](language/erlang/application) | 源码实现；端到端验收待完成 |
 | 4 | Go | [云与 DevOps](language/go/application) | 源码实现；端到端验收待完成 |
 | 5 | C++ / Rust | [工业/嵌入式](language/cpp/application)、[系统/边缘](language/rust/application) | 源码实现；端到端验收待完成 |

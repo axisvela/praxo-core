@@ -1,6 +1,31 @@
 {
   "C": {
     "dir": "language/c",
+    "discovery": {
+      "aliases": [
+        "praxo-core",
+        "praxocore"
+      ],
+      "repository": "axisvela/praxo-core-c",
+      "repository_kind": "discovery-mirror",
+      "topics": [
+        "praxo-core",
+        "praxocore",
+        "ai-agents",
+        "agent-framework",
+        "agent-runtime",
+        "llm",
+        "tool-calling",
+        "tool-authorization",
+        "policy",
+        "human-in-the-loop",
+        "checkpoints",
+        "embeddable",
+        "mit",
+        "c",
+        "cmake"
+      ]
+    },
     "docs": "https://axisvela.github.io/praxo-core/languages/c/",
     "install": "xrepo install praxo-core",
     "package": "praxo-core-c",
@@ -15,6 +40,32 @@
   },
   "C#": {
     "dir": "language/csharp",
+    "discovery": {
+      "aliases": [
+        "praxo-core",
+        "praxocore"
+      ],
+      "repository": "axisvela/praxo-core-csharp",
+      "repository_kind": "discovery-mirror",
+      "topics": [
+        "praxo-core",
+        "praxocore",
+        "ai-agents",
+        "agent-framework",
+        "agent-runtime",
+        "llm",
+        "tool-calling",
+        "tool-authorization",
+        "policy",
+        "human-in-the-loop",
+        "checkpoints",
+        "embeddable",
+        "mit",
+        "csharp",
+        "dotnet",
+        "nuget"
+      ]
+    },
     "docs": "https://axisvela.github.io/praxo-core/languages/csharp/",
     "install": "dotnet add package Praxo.Core --version 0.11.1",
     "package": "Praxo.Core",
@@ -29,6 +80,31 @@
   },
   "C++": {
     "dir": "language/cpp",
+    "discovery": {
+      "aliases": [
+        "praxo-core",
+        "praxocore"
+      ],
+      "repository": "axisvela/praxo-core-cpp",
+      "repository_kind": "discovery-mirror",
+      "topics": [
+        "praxo-core",
+        "praxocore",
+        "ai-agents",
+        "agent-framework",
+        "agent-runtime",
+        "llm",
+        "tool-calling",
+        "tool-authorization",
+        "policy",
+        "human-in-the-loop",
+        "checkpoints",
+        "embeddable",
+        "mit",
+        "cpp",
+        "cmake"
+      ]
+    },
     "docs": "https://axisvela.github.io/praxo-core/languages/cpp/",
     "install": "xrepo install praxo-core-cpp",
     "package": "praxo-core-cpp",
@@ -43,6 +119,30 @@
   },
   "COBOL": {
     "dir": "language/cobol",
+    "discovery": {
+      "aliases": [
+        "praxo-core",
+        "praxocore"
+      ],
+      "repository": "axisvela/praxo-core-cobol",
+      "repository_kind": "discovery-mirror",
+      "topics": [
+        "praxo-core",
+        "praxocore",
+        "ai-agents",
+        "agent-framework",
+        "agent-runtime",
+        "llm",
+        "tool-calling",
+        "tool-authorization",
+        "policy",
+        "human-in-the-loop",
+        "checkpoints",
+        "embeddable",
+        "mit",
+        "cobol"
+      ]
+    },
     "docs": "https://axisvela.github.io/praxo-core/languages/cobol/",
     "install": "",
     "package": "praxo-core-cobol",
@@ -57,6 +157,31 @@
   },
   "D": {
     "dir": "language/d",
+    "discovery": {
+      "aliases": [
+        "praxo-core",
+        "praxocore"
+      ],
+      "repository": "axisvela/praxo-core-d",
+      "repository_kind": "publication-source",
+      "topics": [
+        "praxo-core",
+        "praxocore",
+        "ai-agents",
+        "agent-framework",
+        "agent-runtime",
+        "llm",
+        "tool-calling",
+        "tool-authorization",
+        "policy",
+        "human-in-the-loop",
+        "checkpoints",
+        "embeddable",
+        "mit",
+        "dlang",
+        "dub"
+      ]
+    },
     "docs": "https://axisvela.github.io/praxo-core/languages/d/",
     "install": "dub add praxo-core@0.8.0",
     "package": "praxo-core",
@@ -71,6 +196,30 @@
   },
   "Dart": {
     "dir": "language/dart",
+    "discovery": {
+      "aliases": [
+        "praxo-core",
+        "praxocore"
+      ],
+      "repository": "axisvela/praxo-core-dart",
+      "repository_kind": "discovery-mirror",
+      "topics": [
+        "praxo-core",
+        "praxocore",
+        "ai-agents",
+        "agent-framework",
+        "agent-runtime",
+        "llm",
+        "tool-calling",
+        "tool-authorization",
+        "policy",
+        "human-in-the-loop",
+        "checkpoints",
+        "embeddable",
+        "mit",
+        "dart"
+      ]
+    },
     "docs": "https://axisvela.github.io/praxo-core/languages/dart/",
     "install": "dart pub add praxo_core:0.8.2",
     "package": "praxo_core",
@@ -85,6 +234,31 @@
   },
   "Delphi / Free Pascal": {
     "dir": "language/delphi",
+    "discovery": {
+      "aliases": [
+        "praxo-core",
+        "praxocore"
+      ],
+      "repository": "axisvela/praxo-core-delphi",
+      "repository_kind": "discovery-mirror",
+      "topics": [
+        "praxo-core",
+        "praxocore",
+        "ai-agents",
+        "agent-framework",
+        "agent-runtime",
+        "llm",
+        "tool-calling",
+        "tool-authorization",
+        "policy",
+        "human-in-the-loop",
+        "checkpoints",
+        "embeddable",
+        "mit",
+        "delphi",
+        "freepascal"
+      ]
+    },
     "docs": "https://axisvela.github.io/praxo-core/languages/delphi/",
     "install": "Download 0.9.0 assets from https://github.com/axisvela/praxo-core/releases/tag/delphi%2Fv0.9.0",
     "package": "PRAXO-CORE",
@@ -99,6 +273,32 @@
   },
   "Elixir": {
     "dir": "language/elixir",
+    "discovery": {
+      "aliases": [
+        "praxo-core",
+        "praxocore"
+      ],
+      "repository": "axisvela/praxo-core-elixir",
+      "repository_kind": "discovery-mirror",
+      "topics": [
+        "praxo-core",
+        "praxocore",
+        "ai-agents",
+        "agent-framework",
+        "agent-runtime",
+        "llm",
+        "tool-calling",
+        "tool-authorization",
+        "policy",
+        "human-in-the-loop",
+        "checkpoints",
+        "embeddable",
+        "mit",
+        "elixir",
+        "beam",
+        "hex"
+      ]
+    },
     "docs": "https://axisvela.github.io/praxo-core/languages/elixir/",
     "install": "{:praxo_core, \"~> 0.11.1\"}",
     "package": "praxo_core",
@@ -113,6 +313,33 @@
   },
   "Erlang": {
     "dir": "language/erlang",
+    "discovery": {
+      "aliases": [
+        "praxo-core",
+        "praxocore"
+      ],
+      "repository": "axisvela/praxo-core-erlang",
+      "repository_kind": "discovery-mirror",
+      "topics": [
+        "praxo-core",
+        "praxocore",
+        "ai-agents",
+        "agent-framework",
+        "agent-runtime",
+        "llm",
+        "tool-calling",
+        "tool-authorization",
+        "policy",
+        "human-in-the-loop",
+        "checkpoints",
+        "embeddable",
+        "mit",
+        "erlang",
+        "beam",
+        "otp",
+        "hex"
+      ]
+    },
     "docs": "https://axisvela.github.io/praxo-core/languages/erlang/",
     "install": "{praxo_core, \"0.10.1\", {pkg, praxo_core_erlang}}",
     "package": "praxo_core_erlang",
@@ -127,6 +354,30 @@
   },
   "Fortran": {
     "dir": "language/fortran",
+    "discovery": {
+      "aliases": [
+        "praxo-core",
+        "praxocore"
+      ],
+      "repository": "axisvela/praxo-core-fortran",
+      "repository_kind": "discovery-mirror",
+      "topics": [
+        "praxo-core",
+        "praxocore",
+        "ai-agents",
+        "agent-framework",
+        "agent-runtime",
+        "llm",
+        "tool-calling",
+        "tool-authorization",
+        "policy",
+        "human-in-the-loop",
+        "checkpoints",
+        "embeddable",
+        "mit",
+        "fortran"
+      ]
+    },
     "docs": "https://axisvela.github.io/praxo-core/languages/fortran/",
     "install": "",
     "package": "praxo-core-fortran",
@@ -141,6 +392,30 @@
   },
   "GNU Octave": {
     "dir": "language/octave",
+    "discovery": {
+      "aliases": [
+        "praxo-core",
+        "praxocore"
+      ],
+      "repository": "axisvela/praxo-core-octave",
+      "repository_kind": "discovery-mirror",
+      "topics": [
+        "praxo-core",
+        "praxocore",
+        "ai-agents",
+        "agent-framework",
+        "agent-runtime",
+        "llm",
+        "tool-calling",
+        "tool-authorization",
+        "policy",
+        "human-in-the-loop",
+        "checkpoints",
+        "embeddable",
+        "mit",
+        "octave"
+      ]
+    },
     "docs": "https://axisvela.github.io/praxo-core/languages/octave/",
     "install": "pkg install https://github.com/axisvela/praxo-core/releases/download/octave/v0.9.0/praxo-core-0.9.0.tar.gz",
     "package": "praxo-core",
@@ -155,6 +430,30 @@
   },
   "Go": {
     "dir": ".",
+    "discovery": {
+      "aliases": [
+        "praxo-core",
+        "praxocore"
+      ],
+      "repository": "axisvela/praxo-core-go",
+      "repository_kind": "discovery-mirror",
+      "topics": [
+        "praxo-core",
+        "praxocore",
+        "ai-agents",
+        "agent-framework",
+        "agent-runtime",
+        "llm",
+        "tool-calling",
+        "tool-authorization",
+        "policy",
+        "human-in-the-loop",
+        "checkpoints",
+        "embeddable",
+        "mit",
+        "golang"
+      ]
+    },
     "docs": "https://axisvela.github.io/praxo-core/",
     "install": "go get github.com/axisvela/praxo-core/v2@v2.11.3",
     "package": "github.com/axisvela/praxo-core/v2",
@@ -169,6 +468,31 @@
   },
   "Haskell": {
     "dir": "language/haskell",
+    "discovery": {
+      "aliases": [
+        "praxo-core",
+        "praxocore"
+      ],
+      "repository": "axisvela/praxo-core-haskell",
+      "repository_kind": "discovery-mirror",
+      "topics": [
+        "praxo-core",
+        "praxocore",
+        "ai-agents",
+        "agent-framework",
+        "agent-runtime",
+        "llm",
+        "tool-calling",
+        "tool-authorization",
+        "policy",
+        "human-in-the-loop",
+        "checkpoints",
+        "embeddable",
+        "mit",
+        "haskell",
+        "cabal"
+      ]
+    },
     "docs": "https://axisvela.github.io/praxo-core/languages/haskell/",
     "install": "cabal install --lib praxo-core-0.9.0",
     "package": "praxo-core",
@@ -183,6 +507,32 @@
   },
   "Java": {
     "dir": "language/java",
+    "discovery": {
+      "aliases": [
+        "praxo-core",
+        "praxocore"
+      ],
+      "repository": "axisvela/praxo-core-java",
+      "repository_kind": "discovery-mirror",
+      "topics": [
+        "praxo-core",
+        "praxocore",
+        "ai-agents",
+        "agent-framework",
+        "agent-runtime",
+        "llm",
+        "tool-calling",
+        "tool-authorization",
+        "policy",
+        "human-in-the-loop",
+        "checkpoints",
+        "embeddable",
+        "mit",
+        "java",
+        "jvm",
+        "maven"
+      ]
+    },
     "docs": "https://axisvela.github.io/praxo-core/languages/java/",
     "install": "Maven: com.axisvela:praxo-core:0.12.3",
     "package": "com.axisvela:praxo-core",
@@ -197,6 +547,30 @@
   },
   "Julia": {
     "dir": "language/julia",
+    "discovery": {
+      "aliases": [
+        "praxo-core",
+        "praxocore"
+      ],
+      "repository": "axisvela/praxo-core-Julia",
+      "repository_kind": "publication-source",
+      "topics": [
+        "praxo-core",
+        "praxocore",
+        "ai-agents",
+        "agent-framework",
+        "agent-runtime",
+        "llm",
+        "tool-calling",
+        "tool-authorization",
+        "policy",
+        "human-in-the-loop",
+        "checkpoints",
+        "embeddable",
+        "mit",
+        "julia"
+      ]
+    },
     "docs": "https://axisvela.github.io/praxo-core/languages/julia/",
     "install": "",
     "package": "PraxoCore",
@@ -211,6 +585,31 @@
   },
   "Lua": {
     "dir": "language/lua",
+    "discovery": {
+      "aliases": [
+        "praxo-core",
+        "praxocore"
+      ],
+      "repository": "axisvela/praxo-core-lua",
+      "repository_kind": "publication-source",
+      "topics": [
+        "praxo-core",
+        "praxocore",
+        "ai-agents",
+        "agent-framework",
+        "agent-runtime",
+        "llm",
+        "tool-calling",
+        "tool-authorization",
+        "policy",
+        "human-in-the-loop",
+        "checkpoints",
+        "embeddable",
+        "mit",
+        "lua",
+        "luarocks"
+      ]
+    },
     "docs": "https://axisvela.github.io/praxo-core/languages/lua/",
     "install": "luarocks install praxo-core 0.9.1-1",
     "package": "praxo-core",
@@ -225,6 +624,30 @@
   },
   "MATLAB": {
     "dir": "language/matlab",
+    "discovery": {
+      "aliases": [
+        "praxo-core",
+        "praxocore"
+      ],
+      "repository": "axisvela/praxo-core-matlab",
+      "repository_kind": "discovery-mirror",
+      "topics": [
+        "praxo-core",
+        "praxocore",
+        "ai-agents",
+        "agent-framework",
+        "agent-runtime",
+        "llm",
+        "tool-calling",
+        "tool-authorization",
+        "policy",
+        "human-in-the-loop",
+        "checkpoints",
+        "embeddable",
+        "mit",
+        "matlab"
+      ]
+    },
     "docs": "https://axisvela.github.io/praxo-core/languages/matlab/",
     "install": "File Exchange entry 185166 (0.9.1)",
     "package": "PRAXO-CORE",
@@ -239,6 +662,15 @@
   },
   "MATLAB/Octave shared core": {
     "dir": "language/matlab-octave-core",
+    "discovery": {
+      "aliases": [
+        "praxo-core",
+        "praxocore"
+      ],
+      "repository": "",
+      "repository_kind": "shared-source",
+      "topics": []
+    },
     "docs": "https://axisvela.github.io/praxo-core/languages/",
     "install": "",
     "package": "shared implementation",
@@ -253,6 +685,31 @@
   },
   "Nim": {
     "dir": "language/nim",
+    "discovery": {
+      "aliases": [
+        "praxo-core",
+        "praxocore"
+      ],
+      "repository": "axisvela/praxo-core-nim",
+      "repository_kind": "publication-source",
+      "topics": [
+        "praxo-core",
+        "praxocore",
+        "ai-agents",
+        "agent-framework",
+        "agent-runtime",
+        "llm",
+        "tool-calling",
+        "tool-authorization",
+        "policy",
+        "human-in-the-loop",
+        "checkpoints",
+        "embeddable",
+        "mit",
+        "nim",
+        "nimble"
+      ]
+    },
     "docs": "https://axisvela.github.io/praxo-core/languages/nim/",
     "install": "",
     "package": "praxo_core",
@@ -267,6 +724,31 @@
   },
   "OCaml": {
     "dir": "language/ocaml",
+    "discovery": {
+      "aliases": [
+        "praxo-core",
+        "praxocore"
+      ],
+      "repository": "axisvela/praxo-core-ocaml",
+      "repository_kind": "publication-source",
+      "topics": [
+        "praxo-core",
+        "praxocore",
+        "ai-agents",
+        "agent-framework",
+        "agent-runtime",
+        "llm",
+        "tool-calling",
+        "tool-authorization",
+        "policy",
+        "human-in-the-loop",
+        "checkpoints",
+        "embeddable",
+        "mit",
+        "ocaml",
+        "opam"
+      ]
+    },
     "docs": "https://axisvela.github.io/praxo-core/languages/ocaml/",
     "install": "",
     "package": "praxo-core",
@@ -281,6 +763,30 @@
   },
   "Objective-C": {
     "dir": "language/objc",
+    "discovery": {
+      "aliases": [
+        "praxo-core",
+        "praxocore"
+      ],
+      "repository": "axisvela/praxo-core-objc",
+      "repository_kind": "discovery-mirror",
+      "topics": [
+        "praxo-core",
+        "praxocore",
+        "ai-agents",
+        "agent-framework",
+        "agent-runtime",
+        "llm",
+        "tool-calling",
+        "tool-authorization",
+        "policy",
+        "human-in-the-loop",
+        "checkpoints",
+        "embeddable",
+        "mit",
+        "objective-c"
+      ]
+    },
     "docs": "https://axisvela.github.io/praxo-core/languages/objc/",
     "install": "",
     "package": "praxo-core-objc",
@@ -295,6 +801,31 @@
   },
   "PHP": {
     "dir": "language/php",
+    "discovery": {
+      "aliases": [
+        "praxo-core",
+        "praxocore"
+      ],
+      "repository": "axisvela/praxo-core-php",
+      "repository_kind": "publication-source",
+      "topics": [
+        "praxo-core",
+        "praxocore",
+        "ai-agents",
+        "agent-framework",
+        "agent-runtime",
+        "llm",
+        "tool-calling",
+        "tool-authorization",
+        "policy",
+        "human-in-the-loop",
+        "checkpoints",
+        "embeddable",
+        "mit",
+        "php",
+        "composer"
+      ]
+    },
     "docs": "https://axisvela.github.io/praxo-core/languages/php/",
     "install": "composer require axisvela/praxo-core:0.10.1",
     "package": "axisvela/praxo-core",
@@ -302,13 +833,38 @@
     "registry": "Packagist",
     "source_install": "Composer path repository: language/php",
     "source_version": "0.10.1",
-    "status": "published",
+    "status": "published but broken: split artifact missing src/PluginProcessHost.php; staged fix verified, no new release authorized",
     "tag": "php/v0.10.1",
     "tier": "Core",
     "url": "https://packagist.org/packages/axisvela/praxo-core"
   },
   "Perl": {
     "dir": "language/perl",
+    "discovery": {
+      "aliases": [
+        "praxo-core",
+        "praxocore"
+      ],
+      "repository": "axisvela/praxo-core-perl",
+      "repository_kind": "discovery-mirror",
+      "topics": [
+        "praxo-core",
+        "praxocore",
+        "ai-agents",
+        "agent-framework",
+        "agent-runtime",
+        "llm",
+        "tool-calling",
+        "tool-authorization",
+        "policy",
+        "human-in-the-loop",
+        "checkpoints",
+        "embeddable",
+        "mit",
+        "perl",
+        "cpan"
+      ]
+    },
     "docs": "https://axisvela.github.io/praxo-core/languages/perl/",
     "install": "cpanm Praxo::Core@0.8.1",
     "package": "Praxo::Core",
@@ -323,6 +879,31 @@
   },
   "PowerShell": {
     "dir": "language/powershell",
+    "discovery": {
+      "aliases": [
+        "praxo-core",
+        "praxocore"
+      ],
+      "repository": "axisvela/praxo-core-powershell",
+      "repository_kind": "discovery-mirror",
+      "topics": [
+        "praxo-core",
+        "praxocore",
+        "ai-agents",
+        "agent-framework",
+        "agent-runtime",
+        "llm",
+        "tool-calling",
+        "tool-authorization",
+        "policy",
+        "human-in-the-loop",
+        "checkpoints",
+        "embeddable",
+        "mit",
+        "powershell",
+        "dotnet"
+      ]
+    },
     "docs": "https://axisvela.github.io/praxo-core/languages/powershell/",
     "install": "Install-Module praxo-core-ps",
     "package": "praxo-core-ps",
@@ -337,6 +918,31 @@
   },
   "Python": {
     "dir": "language/python",
+    "discovery": {
+      "aliases": [
+        "praxo-core",
+        "praxocore"
+      ],
+      "repository": "axisvela/praxo-core-python",
+      "repository_kind": "discovery-mirror",
+      "topics": [
+        "praxo-core",
+        "praxocore",
+        "ai-agents",
+        "agent-framework",
+        "agent-runtime",
+        "llm",
+        "tool-calling",
+        "tool-authorization",
+        "policy",
+        "human-in-the-loop",
+        "checkpoints",
+        "embeddable",
+        "mit",
+        "python",
+        "pypi"
+      ]
+    },
     "docs": "https://axisvela.github.io/praxo-core/languages/python/",
     "install": "pip install praxo-core==0.11.2",
     "package": "praxo-core",
@@ -351,6 +957,31 @@
   },
   "R": {
     "dir": "language/r",
+    "discovery": {
+      "aliases": [
+        "praxo-core",
+        "praxocore"
+      ],
+      "repository": "axisvela/praxo-core-r",
+      "repository_kind": "discovery-mirror",
+      "topics": [
+        "praxo-core",
+        "praxocore",
+        "ai-agents",
+        "agent-framework",
+        "agent-runtime",
+        "llm",
+        "tool-calling",
+        "tool-authorization",
+        "policy",
+        "human-in-the-loop",
+        "checkpoints",
+        "embeddable",
+        "mit",
+        "r",
+        "rstats"
+      ]
+    },
     "docs": "https://axisvela.github.io/praxo-core/languages/r/",
     "install": "install.packages(\"praxocore\", repos = \"https://axisvela.r-universe.dev\")",
     "package": "praxocore",
@@ -365,6 +996,31 @@
   },
   "Ruby": {
     "dir": "language/ruby",
+    "discovery": {
+      "aliases": [
+        "praxo-core",
+        "praxocore"
+      ],
+      "repository": "axisvela/praxo-core-ruby",
+      "repository_kind": "publication-source",
+      "topics": [
+        "praxo-core",
+        "praxocore",
+        "ai-agents",
+        "agent-framework",
+        "agent-runtime",
+        "llm",
+        "tool-calling",
+        "tool-authorization",
+        "policy",
+        "human-in-the-loop",
+        "checkpoints",
+        "embeddable",
+        "mit",
+        "ruby",
+        "rubygems"
+      ]
+    },
     "docs": "https://axisvela.github.io/praxo-core/languages/ruby/",
     "install": "gem install praxo-core -v 0.10.2",
     "package": "praxo-core",
@@ -379,6 +1035,31 @@
   },
   "Rust": {
     "dir": "language/rust",
+    "discovery": {
+      "aliases": [
+        "praxo-core",
+        "praxocore"
+      ],
+      "repository": "axisvela/praxo-core-rust",
+      "repository_kind": "discovery-mirror",
+      "topics": [
+        "praxo-core",
+        "praxocore",
+        "ai-agents",
+        "agent-framework",
+        "agent-runtime",
+        "llm",
+        "tool-calling",
+        "tool-authorization",
+        "policy",
+        "human-in-the-loop",
+        "checkpoints",
+        "embeddable",
+        "mit",
+        "rust",
+        "cargo"
+      ]
+    },
     "docs": "https://axisvela.github.io/praxo-core/languages/rust/",
     "install": "cargo add praxo-core@0.11.1",
     "package": "praxo-core",
@@ -393,6 +1074,31 @@
   },
   "Swift": {
     "dir": "language/swift",
+    "discovery": {
+      "aliases": [
+        "praxo-core",
+        "praxocore"
+      ],
+      "repository": "axisvela/praxo-core-swift",
+      "repository_kind": "publication-source",
+      "topics": [
+        "praxo-core",
+        "praxocore",
+        "ai-agents",
+        "agent-framework",
+        "agent-runtime",
+        "llm",
+        "tool-calling",
+        "tool-authorization",
+        "policy",
+        "human-in-the-loop",
+        "checkpoints",
+        "embeddable",
+        "mit",
+        "swift",
+        "swift-package-manager"
+      ]
+    },
     "docs": "https://axisvela.github.io/praxo-core/languages/swift/",
     "install": ".package(url: \"https://github.com/axisvela/praxo-core-swift.git\", exact: \"0.7.2\")",
     "package": "praxo-core-swift",
@@ -407,6 +1113,33 @@
   },
   "TypeScript": {
     "dir": "language/typescript",
+    "discovery": {
+      "aliases": [
+        "praxo-core",
+        "praxocore"
+      ],
+      "repository": "axisvela/praxo-core-typescript",
+      "repository_kind": "discovery-mirror",
+      "topics": [
+        "praxo-core",
+        "praxocore",
+        "ai-agents",
+        "agent-framework",
+        "agent-runtime",
+        "llm",
+        "tool-calling",
+        "tool-authorization",
+        "policy",
+        "human-in-the-loop",
+        "checkpoints",
+        "embeddable",
+        "mit",
+        "typescript",
+        "javascript",
+        "nodejs",
+        "npm"
+      ]
+    },
     "docs": "https://axisvela.github.io/praxo-core/languages/typescript/",
     "install": "npm install @axisvela/praxo-core@0.10.1",
     "package": "@axisvela/praxo-core",
@@ -421,6 +1154,30 @@
   },
   "V": {
     "dir": "language/v",
+    "discovery": {
+      "aliases": [
+        "praxo-core",
+        "praxocore"
+      ],
+      "repository": "axisvela/praxo-core-v",
+      "repository_kind": "publication-source",
+      "topics": [
+        "praxo-core",
+        "praxocore",
+        "ai-agents",
+        "agent-framework",
+        "agent-runtime",
+        "llm",
+        "tool-calling",
+        "tool-authorization",
+        "policy",
+        "human-in-the-loop",
+        "checkpoints",
+        "embeddable",
+        "mit",
+        "vlang"
+      ]
+    },
     "docs": "https://axisvela.github.io/praxo-core/languages/v/",
     "install": "",
     "package": "praxo-core",
@@ -435,6 +1192,30 @@
   },
   "Zig": {
     "dir": "language/zig",
+    "discovery": {
+      "aliases": [
+        "praxo-core",
+        "praxocore"
+      ],
+      "repository": "axisvela/praxo-core-zig",
+      "repository_kind": "discovery-mirror",
+      "topics": [
+        "praxo-core",
+        "praxocore",
+        "ai-agents",
+        "agent-framework",
+        "agent-runtime",
+        "llm",
+        "tool-calling",
+        "tool-authorization",
+        "policy",
+        "human-in-the-loop",
+        "checkpoints",
+        "embeddable",
+        "mit",
+        "zig"
+      ]
+    },
     "docs": "https://axisvela.github.io/praxo-core/languages/zig/",
     "install": "",
     "package": "praxo-core-zig",
