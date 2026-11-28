@@ -422,7 +422,7 @@ def mirror_readme(entry: dict, has_examples: bool = False, root: Path = ROOT) ->
             "", "## Reference Applications", "",
             "No accepted end-to-end reference application is recorded for this language yet. "
             "Candidate goals are tracked in the "
-            "[Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).",
+            "[Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/planning/roadmap/#reference-application-portfolio).",
         ])
     lines.extend(["", "## Verify", ""])
     if verify_code:

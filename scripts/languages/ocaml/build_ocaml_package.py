@@ -113,7 +113,7 @@ the canonical tag reference `ocaml/v{version}` does not certify packaged bytes.
 ## Reference Applications
 
 No accepted end-to-end OCaml reference application is recorded yet.
-See the [portfolio](https://axisvela.github.io/praxo-core/project/roadmap/).
+See the [portfolio](https://axisvela.github.io/praxo-core/project/planning/roadmap/).
 
 ## Boundaries
 

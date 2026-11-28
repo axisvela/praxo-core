@@ -27,7 +27,7 @@ entries, not evidence that a registry page has been refreshed.
 - [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/): delivery standards and the reference-application portfolio.
 - [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/): candidate business goals and their existing related slices.
 - [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/): cross-language tutorials, examples, and application paths.
-- [Reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio): planned and existing full host integrations.
+- [Reference application portfolio](https://axisvela.github.io/praxo-core/project/planning/roadmap/#reference-application-portfolio): planned and existing full host integrations.
 - Per-language `REGISTRY.md` entries link their `Tutorial/` and `application/` source directories.
 
 ## Published Versions

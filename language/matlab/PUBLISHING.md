@@ -98,7 +98,7 @@ https://github.com/axisvela/praxo-core/tree/main/language/matlab/Tutorial
 Reference applications:
 No accepted end-to-end reference application is recorded for MATLAB yet.
 Candidate goals are tracked in:
-https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio
+https://axisvela.github.io/praxo-core/project/planning/roadmap/#reference-application-portfolio
 
 Planning context:
 - Tutorial plan:

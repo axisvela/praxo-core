@@ -78,7 +78,7 @@ class DiscoveryTests(unittest.TestCase):
                 self.assertIn("source_version", registry.manifest_data()[entry["name"]])
                 self.assertIn("production", text)
                 self.assertIn("verify", text.lower())
-                self.assertIn("https://axisvela.github.io/praxo-core/project/verification-evidence/", text)
+                self.assertIn("https://axisvela.github.io/praxo-core/project/evaluation/verification-evidence/", text)
 
     def test_readme_generation_is_idempotent_and_retains_content(self):
         entry = next(item for item in registry.LANGUAGES if item["name"] == "Python")

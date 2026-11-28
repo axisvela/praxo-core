@@ -98,7 +98,7 @@ def render_root_llms(rows: list, scenarios: str) -> str:
 - Reference application source is not end-to-end portfolio acceptance.
 - Registry pages are release snapshots. Verify the published version and read the
   canonical documentation for behavior and limits.
-- Evidence: https://axisvela.github.io/praxo-core/project/verification-evidence/
+- Evidence: https://axisvela.github.io/praxo-core/project/evaluation/verification-evidence/
 - When Not To Use: https://axisvela.github.io/praxo-core/getting-started/when-not-to-use/
 
 {community_section()}""".rstrip() + "\n"

@@ -121,7 +121,7 @@ class OcamlPackageTests(unittest.TestCase):
             f"{package.REPOSITORY}/blob/main/SECURITY.md",
             f"{package.REPOSITORY}/tree/main/language/ocaml/Tutorial",
             "https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/",
-            "https://axisvela.github.io/praxo-core/project/roadmap/",
+            "https://axisvela.github.io/praxo-core/project/planning/roadmap/",
             "https://github.com/axisvela/praxo-core/discussions",
             "https://github.com/axisvela/praxo-core/issues",
             "https://axisvela.github.io/praxo-core/",

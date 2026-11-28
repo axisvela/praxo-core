@@ -289,7 +289,7 @@ published installation from source builds; a pending registry is not available.
 - Check the registry page and source tag for the exact version; source READMEs
   and canonical documentation may be newer than a published registry page.
 - Reference application sources are not end-to-end portfolio acceptance. See each
-  README and the [verification evidence](https://axisvela.github.io/praxo-core/project/verification-evidence/).
+  README and the [verification evidence](https://axisvela.github.io/praxo-core/project/evaluation/verification-evidence/).
 
 {community_section()}
 """.rstrip() + "\n"

@@ -76,14 +76,14 @@ Each tutorial directory has its own README with the exact `octave-cli` or
 - [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/): delivery standards and the reference-application portfolio.
 - [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/): candidate business goals and related slices.
 - [Unified Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/): cross-language tutorials, examples, and application paths.
-- [Reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio): planned and existing full host integrations.
+- [Reference application portfolio](https://axisvela.github.io/praxo-core/project/planning/roadmap/#reference-application-portfolio): planned and existing full host integrations.
 
 ## Documentation
 
 - Language page: https://axisvela.github.io/praxo-core/languages/matlab/
 - Repository: https://github.com/axisvela/praxo-core
 - Registry status: https://axisvela.github.io/praxo-core/languages/registry-status/
-- Compatibility policy: https://axisvela.github.io/praxo-core/project/compatibility-policy/
+- Compatibility policy: https://axisvela.github.io/praxo-core/project/status/compatibility-policy/
 
 ## Community
 

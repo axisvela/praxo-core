@@ -34,7 +34,7 @@ def scenario_links() -> str:
     return (
         "- [Tutorial plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) "
         "([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)): "
-        "delivery standards and the [reference application portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).\n"
+        "delivery standards and the [reference application portfolio](https://axisvela.github.io/praxo-core/project/planning/roadmap/#reference-application-portfolio).\n"
         "- [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/) "
         "([中文](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)): "
         "candidate business goals and their existing related slices.\n"

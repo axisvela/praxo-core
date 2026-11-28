@@ -21,7 +21,7 @@ Go `v2.11.3` 的发布文档日期为 2026-11-27；
 - [教程计划](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/)：交付标准与参考应用组合。
 - [100 个候选 Agent 场景](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/)：候选业务目标及已有相关切片。
 - [统一教程目录](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/)：跨语言教程、示例与应用路径。
-- [参考应用组合](https://axisvela.github.io/praxo-core/zh-CN/project/roadmap/)：计划中与已有的完整宿主集成。
+- [参考应用组合](https://axisvela.github.io/praxo-core/zh-CN/project/planning/roadmap/)：计划中与已有的完整宿主集成。
 - 各语言的 `REGISTRY.md` 会链接对应 `Tutorial/` 和 `application/` 源码目录。
 
 ## 已发布版本
