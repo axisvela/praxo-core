@@ -68,18 +68,30 @@ class CiExecutionTests(unittest.TestCase):
         self.assertIn("python-conformance", selected_jobs([
             "language/python/Tutorial/bug-repair/README.md", "language/python/praxo/agent.py"], "ci-python.yml"))
 
+    def test_ci_is_a_small_gate_and_portfolio_is_scheduled(self):
+        self.assertEqual(set(workflow("ci.yml")["jobs"]), {"changes", "script-tests"})
+        portfolio = workflow("portfolio.yml")
+        events = portfolio.get("on", portfolio.get(True))
+        self.assertEqual(set(events), {"schedule", "workflow_dispatch"})
+        for job in portfolio["jobs"].values():
+            self.assertNotIn("if", job)
+            self.assertNotIn("needs", job)
+        tutorials = workflow("ci-tutorials.yml")["jobs"]
+        self.assertEqual(set(tutorials), {"changes", "scenario-catalog", "shared-service-integrations"})
+
     def test_ordinary_sdk_events_have_dedicated_owners(self):
-        portfolio = workflow("ci.yml")["jobs"]
+        portfolio = yaml.safe_load((sync_ci_routing.WORKFLOWS / "portfolio.yml").read_text(encoding="utf-8"))["jobs"]
         for path in sync_ci_routing.WORKFLOWS.glob("ci-*.yml"):
             for name in workflow(path.name)["jobs"]:
                 if name != "changes" and name in portfolio:
-                    self.assertEqual(portfolio[name]["if"], "needs.changes.outputs.full == 'true'", name)
+                    self.assertNotIn("if", portfolio[name])
+                    self.assertNotIn("needs", portfolio[name])
         for language, file in (("php", "src/Agent.php"), ("python", "praxo/agent.py"), ("java", "src/main/java/Agent.java")):
             for event in ("push", "pull_request"):
                 files = [f"language/{language}/{file}"]
                 self.assertEqual(workflow_triggered(files, "ci.yml", event), event == "push")
                 self.assertEqual(selected_jobs(files, "ci.yml", event), set())
-        self.assertEqual(portfolio["example-sdks"]["if"], "needs.changes.outputs.full == 'true'")
+        self.assertIn("example-sdks", portfolio)
 
     def test_release_workflows_receive_same_commit_main_push_checks(self):
         for name in ("ci.yml", "docs.yml"):
@@ -219,7 +231,8 @@ class CiExecutionTests(unittest.TestCase):
             sync_ci_routing.scoped_steps("    steps:\n      - run: php language/php/tests/run.php\n        if: always()\n")
 
     def test_each_portfolio_sdk_keeps_an_ordinary_conformance_owner(self):
-        for name in workflow("ci.yml")["jobs"]:
+        portfolio = yaml.safe_load((sync_ci_routing.WORKFLOWS / "portfolio.yml").read_text(encoding="utf-8"))["jobs"]
+        for name in portfolio:
             if not name.endswith("-conformance") or name == "spec-conformance":
                 continue
             language = name.removesuffix("-conformance").removesuffix("-windows")
@@ -229,11 +242,11 @@ class CiExecutionTests(unittest.TestCase):
             self.assertEqual(len(owners), 1, (name, owners))
 
     def test_representative_runner_counts(self):
-        cases = {"README.md": (1, 3), "language/python/Tutorial/bug-repair/README.md": (4, 7),
+        cases = {"README.md": (1, 3), "language/python/Tutorial/bug-repair/README.md": (5, 8),
                  "language/php/src/Agent.php": (9, 13), "language/python/praxo/agent.py": (9, 13),
                  "language/java/application/src/main/java/App.java": (3, 7),
                  "language/php/examples/consumer/composer.json": (10, 13),
-                 "scripts/test_behavior_lab.py": (19, 21)}
+                 "scripts/test_behavior_lab.py": (4, 6)}
         for file, (pull_request, push) in cases.items():
             with self.subTest(file=file):
                 self.assertEqual(sum(runner_counts([file]).values()), pull_request)

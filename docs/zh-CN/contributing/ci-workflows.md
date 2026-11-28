@@ -7,7 +7,12 @@ CI 按路径拆分，语言专属改动不再运行完整矩阵。`ci.yml` 继�
 
 | Workflow | 范围 | 触发路径 |
 | --- | --- | --- |
-| `ci.yml` | Go/核心、共享检查、Bridge、质量、安全、全矩阵 | 每次 main push；按路径过滤的 PR；定时；手动 |
+| `ci.yml` | ????????????/???? | ?? main push??????? PR??? |
+| `ci-core.yml` | Go ?????race?fuzz????containment?spec/privacy????????Bridge | ????????? |
+| `ci-security.yml` | ?????? | Go module?Adapter ????? |
+| `portfolio.yml` | ?????????SDK????Bridge ????? | ?????? |
+| `ci-tutorial-<language>.yml` | ????? job | ??? `Tutorial/**` |
+| `ci-delphi.yml` | Delphi ??? | `language/delphi/**` |
 | `ci-python.yml` | Python 一致性和消费者 | `language/python/**` |
 | `ci-typescript.yml` | TypeScript 一致性、消费者、JavaScript 示例 | `language/typescript/**` |
 | `ci-java.yml` | Java 一致性、消费者、Kotlin/Scala/Groovy/Clojure 示例 | `language/java/**` |
@@ -24,7 +29,7 @@ CI 按路径拆分，语言专属改动不再运行完整矩阵。`ci.yml` 继�
 | `ci-examples.yml` | Go 示例、SDK 示例、Go 消费者与配方 | `language/go/examples/**` 和选定语言示例路径 |
 | `docs.yml` | 文档构建、Registry 检查、消费者 pin | `docs/**`、元数据、选定脚本和 workflow |
 | `ci-applications.yml` | 参考应用 | 应用目录及 Go/核心依赖 |
-| `ci-tutorials.yml` | 教程目录和可运行教程 | 教程目录与目录输入 |
+| `ci-tutorials.yml` | ?????? SDK ?????? | ????????? |
 | `ci-labs.yml` | Behavior/Compatibility Lab | Lab/核心改动、定时和手动 |
 | `ci-bridge.yml` | Go Bridge 和共享运行时绑定 | Bridge 和 Go/核心依赖 |
 

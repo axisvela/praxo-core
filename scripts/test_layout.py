@@ -41,9 +41,16 @@ class LayoutTests(unittest.TestCase):
                         self.assertTrue((base / source).is_dir(), source)
 
     def test_workflow_language_paths(self):
-        text = (ROOT / ".github/workflows/ci.yml").read_text()
+        paths = sorted((ROOT / ".github/workflows").glob("ci*.yml")) + [ROOT / ".github/workflows/portfolio.yml"]
+        text = "\n".join(path.read_text() for path in paths)
         names = "|".join(LANGUAGES + BINDINGS + SAMPLES)
-        runs = "\n".join(str(step.get("run", "")) for job in yaml.safe_load(text)["jobs"].values() for step in job["steps"])
+        runs = "\n".join(
+            line for path in paths
+            for job in yaml.safe_load(path.read_text())["jobs"].values()
+            for step in job["steps"]
+            for line in str(step.get("run", "")).splitlines()
+            if "cp -R " not in line
+        )
         stale = re.findall(r"(?<![\w/.-])(?:\./)?(?:" + names + r")/(?=[\w?.])", runs)
         self.assertEqual(stale, [])
         self.assertIn("node ../../language/javascript/examples/sample.mjs", text)

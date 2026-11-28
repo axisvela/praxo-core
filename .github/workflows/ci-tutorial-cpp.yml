@@ -1,0 +1,154 @@
+name: ci-tutorial-cpp
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "language/cpp/Tutorial/**"
+      - ".github/workflows/ci-tutorial-cpp.yml"
+  pull_request:
+    paths:
+      - "language/cpp/Tutorial/**"
+      - ".github/workflows/ci-tutorial-cpp.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' || github.event_name == 'push' }}
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      full: ${{ steps.filter.outputs.full }}
+      core: ${{ steps.filter.outputs.core }}
+      docs: ${{ steps.filter.outputs.docs }}
+      examples: ${{ steps.filter.outputs.examples }}
+      consumers: ${{ steps.filter.outputs.consumers }}
+      adapters: ${{ steps.filter.outputs.adapters }}
+      languages: ${{ steps.filter.outputs.languages }}
+      applications: ${{ steps.filter.outputs.applications }}
+      tutorials: ${{ steps.filter.outputs.tutorials }}
+      example_languages: ${{ steps.filter.outputs.example_languages }}
+      labs: ${{ steps.filter.outputs.labs }}
+      compatibility_languages: ${{ steps.filter.outputs.compatibility_languages }}
+      behavior_languages: ${{ steps.filter.outputs.behavior_languages }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: filter
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          REF_TYPE: ${{ github.ref_type }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PUSH_BEFORE: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.sha }}
+          WORKFLOW_FILE: .github/workflows/ci-tutorial-cpp.yml
+        run: python scripts/ci_changes.py
+
+  cpp-new-tutorials:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'cpp')
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      matrix:
+        tutorial: [quant-risk, production-scheduling, bom-review, household-robot, drone-fleet-plan, fleet-map, storyboard-previs, dubbing-plan, construction-safety, mining-slope]
+    steps:
+      - uses: actions/checkout@v4
+      - run: cmake -S language/cpp -B language/cpp/build
+      - run: cmake --build language/cpp/build --target praxo-cpp-${{ matrix.tutorial }}-tutorial
+      - run: ./language/cpp/build/praxo-cpp-${{ matrix.tutorial }}-tutorial --test
+
+  cpp-industrial-edge:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'cpp')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: cmake -S language/cpp -B language/cpp/build
+      - run: cmake --build language/cpp/build --target praxo-cpp-industrial-edge-tutorial
+      - run: ./language/cpp/build/praxo-cpp-industrial-edge-tutorial --test
+
+  cpp-materials-design:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'cpp')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: cmake -S language/cpp -B language/cpp/build
+      - run: cmake --build language/cpp/build --target praxo-cpp-materials-design-tutorial
+      - run: ./language/cpp/build/praxo-cpp-materials-design-tutorial --test
+
+  cpp-molecule-screen:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'cpp')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: cmake -S language/cpp -B language/cpp/build
+      - run: cmake --build language/cpp/build --target praxo-cpp-molecule-screen-tutorial
+      - run: ./language/cpp/build/praxo-cpp-molecule-screen-tutorial --test
+
+  cpp-container-yard:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'cpp')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: cmake -S language/cpp -B language/cpp/build
+      - run: cmake --build language/cpp/build --target praxo-cpp-container-yard-tutorial
+      - run: ./language/cpp/build/praxo-cpp-container-yard-tutorial --test
+
+  cpp-ocean-routing:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'cpp')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: cmake -S language/cpp -B language/cpp/build
+      - run: cmake --build language/cpp/build --target praxo-cpp-ocean-routing-tutorial
+      - run: ./language/cpp/build/praxo-cpp-ocean-routing-tutorial --test
+
+  cpp-mesh-review:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'cpp')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: cmake -S language/cpp -B language/cpp/build
+      - run: cmake --build language/cpp/build --target praxo-cpp-mesh-review-tutorial
+      - run: ./language/cpp/build/praxo-cpp-mesh-review-tutorial --test
+
+  cpp-eda-placement:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'cpp')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: cmake -S language/cpp -B language/cpp/build
+      - run: cmake --build language/cpp/build --target praxo-cpp-eda-placement-tutorial
+      - run: ./language/cpp/build/praxo-cpp-eda-placement-tutorial --test
+
+  cpp-traffic-signal-plan:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'cpp')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: cmake -S language/cpp -B language/cpp/build
+      - run: cmake --build language/cpp/build --target praxo-cpp-traffic-signal-plan-tutorial
+      - run: ./language/cpp/build/praxo-cpp-traffic-signal-plan-tutorial --test
+

@@ -7,7 +7,12 @@ CI is split by path so a language-only change does not run the full matrix.
 
 | Workflow | Scope | Triggered by |
 | --- | --- | --- |
-| `ci.yml` | Go/core, shared checks, bridges, quality, security, full matrix | Every main push; path-filtered PRs; schedule; manual dispatch |
+| `ci.yml` | Release gate: change classification and routing/script checks | Every main push; path-filtered PRs; manual dispatch |
+| `ci-core.yml` | Go core tests, race, fuzz, quality, containment, spec/privacy, published consumer, bridges | Core and shared contract paths |
+| `ci-security.yml` | Module-security matrix | Go module, adapter, and dependency paths |
+| `portfolio.yml` | Full cross-platform consumer, SDK, sample, bridge, and example portfolio | Schedule and manual dispatch only |
+| `ci-tutorial-<language>.yml` | Tutorial jobs for one language | That language's `Tutorial/**` paths |
+| `ci-delphi.yml` | Delphi conformance | `language/delphi/**` |
 | `ci-python.yml` | Python conformance and consumer | `language/python/**` |
 | `ci-typescript.yml` | TypeScript conformance, consumer, JavaScript sample | `language/typescript/**` |
 | `ci-java.yml` | Java conformance, consumer, Kotlin/Scala/Groovy/Clojure samples | `language/java/**` |
@@ -24,9 +29,11 @@ CI is split by path so a language-only change does not run the full matrix.
 | `ci-examples.yml` | Go examples, SDK examples, Go consumer and recipes | `language/go/examples/**` and selected language example paths |
 | `docs.yml` | Documentation build, registry checks, consumer pins | `docs/**`, metadata, selected scripts and workflows |
 | `ci-applications.yml` | Reference applications | Application directories and Go/core dependencies |
-| `ci-tutorials.yml` | Tutorial catalog and runnable tutorials | Tutorial directories and catalog inputs |
+| `ci-tutorials.yml` | Tutorial catalog and cross-SDK tutorial service integration | Catalog inputs; full requests |
 | `ci-labs.yml` | Behavior and compatibility labs | Lab/core changes, schedule, manual dispatch |
 | `ci-bridge.yml` | Go bridge and shared-runtime bindings | Bridge and Go/core dependencies |
+
+`portfolio.yml` is outside the `ci*.yml` generator and runs only on schedule or manual dispatch. `ci.yml` is the small release gate; language and tutorial workflows own their ordinary checks, so a PHP tutorial change does not materialize unrelated tutorial checks. Workflow names encode the layer and subject; job names retain the language/topic prefix.
 
 Shared changes under `spec/` and `.github/actions/`, plus scripts without an
 explicit docs-only scope, still trigger full test matrices. Known documentation,

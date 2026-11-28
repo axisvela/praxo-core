@@ -1,0 +1,84 @@
+name: ci-tutorial-nim
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "language/nim/Tutorial/**"
+      - ".github/workflows/ci-tutorial-nim.yml"
+  pull_request:
+    paths:
+      - "language/nim/Tutorial/**"
+      - ".github/workflows/ci-tutorial-nim.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' || github.event_name == 'push' }}
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      full: ${{ steps.filter.outputs.full }}
+      core: ${{ steps.filter.outputs.core }}
+      docs: ${{ steps.filter.outputs.docs }}
+      examples: ${{ steps.filter.outputs.examples }}
+      consumers: ${{ steps.filter.outputs.consumers }}
+      adapters: ${{ steps.filter.outputs.adapters }}
+      languages: ${{ steps.filter.outputs.languages }}
+      applications: ${{ steps.filter.outputs.applications }}
+      tutorials: ${{ steps.filter.outputs.tutorials }}
+      example_languages: ${{ steps.filter.outputs.example_languages }}
+      labs: ${{ steps.filter.outputs.labs }}
+      compatibility_languages: ${{ steps.filter.outputs.compatibility_languages }}
+      behavior_languages: ${{ steps.filter.outputs.behavior_languages }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: filter
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          REF_TYPE: ${{ github.ref_type }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PUSH_BEFORE: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.sha }}
+          WORKFLOW_FILE: .github/workflows/ci-tutorial-nim.yml
+        run: python scripts/ci_changes.py
+
+  nim-maintenance-triage:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'nim')
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jiro4989/setup-nim-action@v2
+        with:
+          nim-version: '2.2.12'
+      - run: nim c --path:language/nim/src --hints:off --out:build/nim-maintenance language/nim/Tutorial/maintenance-triage/maintenance.nim
+      - run: ./build/nim-maintenance --test
+
+  nim-new-tutorials:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'nim')
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      matrix:
+        include:
+          - { dir: irrigation-plan, src: irrigation }
+          - { dir: leak-localization, src: leak }
+          - { dir: cold-chain, src: coldchain }
+          - { dir: livestock-monitor, src: livestock }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jiro4989/setup-nim-action@v2
+        with:
+          nim-version: '2.2.12'
+      - run: nim check --path:language/nim/src --hints:off language/nim/Tutorial/${{ matrix.dir }}/${{ matrix.src }}.nim
+

@@ -6,7 +6,7 @@ from pathlib import Path
 
 from ci_changes import (
     CI_SCRIPTS, DISCOVERY_INPUTS, DOCS_SCRIPTS, DOC_MARKDOWN_PATTERNS,
-    LAB_LANGUAGES, LANGUAGE_DOC_FILES, LANGUAGE_SCRIPTS,
+    LAB_LANGUAGES, LAB_SCRIPTS, LANGUAGE_DOC_FILES, LANGUAGE_SCRIPTS,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -89,6 +89,7 @@ def render(path):
         if name != "changes" and name not in portfolio:
             owned.update(languages(name, job))
     workflow = f".github/workflows/{path.name}"
+    tutorial_scope = path.name == "ci-tutorials.yml" or path.name.startswith("ci-tutorial-")
     targeted = {
         "ci-applications.yml": [
             "language/*/application/**", "language/cpp/CMakeLists.txt",
@@ -107,6 +108,9 @@ def render(path):
         "ci-labs.yml": [*SHARED, "!spec/languages.md",
                         *[f"!{script}" for script in sorted(DOCS_SCRIPTS | CI_SCRIPTS)], workflow],
     }.get(path.name)
+    if path.name.startswith("ci-tutorial-"):
+        language = path.name.removeprefix("ci-tutorial-").removesuffix(".yml")
+        targeted = [f"language/{language}/Tutorial/**", workflow]
     if targeted is not None:
         patterns = targeted
     else:
@@ -120,7 +124,7 @@ def render(path):
         patterns.append(workflow)
         patterns += [f"!{script}" for script in sorted(DOCS_SCRIPTS)]
         if path.name != "ci.yml":
-            patterns += [f"!{script}" for script in sorted(CI_SCRIPTS)]
+            patterns += [f"!{script}" for script in sorted(CI_SCRIPTS | LAB_SCRIPTS)]
         patterns += [f"!{name}" for name in sorted(DISCOVERY_INPUTS)]
         patterns += [f"!language/**/{name}" for name in sorted(LANGUAGE_DOC_FILES)]
         patterns.append("!language/*/application/**")
@@ -183,7 +187,7 @@ def render(path):
         deps = languages(name, job)
         if deps:
             output = "applications" if path.name == "ci-applications.yml" else "languages"
-            if path.name == "ci-tutorials.yml":
+            if tutorial_scope:
                 output = "tutorials"
             if path.name == "ci-examples.yml" and name == "example-sdks":
                 output = "example_languages"

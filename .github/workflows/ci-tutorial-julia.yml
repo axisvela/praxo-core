@@ -1,0 +1,111 @@
+name: ci-tutorial-julia
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "language/julia/Tutorial/**"
+      - ".github/workflows/ci-tutorial-julia.yml"
+  pull_request:
+    paths:
+      - "language/julia/Tutorial/**"
+      - ".github/workflows/ci-tutorial-julia.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' || github.event_name == 'push' }}
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      full: ${{ steps.filter.outputs.full }}
+      core: ${{ steps.filter.outputs.core }}
+      docs: ${{ steps.filter.outputs.docs }}
+      examples: ${{ steps.filter.outputs.examples }}
+      consumers: ${{ steps.filter.outputs.consumers }}
+      adapters: ${{ steps.filter.outputs.adapters }}
+      languages: ${{ steps.filter.outputs.languages }}
+      applications: ${{ steps.filter.outputs.applications }}
+      tutorials: ${{ steps.filter.outputs.tutorials }}
+      example_languages: ${{ steps.filter.outputs.example_languages }}
+      labs: ${{ steps.filter.outputs.labs }}
+      compatibility_languages: ${{ steps.filter.outputs.compatibility_languages }}
+      behavior_languages: ${{ steps.filter.outputs.behavior_languages }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: filter
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          REF_TYPE: ${{ github.ref_type }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PUSH_BEFORE: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.sha }}
+          WORKFLOW_FILE: .github/workflows/ci-tutorial-julia.yml
+        run: python scripts/ci_changes.py
+
+  julia-new-tutorials:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'julia')
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      matrix:
+        include:
+          - { dir: churn-warning, file: churn_warning }
+          - { dir: wealth-analysis, file: wealth_analysis }
+          - { dir: molecule-screen, file: molecule_screen }
+          - { dir: lab-loop, file: lab_loop }
+          - { dir: materials-design, file: materials_design }
+          - { dir: traffic-signal-plan, file: traffic_signal_plan }
+          - { dir: emergency-route-plan, file: emergency_route_plan }
+          - { dir: waste-collection, file: waste_collection }
+          - { dir: ocean-routing, file: ocean_routing }
+          - { dir: airport-recovery, file: airport_recovery }
+          - { dir: mesh-review, file: mesh_review }
+          - { dir: hvac-settings, file: hvac_settings }
+          - { dir: fire-spread, file: fire_spread }
+          - { dir: hedge-plan, file: hedge_plan }
+          - { dir: policy-simulation, file: policy_simulation }
+          - { dir: eda-placement, file: eda_placement }
+          - { dir: virtual-pi, file: virtual_pi }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: julia-actions/setup-julia@v2
+        with:
+          version: '1.13'
+      - run: julia --project=language/julia -e 'using Pkg; Pkg.instantiate()'
+      - run: julia --project=language/julia language/julia/Tutorial/${{ matrix.dir }}/${{ matrix.file }}.jl --test
+
+  julia-dispatch-review:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'julia')
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: julia-actions/setup-julia@v2
+        with:
+          version: '1.13'
+      - run: julia --project=language/julia -e 'using Pkg; Pkg.instantiate()'
+      - run: julia --project=language/julia language/julia/Tutorial/dispatch-review/dispatch_review.jl --test
+
+  julia-experiment-comparison:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.tutorials), 'julia')
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: julia-actions/setup-julia@v2
+        with:
+          version: '1.13'
+      - run: julia --project=language/julia -e 'using Pkg; Pkg.instantiate()'
+      - run: julia --project=language/julia language/julia/Tutorial/experiment-comparison/experiment_comparison.jl --test
+
