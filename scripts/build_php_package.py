@@ -117,12 +117,15 @@ def main():
     parser.add_argument("--output", type=Path, required=True)
     mode = parser.add_mutually_exclusive_group()
     mode.add_argument("--check", action="store_true")
+    mode.add_argument("--check-managed", action="store_true", help="verify managed payload in a split checkout with extra content")
     mode.add_argument("--sync-split", action="store_true", help="replace a clean PHP split checkout payload, preserving .git")
     args = parser.parse_args()
     try:
         version, files = payload()
         if args.check:
             check(args.output, files)
+        elif args.check_managed:
+            check(args.output, files, managed_only=True)
         elif args.sync_split:
             sync_checkout(args.output, files)
         else:

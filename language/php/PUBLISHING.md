@@ -26,6 +26,7 @@ php language/php/tests/run.php
 php language/php/tests/plugin_process.php
 python scripts/build_php_package.py --output build/php-split
 python scripts/build_php_package.py --output build/php-split --check
+python scripts/build_php_package.py --output <split-checkout> --check-managed
 python scripts/test_php_package.py
 ```
 
