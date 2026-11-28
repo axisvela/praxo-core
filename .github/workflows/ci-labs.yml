@@ -17,34 +17,12 @@ on:
       - "Makefile"
       - ".github/actions/**"
       - "!spec/languages.md"
-      - "!scripts/check_adapter_status.py"
-      - "!scripts/check_ci_workflow_coverage.py"
-      - "!scripts/check_consumer_pins.py"
-      - "!scripts/check_language_releases.py"
-      - "!scripts/check_registry_pages.py"
-      - "!scripts/check_registry_state.py"
-      - "!scripts/ci_changes.py"
-      - "!scripts/docs_hooks.py"
-      - "!scripts/mirror_readme.py"
-      - "!scripts/registry_catalog.py"
-      - "!scripts/registry_discovery.py"
-      - "!scripts/repository_discovery.py"
-      - "!scripts/sync_ci_routing.py"
-      - "!scripts/sync_language_mirrors.py"
-      - "!scripts/sync_language_registry_docs.py"
-      - "!scripts/test_adapter_status.py"
-      - "!scripts/test_ci_changes.py"
-      - "!scripts/test_ci_execution.py"
-      - "!scripts/test_consumer_pins.py"
-      - "!scripts/test_discovery.py"
-      - "!scripts/test_docs.py"
-      - "!scripts/test_language_registry_docs.py"
-      - "!scripts/test_language_releases.py"
-      - "!scripts/test_layout.py"
-      - "!scripts/test_registry_pages.py"
-      - "!scripts/test_registry_state.py"
-      - "!scripts/test_roadmap.py"
-      - "!scripts/test_sync_language_mirrors.py"
+      - "!scripts/discovery/**"
+      - "!scripts/checks/**"
+      - "!scripts/release/**"
+      - "!scripts/execution/**"
+      - "!scripts/validation/**"
+      - "!scripts/ci/**"
       - ".github/workflows/ci-labs.yml"
   pull_request:
     paths:
@@ -61,34 +39,12 @@ on:
       - "Makefile"
       - ".github/actions/**"
       - "!spec/languages.md"
-      - "!scripts/check_adapter_status.py"
-      - "!scripts/check_ci_workflow_coverage.py"
-      - "!scripts/check_consumer_pins.py"
-      - "!scripts/check_language_releases.py"
-      - "!scripts/check_registry_pages.py"
-      - "!scripts/check_registry_state.py"
-      - "!scripts/ci_changes.py"
-      - "!scripts/docs_hooks.py"
-      - "!scripts/mirror_readme.py"
-      - "!scripts/registry_catalog.py"
-      - "!scripts/registry_discovery.py"
-      - "!scripts/repository_discovery.py"
-      - "!scripts/sync_ci_routing.py"
-      - "!scripts/sync_language_mirrors.py"
-      - "!scripts/sync_language_registry_docs.py"
-      - "!scripts/test_adapter_status.py"
-      - "!scripts/test_ci_changes.py"
-      - "!scripts/test_ci_execution.py"
-      - "!scripts/test_consumer_pins.py"
-      - "!scripts/test_discovery.py"
-      - "!scripts/test_docs.py"
-      - "!scripts/test_language_registry_docs.py"
-      - "!scripts/test_language_releases.py"
-      - "!scripts/test_layout.py"
-      - "!scripts/test_registry_pages.py"
-      - "!scripts/test_registry_state.py"
-      - "!scripts/test_roadmap.py"
-      - "!scripts/test_sync_language_mirrors.py"
+      - "!scripts/discovery/**"
+      - "!scripts/checks/**"
+      - "!scripts/release/**"
+      - "!scripts/execution/**"
+      - "!scripts/validation/**"
+      - "!scripts/ci/**"
       - ".github/workflows/ci-labs.yml"
   workflow_dispatch:
   schedule:
@@ -130,7 +86,7 @@ jobs:
           PUSH_BEFORE: ${{ github.event.before }}
           HEAD_SHA: ${{ github.sha }}
           WORKFLOW_FILE: .github/workflows/ci-labs.yml
-        run: python scripts/ci_changes.py
+        run: python -m scripts.ci.ci_changes
 
   compatibility-lab:
     needs: changes
@@ -165,8 +121,8 @@ jobs:
         if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.compatibility_languages), 'fortran')
       - run: sudo apt-get install -y gnucobol
         if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.compatibility_languages), 'cobol')
-      - run: python -m unittest discover -s scripts -p "test_compatibility_lab.py" -v
-      - run: python scripts/compatibility_lab.py --install --strict --timeout 1200 --languages "$LAB_LANGUAGES"
+      - run: python -m unittest discover -s scripts -t . -p "test_compatibility_lab.py" -v
+      - run: python -m scripts.labs.compatibility_lab --install --strict --timeout 1200 --languages "$LAB_LANGUAGES"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -235,7 +191,7 @@ jobs:
         if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.behavior_languages), 'ruby')
         with:
           ruby-version: "3.4"
-      - run: python -m unittest discover -s scripts -p "test_behavior_lab.py" -v
+      - run: python -m unittest discover -s scripts -t . -p "test_behavior_lab.py" -v
       - run: npm ci
         if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.behavior_languages), 'typescript')
         working-directory: language/typescript
@@ -253,7 +209,7 @@ jobs:
         if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.behavior_languages), 'c')
       - run: cmake --build language/c/build
         if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.behavior_languages), 'c')
-      - run: python scripts/behavior_lab.py --strict --timeout 600 --languages "$LAB_LANGUAGES"
+      - run: python -m scripts.labs.behavior_lab --strict --timeout 600 --languages "$LAB_LANGUAGES"
       - uses: actions/upload-artifact@v4
         if: always()
         with:

@@ -23,29 +23,11 @@ on:
       - "*.go"
       - ".github/**"
       - ".github/workflows/ci.yml"
-      - "!scripts/check_adapter_status.py"
-      - "!scripts/check_consumer_pins.py"
-      - "!scripts/check_language_releases.py"
-      - "!scripts/check_registry_pages.py"
-      - "!scripts/check_registry_state.py"
-      - "!scripts/docs_hooks.py"
-      - "!scripts/mirror_readme.py"
-      - "!scripts/registry_catalog.py"
-      - "!scripts/registry_discovery.py"
-      - "!scripts/repository_discovery.py"
-      - "!scripts/sync_language_mirrors.py"
-      - "!scripts/sync_language_registry_docs.py"
-      - "!scripts/test_adapter_status.py"
-      - "!scripts/test_consumer_pins.py"
-      - "!scripts/test_discovery.py"
-      - "!scripts/test_docs.py"
-      - "!scripts/test_language_registry_docs.py"
-      - "!scripts/test_language_releases.py"
-      - "!scripts/test_layout.py"
-      - "!scripts/test_registry_pages.py"
-      - "!scripts/test_registry_state.py"
-      - "!scripts/test_roadmap.py"
-      - "!scripts/test_sync_language_mirrors.py"
+      - "!scripts/discovery/**"
+      - "!scripts/checks/**"
+      - "!scripts/release/**"
+      - "!scripts/execution/**"
+      - "!scripts/validation/**"
       - "!language/discovery.json"
       - "!language/registry-metadata.json"
       - "!spec/languages.md"
@@ -64,10 +46,13 @@ on:
       - "!language/**/README*.md"
       - "!language/**/CHANGELOG*.md"
       - "!language/**/docs/**/*.md"
-      - "!scripts/build_ocaml_package.py"
-      - "!scripts/build_php_package.py"
-      - "!scripts/test_ocaml_package.py"
-      - "!scripts/test_php_package.py"
+      - "!scripts/consumers/go/**"
+      - "!scripts/consumers/java/**"
+      - "!scripts/consumers/longrunning/**"
+      - "!scripts/consumers/python/**"
+      - "!scripts/consumers/typescript/**"
+      - "!scripts/languages/ocaml/**"
+      - "!scripts/languages/php/**"
   workflow_dispatch:
 
 permissions:
@@ -106,15 +91,15 @@ jobs:
           PUSH_BEFORE: ${{ github.event.before }}
           HEAD_SHA: ${{ github.sha }}
           WORKFLOW_FILE: .github/workflows/ci.yml
-        run: python scripts/ci_changes.py
-      - run: python scripts/check_ci_workflow_coverage.py
-      - run: python scripts/sync_ci_routing.py --check
-      - run: python -m unittest discover -s scripts -p test_ci_changes.py -v
+        run: python -m scripts.ci.ci_changes
+      - run: python -m scripts.ci.check_ci_workflow_coverage
+      - run: python -m scripts.ci.sync_ci_routing --check
+      - run: python -m unittest discover -s scripts -t . -p test_ci_changes.py -v
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
       - run: python -m pip install PyYAML==6.0.3
-      - run: python -m unittest discover -s scripts -p test_ci_execution.py -v
+      - run: python -m unittest discover -s scripts -t . -p test_ci_execution.py -v
 
   script-tests:
     needs: changes
@@ -144,4 +129,4 @@ jobs:
           extensions: openssl, mbstring
       - run: python -m pip install -r requirements-docs.txt
       - run: mkdocs build --strict
-      - run: python -m unittest discover -s scripts -p "test_*.py" -v
+      - run: python -m unittest discover -s scripts -t . -p "test_*.py" -v

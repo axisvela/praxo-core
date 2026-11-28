@@ -6,8 +6,8 @@ on:
     paths:
       - "language/ocaml/**"
       - "spec/**"
-      - "scripts/build_ocaml_package.py"
-      - "scripts/test_ocaml_package.py"
+      - "scripts/languages/ocaml/build_ocaml_package.py"
+      - "scripts/languages/ocaml/test_ocaml_package.py"
       - "!spec/languages.md"
       - "!language/ocaml/**/*.md"
       - ".github/workflows/ocaml-package.yml"
@@ -15,8 +15,8 @@ on:
     paths:
       - "language/ocaml/**"
       - "spec/**"
-      - "scripts/build_ocaml_package.py"
-      - "scripts/test_ocaml_package.py"
+      - "scripts/languages/ocaml/build_ocaml_package.py"
+      - "scripts/languages/ocaml/test_ocaml_package.py"
       - "!spec/languages.md"
       - "!language/ocaml/**/*.md"
       - ".github/workflows/ocaml-package.yml"
@@ -45,8 +45,8 @@ jobs:
           ocaml-compiler: ${{ matrix.compiler }}
       - run: opam install dune conf-python-3 --yes
       - run: python language/ocaml/api-snapshot.py --check
-      - run: opam exec -- python -m unittest discover -s scripts -p "test_ocaml_*.py" -v
-      - run: python scripts/build_ocaml_package.py --archive build/praxo-core-ocaml-source.tar.gz
+      - run: opam exec -- python -m unittest discover -s scripts -t . -p "test_ocaml_*.py" -v
+      - run: python -m scripts.languages.ocaml.build_ocaml_package --archive build/praxo-core-ocaml-source.tar.gz
       - run: opam lint build/ocaml-package/praxo-core.opam
       - run: python -m tarfile -e build/praxo-core-ocaml-source.tar.gz build/ocaml-release-check
       - run: opam install "./build/ocaml-release-check/praxo-core-$(cat language/ocaml/VERSION)" --with-test --yes

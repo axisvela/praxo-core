@@ -56,7 +56,7 @@ jobs:
           PUSH_BEFORE: ${{ github.event.before }}
           HEAD_SHA: ${{ github.sha }}
           WORKFLOW_FILE: .github/workflows/ci-tutorials.yml
-        run: python scripts/ci_changes.py
+        run: python -m scripts.ci.ci_changes
 
   scenario-catalog:
     needs: changes
@@ -68,11 +68,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: python scripts/test_agent_scenarios.py
-      - run: python scripts/tutorial_catalog.py --check
-      - run: python scripts/test_tutorial_catalog.py
-      - run: python scripts/check_example_coverage.py
-      - run: python scripts/test_example_coverage.py -q
+      - run: python -m scripts.validation.test_agent_scenarios
+      - run: python -m scripts.discovery.tutorial_catalog --check
+      - run: python -m scripts.discovery.test_tutorial_catalog
+      - run: python -m scripts.checks.check_example_coverage
+      - run: python -m scripts.checks.test_example_coverage -q
 
   shared-service-integrations:
     needs: changes

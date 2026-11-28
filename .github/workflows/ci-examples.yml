@@ -50,7 +50,7 @@ jobs:
           PUSH_BEFORE: ${{ github.event.before }}
           HEAD_SHA: ${{ github.sha }}
           WORKFLOW_FILE: .github/workflows/ci-examples.yml
-        run: python scripts/ci_changes.py
+        run: python -m scripts.ci.ci_changes
 
   examples:
     needs: changes
@@ -132,8 +132,8 @@ jobs:
         if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.example_languages), 'go')
         with:
           go-version: "1.26.11"
-      - run: python scripts/check_example_coverage.py
-      - run: python scripts/test_example_coverage.py -q
+      - run: python -m scripts.checks.check_example_coverage
+      - run: python -m scripts.checks.test_example_coverage -q
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -662,33 +662,33 @@ jobs:
       - run: go vet -mod=readonly ./...
       - run: go build -mod=readonly ./...
       - run: go run -mod=readonly .
-      - run: python scripts/test_go_consumer.py
+      - run: python -m scripts.consumers.go.test_go_consumer
         working-directory: .
-      - run: python scripts/test_go_upgrade.py -v
+      - run: python -m scripts.consumers.go.test_go_upgrade -v
         working-directory: .
-      - run: python scripts/test_go_longrunning.py -v
+      - run: python -m scripts.consumers.go.test_go_longrunning -v
         working-directory: .
-      - run: python scripts/test_go_identity.py -v
+      - run: python -m scripts.consumers.go.test_go_identity -v
         working-directory: .
-      - run: python scripts/test_go_conformance_recipe.py -v
+      - run: python -m scripts.consumers.go.test_go_conformance_recipe -v
         working-directory: .
-      - run: python scripts/test_go_retry_recipe.py -v
+      - run: python -m scripts.consumers.go.test_go_retry_recipe -v
         working-directory: .
-      - run: python scripts/test_go_event_sink_recipe.py -v
+      - run: python -m scripts.consumers.go.test_go_event_sink_recipe -v
         working-directory: .
-      - run: python scripts/test_go_context_budget_recipe.py -v
+      - run: python -m scripts.consumers.go.test_go_context_budget_recipe -v
         working-directory: .
-      - run: python scripts/test_go_checkpoint_store_recipe.py -v
+      - run: python -m scripts.consumers.go.test_go_checkpoint_store_recipe -v
         working-directory: .
-      - run: python scripts/test_go_structured_output_recipe.py -v
+      - run: python -m scripts.consumers.go.test_go_structured_output_recipe -v
         working-directory: .
-      - run: python scripts/test_go_vfs_containment_recipe.py -v
+      - run: python -m scripts.consumers.go.test_go_vfs_containment_recipe -v
         working-directory: .
-      - run: python scripts/test_go_provider_fallback_recipe.py -v
+      - run: python -m scripts.consumers.go.test_go_provider_fallback_recipe -v
         working-directory: .
-      - run: python scripts/test_go_plugin_lifecycle_recipe.py -v
+      - run: python -m scripts.consumers.go.test_go_plugin_lifecycle_recipe -v
         working-directory: .
-      - run: python scripts/test_go_multi_agent_recipe.py -v
+      - run: python -m scripts.consumers.go.test_go_multi_agent_recipe -v
         working-directory: .
-      - run: python scripts/test_go_streaming_recipe.py -v
+      - run: python -m scripts.consumers.go.test_go_streaming_recipe -v
         working-directory: .

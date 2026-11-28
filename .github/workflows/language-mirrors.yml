@@ -25,14 +25,7 @@ on:
       - "docs/languages/go/index.md"
       - "spec/**"
       - "LICENSE"
-      - "scripts/sync_language_registry_docs.py"
-      - "scripts/sync_language_mirrors.py"
-      - "scripts/mirror_readme.py"
-      - "scripts/test_sync_language_mirrors.py"
-      - "scripts/registry_catalog.py"
-      - "scripts/registry_discovery.py"
-      - "scripts/repository_discovery.py"
-      - "scripts/test_discovery.py"
+      - "scripts/discovery/**"
       - ".github/workflows/language-mirrors.yml"
   pull_request:
     paths:
@@ -57,14 +50,7 @@ on:
       - "docs/languages/go/index.md"
       - "spec/**"
       - "LICENSE"
-      - "scripts/sync_language_registry_docs.py"
-      - "scripts/sync_language_mirrors.py"
-      - "scripts/mirror_readme.py"
-      - "scripts/test_sync_language_mirrors.py"
-      - "scripts/registry_catalog.py"
-      - "scripts/registry_discovery.py"
-      - "scripts/repository_discovery.py"
-      - "scripts/test_discovery.py"
+      - "scripts/discovery/**"
       - ".github/workflows/language-mirrors.yml"
   workflow_dispatch:
     inputs:
@@ -93,9 +79,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: python scripts/test_sync_language_mirrors.py
-      - run: python scripts/repository_discovery.py --check
-      - run: python scripts/sync_language_mirrors.py --dry-run
+      - run: python -m scripts.discovery.test_sync_language_mirrors
+      - run: python -m scripts.discovery.repository_discovery --check
+      - run: python -m scripts.discovery.sync_language_mirrors --dry-run
 
   check:
     if: github.event_name == 'workflow_dispatch' && inputs.mode == 'check'
@@ -112,7 +98,7 @@ jobs:
       - name: Check mirror drift
         env:
           PRAXO_MIRROR_TOKEN: ${{ secrets.PRAXO_MIRROR_TOKEN }}
-        run: python scripts/sync_language_mirrors.py --check
+        run: python -m scripts.discovery.sync_language_mirrors --check
 
   sync:
     if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.mode == 'sync')
@@ -140,4 +126,4 @@ jobs:
         env:
           PRAXO_MIRROR_TOKEN: ${{ secrets.PRAXO_MIRROR_TOKEN }}
           GITHUB_SHA: ${{ github.sha }}
-        run: python scripts/sync_language_mirrors.py
+        run: python -m scripts.discovery.sync_language_mirrors

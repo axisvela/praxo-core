@@ -24,13 +24,13 @@ jobs:
         with:
           python-version: "3.12"
       - name: Test release gate
-        run: python -m unittest discover -s scripts -p "test_release_checks.py" -v
+        run: python -m unittest discover -s scripts -t . -p "test_release_checks.py" -v
       - name: Test release manifest
-        run: python -m unittest discover -s scripts -p "test_release_manifest.py" -v
+        run: python -m unittest discover -s scripts -t . -p "test_release_manifest.py" -v
       - name: Verify same-commit main push checks
         env:
           GH_TOKEN: ${{ github.token }}
-        run: python scripts/verify_release_checks.py --repo "$GITHUB_REPOSITORY" --sha "$(git rev-parse HEAD)"
+        run: python -m scripts.release.verify_release_checks --repo "$GITHUB_REPOSITORY" --sha "$(git rev-parse HEAD)"
 
   release:
     needs: verify-checks
@@ -67,7 +67,7 @@ jobs:
       - name: Build release manifest and checksums
         run: |
           version="${GITHUB_REF_NAME#v}"
-          python3 scripts/release_manifest.py \
+          python3 -m scripts.release.release_manifest \
             --root dist \
             --version "${version}" \
             --tag "${GITHUB_REF_NAME}" \

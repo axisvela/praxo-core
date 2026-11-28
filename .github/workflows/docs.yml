@@ -6,24 +6,14 @@ on:
   pull_request:
     paths:
       - "docs/**"
+      - "scripts/discovery/**"
+      - "scripts/checks/**"
+      - "scripts/release/**"
+      - "scripts/execution/**"
+      - "scripts/validation/**"
       - "language/**/*.md"
       - "mkdocs.yml"
       - "requirements-docs.txt"
-      - "scripts/docs_hooks.py"
-      - "scripts/test_docs.py"
-      - "scripts/test_roadmap.py"
-      - "scripts/test_layout.py"
-      - "scripts/check_adapter_status.py"
-      - "scripts/test_adapter_status.py"
-      - "scripts/sync_language_registry_docs.py"
-      - "scripts/test_language_registry_docs.py"
-      - "scripts/registry_catalog.py"
-      - "scripts/registry_discovery.py"
-      - "scripts/repository_discovery.py"
-      - "scripts/test_discovery.py"
-      - "scripts/mirror_readme.py"
-      - "scripts/sync_language_mirrors.py"
-      - "scripts/test_sync_language_mirrors.py"
       - "language/discovery.json"
       - "REGISTRY.md"
       - "llms.md"
@@ -35,14 +25,6 @@ on:
       - "docs/languages/adapter-status.md"
       - "docs/reference/mcp-client.md"
       - "docs/reference/harmovela-sink.md"
-      - "scripts/check_registry_state.py"
-      - "scripts/test_registry_state.py"
-      - "scripts/check_registry_pages.py"
-      - "scripts/test_registry_pages.py"
-      - "scripts/check_consumer_pins.py"
-      - "scripts/test_consumer_pins.py"
-      - "scripts/check_language_releases.py"
-      - "scripts/test_language_releases.py"
       - "language/registry-metadata.json"
       - "language/*/CHANGELOG.md"
       - "language/*/VERSION"
@@ -84,10 +66,6 @@ on:
       - "VERSION"
       - "CHANGELOG*.md"
       - "ROADMAP*.md"
-      - "scripts/verify_release_checks.py"
-      - "scripts/test_release_checks.py"
-      - "scripts/release_manifest.py"
-      - "scripts/test_release_manifest.py"
       - ".github/workflows/release.yml"
       - ".github/workflows/language-source-release.yml"
       - ".github/workflows/python-release.yml"
@@ -121,20 +99,22 @@ jobs:
       - uses: actions/configure-pages@v5
       - run: pip install -r requirements-docs.txt
       - run: mkdocs build --strict
-      - run: python scripts/check_registry_state.py
-      - run: python scripts/check_registry_pages.py
-      - run: python scripts/check_consumer_pins.py
-      - run: python scripts/check_language_releases.py --no-tags
-      - run: python scripts/test_discovery.py -v
-      - run: python scripts/sync_language_registry_docs.py --check
-      - run: python scripts/repository_discovery.py --check
+      - run: python -m scripts.checks.check_registry_state
+      - run: python -m scripts.checks.check_registry_pages
+      - run: python -m scripts.checks.check_consumer_pins
+      - run: python -m scripts.checks.check_language_releases --no-tags
+      - run: python -m scripts.discovery.test_discovery -v
+      - run: python -m scripts.discovery.sync_language_registry_docs --check
+      - run: python -m scripts.discovery.repository_discovery --check
       - name: Run documentation and metadata tests
-        working-directory: scripts
         run: >-
-          python -m unittest -v test_docs test_roadmap test_layout test_adapter_status
-          test_language_registry_docs test_discovery test_registry_state test_registry_pages
-          test_consumer_pins test_language_releases test_sync_language_mirrors
-          test_release_checks test_release_manifest test_ci_changes test_ci_execution
+          python -m unittest -v scripts.validation.test_docs scripts.validation.test_roadmap
+          scripts.validation.test_layout scripts.checks.test_adapter_status
+          scripts.discovery.test_language_registry_docs scripts.discovery.test_discovery
+          scripts.checks.test_registry_state scripts.checks.test_registry_pages
+          scripts.checks.test_consumer_pins scripts.checks.test_language_releases
+          scripts.discovery.test_sync_language_mirrors scripts.release.test_release_checks
+          scripts.release.test_release_manifest scripts.ci.test_ci_changes scripts.ci.test_ci_execution
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site
