@@ -27,7 +27,12 @@ LANGUAGE_DOC_FILES = {"README.md", "README.zh-CN.md", "README.pod", "REGISTRY.md
                       "PUBLISHING.md", "CONTRIBUTING.md", "SECURITY.md", "LICENSE.md", "AGENTS.md"}
 DOC_MARKDOWN_PATTERNS = [f"language/**/{name}" for name in sorted(LANGUAGE_DOC_FILES) if name.endswith(".md")]
 DOC_MARKDOWN_PATTERNS += ["language/**/README*.md", "language/**/CHANGELOG*.md", "language/**/docs/**/*.md"]
-LANGUAGE_SCRIPTS = {"scripts/build_php_package.py": "php", "scripts/test_php_package.py": "php"}
+LANGUAGE_SCRIPTS = {
+    "scripts/build_php_package.py": "php",
+    "scripts/test_php_package.py": "php",
+    "scripts/build_ocaml_package.py": "ocaml",
+    "scripts/test_ocaml_package.py": "ocaml",
+}
 LAB_SCRIPTS = {
     "scripts/behavior_lab.py", "scripts/compatibility_lab.py",
     "scripts/test_behavior_lab.py", "scripts/test_compatibility_lab.py",

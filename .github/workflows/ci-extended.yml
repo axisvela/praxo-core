@@ -73,6 +73,8 @@ on:
       - "!language/**/README*.md"
       - "!language/**/CHANGELOG*.md"
       - "!language/**/docs/**/*.md"
+      - "!scripts/build_ocaml_package.py"
+      - "!scripts/test_ocaml_package.py"
   pull_request:
     paths:
       - "spec/**"
@@ -144,6 +146,8 @@ on:
       - "!language/**/README*.md"
       - "!language/**/CHANGELOG*.md"
       - "!language/**/docs/**/*.md"
+      - "!scripts/build_ocaml_package.py"
+      - "!scripts/test_ocaml_package.py"
   workflow_dispatch:
 
 permissions:

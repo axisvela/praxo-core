@@ -208,13 +208,18 @@ class CiExecutionTests(unittest.TestCase):
         self.assertEqual(setup["with"]["tools"], "composer")
         command = next(step for step in job["steps"] if step.get("run") == "python scripts/test_php_package.py")
         self.assertEqual(command["env"], {"PRAXO_PHP": "php", "PRAXO_COMPOSER": "composer"})
-        for file in ci_changes.LANGUAGE_SCRIPTS:
+        for file, language in ci_changes.LANGUAGE_SCRIPTS.items():
             values = classify([file])
             self.assertEqual(values["full"], "false")
-            self.assertEqual(json.loads(values["languages"]), ["php"])
-            self.assertIn("php-package", selected_jobs([file], "ci-extended.yml"))
-            for name in ("ci.yml", "ci-python.yml", "ci-java.yml", "ci-native.yml"):
-                self.assertFalse(workflow_triggered([file], name), name)
+            self.assertEqual(json.loads(values["languages"]), [language])
+            if language == "php":
+                self.assertIn("php-package", selected_jobs([file], "ci-extended.yml"))
+                for name in ("ci.yml", "ci-python.yml", "ci-java.yml", "ci-native.yml"):
+                    self.assertFalse(workflow_triggered([file], name), name)
+            else:
+                self.assertIn("ocaml-conformance", selected_jobs([file], "ci-optional2.yml"))
+                self.assertTrue(workflow_triggered([file], "ocaml-package.yml"))
+                self.assertFalse(workflow_triggered([file], "ci-extended.yml"))
         docs = workflow("docs.yml")["jobs"]["build"]["steps"]
         self.assertFalse(any('discover -s scripts -p "test_*.py"' in step.get("run", "") for step in docs))
         self.assertTrue(any("test_ci_execution" in step.get("run", "") for step in docs))

@@ -69,7 +69,9 @@ on:
       - "!language/**/README*.md"
       - "!language/**/CHANGELOG*.md"
       - "!language/**/docs/**/*.md"
+      - "!scripts/build_ocaml_package.py"
       - "!scripts/build_php_package.py"
+      - "!scripts/test_ocaml_package.py"
       - "!scripts/test_php_package.py"
   pull_request:
     paths:
@@ -138,7 +140,9 @@ on:
       - "!language/**/README*.md"
       - "!language/**/CHANGELOG*.md"
       - "!language/**/docs/**/*.md"
+      - "!scripts/build_ocaml_package.py"
       - "!scripts/build_php_package.py"
+      - "!scripts/test_ocaml_package.py"
       - "!scripts/test_php_package.py"
   workflow_dispatch:
 
