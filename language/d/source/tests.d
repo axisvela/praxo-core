@@ -34,6 +34,16 @@ class TestSink : EventSink {
     void emit(Event event) { types ~= event.type; }
 }
 
+class FailingSink : EventSink {
+    string[] types;
+    void emit(Event event) {
+        types ~= event.type;
+        if (event.type == "run.started") {
+            throw new PraxoError("SINK_FAILED", "sink unavailable");
+        }
+    }
+}
+
 class TestModel : Model {
     Message[] steps;
     size_t next = 0;
@@ -94,6 +104,19 @@ void main() {
     auto runResult = runAgent(options, Session("s1"), "go");
     check(runResult.output == "done" && runResult.steps == 2 && invocations == 1, "agent loop");
     check(sink.types == ["run.started", "tool.call", "run.completed"], "agent events");
+
+    auto startupSink = new FailingSink();
+    auto startupOptions = new AgentOptions(new TestModel([Message.assistant("done")]));
+    startupOptions.events = startupSink;
+    bool startupFailed = false;
+    try {
+        runAgent(startupOptions, Session("s1"), "go");
+    } catch (PraxoError error) {
+        startupFailed = error.code == "SINK_FAILED";
+    }
+    check(startupFailed, "startup event failure");
+    check(startupSink.types == ["run.started", "run.failed"],
+        "startup event failure events");
 
     auto defaultGuards = new AgentOptions(new TestModel([Message.assistant("done")]));
     check(!defaultGuards.requirePolicy && !defaultGuards.requireToolScope,

@@ -129,8 +129,8 @@ class Agent {
         }
         messages ~= Message.text(USER, prompt);
         Usage usage;
-        emit("run.started", session.id, runId);
         try {
+            emit("run.started", session.id, runId);
             for (long step = 1; step <= maxSteps; step++) {
                 authorize(Action("model.generate", session.id));
                 if (options.context !is null) {
@@ -166,7 +166,11 @@ class Agent {
             }
             throw new PraxoError("AGENT_MAX_STEPS", "maximum steps");
         } catch (Exception error) {
-            emit("run.failed", session.id, runId);
+            try {
+                emit("run.failed", session.id, runId);
+            } catch (Exception) {
+                // event sinks must not mask the run error
+            }
             throw error;
         }
     }
