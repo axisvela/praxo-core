@@ -1,0 +1,491 @@
+#!/usr/bin/env python3
+"""Render the root README for dedicated language mirror repositories."""
+
+from __future__ import annotations
+
+import re
+from pathlib import Path
+from urllib.parse import urljoin
+
+from scripts.discovery.registry_discovery import COMMUNITY_LINKS
+
+ROOT = Path(__file__).resolve().parents[2]
+ORGANIZATION = "axisvela"
+REPO_PREFIX = "praxo-core-"
+DEFAULT_SPEC_VERSION = "0.2.0"
+GO_CAPABILITIES = (
+    ("Agent loop", "native", "Policy hooks, final-argument authorization, HITL, and typed events"),
+    ("Tools", "native", "Registry, gateway, JSON Schema, retries, and bounded parallel calls"),
+    ("Context", "native", "Memory, context budgets, middleware, checkpoints, and streaming"),
+    ("Providers", "native", "OpenAI-compatible, Anthropic, and Gemini adapters with SSE"),
+    ("Integrations", "seams", "MCP, OpenTelemetry, workspace/VFS, and process/WASM plugin hosts"),
+    ("Retrieval and delegation", "native", "Retriever seam and local subagent delegation"),
+    ("Conformance", "native", "Shared spec vectors and checked-in API snapshots"),
+)
+METADATA_BULLET_PREFIXES = (
+    "`spec_version`", "core version", "tier:", "license:", "dependencies:",
+    "package:", "registry:", "published", "source version", "source tag",
+    "implementation type:", "package version:", "toolchain:", "local gate:",
+    "supported `spec_version`", "the latest source tag", "the latest nuget package",
+    "the latest hex package", "the hex package", "linux and windows ci",
+)
+INSTALL_FENCES = {
+    "python": "bash", "typescript": "bash", "rust": "bash", "csharp": "bash",
+    "powershell": "powershell", "r": "r", "elixir": "elixir", "erlang": "erlang",
+    "perl": "bash", "haskell": "bash", "dart": "bash", "octave": "bash", "go": "bash",
+    "java": "text", "matlab": "text",
+}
+
+
+def _read(path: Path) -> str:
+    try:
+        return path.read_text(encoding="utf-8")
+    except OSError:
+        return ""
+
+
+def _intro(text: str) -> tuple[str, list[str]]:
+    paragraphs: list[str] = []
+    bullets: list[str] = []
+    current: list[str] = []
+    in_bullet = False
+    for line in text.splitlines():
+        if line.startswith("# "):
+            continue
+        if line.startswith("## "):
+            break
+        stripped = line.strip()
+        if not stripped:
+            if current:
+                paragraph = " ".join(part.strip() for part in current).strip()
+                if paragraph:
+                    paragraphs.append(paragraph)
+                current = []
+            in_bullet = False
+            continue
+        if stripped.startswith(("- ", "* ")):
+            if current:
+                paragraph = " ".join(part.strip() for part in current).strip()
+                if paragraph:
+                    paragraphs.append(paragraph)
+                current = []
+            bullets.append(stripped)
+            in_bullet = True
+            continue
+        if in_bullet and line[:1] in (" ", "\t"):
+            bullets[-1] = f"{bullets[-1]} {stripped}"
+            continue
+        in_bullet = False
+        current.append(stripped)
+    if current:
+        paragraph = " ".join(part.strip() for part in current).strip()
+        if paragraph:
+            paragraphs.append(paragraph)
+    return (paragraphs[0] if paragraphs else ""), bullets
+
+
+def _section(text: str, names: set[str]) -> str:
+    lines = text.splitlines()
+    start = None
+    for index, line in enumerate(lines):
+        if line.startswith("## ") and line[3:].strip().lower() in names:
+            start = index + 1
+            break
+    if start is None:
+        return ""
+    end = len(lines)
+    for index in range(start, len(lines)):
+        if lines[index].startswith("## "):
+            end = index
+            break
+    return "\n".join(lines[start:end]).strip()
+
+
+def _first_code_block(text: str) -> str:
+    match = re.search(r"```[^\n]*\n.*?```", text, re.DOTALL)
+    return match.group(0) if match else ""
+
+
+def _rewrite_links(text: str, source: str) -> str:
+    base = f"https://github.com/{ORGANIZATION}/praxo-core/blob/main/{source}"
+    return re.sub(
+        r"(\]\(<?)([^\s)>]+)(>?[^)]*\))",
+        lambda match: match[1] + urljoin(base, match[2]) + match[3],
+        text,
+    )
+
+
+def _example_description(path: Path, root: Path) -> str:
+    paragraphs: list[str] = []
+    for line in _read(path / "README.md").splitlines():
+        if line.startswith("# "):
+            continue
+        if line.startswith("## "):
+            break
+        stripped = line.strip()
+        if not stripped or stripped.startswith(">") or stripped.startswith("```"):
+            if paragraphs:
+                break
+            continue
+        paragraphs.append(stripped)
+    description = " ".join(paragraphs).strip()
+    return _rewrite_links(description, (path / "README.md").relative_to(root).as_posix())
+
+
+def _example_entries(root: Path, entry: dict) -> list[tuple[str, str, str]]:
+    entries: list[tuple[str, str, str]] = []
+    seen: set[str] = set()
+    explicit = entry.get("examples_dirs")
+    if explicit:
+        directories = [(source, root / source) for source in explicit]
+    else:
+        directories = [
+            (source, root / source / "examples") for source in entry["source_dirs"]
+        ]
+    for source, directory in directories:
+        if not directory.is_dir():
+            continue
+        for path in sorted(directory.iterdir(), key=lambda item: item.name.lower()):
+            if not path.is_dir() or path.name in seen:
+                continue
+            seen.add(path.name)
+            relative = (
+                Path(source, path.name).as_posix()
+                if explicit
+                else Path(source, "examples", path.name).as_posix()
+            )
+            entries.append((path.name, relative, _example_description(path, root)))
+    return entries
+
+
+def _catalog_entries(root: Path, entry: dict, folder: str) -> list[tuple[str, str, str]]:
+    key = entry["key"]
+    base = "language/go" if key == "go" else entry["dir"]
+    directory = root / base / folder
+    if not directory.is_dir():
+        return []
+    entries = []
+    if (directory / "README.md").is_file():
+        entries.append((
+            folder,
+            f"{base}/{folder}",
+            _example_description(directory, root),
+        ))
+    for path in sorted(directory.iterdir(), key=lambda item: item.name.lower()):
+        if not path.is_dir() or not (path / "README.md").is_file():
+            continue
+        entries.append((
+            path.name,
+            f"{base}/{folder}/{path.name}",
+            _example_description(path, root),
+        ))
+    return entries
+
+
+def _catalog_section(title: str, intro: str,
+                     entries: list[tuple[str, str, str]]) -> list[str]:
+    if not entries:
+        return []
+    lines = ["", f"## {title}", "", intro, "", "| Path | What it shows |", "| --- | --- |"]
+    for name, relative, description in entries:
+        lines.append(f"| [{_cell(name)}]({relative}) | {_cell(description)} |")
+    return lines
+
+
+def _capabilities(root: Path, entry: dict) -> list[tuple[str, str, str]]:
+    source = entry.get("capabilities_source") or str(Path(entry["dir"]) / "REGISTRY.md")
+    section = _section(_read(root / source), {"capabilities and status"})
+    rows: list[tuple[str, str, str]] = []
+    for line in section.splitlines():
+        if (
+            not line.startswith("| ")
+            or line.startswith("| Adapter")
+            or line.startswith("| ---")
+        ):
+            continue
+        cells = [cell.strip() for cell in line.strip().strip("|").split("|")]
+        if len(cells) >= 2:
+            rows.append((cells[0], cells[1], cells[2] if len(cells) > 2 else ""))
+    return rows
+
+
+def _spec_version(root: Path) -> str:
+    value = _read(root / "spec" / "SPEC_VERSION").strip()
+    return value or DEFAULT_SPEC_VERSION
+
+
+def _published(entry: dict) -> bool:
+    status = entry.get("status", "").lower()
+    return bool(entry.get("published_version", "").strip()) and not (
+        "source-only" in status
+        or "shared implementation" in status
+        or ("pending" in status and "published" not in status)
+    )
+
+
+def _feature_bullets(bullets: list[str]) -> list[str]:
+    features: list[str] = []
+    for bullet in bullets:
+        body = bullet.lstrip("-* ").strip().lower()
+        if not body:
+            continue
+        if any(body.startswith(prefix) for prefix in METADATA_BULLET_PREFIXES):
+            continue
+        features.append(bullet)
+    return features
+
+
+def _cell(value: str) -> str:
+    return value.replace("|", "\\|").replace("\n", " ").strip()
+
+
+def _community() -> str:
+    lines = ["## Community", ""]
+    for name, link in COMMUNITY_LINKS:
+        lines.append(f"- {name}: <{link}>")
+    return "\n".join(lines)
+
+
+def mirror_readme(entry: dict, has_examples: bool = False, root: Path = ROOT) -> str:
+    key = entry["key"]
+    is_go = key == "go"
+    readme_source = entry.get("readme_source") or f"{entry['dir']}/README.md"
+    source_readme = _read(root / readme_source)
+    positioning, bullets = _intro(source_readme)
+    bullets = _feature_bullets(bullets)
+    if entry.get("intro"):
+        positioning = entry["intro"]
+    if entry.get("highlights") and not bullets:
+        bullets = list(entry["highlights"])
+    if not positioning:
+        positioning = (
+            f"Dedicated repository for the {entry['name']} implementation of "
+            "PRAXO-CORE: an embeddable, MIT-licensed agent execution kernel with "
+            "policy controls, human-in-the-loop approval, checkpoints, events, "
+            "and tool calling. It runs in-process and does not require a hosted "
+            "service."
+        )
+    positioning = _rewrite_links(positioning, readme_source)
+    if "praxocore" not in positioning.lower():
+        positioning = "PRAXO-CORE (also written praxocore) is an embeddable, MIT-licensed agent framework. " + positioning
+    bullets = [_rewrite_links(bullet, readme_source) for bullet in bullets]
+    capabilities = GO_CAPABILITIES if is_go else _capabilities(root, entry)
+    if not bullets:
+        bullets = [
+            f"- {name}: {status}"
+            for name, status, _ in capabilities
+            if status.strip().lower() != "not implemented"
+        ]
+    if not bullets:
+        bullets = [
+            "- In-process agent loop with tool registration and dispatch.",
+            "- Policy hooks, approvals, checkpoints, and typed events.",
+            "- Provider-neutral model adapters and MCP tool sessions where declared.",
+            "- Shared conformance vectors and API gates for the declared scope.",
+        ]
+    quickstart = _section(
+        source_readme, {"quickstart", "quick start", "usage", "run the checks"}
+    )
+    quickstart_code = _first_code_block(quickstart)
+    verify_code = _first_code_block(
+        _section(
+            source_readme,
+            {"build and test", "build and tests", "build and test.", "testing"},
+        )
+    )
+    examples = _example_entries(root, entry) if has_examples else []
+    published = _published(entry)
+    archive_only = published and "pending" in entry.get("status", "").lower() and (
+        "/releases/" in entry.get("url", "")
+    )
+    registry = entry["registry"]
+    if entry.get("url"):
+        registry = f"[{registry}]({entry['url']})"
+    install_label = "Download" if archive_only else "Install" if published else "Build"
+    install_value = (
+        f"[Release assets]({entry['url']})" if archive_only else f"`{entry['install']}`"
+        if published
+        else entry.get("source_install", entry["install"])
+    )
+
+    lines = [
+        f"# PRAXO-CORE for {entry['name']}", "", positioning,
+        "", "## At a glance", "",
+        "| Field | Value |", "| --- | --- |",
+        f"| Package | `{entry['package']}` |",
+        f"| Registry | {registry} |",
+        f"| {install_label} | {install_value} |",
+        f"| Source version | `{entry['source_version']}` |",
+        f"| {'Archive version' if archive_only else 'Published version'} | `{entry['published_version']}` |"
+        if published
+        else "| Published version | not published |",
+    ]
+    if entry.get("status"):
+        lines.append(f"| Publication status | {_cell(entry['status'])} |")
+    if entry.get("tag"):
+        lines.append(
+            f"| Canonical source tag | [`{entry['tag']}`]"
+            f"(https://github.com/{ORGANIZATION}/praxo-core/tree/{entry['tag']}) |"
+        )
+    if entry.get("tier"):
+        lines.append(f"| Tier | {entry['tier']} |")
+    lines.extend([
+        f"| Contract | `SPEC_VERSION` `{_spec_version(root)}` |",
+        f"| Documentation | {entry['docs']} |",
+        "| License | MIT |",
+        "", "## Highlights", "", *bullets,
+        "", "## Quick start", "",
+    ])
+    if archive_only:
+        lines.append(
+            f"Download the [published release assets]({entry['url']}). "
+            "The registry listing is still pending; do not assume registry installation is available."
+        )
+    elif published:
+        lines.extend([
+            "Install the published package:", "",
+            f"```{INSTALL_FENCES.get(key, 'text')}", entry["install"], "```",
+        ])
+    else:
+        lines.append(
+            "No published package is available. Follow the source build instructions "
+            f"in [`language/{key}/README.md`](language/{key}/README.md)."
+        )
+    if quickstart_code:
+        lines.extend(["", quickstart_code])
+    if published or quickstart_code:
+        lines.extend([
+            "", f"See the [full {entry['name']} README](language/{key}/README.md) for "
+            "complete installation, build, and verification commands.",
+        ])
+    if capabilities:
+        lines.extend([
+            "", "## What's included", "",
+            "| Capability | Status | Detail |", "| --- | --- | --- |",
+        ])
+        for name, status, detail in capabilities:
+            lines.append(f"| {_cell(name)} | {_cell(status)} | {_cell(detail)} |")
+    if examples:
+        example_intro = (
+            "Runnable examples live under [`language/go/examples`](language/go/examples)."
+            if is_go
+            else f"Runnable examples live under "
+            f"[`language/{key}/examples`](language/{key}/examples)."
+        )
+        lines.extend([
+            "", "## Examples", "", example_intro, "",
+            "| Example | What it shows |", "| --- | --- |",
+        ])
+        for name, relative, description in examples:
+            lines.append(
+                f"| [{_cell(name)}]({relative}) | {_cell(description)} |"
+            )
+    else:
+        example_url = (
+            f"https://github.com/{ORGANIZATION}/praxo-core/tree/main/language/{key}/examples"
+        )
+        if key == "octave":
+            example_url = (
+                f"https://github.com/{ORGANIZATION}/praxo-core/tree/main/language/matlab/examples"
+            )
+        lines.extend(["", "## Examples", "", f"See the canonical examples: {example_url}."])
+    catalog_root = "language/go" if is_go else entry["dir"]
+    tutorial_root, application_root = f"{catalog_root}/Tutorial", f"{catalog_root}/application"
+    tutorials = _catalog_entries(root, entry, "Tutorial")
+    applications = _catalog_entries(root, entry, "application")
+    if tutorials:
+        lines.extend(_catalog_section(
+            "Scenario Tutorials",
+            f"Scenario-oriented tutorials live under `{tutorial_root}`. Planning context: "
+            "[Tutorial Plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/), "
+            "[100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), "
+            "and [Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/).",
+            tutorials,
+        ))
+    else:
+        lines.extend([
+            "", "## Scenario Tutorials", "",
+            "No language-specific tutorial slices are recorded yet. "
+            "See the [Tutorial Plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/), "
+            "[100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), "
+            "and [Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/).",
+        ])
+    if applications:
+        lines.extend(_catalog_section(
+            "Reference Applications",
+            f"Reference application sources live under `{application_root}`. "
+            "See each README for implementation scope and validation status.",
+            applications,
+        ))
+    else:
+        lines.extend([
+            "", "## Reference Applications", "",
+            "No accepted end-to-end reference application is recorded for this language yet. "
+            "Candidate goals are tracked in the "
+            "[Reference Application Portfolio](https://axisvela.github.io/praxo-core/project/roadmap/#reference-application-portfolio).",
+        ])
+    lines.extend(["", "## Verify", ""])
+    if verify_code:
+        lines.extend([f"Run the checks from `language/{key}`:", "", verify_code, ""])
+    if is_go:
+        lines.extend([
+            "Run the module checks from the mirror root:", "", "```bash",
+            "go test ./...", "go vet ./...", "go build ./...", "```", "",
+        ])
+    lines.append(
+        f"This mirror contains the language source and the shared `spec/` vectors, "
+        f"so the implementation can be built and tested here. See "
+        f"[`language/{key}/README.md`](language/{key}/README.md) for the exact "
+        "commands. The monorepo CI runs conformance, API snapshot, and native "
+        "tests for this implementation."
+    )
+    if is_go:
+        layout = [
+            "- `pkg/`, `adapters/`, `cmd/`, `internal/` — Go module source",
+            "- `language/go/examples/` — runnable Go and cross-language examples",
+            "- `language/go/Tutorial/` — scenario-oriented tutorials",
+            "- `language/go/application/` — AI-native reference application",
+            "- `spec/` — shared contract, vectors, and parity inventories",
+            "- `LICENSE` — MIT license",
+        ]
+        canonical = f"- Canonical source: https://github.com/{ORGANIZATION}/praxo-core"
+        registry_intro = "- Registry introduction: `REGISTRY.md`"
+        machine_entry = "- Machine-readable entry: `llms.txt` and `llms.md`"
+    else:
+        layout = [
+            f"- `language/{key}/` — implementation source, tests, API snapshot, "
+            "and examples",
+            "- `spec/` — shared contract, vectors, and parity inventories",
+            "- `LICENSE` — MIT license",
+        ]
+        canonical = (
+            f"- Canonical source: https://github.com/{ORGANIZATION}/praxo-core"
+            f"/tree/main/language/{key}"
+        )
+        registry_intro = f"- Registry introduction: `language/{key}/REGISTRY.md`"
+        machine_entry = (
+            f"- Machine-readable entry: `language/{key}/llms.txt` and "
+            f"`language/{key}/llms.md`"
+        )
+    lines.extend([
+        "", "## Boundaries", "",
+        "Reference application source is not end-to-end portfolio acceptance; follow each README's scope and evidence.",
+        "PRAXO-CORE is not a hosted model, workflow engine, identity provider, "
+        "or safety controller. Do not infer exactly-once execution, complete "
+        "sandbox isolation, production security certification, live-provider "
+        "behavior, or physical safety from this package.",
+        "", _community(), "", "## Repository layout", "", *layout,
+        "", "## Canonical source", "", canonical, registry_intro, machine_entry,
+        f"- Mirror repository: https://github.com/{ORGANIZATION}/{REPO_PREFIX}{key}",
+        "- Release index: https://axisvela.github.io/praxo-core/languages/registry-status/",
+        "",
+        f"This repository is a discovery mirror of the canonical {entry['name']} "
+        "source. The monorepo remains the source of truth and the release "
+        "workflow source. The mirror's `main` branch tracks current source, not "
+        "a release snapshot. Source tags refer to the canonical monorepo and "
+        "are not necessarily present in this mirror; syncing the branch does "
+        "not publish mirror tags or registry packages.",
+        "",
+        "", "MIT licensed.", "",
+    ])
+    return "\n".join(lines)

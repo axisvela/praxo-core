@@ -1,0 +1,322 @@
+#!/usr/bin/env python3
+"""Refresh dedicated language mirror repositories from the monorepo.
+
+The monorepo is canonical. This script rebuilds the discovery mirrors from
+``language/<language>`` plus ``spec/`` and pushes only when the tree changed.
+Publication-source repositories (Ruby, PHP, Lua, Swift, Julia, V, OCaml, Nim, D)
+are intentionally excluded because they have their own release layouts and
+workflows.
+
+Requires a token with push access to the mirror repositories. Pass it through
+``PRAXO_MIRROR_TOKEN`` or ``--token-env``. The token is never printed.
+"""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import os
+import shutil
+import subprocess
+import sys
+import tempfile
+from pathlib import Path
+
+from scripts.discovery.mirror_readme import ORGANIZATION, REPO_PREFIX, mirror_readme
+
+ROOT = Path(__file__).resolve().parents[2]
+DEFAULT_TOKEN_ENV = "PRAXO_MIRROR_TOKEN"
+MIRROR_KEYS = [
+    "go",
+    "python",
+    "typescript",
+    "java",
+    "rust",
+    "csharp",
+    "r",
+    "elixir",
+    "erlang",
+    "perl",
+    "haskell",
+    "dart",
+    "zig",
+    "c",
+    "cpp",
+    "fortran",
+    "cobol",
+    "powershell",
+    "matlab",
+    "octave",
+    "delphi",
+    "objc",
+]
+EXTRA_SOURCES = {
+    "matlab": ["language/matlab-octave-core"],
+    "octave": ["language/matlab-octave-core"],
+}
+IGNORED_DIRECTORIES = {
+    "build",
+    "target",
+    "dist",
+    "node_modules",
+    "_build",
+    "deps",
+    "out",
+    "out-test",
+    "bin",
+    "obj",
+    ".Rcheck",
+    "__pycache__",
+    ".elixir_ls",
+    "blib",
+    "dist-newstyle",
+    ".stack-work",
+    ".dart_tool",
+    "zig-cache",
+    "zig-out",
+    ".pytest_cache",
+}
+IGNORED_SUFFIXES = (".pyc", ".pyo", ".exe")
+IGNORED_FILES = {"pubspec.lock", ".DS_Store", "Thumbs.db"}
+GIT_IDENTITY = ("hanhuiwen", "hanhuiwen@axisvela.com")
+GO_SOURCE_DIRS = [
+    "pkg",
+    "adapters",
+    "cmd",
+    "internal",
+    "language/go",
+    "api",
+    "benchmarks",
+    "tests",
+]
+GO_SOURCE_FILES = [
+    "go.mod",
+    "go.sum",
+    "VERSION",
+    "CHANGELOG.md",
+    "SECURITY.md",
+    "CONTRIBUTING.md",
+    "CODE_OF_CONDUCT.md",
+    "REGISTRY.md",
+    "llms.txt",
+    "llms.md",
+]
+GO_EXAMPLES = ["language/go/examples"]
+GO_README = "docs/languages/go/index.md"
+GO_INTRO = (
+    "Go is the reference implementation of PRAXO-CORE: an embeddable, "
+    "MIT-licensed agent execution kernel with explicit policy controls, "
+    "checkpoints, events, and tool calling. It runs in-process and does not "
+    "require a hosted service."
+)
+GO_HIGHLIGHTS = [
+    "- Governed agent loop with policy hooks, tool authorization, HITL, and events.",
+    "- Provider-neutral model, tool, memory, checkpoint, sandbox, and VFS seams.",
+    "- Runnable examples for live models, consumer starters, HITL, and checkpoints.",
+    "- Go is the reference implementation for the shared `spec/` contract.",
+]
+
+
+def mirror_entries(root: Path = ROOT) -> list[dict]:
+    manifest = json.loads(
+        (root / "language" / "registry-metadata.json").read_text(encoding="utf-8")
+    )
+    by_key = {}
+    for name, entry in manifest.items():
+        key = "go" if entry["dir"] == "." else Path(entry["dir"]).name
+        is_go = key == "go"
+        by_key[key] = {
+            "key": key,
+            "name": name,
+            "dir": entry["dir"],
+            "package": entry["package"],
+            "published_version": entry["published_version"],
+            "source_version": entry.get("source_version", entry["published_version"]),
+            "registry": entry["registry"],
+            "url": entry.get("url", ""),
+            "install": entry["install"],
+            "source_install": entry.get("source_install", entry["install"]),
+            "tag": entry.get("tag", ""),
+            "tier": entry.get("tier", ""),
+            "status": entry.get("status", ""),
+            "docs": entry["docs"],
+            "source_dirs": GO_SOURCE_DIRS if is_go else [
+                entry["dir"],
+                *EXTRA_SOURCES.get(key, []),
+            ],
+            "source_files": GO_SOURCE_FILES if is_go else [],
+            "readme_source": GO_README if is_go else f"{entry['dir']}/README.md",
+            "examples_dirs": GO_EXAMPLES if is_go else None,
+            "highlights": GO_HIGHLIGHTS if is_go else None,
+            "intro": GO_INTRO if is_go else None,
+        }
+    missing = [key for key in MIRROR_KEYS if key not in by_key]
+    if missing:
+        raise SystemExit("missing mirror metadata: " + ", ".join(missing))
+    return [by_key[key] for key in MIRROR_KEYS]
+
+
+def mirror_gitignore() -> str:
+    return (
+        "build/\n"
+        "target/\n"
+        "dist/\n"
+        "node_modules/\n"
+        "__pycache__/\n"
+        "*.pyc\n"
+        "*.pyo\n"
+    )
+
+
+def _ignore(directory: str, names: list[str]) -> set[str]:
+    ignored = set()
+    for name in names:
+        if name in IGNORED_DIRECTORIES or name in IGNORED_FILES:
+            ignored.add(name)
+        elif name.endswith(IGNORED_SUFFIXES):
+            ignored.add(name)
+        elif name.endswith(".egg-info"):
+            ignored.add(name)
+    return ignored
+
+
+def build_mirror(entry: dict, destination: Path, root: Path = ROOT, clean: bool = True) -> None:
+    if clean and destination.exists():
+        shutil.rmtree(destination)
+    destination.mkdir(parents=True, exist_ok=True)
+    for relative in entry["source_dirs"]:
+        source = root / relative
+        if not source.is_dir():
+            raise SystemExit(f"missing source directory: {source}")
+        target = destination / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copytree(source, target, ignore=_ignore)
+    for relative in entry.get("source_files", []):
+        source = root / relative
+        target = destination / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, target)
+    spec_source = root / "spec"
+    if spec_source.is_dir():
+        shutil.copytree(spec_source, destination / "spec", ignore=_ignore)
+    shutil.copy2(root / "LICENSE", destination / "LICENSE")
+    has_examples = (root / "language" / entry["key"] / "examples").is_dir()
+    (destination / "README.md").write_text(
+        mirror_readme(entry, has_examples=has_examples, root=root), encoding="utf-8"
+    )
+    (destination / ".gitignore").write_text(mirror_gitignore(), encoding="utf-8")
+
+
+def tree_digest(directory: Path) -> str:
+    digest = hashlib.sha256()
+    for path in sorted(directory.rglob("*")):
+        if not path.is_file() or ".git" in path.parts:
+            continue
+        relative = path.relative_to(directory).as_posix()
+        digest.update(relative.encode("utf-8"))
+        digest.update(b"\0")
+        digest.update(path.read_bytes())
+    return digest.hexdigest()
+
+
+def run_git(arguments: list[str], cwd: Path, token: str | None = None) -> str:
+    result = subprocess.run(
+        ["git", "-c", f"user.name={GIT_IDENTITY[0]}", "-c", f"user.email={GIT_IDENTITY[1]}", *arguments],
+        cwd=cwd,
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode != 0:
+        command = " ".join(arguments)
+        error = result.stderr.strip()
+        if token:
+            command = command.replace(token, "***")
+            error = error.replace(token, "***")
+        raise SystemExit(f"git {command} failed:\n{error}")
+    return result.stdout.strip()
+
+
+def clone_url(entry: dict, token: str | None) -> str:
+    repo = f"{ORGANIZATION}/{REPO_PREFIX}{entry['key']}.git"
+    if token:
+        return f"https://x-access-token:{token}@github.com/{repo}"
+    return f"https://github.com/{repo}"
+
+
+def repository_dir(entry: dict, token: str | None, workdir: Path) -> Path:
+    destination = workdir / f"{REPO_PREFIX}{entry['key']}"
+    run_git(["clone", "--quiet", "--depth", "1", clone_url(entry, token), str(destination)], workdir, token)
+    for child in destination.iterdir():
+        if child.name == ".git":
+            continue
+        if child.is_dir():
+            shutil.rmtree(child)
+        else:
+            child.unlink()
+    return destination
+
+
+def sync(entry: dict, token: str, workdir: Path, check: bool, revision: str) -> bool:
+    destination = repository_dir(entry, token, workdir)
+    build_mirror(entry, destination, clean=False)
+    run_git(["add", "-A"], destination, token)
+    status = run_git(["status", "--porcelain"], destination, token)
+    if not status:
+        return False
+    if check:
+        print(f"DRIFT {entry['key']}: {len(status.splitlines())} changed path(s)")
+        for line in status.splitlines():
+            print(f"  {line}")
+        return True
+    message = f"sync: refresh {entry['name']} mirror from monorepo {revision}"
+    run_git(["commit", "-m", message], destination, token)
+    run_git(["push", "--quiet", "origin", "HEAD:main"], destination, token)
+    print(f"SYNCED {entry['key']}")
+    return True
+
+
+def parse_only(value: str | None) -> list[str] | None:
+    if not value:
+        return None
+    keys = [item.strip() for item in value.split(",") if item.strip()]
+    unknown = [key for key in keys if key not in MIRROR_KEYS]
+    if unknown:
+        raise SystemExit("unknown mirror key(s): " + ", ".join(unknown))
+    return keys
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--check", action="store_true", help="clone and report drift without pushing")
+    parser.add_argument("--dry-run", action="store_true", help="build temporary trees without cloning")
+    parser.add_argument("--only", help="comma-separated mirror keys")
+    parser.add_argument("--token-env", default=DEFAULT_TOKEN_ENV)
+    parser.add_argument("--revision", default=os.environ.get("GITHUB_SHA", "unknown"))
+    args = parser.parse_args(argv)
+
+    keys = parse_only(args.only)
+    entries = [entry for entry in mirror_entries() if keys is None or entry["key"] in keys]
+    token = os.environ.get(args.token_env, "")
+    if not args.dry_run and not args.check and not token:
+        print(f"missing {args.token_env}; set a token with push access to the mirror repositories", file=sys.stderr)
+        return 2
+
+    changed = 0
+    with tempfile.TemporaryDirectory(prefix="praxo-mirrors-") as directory:
+        workdir = Path(directory)
+        for entry in entries:
+            if args.dry_run:
+                target = workdir / entry["key"]
+                build_mirror(entry, target)
+                print(f"BUILT {entry['key']}: {tree_digest(target)[:12]}")
+                changed += 1
+                continue
+            if sync(entry, token, workdir, args.check, args.revision):
+                changed += 1
+    print(f"{'drifted' if args.check else 'updated'} {changed}/{len(entries)} mirror(s)")
+    return 1 if args.check and changed else 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
