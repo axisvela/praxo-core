@@ -990,6 +990,32 @@ test_agent_lifecycle() ->
     check(receive_messages() == [first_before, first_after, second_after],
         <<"erlang startup cleanup">>),
 
+    Parent4 = self(),
+    Handler = fun(Event) ->
+        Kind = maps:get(kind, Event),
+        Parent4 ! {event, Kind},
+        case Kind of
+            <<"run.started">> -> erlang:error(<<"SINK_FAILED">>);
+            _ -> ok
+        end
+    end,
+    FailSink = (praxo_sink:new())#{handler => Handler},
+    Options5 = (praxo_agent:new_agent_options(praxo_agent:static_model(<<"done">>)))#{
+        events => FailSink,
+        middleware => [
+            #{before_run => fun(_) -> Parent4 ! acquire end,
+              after_run => fun(_, Error) -> Parent4 ! {release, Error} end}
+        ]
+    },
+    {error, <<"SINK_FAILED">>, _} =
+        praxo_agent:run_agent(Options5, praxo_models:session(<<"s1">>), <<"go">>),
+    check(receive_messages() == [
+        acquire,
+        {event, <<"run.started">>},
+        {release, <<"SINK_FAILED">>},
+        {event, <<"run.failed">>}
+    ], <<"erlang startup event cleanup">>),
+
     Parent2 = self(),
     Options1 = praxo_agent:new_agent_options(praxo_agent:failing_model()),
     Options2 = Options1#{

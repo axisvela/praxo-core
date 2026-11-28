@@ -165,17 +165,22 @@ run_agent_validated(Options0, Session, Prompt) ->
             _ = after_run(Options1, undefined, Reason),
             {error, to_code(Reason), Options1};
         {ok, Options1} ->
-            Options2 = emit(Options1, <<"run.started">>),
-            case emit_stream(Options2, RunId, <<"values">>, 0, Prompt) of
-                ok ->
-                    case compact(Options2, Messages) of
-                        {ok, Compacted} ->
-                            loop(Options2, Compacted, RunId, 1, MaxSteps, praxo_models:usage(), Limit);
+            case safe_emit(Options1, <<"run.started">>) of
+                {error, Reason} ->
+                    fail(Options1, RunId, to_code(Reason));
+                {ok, Options2} ->
+                    case emit_stream(Options2, RunId, <<"values">>, 0, Prompt) of
+                        ok ->
+                            case compact(Options2, Messages) of
+                                {ok, Compacted} ->
+                                    loop(Options2, Compacted, RunId, 1, MaxSteps,
+                                         praxo_models:usage(), Limit);
+                                {error, Code} ->
+                                    fail(Options2, RunId, Code)
+                            end;
                         {error, Code} ->
                             fail(Options2, RunId, Code)
-                    end;
-                {error, Code} ->
-                    fail(Options2, RunId, Code)
+                    end
             end
     end.
 
@@ -706,6 +711,13 @@ tool_specs(Tools) ->
      || Tool <- Tools
     ].
 
+safe_emit(Options, Kind) ->
+    try
+        {ok, emit(Options, Kind)}
+    catch
+        _:Reason -> {error, Reason}
+    end.
+
 emit(Options, Kind) ->
     emit(Options, Kind, undefined, null).
 
@@ -763,7 +775,12 @@ emit_stream(Options, RunId, Kind, Step, Data) ->
 
 fail(Options, RunId, Code) ->
     _ = after_run(Options, undefined, Code),
-    Options1 = emit(Options, <<"run.failed">>, RunId, #{<<"error">> => Code}),
+    Options1 =
+        try
+            emit(Options, <<"run.failed">>, RunId, #{<<"error">> => Code})
+        catch
+            _:_ -> Options
+        end,
     {error, Code, Options1}.
 
 unique_run_id() ->
