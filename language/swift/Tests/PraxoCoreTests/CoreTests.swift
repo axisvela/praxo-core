@@ -182,6 +182,12 @@ final class CoreTests: XCTestCase {
         XCTAssertEqual(result.output, "ok")
     }
 
+    func testRunIdsAreUnique() throws {
+        let first = try Agent(AgentOptions(StaticModel("ok"))).run(Session(id: "s1"), "hi")
+        let second = try Agent(AgentOptions(StaticModel("ok"))).run(Session(id: "s1"), "hi")
+        XCTAssertNotEqual(first.runID, second.runID)
+    }
+
     func testAgentSafeDefaultsPreserveBehavior() throws {
         let options = AgentOptions(StaticModel("ok"))
         XCTAssertFalse(options.requirePolicy)

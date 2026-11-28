@@ -104,7 +104,7 @@ public final class Agent {
 
     public func run(_ session: Session, _ prompt: String) throws -> RunResult {
         let maxSteps = options.maxSteps > 0 ? options.maxSteps : 8
-        let runID = "run-\(Int(Date().timeIntervalSince1970 * 1000))"
+        let runID = "run-\(UUID().uuidString)"
         var messages = session.messages
         if !options.systemPrompt.isEmpty {
             messages.insert(Message.text(Roles.system, options.systemPrompt), at: 0)
