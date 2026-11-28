@@ -29,30 +29,23 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 Kotlin、VB.NET、Scala 等仅示例实现保留在本仓库，作为宿主 Core 的示例；除非升级为
 独立版本化的 Core，否则不需要单独仓库或独立包。
 
-## ????
+## 行为证据
 
-?? wired ???????? Core ????????????????????????
-????????????`Core`?`Wire`?`Bridge`?`Sample`????????????
+当前 wired 集合中所有独立实现的 Core SDK 都应覆盖同一组声明的 agent 行为。不存在公开的能力等级。契约交付形式（`Core`、`Wire`、`Bridge`、`Sample`）与行为证据相互独立。
 
-- wired ????? Behavior Lab ????????
-- ????????????????????????? Go?Python?TypeScript?Java?
-- ????????????????????????????????????????
-  ????????
-- ??? wired ???????????????COBOL?Lua?PHP?Fortran ?????
-  ???????????????
-- `unsupported` ???????????????????
+- Wired 集合是在 Behavior Lab 中运行测试的语言集合。
+- 场景隔离证据：每个场景都有具名测试。严格实验室门禁适用于 Go、Python、TypeScript 和 Java。
+- 原生套件证据：完整原生测试覆盖相关场景，但失败不会隔离到单个场景。矩阵按单元格记录证据类型。
+- 源码中全部十六种 wired 语言覆盖全部二十个场景。COBOL、Lua、PHP 和 Fortran 的并行工具将并发委托给调用方提供的批处理回调。
+- `unsupported` 单元格是已记录的缺口，既不是失败也不是通过。
 
-?????????? [Behavior Lab ??](behavior-lab-matrix.md)?????????
-???????
+每个单元格和证据类型见[行为实验矩阵](behavior-lab-matrix.md)。契约成熟度不表示完整行为一致。
 
-## ????
+## 支持模式
 
-????? Core ?????? best-effort ???????????? SLA??? Go
-??????? Provider ???????????Registry ?????????????
-??????????
+所有已发布的 Core 实现都遵循相同的尽力维护政策。不提供响应时间 SLA、完整 Go 功能一致或每个 provider 集成的保证。运行时、工具链、注册表和验证限制按语言记录在本矩阵及链接的证据页面中。
 
-???? deprecated ? experimental ????????????????????????
-? Registry ??????????
+只有真正弃用或实验性的实现才应带有明确例外；不要根据契约成熟度、源码标签或注册表可用性推断例外。
 
 ## 版本与分发
 
@@ -72,12 +65,12 @@ Kotlin、VB.NET、Scala 等仅示例实现保留在本仓库，作为宿主 Core
 | Go | 2.11.3 | Go proxy `v2.11.3` | 版本一致；README 已更新 |
 | Python | `python/v0.11.2` | PyPI `praxo-core==0.11.2` 已发布 | 历史 docs CI 升级到 `0.10.0` 通过；未记录 `0.11.2` smoke |
 | TypeScript | `typescript/v0.10.1` | npm `@axisvela/praxo-core@0.10.1` 已作为 `latest` 发布 | 历史 docs CI 升级到 `0.9.0` 通过；未记录 `0.10.1` smoke |
-| Java | `java/v0.12.2` | Maven Central `com.axisvela:praxo-core:0.12.2` 已发布 | 历史 `0.11.0` docs CI 安装于 2026-11-20 通过（run `44731906136`）；`0.12.2` docs CI 全新消费者安装通过（run `45967285657`） |
+| Java | `java/v0.12.3` | Maven Central `com.axisvela:praxo-core:0.12.3` 已发布 | 历史 `0.11.0` docs CI 安装在 2026-11-20 通过（run `44731906136`）；未记录 `0.12.3` consumer smoke |
 | Rust | `rust/v0.11.1` | crates.io `praxo-core==0.11.1` 已发布 | README 已包含场景教程、参考应用状态和社区链接 |
 | C# | `csharp/v0.11.1` | NuGet `Praxo.Core==0.11.1` 已发布 | `0.9.1` 安装为历史记录；未记录 `0.11.1` smoke |
 | Elixir | `elixir/v0.11.1` | Hex `praxo_core==0.11.1` 已发布 | README 已重排并包含教程、参考应用状态和社区信息 |
 | Erlang | `erlang/v0.10.1` | Hex `praxo_core_erlang==0.10.1` 已发布 | README 包含场景教程、参考应用状态和社区信息 |
-| Ruby | `ruby/v0.10.0` | RubyGems `praxo-core==0.10.0` 已发布 | 历史 CI 于 2026-11-21 通过 `0.9.2` allow/deny（run `44913820352`）；未记录 `0.10.0` smoke |
+| Ruby | `ruby/v0.10.2` | RubyGems `praxo-core==0.10.2` 已发布 | 历史 CI 在 2026-11-21 通过 `0.9.2` allow/deny（run `44913820352`）；未记录 `0.10.2` smoke |
 | Lua | `lua/v0.9.1` | LuaRocks `praxo-core==0.9.1-1` 已发布 | `0.9.1-1` 增加与 README 同步的 rockspec 描述；未记录 `0.9.0-1` smoke |
 | PHP | `php/v0.10.1` | Packagist `axisvela/praxo-core==0.10.1` 已发布 | 历史 Composer 于 2026-11-18 通过 `0.8.1` allow/deny；未记录 `0.10.1` smoke |
 | Dart | `dart/v0.8.2` | pub.dev `praxo_core==0.8.2` 已发布 | 公共 API 已有 dartdoc 注释覆盖 |
@@ -104,12 +97,12 @@ Kotlin、VB.NET、Scala 等仅示例实现保留在本仓库，作为宿主 Core
 | Go | 2.11.3 | Go proxy `v2.11.3` | 版本一致；README 已更新 |
 | Python | 0.11.2 | PyPI `0.11.2` | 版本一致；README 已更新 |
 | TypeScript | 0.10.1 | npm `0.10.1` | 版本一致；README 已更新 |
-| Java | 0.12.2 | Maven Central `0.12.2` | 版本一致；SDK 版本已修正 |
+| Java | 0.12.3 | Maven Central `0.12.3` | 版本一致；SDK 版本已更正 |
 | Rust | 0.11.1 | crates.io `0.11.1` | 版本一致；README 已更新 |
 | C# | 0.11.1 | NuGet `0.11.1` | 版本一致；README 已更新 |
 | Elixir | 0.11.1 | Hex `0.11.1` | 版本一致 |
 | Erlang | 0.10.1 | Hex `0.10.1` | 版本一致 |
-| Ruby | 0.10.0 | RubyGems `0.10.0` | 版本一致 |
+| Ruby | 0.10.2 | RubyGems `0.10.2` | 版本一致 |
 | PHP | 0.10.2 | Packagist `0.10.2` | 版本一致；全新 dist 安装已验证 |
 | Lua | 0.9.1-1 | LuaRocks `0.9.1-1` | 版本一致 |
 | Dart | 0.8.2 | pub.dev `0.8.2` | 版本一致；文档覆盖已增加 |
@@ -152,7 +145,7 @@ Kotlin、VB.NET、Scala 等仅示例实现保留在本仓库，作为宿主 Core
 - Lua 源码标签 `lua/v0.4.0` 在 middleware、最终工具 allowlist、重新授权、
   生命周期清理、取消、流式回调、原生 SSE parser 和调用方提供的批处理工具调度
   之上增加人工审批中断决策。rock 修订 `0.4.0-1` 由
-  `.github/workflows/release-lua.yml` 构建并发布；LuaRocks 同时保留
+  `.github/workflows/lua-release.yml` 构建并发布；LuaRocks 同时保留
   `0.3.0-1` 和 `0.2.0-1`。工作流会在干净目录安装生成的 source rock 并运行
   安装后 smoke；registry 安装 smoke 尚未记录。
 - C# 源码标签 `csharp/v0.5.0` 新增 OpenAI-compatible、Harmovela、MCP adapter，并保留流式运行、取消、有限并行工具、SSE 校验和人工审批中断决策。
@@ -178,7 +171,7 @@ Kotlin、VB.NET、Scala 等仅示例实现保留在本仓库，作为宿主 Core
 - COBOL 已有源码标签 `cobol/v0.4.0`，包含全部 11 个向量组、人工审批中断决策、原生与契约测试、调用方持有状态的 scoped registry 和 API 快照。它新增 middleware、生命周期、取消、流式、SSE 和调用方提供的批处理工具调度，行为覆盖达到 20/20；并行工具委托给批处理调度器，而不是原生线程。它不是包管理器发布；其余 Go 面大多为 partial，registry 无并发和 custom spec provider。
 - Haskell 已有源码标签 `haskell/v0.3.0`，包含全部 11 个向量组、原生测试、API
   快照/parity 以及运行时/中间件辅助函数。Hackage 已发布
-  `praxo-core==0.3.0`；发布工作流为 `.github/workflows/release-haskell.yml`。
+  `praxo-core==0.3.0`；发布工作流为 `.github/workflows/haskell-release.yml`。
   生产就绪尚未声明。
 - Delphi/Free Pascal 已有源码标签 `delphi/v0.3.0`，在 Free Pascal 3.2.2 下通过
   全部 11 个向量组、原生测试和 API 快照/parity。OPM 资产已发布到 `delphi/v0.3.0` GitHub release，
@@ -220,3 +213,8 @@ Java、C# 还包含流式路径与 OpenAI 兼容适配器，不能据此推断�
 VFS、插件宿主、调度与可选集成应以对应 Core 的 README 和 API 参考为准。
 贡献要求见 [Core 设计](../contributing/core-design.md)和
 [语言支持规范](../contributing/language-policy.md)。
+
+## 贡献门槛
+
+Core 变更需要声明的向量组、parity 清单、API 检查和语言测试。Wire、Bridge 和 Sample 实现的门槛更窄。
+参见[语言政策](../contributing/language-policy.md)和 [Core 设计](../contributing/core-design.md)。安全敏感行为除了共享夹具外，还需要语言特定测试。
