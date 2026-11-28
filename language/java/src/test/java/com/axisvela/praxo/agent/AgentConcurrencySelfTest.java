@@ -33,6 +33,7 @@ public final class AgentConcurrencySelfTest {
         check(result.output.equals("ok"), "output");
         check(virtual.get(), "model did not run on a virtual thread");
         parallelToolsStartTogether();
+        runIdsAreUnique();
 
         Model slow = request -> {
             Thread.sleep(5000);
@@ -111,6 +112,33 @@ public final class AgentConcurrencySelfTest {
         check(result.output.equals("done"), "parallel output");
         check(started.get() == 2, "tools started: " + started.get());
         check(order.equals(List.of("c1", "c2")), "result order: " + order);
+    }
+
+    private static void runIdsAreUnique() throws Exception {
+        java.util.Set<String> ids =
+                java.util.concurrent.ConcurrentHashMap.newKeySet();
+        AgentOptions options = new AgentOptions(
+                request -> Response.of(Message.assistant("ok", List.of())));
+        options.events = event -> {
+            if (event.type().equals("run.started") && !ids.add(event.runId())) {
+                throw new IllegalStateException(
+                        "duplicate run id: " + event.runId());
+            }
+        };
+        Agent agent = new Agent(options);
+        int runs = 2000;
+        try (var executor =
+                java.util.concurrent.Executors.newVirtualThreadPerTaskExecutor()) {
+            List<java.util.concurrent.Future<?>> futures = new ArrayList<>();
+            for (int index = 0; index < runs; index++) {
+                futures.add(executor.submit(
+                        () -> agent.run(new Session("s1"), "hi")));
+            }
+            for (var future : futures) {
+                future.get();
+            }
+        }
+        check(ids.size() == runs, "unique run ids: " + ids.size());
     }
 
     private static void check(boolean condition, String detail) {

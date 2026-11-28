@@ -1,7 +1,9 @@
 package com.axisvela.praxo.agent;
 
 import com.axisvela.praxo.PraxoException;
+import com.axisvela.praxo.middleware.CallLimitMiddleware;
 import com.axisvela.praxo.middleware.Middleware;
+import com.axisvela.praxo.middleware.ModelCall;
 import com.axisvela.praxo.middleware.RunState;
 import com.axisvela.praxo.model.Message;
 import com.axisvela.praxo.model.Model;
@@ -23,6 +25,8 @@ public final class AgentLifecycleSelfTest {
 
     public static void main(String[] args) throws Exception {
         startupFailureCleansEntered();
+        startupEventFailureRunsAfterRun();
+        callLimitReleasesFailedRun();
         cleanupContinuesAndPreservesRunError();
         cleanupErrorAfterSuccessFailsClosed();
         cancellationRunsAfterRun();
@@ -83,6 +87,49 @@ public final class AgentLifecycleSelfTest {
                 "first.after:IllegalStateException", "second.after")),
                 "calls: " + calls);
         check(events.isEmpty(), "events: " + events);
+    }
+
+    private static void startupEventFailureRunsAfterRun() throws Exception {
+        List<String> calls = new ArrayList<>();
+        List<String> events = new ArrayList<>();
+        AgentOptions options = new AgentOptions(request -> {
+            throw new AssertionError("model must not run");
+        });
+        options.events = event -> {
+            events.add(event.type());
+            if (event.type().equals("run.started")) {
+                throw new IllegalStateException("sink unavailable");
+            }
+        };
+        options.middleware.add(new Middleware() {
+            @Override
+            public void beforeRun(RunState state) {
+                calls.add("acquire");
+            }
+
+            @Override
+            public void afterRun(Object result, Throwable error) {
+                calls.add("release:" + error.getClass().getSimpleName());
+            }
+        });
+        try {
+            new Agent(options).run(new Session("s1"), "go");
+            throw new AssertionError("expected sink failure");
+        } catch (IllegalStateException expected) {
+            check(expected.getMessage().equals("sink unavailable"), expected.getMessage());
+        }
+        check(calls.equals(List.of("acquire", "release:IllegalStateException")),
+                "calls: " + calls);
+        check(events.equals(List.of("run.started", "run.failed")),
+                "events: " + events);
+    }
+
+    private static void callLimitReleasesFailedRun() throws Exception {
+        CallLimitMiddleware limits = new CallLimitMiddleware(1, 1);
+        limits.beforeRun(new RunState("failed", null, ""));
+        limits.beforeModel(new ModelCall("failed", "s1", null));
+        limits.afterRun(null, new IllegalStateException("run failed"));
+        limits.beforeModel(new ModelCall("failed", "s1", null));
     }
 
     private static void cleanupContinuesAndPreservesRunError() throws Exception {

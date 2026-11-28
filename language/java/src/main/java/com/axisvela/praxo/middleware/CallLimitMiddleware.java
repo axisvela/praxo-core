@@ -2,6 +2,7 @@ package com.axisvela.praxo.middleware;
 
 import com.axisvela.praxo.PraxoException;
 
+import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,6 +15,24 @@ public final class CallLimitMiddleware implements Middleware {
     private final int modelLimit;
     private final int toolLimit;
     private final Map<String, Count> counts = new HashMap<>();
+    private final ThreadLocal<ArrayDeque<String>> activeRuns =
+            ThreadLocal.withInitial(ArrayDeque::new);
+
+    private void pushRun(String runId) {
+        activeRuns.get().push(runId);
+    }
+
+    private String popRun() {
+        ArrayDeque<String> runs = activeRuns.get();
+        if (runs.isEmpty()) {
+            return null;
+        }
+        String runId = runs.pop();
+        if (runs.isEmpty()) {
+            activeRuns.remove();
+        }
+        return runId;
+    }
 
     public CallLimitMiddleware(int modelLimit, int toolLimit) {
         this.modelLimit = modelLimit;
@@ -27,6 +46,7 @@ public final class CallLimitMiddleware implements Middleware {
 
     @Override
     public synchronized void beforeRun(RunState state) {
+        pushRun(state.runId());
         counts.put(state.runId(), new Count());
     }
 
@@ -50,8 +70,12 @@ public final class CallLimitMiddleware implements Middleware {
 
     @Override
     public synchronized void afterRun(Object result, Throwable error) {
-        if (result instanceof com.axisvela.praxo.agent.Result value) {
-            counts.remove(value.runId);
+        String runId = popRun();
+        if (runId == null && result instanceof com.axisvela.praxo.agent.Result value) {
+            runId = value.runId;
+        }
+        if (runId != null) {
+            counts.remove(runId);
         }
     }
 }

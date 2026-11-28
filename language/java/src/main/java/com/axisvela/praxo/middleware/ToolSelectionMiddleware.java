@@ -5,6 +5,7 @@ import com.axisvela.praxo.model.Message;
 import com.axisvela.praxo.model.Request;
 import com.axisvela.praxo.model.ToolSpec;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,6 +16,27 @@ import java.util.Set;
 public final class ToolSelectionMiddleware implements Middleware {
     private final ToolSelector selector;
     private final Map<String, Set<String>> selected = new HashMap<>();
+    private final ThreadLocal<ArrayDeque<String>> activeRuns =
+            ThreadLocal.withInitial(ArrayDeque::new);
+
+    private void pushRun(String runId) {
+        ArrayDeque<String> runs = activeRuns.get();
+        if (runs.isEmpty() || !runs.peek().equals(runId)) {
+            runs.push(runId);
+        }
+    }
+
+    private String popRun() {
+        ArrayDeque<String> runs = activeRuns.get();
+        if (runs.isEmpty()) {
+            return null;
+        }
+        String runId = runs.pop();
+        if (runs.isEmpty()) {
+            activeRuns.remove();
+        }
+        return runId;
+    }
 
     public ToolSelectionMiddleware(ToolSelector selector) {
         this.selector = selector;
@@ -34,6 +56,7 @@ public final class ToolSelectionMiddleware implements Middleware {
                 lastUserMessage(call.request.messages()),
                 call.request.tools());
         Set<String> chosen = new HashSet<>(names == null ? List.of() : names);
+        pushRun(call.runId);
         selected.put(call.runId, chosen);
         List<ToolSpec> filtered = new ArrayList<>();
         for (ToolSpec spec : call.request.tools()) {
@@ -60,8 +83,12 @@ public final class ToolSelectionMiddleware implements Middleware {
 
     @Override
     public synchronized void afterRun(Object result, Throwable error) {
-        if (result instanceof com.axisvela.praxo.agent.Result value) {
-            selected.remove(value.runId);
+        String runId = popRun();
+        if (runId == null && result instanceof com.axisvela.praxo.agent.Result value) {
+            runId = value.runId;
+        }
+        if (runId != null) {
+            selected.remove(runId);
         }
     }
 

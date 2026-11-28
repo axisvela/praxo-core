@@ -45,8 +45,11 @@ import java.util.concurrent.Future;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicLong;
 
 public final class Agent {
+    private static final AtomicLong RUN_SEQUENCE = new AtomicLong();
+
     private static final class PreparedTool {
         private final MiddlewareToolCall toolCall;
         private final ToolCall active;
@@ -119,7 +122,7 @@ public final class Agent {
             throw new IllegalArgumentException("agent: model is required");
         }
         int maxSteps = options.maxSteps > 0 ? options.maxSteps : 8;
-        String runId = "run-" + System.nanoTime();
+        String runId = "run-" + System.nanoTime() + "-" + RUN_SEQUENCE.incrementAndGet();
         List<Message> messages = new ArrayList<>(session.messages);
         if (!systemPrompt.isEmpty()) {
             messages.add(0, Message.of(Message.SYSTEM, systemPrompt));
@@ -134,10 +137,10 @@ public final class Agent {
             afterRun(entered, null, error);
             throw error;
         }
-        emit(new Event("run.started", session.id, runId, null, null));
         boolean afterRunInvoked = false;
         ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor();
         try {
+            emit(new Event("run.started", session.id, runId, null, null));
             for (int step = 1; step <= maxSteps; step++) {
                 authorize(Action.of("model.generate", session.id));
                 messages = new ArrayList<>(compact(messages));
