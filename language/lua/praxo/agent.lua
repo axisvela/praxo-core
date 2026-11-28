@@ -5,6 +5,8 @@ local runtime = require("praxo.runtime")
 
 local M = {}
 
+local run_sequence = 0
+
 function M.func_tool(name, description, func, parameters, risk)
   return {
     name = name,
@@ -308,7 +310,8 @@ function M.run_agent(options, session, prompt)
     errors.raise("AGENT_INVALID_OPTIONS", "agent: require tool scope: allowed_tools must not be empty")
   end
   local max_steps = (options.max_steps or 0) > 0 and options.max_steps or 8
-  local run_id = "run-" .. tostring(math.floor(os.time() * 1000))
+  run_sequence = run_sequence + 1
+  local run_id = string.format("run-%d-%d", os.time(), run_sequence)
   local messages = {}
   for _, message in ipairs(session.messages or {}) do messages[#messages + 1] = message end
   if (options.system_prompt or "") ~= "" then

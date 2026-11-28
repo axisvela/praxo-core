@@ -201,6 +201,12 @@ local result = agent.run_agent(options, models.session({ id = "s1" }), "go")
 check(result.output == "done" and result.steps == 2 and invocations == 1, "agent loop")
 check(json.equals(sink.types, { "run.started", "tool.call", "run.completed" }), "agent events")
 
+local first_run = agent.run_agent(
+  agent.agent_options(agent.static_model("done")), models.session({ id = "s1" }), "go")
+local second_run = agent.run_agent(
+  agent.agent_options(agent.static_model("done")), models.session({ id = "s1" }), "go")
+check(first_run.run_id ~= second_run.run_id, "lua run ids")
+
 
 local function tool_model()
   local next_step = 1
