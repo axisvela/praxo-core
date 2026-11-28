@@ -110,6 +110,8 @@ sub generate {
 
 package Praxo::Agent::Agent;
 
+my $run_sequence = 0;
+
 sub new {
     my ($class, $options) = @_;
     Praxo::Errors::praxo_error(
@@ -127,7 +129,7 @@ sub run {
     my ($self, $session, $prompt) = @_;
     my $options = $self->{options};
     my $max_steps = ($options->{max_steps} // 0) > 0 ? $options->{max_steps} : 8;
-    my $run_id = 'run-' . int(time() * 1000);
+    my $run_id = 'run-' . time() . '-' . (++$run_sequence);
     my @messages = @{ $session->{messages} // [] };
     if (length($options->{system_prompt} // '')) {
         unshift @messages, Praxo::Models::message_text(
@@ -136,10 +138,10 @@ sub run {
     }
     push @messages, Praxo::Models::message_text(Praxo::Models::USER, $prompt // '');
     my $usage = Praxo::Models::usage();
-    _emit($options, 'run.started', $session->{id}, $run_id);
     my $step = 0;
     my $result;
     my $ok = eval {
+        _emit($options, 'run.started', $session->{id}, $run_id);
         for $step (1 .. $max_steps) {
             _authorize($options, Praxo::Models::action(
                 kind => 'model.generate', session_id => $session->{id},
@@ -185,9 +187,11 @@ sub run {
     };
     if (!$ok) {
         my $error = $@;
-        _emit($options, 'run.failed', $session->{id}, $run_id, {
-            error => "$error",
-        });
+        eval {
+            _emit($options, 'run.failed', $session->{id}, $run_id, {
+                error => "$error",
+            });
+        };
         die $error;
     }
     return $result;

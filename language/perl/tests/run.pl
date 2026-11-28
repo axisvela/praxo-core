@@ -118,6 +118,15 @@ sub emit {
 sub types { $_[0]{types} }
 sub events { $_[0]{events} }
 
+package FailingSink;
+sub new { bless { types => [] }, shift }
+sub emit {
+    push @{ $_[0]{types} }, $_[1]{type};
+    Praxo::Errors::praxo_error('SINK_FAILED', 'sink unavailable')
+        if $_[1]{type} eq 'run.started';
+}
+sub types { $_[0]{types} }
+
 package TestModel;
 sub new { bless { steps => $_[1], next => 0, requests => [] }, shift }
 sub generate {
@@ -157,6 +166,30 @@ is($result->{output}, 'done', 'agent output');
 is($result->{steps}, 2, 'agent steps');
 is($invocations, 1, 'agent tool invocation');
 is_deeply($sink->types, [qw(run.started tool.call run.completed)], 'agent events');
+
+my $startup_event_sink = FailingSink->new;
+my $startup_event_options = Praxo::Agent::AgentOptions->new(
+    TestModel->new([{ content => 'done' }]),
+);
+$startup_event_options->{events} = $startup_event_sink;
+my $startup_event_ok = eval {
+    Praxo::Agent::run_agent(
+        $startup_event_options, Praxo::Models::session(id => 's1'), 'go',
+    );
+    1;
+};
+my $startup_event_error = $@;
+ok(!$startup_event_ok, 'startup event failure');
+is(
+    Praxo::Errors::error_code($startup_event_error),
+    'SINK_FAILED',
+    'startup event failure code',
+);
+is_deeply(
+    $startup_event_sink->types,
+    [qw(run.started run.failed)],
+    'startup event failure events',
+);
 
 my $policy_guard_options = Praxo::Agent::AgentOptions->new(TestModel->new([
     { content => 'done' },
