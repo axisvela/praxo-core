@@ -321,6 +321,34 @@ local ok_startup, err_startup = pcall(agent.run_agent, startup_options, models.s
 check(not ok_startup and errors.code(err_startup) == "STARTUP_FAILED", "lua startup failure")
 check(json.equals(startup_calls, { "first.before", "first.after", "second.after" }), "lua startup cleanup")
 
+local startup_event_calls = {}
+local startup_event_sink = { types = {} }
+startup_event_sink.emit = function(event)
+  startup_event_sink.types[#startup_event_sink.types + 1] = event.type
+  if event.type == "run.started" then
+    errors.raise("SINK_FAILED", "sink unavailable")
+  end
+end
+local startup_event_options = agent.agent_options(agent.static_model("done"))
+startup_event_options.events = startup_event_sink
+startup_event_options.middleware = {
+  { before_run = function(_state)
+      startup_event_calls[#startup_event_calls + 1] = "acquire"
+    end,
+    after_run = function(_result, error_value)
+      startup_event_calls[#startup_event_calls + 1] =
+        "release:" .. (error_value and errors.code(error_value) or "")
+    end },
+}
+local ok_startup_event, err_startup_event =
+  pcall(agent.run_agent, startup_event_options, models.session({ id = "s1" }), "go")
+check(not ok_startup_event and errors.code(err_startup_event) == "SINK_FAILED",
+      "lua startup event failure")
+check(json.equals(startup_event_calls, { "acquire", "release:SINK_FAILED" }),
+      "lua startup event cleanup")
+check(json.equals(startup_event_sink.types, { "run.started", "run.failed" }),
+      "lua startup event failure events")
+
 local continue_calls = {}
 local continue_model = { generate = function(_request) errors.raise("RUN_FAILED", "run failed") end }
 local continue_options = agent.agent_options(continue_model)

@@ -322,10 +322,10 @@ function M.run_agent(options, session, prompt)
     after_run(options, entered, nil, startup_error)
     error(startup_error)
   end
-  emit(options, "run.started", session.id, run_id)
-  emit_stream(options, run_id, session.id, "values", 0, prompt)
   local after_run_invoked = false
   local ok, result = pcall(function()
+    emit(options, "run.started", session.id, run_id)
+    emit_stream(options, run_id, session.id, "values", 0, prompt)
     for step = 1, max_steps do
       check_cancelled(options)
       authorize(options, models.action({ kind = "model.generate", session_id = session.id }))
@@ -375,7 +375,7 @@ function M.run_agent(options, session, prompt)
   if not ok then
     if not after_run_invoked then after_run(options, entered, nil, result) end
     local message = type(result) == "table" and (result.message or tostring(result)) or tostring(result)
-    emit(options, "run.failed", session.id, run_id, { error = message })
+    pcall(emit, options, "run.failed", session.id, run_id, { error = message })
     error(result)
   end
   return result
