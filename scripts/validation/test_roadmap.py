@@ -45,7 +45,8 @@ class RoadmapTests(unittest.TestCase):
     def test_tutorial_ci_snapshot_replaces_pending_status(self):
         for prefix in ("", "zh-CN/"):
             for page in ("project/planning/roadmap.md", "getting-started/tutorial-plan.md",
-                         "getting-started/runtime-scenario-design.md", "project/evaluation/verification-evidence.md"):
+                         "getting-started/runtime-scenario-design.md",
+                         "project/evaluation/verification-core-and-execution.md"):
                 with self.subTest(language=prefix, page=page):
                     text = (ROOT / "docs" / prefix / page).read_text(encoding="utf-8")
                     self.assertIn("dfdfd558", text)

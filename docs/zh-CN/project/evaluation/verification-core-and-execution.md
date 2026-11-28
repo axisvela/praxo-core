@@ -1,0 +1,239 @@
+# 验证证据：Core 与执行
+
+Core 契约、执行、真实模型、包、身份、消费者与跨语言证据。
+
+## 相关页面
+
+- [验证证据](verification-evidence.md)：证据层级、索引与限制。
+- [执行正确性证据](execution-correctness-evidence.md)：要求级正确性证据。
+- [契约状态](../status/contract-status.md)：当前实现状态。
+
+
+## 教程 CI 后续记录（2026-11-25） {#tutorial-ci-follow-up-2026-11-25}
+
+`ci-tutorials` [运行 45537631891](https://github.com/axisvela/praxo-core/actions/runs/45537631891)
+在 `dfdfd55873368c921fed29ad201d20986a935866` 通过，覆盖场景目录、新语言切片、九条语言
+适配路径和共享服务集成。Java、Swift、Objective-C 教程已在各自配置的托管 runner
+运行通过，原生编译语言作业也通过。此记录取代此前 CI 待运行标签，不改变本地 Windows
+工具链限制。MATLAB 命名作业使用 Octave，Free Pascal 不证明商业 Delphi。
+具体命令和平台以固定工作流及各作业为准。这是确定性 fixture/CI 证据，不是全部 SDK
+能力、后续 revision、真实模型、完整参考应用或独立消费者验证；早先失败仍是对应版本的失败。
+
+2026-11-28，`java-new-tutorials`（airport-recovery）在
+[46026595266，attempt 2](https://github.com/axisvela/praxo-core/actions/runs/46026595266/attempts/2)、
+`02e736e4a57895dffafab51a8be85dbc9c9d9601` 通过。仅重跑失败作业；无关作业此前已取消，
+因此整体仍为 `CANCELLED`。这是限定范围的托管确定性通过，不是整个教程工作流通过或真实模型
+验证；本地 Windows JVM 仍阻塞。
+
+另，适配器 [运行 45541181220](https://github.com/axisvela/praxo-core/actions/runs/45541181220)
+在 `71f78a7a` 通过，包含升级 OpenTelemetry `1.47.0` 后的 `adapters/otel` 安全检查。
+综合运行 `45533451233` 在 `d7916382` 因该模块安全作业失败；后续适配器通过不等于
+HEAD 重新运行并通过完整综合 CI。
+
+证据按领域分组；每一行只对其注明的 revision、产物和日期负责。
+
+
+## Core、执行与真实模型 {#core-execution-and-live-model}
+
+| 领域 | 已验证 | 级别 | 限制 |
+| --- | --- | --- | --- |
+| Go Core | Tests、vet、build、API snapshot、race、fuzz 和 module-security CI；绑定 revision 的 main 与发布工作流检查；当前版本为 `v2.11.3`，不自动继承早期证据。历史 `current-go-consumer` CI 任务从 Registry 安装推荐版本并运行确定性 allow/deny 检查；`v2.6.0` 可从公共 module proxy 在干净外部模块解析；另行记录的干净外部模块安装与最小 agent smoke 覆盖 `v2.5.2` | 契约/单元 + CI + 本地集成 | JSON Schema 和 plugin manifest fuzz 曾在 10s deadline 失败、rerun 通过；慢输入风险仍在调查；历史 docs CI 将不改源码的消费者从 `v2.5.0` 升级至 `v2.10.0`，确定性 allow/deny 通过；更早的 tag 提交 `current-go-consumer` 安装 `v2.9.0`，pkg.go.dev 于 2026-11-16 显示 `v2.9.0`；本页尚无 `v2.11.3` 直接页面核对记录；安装证据仍由 CI 驱动，不是独立非作者消费者 |
+| Live-model Ollama 交叉验证 | Go `qwen3.5:4b`、TypeScript/Python `qwen2.5:0.5b`、C# `qwen2.5:0.5b` 与 Rust `qwen2.5:0.5b` 各完成一次本地 Ollama 的 `get_time` 工具调用路径。Python 使用注入的 `http.client` transport，因为本机标准 `urllib` 挂起。C# 通过构建后的 DLL 运行，因为 apphost/`dotnet run` 路径在当前 shell 未返回；2026-11-22 打印时间。Rust 通过 `cargo build --offline` 构建并从二进制运行；其模型生成的时间文本被记录，但不作为正确性声明 | 本地集成 | 一个本地端点/平台；Python transport、C# DLL 调用与 Rust 离线构建是本地 workaround，不是文档化路径；未评估模型输出质量或时间格式正确性；托管端点、计费调用和独立复现未测试 |
+| Go 长时操作配方 | 文件存储覆盖幂等提交、响应丢失、子进程重启、独立 verifier、带 lease 过期/续期/撤销的 fencing、rename 前后确定性故障注入、损坏状态失败关闭、带 health/readiness、基础 metrics、示例 Prometheus scrape/留存/告警配置（仅配置校验；无 live collector）、环境变量配置、file-based token/secret 轮换（签发属外部）与优雅退出的独立服务二进制、可配置 file/SQLite/Postgres lease 后端与 reload-modify-save（SQLite 已验证；Postgres gated 测试需 `PRAXO_POSTGRES_DSN`，本环境未验证）、rename 边界前后进程级崩溃、gated 100 提交负载/故障测试与干净检出复现脚本、使用自己 token/密钥的独立 verifier 二进制，以及无 lease 时的并发写入者边界测试 | 契约/单元 + 本地集成 | L4 应用配方；没有生产部署、live collector/留存/告警、OS 级断电、生产 lease 协调、可信时钟或 exactly-once |
+| 代表性端到端链路 | Go `language/go/examples/representative-chain`：真实 Ollama `qwen3.5:4b` → MCP `record` 工具 → 最终参数策略 → 受治理子代理委派 → OTel span 与 loopback Harmovela 事件 → 编辑后拒绝且零效果。2026-11-17 记录：输出 `DONE`、效果 parent=1/child=1、子代理调用 2 次、10 个 span、10 个事件、拒绝效果 0 | 本地集成 | 一个本地模型/平台；内存 MCP 与 loopback Harmovela；不是远程或生产部署；没有独立复现、负载或故障测试 |
+| Python 代表性链路 | `language/python/examples/representative-chain`：确定性父子代理 → MCP `record` 工具 → 最终参数策略 → 受治理委派 → OTel/Harmovela 内存 transport → 编辑后拒绝且零效果。2026-11-17 记录：输出 `DONE`、效果 parent=1/child=1、子调用 2 次、7 个 span/事件、拒绝效果 0 | 契约/单元 | 确定性模型、内存 MCP 与 sink transport；不含 live provider、远程服务、身份或生产证据；补充 Go 真实模型链路 |
+| TypeScript 代表性链路 | `language/typescript/examples/representative-chain`：确定性父子代理 → MCP `record` 工具 → 最终参数策略 → 受治理委派 → OTel/Harmovela 内存 transport → 编辑后拒绝且零效果。2026-11-17 记录：输出 `DONE`、效果 parent=1/child=1、子调用 2 次、7 个 span/事件、拒绝效果 0 | 契约/单元 | 确定性模型、内存 MCP 与 sink transport；不含 live provider、远程服务、身份或生产证据；补充 Go 真实模型链路 |
+| 跨语言代表性链路 | Go 真实模型链路，以及 Python、TypeScript、Java、C#、Rust、R、C、C++、Fortran、COBOL、PHP、Ruby、Elixir、Erlang、Lua、Perl、V、Nim、Dart、Julia、D、OCaml、Haskell、Zig、MATLAB/Octave 共享实现、Delphi / Free Pascal、Objective-C、Swift、PowerShell 的确定性链路。每条覆盖 MCP-style record、最终授权、子委派、OTel/Harmovela 事件和编辑后零效果拒绝。2026-11-17（Swift 与 PowerShell 为 2026-11-18）记录：确定性链路输出 `DONE`，效果 parent=1/child=1，子调用 2，至少 3 类事件，拒绝效果 0；Perl/V/Nim/Dart/Julia/D/OCaml/Haskell/Zig/MATLAB-Octave/Delphi/Swift/PowerShell 为 10 个 span/事件，Objective-C 为 7；MATLAB/Octave 证据仅限 GNU Octave 11.3.0，原生 MATLAB 未验证；Delphi 证据为 Free Pascal 3.2.2，商业 Delphi 兼容性未验证；Objective-C 证据为 clang/GNUstep，Apple Foundation 未验证；Swift 证据为 Windows 上直接 `swiftc`/`lld` 链接的 Swift 6.4.2，SwiftPM `swift build` 和 macOS 运行时未验证；PowerShell 证据为 .NET 11 上的 PowerShell 7.7.0，使用为 `net8.0` 构建的共享 C# Core，不是独立 PowerShell 运行时；C 17/17、C++ 8/8 ctest；COBOL 全量套件包含该链路；Fortran 直接 20 项检查 | 契约/单元 + 本地集成 | 确定性模型与内存/transport seam；不含 live provider 或远程服务；Fortran 全量门禁受本机可执行文件删除阻塞；无独立复现或生产证据 |
+| 跨语言一致性 | Python、TypeScript、Java、Rust、Fortran、COBOL 兼容性实验运行确定性向量、API snapshot/signature 与 parity 检查；已记录 Linux CI 和本地运行 | 契约/单元 + CI | 仅六种语言；COBOL 已在本地 GnuCOBOL 和 Linux CI 验证；不含 provider、HITL、checkpoint、sandbox 或生产证据；每次运行一个平台和工具链；非作者复现待完成 |
+
+
+## 发布包、身份示例与消费者运行 {#packages-identity-examples-and-consumer-runs}
+
+共享订单教程切片（2026-11-22）：Core `3c2063f9` 与合成后端提交
+`fe85622b3445c41d53fbada8e0199c8f1b353ec5`。本地后端与 Python/TypeScript 客户端
+共四个测试方法通过（Python 源码模式，TypeScript 安装 npm `0.9.0`）。Java 编译和
+mock Agent/Web JUnit 已在 Linux CI
+[45031868787](https://github.com/axisvela/praxo-core/actions/runs/45031868787) 通过。
+原后端仓库为私有：完整三语言集成被跳过，不是通过。之前 Core run `45031542641`
+在私有仓库检出时失败，未执行测试。原后端 CI 未启动。
+这些是维护者教学 fixture，不是独立采用、真实 Provider、公共服务、退款或持久事务证据。
+
+公开后端后续记录（2026-11-22）：已批准的教学子集作为 MIT 源码发布至
+[agent-tutorial-services](https://github.com/axisvela/agent-tutorial-services)，
+提交 `8b7820edbf9150b5b8c90fe73368a1bba8854186`。该仓库独立后端 CI
+[45032761254](https://github.com/axisvela/agent-tutorial-services/actions/runs/45032761254)
+通过，本地后端与 Python/TypeScript 客户端四个测试方法再次通过。原演示仓库保持私有。
+新的 Core 完整客户端门禁固定引用公开提交，不需要私有凭据；不能由后端 CI 或此前
+Java mock 测试推断完整集成结果。
+
+完整原生客户端集成已在 Core `8b0593bb` 的
+[run 45033109188](https://github.com/axisvela/praxo-core/actions/runs/45033109188)
+通过，固定后端 `8b7820e`，环境为 Ubuntu 26.04、Python 3.12.16、Node 24.22.3、
+Temurin 21.0.13。任务安装 PyPI `0.10.0`、npm `0.9.0` 和 Maven Central `0.11.0`，
+全部四个 unittest 方法通过，覆盖每个原生客户端的成功草稿、Agent 拒绝、服务端租户
+拒绝与存储不可用。Java mock/Web JUnit 单独通过。这是 loopback 确定性 CLI 集成，
+不是真实模型、托管业务服务、Java Web 对真实后端验证或独立消费者证据。
+
+C# 服务台后续已在 Core `ae953050`、后端 `cd08b09` 的
+[run 45034303513](https://github.com/axisvela/praxo-core/actions/runs/45034303513)
+通过（2026-11-22）。C# 使用 .NET 8 与 NuGet `0.10.0`，独立原生/ASP.NET Core
+自测通过；后端五个 unittest 方法全部通过，包含四个原生 CLI 客户端以及真实 C# Web
+对后端的鉴权拒绝、草稿创建/重放和存储不可用路径。这扩展的是 C# 范围，不是 Java
+Web 范围。模型为确定性 fixture，凭据为公开教学常量；没有真实 Provider、生产认证、
+公共托管或独立采用声明。
+
+PowerShell Windows 诊断教程（2026-11-22）：本地 Windows PowerShell 7.7.0 使用共享
+C# Core Debug 源码模式通过四项检查。Fixture 模式执行两次只读工具调用；越界服务在读取
+前被拒绝（`reads=0`）；模拟依赖失败在读取一次后非零退出；本机模式读取 `Spooler`
+状态和系统盘剩余空间，标记 `source=local_machine`。教程未注册变更类工具。托管 Windows CI
+[45036962205](https://github.com/axisvela/praxo-core/actions/runs/45036962205)
+也已在 `5afe6e35` 通过：构建 C# Core Debug 并运行全部四项源码模式检查，包括本机
+服务/磁盘读取。未验证 Gallery 安装、真实模型、远程主机、修复、管理员操作、生产监控
+或独立采用。
+
+Perl 日志巡检教程（2026-11-22）：本地 Perl 5.40.3 源码模式通过成功报告、策略拒绝和
+模拟依赖失败。成功路径读取固定 fixture 一次，报告 2 个 error、1 个 warning、2 个 info，
+且 `mutating_actions` 为空；越界日志在读取前被拒绝（`reads=0`）；模拟依赖失败在读取一次
+后非零退出。Linux CI
+[45038008192](https://github.com/axisvela/praxo-core/actions/runs/45038008192)
+也已在 `3b5edcc7` 通过。未验证任意路径、Shell 执行、告警发送、真实模型、生产日志
+管道或独立采用。
+
+R 数据质量教程（2026-11-22）：本地 R 4.6.1 源码模式通过成功报告、策略拒绝和模拟依赖
+失败。报告包含 6 行、1 个缺失 amount、5 个完整行、4 个 region、mean amount 118 和
+max score 0.95，`mutating_actions` 为空；越界数据集在读取前被拒绝（`reads=0`）；模拟
+依赖失败在读取一次后非零退出。Linux CI
+[45039622807](https://github.com/axisvela/praxo-core/actions/runs/45039622807)
+也已在 `e89c9037` 通过。未验证任意文件/SQL/Shell、包安装、真实模型、因果结论、生产
+管道或独立采用。
+
+COBOL 批处理异常审阅教程（2026-11-22）：本地 GnuCOBOL 2.0.0 与 Python 3.14 通过教程
+包装器及三个底层场景。审阅路径产生 advisory 输出，同时保持批输出与异常文件不变；
+不可用与超时路径不产生 advisory 输出，且两个文件保持不变。该教程复用现有确定性交接
+fixture，不是第二套银行模型。Linux CI
+[45040372057](https://github.com/axisvela/praxo-core/actions/runs/45040372057)
+也已在 `01d9b1ff` 通过。未声称真实记账、支付、持久队列、恢复证明、真实模型或独立
+消费者证据。
+
+Julia 实验比较教程（2026-11-22）：本地 Julia 1.13.2 源码模式通过成功、策略拒绝和
+模拟依赖失败。报告包含 5 个样本、baseline mean 0.74、candidate mean 0.784、delta
+0.044、winner `candidate`，`mutating_actions` 为空；越界数据集在读取前被拒绝
+（`reads=0`）；模拟依赖失败在读取一次后非零退出。Linux CI
+[45041423996](https://github.com/axisvela/praxo-core/actions/runs/45041423996)
+也已在 `bbf12c42` 通过。未验证任意数据、模型提供的 Julia 执行、包安装、真实模型、
+因果结论、生产平台或独立采用。
+
+Octave/MATLAB 信号趋势教程（2026-11-22）：本地 GNU Octave 11.3.0 通过成功、策略拒绝
+和模拟依赖失败。报告包含 10 个样本、mean 0.42、peak-to-peak 1、RMS 约 0.53075、2 个
+阈值异常和首个异常索引 4，`mutating_actions` 为空；越界数据集在工具调用前被拒绝
+（`reads=0`）；模拟依赖失败在调用一次后返回 `TOOL_ERROR`。Linux CI
+[45042266323](https://github.com/axisvela/praxo-core/actions/runs/45042266323)
+也已在 `0664a194` 通过。未验证原生 MATLAB、任意文件/代码执行、设备控制、真实模型、
+生产信号管道或独立采用。
+
+Python 办公问答教程（2026-11-22）：本地 Python 3.14 源码模式通过成功、策略拒绝和模拟
+索引失败。答案引用 `handbook` fixture 并包含 travel approval 句子；越界 scope 在工具
+调用前被拒绝（`reads=0`）；模拟索引失败在调用一次后失败。Linux CI
+[45043537084](https://github.com/axisvela/praxo-core/actions/runs/45043537084)
+也已在 `cfd850a6` 通过。未验证任意文件/Connector、邮件/日历操作、真实 Provider、
+生产文档存储、公共托管或独立采用。
+
+TypeScript 客服教程（2026-11-22）：本地 Node 24 通过 SSE 成功案例（引用 `shipping`）、
+缺少凭据 401、流开始前模拟依赖失败 503，以及越界订单在 HTTP 效果前被 Agent 策略拒绝。
+最终回复说明 `order-100` 延迟。Linux CI
+[45086046576](https://github.com/axisvela/praxo-core/actions/runs/45086046576)
+也已在 `39558592` 通过。未验证回复发送、订单修改、退款、真实 Provider、公共端点或
+独立采用。
+
+Java 理财审阅教程（2026-11-22）：教程主类与 JUnit 测试已使用本地 Core classes 通过
+`javac` 编译。本地 Maven/JVM 执行受工作站启动器阻塞，因此不声称本地 JUnit 结果。测试
+配置覆盖仅草案成功、`acct-200` 策略拒绝、组合依赖失败，以及 Web health/401/200/503
+边界。Linux CI
+[45088386879](https://github.com/axisvela/praxo-core/actions/runs/45088386879)
+也已在 `827d47ca` 通过；首次 CI 暴露出 `acct-200` 拒绝测试仍使用 `acct-100` fixture，
+修复后才通过。未验证交易、转账、市场数据、生产身份、真实模型、公共托管或独立采用。
+
+C# 销售/CRM 教程（2026-11-22）：本地 .NET 8 构建与自测通过仅草案成功（零 CRM 写入）、
+`customer-200` 策略拒绝、模拟 CRM 依赖失败，以及 Web health/401/200/503 边界。自测使用
+临时 loopback ASP.NET Core listener。Linux CI
+[45093076768](https://github.com/axisvela/praxo-core/actions/runs/45093076768)
+也已在 `00641594` 通过。未验证 CRM 写入、邮件发送、真实客户、生产身份、真实模型、
+公共托管或独立采用。
+
+Lua 宿主嵌入教程（2026-11-22）：本地 Lua 5.4.6 将宿主事件传入原生 Lua Core。报告包含
+固定 `device-100` 快照、`draft_only` 的 `notify_operator` 草案与 `review_required`，
+`device_writes` 为空数组；越界设备在回调前被拒绝（`reads=0`）；模拟遥测失败在读取一次
+后失败。Linux CI
+[45095923385](https://github.com/axisvela/praxo-core/actions/runs/45095923385)
+也已在 `9163d03a` 通过。未验证真实设备协议、命令、Socket、生产身份、真实模型、公共
+托管或独立采用。
+
+Rust IoT 网关教程（2026-11-23）：本地 Rust 使用已发布 `praxo-core==0.10.0` crate
+通过成功、策略拒绝和模拟 Adapter 失败。成功报告包含固定 `device-100` 快照、
+`draft_only`、`review_required` 的 `open_ticket` 草案和零设备写入；越界 `device-200`
+在 Adapter 前被拒绝（`reads=0`）；模拟 Adapter 失败在读取一次后返回
+`GATEWAY_READ_FAILED`。本地 `cargo fmt --check` 与 `cargo run --locked -- --test`
+通过；Linux CI
+[45098362060](https://github.com/axisvela/praxo-core/actions/runs/45098362060)
+也已在 `a78de75e` 通过。Adapter 是进程内 fixture；未验证 MQTT、OPC UA、Socket、
+设备命令、真实模型、公共托管或独立采用。
+
+Zig 网关健康教程（2026-11-23）：本地 Zig 0.17.0 与原生 Zig Core 通过成功、策略拒绝和
+模拟 Adapter 失败。成功报告包含固定 `gateway-100` 快照（`health=degraded`、磁盘
+`91`、内存 `78`）、`draft_only`、`review_required` 的 `restart_telemetry` 草案和零
+设备写入；越界 `gateway-200` 在 Adapter 前被拒绝（`reads=0`）；模拟 Adapter 失败在
+读取一次后返回 `GatewayReadFailed`。Linux CI
+[45102354617](https://github.com/axisvela/praxo-core/actions/runs/45102354617)
+也已在 `0b2f15d6` 通过。Adapter 是进程内 fixture；未验证 MQTT、OPC UA、Socket、
+设备命令、真实模型、公共托管或独立采用。
+
+| 领域 | 已验证 | 级别 | 限制 |
+| --- | --- | --- | --- |
+| Python 已发布包 | PyPI 已从源码标签 `python/v0.10.0` 发布 `praxo-core==0.10.0`。Docs CI 发布升级检查安装 `0.2.4`，运行未改动消费者与治理检查，升级到 `0.10.0` 后再次通过。历史本地检查覆盖 `0.3.2` 和 `0.2.4` | Registry 发布 + CI 升级 | 一个版本对；未记录 CI 之外的 `0.10.0` 消费者安装；一个平台/工具链；不是独立或非作者消费者；不含 provider 或生产证据 |
+| Python 发布包升级（历史版本对） | `scripts/consumers/python/test_python_upgrade.py` 安装 PyPI `0.2.4`，运行未改动消费者 fixture 与治理兼容检查，升级到 `0.3.0`，再运行完整 starter/治理套件 | CI + Registry 升级 | 一个版本对；不证明任意升级路径、独立消费者或生产行为 |
+| TypeScript 已发布包 | npm `@axisvela/praxo-core@0.9.0` 已从源码标签 `typescript/v0.9.0` 发布。Docs CI 发布升级检查将未改动消费者从 `0.1.5` 移到 `0.9.0` 并通过治理检查。示例锁文件已改用 registry `0.9.0` integrity；此前沿用 `0.8.1` integrity 导致 `npm ci` 报 EINTEGRITY | Registry 发布 + CI 升级 + 全新锁文件安装 | 一个版本对；Docs CI 安装由 CI 驱动，不是独立消费者；一个平台；不含 provider 或生产证据 |
+| TypeScript 发布包升级（历史版本对） | `scripts/consumers/typescript/test_typescript_upgrade.py` 安装 npm `0.1.5`，运行未改动消费者与治理兼容检查，升级到 `0.2.0`，再运行完整 starter/治理套件 | CI + Registry 升级 | 一个版本对；不证明任意升级路径、独立消费者或生产行为 |
+| Rust 已发布 crate | crates.io `praxo-core==0.10.0` 已从源码标签 `rust/v0.10.0` 发布。发布工作流在发布前运行 `cargo test`、conformance、API snapshot 和 package dry-run。已记录的本地 registry 安装 smoke 覆盖 `0.1.4` | Registry 发布 + 发布工作流门禁 | 未记录 `0.10.0` 的发布后消费者安装；一个平台；不是独立消费者；不含 provider 或生产证据 |
+| Dart 已发布包 | pub.dev 已从源码标签 `dart/v0.7.0` 发布 `praxo_core==0.7.0`。先前干净项目安装 `0.6.1` 并通过确定性消费者检查；`0.7.0` 发布工作流通过 conformance、API snapshot、tests、dry-run 和 archive 检查，未重跑发布后安装 | Registry 发布 + 干净项目安装 smoke | 一个平台；同机项目，不是独立或非作者消费者；未验证真实 provider 或目标平台；pub.dev 分数/下载量不是采用证据 |
+| Ruby 已发布 gem | RubyGems `praxo-core==0.9.2` 已从源码标签 `ruby/v0.9.2` 发布。发布工作流运行 conformance、API snapshot、原生测试、gem build、隔离 Bundler 检查和发布。`0.9.2` 更新 RubyGems README 与 gem 描述；`0.9.1` 移除了未声明的 `base64` 依赖 | Registry 发布 + 发布工作流门禁 + CI 消费者 | CI `current-ruby-consumer` 于 2026-11-21 安装发布包并通过 allow/deny starter（run `44913820352`）；一个平台；不是独立消费者；不含 provider 或生产证据 |
+| Lua 已发布 rock | LuaRocks `praxo-core==0.8.1-1` 已通过 `.github/workflows/release-lua.yml` 发布；工作流构建 source rock、在干净目录安装、运行安装后 smoke 并发布。`0.8.1-1` 扩展 rockspec 描述与 README | Registry 发布 + 发布工作流安装 smoke + CI 消费者 | CI `current-lua-consumer` 于 2026-11-21 安装 `0.8.1-1` 并通过（run `44917317881`）；一个平台；不是独立消费者；不含 provider 或生产证据 |
+| PHP 0.10.2 修正 | Packagist 从 split 标签 `v0.10.2`（`ff9d2fe`）索引 `axisvela/praxo-core==0.10.2`。全新外部 Composer 消费者不使用 path 仓库或本地回退，锁定 `v0.10.2`、安装 dist，并通过自动加载、插件类、allow（`effects=1`）和 deny（`effects=0`）检查。split 包含 `src/PluginProcessHost.php`；`0.10.1` 仍然损坏 | Registry 发布 + 全新 dist 安装 + 发布包消费者 | 一个 Windows 平台和 PHP 8.5.12，使用可信代理 CA 且开启 TLS 校验；确定性模型；不是独立消费者；不含真实 provider、生产身份或部署证据 |
+| PHP 已发布包 | Packagist 从 split 标签 `v0.8.1` 发布 `axisvela/praxo-core==0.8.1`。2026-11-18 使用 Composer 2.11.2 和全新缓存安装；`composer test` 输出 `php consumer tests passed`。源码标签 `php/v0.9.0` 更新，但 Packagist 仍列 `0.8.1` | Registry 发布 + 全新 Composer 安装 + 发布包消费者 | Windows / PHP 8.5.12；按命令启用 TLS 扩展并指定可信代理 CA，未关闭证书校验。一个平台；不是独立消费者；不含 provider 或生产证据 |
+| C# 已发布包 | `Praxo.Core==0.10.0` 已从源码标签 `csharp/v0.10.0` 发布。发布工作流构建、测试、打包并推送；公开 NuGet 索引列出 `0.10.0` | Registry 发布 + 发布工作流门禁 | 未记录 `0.10.0` 的干净消费者安装；一个平台；不是独立消费者；不含 provider 或生产证据 |
+| C# OIDC/JWKS 服务认证 | `language/csharp/examples/service` 使用 issuer/audience 检查、Provider 发现、5 分钟 JWKS 缓存和对未知 `kid` 的一次刷新验证 RS256/RS384/RS512 JWT。loopback discovery/JWKS 测试覆盖允许、错误 audience、过期 Token、错误 issuer、未知 key 与 Provider 不可用；运行 `dotnet run --project language/csharp/examples/service -- --test`（2026-11-22） | 契约/单元 + 本地 loopback | 一个示例与平台；没有 hosted 身份提供商、密钥轮换、撤销集成或独立复现；不是身份提供商或生产安全保证 |
+| Java OIDC/JWKS 服务认证 | `language/java/examples/service` 实现相同的 RS256/RS384/RS512、Provider 发现、JWKS 缓存、issuer/audience、tenant 与失败关闭行为，源码包含 loopback discovery/JWKS 测试；`mvn -q -f language/java/examples/service/pom.xml compile exec:java -Dexec.args=--test` 在 Linux CI 通过（GitHub Actions run `45005327661`，Temurin 21.0.13，2026-11-22） | Ubuntu CI 运行时 | 本机 Windows `java`/`javaw` 在 main 前挂起；一个 CI 平台；没有 hosted Provider、密钥轮换、撤销集成或独立复现 |
+| Ruby OIDC/JWKS 服务认证 | language/ruby/examples/service 使用 Provider 发现、5 分钟 JWKS 缓存、issuer/audience、tenant 与失败关闭验证 RS256/RS384/RS512 JWT。脚本化 transport 覆盖允许、错误 audience、过期 Token、错误 issuer、未知 key 与 Provider 不可用；
+uby language/ruby/examples/service/service.rb 在 Ruby 3.4.12 下通过（2026-11-22） | 契约/单元 | 脚本化 transport，不是 hosted Provider；没有密钥轮换、撤销集成或独立复现 |
+| PHP OIDC/JWKS 服务认证 | language/php/examples/service 实现相同的 RS256/RS384/RS512、Provider 发现、JWKS 缓存、issuer/audience、tenant 与失败关闭检查。php ... service.php 在启用 OpenSSL 的 PHP 8.5.12 下通过（2026-11-22） | 契约/单元 | 脚本化 transport，不是 hosted Provider；没有密钥轮换、撤销集成或独立复现 |
+| Rust OIDC/JWKS 服务认证 | language/rust/examples/service/src/oidc.rs 使用 Provider 发现、5 分钟 JWKS 缓存、issuer/audience、tenant 与失败关闭验证 RS256/RS384/RS512 JWT。静态签名向量与脚本化 discovery/JWKS 覆盖允许、错误 audience、过期、错误 issuer、未知 key 与 Provider 不可用；cargo test 已在 Linux CI（run 45012247475，2026-11-22）通过 | CI 契约/单元 | 静态 fixture 与脚本化 transport；没有 hosted Provider、密钥轮换、撤销集成或独立复现 |
+| Haskell 已发布包 | Hackage `praxo-core-0.8.0` 已从源码标签 `haskell/v0.8.0` 发布。发布工作流运行原生测试、API/parity 检查和 `cabal sdist`/发布 | Registry 发布 + 发布工作流门禁 | 未记录 `0.8.0` 的发布后消费者安装；一个平台；不是独立消费者；不含 provider 证据 |
+| MATLAB File Exchange 包 | File Exchange 条目 `185166` 的已发布版本为 `PRAXO-CORE 0.5.0`；源码标签 `matlab/v0.8.0` 已存在，`0.8.0` 上传待完成 | Registry 发布 | 未记录 MATLAB 运行时验证和消费者安装 smoke；Octave 验证不代表 MATLAB 行为 |
+| PowerShell Core | PowerShell Gallery `praxo-core-ps==0.8.1` 已发布并记录于 registry metadata。发布工作流构建 C# Core、运行 wrapper 测试与 API snapshot，Gallery 报告 `0.8.1` 已发布 | Registry 发布 + 发布工作流门禁 + CI 消费者 | CI `current-powershell-consumer` 于 2026-11-21 从 PSGallery 安装 `0.8.1` 并通过 allow/deny（run `44917317881`）；一个平台；不是独立消费者；不含 provider 证据 |
+| Perl 已发布包 | CPAN `Praxo-Core==0.7.1` 已从源码标签 `perl/v0.7.1` 发布。发布工作流运行 conformance、API snapshot、测试和 `make dist` 后发布。`0.7.1` 发布 `README.pod` 而非 Markdown | Registry 发布 + 发布工作流门禁 + `0.6.1` 隔离 `cpanm` 安装记录 | 未记录 `0.7.1` 的发布后消费者安装；MetaCPAN 索引可能滞后；一个平台；不含 provider 证据 |
+| R 源码发布 | 源码标签 `r/v0.11.0` 已创建，`r-release` 工作流通过 build/check。r-universe 已于 2026-11-21 从源码提交 `d59cb301` 重建 `praxocore==0.11.0` | 源码发布 + r-universe 重建 | 无发布后 R 消费者安装；一个平台；不含 provider 或生产证据 |
+| Swift 源码发布 | 源码标签 `swift/v0.7.1` 与 split 标签 `0.7.1` 已推送；split 仓库包含更新后的 Package.swift、Sources、Tests、examples 和 API snapshot。核对时 Swift Package Index 仍列 `0.7.0` | 源码发布 + split 标签已推送 + SPI 索引待完成 | 未记录 Swift 构建/测试或发布后消费者运行；macOS 运行时未验证；一个平台；不含 provider 或生产证据 |
+| Elixir 已发布包 | Hex `praxo_core==0.10.0` 已从源码标签 `elixir/v0.10.0` 发布。发布工作流运行 conformance、API snapshot、原生测试和 Hex 发布 | Registry 发布 + 发布工作流门禁 | 未记录 `0.10.0` 的发布后消费者安装；一个平台；不是独立消费者；不含 provider 证据 |
+| Erlang 已发布包 | Hex `praxo_core_erlang==0.9.0` 已从源码标签 `erlang/v0.9.0` 发布。发布工作流运行 conformance、API snapshot、原生测试和 Hex 发布 | Registry 发布 + 发布工作流门禁 | 未记录 `0.9.0` 的发布后消费者安装；一个平台；不是独立消费者；不含 provider 证据 |
+| D 已发布包 | DUB/code.dlang.org 列出 `praxo-core==0.6.1`（来自 split 标签 `v0.6.1`）。源码标签 `d/v0.7.0` 更新；0.7.0 功能未包含在 split 包中 | Registry 发布 | 未记录 `0.6.1` 的编译或独立消费者 smoke；一个平台；不含 provider 或生产证据 |
+| Java 已发布包 | Maven Central `com.axisvela:praxo-core:0.11.0` 已从源码标签 `java/v0.11.0` 发布，包含 sources、javadoc 和 GPG 签名。早先 tag 推送只运行 build-only，因此 consumer pin 在 publish 前移动时未被发现；docs CI 全新消费者安装已解析 `0.11.0` 并通过 starter/治理检查（run `44731906136`） | Registry 发布 + Central 校验 + 全新消费者安装 | Hosted Docs CI 通过；不是独立消费者；本机 Maven/JVM 执行挂起；一个平台；不含 provider 或生产证据 |
+| Java 0.12.2 已发布包修正 | Maven Central `com.axisvela:praxo-core:0.12.2` 已从源码标签 `java/v0.12.2` 发布，包含 sources、javadoc 和 GPG 签名。它修正 0.12.0 工件的 `Version.SDK_VERSION` 与 0.12.1 POM 的 SCM tag 属性。docs CI 全新消费者安装已解析 `0.12.2` 并通过 starter/治理检查（run `45967285657`）。已发布 POM 记录 SCM tag `java/v0.12.2` | Registry 发布 + Central 校验 + 全新消费者安装 | Hosted Docs CI 通过；不是独立消费者；本机 Maven/JVM 执行挂起；一个平台；不含 provider 或生产证据 |
+| Java 发布包升级（历史版本对） | `scripts/consumers/java/test_java_upgrade.py` 从 Maven Central 解析 `0.3.0`，运行未改动消费者与治理兼容检查，升级到 `0.4.0`，再运行完整 starter/治理套件 | CI + Registry 升级 | 一个版本对；不证明任意升级路径、独立消费者或生产行为 |
+| 消费者 Starter（Ruby/PHP/Elixir/Lua） | `language/go/examples/consumer-ruby`、`consumer-php`、`consumer-elixir`、`consumer-lua` 的确定性允许/拒绝 Starter 在源码模式本地通过。已记录的 registry 安装检查覆盖 RubyGems `praxo-core==0.4.1`、Hex `praxo_core==0.4.1`、LuaRocks `praxo-core==0.4.1-1` 和 Composer `axisvela/praxo-core==0.4.1`；这些是历史版本。当前发布版本见 Registry Publication Status | 契约/单元 + 历史本地 registry 安装 | 消费者 Starter；不含治理负向矩阵；一个平台；不含 provider、身份、隔离或生产证据 |
+| 消费者测试模板 fixture 运行 | 2026-11-22 对维护者自有消费者 fixture 运行模板命令：Go `go test -mod=readonly -run Governed ./...` 通过；Python `test_governed.py` 在 `PYTHONPATH=language/python` 下 5/5 通过；TypeScript `npm test` 9/9 通过；C# 输出 allow/deny；Rust 在 `CARGO_HTTP_CHECK_REVOKE=false` 下输出 allow/deny；Ruby、PHP、Elixir、Lua 分别打印通过信息（Lua 需从仓库根目录运行）；Java `mvn -q test` 在本地 JVM 启动器上 180 秒内未完成 | 契约/单元 + 本地 fixture 运行 | 维护者自有 fixture，不是外部消费者；Python/Ruby/Elixir/Lua 使用源码或本地包路径；Java 使用 CI 证据而非本次本地运行；Rust 需要本地 TLS 撤销检查变通；一个平台和工具链；不含 provider、身份、隔离或生产证据 |
+| Python 结构化输出应用 | `language/python/examples/structured-output-app` 将文本目录转换为受校验 JSON-lines 结果，单独记录被拒绝的模型输出，并跳过已成功的输入。2026-11-22 在源码检出中设置 `PYTHONPATH=language/python` 记录：首轮 `processed=1 skipped=0 failed=1`，续跑 `processed=0 skipped=1 failed=1`；`test_app.py` 2/2 通过；示例已加入 `ci-examples` | 契约/单元 + 本地应用运行 | 维护者 fixture/源码模式；默认确定性模型；JSON-lines 文件不是数据库、队列或 exactly-once 账本；不含真实端点、外部消费者或生产证据 |
+| C#、Rust、Java live-model 本地运行 | 2026-11-22 本地 Ollama 端点对 Python `http.client` 的 OpenAI-compatible 请求在 3.37 秒内返回。C# live-model 示例通过构建后的 DLL（`dotnet language/csharp/examples/live-model/bin/Debug/net8.0/Praxo.LiveModel.dll`）完成真实 `get_time` 工具调用并打印时间；apphost/`dotnet run` 路径在当前 shell 未返回。Rust live-model 使用 `cargo build --offline` 构建，并从生成的二进制完成 `get_time` 调用；其模型生成的时间文本格式错误，但工具路径完成。本地 Java live-model 因 JVM 启动器挂起未运行。C# 示例对 loopback URL 禁用代理，Rust live-model 依赖已更新为 `praxo-core==0.10.0` | C# 与 Rust 本地集成；Java 本地尝试/阻塞 | C# 与 Rust 使用本地启动/构建 workaround；未评估模型输出质量；Java 没有成功的本地 live-model 运行；一个本地端点/平台；不含托管 Provider、计费调用、独立复现或生产证据 |
+
+
+## 跨语言行为与集成安全 {#cross-language-behavior-and-integration-safety}
+
+| 领域 | 已验证 | 级别 | 限制 |
+| --- | --- | --- | --- |
+| 跨语言委派治理 | 全部十六种 wired 语言以及 Perl、V、Nim、Dart、Julia、D、OCaml、Haskell、Zig、MATLAB/Octave（共享实现）、Delphi / Free Pascal 都有应用级负向检查，覆盖子范围收窄、父子策略组合、兄弟预算、深度/子任务限制、取消后零效果和最终参数重授权。2026-11-17 记录：Go/Python/TypeScript/Rust/R/PHP/Ruby/Elixir/Erlang/Lua 各 6/6；C 16/16 ctest；C++ 7/7 ctest；COBOL 全量套件含 6 个治理用例；Fortran 直接运行 23 项检查；C# 通过 ProjectReference 6/6；Java 仅编译；Perl/V/Nim/Dart/Julia/D/OCaml/Haskell/Zig/MATLAB-Octave/Delphi 各 6/6 | 契约/单元 + 本地集成 | 应用级示例，不是 Core 强制继承；Fortran 全量门禁受本机可执行文件删除阻塞，Java 运行时受 JVM 挂起阻塞；MATLAB 证据仅限 GNU Octave；Delphi 证据为 Free Pascal 3.2.2；无独立复现或生产证据 |
+| 跨语言 agent 行为 | 全部十六个 wired 语言在源码中通过二十个授权、生命周期、取消、输入校验、调用上限、并行工具、run 隔离、PII、checkpoint、容量、SSE 截断、流失败和 HITL 决策场景。部分实现使用场景级或 self-test 证据，其他使用原生套件证据；COBOL、Lua、PHP 和 Fortran 的并行工具委托给调用方提供的批处理回调。其他实现不在当前实验计划内。`b6218e5` 的 clean-tree CI 报告记录 320 passed、0 unsupported、无失败 | 场景测试 + CI | 十六个 wired 语言在源码中均达到 20/20；部分行为是套件级覆盖，失败不能定位到具体场景；`4ffd83b` 的本地报告是历史证据，不是当前证据；不是吞吐/压力测试，也不是完整功能对齐、provider、sandbox 或生产证据 |
+| 受治理工作区 | Policy 必需配置、最终参数授权、单次审批、审批后修改、排队撤销、依赖失败关闭 | 契约/单元 | 示例级契约；不是 Core Profile、可信身份服务或持久审批存储 |
+| 上下文信任 | Memory、Skill、工具结果和摘要来源分离；批准 Skill 摘要绑定；文本恢复；拒绝晚期 System 注入 | 契约/单元 | 显式示例路径；不是通用 Prompt Injection 过滤器、来源认证或持久 lineage 证明 |
+| 隔离能力 | Windows path/process/WASM 控制；Linux path/symlink 的 verbose CI job；本地 VFS 在 policy 检查后使用 `os.Root` 执行实际操作 | 契约/单元 + CI | Windows symlink 因权限 SKIP；policy 决策仍是 check-then-use，Linux cgroup v2、WASM fuel 和独立复核仍开放 |
+| 工作区适配器 | E2B、Daytona、OpenSandbox、CubeSandbox 的共享 conformance 和 fake-provider 测试 | 契约/单元 | 所有 live provider 测试因缺少凭证 SKIP；未晋级 contract |
+| OpenTelemetry | 可运行内存示例生成 `run.started`、`tool.call`、`run.completed`；allowlist 排除工具参数/结果 | 示例 + 单元 | 未验证 collector、OTLP 后端、采样、保留或生产遥测 |
+| A2A 互操作 | Google ADK 消费已发布 Core `v2.5.1` A2A，无本地 Core replace；成功、拒绝、失败、超时、认证、TLS、跨源和并发 fixture | 本地集成 | Loopback 确定性 fixture，不是部署 peer 或生产负载 |
+| Agent IAM 契约 | Direct 与 gateway 形状的 Agent IAM 示例对契约 fake；凭证时间窗、key、签名和主体字段检查 | 契约/单元 | NOMIVELA/EIDOVELA/AEGIVELA 响应为 fake；demo 没有 proof 重放缓存或请求体绑定 gateway assertion |

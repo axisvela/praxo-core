@@ -95,6 +95,10 @@ plugins:
             Advanced Examples: 高级示例
             MCP Tutorial: MCP 教程
             Recipes: 接入示例
+            Models and Adapters: 模型与适配器
+            Runs and State: 运行与状态
+            Product Integrations: 产品集成
+            Workspace and Policy: 工作区与策略
             Identity and Policy: 身份与策略
             Checkpoint and Continuation: Checkpoint 与续跑
             Long-Running Operations: 长时操作
@@ -146,6 +150,8 @@ plugins:
             Delivery History: 交付历史
             AI-Native Reference Applications: AI-Native 参考应用设计
             Verification Evidence: 验证证据
+            Core And Execution Evidence: Core 与执行证据
+            Application Evidence: 应用证据
             License and Provenance: 许可证与来源
             Repository Layout: 仓库布局
             Contributing: 参与贡献
@@ -208,6 +214,10 @@ nav:
       - Advanced Examples: guides/advanced-examples.md
       - MCP Tutorial: guides/mcp-tutorial.md
       - Recipes: guides/recipes.md
+      - Models and Adapters: guides/recipes/models-and-adapters.md
+      - Runs and State: guides/recipes/runs-and-state.md
+      - Product Integrations: guides/recipes/product-integrations.md
+      - Workspace and Policy: guides/recipes/workspace-and-policy.md
       - Identity and Policy: guides/identity-policy.md
       - Checkpoint and Continuation: guides/checkpoint-continuation.md
       - Long-Running Operations: guides/long-running-operations.md
@@ -308,6 +318,8 @@ nav:
       - v2 Migration: project/release/migration-v2.md
       - Evaluation: project/evaluation/index.md
       - Verification Evidence: project/evaluation/verification-evidence.md
+      - Core And Execution Evidence: project/evaluation/verification-core-and-execution.md
+      - Application Evidence: project/evaluation/verification-applications.md
       - Execution Correctness Evidence: project/evaluation/execution-correctness-evidence.md
       - Adoption Baseline: project/evaluation/adoption-baseline.md
       - Comparison: project/evaluation/comparison.md

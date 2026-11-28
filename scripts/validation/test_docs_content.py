@@ -27,7 +27,11 @@ class DocumentationContentTests(unittest.TestCase):
     def test_current_scoped_java_and_php_evidence(self):
         for prefix in ("", "zh-CN/"):
             with self.subTest(language=prefix):
-                evidence = (ROOT / "docs" / prefix / "project/evaluation/verification-evidence.md").read_text(encoding="utf-8")
+                evidence = "".join(
+                    (ROOT / "docs" / prefix / "project/evaluation" / name).read_text(encoding="utf-8")
+                    for name in ("verification-evidence.md", "verification-core-and-execution.md",
+                                 "verification-applications.md")
+                )
                 for value in ("46018135957", "b531f6abdfc1775ce5122357c496d834428cfe63",
                               "46026595266", "02e736e4a57895dffafab51a8be85dbc9c9d9601",
                               "java-ai-commerce", "java-new-tutorials", "airport-recovery",
