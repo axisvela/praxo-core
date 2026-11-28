@@ -37,5 +37,5 @@ prove live-model quality, authentic identity, isolation, or durable effects.
 
 For a new application outside this repository, follow the
 [consumer guide](../../docs/getting-started/consumer-java.md). From the repository
-root, `python scripts/test_java_consumer.py -v` repeats the flow in a fresh
+root, `python -m scripts.consumers.java.test_java_consumer -v` repeats the flow in a fresh
 temporary project.

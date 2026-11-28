@@ -62,10 +62,10 @@ service, rated product, or independently certified security system.
 Local checks and a **proposal only**, with no network calls or remote mutation:
 
 ```bash
-python scripts/sync_language_registry_docs.py --check
-python scripts/repository_discovery.py --check
-python scripts/repository_discovery.py
-python -m unittest discover -s scripts -p test_discovery.py -v
+python -m scripts.discovery.sync_language_registry_docs --check
+python -m scripts.discovery.repository_discovery --check
+python -m scripts.discovery.repository_discovery
+python -m unittest discover -s scripts -t . -p test_discovery.py -v
 ```
 
 The proposal covers the canonical repository, 22 discovery mirrors, and nine
@@ -110,7 +110,7 @@ GitHub Latest was corrected on 2026-11-26 to the existing
 [Go `v2.9.0` Release](https://github.com/axisvela/praxo-core/releases/tag/v2.9.0).
 The Go proxy has `v2.11.3`, and the GitHub Release is published as latest. This repairs
 the language-release designation error, not the missing Core Release or package
-README snapshots. `scripts/check_public_release.py` checks the live designation
+README snapshots. `scripts/release/check_public_release.py` checks the live designation
 and expected Core Release separately from local metadata checks.
 
 Audit date: 2026-11-27. Published availability is not page acceptance. The
@@ -151,8 +151,8 @@ Every `language/<language>/` directory now ships:
 - A `README.md` link block so a rendered registry page exposes the entries.
 
 The central index is [language/REGISTRY-INDEX.md](https://github.com/axisvela/praxo-core/blob/main/language/REGISTRY-INDEX.md).
-The generated files are checked by `scripts/sync_language_registry_docs.py --check`
-and `scripts/test_language_registry_docs.py`.
+The generated files are checked by `scripts/discovery/sync_language_registry_docs.py --check`
+and `scripts/discovery/test_language_registry_docs.py`.
 
 Package inclusion is registry-specific. Explicit allowlists now include the
 files for npm, Python sdist, Cargo, NuGet, RubyGems, Hex, CPAN, and Hackage.

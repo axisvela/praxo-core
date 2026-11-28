@@ -34,7 +34,7 @@ CI 按路径拆分，语言专属改动不再运行完整矩阵。`ci.yml` 继�
 | `ci-bridge.yml` | Go Bridge 和共享运行时绑定 | Bridge 和 Go/核心依赖 |
 
 `spec/`、`.github/actions/` 以及没有明确文档作用域的脚本修改仍会触发完整测试矩阵。
-已知文档、Registry/Discovery 和 Mirror 脚本列在 `scripts/ci_changes.py` 的 `DOCS_SCRIPTS`
+已知文档、Registry/Discovery 和 Mirror 脚本列在 `scripts/ci/ci_changes.py` 的 `DOCS_SCRIPTS`
 中，只运行文档或 Mirror 校验。路由与覆盖率脚本列在 `CI_SCRIPTS`，只运行路由/文档检查，
 不启动运行时组合。Discovery JSON、SDK Markdown 和生成的 README、REGISTRY、llms
 文件只运行文档、Mirror 或目录检查，包括嵌套教程 README。规范 `spec/` 下的 Markdown
@@ -61,7 +61,7 @@ Lab 参数取所选语言的交集，
 跨 SDK 服务集成需要全量请求。
 
 `LANGUAGE_SCRIPTS` 将 PHP 包构建与测试脚本限定到 PHP。Ubuntu `php-package` 检查提供
-PHP 和 Composer 并执行 `scripts/test_php_package.py`。文档使用明确的元数据测试列表，
+PHP 和 Composer 并执行 `scripts/languages/php/test_php_package.py`。文档使用明确的元数据测试列表，
 不再因 README 修改发现并运行所有运行时脚本测试。全量组合检查中的 `script-tests`
 保留完整脚本测试套件，包括没有独立检查的脚本测试。
 同一 workflow 和事件/ref 下，后续 push 或 PR 会取消过期测试；不会取消手动或定时运行。
@@ -70,11 +70,11 @@ PHP 和 Composer 并执行 `scripts/test_php_package.py`。文档使用明确的
 
 1. 在 `.github/workflows/` 下新增 workflow。
 2. 包含该语言的一致性、消费者和示例 Job，在命令或工作目录中明确引用 `language/<language>`。
-3. 运行 `python scripts/sync_ci_routing.py` 生成触发路径和 Job 过滤。
-4. 运行 `python scripts/sync_ci_routing.py --check` 和
-   `python -m unittest discover -s scripts -p test_ci_changes.py -v`，以及
-   `python -m unittest discover -s scripts -p test_ci_execution.py -v`（需要 PyYAML）。
-5. 检查 `scripts/ci_changes.py` 中的间接依赖。生成器读取明确的语言路径、消费者 Job 名称
+3. 运行 `python -m scripts.ci.sync_ci_routing` 生成触发路径和 Job 过滤。
+4. 运行 `python -m scripts.ci.sync_ci_routing --check` 和
+   `python -m unittest discover -s scripts -t . -p test_ci_changes.py -v`，以及
+   `python -m unittest discover -s scripts -t . -p test_ci_execution.py -v`（需要 PyYAML）。
+5. 检查 `scripts/ci/ci_changes.py` 中的间接依赖。生成器读取明确的语言路径、消费者 Job 名称
    以及脚本作用域和 Lab 语言选择；隐藏在其他脚本中的依赖需要明确路由和测试。
 6. 将分支保护的 required checks 更新为新的 `<workflow> / <job>` 名称。
 

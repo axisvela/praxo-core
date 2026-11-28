@@ -14,7 +14,7 @@ planning storage.
 
 | Item | Result |
 | --- | --- |
-| EC-D local scope | `27/27` selected selectors, `scope-passed` (`scripts/execution_correctness.py --strict`) |
+| EC-D local scope | `27/27` selected selectors, `scope-passed` (`scripts/execution/execution_correctness.py --strict`) |
 | EC-D containment scope | `5/5` selected selectors, `scope-passed` (`--scope core-containment-baseline`) |
 | EC-D reports | `build/execution-correctness/20261108T060739Z-46018b60/` (mechanics) and `build/execution-correctness/20261108T060739Z-4942cb69/` (containment) (local, reproducible; not committed) |
 | Core revision | `384ac48` clean working tree used for this snapshot |

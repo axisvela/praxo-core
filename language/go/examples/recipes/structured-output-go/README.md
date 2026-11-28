@@ -27,5 +27,5 @@ The tests show:
 Keep the application-side validation even when a provider honors
 `ResponseFormat`; provider behavior is integration evidence, not a Core
 guarantee. From the repository root,
-`python scripts/test_go_structured_output_recipe.py -v` repeats the checks in a
+`python -m scripts.consumers.go.test_go_structured_output_recipe -v` repeats the checks in a
 fresh temporary module using the published package.

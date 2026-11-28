@@ -82,7 +82,7 @@ python language/objc/run-tests.py
 Run broader repository metadata and parity checks separately (PowerShell):
 
 ```powershell
-python scripts/test_layout.py
+python -m scripts.validation.test_layout
 $env:GOWORK = 'off'
 go test ./internal/spec/...
 ```

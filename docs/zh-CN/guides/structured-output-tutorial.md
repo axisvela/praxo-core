@@ -104,7 +104,7 @@ GOWORK=off go test -mod=readonly -run 'Structured|Schema|Arguments|ResponseForma
 在仓库根目录运行发布包检查：
 
 ```bash
-python scripts/test_go_structured_output_recipe.py -v
+python -m scripts.consumers.go.test_go_structured_output_recipe -v
 ```
 
 Go 配方还验证非法工具参数在产生效果前被拒绝，以及 `model.ResponseFormat` 携带同一份

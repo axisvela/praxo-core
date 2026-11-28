@@ -81,11 +81,11 @@ cd language/typescript; npm ci; npm run build; cd ../..
 cd language/java; mvn -q -DskipTests test-compile; cd ../..
 cmake -S language/cpp -B language/cpp/build
 cmake --build language/cpp/build
-python scripts/behavior_lab.py --strict --timeout 300
-python scripts/behavior_lab.py --strict --timeout 600 --languages go,python,typescript,java,rust,fortran,cobol,ruby,elixir,erlang,cpp,php,csharp,lua,r,c
+python -m scripts.labs.behavior_lab --strict --timeout 300
+python -m scripts.labs.behavior_lab --strict --timeout 600 --languages go,python,typescript,java,rust,fortran,cobol,ruby,elixir,erlang,cpp,php,csharp,lua,r,c
 ```
 
-十六语言运行需要 Rust 工具链，以及 `gfortran`、`gnucobol`、`g++`、C/C++ 构建目录、CMake、Ninja、Ruby、Elixir 1.20.4/Erlang OTP 29、PHP 8.4、.NET 8 SDK、R 和 Lua 5.4；Fortran 会构建 pinned RE2 bridge。Fortran/COBOL/Erlang/C++/PHP/C#/Lua/R 原生套件、C `ctest` 套件、Ruby 测试运行器和 Elixir `mix run` 套件在一次报告内缓存，各执行一次。`scripts/cpp_behavior_suite.py` 会在调用 `ctest` 前把 C++ 编译器运行时目录加入 `PATH`。运行前先构建 C 套件：
+十六语言运行需要 Rust 工具链，以及 `gfortran`、`gnucobol`、`g++`、C/C++ 构建目录、CMake、Ninja、Ruby、Elixir 1.20.4/Erlang OTP 29、PHP 8.4、.NET 8 SDK、R 和 Lua 5.4；Fortran 会构建 pinned RE2 bridge。Fortran/COBOL/Erlang/C++/PHP/C#/Lua/R 原生套件、C `ctest` 套件、Ruby 测试运行器和 Elixir `mix run` 套件在一次报告内缓存，各执行一次。`scripts/labs/cpp_behavior_suite.py` 会在调用 `ctest` 前把 C++ 编译器运行时目录加入 `PATH`。运行前先构建 C 套件：
 
 ```bash
 cmake -S language/c -B language/c/build

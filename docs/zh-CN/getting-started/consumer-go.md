@@ -69,7 +69,7 @@ Fake Model 不依赖策略结果，始终请求工具。显式 `AllowedTools` �
 
 ### 发布包升级
 
-在源码检出目录运行 `python scripts/test_go_upgrade.py -v`，会创建一个全新消费者，先安装
+在源码检出目录运行 `python -m scripts.consumers.go.test_go_upgrade -v`，会创建一个全新消费者，先安装
 `tests/consumer/go.mod` 固定的历史版本，再在同一应用中升级到包映射里的 Go 推荐版本。
 测试拒绝模块替换、核对两个精确版本，并要求应用源码不变。历史阶段只检查基础允许/拒绝；
 升级后运行五项治理负向检查、build、vet 和预期程序输出，不声称历史安全基线也通过更强检查。

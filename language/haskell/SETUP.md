@@ -33,7 +33,7 @@ $LASTEXITCODE
 Broader repository metadata and parity checks can be run separately:
 
 ```powershell
-python scripts/test_layout.py
+python -m scripts.validation.test_layout
 $env:GOWORK = 'off'
 go test ./internal/spec/...
 ```

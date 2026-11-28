@@ -25,7 +25,7 @@ Go keeps its reference recipes and examples under `language/go/examples/`.
 GNU Octave reuses the shared MATLAB examples under `language/matlab/examples/`;
 `matlab-octave-core` is a shared implementation and has no separate example root.
 
-Run `python scripts/check_example_coverage.py --report` for the current
+Run `python -m scripts.checks.check_example_coverage --report` for the current
 per-language matrix. Coverage requires a `README.md` and at least one source
 file; a README-only directory does not count as an implementation.
 
@@ -39,7 +39,7 @@ not execute every example, and it does not replace the recorded runs in
 Regenerate the table with:
 
 ```bash
-python scripts/check_example_coverage.py --depth-report
+python -m scripts.checks.check_example_coverage --depth-report
 ```
 
 | Theme | Core reference (source) | Non-Core or transport-neutral entries | Assertions present |
@@ -198,5 +198,5 @@ host Core's chain/delegation examples; Shell, Lisp, Tcl, and Prolog explicitly
 record that the bridge contract has no local delegation surface. See the
 [verification evidence](../project/verification-evidence.md) for recorded runs
 and [Advanced examples](../guides/advanced-examples.md) for the pattern. Run
-`python scripts/check_example_coverage.py --report-advanced` for the current
+`python -m scripts.checks.check_example_coverage --report-advanced` for the current
 per-language report.

@@ -97,7 +97,7 @@ v -cc tcc -gc none -o build/praxo-v-tests.exe language/v/tests/run.v
 .\build\praxo-v-tests.exe
 ```
 
-For repository-wide metadata and parity checks, run `python scripts/test_layout.py`
+For repository-wide metadata and parity checks, run `python -m scripts.validation.test_layout`
 and `$env:GOWORK = "off"; go test ./internal/spec/...` separately in PowerShell.
 
 The tests cover the synchronous `praxo.callback_model` adapter across agent

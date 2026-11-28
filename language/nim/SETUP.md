@@ -80,7 +80,7 @@ nim c --path:language/nim/src --hints:off --out:build/praxo-nim-tests.exe langua
 ```
 
 On Linux omit the `.exe` suffix and use `./build/...`. For repository-wide
-metadata and parity checks, run `python scripts/test_layout.py` and
+metadata and parity checks, run `python -m scripts.validation.test_layout` and
 `$env:GOWORK = "off"; go test ./internal/spec/...` separately in PowerShell.
 
 The tests cover the synchronous `callbackModel` adapter across agent steps,

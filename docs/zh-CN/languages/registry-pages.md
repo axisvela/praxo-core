@@ -58,10 +58,10 @@ PRAXO-CORE（也写作 **praxocore**）是可嵌入、多语言、MIT 许可的 
 以下命令只验证本地配置或输出提案，不调用网络，不修改远端：
 
 ```bash
-python scripts/sync_language_registry_docs.py --check
-python scripts/repository_discovery.py --check
-python scripts/repository_discovery.py
-python -m unittest discover -s scripts -p test_discovery.py -v
+python -m scripts.discovery.sync_language_registry_docs --check
+python -m scripts.discovery.repository_discovery --check
+python -m scripts.discovery.repository_discovery
+python -m unittest discover -s scripts -t . -p test_discovery.py -v
 ```
 
 提案覆盖主仓库、22 个发现镜像和 9 个发布源码拆分仓库，检查 GitHub 的 20-topic 上限与格式。
@@ -96,7 +96,7 @@ topics 和消费者安装再记录验收。发布源码拆分仓库需要独立�
 [Go `v2.9.0` Release](https://github.com/axisvela/praxo-core/releases/tag/v2.9.0)。
 Go proxy 已有 `v2.11.3`，对应 GitHub Release 已发布为 latest。此次仅修正语言发布占用
 Latest 的问题，不代表已补齐 Core Release 或修复不可变包 README 快照。
-`scripts/check_public_release.py` 独立检查线上 Latest 和预期 Core Release。
+`scripts/release/check_public_release.py` 独立检查线上 Latest 和预期 Core Release。
 
 审计日期：2026-11-27。发布可用性不等于页面验收。以下不可变发布快照仍有已知缺陷；
 源码修改不会修复它们，仍需新版本发布并重新核对。

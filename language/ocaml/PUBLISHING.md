@@ -28,7 +28,7 @@ Technical follow-up completed on 2026-11-26:
 
 - Every exported value in `src/praxo_core.mli` has an odoc comment, with
   contract notes for limits, error codes, lexical path checks, and transport
-  seams. `scripts/test_ocaml_api_docs.py` enforces attached docs, the API
+  seams. `scripts/languages/ocaml/test_ocaml_api_docs.py` enforces attached docs, the API
   snapshot, and a 500-line limit for every library source file.
 - The native implementation is split into responsibility modules
   (`praxo_types`, JSON/tool-call, schema/manifest, providers, plugin host,
@@ -56,7 +56,7 @@ availability remains **not published to opam**; see [REGISTRY.md](REGISTRY.md).
 The canonical repository now provides a local staging tool:
 
 ```sh
-python scripts/build_ocaml_package.py
+python -m scripts.languages.ocaml.build_ocaml_package
 opam lint build/ocaml-package/praxo-core.opam
 opam install ./build/ocaml-package --with-test
 opam exec -- dune exec --root language/ocaml/tests/package-consumer ./main.exe

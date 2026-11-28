@@ -26,5 +26,5 @@ The tests show:
 - List filters by parent session and Prune removes terminal tasks only;
 - Wait honors context cancellation and rejects unknown task ids.
 
-From the repository root, `python scripts/test_go_multi_agent_recipe.py -v`
+From the repository root, `python -m scripts.consumers.go.test_go_multi_agent_recipe -v`
 repeats the checks in a fresh temporary module using the published package.

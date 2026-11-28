@@ -124,8 +124,8 @@ cd language/typescript; npm ci; npm run build; cd ../..
 cd language/java; mvn -q -DskipTests test-compile; cd ../..
 cmake -S language/cpp -B language/cpp/build
 cmake --build language/cpp/build
-python scripts/behavior_lab.py --strict --timeout 300
-python scripts/behavior_lab.py --strict --timeout 600 --languages go,python,typescript,java,rust,fortran,cobol,ruby,elixir,erlang,cpp,php,csharp,lua,r,c
+python -m scripts.labs.behavior_lab --strict --timeout 300
+python -m scripts.labs.behavior_lab --strict --timeout 600 --languages go,python,typescript,java,rust,fortran,cobol,ruby,elixir,erlang,cpp,php,csharp,lua,r,c
 ```
 
 The sixteen-language run needs a Rust toolchain plus `gfortran`, `gnucobol`,
@@ -134,7 +134,7 @@ Erlang/OTP 29; PHP 8.4; the .NET 8 SDK; R; and Lua 5.4. Fortran builds its
 pinned RE2 bridge. The native Fortran/COBOL/Erlang/C++/PHP/C#/Lua/R suite
 commands, the C `ctest` suite, the Ruby test runner, and the Elixir `mix run`
 suite are cached within one report, so each runs once.
-`scripts/cpp_behavior_suite.py` adds the C++ compiler runtime directory to
+`scripts/labs/cpp_behavior_suite.py` adds the C++ compiler runtime directory to
 `PATH` before invoking `ctest`. Build the C suite before running the lab:
 
 ```bash

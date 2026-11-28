@@ -1,7 +1,7 @@
 # 教程与场景总目录
 
 统一入口：按行业、语言、场景 ID、能力和条目类型查找既有教程与候选场景。
-本页由 `scripts/tutorial_catalog.py` 从实际源码路径与场景目录生成，不移动既有文件。
+本页由 `scripts/discovery/tutorial_catalog.py` 从实际源码路径与场景目录生成，不移动既有文件。
 
 [语言适配教程设计](runtime-scenario-design.md)：九种语言的主业务入口、生态依据和实现状态。
 
@@ -722,10 +722,10 @@ MATLAB/Octave 的两条入口共享实现，不是两个独立场景；未运行
 ## 维护与导出
 
 ```bash
-python scripts/tutorial_catalog.py
-python scripts/tutorial_catalog.py --check
-python scripts/tutorial_catalog.py --json
-python scripts/test_tutorial_catalog.py
+python -m scripts.discovery.tutorial_catalog
+python -m scripts.discovery.tutorial_catalog --check
+python -m scripts.discovery.tutorial_catalog --json
+python -m scripts.discovery.test_tutorial_catalog
 ```
 
 JSON 包含逐条语言/机制源码路径，供筛选和统计。规划、源码存在、本地运行、CI、实网与独立采用必须保持不同证据层级。

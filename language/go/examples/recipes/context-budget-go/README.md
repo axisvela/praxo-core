@@ -26,5 +26,5 @@ The tests show:
 - a summary-model failure falls back to deterministic compaction rather than
   aborting the run.
 
-From the repository root, `python scripts/test_go_context_budget_recipe.py -v`
+From the repository root, `python -m scripts.consumers.go.test_go_context_budget_recipe -v`
 repeats the checks in a fresh temporary module using the published package.

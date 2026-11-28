@@ -33,7 +33,7 @@
 创建标签前运行本地元数据检查：
 
 ```bash
-python scripts/check_release_metadata.py
+python -m scripts.release.check_release_metadata
 ```
 
 该检查确认 `VERSION`、`api/<version>.txt`、两种语言的发布说明、变更日志、

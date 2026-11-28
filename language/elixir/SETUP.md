@@ -95,7 +95,7 @@ fallback, opt-in tool selection, PII redaction, structured validation and
 repair, repairer exceptions and failure lifecycle, and per-run model and tool limits. See the README for the contracts and
 limitations.
 
-For repository-wide metadata and parity checks, run `python scripts/test_layout.py`
+For repository-wide metadata and parity checks, run `python -m scripts.validation.test_layout`
 and `$env:GOWORK = "off"; go test ./internal/spec/...` separately.
 
 ## Results

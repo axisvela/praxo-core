@@ -86,7 +86,7 @@ Advanced work requires a named consumer and a concrete project need.
   remaining declared languages do not yet have a delegation example.
 - Long-running, workspace, and plugin examples are Go-first. They are not
   promised across languages.
-- Run `python scripts/check_example_coverage.py --report-advanced` for the
+- Run `python -m scripts.checks.check_example_coverage --report-advanced` for the
   current per-language advanced coverage. Missing entries are recorded gaps, not
   passes.
 

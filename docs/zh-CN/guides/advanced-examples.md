@@ -70,7 +70,7 @@ Go 参考示例
 
 - 委派示例覆盖 Go、Python、TypeScript、Java、C# 和 Rust。其余已声明语言尚无委派示例。
 - 长时操作、Workspace 和 Plugin 示例以 Go 为先，不承诺跨语言可用。
-- 运行 `python scripts/check_example_coverage.py --report-advanced` 查看当前逐语言高级覆盖。
+- 运行 `python -m scripts.checks.check_example_coverage --report-advanced` 查看当前逐语言高级覆盖。
   缺失条目是已记录差距，不是通过。
 
 ## 相关文档

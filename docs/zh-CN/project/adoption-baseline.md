@@ -154,7 +154,7 @@ n=1；自由选型与适用性 regression 任务每种条件 n=3。自由选型�
 运行前校验清单：
 
 ```bash
-python scripts/adoption_baseline.py manifest.json
+python -m scripts.checks.adoption_baseline manifest.json
 ```
 
 校验只检查结构，不执行编程工具，也不产生采用证据。自由选型提示词不得出现

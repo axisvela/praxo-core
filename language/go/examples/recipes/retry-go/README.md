@@ -26,5 +26,5 @@ The tests show:
   the effect count at one;
 - cancellation stops the retry before another attempt.
 
-From the repository root, `python scripts/test_go_retry_recipe.py -v` repeats the
+From the repository root, `python -m scripts.consumers.go.test_go_retry_recipe -v` repeats the
 checks in a fresh temporary module using the published package.

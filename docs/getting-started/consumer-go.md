@@ -75,7 +75,7 @@ counter. An empty allowlist is not a deny-all configuration in the current API.
 
 ### Published-Package Upgrades
 
-From a source checkout, `python scripts/test_go_upgrade.py -v` creates one fresh
+From a source checkout, `python -m scripts.consumers.go.test_go_upgrade -v` creates one fresh
 consumer, installs the historical version pinned by `tests/consumer/go.mod`,
 then upgrades that same application to the Go version in the package map.
 It rejects module replacements, checks both exact dependency versions, and

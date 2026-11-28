@@ -18,5 +18,5 @@ The tests cover missing, expired, tenant-mismatched, model-claimed admin, and
 valid operator cases. See the
 [identity and policy guide](../../../../../docs/guides/identity-policy.md).
 
-From the repository root, `python scripts/test_go_identity.py -v` repeats the
+From the repository root, `python -m scripts.consumers.go.test_go_identity -v` repeats the
 flow in a fresh temporary application using the published package.

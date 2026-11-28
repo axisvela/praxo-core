@@ -24,5 +24,5 @@ The tests show:
 - cancellation stops further deltas and returns `context.Canceled`;
 - `OnStream` receives typed projections such as `values` and `messages`.
 
-From the repository root, `python scripts/test_go_streaming_recipe.py -v`
+From the repository root, `python -m scripts.consumers.go.test_go_streaming_recipe -v`
 repeats the checks in a fresh temporary module using the published package.

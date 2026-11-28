@@ -22,7 +22,7 @@ Go 的参考配方与示例保留在 `language/go/examples/`。
 
 GNU Octave 复用 `language/matlab/examples/` 下的共享 MATLAB 示例；`matlab-octave-core` 是共享实现，没有独立的示例根目录。
 
-运行 `python scripts/check_example_coverage.py --report` 可查看当前每语言矩阵。覆盖要求包含 `README.md` 和至少一个源码文件；只有 README 的目录不算已实现。
+运行 `python -m scripts.checks.check_example_coverage --report` 可查看当前每语言矩阵。覆盖要求包含 `README.md` 和至少一个源码文件；只有 README 的目录不算已实现。
 
 ## 深度审计
 
@@ -32,7 +32,7 @@ GNU Octave 复用 `language/matlab/examples/` 下的共享 MATLAB 示例；`matl
 重新生成：
 
 ```bash
-python scripts/check_example_coverage.py --depth-report
+python -m scripts.checks.check_example_coverage --depth-report
 ```
 
 | 主题 | Core 引用（源码） | 非 Core 或传输中立条目 | 含断言 |
@@ -176,4 +176,4 @@ Delphi、PowerShell、MATLAB 和 Objective-C，入口位于
 语言指向宿主 Core 的 chain/delegation 示例；Shell、Lisp、Tcl 和 Prolog 明确记录 Bridge
 契约没有本地委派接口。记录运行见[验证证据](../project/verification-evidence.md)，模式说明见
 [高级示例](../guides/advanced-examples.md)，并运行
-`python scripts/check_example_coverage.py --report-advanced` 查看当前逐语言报告。
+`python -m scripts.checks.check_example_coverage --report-advanced` 查看当前逐语言报告。

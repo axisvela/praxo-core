@@ -110,7 +110,7 @@ GOWORK=off go test -mod=readonly -run 'Structured|Schema|Arguments|ResponseForma
 From the repository root, the published-package check is:
 
 ```bash
-python scripts/test_go_structured_output_recipe.py -v
+python -m scripts.consumers.go.test_go_structured_output_recipe -v
 ```
 
 The Go recipe also proves that invalid tool arguments are rejected before the

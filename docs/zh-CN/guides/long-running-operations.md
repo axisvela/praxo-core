@@ -74,7 +74,7 @@ Fixture 可持久化到 JSON 文件，并通过 loopback HTTP 暴露，从而在
 
 ```sh
 PRAXO_LOAD_SUBMISSIONS=100 go test -run TestStandaloneServiceLoadFault -v ./cmd/longrunning-service
-python scripts/test_longrunning_service.py
+python -m scripts.consumers.longrunning.test_longrunning_service
 ```
 
 第一条命令并发提交 100 个操作，在首次确认后杀掉服务，重启并验证所有已确认操作仍存在。
@@ -121,7 +121,7 @@ SQL 表存储 `name`、`owner` 与 epoch 毫秒的 `expires_at`。变更会获�
 `/metrics` 暴露 `praxo_longrunning_http_requests_total`、
 `praxo_longrunning_http_errors_total` 与 `praxo_longrunning_operations_total`。
 `monitoring/prometheus.yml`、`monitoring/alerts.yml` 与 `monitoring/prometheus.args`
-（15 天留存）提供示例 scrape 与告警规则。`python scripts/test_longrunning_monitoring.py`
+（15 天留存）提供示例 scrape 与告警规则。`python -m scripts.consumers.longrunning.test_longrunning_monitoring`
 校验配置与指标名。仓库不包含 live collector、留存存储或通知渠道。
 
 ## 运维

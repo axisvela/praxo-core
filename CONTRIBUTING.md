@@ -37,7 +37,7 @@ Documentation:
 ```bash
 pip install -r requirements-docs.txt
 mkdocs build --strict
-python -m unittest discover -s scripts -p "test_*.py" -v
+python -m unittest discover -s scripts -t . -p "test_*.py" -v
 ```
 
 ## Documentation
@@ -59,7 +59,7 @@ copying its content. Distinguish source tags from package-registry availability.
 
 Keep historical releases in `releases/index.md` rather than adding every version
 to the sidebar. When moving a published page, update repository links and the
-redirect map in `scripts/docs_hooks.py`, then run the strict build and tests.
+redirect map in `scripts/discovery/docs_hooks.py`, then run the strict build and tests.
 
 Only user-facing guidance and public contribution requirements belong here.
 Internal execution plans, staffing, effort estimates, product split decisions,

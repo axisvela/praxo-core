@@ -65,7 +65,7 @@ not new Core types, event names, error codes or a shared wire state machine.
 
 ## Existing Evidence Candidates
 
-The [audited inventory](https://github.com/axisvela/praxo-core/blob/main/scripts/execution_correctness_inventory.json)
+The [audited inventory](https://github.com/axisvela/praxo-core/blob/main/scripts/execution/execution_correctness_inventory.json)
 maps all fourteen IDs to local assertion candidates or explicit external/gap
 dispositions. Its initial `core-mechanics-baseline` scope selects only local
 parts of EC-01/03/04/06/08/10/14. A second `core-containment-baseline` scope
@@ -114,15 +114,15 @@ documentation inventory check into an execution result.
 ## EC-D Scope Runner
 
 The local mechanics runner is implemented in
-[`scripts/execution_correctness.py`](https://github.com/axisvela/praxo-core/blob/main/scripts/execution_correctness.py).
+[`scripts/execution/execution_correctness.py`](https://github.com/axisvela/praxo-core/blob/main/scripts/execution/execution_correctness.py).
 It reads the audited inventory and the `core-mechanics-baseline` scope by
 default, then runs only the named parent tests with `go test -json -count=1` and
 `GOWORK=off`. `--scope core-containment-baseline` selects the separate local
 containment controls.
 
 ```bash
-python scripts/execution_correctness.py --strict
-python scripts/execution_correctness.py --strict --scope core-containment-baseline
+python -m scripts.execution.execution_correctness --strict
+python -m scripts.execution.execution_correctness --strict --scope core-containment-baseline
 ```
 
 Strict mode is the default; `--advisory` writes a report but returns success for

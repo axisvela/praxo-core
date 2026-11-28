@@ -27,5 +27,5 @@ The tests show:
   UNLOADED;
 - Quarantine is terminal and rejects further transitions and revoke.
 
-From the repository root, `python scripts/test_go_plugin_lifecycle_recipe.py -v`
+From the repository root, `python -m scripts.consumers.go.test_go_plugin_lifecycle_recipe -v`
 repeats the checks in a fresh temporary module using the published package.

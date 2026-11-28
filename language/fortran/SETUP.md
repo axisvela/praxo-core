@@ -77,7 +77,7 @@ command.
 Repository-wide layout and specification checks can also be run separately:
 
 ```powershell
-python scripts/test_layout.py
+python -m scripts.validation.test_layout
 $env:GOWORK = "off"
 go test ./internal/spec/...
 ```

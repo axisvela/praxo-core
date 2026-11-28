@@ -194,7 +194,7 @@ track, kind, suitability, prompt, package version, and acceptance checks.
 Validate the manifest before running:
 
 ```bash
-python scripts/adoption_baseline.py manifest.json
+python -m scripts.checks.adoption_baseline manifest.json
 ```
 
 Validation is structural and does not execute a coding tool or produce adoption

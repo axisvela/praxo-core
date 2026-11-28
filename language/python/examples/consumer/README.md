@@ -51,5 +51,5 @@ profile.
 
 For a new application outside this repository, use the
 [consumer guide](../../docs/getting-started/consumer-python.md). From the repository
-root, `python scripts/test_python_consumer.py -v` reproduces the flow in a fresh
+root, `python -m scripts.consumers.python.test_python_consumer -v` reproduces the flow in a fresh
 temporary application and virtual environment.

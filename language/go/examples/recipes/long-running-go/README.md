@@ -35,11 +35,11 @@ credentials without restart; issuance remains external. `monitoring/` contains
 an example Prometheus scrape config, 15-day retention argument, and alert rules;
 they are config-validated but no live collector is included.
 For a larger load/fault run, set `PRAXO_LOAD_SUBMISSIONS=100` and run
-`TestStandaloneServiceLoadFault`; `python scripts/test_longrunning_service.py`
+`TestStandaloneServiceLoadFault`; `python -m scripts.consumers.longrunning.test_longrunning_service`
 runs the module suite, load/fault test, and published-package recipe. See the
 [long-running operations guide](../../../../../docs/guides/long-running-operations.md).
 
-From the repository root, `python scripts/test_go_longrunning.py -v` repeats the
+From the repository root, `python -m scripts.consumers.go.test_go_longrunning -v` repeats the
 flow in a fresh temporary application using the published package.
 
 ## Durable Execution Start and Unknown Recovery

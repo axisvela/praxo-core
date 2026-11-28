@@ -16,7 +16,7 @@ $env:OCAMLLIB = "$dkml\desktop\bc\lib\ocaml"
 & "$dkml\desktop\bc\bin\ocamlc.exe" -version
 python language/ocaml/run-tests.py --compiler "$dkml\desktop\bc\bin\ocamlc.exe"
 python language/ocaml/api-snapshot.py --check
-python scripts/test_layout.py
+python -m scripts.validation.test_layout
 $env:GOWORK = "off"
 go test ./internal/spec/...
 ```

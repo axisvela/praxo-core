@@ -37,5 +37,5 @@ quality, authentic identity, isolation, or durable effects.
 
 For a new application outside this repository, follow the
 [consumer guide](../../docs/getting-started/consumer-typescript.md). From the
-repository root, `python scripts/test_typescript_consumer.py -v` repeats the
+repository root, `python -m scripts.consumers.typescript.test_typescript_consumer -v` repeats the
 flow in a fresh temporary project.

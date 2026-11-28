@@ -53,7 +53,7 @@ PRAXOVELA 效果台账与 RHEOVELA 工作流测试可承担产品侧 EC-I，不�
 
 ## 可复用证据候选
 
-[已审计清单](https://github.com/axisvela/praxo-core/blob/main/scripts/execution_correctness_inventory.json)
+[已审计清单](https://github.com/axisvela/praxo-core/blob/main/scripts/execution/execution_correctness_inventory.json)
 将十四个 ID 分配到局部断言候选或明确的外部/缺口处置。首批 `core-mechanics-baseline` 只选
 EC-01/03/04/06/08/10/14 的局部机制；第二个 `core-containment-baseline` scope 选择
 EC-11 的本地路径、VFS 与 WASM 限制控制，但不声明 sandbox 隔离。EC-01 仅覆盖本地结果通知，
@@ -91,14 +91,14 @@ revision、准确包/依赖版本与 SHA、故障点、初始状态、逻辑操�
 ## EC-D Scope Runner
 
 本地机制 runner 位于
-[`scripts/execution_correctness.py`](https://github.com/axisvela/praxo-core/blob/main/scripts/execution_correctness.py)，
+[`scripts/execution/execution_correctness.py`](https://github.com/axisvela/praxo-core/blob/main/scripts/execution/execution_correctness.py)，
 默认读取审计清单和 `core-mechanics-baseline` scope，仅按名称运行父测试，使用
 `go test -json -count=1` 与 `GOWORK=off`；`--scope core-containment-baseline`
 选择独立的本地 containment 控制。
 
 ```bash
-python scripts/execution_correctness.py --strict
-python scripts/execution_correctness.py --strict --scope core-containment-baseline
+python -m scripts.execution.execution_correctness --strict
+python -m scripts.execution.execution_correctness --strict --scope core-containment-baseline
 ```
 
 默认严格；`--advisory` 仍写报告但 scope 失败返回成功。`--go` 选择工具链，`--timeout`

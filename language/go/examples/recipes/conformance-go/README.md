@@ -23,5 +23,5 @@ The checks are:
 
 The recipe also asserts that mismatched expectations fail, so a passing run is
 not just a happy-path smoke test. From the repository root,
-`python scripts/test_go_conformance_recipe.py -v` repeats the checks in a fresh
+`python -m scripts.consumers.go.test_go_conformance_recipe -v` repeats the checks in a fresh
 temporary module using the published package.

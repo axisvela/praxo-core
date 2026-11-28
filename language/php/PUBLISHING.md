@@ -28,10 +28,10 @@ php language/php/conformance/run.php
 php language/php/conformance/run.php --check-api
 php language/php/tests/run.php
 php language/php/tests/plugin_process.php
-python scripts/build_php_package.py --output build/php-split
-python scripts/build_php_package.py --output build/php-split --check
-python scripts/build_php_package.py --output <split-checkout> --check-managed
-python scripts/test_php_package.py
+python -m scripts.languages.php.build_php_package --output build/php-split
+python -m scripts.languages.php.build_php_package --output build/php-split --check
+python -m scripts.languages.php.build_php_package --output <split-checkout> --check-managed
+python -m scripts.languages.php.test_php_package
 ```
 
 The builder requires a new or empty output directory and never overwrites a

@@ -26,5 +26,5 @@ The tests show:
 
 Keep provider-specific timeouts, retry budgets, credentials, and observability in
 the application or gateway. From the repository root,
-`python scripts/test_go_provider_fallback_recipe.py -v` repeats the checks in a
+`python -m scripts.consumers.go.test_go_provider_fallback_recipe -v` repeats the checks in a
 fresh temporary module using the published package.

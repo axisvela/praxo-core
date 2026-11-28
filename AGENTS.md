@@ -19,7 +19,7 @@ this framework.
 - Internal execution plans, estimates, staffing, and release-operator procedures
   belong in `PRAXOVELA-EE/docs/praxo-core/`, even when excluded from site navigation.
 - Group public docs by user task and mirror translated paths under `docs/zh-CN/`.
-- Preserve published URLs through `scripts/docs_hooks.py` redirects when moving pages.
+- Preserve published URLs through `scripts/discovery/docs_hooks.py` redirects when moving pages.
 
 ## Guardrails
 
@@ -78,8 +78,8 @@ this framework.
 
 - A small change must not launch unrelated language, tutorial, or application
   matrices. Use workflow path filters and dependency-aware job filters before
-  matrix expansion; maintain `scripts/ci_changes.py` and regenerate routing with
-  `python scripts/sync_ci_routing.py` when changing workflow dependencies.
+  matrix expansion; maintain `scripts/ci/ci_changes.py` and regenerate routing with
+  `python -m scripts.ci.sync_ci_routing` when changing workflow dependencies.
 - Documentation, README, registry/discovery metadata, and known documentation
   generators should run their lightweight checks, not all SDK runtime suites.
   Preserve required checks for actual shared-contract and runtime dependencies.
@@ -208,12 +208,12 @@ cd language/python; python conformance/run.py
 cd language/python; python api-snapshot.py --check
 cd language/python; python api-signatures.py --check
 cd language/python; python -m unittest discover -s tests -v
-python scripts/test_sync_language_mirrors.py
-python scripts/sync_language_mirrors.py --dry-run
-python scripts/check_adapter_status.py --check
-python scripts/test_adapter_status.py
-python scripts/check_language_releases.py
-python -m unittest discover -s scripts -p "test_language_releases.py" -v
+python -m scripts.discovery.test_sync_language_mirrors
+python -m scripts.discovery.sync_language_mirrors --dry-run
+python -m scripts.checks.check_adapter_status --check
+python -m scripts.checks.test_adapter_status
+python -m scripts.checks.check_language_releases
+python -m unittest discover -s scripts -t . -p "test_language_releases.py" -v
 cd language/typescript; npm ci
 cd language/typescript; npm run build
 cd language/typescript; npm run api:check

@@ -342,7 +342,7 @@ python language/erlang/run-tests.py
 Commands:
 
 ```text
-python scripts/cpp_behavior_suite.py
+python -m scripts.labs.cpp_behavior_suite
 ```
 
 ### PHP

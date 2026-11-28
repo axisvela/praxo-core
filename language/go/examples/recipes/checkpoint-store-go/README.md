@@ -30,5 +30,5 @@ control, retention, encryption, tenant enforcement, and deployment-level
 recovery policy. A checkpoint is a recovery hint, not a transaction or proof
 that an external effect committed.
 
-From the repository root, `python scripts/test_go_checkpoint_store_recipe.py -v`
+From the repository root, `python -m scripts.consumers.go.test_go_checkpoint_store_recipe -v`
 repeats the checks in a fresh temporary module using the published package.

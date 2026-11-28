@@ -26,7 +26,7 @@
 在仓库根目录执行：
 
 ```bash
-python scripts/compatibility_lab.py --install --strict
+python -m scripts.labs.compatibility_lab --install --strict
 ```
 
 - `--install`：在执行构建前运行语言准备步骤（TypeScript 使用 `npm ci`）。
@@ -60,7 +60,7 @@ python scripts/compatibility_lab.py --install --strict
 
 ## 增加语言
 
-在 `scripts/compatibility_lab.py` 中增加语言定义，至少包含：
+在 `scripts/labs/compatibility_lab.py` 中增加语言定义，至少包含：
 
 - 语言目录中可执行的 conformance 入口；
 - 工具链版本命令；

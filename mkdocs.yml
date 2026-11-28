@@ -153,7 +153,7 @@ plugins:
       redirect_maps: {}
 
 hooks:
-  - scripts/docs_hooks.py
+  - scripts/discovery/docs_hooks.py
 
 markdown_extensions:
   - admonition

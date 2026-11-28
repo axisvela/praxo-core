@@ -84,7 +84,7 @@ A larger load/fault reproduction is available:
 
 ```sh
 PRAXO_LOAD_SUBMISSIONS=100 go test -run TestStandaloneServiceLoadFault -v ./cmd/longrunning-service
-python scripts/test_longrunning_service.py
+python -m scripts.consumers.longrunning.test_longrunning_service
 ```
 
 The first command submits 100 concurrent operations, kills the service after the
@@ -141,7 +141,7 @@ coordination, not a production lease service.
 `praxo_longrunning_http_errors_total`, and `praxo_longrunning_operations_total`.
 Example Prometheus scrape and alert rules are in `monitoring/prometheus.yml`,
 `monitoring/alerts.yml`, and `monitoring/prometheus.args` (15-day retention).
-`python scripts/test_longrunning_monitoring.py` validates the configs and metric
+`python -m scripts.consumers.longrunning.test_longrunning_monitoring` validates the configs and metric
 names. No live collector, retention store, or notification channel is included.
 
 ## Operations

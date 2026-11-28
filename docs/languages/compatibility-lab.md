@@ -37,7 +37,7 @@ call a provider, use credentials, or run a live workspace provider.
 From the repository root:
 
 ```bash
-python scripts/compatibility_lab.py --install --strict
+python -m scripts.labs.compatibility_lab --install --strict
 ```
 
 - `--install` runs the language setup step (`npm ci` for TypeScript) before the
@@ -83,7 +83,7 @@ full six-language set.
 
 ## Adding A Language
 
-Add a language definition to `scripts/compatibility_lab.py` with:
+Add a language definition to `scripts/labs/compatibility_lab.py` with:
 
 - an executable conformance entry point in the language tree;
 - a toolchain version command;

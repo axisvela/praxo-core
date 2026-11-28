@@ -38,7 +38,7 @@ CI is split by path so a language-only change does not run the full matrix.
 Shared changes under `spec/` and `.github/actions/`, plus scripts without an
 explicit docs-only scope, still trigger full test matrices. Known documentation,
 registry/discovery, and mirror helpers are listed in `DOCS_SCRIPTS` in
-`scripts/ci_changes.py`; they run docs/mirror validation rather than SDK runtimes.
+`scripts/ci/ci_changes.py`; they run docs/mirror validation rather than SDK runtimes.
 Routing and coverage scripts are listed in `CI_SCRIPTS` and run the routing/docs
 checks without starting runtime portfolios.
 Discovery JSON and SDK documentation Markdown, README, REGISTRY, and llms entries
@@ -76,7 +76,7 @@ all their checks but execute only the selected SDK's steps. Cross-SDK service
 integration runs require a full request.
 
 `LANGUAGE_SCRIPTS` scopes the PHP package builder and tests to PHP. The Ubuntu
-`php-package` gate runs `scripts/test_php_package.py` with PHP and Composer;
+`php-package` gate runs `scripts/languages/php/test_php_package.py` with PHP and Composer;
 documentation uses an explicit metadata test list instead of discovering runtime
 script tests on README-only changes. The full-only portfolio `script-tests` job
 retains the complete script test suite, including tests without a dedicated owner.
@@ -88,11 +88,11 @@ and event/ref; manual and scheduled runs are not cancelled by those runs.
 1. Add the workflow under `.github/workflows/`.
 2. Include the language's conformance, consumer, and sample jobs with explicit
    `language/<language>` paths in commands or working directories.
-3. Run `python scripts/sync_ci_routing.py` to regenerate triggers and job filters.
-4. Run `python scripts/sync_ci_routing.py --check` and
-   `python -m unittest discover -s scripts -p test_ci_changes.py -v`, plus
-   `python -m unittest discover -s scripts -p test_ci_execution.py -v` (PyYAML).
-5. Review indirect dependencies in `scripts/ci_changes.py`. The generator reads
+3. Run `python -m scripts.ci.sync_ci_routing` to regenerate triggers and job filters.
+4. Run `python -m scripts.ci.sync_ci_routing --check` and
+   `python -m unittest discover -s scripts -t . -p test_ci_changes.py -v`, plus
+   `python -m unittest discover -s scripts -t . -p test_ci_execution.py -v` (PyYAML).
+5. Review indirect dependencies in `scripts/ci/ci_changes.py`. The generator reads
    explicit language paths, consumer job names, scoped scripts, and lab selections;
    dependencies hidden inside other scripts need explicit routing and tests.
 6. Update the branch protection required checks to the new

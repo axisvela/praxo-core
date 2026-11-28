@@ -40,7 +40,7 @@ to create a new version tag.
 Before creating a tag, run the local metadata check:
 
 ```bash
-python scripts/check_release_metadata.py
+python -m scripts.release.check_release_metadata
 ```
 
 It checks that `VERSION`, `api/<version>.txt`, both release-note pages, the
