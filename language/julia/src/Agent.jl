@@ -132,9 +132,9 @@ function run(agent::Agent, session::Session, prompt::String)
     usage = Usage()
 
     before_run!(agent, RunState(run_id, prompt))
-    emit_event(agent, "run.started", session.id, run_id, nothing)
     after_run_invoked = false
     try
+        emit_event(agent, "run.started", session.id, run_id, nothing)
         for step in 1:max_steps
             authorize(agent, Action("model.generate", session.id))
             messages = compact(agent, messages)
@@ -171,8 +171,11 @@ function run(agent::Agent, session::Session, prompt::String)
         throw(PraxoError("AGENT_MAX_STEPS", "agent: maximum steps exceeded"))
     catch error
         after_run_invoked || after_run!(agent, nothing, error)
-        emit_event(agent, "run.failed", session.id, run_id,
-                   Dict{String,Any}("error" => sprint(showerror, error)))
+        try
+            emit_event(agent, "run.failed", session.id, run_id,
+                       Dict{String,Any}("error" => sprint(showerror, error)))
+        catch
+        end
         rethrow()
     end
 end

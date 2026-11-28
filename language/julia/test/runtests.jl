@@ -602,6 +602,47 @@ PraxoCore.authorize(::AllowAllPolicy, ::Action) = Decision(true, "")
     @test PraxoCore.run_agent(Agent(defaults), Session("s1"), "hello").output == "ok"
 end
 
+mutable struct LifecycleRecorder <: AbstractMiddleware
+    calls::Vector{String}
+end
+
+function PraxoCore.Middleware.before_run!(middleware::LifecycleRecorder, state)
+    push!(middleware.calls, "acquire")
+end
+
+function PraxoCore.Middleware.after_run!(middleware::LifecycleRecorder, result, error)
+    push!(middleware.calls, error === nothing ? "release" : "release:error")
+end
+
+mutable struct FailingSink <: AbstractSink
+    types::Vector{String}
+end
+
+FailingSink() = FailingSink(String[])
+
+function PraxoCore.emit(sink::FailingSink, event::Event)
+    push!(sink.types, event.type)
+    event.type == "run.started" && throw(PraxoError("SINK_FAILED", "sink unavailable"))
+end
+
+@testset "PraxoCore startup event cleanup" begin
+    recorder = LifecycleRecorder(String[])
+    sink = FailingSink()
+    options = AgentOptions(StaticModel("ok"))
+    options.events = sink
+    push!(options.middleware, recorder)
+    error = try
+        PraxoCore.run_agent(Agent(options), Session("s1"), "go")
+        nothing
+    catch caught
+        caught
+    end
+    @test error isa PraxoError
+    @test error.code == "SINK_FAILED"
+    @test recorder.calls == ["acquire", "release:error"]
+    @test sink.types == ["run.started", "run.failed"]
+end
+
 mutable struct HitlModel <: AbstractModel
     turns::Int
     echo_tool::Bool
