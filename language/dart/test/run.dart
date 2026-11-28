@@ -139,6 +139,21 @@ Future<void> main() async {
   check(sink.types.join(',') == 'run.started,tool.call,run.completed',
       'agent events');
 
+  final startupSink = FailingSink();
+  var startupFailed = false;
+  try {
+    runAgent(
+      AgentOptions(StaticModel('ok'), events: startupSink),
+      const Session(id: 's1'),
+      'go',
+    );
+  } on PraxoError catch (error) {
+    startupFailed = error.code == 'SINK_FAILED';
+  }
+  check(startupFailed, 'startup event failure');
+  check(startupSink.types.join(',') == 'run.started,run.failed',
+      'startup event failure events');
+
   final defaultGuards = AgentOptions(StaticModel('ok'));
   check(!defaultGuards.requirePolicy && !defaultGuards.requireToolScope,
       'safe-default guards off by default');
@@ -1051,6 +1066,18 @@ class RecordingSink implements EventSink {
 
   @override
   void emit(Event event) => types.add(event.type);
+}
+
+class FailingSink implements EventSink {
+  final List<String> types = [];
+
+  @override
+  void emit(Event event) {
+    types.add(event.type);
+    if (event.type == 'run.started') {
+      throw const PraxoError('SINK_FAILED', 'sink unavailable');
+    }
+  }
 }
 
 Decision _allowPublicNote(Action action) {

@@ -141,6 +141,8 @@ class AgentOptions {
 
 /// The Agent API.
 class Agent {
+  static int _runSequence = 0;
+
   /// The options value.
   final AgentOptions options;
 
@@ -159,15 +161,16 @@ class Agent {
   /// Handles run().
   RunResult run(Session session, String prompt) {
     final maxSteps = options.maxSteps > 0 ? options.maxSteps : 8;
-    final runId = 'run-${DateTime.now().millisecondsSinceEpoch}';
+    final runId =
+        'run-${DateTime.now().millisecondsSinceEpoch}-${++_runSequence}';
     final messages = <Message>[...session.messages];
     if (options.systemPrompt.isNotEmpty) {
       messages.insert(0, Message.text(roleSystem, options.systemPrompt));
     }
     messages.add(Message.text(roleUser, prompt));
     var usage = const Usage();
-    _emit('run.started', session.id, runId);
     try {
+      _emit('run.started', session.id, runId);
       for (var step = 1; step <= maxSteps; step++) {
         _authorize(Action(kind: 'model.generate', sessionId: session.id));
         if (options.context != null) {
@@ -217,7 +220,11 @@ class Agent {
       }
       throw const PraxoError('AGENT_MAX_STEPS', 'maximum steps');
     } catch (error) {
-      _emit('run.failed', session.id, runId, {'error': error.toString()});
+      try {
+        _emit('run.failed', session.id, runId, {'error': error.toString()});
+      } catch (_) {
+        // event sinks must not mask the run error
+      }
       rethrow;
     }
   }
