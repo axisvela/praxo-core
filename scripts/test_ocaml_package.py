@@ -447,12 +447,21 @@ class OcamlPackageTests(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stdout.decode(errors="replace") + result.stderr.decode(errors="replace"))
             return result.stdout
 
-        for source in ("src/praxo_core.mli", "src/praxo_core.ml", "tests/praxo_adapter_tests.ml", "tests/praxo_tests.ml"):
+        run([compiler, "-g", "-I", "src", "-I", "tests", "-c", "src/praxo_core.mli"])
+        for module in package.SRC_MODULES:
+            run([compiler, "-g", "-I", "src", "-I", "tests", "-c", f"src/{module}.ml"])
+        for source in ("src/praxo_core.ml", "tests/praxo_adapter_tests.ml", "tests/praxo_tests.ml"):
             run([compiler, "-g", "-I", "src", "-I", "tests", "-c", source])
         executable = self.output / "offline-tests.exe"
+        plugin = self.output / "tests" / "build" / "process_plugin.exe"
+        plugin.parent.mkdir(parents=True, exist_ok=True)
+        run([compiler, "-g", "-I", "src", "-I", "tests", "-o", str(plugin), "unix.cma",
+             *[f"src/{module}.cmo" for module in package.SRC_MODULES],
+             "src/praxo_core.cmo", "tests/process_plugin.ml"])
         run([compiler, "-g", "-I", "src", "-I", "tests", "-o", str(executable), "unix.cma",
+             *[f"src/{module}.cmo" for module in package.SRC_MODULES],
              "src/praxo_core.cmo", "tests/praxo_adapter_tests.cmo", "tests/praxo_tests.cmo"])
-        output = run([runtime, str(executable), "spec"], self.output / "tests")
+        output = run([runtime, str(executable), "spec", str(plugin)], self.output / "tests")
         self.assertIn(b"OCaml Core tests passed", output)
 
     def test_dune_build_and_runtest_when_available(self):
