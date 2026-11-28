@@ -320,8 +320,20 @@ function apply_interrupt(agent::Agent, call::ToolCall, run_id::String, session_i
 end
 
 function before_run!(agent::Agent, state)
-    for middleware in agent.middleware
-        before_run!(middleware, state)
+    entered = AbstractMiddleware[]
+    try
+        for middleware in agent.middleware
+            push!(entered, middleware)
+            before_run!(middleware, state)
+        end
+    catch error
+        for middleware in entered
+            try
+                after_run!(middleware, nothing, error)
+            catch
+            end
+        end
+        rethrow()
     end
 end
 

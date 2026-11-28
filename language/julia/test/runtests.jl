@@ -625,6 +625,37 @@ function PraxoCore.emit(sink::FailingSink, event::Event)
     event.type == "run.started" && throw(PraxoError("SINK_FAILED", "sink unavailable"))
 end
 
+mutable struct FailingBefore <: AbstractMiddleware
+    calls::Vector{String}
+end
+
+function PraxoCore.Middleware.before_run!(middleware::FailingBefore, state)
+    push!(middleware.calls, "before")
+    throw(PraxoError("STARTUP_FAILED", "startup failed"))
+end
+
+function PraxoCore.Middleware.after_run!(middleware::FailingBefore, result, error)
+    push!(middleware.calls, "after")
+end
+
+@testset "PraxoCore startup failure cleanup" begin
+    first = LifecycleRecorder(String[])
+    second = FailingBefore(String[])
+    options = AgentOptions(StaticModel("ok"))
+    push!(options.middleware, first)
+    push!(options.middleware, second)
+    error = try
+        PraxoCore.run_agent(Agent(options), Session("s1"), "go")
+        nothing
+    catch caught
+        caught
+    end
+    @test error isa PraxoError
+    @test error.code == "STARTUP_FAILED"
+    @test first.calls == ["acquire", "release:error"]
+    @test second.calls == ["before", "after"]
+end
+
 @testset "PraxoCore startup event cleanup" begin
     recorder = LifecycleRecorder(String[])
     sink = FailingSink()
