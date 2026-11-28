@@ -59,9 +59,11 @@ module Praxo
         @model_limit = model_limit
         @tool_limit = tool_limit
         @runs = Hash.new { |hash, key| hash[key] = { models: 0, tools: 0 } }
+        @active_runs_key = :"praxo_call_limit_runs_#{object_id}"
       end
 
       def before_run(state)
+        (Thread.current[@active_runs_key] ||= []) << state[:run_id]
         @runs[state[:run_id]] = { models: 0, tools: 0 }
       end
 
@@ -79,6 +81,14 @@ module Praxo
         if @tool_limit.positive? && counts[:tools] > @tool_limit
           Praxo.error('AGENT_TOOL_CALL_LIMIT', 'tool call limit')
         end
+      end
+
+      def after_run(result, _error)
+        stack = Thread.current[@active_runs_key]
+        run_id = stack&.pop
+        Thread.current[@active_runs_key] = nil if stack&.empty?
+        run_id ||= result.run_id if result.respond_to?(:run_id)
+        @runs.delete(run_id) if run_id
       end
     end
 

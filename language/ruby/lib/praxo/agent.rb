@@ -1,3 +1,5 @@
+require 'securerandom'
+
 require_relative 'errors'
 require_relative 'json'
 require_relative 'models'
@@ -118,7 +120,7 @@ module Praxo
       def run(session, prompt)
         options = @options
         max_steps = options.max_steps.to_i.positive? ? options.max_steps : 8
-        run_id = "run-#{(Time.now.to_f * 1000).to_i}"
+        run_id = "run-#{SecureRandom.uuid}"
         messages = session.messages.dup
         unless options.system_prompt.to_s.empty?
           messages.unshift(Models.message_text(Models::SYSTEM, options.system_prompt))
@@ -132,13 +134,13 @@ module Praxo
           after_run(options, entered, nil, e)
           raise
         end
-        emit(options, 'run.started', session.id, run_id)
-        emit_stream(options, Models.stream_part(
-          run_id: run_id, session_id: session.id, kind: 'values',
-          step: 0, data: prompt.to_s
-        ))
         after_run_invoked = false
         begin
+          emit(options, 'run.started', session.id, run_id)
+          emit_stream(options, Models.stream_part(
+            run_id: run_id, session_id: session.id, kind: 'values',
+            step: 0, data: prompt.to_s
+          ))
           (1..max_steps).each do |step|
             check_cancelled(options)
             authorize(options, Models.action(kind: 'model.generate', session_id: session.id))
@@ -186,7 +188,11 @@ module Praxo
           Praxo.error('AGENT_MAX_STEPS', 'maximum steps')
         rescue StandardError => e
           after_run(options, entered, nil, e) unless after_run_invoked
-          emit(options, 'run.failed', session.id, run_id, { 'error' => e.message })
+          begin
+            emit(options, 'run.failed', session.id, run_id, { 'error' => e.message })
+          rescue StandardError
+            nil
+          end
           raise
         end
       end

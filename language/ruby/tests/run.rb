@@ -126,6 +126,19 @@ class TestSink
   end
 end
 
+class FailingSink
+  attr_reader :types
+
+  def initialize
+    @types = []
+  end
+
+  def emit(event)
+    @types << event.type
+    raise 'sink unavailable' if event.type == 'run.started'
+  end
+end
+
 class TestModel
   def initialize(steps)
     @steps = steps
@@ -350,6 +363,27 @@ check(caught && startup_calls == %w[first.before first.after second.after],
       'ruby startup cleanup')
 check(startup_sink.types.empty?, 'ruby startup emits no events')
 
+startup_event_calls = []
+startup_event = TestMiddleware.new
+startup_event.before_run_hook = ->(_state) { startup_event_calls << 'acquire' }
+startup_event.after_run_hook = lambda { |_result, error|
+  startup_event_calls << "release:#{error&.message}"
+}
+startup_event_options = Praxo::Agent::AgentOptions.new(TestModel.new([{ 'content' => 'done' }]))
+startup_event_options.middleware = [startup_event]
+startup_event_sink = FailingSink.new
+startup_event_options.events = startup_event_sink
+caught = false
+begin
+  Praxo::Agent.run_agent(startup_event_options, M.session(id: 's1'), 'go')
+rescue StandardError => e
+  caught = e.message.include?('sink unavailable')
+end
+check(caught && startup_event_calls == ['acquire', 'release:sink unavailable'],
+      'ruby startup event cleanup')
+check(startup_event_sink.types == %w[run.started run.failed],
+      'ruby startup event failure events')
+
 continue_calls = []
 continue_first = TestMiddleware.new
 continue_first.after_run_hook = lambda { |_result, _error|
@@ -426,6 +460,18 @@ end
 check(caught, 'call limit run a')
 isolation.before_model('b')
 check(true, 'call limit isolated run')
+
+failed_limit = Praxo::Middleware::CallLimit.new(model_limit: 1, tool_limit: 0)
+failed_limit.before_run(run_id: 'failed')
+failed_limit.before_model('failed')
+failed_limit.after_run(nil, RuntimeError.new('run failed'))
+caught = false
+begin
+  failed_limit.before_model('failed')
+rescue StandardError => e
+  caught = e.code == 'AGENT_MODEL_CALL_LIMIT'
+end
+check(!caught, 'call limit releases failed run')
 
 cancel_flag = { value: false }
 cancel_model = Object.new
