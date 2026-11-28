@@ -264,6 +264,26 @@ lifecycle_startup_test <- function() {
   stopifnot(length(events) == 0L)
 }
 
+lifecycle_startup_event_test <- function() {
+  calls <- character()
+  events <- character()
+  sink <- list(emit = function(event) {
+    events <<- c(events, event$type)
+    if (identical(event$type, "run.started")) stop("sink unavailable")
+  })
+  middleware <- list(list(
+    before_run = function(state) calls <<- c(calls, "acquire"),
+    after_run = function(result, error) calls <<- c(calls, "release:error")
+  ))
+  error <- tryCatch({
+    agent_run(function(request) done_response, "go", events = sink, middleware = middleware)
+    NULL
+  }, error = function(error) error)
+  stopifnot(grepl("sink unavailable", conditionMessage(error), fixed = TRUE))
+  stopifnot(identical(calls, c("acquire", "release:error")))
+  stopifnot(identical(events, c("run.started", "run.failed")))
+}
+
 lifecycle_continue_test <- function() {
   calls <- character()
   middleware <- list(
@@ -307,6 +327,7 @@ final_name_test()
 unchanged_test()
 initial_denial_test()
 lifecycle_startup_test()
+lifecycle_startup_event_test()
 lifecycle_continue_test()
 lifecycle_failclosed_test()
 

@@ -456,9 +456,9 @@ agent_run <- function(model, prompt, tools = list(), events = NULL, max_steps = 
     after_run(NULL, startup_error)
     stop(startup_error)
   }
-  emit("run.started")
   after_run_invoked <- FALSE
   tryCatch({
+    emit("run.started")
     for (step in seq_len(max_steps)) {
       check_cancel()
       specs <- lapply(tools, function(tool) {
@@ -559,7 +559,10 @@ agent_run <- function(model, prompt, tools = list(), events = NULL, max_steps = 
     praxo_error("AGENT_MAX_STEPS", "maximum steps exceeded")
   }, error = function(error) {
     if (!after_run_invoked) after_run(NULL, error)
-    emit("run.failed", list(error = conditionMessage(error)))
+    tryCatch(
+      emit("run.failed", list(error = conditionMessage(error))),
+      error = function(ignored) NULL
+    )
     stop(error)
   })
 }
