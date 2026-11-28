@@ -1,0 +1,236 @@
+{
+  "channels": {
+    "crates": {
+      "last_day": 0,
+      "last_month": 1410,
+      "last_week": 0,
+      "packages": [
+        "praxo-core"
+      ],
+      "statuses": [
+        "ok"
+      ],
+      "total": 1410
+    },
+    "hex": {
+      "last_day": 172,
+      "last_month": 0,
+      "last_week": 599,
+      "packages": [
+        "praxo_core",
+        "praxo_core_erlang"
+      ],
+      "statuses": [
+        "ok",
+        "ok"
+      ],
+      "total": 2050
+    },
+    "npm": {
+      "last_day": 682,
+      "last_month": 8853,
+      "last_week": 2715,
+      "packages": [
+        "@axisvela/praxo-core"
+      ],
+      "statuses": [
+        "ok"
+      ],
+      "total": 0
+    },
+    "nuget": {
+      "last_day": 0,
+      "last_month": 0,
+      "last_week": 0,
+      "packages": [
+        "Praxo.Core"
+      ],
+      "statuses": [
+        "ok"
+      ],
+      "total": 2414
+    },
+    "packagist": {
+      "last_day": 55,
+      "last_month": 577,
+      "last_week": 0,
+      "packages": [
+        "axisvela/praxo-core"
+      ],
+      "statuses": [
+        "ok"
+      ],
+      "total": 577
+    },
+    "powershell": {
+      "last_day": 0,
+      "last_month": 0,
+      "last_week": 0,
+      "packages": [
+        "praxo-core-ps"
+      ],
+      "statuses": [
+        "error"
+      ],
+      "total": 0
+    },
+    "pub": {
+      "last_day": 0,
+      "last_month": 1074,
+      "last_week": 0,
+      "packages": [
+        "praxo_core"
+      ],
+      "statuses": [
+        "ok"
+      ],
+      "total": 0
+    },
+    "pypi": {
+      "last_day": 915,
+      "last_month": 11166,
+      "last_week": 4134,
+      "packages": [
+        "praxo-core"
+      ],
+      "statuses": [
+        "ok"
+      ],
+      "total": 0
+    },
+    "rubygems": {
+      "last_day": 0,
+      "last_month": 0,
+      "last_week": 0,
+      "packages": [
+        "praxo-core"
+      ],
+      "statuses": [
+        "ok"
+      ],
+      "total": 3709
+    }
+  },
+  "languages": {
+    "C#": {
+      "last_day": 0,
+      "last_month": 0,
+      "last_week": 0,
+      "packages": [
+        "Praxo.Core"
+      ],
+      "statuses": [
+        "ok"
+      ],
+      "total": 2414
+    },
+    "Dart": {
+      "last_day": 0,
+      "last_month": 1074,
+      "last_week": 0,
+      "packages": [
+        "praxo_core"
+      ],
+      "statuses": [
+        "ok"
+      ],
+      "total": 0
+    },
+    "Elixir": {
+      "last_day": 114,
+      "last_month": 0,
+      "last_week": 422,
+      "packages": [
+        "praxo_core"
+      ],
+      "statuses": [
+        "ok"
+      ],
+      "total": 1383
+    },
+    "Erlang": {
+      "last_day": 58,
+      "last_month": 0,
+      "last_week": 177,
+      "packages": [
+        "praxo_core_erlang"
+      ],
+      "statuses": [
+        "ok"
+      ],
+      "total": 667
+    },
+    "PHP": {
+      "last_day": 55,
+      "last_month": 577,
+      "last_week": 0,
+      "packages": [
+        "axisvela/praxo-core"
+      ],
+      "statuses": [
+        "ok"
+      ],
+      "total": 577
+    },
+    "PowerShell": {
+      "last_day": 0,
+      "last_month": 0,
+      "last_week": 0,
+      "packages": [
+        "praxo-core-ps"
+      ],
+      "statuses": [
+        "error"
+      ],
+      "total": 0
+    },
+    "Python": {
+      "last_day": 915,
+      "last_month": 11166,
+      "last_week": 4134,
+      "packages": [
+        "praxo-core"
+      ],
+      "statuses": [
+        "ok"
+      ],
+      "total": 0
+    },
+    "Ruby": {
+      "last_day": 0,
+      "last_month": 0,
+      "last_week": 0,
+      "packages": [
+        "praxo-core"
+      ],
+      "statuses": [
+        "ok"
+      ],
+      "total": 3709
+    },
+    "Rust": {
+      "last_day": 0,
+      "last_month": 1410,
+      "last_week": 0,
+      "packages": [
+        "praxo-core"
+      ],
+      "statuses": [
+        "ok"
+      ],
+      "total": 1410
+    },
+    "TypeScript": {
+      "last_day": 682,
+      "last_month": 8853,
+      "last_week": 2715,
+      "packages": [
+        "@axisvela/praxo-core"
+      ],
+      "statuses": [
+        "ok"
+      ],
+      "total": 0
+    }
+  }
+}

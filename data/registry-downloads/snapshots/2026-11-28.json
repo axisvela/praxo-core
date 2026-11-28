@@ -1,0 +1,813 @@
+{
+  "collected_at": "2026-11-28T11:25:19Z",
+  "date": "2026-11-28",
+  "metrics": [
+    "total",
+    "last_day",
+    "last_week",
+    "last_month"
+  ],
+  "schema": 1,
+  "summary": {
+    "channels": {
+      "crates": {
+        "last_day": 0,
+        "last_month": 1410,
+        "last_week": 0,
+        "packages": [
+          "praxo-core"
+        ],
+        "statuses": [
+          "ok"
+        ],
+        "total": 1410
+      },
+      "hex": {
+        "last_day": 172,
+        "last_month": 0,
+        "last_week": 599,
+        "packages": [
+          "praxo_core",
+          "praxo_core_erlang"
+        ],
+        "statuses": [
+          "ok",
+          "ok"
+        ],
+        "total": 2050
+      },
+      "npm": {
+        "last_day": 682,
+        "last_month": 8853,
+        "last_week": 2715,
+        "packages": [
+          "@axisvela/praxo-core"
+        ],
+        "statuses": [
+          "ok"
+        ],
+        "total": 0
+      },
+      "nuget": {
+        "last_day": 0,
+        "last_month": 0,
+        "last_week": 0,
+        "packages": [
+          "Praxo.Core"
+        ],
+        "statuses": [
+          "ok"
+        ],
+        "total": 2414
+      },
+      "packagist": {
+        "last_day": 55,
+        "last_month": 577,
+        "last_week": 0,
+        "packages": [
+          "axisvela/praxo-core"
+        ],
+        "statuses": [
+          "ok"
+        ],
+        "total": 577
+      },
+      "powershell": {
+        "last_day": 0,
+        "last_month": 0,
+        "last_week": 0,
+        "packages": [
+          "praxo-core-ps"
+        ],
+        "statuses": [
+          "error"
+        ],
+        "total": 0
+      },
+      "pub": {
+        "last_day": 0,
+        "last_month": 1074,
+        "last_week": 0,
+        "packages": [
+          "praxo_core"
+        ],
+        "statuses": [
+          "ok"
+        ],
+        "total": 0
+      },
+      "pypi": {
+        "last_day": 915,
+        "last_month": 11166,
+        "last_week": 4134,
+        "packages": [
+          "praxo-core"
+        ],
+        "statuses": [
+          "ok"
+        ],
+        "total": 0
+      },
+      "rubygems": {
+        "last_day": 0,
+        "last_month": 0,
+        "last_week": 0,
+        "packages": [
+          "praxo-core"
+        ],
+        "statuses": [
+          "ok"
+        ],
+        "total": 3709
+      }
+    },
+    "languages": {
+      "C#": {
+        "last_day": 0,
+        "last_month": 0,
+        "last_week": 0,
+        "packages": [
+          "Praxo.Core"
+        ],
+        "statuses": [
+          "ok"
+        ],
+        "total": 2414
+      },
+      "Dart": {
+        "last_day": 0,
+        "last_month": 1074,
+        "last_week": 0,
+        "packages": [
+          "praxo_core"
+        ],
+        "statuses": [
+          "ok"
+        ],
+        "total": 0
+      },
+      "Elixir": {
+        "last_day": 114,
+        "last_month": 0,
+        "last_week": 422,
+        "packages": [
+          "praxo_core"
+        ],
+        "statuses": [
+          "ok"
+        ],
+        "total": 1383
+      },
+      "Erlang": {
+        "last_day": 58,
+        "last_month": 0,
+        "last_week": 177,
+        "packages": [
+          "praxo_core_erlang"
+        ],
+        "statuses": [
+          "ok"
+        ],
+        "total": 667
+      },
+      "PHP": {
+        "last_day": 55,
+        "last_month": 577,
+        "last_week": 0,
+        "packages": [
+          "axisvela/praxo-core"
+        ],
+        "statuses": [
+          "ok"
+        ],
+        "total": 577
+      },
+      "PowerShell": {
+        "last_day": 0,
+        "last_month": 0,
+        "last_week": 0,
+        "packages": [
+          "praxo-core-ps"
+        ],
+        "statuses": [
+          "error"
+        ],
+        "total": 0
+      },
+      "Python": {
+        "last_day": 915,
+        "last_month": 11166,
+        "last_week": 4134,
+        "packages": [
+          "praxo-core"
+        ],
+        "statuses": [
+          "ok"
+        ],
+        "total": 0
+      },
+      "Ruby": {
+        "last_day": 0,
+        "last_month": 0,
+        "last_week": 0,
+        "packages": [
+          "praxo-core"
+        ],
+        "statuses": [
+          "ok"
+        ],
+        "total": 3709
+      },
+      "Rust": {
+        "last_day": 0,
+        "last_month": 1410,
+        "last_week": 0,
+        "packages": [
+          "praxo-core"
+        ],
+        "statuses": [
+          "ok"
+        ],
+        "total": 1410
+      },
+      "TypeScript": {
+        "last_day": 682,
+        "last_month": 8853,
+        "last_week": 2715,
+        "packages": [
+          "@axisvela/praxo-core"
+        ],
+        "statuses": [
+          "ok"
+        ],
+        "total": 0
+      }
+    }
+  },
+  "targets": [
+    {
+      "channel": "pypi",
+      "collected_at": "2026-11-28T11:25:19Z",
+      "error": null,
+      "expected_version": "0.11.2",
+      "language": "Python",
+      "metrics": {
+        "last_day": 915,
+        "last_month": 11166,
+        "last_week": 4134,
+        "total": null
+      },
+      "package": "praxo-core",
+      "registry": "PyPI",
+      "source": "pypi.org + pypistats.org",
+      "status": "ok",
+      "version": "0.11.2",
+      "versions": []
+    },
+    {
+      "channel": "npm",
+      "collected_at": "2026-11-28T11:25:19Z",
+      "error": null,
+      "expected_version": "0.10.1",
+      "language": "TypeScript",
+      "metrics": {
+        "last_day": 682,
+        "last_month": 8853,
+        "last_week": 2715,
+        "total": null
+      },
+      "package": "@axisvela/praxo-core",
+      "registry": "npm",
+      "source": "api.npmjs.org",
+      "status": "ok",
+      "version": "0.10.1",
+      "versions": [
+        {
+          "downloads": 3,
+          "version": "0.0.0-stage"
+        },
+        {
+          "downloads": 1,
+          "version": "0.1.1"
+        },
+        {
+          "downloads": 3,
+          "version": "0.1.2"
+        },
+        {
+          "downloads": 2,
+          "version": "0.1.3"
+        },
+        {
+          "downloads": 1,
+          "version": "0.1.4"
+        },
+        {
+          "downloads": 560,
+          "version": "0.1.5"
+        },
+        {
+          "downloads": 298,
+          "version": "0.10.0"
+        },
+        {
+          "downloads": 147,
+          "version": "0.10.1"
+        },
+        {
+          "downloads": 2,
+          "version": "0.2.0"
+        },
+        {
+          "downloads": 1,
+          "version": "0.2.1"
+        },
+        {
+          "downloads": 1,
+          "version": "0.2.2"
+        },
+        {
+          "downloads": 1,
+          "version": "0.3.0"
+        },
+        {
+          "downloads": 2,
+          "version": "0.4.1"
+        },
+        {
+          "downloads": 2,
+          "version": "0.5.0"
+        },
+        {
+          "downloads": 3,
+          "version": "0.6.0"
+        },
+        {
+          "downloads": 4,
+          "version": "0.7.0"
+        },
+        {
+          "downloads": 4,
+          "version": "0.7.1"
+        },
+        {
+          "downloads": 2,
+          "version": "0.8.0"
+        },
+        {
+          "downloads": 7,
+          "version": "0.8.1"
+        },
+        {
+          "downloads": 1671,
+          "version": "0.9.0"
+        }
+      ]
+    },
+    {
+      "channel": "crates",
+      "collected_at": "2026-11-28T11:25:19Z",
+      "error": null,
+      "expected_version": "0.11.1",
+      "language": "Rust",
+      "metrics": {
+        "last_day": null,
+        "last_month": 1410,
+        "last_week": null,
+        "total": 1410
+      },
+      "package": "praxo-core",
+      "registry": "crates.io",
+      "source": "crates.io API",
+      "status": "ok",
+      "version": "0.11.1",
+      "versions": [
+        {
+          "downloads": 20,
+          "version": "0.11.1"
+        },
+        {
+          "downloads": 9,
+          "version": "0.11.0"
+        },
+        {
+          "downloads": 1179,
+          "version": "0.10.0"
+        },
+        {
+          "downloads": 24,
+          "version": "0.9.2"
+        },
+        {
+          "downloads": 48,
+          "version": "0.9.1"
+        },
+        {
+          "downloads": 12,
+          "version": "0.9.0"
+        },
+        {
+          "downloads": 14,
+          "version": "0.8.0"
+        },
+        {
+          "downloads": 21,
+          "version": "0.6.0"
+        },
+        {
+          "downloads": 11,
+          "version": "0.5.0"
+        },
+        {
+          "downloads": 11,
+          "version": "0.4.0"
+        },
+        {
+          "downloads": 12,
+          "version": "0.3.0"
+        },
+        {
+          "downloads": 24,
+          "version": "0.1.4"
+        },
+        {
+          "downloads": 13,
+          "version": "0.1.3"
+        },
+        {
+          "downloads": 12,
+          "version": "0.1.2"
+        }
+      ]
+    },
+    {
+      "channel": "nuget",
+      "collected_at": "2026-11-28T11:25:19Z",
+      "error": null,
+      "expected_version": "0.11.1",
+      "language": "C#",
+      "metrics": {
+        "last_day": null,
+        "last_month": null,
+        "last_week": null,
+        "total": 2414
+      },
+      "package": "Praxo.Core",
+      "registry": "NuGet",
+      "source": "azuresearch-usnc.nuget.org",
+      "status": "ok",
+      "version": "0.11.1",
+      "versions": [
+        {
+          "downloads": 107,
+          "version": "0.1.2"
+        },
+        {
+          "downloads": 113,
+          "version": "0.2.0"
+        },
+        {
+          "downloads": 101,
+          "version": "0.3.0"
+        },
+        {
+          "downloads": 95,
+          "version": "0.4.0"
+        },
+        {
+          "downloads": 93,
+          "version": "0.5.0"
+        },
+        {
+          "downloads": 162,
+          "version": "0.6.0"
+        },
+        {
+          "downloads": 125,
+          "version": "0.8.0"
+        },
+        {
+          "downloads": 102,
+          "version": "0.9.0"
+        },
+        {
+          "downloads": 182,
+          "version": "0.9.1"
+        },
+        {
+          "downloads": 128,
+          "version": "0.9.2"
+        },
+        {
+          "downloads": 1119,
+          "version": "0.10.0"
+        },
+        {
+          "downloads": 87,
+          "version": "0.11.0"
+        },
+        {
+          "downloads": 0,
+          "version": "0.11.1"
+        }
+      ]
+    },
+    {
+      "channel": "rubygems",
+      "collected_at": "2026-11-28T11:25:19Z",
+      "error": null,
+      "expected_version": "0.10.2",
+      "language": "Ruby",
+      "metrics": {
+        "last_day": null,
+        "last_month": null,
+        "last_week": null,
+        "total": 3709
+      },
+      "package": "praxo-core",
+      "registry": "RubyGems",
+      "source": "rubygems.org API",
+      "status": "ok",
+      "version": "0.10.2",
+      "versions": [
+        {
+          "downloads": 161,
+          "version": "0.10.2"
+        },
+        {
+          "downloads": 112,
+          "version": "0.10.1"
+        },
+        {
+          "downloads": 234,
+          "version": "0.10.0"
+        },
+        {
+          "downloads": 330,
+          "version": "0.9.2"
+        },
+        {
+          "downloads": 227,
+          "version": "0.9.1"
+        },
+        {
+          "downloads": 167,
+          "version": "0.9.0"
+        },
+        {
+          "downloads": 209,
+          "version": "0.8.2"
+        },
+        {
+          "downloads": 226,
+          "version": "0.8.1"
+        },
+        {
+          "downloads": 150,
+          "version": "0.8.0"
+        },
+        {
+          "downloads": 253,
+          "version": "0.7.0"
+        },
+        {
+          "downloads": 208,
+          "version": "0.6.0"
+        },
+        {
+          "downloads": 263,
+          "version": "0.5.0"
+        },
+        {
+          "downloads": 290,
+          "version": "0.4.1"
+        },
+        {
+          "downloads": 201,
+          "version": "0.4.0"
+        },
+        {
+          "downloads": 236,
+          "version": "0.3.0"
+        },
+        {
+          "downloads": 177,
+          "version": "0.2.0"
+        },
+        {
+          "downloads": 265,
+          "version": "0.1.0"
+        }
+      ]
+    },
+    {
+      "channel": "packagist",
+      "collected_at": "2026-11-28T11:25:19Z",
+      "error": null,
+      "expected_version": "0.10.2",
+      "language": "PHP",
+      "metrics": {
+        "last_day": 55,
+        "last_month": 577,
+        "last_week": null,
+        "total": 577
+      },
+      "package": "axisvela/praxo-core",
+      "registry": "Packagist",
+      "source": "packagist.org API",
+      "status": "ok",
+      "version": "0.10.2",
+      "versions": []
+    },
+    {
+      "channel": "hex",
+      "collected_at": "2026-11-28T11:25:19Z",
+      "error": null,
+      "expected_version": "0.11.1",
+      "language": "Elixir",
+      "metrics": {
+        "last_day": 114,
+        "last_month": null,
+        "last_week": 422,
+        "total": 1383
+      },
+      "package": "praxo_core",
+      "registry": "Hex",
+      "source": "hex.pm API",
+      "status": "ok",
+      "version": "0.11.1",
+      "versions": [
+        {
+          "downloads": null,
+          "version": "0.11.1"
+        },
+        {
+          "downloads": null,
+          "version": "0.11.0"
+        },
+        {
+          "downloads": null,
+          "version": "0.10.0"
+        },
+        {
+          "downloads": null,
+          "version": "0.9.2"
+        },
+        {
+          "downloads": null,
+          "version": "0.9.1"
+        },
+        {
+          "downloads": null,
+          "version": "0.9.0"
+        },
+        {
+          "downloads": null,
+          "version": "0.8.0"
+        },
+        {
+          "downloads": null,
+          "version": "0.7.0"
+        },
+        {
+          "downloads": null,
+          "version": "0.6.0"
+        },
+        {
+          "downloads": null,
+          "version": "0.5.1"
+        },
+        {
+          "downloads": null,
+          "version": "0.4.1"
+        },
+        {
+          "downloads": null,
+          "version": "0.4.0"
+        },
+        {
+          "downloads": null,
+          "version": "0.3.0"
+        },
+        {
+          "downloads": null,
+          "version": "0.2.0"
+        },
+        {
+          "downloads": null,
+          "version": "0.1.1"
+        }
+      ]
+    },
+    {
+      "channel": "hex",
+      "collected_at": "2026-11-28T11:25:19Z",
+      "error": null,
+      "expected_version": "0.10.1",
+      "language": "Erlang",
+      "metrics": {
+        "last_day": 58,
+        "last_month": null,
+        "last_week": 177,
+        "total": 667
+      },
+      "package": "praxo_core_erlang",
+      "registry": "Hex",
+      "source": "hex.pm API",
+      "status": "ok",
+      "version": "0.10.1",
+      "versions": [
+        {
+          "downloads": null,
+          "version": "0.10.1"
+        },
+        {
+          "downloads": null,
+          "version": "0.10.0"
+        },
+        {
+          "downloads": null,
+          "version": "0.9.0"
+        },
+        {
+          "downloads": null,
+          "version": "0.8.2"
+        },
+        {
+          "downloads": null,
+          "version": "0.8.1"
+        },
+        {
+          "downloads": null,
+          "version": "0.8.0"
+        },
+        {
+          "downloads": null,
+          "version": "0.7.1"
+        },
+        {
+          "downloads": null,
+          "version": "0.6.0"
+        },
+        {
+          "downloads": null,
+          "version": "0.5.0"
+        },
+        {
+          "downloads": null,
+          "version": "0.4.0"
+        },
+        {
+          "downloads": null,
+          "version": "0.3.1"
+        },
+        {
+          "downloads": null,
+          "version": "0.2.0"
+        },
+        {
+          "downloads": null,
+          "version": "0.1.1"
+        }
+      ]
+    },
+    {
+      "channel": "pub",
+      "collected_at": "2026-11-28T11:25:19Z",
+      "error": null,
+      "expected_version": "0.8.2",
+      "language": "Dart",
+      "metrics": {
+        "last_day": null,
+        "last_month": 1074,
+        "last_week": null,
+        "total": null
+      },
+      "package": "praxo_core",
+      "registry": "pub.dev",
+      "source": "pub.dev API",
+      "status": "ok",
+      "version": "0.8.2",
+      "versions": []
+    },
+    {
+      "channel": "powershell",
+      "collected_at": "2026-11-28T11:25:19Z",
+      "error": "PowerShell package not found: praxo-core-ps",
+      "expected_version": "0.9.1",
+      "language": "PowerShell",
+      "metrics": {
+        "last_day": null,
+        "last_month": null,
+        "last_week": null,
+        "total": null
+      },
+      "package": "praxo-core-ps",
+      "registry": "PowerShell Gallery",
+      "source": "",
+      "status": "error",
+      "version": "0.9.1",
+      "versions": []
+    }
+  ]
+}
