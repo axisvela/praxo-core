@@ -3,7 +3,7 @@
 ## Status
 
 `praxo_core==0.11.1` is published from source tag `elixir/v0.11.1` by
-`.github/workflows/elixir-release.yml`. The Hex README is reordered and includes
+`.github/workflows/release-elixir.yml`. The Hex README is reordered and includes
 scenario tutorials, reference-application status, and community links. HexDocs:
 <https://praxo-core.hexdocs.pm/0.11.1/>.
 
@@ -25,7 +25,7 @@ python language/elixir/api-snapshot.py --check
 
 ## Publish
 
-The `elixir-release` workflow runs the package and docs gates. A `publish`
+The `release-elixir` workflow runs the package and docs gates. A `publish`
 target or `elixir/v*` tag uploads the package and HexDocs when the registry does
 not already have the release. Configure the GitHub environment `hex` and
 repository secret `HEX_API_KEY`.

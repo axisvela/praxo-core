@@ -112,8 +112,19 @@ def render(path):
     if path.name.startswith("ci-tutorial-"):
         language = path.name.removeprefix("ci-tutorial-").removesuffix(".yml")
         targeted = [f"language/{language}/Tutorial/**", workflow]
+    if path.name.startswith("ci-examples-"):
+        language = path.name.removeprefix("ci-examples-").removesuffix(".yml")
+        targeted = [f"language/{language}/**", workflow]
+        if language == "powershell":
+            targeted.insert(1, "language/csharp/**")
+            targeted.insert(2, "global.json")
+        if language == "matlab":
+            targeted.insert(1, "language/matlab-octave-core/**")
     if targeted is not None:
         patterns = targeted
+        if path.name.startswith("ci-examples-") or (tutorial_scope and path.name != "ci-tutorials.yml"):
+            patterns += [f"!language/**/{name}" for name in sorted(LANGUAGE_DOC_FILES)]
+            patterns += [f"!{pattern}" for pattern in DOC_MARKDOWN_PATTERNS]
     else:
         patterns = SHARED + [f"language/{language}/**" for language in sorted(owned)]
         if {"matlab", "octave"} & owned:

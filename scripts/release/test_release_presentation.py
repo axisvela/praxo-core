@@ -44,10 +44,10 @@ class ReleasePresentationTests(unittest.TestCase):
                 else:
                     self.assertIn('--latest=false', line, path.name)
         self.assertIn('release.yml', publishers)
-        self.assertIn('language-source-release.yml', publishers)
+        self.assertIn('release-language-source.yml', publishers)
 
     def test_language_source_release_requires_existing_scoped_tag(self):
-        path = ROOT / '.github/workflows/language-source-release.yml'
+        path = ROOT / '.github/workflows/release-language-source.yml'
         config = yaml.safe_load(path.read_text(encoding='utf-8'))
         job = config['jobs']['publish']
         self.assertEqual(job['if'], "github.ref == 'refs/heads/main'")

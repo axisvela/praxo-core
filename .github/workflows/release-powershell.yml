@@ -1,4 +1,4 @@
-name: powershell-release
+name: release-powershell
 
 on:
   push:

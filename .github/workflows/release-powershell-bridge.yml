@@ -1,4 +1,4 @@
-name: powershell-bridge-release
+name: release-powershell-bridge
 
 on:
   push:

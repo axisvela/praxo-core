@@ -27,7 +27,7 @@ CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -trimpath -ldflags="-s -w" -o bin
 pwsh -NoProfile -Command "Import-Module ./bindings/powershell/praxo-core-ps-br/praxo-core-ps-br.psm1; Invoke-PraxoBridge -Arguments @('version')"
 ```
 
-CI publication uses `.github/workflows/powershell-bridge-release.yml`.
+CI publication uses `.github/workflows/release-powershell-bridge.yml`.
 
 ## PowerShell Gallery
 

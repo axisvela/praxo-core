@@ -3,7 +3,7 @@
 ## Status
 
 Source tag `lua/v0.9.1` maps to rock revision `0.9.1-1`. The release workflow is
-`.github/workflows/lua-release.yml`. LuaRocks publishes `0.9.1-1`. The dedicated
+`.github/workflows/release-lua.yml`. LuaRocks publishes `0.9.1-1`. The dedicated
 split repository `axisvela/praxo-core-lua` is tagged `v0.9.1`.
 
 <https://luarocks.org/modules/hanhhuiwen/praxo-core>

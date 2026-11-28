@@ -103,6 +103,9 @@ this framework.
   workflow.
 - Keep `ci.yml` as the small release gate, not the full portfolio. Put scheduled
   or manual full matrices in a separate workflow such as `portfolio.yml`.
+- Use `ci-examples-<language>.yml` for language example matrices and
+  `release-<language>.yml` for release workflows; do not add vague names such as
+  `ci-additional*` or `<language>-release.yml`.
 - Share setup and repeated logic through composite actions or reusable workflows,
   but keep required checks in direct workflows. Do not nest required checks deeply;
   a required-check name must stay stable and readable as

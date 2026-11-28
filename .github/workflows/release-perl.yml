@@ -1,4 +1,4 @@
-name: perl-release
+name: release-perl
 
 on:
   push:

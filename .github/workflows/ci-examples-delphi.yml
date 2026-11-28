@@ -1,0 +1,126 @@
+name: ci-examples-delphi
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "language/delphi/**"
+      - ".github/workflows/ci-examples-delphi.yml"
+      - "!language/**/AGENTS.md"
+      - "!language/**/CONTRIBUTING.md"
+      - "!language/**/LICENSE.md"
+      - "!language/**/PUBLISHING.md"
+      - "!language/**/README.md"
+      - "!language/**/README.pod"
+      - "!language/**/README.zh-CN.md"
+      - "!language/**/REGISTRY.md"
+      - "!language/**/SECURITY.md"
+      - "!language/**/llms.md"
+      - "!language/**/llms.txt"
+      - "!language/**/README*.md"
+      - "!language/**/CHANGELOG*.md"
+      - "!language/**/docs/**/*.md"
+  pull_request:
+    paths:
+      - "language/delphi/**"
+      - ".github/workflows/ci-examples-delphi.yml"
+      - "!language/**/AGENTS.md"
+      - "!language/**/CONTRIBUTING.md"
+      - "!language/**/LICENSE.md"
+      - "!language/**/PUBLISHING.md"
+      - "!language/**/README.md"
+      - "!language/**/README.pod"
+      - "!language/**/README.zh-CN.md"
+      - "!language/**/REGISTRY.md"
+      - "!language/**/SECURITY.md"
+      - "!language/**/llms.md"
+      - "!language/**/llms.txt"
+      - "!language/**/README*.md"
+      - "!language/**/CHANGELOG*.md"
+      - "!language/**/docs/**/*.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' || github.event_name == 'push' }}
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      full: ${{ steps.filter.outputs.full }}
+      core: ${{ steps.filter.outputs.core }}
+      docs: ${{ steps.filter.outputs.docs }}
+      examples: ${{ steps.filter.outputs.examples }}
+      consumers: ${{ steps.filter.outputs.consumers }}
+      adapters: ${{ steps.filter.outputs.adapters }}
+      languages: ${{ steps.filter.outputs.languages }}
+      applications: ${{ steps.filter.outputs.applications }}
+      tutorials: ${{ steps.filter.outputs.tutorials }}
+      example_languages: ${{ steps.filter.outputs.example_languages }}
+      labs: ${{ steps.filter.outputs.labs }}
+      compatibility_languages: ${{ steps.filter.outputs.compatibility_languages }}
+      behavior_languages: ${{ steps.filter.outputs.behavior_languages }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: filter
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          REF_TYPE: ${{ github.ref_type }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PUSH_BEFORE: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.sha }}
+          WORKFLOW_FILE: .github/workflows/ci-examples-delphi.yml
+        run: python -m scripts.ci.ci_changes
+
+  delphi-examples:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'delphi')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.example_languages), 'c') || contains(fromJSON(needs.changes.outputs.example_languages), 'cobol') || contains(fromJSON(needs.changes.outputs.example_languages), 'cpp') || contains(fromJSON(needs.changes.outputs.example_languages), 'fortran') || contains(fromJSON(needs.changes.outputs.example_languages), 'lua') || contains(fromJSON(needs.changes.outputs.example_languages), 'r')
+      - run: sudo apt-get install -y fpc
+      - run: mkdir -p build/delphi
+      - run: fpc -Mobjfpc -Facwstring -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/retry/retry.pas
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.example_languages), 'delphi')
+      - run: ./build/delphi/retry
+      - run: fpc -Mobjfpc -Facwstring -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/checkpoint/checkpoint.pas
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.example_languages), 'delphi')
+      - run: ./build/delphi/checkpoint
+      - run: fpc -Mobjfpc -Facwstring -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/event-sink/event_sink.pas
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.example_languages), 'delphi')
+      - run: ./build/delphi/event_sink
+      - run: fpc -Mobjfpc -Facwstring -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/provider-fallback/fallback.pas
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.example_languages), 'delphi')
+      - run: ./build/delphi/fallback
+      - run: fpc -Mobjfpc -Facwstring -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/structured-output/structured_output.pas
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.example_languages), 'delphi')
+      - run: ./build/delphi/structured_output
+      - run: fpc -Mobjfpc -Facwstring -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/streaming/streaming.pas
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.example_languages), 'delphi')
+      - run: ./build/delphi/streaming
+      - run: fpc -Mobjfpc -Facwstring -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/identity-policy/identity_policy.pas
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.example_languages), 'delphi')
+      - run: ./build/delphi/identity_policy
+      - run: fpc -Mobjfpc -Facwstring -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/service/service.pas
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.example_languages), 'delphi')
+      - run: ./build/delphi/service
+      - run: fpc -Mobjfpc -Facwstring -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/mcp/mcp.pas
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.example_languages), 'delphi')
+      - run: ./build/delphi/mcp
+      - run: fpc -Mobjfpc -Facwstring -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/consumer/consumer.pas
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.example_languages), 'delphi')
+      - run: ./build/delphi/consumer
+      - run: fpc -Mobjfpc -Facwstring -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/hitl/hitl.pas
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.example_languages), 'delphi')
+      - run: ./build/delphi/hitl
+      - run: fpc -Mobjfpc -Facwstring -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/session-checkpoint/session_checkpoint.pas
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.example_languages), 'delphi')
+      - run: ./build/delphi/session_checkpoint

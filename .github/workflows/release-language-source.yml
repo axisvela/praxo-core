@@ -1,4 +1,4 @@
-name: language-source-release
+name: release-language-source
 
 on:
   workflow_dispatch:

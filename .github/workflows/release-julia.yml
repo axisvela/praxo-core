@@ -1,4 +1,4 @@
-name: julia-release
+name: release-julia
 
 on:
   push:

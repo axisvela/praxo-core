@@ -3,7 +3,7 @@
 ## Status
 
 Source tag `haskell/v0.2.0` maps to Hackage package `praxo-core` version
-`0.2.0`. The release workflow is `.github/workflows/haskell-release.yml`.
+`0.2.0`. The release workflow is `.github/workflows/release-haskell.yml`.
 
 The prepared source distribution is
 `language/haskell/build/cabal/praxo-core-0.2.0.tar.gz` and is also attached to

@@ -6,10 +6,38 @@ on:
     paths:
       - "language/powershell/Tutorial/**"
       - ".github/workflows/ci-tutorial-powershell.yml"
+      - "!language/**/AGENTS.md"
+      - "!language/**/CONTRIBUTING.md"
+      - "!language/**/LICENSE.md"
+      - "!language/**/PUBLISHING.md"
+      - "!language/**/README.md"
+      - "!language/**/README.pod"
+      - "!language/**/README.zh-CN.md"
+      - "!language/**/REGISTRY.md"
+      - "!language/**/SECURITY.md"
+      - "!language/**/llms.md"
+      - "!language/**/llms.txt"
+      - "!language/**/README*.md"
+      - "!language/**/CHANGELOG*.md"
+      - "!language/**/docs/**/*.md"
   pull_request:
     paths:
       - "language/powershell/Tutorial/**"
       - ".github/workflows/ci-tutorial-powershell.yml"
+      - "!language/**/AGENTS.md"
+      - "!language/**/CONTRIBUTING.md"
+      - "!language/**/LICENSE.md"
+      - "!language/**/PUBLISHING.md"
+      - "!language/**/README.md"
+      - "!language/**/README.pod"
+      - "!language/**/README.zh-CN.md"
+      - "!language/**/REGISTRY.md"
+      - "!language/**/SECURITY.md"
+      - "!language/**/llms.md"
+      - "!language/**/llms.txt"
+      - "!language/**/README*.md"
+      - "!language/**/CHANGELOG*.md"
+      - "!language/**/docs/**/*.md"
   workflow_dispatch:
 
 permissions:

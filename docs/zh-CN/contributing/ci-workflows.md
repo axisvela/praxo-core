@@ -18,14 +18,12 @@ CI 按路径拆分，语言专属改动不再运行完整矩阵。`ci.yml` 继�
 | `ci-java.yml` | Java 一致性、消费者、Kotlin/Scala/Groovy/Clojure 示例 | `language/java/**` |
 | `ci-rust.yml` | Rust 一致性 | `language/rust/**` |
 | `ci-dotnet.yml` | C# 一致性和 PowerShell Core | `language/csharp/**`、`language/powershell/**` |
-| `ci-extended.yml` | Ruby、PHP、Elixir、Erlang、Lua | 对应 `language/<language>/**` |
+| `ci-ruby.yml`、`ci-php.yml`、`ci-elixir.yml`、`ci-erlang.yml`、`ci-lua.yml` | 每语言核心、消费者与打包检查 | 该语言源码路径 |
 | `ci-native.yml` | C、C++、Fortran、COBOL、OpenCL 示例 | 对应路径和 `language/opencl/examples/**` |
 | `ci-optional.yml` | Haskell、Swift、Dart、Julia、R | 对应 `language/<language>/**` |
 | `ci-optional2.yml` | MATLAB、Octave、OCaml、Objective-C、Nim、V、D、Zig、Perl | 对应 `language/<language>/**` |
 | `ci-adapters.yml` | Adapter 模块和 Adapter module-security | `adapters/**` |
-| `ci-additional.yml` | Dart、Perl、D、Delphi 示例矩阵 | 示例及 SDK 源码依赖 |
-| `ci-additional2.yml` | PowerShell 与 MATLAB/Octave 示例矩阵 | 示例及共享运行时依赖 |
-| `ci-additional3.yml` | Swift、Julia、Haskell、OCaml、Nim、V、Zig、Objective-C 示例矩阵 | 示例及 SDK 源码依赖 |
+| `ci-examples-<language>.yml` | 单语言示例矩阵 | 该语言 `examples/**` 及共享运行时输入 |
 | `ci-examples.yml` | Go 示例、SDK 示例、Go 消费者与配方 | `language/go/examples/**` 和选定语言示例路径 |
 | `docs.yml` | 文档构建、Registry 检查、消费者 pin | `docs/**`、元数据、选定脚本和 workflow |
 | `ci-applications.yml` | 参考应用 | 应用目录及 Go/核心依赖 |

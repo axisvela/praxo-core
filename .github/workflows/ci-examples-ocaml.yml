@@ -1,0 +1,112 @@
+name: ci-examples-ocaml
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "language/ocaml/**"
+      - ".github/workflows/ci-examples-ocaml.yml"
+      - "!language/**/AGENTS.md"
+      - "!language/**/CONTRIBUTING.md"
+      - "!language/**/LICENSE.md"
+      - "!language/**/PUBLISHING.md"
+      - "!language/**/README.md"
+      - "!language/**/README.pod"
+      - "!language/**/README.zh-CN.md"
+      - "!language/**/REGISTRY.md"
+      - "!language/**/SECURITY.md"
+      - "!language/**/llms.md"
+      - "!language/**/llms.txt"
+      - "!language/**/README*.md"
+      - "!language/**/CHANGELOG*.md"
+      - "!language/**/docs/**/*.md"
+  pull_request:
+    paths:
+      - "language/ocaml/**"
+      - ".github/workflows/ci-examples-ocaml.yml"
+      - "!language/**/AGENTS.md"
+      - "!language/**/CONTRIBUTING.md"
+      - "!language/**/LICENSE.md"
+      - "!language/**/PUBLISHING.md"
+      - "!language/**/README.md"
+      - "!language/**/README.pod"
+      - "!language/**/README.zh-CN.md"
+      - "!language/**/REGISTRY.md"
+      - "!language/**/SECURITY.md"
+      - "!language/**/llms.md"
+      - "!language/**/llms.txt"
+      - "!language/**/README*.md"
+      - "!language/**/CHANGELOG*.md"
+      - "!language/**/docs/**/*.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' || github.event_name == 'push' }}
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      full: ${{ steps.filter.outputs.full }}
+      core: ${{ steps.filter.outputs.core }}
+      docs: ${{ steps.filter.outputs.docs }}
+      examples: ${{ steps.filter.outputs.examples }}
+      consumers: ${{ steps.filter.outputs.consumers }}
+      adapters: ${{ steps.filter.outputs.adapters }}
+      languages: ${{ steps.filter.outputs.languages }}
+      applications: ${{ steps.filter.outputs.applications }}
+      tutorials: ${{ steps.filter.outputs.tutorials }}
+      example_languages: ${{ steps.filter.outputs.example_languages }}
+      labs: ${{ steps.filter.outputs.labs }}
+      compatibility_languages: ${{ steps.filter.outputs.compatibility_languages }}
+      behavior_languages: ${{ steps.filter.outputs.behavior_languages }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: filter
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          REF_TYPE: ${{ github.ref_type }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PUSH_BEFORE: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.sha }}
+          WORKFLOW_FILE: .github/workflows/ci-examples-ocaml.yml
+        run: python -m scripts.ci.ci_changes
+
+  ocaml-examples:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'ocaml')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ocaml/setup-ocaml@v3
+        with:
+          ocaml-compiler: "5.1"
+      - run: opam exec -- ocaml unix.cma -I language/ocaml/src language/ocaml/examples/retry/retry.ml
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.example_languages), 'ocaml')
+      - run: opam exec -- ocaml unix.cma -I language/ocaml/src language/ocaml/examples/checkpoint/checkpoint.ml
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.example_languages), 'ocaml')
+      - run: opam exec -- ocaml unix.cma -I language/ocaml/src language/ocaml/examples/event-sink/event_sink.ml
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.example_languages), 'ocaml')
+      - run: opam exec -- ocaml unix.cma -I language/ocaml/src language/ocaml/examples/provider-fallback/fallback.ml
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.example_languages), 'ocaml')
+      - run: opam exec -- ocaml unix.cma -I language/ocaml/src language/ocaml/examples/structured-output/structured_output.ml
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.example_languages), 'ocaml')
+      - run: opam exec -- ocaml unix.cma -I language/ocaml/src language/ocaml/examples/streaming/streaming.ml
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.example_languages), 'ocaml')
+      - run: opam exec -- ocaml unix.cma -I language/ocaml/src language/ocaml/examples/identity-policy/identity_policy.ml
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.example_languages), 'ocaml')
+      - run: opam exec -- ocaml unix.cma -I language/ocaml/src language/ocaml/examples/service/service.ml
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.example_languages), 'ocaml')
+      - run: opam exec -- ocaml unix.cma -I language/ocaml/src language/ocaml/examples/mcp/mcp.ml
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.example_languages), 'ocaml')
+      - run: opam exec -- ocaml unix.cma -I language/ocaml/src language/ocaml/examples/session-checkpoint/session_checkpoint.ml
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.example_languages), 'ocaml')
+      - run: opam exec -- ocaml unix.cma -I language/ocaml/src language/ocaml/examples/hitl/hitl.ml
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.example_languages), 'ocaml')
+

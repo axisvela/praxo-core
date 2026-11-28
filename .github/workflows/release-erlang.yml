@@ -1,4 +1,4 @@
-name: erlang-release
+name: release-erlang
 
 on:
   push:

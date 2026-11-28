@@ -43,7 +43,7 @@ reference implementation.
 - Dependencies: Lua standard library only
 - LuaRocks page: `praxo-core@0.9.1-1` published with the optional
   OpenAI-compatible adapter. Releases are built and published by
-  `.github/workflows/lua-release.yml`
+  `.github/workflows/release-lua.yml`
 
 ## Registry and Coding-Agent Entry
 

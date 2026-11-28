@@ -1,4 +1,4 @@
-name: cocoapods-release
+name: release-cocoapods
 
 on:
   push:

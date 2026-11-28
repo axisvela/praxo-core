@@ -1,4 +1,4 @@
-name: language-release-audit
+name: release-language-audit
 
 on:
   push:
@@ -11,7 +11,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: language-release-audit-${{ github.ref }}
+  group: language-audit-release-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:

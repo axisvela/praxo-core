@@ -58,7 +58,7 @@ manual runs, allowing live gate validation without creating a tag or release.
 After pushing a language tag, verify that a push-triggered release run exists:
 
 ```bash
-gh run list --workflow=ruby-release.yml --limit 3
+gh run list --workflow=release-ruby.yml --limit 3
 ```
 
 On 2026-11-21, four language tags (`ruby/v0.9.2`, `powershell/v0.8.1`,
@@ -71,7 +71,7 @@ If the run is missing, dispatch on the tag ref so the build still uses the
 tagged commit:
 
 ```bash
-gh workflow run ruby-release.yml --ref ruby/vX.Y.Z -f target=publish
+gh workflow run release-ruby.yml --ref ruby/vX.Y.Z -f target=publish
 ```
 
 Use `-f target=build-only` when validating a tag without publishing. Do not move
@@ -94,7 +94,7 @@ releases. The root workflow explicitly uses `gh release create --latest`.
 Language, specification and adapter GitHub releases must explicitly use
 `--latest=false` (REST `make_latest: "false"`); do not rely on `legacy` ordering.
 Registry-only workflows do not create GitHub releases and need no Latest flag.
-The manual `language-source-release.yml` workflow publishes notes for an existing
+The manual `release-language-source.yml` workflow publishes notes for an existing
 language tag with `--verify-tag --latest=false`; it does not run package gates or
 publish to registries. Only dispatch it after the language's release evidence is
 complete. Discover independent versions through the
@@ -129,17 +129,17 @@ Core releases declare their supported contract version. The root release workflo
 a Core implementation or adapter does not by itself publish a package-registry artifact.
 
 Python publication uses PyPI Trusted Publishing through
-`.github/workflows/python-release.yml`. A `python/vX.Y.Z` tag must match
+`.github/workflows/release-python.yml`. A `python/vX.Y.Z` tag must match
 `pyproject.toml`, `praxo.__version__`, and `praxo.SPEC_VERSION`. Manual dispatch
 defaults to `build-only`; TestPyPI or PyPI publication requires an explicit
 selection. TestPyPI needs its own trusted publisher. Configure the
 PyPI trusted publisher for owner, repository, workflow filename, and environment
 before creating the first tag. The PyPI workflow field must be exactly
-`python-release.yml`; a generic `workflow.yml` value will not match this
+`release-python.yml`; a generic `workflow.yml` value will not match this
 repository.
 
 TypeScript has a separate npm workflow,
-`.github/workflows/typescript-release.yml`. It verifies the package name,
+`.github/workflows/release-typescript.yml`. It verifies the package name,
 repository URL, version, and `typescript/v*` tag; a tag stages the package for
 maintainer approval by default. Direct `npm publish` is an explicit manual
 target and requires that action in the npm trusted-publisher configuration.
@@ -148,7 +148,7 @@ because staged approval was unavailable; that release has no provenance claim.
 npm trusted publishers require an existing package, so configure the trusted
 publisher before the next release. Do not use a long-lived automation token for
 routine publication.
-Java publication uses `.github/workflows/java-release.yml`. A `java/vX.Y.Z` tag
+Java publication uses `.github/workflows/release-java.yml`. A `java/vX.Y.Z` tag
 must match `language/java/pom.xml`; the tag workflow compiles, runs conformance
 and self-tests, and uploads the package artifact without deploying. Maven
 Central publication is a manual dispatch with target `publish`, because the
@@ -158,22 +158,22 @@ source tag has stabilized. Configure environment `maven-central` and secrets
 `MAVEN_GPG_PRIVATE_KEY`. Manual dispatch defaults to `build-only`.
 
 Rust publication uses crates.io Trusted Publishing through
-`.github/workflows/rust-release.yml`. A `rust/vX.Y.Z` tag must match the
+`.github/workflows/release-rust.yml`. A `rust/vX.Y.Z` tag must match the
 `Cargo.toml` package version. The build job runs tests, conformance, and the API
 snapshot, then a `cargo publish --dry-run`; the publish job obtains a temporary
 token with `rust-lang/crates-io-auth-action` and skips a version that is already
 published. Configure the crates.io trusted publisher with workflow filename
-`rust-release.yml` and environment `crates-io` before the first tag. Manual
+`release-rust.yml` and environment `crates-io` before the first tag. Manual
 dispatch defaults to `build-only`.
 
 Ruby publication uses RubyGems Trusted Publishing through
-`.github/workflows/ruby-release.yml`. A `ruby/vX.Y.Z` tag must match
+`.github/workflows/release-ruby.yml`. A `ruby/vX.Y.Z` tag must match
 `language/ruby/VERSION`. Configure the pending trusted publisher with workflow
-filename `ruby-release.yml` and environment `rubygems`; the workflow runs
+filename `release-ruby.yml` and environment `rubygems`; the workflow runs
 conformance, the API snapshot, the native tests, builds the gem, and pushes it
 with a short-lived RubyGems token. Manual dispatch defaults to `build-only`.
 
-Lua publication uses `.github/workflows/lua-release.yml`. A `lua/vX.Y.Z` tag
+Lua publication uses `.github/workflows/release-lua.yml`. A `lua/vX.Y.Z` tag
 must match `language/lua/VERSION` and the `praxo-core-X.Y.Z-1.rockspec`. The
 build job runs conformance, the API snapshot, and native tests, then packs the
 source rock, installs it into a clean tree, and runs the installed smoke before
@@ -181,25 +181,25 @@ uploading the artifact. Configure environment `luarocks` and repository secret
 `LUAROCKS_API_KEY`; the publish job skips an already published revision.
 Manual dispatch defaults to `build-only`.
 
-Perl publication uses `.github/workflows/perl-release.yml`. A `perl/vX.Y.Z` tag
+Perl publication uses `.github/workflows/release-perl.yml`. A `perl/vX.Y.Z` tag
 must match `language/perl/VERSION` and `Makefile.PL`. The build job runs the
 gates, builds and tests the distribution, and uploads the CPAN tarball.
 Configure environment `cpan` and secrets `PAUSE_USER` and `PAUSE_PASSWORD`.
 
-Haskell publication uses `.github/workflows/haskell-release.yml`. A
+Haskell publication uses `.github/workflows/release-haskell.yml`. A
 `haskell/vX.Y.Z` tag must match `language/haskell/praxo-core.cabal`; the build
 job runs the native tests and `cabal sdist`. Configure environment `hackage` and
 secret `HACKAGE_TOKEN`.
 
-Elixir publication uses `.github/workflows/elixir-release.yml` for both the Hex
+Elixir publication uses `.github/workflows/release-elixir.yml` for both the Hex
 package and HexDocs. A `elixir/vX.Y.Z` tag must match `language/elixir/VERSION`;
 configure environment `hex` and secret `HEX_API_KEY`.
 
-Julia registration uses `.github/workflows/julia-release.yml` for tag
+Julia registration uses `.github/workflows/release-julia.yml` for tag
 validation and tests, then JuliaRegistrator for the General Registry pull
 request. No repository secret is required.
 
-R uses `.github/workflows/r-release.yml` for `R CMD build` and `R CMD check`.
+R uses `.github/workflows/release-r.yml` for `R CMD build` and `R CMD check`.
 r-universe builds from the GitHub repository and `language/r` subdirectory; CRAN
 submission is a separate manual review after the same checks pass.
 
@@ -207,11 +207,11 @@ Nim publication uses the `nim-lang/packages` pull-request list with
 `"subdir": "language/nim"`; Nimble derives versions from Git tags. PowerShell
 Core publication builds the C# Core, bundles `Praxo.Core.dll`, runs wrapper and
 API snapshot checks, and publishes `praxo-core-ps` through
-`.github/workflows/powershell-release.yml` with environment
+`.github/workflows/release-powershell.yml` with environment
 `powershell-gallery` and secret `PSGALLERY_API_KEY`. The bridge package
-`praxo-core-ps-br` is built by `.github/workflows/powershell-bridge-release.yml`
+`praxo-core-ps-br` is built by `.github/workflows/release-powershell-bridge.yml`
 with bundled `cmd/praxo-bridge` binaries for Linux, Windows, and macOS. Objective-C publication
-uses `.github/workflows/cocoapods-release.yml` with environment `cocoapods` and
+uses `.github/workflows/release-cocoapods.yml` with environment `cocoapods` and
 secret `COCOAPODS_TRUNK_TOKEN`. Swift, V, and bridge packages require the
 split-repository or package-format steps recorded in each implementation's
 `PUBLISHING.md`.

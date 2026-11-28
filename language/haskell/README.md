@@ -11,7 +11,7 @@ middleware, JSON Schema validation, plugin manifest parsing, and runtime helpers
 - Local gate: all eleven shared vector groups, native regression tests, and
   source API/parity checks.
 - Linux and Windows CI run the full suite. Hackage publication uses
-  `.github/workflows/haskell-release.yml`; production readiness is not implied
+  `.github/workflows/release-haskell.yml`; production readiness is not implied
   by the source tag.
 
 PRAXO-CORE (also written praxocore) provides an embeddable, MIT-licensed agent framework for Haskell, with tool calling, policy hooks, human-in-the-loop approval, checkpoints, and execution events. Use the language-specific scope and verification evidence below; a package listing does not establish Go feature parity or production readiness.

@@ -111,7 +111,7 @@ class CiExecutionTests(unittest.TestCase):
                 self.assertEqual(selected_jobs([file], "ci.yml", "push"), set())
 
     def test_portfolio_unique_commands_moved_to_ordinary_owners(self):
-        cases = {"ci-extended.yml": {"php-conformance": "php language/php/tests/plugin_process.php",
+        cases = {"ci-php.yml": {"php-conformance": "php language/php/tests/plugin_process.php",
                                      "php-windows-conformance": "php language/php/tests/plugin_process.php"},
                  "ci-java.yml": {"java-conformance": "com.axisvela.praxo.plugin.ProcessHostSelfTest"},
                  "ci-native.yml": {"cpp-conformance": "praxo-cpp-plugin-process"},
@@ -174,7 +174,7 @@ class CiExecutionTests(unittest.TestCase):
         self.assertEqual(values["labs"], "true")
         self.assertEqual(json.loads(values["languages"]), [])
         self.assertIn("behavior-lab", selected_jobs(files, "ci-labs.yml"))
-        for workflow_name in ("ci-python.yml", "ci-java.yml", "ci-extended.yml", "ci-applications.yml"):
+        for workflow_name in ("ci-python.yml", "ci-java.yml", "ci-php.yml", "ci-applications.yml"):
             self.assertEqual(selected_jobs(files, workflow_name), set())
 
     def test_all_selected_runtime_jobs_stay_within_the_changed_sdk(self):
@@ -202,7 +202,7 @@ class CiExecutionTests(unittest.TestCase):
         self.assertEqual(active_steps([], "ci-examples.yml", "example-sdks", "workflow_dispatch"), job["steps"])
 
     def test_php_package_scripts_are_scoped_and_tests_are_not_swallowed(self):
-        job = workflow("ci-extended.yml")["jobs"]["php-package"]
+        job = workflow("ci-php.yml")["jobs"]["php-package"]
         self.assertEqual(job["runs-on"], "ubuntu-latest")
         setup = next(step for step in job["steps"] if step.get("uses", "").startswith("shivammathur/setup-php@"))
         self.assertEqual(setup["with"]["tools"], "composer")
@@ -214,13 +214,13 @@ class CiExecutionTests(unittest.TestCase):
             self.assertEqual(values["full"], "false")
             self.assertEqual(json.loads(values["languages"]), [language])
             if language == "php":
-                self.assertIn("php-package", selected_jobs([file], "ci-extended.yml"))
+                self.assertIn("php-package", selected_jobs([file], "ci-php.yml"))
                 for name in ("ci.yml", "ci-python.yml", "ci-java.yml", "ci-native.yml"):
                     self.assertFalse(workflow_triggered([file], name), name)
             else:
                 self.assertIn("ocaml-conformance", selected_jobs([file], "ci-optional2.yml"))
                 self.assertTrue(workflow_triggered([file], "ocaml-package.yml"))
-                self.assertFalse(workflow_triggered([file], "ci-extended.yml"))
+                self.assertFalse(workflow_triggered([file], "ci-php.yml"))
         docs = workflow("docs.yml")["jobs"]["build"]["steps"]
         self.assertFalse(any('discover -s scripts -t . -p "test_*.py"' in step.get("run", "") for step in docs))
         self.assertTrue(any("test_ci_execution" in step.get("run", "") for step in docs))
@@ -248,7 +248,7 @@ class CiExecutionTests(unittest.TestCase):
             self.assertEqual(len(owners), 1, (name, owners))
 
     def test_representative_runner_counts(self):
-        cases = {"README.md": (1, 3), "language/python/Tutorial/bug-repair/README.md": (5, 8),
+        cases = {"README.md": (1, 3), "language/python/Tutorial/bug-repair/README.md": (4, 7),
                  "language/php/src/Agent.php": (9, 13), "language/python/praxo/agent.py": (9, 13),
                  "language/java/application/src/main/java/App.java": (3, 7),
                  "language/php/examples/consumer/composer.json": (10, 13),

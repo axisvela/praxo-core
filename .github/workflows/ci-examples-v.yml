@@ -1,0 +1,120 @@
+name: ci-examples-v
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "language/v/**"
+      - ".github/workflows/ci-examples-v.yml"
+      - "!language/**/AGENTS.md"
+      - "!language/**/CONTRIBUTING.md"
+      - "!language/**/LICENSE.md"
+      - "!language/**/PUBLISHING.md"
+      - "!language/**/README.md"
+      - "!language/**/README.pod"
+      - "!language/**/README.zh-CN.md"
+      - "!language/**/REGISTRY.md"
+      - "!language/**/SECURITY.md"
+      - "!language/**/llms.md"
+      - "!language/**/llms.txt"
+      - "!language/**/README*.md"
+      - "!language/**/CHANGELOG*.md"
+      - "!language/**/docs/**/*.md"
+  pull_request:
+    paths:
+      - "language/v/**"
+      - ".github/workflows/ci-examples-v.yml"
+      - "!language/**/AGENTS.md"
+      - "!language/**/CONTRIBUTING.md"
+      - "!language/**/LICENSE.md"
+      - "!language/**/PUBLISHING.md"
+      - "!language/**/README.md"
+      - "!language/**/README.pod"
+      - "!language/**/README.zh-CN.md"
+      - "!language/**/REGISTRY.md"
+      - "!language/**/SECURITY.md"
+      - "!language/**/llms.md"
+      - "!language/**/llms.txt"
+      - "!language/**/README*.md"
+      - "!language/**/CHANGELOG*.md"
+      - "!language/**/docs/**/*.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' || github.event_name == 'push' }}
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      full: ${{ steps.filter.outputs.full }}
+      core: ${{ steps.filter.outputs.core }}
+      docs: ${{ steps.filter.outputs.docs }}
+      examples: ${{ steps.filter.outputs.examples }}
+      consumers: ${{ steps.filter.outputs.consumers }}
+      adapters: ${{ steps.filter.outputs.adapters }}
+      languages: ${{ steps.filter.outputs.languages }}
+      applications: ${{ steps.filter.outputs.applications }}
+      tutorials: ${{ steps.filter.outputs.tutorials }}
+      example_languages: ${{ steps.filter.outputs.example_languages }}
+      labs: ${{ steps.filter.outputs.labs }}
+      compatibility_languages: ${{ steps.filter.outputs.compatibility_languages }}
+      behavior_languages: ${{ steps.filter.outputs.behavior_languages }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: filter
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          REF_TYPE: ${{ github.ref_type }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PUSH_BEFORE: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.sha }}
+          WORKFLOW_FILE: .github/workflows/ci-examples-v.yml
+        run: python -m scripts.ci.ci_changes
+
+  v-examples:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'v')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install V 0.5.2
+        run: |
+          curl -L -o v_linux.zip https://github.com/vlang/v/releases/download/0.5.2/v_linux.zip
+          echo '86caf9e70c3342d48ef19eb4f6c47b709f18c90ae86255520d5c29df6b482e23  v_linux.zip' | sha256sum --check
+          unzip -q v_linux.zip
+          curl -L -o v-src.zip https://codeload.github.com/vlang/v/zip/refs/tags/0.5.2
+          unzip -q v-src.zip
+          cp -R v-0.5.2/vlib/x/json2 v/vlib/x/json2
+          echo "VROOT=$PWD/v" >> "$GITHUB_ENV"
+          echo "$PWD/v" >> "$GITHUB_PATH"
+      - run: v version
+      - run: v -path "language/v|@vlib|@vmodules" language/v/examples/retry/retry.v
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.example_languages), 'v')
+      - run: v -path "language/v|@vlib|@vmodules" language/v/examples/checkpoint/checkpoint.v
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.example_languages), 'v')
+      - run: v -path "language/v|@vlib|@vmodules" language/v/examples/event-sink/event_sink.v
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.example_languages), 'v')
+      - run: v -path "language/v|@vlib|@vmodules" language/v/examples/provider-fallback/fallback.v
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.example_languages), 'v')
+      - run: v -path "language/v|@vlib|@vmodules" language/v/examples/structured-output/structured_output.v
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.example_languages), 'v')
+      - run: v -path "language/v|@vlib|@vmodules" language/v/examples/streaming/streaming.v
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.example_languages), 'v')
+      - run: v -path "language/v|@vlib|@vmodules" language/v/examples/identity-policy/identity_policy.v
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.example_languages), 'v')
+      - run: v -path "language/v|@vlib|@vmodules" language/v/examples/service/service.v
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.example_languages), 'v')
+      - run: v -path "language/v|@vlib|@vmodules" language/v/examples/mcp/mcp.v
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.example_languages), 'v')
+      - run: v -path "language/v|@vlib|@vmodules" language/v/examples/session-checkpoint/starter.v
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.example_languages), 'v')
+      - run: v -path "language/v|@vlib|@vmodules" language/v/examples/hitl/hitl.v
+        if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.example_languages), 'v')
+

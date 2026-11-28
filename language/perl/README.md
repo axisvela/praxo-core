@@ -218,7 +218,7 @@ delivery. Use HTTPS and filter sensitive event data first.
 ## Release
 
 Tag shape: `perl/v0.6.0`. The tag targets `SPEC_VERSION` `0.2.0`. CPAN
-publication uses `.github/workflows/perl-release.yml`; see
+publication uses `.github/workflows/release-perl.yml`; see
 [PUBLISHING.md](PUBLISHING.md).
 
 

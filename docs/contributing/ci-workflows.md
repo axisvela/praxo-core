@@ -18,14 +18,12 @@ CI is split by path so a language-only change does not run the full matrix.
 | `ci-java.yml` | Java conformance, consumer, Kotlin/Scala/Groovy/Clojure samples | `language/java/**` |
 | `ci-rust.yml` | Rust conformance | `language/rust/**` |
 | `ci-dotnet.yml` | C# conformance and PowerShell Core | `language/csharp/**`, `language/powershell/**` |
-| `ci-extended.yml` | Ruby, PHP, Elixir, Erlang, Lua | Their `language/<language>/**` paths |
+| `ci-ruby.yml`, `ci-php.yml`, `ci-elixir.yml`, `ci-erlang.yml`, `ci-lua.yml` | Per-language core, consumer, and package checks | That language's source paths |
 | `ci-native.yml` | C, C++, Fortran, COBOL, OpenCL sample | Their paths and `language/opencl/examples/**` |
 | `ci-optional.yml` | Haskell, Swift, Dart, Julia, R | Their `language/<language>/**` paths |
 | `ci-optional2.yml` | MATLAB, Octave, OCaml, Objective-C, Nim, V, D, Zig, Perl | Their `language/<language>/**` paths |
 | `ci-adapters.yml` | Adapter modules and adapter module-security | `adapters/**` |
-| `ci-additional.yml` | Dart, Perl, D, Delphi example matrix | Their example and SDK source dependencies |
-| `ci-additional2.yml` | PowerShell and MATLAB/Octave example matrix | Their example and shared-runtime dependencies |
-| `ci-additional3.yml` | Swift, Julia, Haskell, OCaml, Nim, V, Zig, Objective-C example matrix | Their example and SDK source dependencies |
+| `ci-examples-<language>.yml` | Per-language example matrix | That language's `examples/**` paths and shared-runtime inputs |
 | `ci-examples.yml` | Go examples, SDK examples, Go consumer and recipes | `language/go/examples/**` and selected language example paths |
 | `docs.yml` | Documentation build, registry checks, consumer pins | `docs/**`, metadata, selected scripts and workflows |
 | `ci-applications.yml` | Reference applications | Application directories and Go/core dependencies |
@@ -33,7 +31,7 @@ CI is split by path so a language-only change does not run the full matrix.
 | `ci-labs.yml` | Behavior and compatibility labs | Lab/core changes, schedule, manual dispatch |
 | `ci-bridge.yml` | Go bridge and shared-runtime bindings | Bridge and Go/core dependencies |
 
-`portfolio.yml` is outside the `ci*.yml` generator and runs only on schedule or manual dispatch. `ci.yml` is the small release gate; language and tutorial workflows own their ordinary checks, so a PHP tutorial change does not materialize unrelated tutorial checks. Workflow names encode the layer and subject; job names retain the language/topic prefix.
+Release workflows use `release-<language>.yml`. `portfolio.yml` is outside the `ci*.yml` generator and runs only on schedule or manual dispatch. `ci.yml` is the small release gate; language and tutorial workflows own their ordinary checks, so a PHP tutorial change does not materialize unrelated tutorial checks. Workflow names encode the layer and subject; job names retain the language/topic prefix.
 
 Shared changes under `spec/` and `.github/actions/`, plus scripts without an
 explicit docs-only scope, still trigger full test matrices. Known documentation,

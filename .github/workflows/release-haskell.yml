@@ -1,4 +1,4 @@
-name: haskell-release
+name: release-haskell
 
 on:
   push:

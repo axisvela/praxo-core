@@ -1,4 +1,4 @@
-name: dart-release
+name: release-dart
 
 on:
   push:

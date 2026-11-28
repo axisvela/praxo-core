@@ -1,4 +1,4 @@
-name: lua-release
+name: release-lua
 
 on:
   push:

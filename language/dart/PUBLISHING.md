@@ -30,7 +30,7 @@ the package but is not allowed by pub.dev to publish.
 
 ## Repository configuration
 
-- Workflow: `.github/workflows/dart-release.yml`
+- Workflow: `.github/workflows/release-dart.yml`
 - Package directory: `language/dart`
 - Version sources: `language/dart/VERSION` and `language/dart/pubspec.yaml`
 - Tag shape: `dart/vX.Y.Z`

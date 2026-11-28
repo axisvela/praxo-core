@@ -1,4 +1,4 @@
-name: ruby-release
+name: release-ruby
 
 on:
   push:

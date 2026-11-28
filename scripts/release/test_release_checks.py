@@ -289,7 +289,7 @@ class ReleaseChecksTests(unittest.TestCase):
             self.assertEqual(text.count(f'- "{pattern}"'), 1, pattern)
 
     def test_python_release_uses_trusted_publishing(self):
-        text = (ROOT / ".github/workflows/python-release.yml").read_text(encoding="utf-8")
+        text = (ROOT / ".github/workflows/release-python.yml").read_text(encoding="utf-8")
         for expected in (
             '"python/v*"',
             "workflow_dispatch:",
@@ -310,7 +310,7 @@ class ReleaseChecksTests(unittest.TestCase):
         self.assertNotIn("password:", text)
 
     def test_java_tag_push_builds_without_publishing_to_maven(self):
-        text = (ROOT / ".github/workflows/java-release.yml").read_text(encoding="utf-8")
+        text = (ROOT / ".github/workflows/release-java.yml").read_text(encoding="utf-8")
         publish = text.split("\n  publish:\n", 1)[1]
         self.assertIn(
             "if: github.event_name == 'workflow_dispatch' && inputs.target == 'publish'",
@@ -321,7 +321,7 @@ class ReleaseChecksTests(unittest.TestCase):
         self.assertIn("          - publish\n", text)
 
     def test_typescript_release_uses_trusted_or_staged_publish(self):
-        text = (ROOT / ".github/workflows/typescript-release.yml").read_text(encoding="utf-8")
+        text = (ROOT / ".github/workflows/release-typescript.yml").read_text(encoding="utf-8")
         for expected in (
             '"typescript/v*"',
             "default: build-only",
