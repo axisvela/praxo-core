@@ -63,16 +63,16 @@ Kotlin、VB.NET、Scala 等仅示例实现保留在本仓库，作为宿主 Core
 | 语言 | 源码标签 | 注册表版本 | 消费者安装 smoke |
 | --- | --- | --- | --- |
 | Go | 2.11.3 | Go proxy `v2.11.3` | 版本一致；README 已更新 |
-| Python | `python/v0.11.2` | PyPI `praxo-core==0.11.2` 已发布 | 历史 docs CI 升级到 `0.10.0` 通过；未记录 `0.11.2` smoke |
-| TypeScript | `typescript/v0.10.1` | npm `@axisvela/praxo-core@0.10.1` 已作为 `latest` 发布 | 历史 docs CI 升级到 `0.9.0` 通过；未记录 `0.10.1` smoke |
-| Java | `java/v0.12.3` | Maven Central `com.axisvela:praxo-core:0.12.3` 已发布 | 历史 `0.11.0` docs CI 安装在 2026-11-20 通过（run `44731906136`）；未记录 `0.12.3` consumer smoke |
+| Python | `python/v0.11.2` | PyPI `praxo-core==0.11.2` 已发布 | 2026-11-28 的 CI consumer 安装 `0.11.2` 通过（run `46139709448`） |
+| TypeScript | `typescript/v0.10.1` | npm `@axisvela/praxo-core@0.10.1` 已作为 `latest` 发布 | 2026-11-28 的 CI consumer 安装 `0.10.1` 通过（run `46139709525`） |
+| Java | `java/v0.12.3` | Maven Central `com.axisvela:praxo-core:0.12.3` 已发布 | 2026-11-28 的 CI consumer 安装 `0.12.3` 通过（run `46139709481`）；本地 Windows JVM 启动器仍受阻 |
 | Rust | `rust/v0.11.1` | crates.io `praxo-core==0.11.1` 已发布 | README 已包含场景教程、参考应用状态和社区链接 |
 | C# | `csharp/v0.11.1` | NuGet `Praxo.Core==0.11.1` 已发布 | `0.9.1` 安装为历史记录；未记录 `0.11.1` smoke |
-| Elixir | `elixir/v0.11.1` | Hex `praxo_core==0.11.1` 已发布 | README 已重排并包含教程、参考应用状态和社区信息 |
+| Elixir | `elixir/v0.11.1` | Hex `praxo_core==0.11.1` 已发布 | 2026-11-28 的 CI consumer 安装 `0.11.1` 通过（run `46139709471`） |
 | Erlang | `erlang/v0.10.1` | Hex `praxo_core_erlang==0.10.1` 已发布 | README 包含场景教程、参考应用状态和社区信息 |
-| Ruby | `ruby/v0.10.2` | RubyGems `praxo-core==0.10.2` 已发布 | 历史 CI 在 2026-11-21 通过 `0.9.2` allow/deny（run `44913820352`）；未记录 `0.10.2` smoke |
-| Lua | `lua/v0.9.1` | LuaRocks `praxo-core==0.9.1-1` 已发布 | `0.9.1-1` 增加与 README 同步的 rockspec 描述；未记录 `0.9.0-1` smoke |
-| PHP | `php/v0.10.1` | Packagist `axisvela/praxo-core==0.10.1` 已发布 | 历史 Composer 于 2026-11-18 通过 `0.8.1` allow/deny；未记录 `0.10.1` smoke |
+| Ruby | `ruby/v0.10.2` | RubyGems `praxo-core==0.10.2` 已发布 | 2026-11-28 的 CI consumer 安装 `0.10.2` 通过（run `46139709569`） |
+| Lua | `lua/v0.9.1` | LuaRocks `praxo-core==0.9.1-1` 已发布 | 2026-11-28 的 CI consumer 安装 `0.9.1-1` 通过（run `46139709699`） |
+| PHP | `php/v0.10.2` | Packagist `axisvela/praxo-core==0.10.2` 已发布 | 2026-11-28 的全新外部 Composer 安装与 allow/deny 通过（run `46139709613`）；`0.10.1` 损坏 |
 | Dart | `dart/v0.8.2` | pub.dev `praxo_core==0.8.2` 已发布 | 公共 API 已有 dartdoc 注释覆盖 |
 | D | `d/v0.8.0` | DUB `praxo-core==0.8.0` 已发布 | 未记录 `0.8.0` 消费者 smoke |
 | Swift | `swift/v0.9.0` | SPI split 包 `0.9.0` 已索引（含流式范围） | 本地 Windows 完整测试受阻；typecheck 通过；未记录消费者 smoke |

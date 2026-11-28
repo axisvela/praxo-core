@@ -91,16 +91,16 @@ acceptance, and no new consumer smoke or remote correction is claimed here.
 | Language | Source tag | Registry version | Consumer install smoke |
 | --- | --- | --- | --- |
 | Go | 2.11.3 | Go proxy `v2.11.3` | version matches; README updated |
-| Python | `python/v0.11.2` | PyPI `praxo-core==0.11.2` published | Historical docs CI upgrade to `0.10.0` passed; `0.11.2` consumer smoke not recorded |
-| TypeScript | `typescript/v0.10.1` | npm `@axisvela/praxo-core@0.10.1` published as `latest` | Historical docs CI upgrade to `0.9.0` passed; `0.10.1` consumer smoke not recorded |
-| Java | `java/v0.12.3` | Maven Central `com.axisvela:praxo-core:0.12.3` published | Historical `0.11.0` docs CI install passed on 2026-11-20 (run `44731906136`); `0.12.3` consumer smoke not recorded |
+| Python | `python/v0.11.2` | PyPI `praxo-core==0.11.2` published | CI consumer install for `0.11.2` passed on 2026-11-28 (run `46139709448`) |
+| TypeScript | `typescript/v0.10.1` | npm `@axisvela/praxo-core@0.10.1` published as `latest` | CI consumer install for `0.10.1` passed on 2026-11-28 (run `46139709525`) |
+| Java | `java/v0.12.3` | Maven Central `com.axisvela:praxo-core:0.12.3` published | CI consumer install for `0.12.3` passed on 2026-11-28 (run `46139709481`); the local Windows JVM launcher remains blocked |
 | Rust | `rust/v0.11.1` | crates.io `praxo-core==0.11.1` published | README now includes scenario tutorials, reference-application status, and community links |
 | C# | `csharp/v0.11.1` | NuGet `Praxo.Core==0.11.1` published | Published-package install for `0.9.1` is historical; `0.11.1` smoke not recorded |
-| Elixir | `elixir/v0.11.1` | Hex `praxo_core==0.11.1` published | README reordered with tutorials, reference-application status, and community |
+| Elixir | `elixir/v0.11.1` | Hex `praxo_core==0.11.1` published | CI consumer install for `0.11.1` passed on 2026-11-28 (run `46139709471`) |
 | Erlang | `erlang/v0.10.1` | Hex `praxo_core_erlang==0.10.1` published | README includes scenario tutorials, reference-application status, and community |
-| Ruby | `ruby/v0.10.2` | RubyGems `praxo-core==0.10.2` published | Historical CI allow/deny passed for `0.9.2` on 2026-11-21 (run `44913820352`); `0.10.2` smoke not recorded |
-| Lua | `lua/v0.9.1` | LuaRocks `praxo-core==0.9.1-1` published | `0.9.1-1` adds the README-synced rockspec description; `0.9.0-1` smoke not recorded |
-| PHP | `php/v0.10.1` | Packagist `axisvela/praxo-core==0.10.1` published | Historical Composer allow/deny passed for `0.8.1` on 2026-11-18; `0.10.1` smoke not recorded |
+| Ruby | `ruby/v0.10.2` | RubyGems `praxo-core==0.10.2` published | CI consumer install for `0.10.2` passed on 2026-11-28 (run `46139709569`) |
+| Lua | `lua/v0.9.1` | LuaRocks `praxo-core==0.9.1-1` published | CI consumer install for `0.9.1-1` passed on 2026-11-28 (run `46139709699`) |
+| PHP | `php/v0.10.2` | Packagist `axisvela/praxo-core==0.10.2` published | Fresh external Composer install and allow/deny passed for `0.10.2` on 2026-11-28 (run `46139709613`); `0.10.1` is broken |
 | Dart | `dart/v0.8.2` | pub.dev `praxo_core==0.8.2` published | public API has dartdoc coverage |
 | D | `d/v0.8.0` | DUB `praxo-core==0.8.0` published | Consumer smoke not recorded for `0.8.0` |
 | Swift | `swift/v0.9.0` | SPI split package `0.9.0` indexed with streaming scope | Local Windows full test blocked; typecheck passed; consumer smoke not recorded |

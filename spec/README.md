@@ -51,7 +51,11 @@ transaction schema.
    still passes the existing vectors. The additive optional-field allowance for
    Go structs in the compatibility policy does not by itself authorize a shared
    wire addition.
-3. A behavioral change requires a vector update and a minor release of the Core implementation.
+3. A behavioral change requires a vector update. A backward-compatible
+   behavioral change requires a minor release; a change to documented valid
+   input, a documented default, or a promised behavior follows the
+   [compatibility policy](../docs/project/status/compatibility-policy.md) and may
+   require a major release or an explicit compatibility path.
 4. A Core implementation may not implement a contract capability that the Go reference lacks.
 5. Source APIs map one-to-one but use idiomatic names. They are not required to
    be name-identical.

@@ -159,6 +159,27 @@ Core implementations. Go remains the reference implementation.
   defined in [Contract and Evidence Status](contract-status.md); they do not
   replace the coverage labels in `spec/parity.md`.
 
+### Stability Stages
+
+A Core implementation can declare a stable API before it publishes `1.0`; the
+declared source and package scope define the promise, not the version string.
+Apply these rules per implementation, not to the language matrix as a whole:
+
+- `0.x`: a breaking source or behavioral change requires a minor release and a
+  migration note. A patch must not silently break documented valid usage.
+- `1.x` and later:
+  - a patch release may correct behavior only when the correction meets the
+    evidence rules in [Behavioral and Validation Changes](#behavioral-and-validation-changes);
+  - a backward-compatible addition is a minor release;
+  - a change to documented valid input, a documented default, event ordering,
+    lifecycle semantics, or wire behavior requires a major release or a
+    documented opt-in compatibility path.
+- `SPEC_VERSION` is versioned independently of any SDK release.
+- `complete` in the
+  [language matrix](https://github.com/axisvela/praxo-core/blob/main/spec/languages.md)
+  records declared-scope conformance. It does not raise a version, publish a
+  package, or change these rules.
+
 ## Release Gates
 
 A release candidate must pass:
