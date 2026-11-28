@@ -74,6 +74,52 @@ this framework.
 
 ## Build And Test
 
+### CI Resource Discipline
+
+- A small change must not launch unrelated language, tutorial, or application
+  matrices. Use workflow path filters and dependency-aware job filters before
+  matrix expansion; maintain `scripts/ci_changes.py` and regenerate routing with
+  `python scripts/sync_ci_routing.py` when changing workflow dependencies.
+- Documentation, README, registry/discovery metadata, and known documentation
+  generators should run their lightweight checks, not all SDK runtime suites.
+  Preserve required checks for actual shared-contract and runtime dependencies.
+- Test representative routing decisions when adding paths or workflows. Include
+  docs-only, single-SDK, application-only, and shared-contract changes.
+- Cancel superseded push/PR test runs. Keep publication, deployment, and mirror
+  writes serialized rather than cancelling them halfway through a write.
+- Prefer focused local checks and rerunning a specific failed job. Do not dispatch
+  a full portfolio or rerun hundreds of successful jobs for one failure. Reserve
+  broad verification for shared changes, explicit full runs, and release needs.
+- Verify the packaged artifact in an isolated consumer, including allow/deny,
+  before publication. Source tests and a successful upload do not prove that a
+  split archive contains every required runtime file.
+
+### Discovery And Publication Content
+
+- Introduce the product as `praxo-core (praxocore)` or
+  `PRAXO-CORE (praxo-core, praxocore)` so both searchable names are present.
+  Preserve existing package names, imports, URLs, and semantic-version tags.
+- Optimize SEO and generative-engine discovery with accurate product identity,
+  aliases, supported capabilities, language/runtime, canonical links, useful
+  examples, and explicit limitations. Do not claim search ranking or adoption
+  gains without measured evidence; avoid irrelevant keyword stuffing.
+- Registry publication must include rich, relevant ecosystem-native keywords,
+  topics, or tags where supported. Respect registry limits and validate the
+  published artifact and rendered page, not only source metadata.
+- Maintain relevant topics and descriptions on the canonical repository and all
+  discovery mirrors and publication-source split repositories. Include both
+  `praxo-core` and `praxocore`; use language/capability topics that match actual
+  support. Search topics/tags are separate from immutable release-version tags.
+- README and registry introductions must be complete and sensibly ordered:
+  product description and fit; getting started and installation; runnable
+  examples; scenario tutorials; reference applications and their actual status;
+  capabilities and limits; community and support links. Put a useful first run
+  before large capability matrices. State planned or unavailable sections rather
+  than implying implementation or acceptance.
+- Keep root, bilingual, per-language, mirror/split, package-description, and
+  coding-agent entries aligned through the existing metadata generators. Run
+  their drift and discovery checks; audit registry rendering after publication.
+
 ### Local Toolchain Locations
 
 Local toolchains are installed under `D:\dev`. Reuse the existing portable
