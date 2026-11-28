@@ -91,24 +91,30 @@ class PhpPackageTests(unittest.TestCase):
         ]
         for arguments in commands:
             subprocess.run(["git", "-C", str(self.output), *arguments], check=True, capture_output=True)
-        (self.output / "old.php").write_text("old runtime", encoding="utf-8")
-        subprocess.run(["git", "-C", str(self.output), "add", "old.php"], check=True, capture_output=True)
+        (self.output / "src").mkdir()
+        (self.output / "src/Old.php").write_text("old runtime", encoding="utf-8")
+        (self.output / "examples").mkdir()
+        (self.output / "examples/keep.php").write_text("published example", encoding="utf-8")
+        (self.output / "PUBLISHING.md").write_text("published guide", encoding="utf-8")
+        subprocess.run(["git", "-C", str(self.output), "add", "-A"], check=True, capture_output=True)
         subprocess.run(["git", "-C", str(self.output), "-c", "user.name=Package Test",
                         "-c", "user.email=package-test@example.com", "commit", "--quiet", "-m", "fixture"],
                        check=True, capture_output=True)
 
-    def test_sync_replaces_clean_split_and_preserves_git(self):
+    def test_sync_replaces_managed_split_paths_and_preserves_other_content(self):
         self.split_checkout()
         package.sync_checkout(self.output, self.files)
         self.assertTrue((self.output / ".git").is_dir())
-        self.assertFalse((self.output / "old.php").exists())
-        package.check(self.output, self.files)
+        self.assertFalse((self.output / "src/Old.php").exists())
+        self.assertEqual((self.output / "examples/keep.php").read_text(), "published example")
+        self.assertEqual((self.output / "PUBLISHING.md").read_text(), "published guide")
+        package.check(self.output, self.files, managed_only=True)
 
     def test_sync_refuses_unexpected_or_dirty_checkout_before_writing(self):
         with self.assertRaisesRegex(ValueError, "standalone Git"):
             package.sync_checkout(self.output, self.files)
         self.split_checkout()
-        original = (self.output / "old.php").read_bytes()
+        original = (self.output / "examples/keep.php").read_bytes()
         subprocess.run(["git", "-C", str(self.output), "remote", "set-url", "origin", "https://example.com/unrelated.git"],
                        check=True, capture_output=True)
         with self.assertRaisesRegex(ValueError, "unexpected split remote"):
@@ -118,7 +124,7 @@ class PhpPackageTests(unittest.TestCase):
         (self.output / "local.php").write_text("user work", encoding="utf-8")
         with self.assertRaisesRegex(ValueError, "dirty split"):
             package.sync_checkout(self.output, self.files)
-        self.assertEqual((self.output / "old.php").read_bytes(), original)
+        self.assertEqual((self.output / "examples/keep.php").read_bytes(), original)
         self.assertEqual((self.output / "local.php").read_text(), "user work")
 
     def test_isolated_composer_consumer_and_missing_plugin_regression(self):

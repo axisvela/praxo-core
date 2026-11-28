@@ -40,13 +40,18 @@ def payload(root=ROOT):
     return version, files
 
 
-def check(output, files):
+def check(output, files, managed_only=False):
     if output.is_symlink() or not output.is_dir():
         raise ValueError(f"Not a regular package directory: {output}")
+    managed_files = set(DOCUMENTS) | {"composer.json"}
     actual = {}
     for path in output.rglob("*"):
         relative = path.relative_to(output)
         if relative.parts[0] == ".git":
+            continue
+        if managed_only and not (
+            relative.parts[0] in {"src", "api"} or relative.as_posix() in managed_files
+        ):
             continue
         if path.is_symlink():
             raise ValueError(f"Symlink is not a package file: {path}")
@@ -85,10 +90,17 @@ def sync_checkout(output, files):
         raise ValueError("Refusing to synchronize an unexpected split remote")
     if git("status", "--porcelain", "--untracked-files=all", "--ignored"):
         raise ValueError("Refusing to synchronize a dirty split checkout")
-    paths = [path for path in output.rglob("*") if ".git" not in path.relative_to(output).parts]
-    if any(path.is_symlink() for path in paths):
+    managed_roots = {Path("src"), Path("api")}
+    managed_files = set(DOCUMENTS) | {"composer.json"}
+    managed = [
+        path for path in output.rglob("*")
+        if ".git" not in path.relative_to(output).parts
+        and (path.relative_to(output).parts[0] in {root.name for root in managed_roots}
+             or path.relative_to(output).as_posix() in managed_files)
+    ]
+    if any(path.is_symlink() for path in managed):
         raise ValueError("Refusing symlinked split contents")
-    for path in sorted(paths, key=lambda item: len(item.parts), reverse=True):
+    for path in sorted(managed, key=lambda item: len(item.parts), reverse=True):
         if path.is_dir():
             path.rmdir()
         else:
@@ -97,7 +109,7 @@ def sync_checkout(output, files):
         target = output / name
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_bytes(data)
-    check(output, files)
+    check(output, files, managed_only=True)
 
 
 def main():
