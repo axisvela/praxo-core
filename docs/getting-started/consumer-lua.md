@@ -4,7 +4,7 @@ Use the published LuaRocks `praxo-core` `0.9.0-1` package in your own applicatio
 with Lua 5.4. No PRAXO-CORE source checkout, API key, model service, or AxisVela
 product is required. Installation needs LuaRocks access or a cached rock.
 
-This is an extended-language starter. It demonstrates the allow/deny path but is
+This is a consumer starter. It demonstrates the allow/deny path but is
 not one of the four pilot languages that carry the governed negative matrix.
 
 ## Choose the Boundary

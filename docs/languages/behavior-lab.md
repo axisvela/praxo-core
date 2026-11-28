@@ -3,10 +3,10 @@
 **Status:** evidence tooling, 2026-11-02. The lab is not a stable public API.
 
 The behavior lab runs named agent scenarios across sixteen wired
-implementations and writes one comparison report. The agent-capable tier is Go,
-Python, TypeScript, Java, Rust, R, and C#; the extended tier is C, PHP, Fortran,
-COBOL, Ruby, Elixir, Erlang, C++, and Lua. Other declared implementations are
-optional and outside the current behavior program. It answers a
+implementations and writes one comparison report. The wired set is Go, Python,
+TypeScript, Java, Rust, R, C#, C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang,
+C++, and Lua. Other declared implementations are outside the current behavior
+program. It answers a
 narrower question than the [compatibility lab](compatibility-lab.md): do the
 implementations make the same authorization, lifecycle, cancellation,
 validation, call-limit, parallel-tool execution, run isolation, PII,
@@ -17,40 +17,25 @@ It does not prove complete feature parity, provider behavior, live-service
 integration, production readiness, or security. A passing report compares the
 listed scenarios only.
 
-## Capability Tiers
+## Evidence Model
 
-Behavior tier is separate from contract tier. See the
-[support policy](support.md) for the definition.
+There is no capability tier. The lab records the evidence type for each cell:
 
-| Tier | Languages | Current status |
-| --- | --- | --- |
-| Agent-capable | Go, Python, TypeScript, Java, Rust, R, C# | 20/20 for every agent-capable implementation |
-| Extended | C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | All twenty scenarios for C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, C++, and Lua |
-| Optional | Other declared implementations | Outside the current behavior program |
+- Scenario-isolated evidence: a named test per scenario. The strict gate applies
+  to Go, Python, TypeScript, and Java.
+- Native-suite evidence: the full native suite covers the scenarios; a failure
+  is not isolated to one scenario.
+- Unsupported: a recorded gap, not a failure or a pass.
 
-R and C are now wired. C# and PHP include the three lifecycle scenarios, and R
-and C contribute native-suite coverage for the data and state scenarios their
-suites assert. COBOL `0.3.0` covers all twenty scenarios through its native
-suite; its parallel-tools case delegates concurrent execution to a
-caller-provided batch dispatcher, and the native test verifies the batch limit
-and ordered results rather than OS threads. Ruby `0.3.0` also reaches 20/20 with
-native-suite coverage for cancellation, stream callbacks, SSE truncation and
-half packets, bounded parallel tools, and run-scoped call limits. C++ `0.3.0`
-also reaches 20/20 with `std::async` parallel tools and native SSE parsing.
-Elixir `0.3.0` reaches 20/20 with `Task.async` parallel tools, cancellation,
-stream callbacks, and a native SSE parser. Erlang `0.3.0` reaches 20/20 with
-spawned-process parallel tools and the same lifecycle coverage. Lua `0.3.0`
-reaches 20/20 with caller-provided `batch_invoke` cooperative tools, cancellation,
-stream callbacks, and a native SSE parser. PHP `0.3.0` reaches 20/20 with
-caller-provided `batchToolInvoker` Fibers for parallel tools. Fortran `0.5.0`
-reaches 20/20 with cancellation, stream callbacks, a native SSE parser, and a
-caller-provided parallel batch callback.
+All sixteen wired languages cover all twenty scenarios in the source. Parallel
+tools for COBOL, Lua, PHP, and Fortran delegate concurrency to caller-provided
+batch callbacks. See the [matrix](behavior-lab-matrix.md) for every cell.
 
 ## Scope
 
 The table below shows scenario-isolated evidence for the four original core
-implementations. Agent-capable Rust, R, and C#, plus the wired extended
-languages, are reported in the [matrix](behavior-lab-matrix.md).
+implementations. Rust, R, C#, and the remaining wired
+languages are reported in the [matrix](behavior-lab-matrix.md).
 
 | Scenario | Behavior checked | Go | Python | TypeScript | Java |
 | --- | --- | --- | --- | --- | --- |
@@ -86,12 +71,12 @@ instead of treating group coverage as scenario-level evidence.
 task-end stream and `OnToolResult` still fire for every executed tool while the
 first error remains the batch result. This is not one of the twenty scenarios
 above and is not claimed for other implementations. Python, TypeScript, Java, and
-the extended languages do not expose the same `OnToolResult` and task-end stream
+the other wired languages do not expose the same `OnToolResult` and task-end stream
 surface; their parallel result-finishing path returns the first error and
 cross-language notification completeness remains unverified. See EC-01 in the
 [Execution Correctness Suite](../project/execution-correctness.md).
 
-## Extended Coverage
+## Native-suite coverage
 
 | Scenario | Rust | Fortran | COBOL | Ruby | Elixir | Erlang | C++ | PHP | C# | Lua |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -108,7 +93,7 @@ this cell alone. All sixteen wired languages now cover all twenty scenarios in
 the source; optional implementations remain outside this program.
 
 C# has native-suite coverage for `final-arguments`, `final-name`,
-`unchanged-single-auth`, and `initial-denial`. The extended languages have
+`unchanged-single-auth`, and `initial-denial`. The native-suite languages have
 native-suite coverage for all twenty scenarios, including cancellation, stream
 callback failure, SSE truncation and half packets, parallel tools, and run-state
 isolation. The full cell-by-cell matrix and per-language reports are in the
@@ -170,7 +155,7 @@ The [Behavior Lab Matrix](behavior-lab-matrix.md) reflects that report and links
 the [behavior job at `b6218e5`](https://github.com/axisvela/praxo-core/actions/runs/41407891314/job/125153985339).
 COBOL reaches 20/20 through native-suite coverage, with parallel tools delegated
 to a caller-provided batch dispatcher. Ruby, C++, Elixir, Erlang, Lua, PHP,
-Fortran, C, and the agent-capable SDKs also reach 20/20; all sixteen now include
+Fortran, C, and the other wired SDKs also reach 20/20; all sixteen now include
 the HITL decision scenario.
 
 ## Limits

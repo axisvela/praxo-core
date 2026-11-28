@@ -7,7 +7,7 @@ the fix for CVE-2026-111497. No PRAXO-CORE source checkout, API key, model servi
 or AxisVela product is required. Installation needs Packagist access or a cached
 Composer archive.
 
-This is an extended-language starter. It demonstrates the allow/deny path but is
+This is a consumer starter. It demonstrates the allow/deny path but is
 not one of the four pilot languages that carry the governed negative matrix.
 
 ## Choose the Boundary

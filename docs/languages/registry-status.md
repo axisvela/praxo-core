@@ -95,6 +95,6 @@ builder and isolated Composer checks pass 8 checks, alongside 166 native tests.
 | Zig | `zig/v0.9.0` | no central registry |
 | Tcl / Lisp / Prolog | `tcl/v0.1.0`, `lisp/v0.1.0`, `prolog/v0.1.1` | bridge packages; registry publication pending |
 
-Use the [support policy](support.md) for maturity, support level, and consumer
-smoke distinctions. Package-registry availability is not evidence of production
+Use the [support policy](support.md) for maturity, behavior evidence, and
+consumer-smoke distinctions. Package-registry availability is not evidence of production
 readiness.

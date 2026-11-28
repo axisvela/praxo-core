@@ -6,7 +6,7 @@
 CVE-2026-111497 修复。无需检出 PRAXO-CORE 源码、API Key、模型服务或 AxisVela 产品。
 安装需要 Packagist 访问或已有 Composer 缓存。
 
-这是扩展语言 starter，只演示 allow/deny 路径，不在四个具备治理负向矩阵的试点语言范围内。
+这是消费者 starter，只演示 allow/deny 路径，不在四个具备治理负向矩阵的试点语言范围内。
 
 ## 选择边界
 

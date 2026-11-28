@@ -43,22 +43,19 @@ implementation sequencing, not whether Framework is the final target. Shared vec
 do not replace tests for cancellation, concurrency, path containment, or other
 security-sensitive behavior.
 
-## Behavior Coverage Tiers
+## Behavior Evidence
 
-Contract conformance and agent-behavior coverage are separate. The behavior
-tiers are:
+Contract conformance and agent-behavior evidence are separate; there is no
+capability tier.
 
-| Tier | Languages | Rule |
-| --- | --- | --- |
-| Agent-capable | Go, Python, TypeScript, Java, Rust, R, C# | Target all twenty Behavior Lab scenarios. Missing cells must be explicit `unsupported` with a reason until covered. |
-| Extended | C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | Advance selected scenarios only with a named consumer and maintainer. Do not add a scenario or language solely to increase counts. |
-| Optional | Other declared implementations | No behavior work by default; promotion requires a named consumer, maintainer, and scenario evidence. |
-
-R and C are wired into the lab. C# and PHP are suite-level for selected
-scenarios, and R/C cover only the rows their native suites assert. A new
-scenario must be added to every agent-capable implementation or carry an
-explicit unsupported reason in the matrix. Suite-level coverage is not
-scenario-level evidence.
+- The wired set covers all twenty Behavior Lab scenarios.
+- Scenario-isolated evidence uses a named test per scenario and is strict-gated
+  for Go, Python, TypeScript, and Java.
+- Other wired implementations may use native-suite evidence; the matrix records
+  that the failure is not isolated to one scenario.
+- A new scenario must be added to the wired set or carry an explicit
+  `unsupported` reason in the matrix.
+- Implementations outside the lab keep contract conformance unchanged.
 
 ## Public Documentation
 

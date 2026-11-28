@@ -37,54 +37,37 @@ implementations such as Kotlin, VB.NET, and Scala remain in the monorepo as
 examples over their host Core; they do not need an independent repository or
 package unless promoted to a separately versioned Core.
 
-## Behavior Capability Tiers
+## Behavior Evidence
 
-Contract tier and behavior tier answer different questions. A language can be
-contract `Core` while its agent behavior is still partial, or remain outside the
-Behavior Lab entirely.
+All independently implemented Core SDKs in the current wired set are expected to
+cover the same declared agent behavior. There is no public capability tier.
+Contract delivery form (`Core`, `Wire`, `Bridge`, `Sample`) is separate from
+behavior evidence.
 
-| Behavior tier | Languages | Current target |
-| --- | --- | --- |
-| Agent-capable | Go, Python, TypeScript, Java, Rust, R, C# | Native agent loop in declared scope; selected for the twenty Behavior Lab scenarios |
-| Extended | C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | Contract or focused implementation; behavior coverage advances scenario by scenario with a named consumer and maintainer |
-| Optional | Other declared implementations | Outside the current Behavior Lab program; contract conformance is unchanged and behavior work requires a named consumer and maintainer |
+- The wired set is the language set whose tests run in the Behavior Lab.
+- Scenario-isolated evidence: a named test per scenario. The strict lab gate
+  applies to Go, Python, TypeScript, and Java.
+- Native-suite evidence: the full native suite covers the scenarios, but a
+  failure is not isolated to one scenario. The matrix records the evidence type
+  per cell.
+- All sixteen wired languages cover all twenty scenarios in the source.
+  Parallel tools for COBOL, Lua, PHP, and Fortran delegate concurrency to
+  caller-provided batch callbacks.
+- An unsupported cell is a recorded gap, not a failure or a pass.
 
-The 2026-11-02 source set covers sixteen wired languages: agent-capable Go,
-Python, TypeScript, Java, Rust, R, and C# plus the extended C, PHP, Fortran,
-COBOL, Ruby, Elixir, Erlang, C++, and Lua implementations. All sixteen wired
-languages cover all twenty scenarios. Parallel tools for COBOL, Lua, PHP, and
-Fortran are delegated to caller-provided batch callbacks; the Core itself does
-not create threads in those cases. See the
-[Behavior Lab matrix](behavior-lab-matrix.md) for every cell.
+See the [Behavior Lab matrix](behavior-lab-matrix.md) for every cell and
+evidence type. Contract maturity does not imply full behavior parity.
 
-The clean-tree CI run at `b6218e5` reported 320 passed, 0 unsupported, and no
-failures for the sixteen-language set. The matrix is generated from that report
-and links the same behavior job.
+## Support Model
 
-An unsupported cell is a recorded gap, not a failure and not a pass. Do not
-infer full behavior parity from `complete` contract maturity.
+All released Core implementations follow the same best-effort maintenance
+policy. There is no response-time SLA, full Go feature parity, or guarantee of
+every provider integration. Runtime, toolchain, registry, and verification
+limits are recorded per language in this matrix and the linked evidence pages.
 
-## Support Levels
-
-Maturity records completion of the declared scope. Support level records who is
-expected to respond to issues and security corrections; the two are independent.
-
-| Level | Meaning | Not implied |
-| --- | --- | --- |
-| `maintained` | Named maintainer or team, CI, and applicable security fixes | Response SLA, full Go parity, every provider |
-| `community` | Community maintainers, best-effort updates | Response time, security backport commitment |
-| `experimental` | Scope may change; no stability promise | Production use |
-| `deprecated` | No new features; migration path documented | Removal date unless stated |
-
-The matrix does not yet publish a support-level column for every row. Until a row
-records one, do not infer an official support commitment from `complete`, a
-source tag, or package-registry availability. Support levels will be added as
-maintainers confirm them.
-
-To record a support level, the responsible maintainer or team should provide the
-level, CI job, last verified tag or SHA, and the scope of applicable security
-fixes. Do not assign a support level on another person's behalf, and do not treat
-a merged implementation PR as a support commitment.
+Only a genuinely deprecated or experimental implementation should carry an
+explicit exception; do not infer one from contract maturity, a source tag, or
+registry availability.
 
 ## Versions and Distribution
 
@@ -202,7 +185,7 @@ installation index. Use the tables above and
   final-tool allowlist checks, reauthorization, lifecycle cleanup, cancellation,
   stream callbacks, a native SSE parser, and caller-provided batch tool dispatch.
   Rock revision `0.4.0-1` is built and published by
-  `.github/workflows/lua-release.yml`; LuaRocks also retains `0.3.0-1` and
+  `.github/workflows/release-lua.yml`; LuaRocks also retains `0.3.0-1` and
   `0.2.0-1`. The workflow installs the generated source rock in a clean tree and
   runs the installed smoke; registry install smoke is not yet recorded.
 - C# source tag `csharp/v0.5.0` adds the OpenAI-compatible model adapter,
@@ -256,7 +239,7 @@ installation index. Use the tables above and
 - Haskell has source tag `haskell/v0.3.0` with all eleven vector groups, native
   tests, API snapshot/parity, and runtime/middleware helpers. Hackage publishes
   `praxo-core==0.3.0`; the release workflow is
-  `.github/workflows/haskell-release.yml`. Production readiness is not claimed.
+  `.github/workflows/release-haskell.yml`. Production readiness is not claimed.
 - Delphi/Free Pascal has source tag `delphi/v0.3.0` with all eleven vector groups,
   native tests, and API snapshot/parity under Free Pascal 3.2.2. OPM assets
   are published on the `delphi/v0.3.0` GitHub release; maintainer submission

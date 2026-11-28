@@ -48,17 +48,17 @@ LABELS = {
         "sha": "Revision",
         "dirty": "Working tree dirty",
         "job": "CI job",
-        "tiers": "## Capability tiers",
+        "tiers": "## Evidence model",
         "tiers_intro": (
-            "The matrix now covers sixteen wired languages. Contract tier is separate "
-            "from behavior tier; see the [support policy](support.md)."
+            "The matrix covers sixteen wired languages. Contract delivery form is "
+            "separate from behavior evidence; there is no capability tier."
         ),
         "tiers_table": [
-            "| Tier | Languages | Current status |",
+            "| Evidence | Languages | Meaning |",
             "| --- | --- | --- |",
-            "| Agent-capable | Go, Python, TypeScript, Java, Rust, R, CSharp | Targets all twenty scenarios; current coverage varies by language |",
-            "| Extended | C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | Advances scenario by scenario with a named consumer and maintainer |",
-            "| Optional | Other declared implementations | Outside the current behavior program |",
+            "| Scenario-isolated | Go, Python, TypeScript, Java, and other cells marked S | Named test per scenario; strict-gated |",
+            "| Native suite | Cells marked native suite | Full native suite; failure is not isolated to one scenario |",
+            "| Outside lab | Other declared implementations | Contract conformance unchanged |",
         ],
         "legend": "## Matrix legend",
         "cell": "Cell",
@@ -105,17 +105,16 @@ LABELS = {
         "sha": "Revision",
         "dirty": "工作区未提交",
         "job": "CI 任务",
-        "tiers": "## 能力层级",
+        "tiers": "## 证据模型",
         "tiers_intro": (
-            "本矩阵现在覆盖十六个已接入语言。契约层级与行为层级相互独立；"
-            "定义见[支持政策](support.md)。"
+            "本矩阵覆盖十六个 wired 语言。契约交付形式与行为证据是不同维度；不存在能力层级。"
         ),
         "tiers_table": [
-            "| 层级 | 语言 | 当前状态 |",
+            "| 证据 | 语言 | 含义 |",
             "| --- | --- | --- |",
-            "| Agent-capable | Go、Python、TypeScript、Java、Rust、R、CSharp | 以全部二十个场景为目标；当前覆盖因语言而异 |",
-            "| Extended | C、PHP、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua | 在有明确消费者和维护者时逐场景推进 |",
-            "| Optional | 其他已声明实现 | 不在当前行为计划内 |",
+            "| 场景级 | Go、Python、TypeScript、Java，以及标记为 S 的其他单元格 | 每个场景有独立测试；严格门禁 |",
+            "| 原生套件 | 标记为 native suite 的单元格 | 完整原生套件；失败不能定位到单一场景 |",
+            "| 实验外 | 其他已声明实现 | 契约一致性不变 |",
         ],
         "legend": "## 矩阵图例",
         "cell": "单元格",

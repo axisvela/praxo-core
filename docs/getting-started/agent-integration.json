@@ -66,7 +66,7 @@
       "guide": "docs/getting-started/consumer-ruby.md",
       "verify": "bundle exec ruby test_starter.rb",
       "governed": null,
-      "scope": "Extended-language allow/deny starter; governed negative matrix is not included."
+      "scope": "Consumer starter; the governed negative matrix is not included."
     },
     {
       "language": "PHP",
@@ -80,7 +80,7 @@
       "guide": "docs/getting-started/consumer-php.md",
       "verify": "composer test",
       "governed": null,
-      "scope": "Extended-language allow/deny starter; governed negative matrix is not included."
+      "scope": "Consumer starter; the governed negative matrix is not included."
     },
     {
       "language": "Elixir",
@@ -94,7 +94,7 @@
       "guide": "docs/getting-started/consumer-elixir.md",
       "verify": "mix run test_starter.exs",
       "governed": null,
-      "scope": "Extended-language allow/deny starter; governed negative matrix is not included."
+      "scope": "Consumer starter; the governed negative matrix is not included."
     },
     {
       "language": "Lua",
@@ -108,7 +108,7 @@
       "guide": "docs/getting-started/consumer-lua.md",
       "verify": "lua test_starter.lua",
       "governed": null,
-      "scope": "Extended-language allow/deny starter; governed negative matrix is not included."
+      "scope": "Consumer starter; the governed negative matrix is not included."
     },
     {
       "language": "C#",

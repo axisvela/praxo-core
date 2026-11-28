@@ -21,8 +21,8 @@ from scripts.labs.compatibility_lab import (
 ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_OUTPUT = ROOT / "build" / "behavior-lab"
 SCHEMA = "praxo-behavior-lab-1"
-CORE_LANGUAGES = ("go", "python", "typescript", "java")
-EXTENDED_LANGUAGES = (
+SCENARIO_ISOLATED_LANGUAGES = ("go", "python", "typescript", "java")
+NATIVE_SUITE_LANGUAGES = (
     "rust",
     "fortran",
     "cobol",
@@ -36,8 +36,8 @@ EXTENDED_LANGUAGES = (
     "r",
     "c",
 )
-LANGUAGES = (*CORE_LANGUAGES, *EXTENDED_LANGUAGES)
-DEFAULT_LANGUAGES = CORE_LANGUAGES
+LANGUAGES = (*SCENARIO_ISOLATED_LANGUAGES, *NATIVE_SUITE_LANGUAGES)
+DEFAULT_LANGUAGES = SCENARIO_ISOLATED_LANGUAGES
 LANGUAGE_NAMES = {
     "go": "Go",
     "python": "Python",
@@ -137,15 +137,15 @@ def summarize(results: list[dict[str, object]]) -> dict[str, int]:
         "skipped": 0,
         "not_run": 0,
         "unsupported": 0,
-        "core_unsupported": 0,
+        "strict_unsupported": 0,
     }
     for result in results:
         for language, cell in result["languages"].items():
             counts["cells"] += 1
             status = str(cell["status"])
             counts[status] += 1
-            if status == "unsupported" and language in CORE_LANGUAGES:
-                counts["core_unsupported"] += 1
+            if status == "unsupported" and language in SCENARIO_ISOLATED_LANGUAGES:
+                counts["strict_unsupported"] += 1
     return counts
 
 
@@ -173,7 +173,7 @@ def build_report(
 def markdown_report(report: dict[str, object]) -> str:
     repository = report["repository"]
     summary = report["summary"]
-    selected = [str(item) for item in report.get("selection", CORE_LANGUAGES)]
+    selected = [str(item) for item in report.get("selection", SCENARIO_ISOLATED_LANGUAGES)]
     lines = [
         "# PRAXO-CORE Behavior Lab",
         "",
@@ -240,7 +240,7 @@ def exit_code(report: dict[str, object], strict: bool) -> int:
     if strict and (
         summary["not_run"]
         or summary["skipped"]
-        or summary["core_unsupported"]
+        or summary["strict_unsupported"]
     ):
         return 1
     return 0

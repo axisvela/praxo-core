@@ -34,29 +34,27 @@ Go release docs use 2026-11-26; the proxy publication timestamp is 2026-11-25 UT
 | Bridge | Process/stdio/HTTP client over a core runtime | Bridge contract tests |
 | Sample | Usage sample for another implementation | Compiles against that package |
 
-## Behavior Capability Tiers
+## Behavior Evidence
 
-Contract tier and behavior tier are separate. Contract tier records the declared
-scope and conformance gate. Behavior tier records which implementations are
-targeted for cross-language agent-behavior parity in the Behavior Lab.
+Contract delivery form and behavior evidence are separate. There is no public
+capability tier. The wired set is the language set whose tests run in the
+Behavior Lab.
 
-| Behavior tier | Languages | Scope |
-| --- | --- | --- |
-| Agent-capable | Go, Python, TypeScript, Java, Rust, R, C# | Native agent loop is in declared scope and the language is selected for the twenty Behavior Lab scenarios. Current coverage varies by language and is recorded in the Behavior Lab matrix. |
-| Extended | PHP, C, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | Contract or focused implementation where behavior parity is advanced scenario by scenario. An unsupported cell is intentional until a named consumer and maintainer exist. |
-| Optional | Other declared implementations | Outside the current Behavior Lab program. Contract conformance is unchanged; behavior work starts only with a named consumer and maintainer. |
-
-All sixteen wired languages cover all twenty scenarios in the source. Extended
-implementations use native-suite coverage; parallel tools for COBOL, Lua, PHP,
-and Fortran delegate concurrency to caller-provided batch callbacks.
-Other implementations, including Swift, Julia, Haskell, MATLAB/Octave,
-Perl, Delphi/Free Pascal, OCaml, Objective-C, Nim, V, D, Zig, and the
-Bridge/Sample entries, are in the optional tier.
+- Scenario-isolated evidence: a named test per scenario. The strict lab gate
+  applies to Go, Python, TypeScript, and Java.
+- Native-suite evidence: the full native suite covers the scenarios, but a
+  failure is not isolated to one scenario.
+- All sixteen wired languages cover all twenty scenarios in the source.
+  Parallel tools for COBOL, Lua, PHP, and Fortran delegate concurrency to
+  caller-provided batch callbacks.
+- Other declared implementations are outside the current Behavior Lab program;
+  their contract conformance is unchanged.
+- An unsupported cell is a recorded gap, not a failure or a pass.
 
 ## Maturity
 
 Maturity is independent of the version tag. It records completion of the
-declared scope and verification against the tier gate. It does not imply
+declared scope and verification against the declared-scope gate. It does not imply
 production readiness or full Go feature parity.
 
 | Maturity | Meaning |
@@ -156,7 +154,7 @@ for real providers, platforms, and production behavior is reported separately.
 | Julia | `julia-conformance` | Julia tests, 11 vectors, API snapshot |
 | R | `r-conformance` | R tests, 11 vectors, API snapshot |
 | PowerShell Core | `powershell-core` | C# Core build, 11 vectors, C# behavior tests, PowerShell API snapshot, wrapper smoke tests |
-| PowerShell Bridge | `powershell-bridge-release` | bridge tests, bundled Linux/Windows/macOS binaries, PowerShell Gallery publication |
+| PowerShell Bridge | `release-powershell-bridge` | bridge tests, bundled Linux/Windows/macOS binaries, PowerShell Gallery publication |
 | Shell / PowerShell Bridge | `bridge` | bridge tests, both wrappers |
 | Fortran | `fortran-conformance` | native tests, 11 vector groups, API snapshot, installed RE2 bridge and Unicode tests; source release tagged `fortran/v0.12.0`; MCP transport-seam tests |
 | COBOL | `cobol-conformance` | 11 vectors, API snapshot, native/behavior/SSE/tooling/MCP tests |
@@ -202,29 +200,14 @@ for real providers, platforms, and production behavior is reported separately.
 - Compiles against the host package.
 - Documented as a sample, not a contract implementation.
 
-## Required Gates per Behavior Tier
+## Behavior Evidence Gates
 
-### Agent-capable
-
-- Runs the shared Behavior Lab scenarios or records an explicit unsupported
-  reason for each missing cell.
-- Scenario tests preserve authorization, lifecycle, cancellation, and ordering
-  semantics; suite-only coverage does not count as scenario-level evidence.
-- C# and R must complete scenario wiring before their agent-capable claim is
-  treated as full behavior parity.
-
-### Extended
-
-- Advances selected scenarios only with a named consumer and maintainer.
-- Does not add a language or scenario solely to increase cell counts.
-- Unsupported cells stay explicit in the report and matrix.
-
-### Optional
-
-- No Behavior Lab scenario work is planned by default.
-- Contract conformance and the declared contract tier remain unchanged.
-- Promotion to extended or agent-capable requires a named consumer, a
-  maintainer, and recorded scenario evidence.
+- A wired language runs the shared Behavior Lab scenarios or records an explicit
+  unsupported reason for each missing cell.
+- Scenario-isolated evidence preserves authorization, lifecycle, cancellation,
+  and ordering semantics. Native-suite coverage is recorded as suite evidence.
+- New scenarios and new wired languages are demand-driven; unsupported cells stay
+  explicit in the report and matrix.
 
 ## Toolchain Policy
 

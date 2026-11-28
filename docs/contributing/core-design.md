@@ -21,12 +21,11 @@ per-language parity inventories. Do not normalize wire names for local style.
 ## Behavior Coverage
 
 Contract layers are not a claim that every Core implements every agent scenario.
-Behavior coverage has three tiers: agent-capable (Go, Python, TypeScript, Java,
-Rust, R, C#) targets all twenty Behavior Lab scenarios; extended (PHP, C,
-Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua) advances with a named consumer
-and maintainer; optional covers other implementations. Contract conformance
-does not imply behavior parity, and suite-level tests do not imply scenario-level
-evidence.
+Behavior evidence has no capability tier. The wired set covers the twenty
+Behavior Lab scenarios with either scenario-isolated or native-suite evidence.
+Contract conformance does not imply behavior parity, and suite-level tests do not
+imply scenario-level evidence. Other implementations remain outside the current
+lab program.
 
 ## Language Layout
 

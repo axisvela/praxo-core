@@ -34,7 +34,7 @@ Go `language/go/examples/multiagent/governance_test.go`、Python
 C# `language/csharp/examples/advanced-delegation/GovernanceSelfTest.cs`、Rust
 `language/rust/examples/advanced-delegation/src/governance_main.rs` 和 R
 `language/r/examples/advanced-delegation/test_governance.R` 展示了这些负向检查。
-扩展实现 C、C++、Fortran、COBOL、PHP、Ruby、Elixir、Erlang 和 Lua 在原生测试套件
+其他实现 C、C++、Fortran、COBOL、PHP、Ruby、Elixir、Erlang 和 Lua 在原生测试套件
 或示例目录中增加了相同的检查，因此全部十六种 wired 语言都有应用级负向检查。
 它们是应用级示例，不是 Core 委派 profile 或公开 API 保证。未知效果、持久 worker
 和跨服务预算仍由应用负责。

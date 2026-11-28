@@ -22,7 +22,7 @@ production security or operational readiness.
 These words describe contract and evidence state. They do not replace the
 language coverage labels `planned`, `partial`, `parity`, and `n/a` in
 [`spec/parity.md`](https://github.com/axisvela/praxo-core/blob/main/spec/parity.md)
-or the support levels in the [language matrix](../languages/matrix.md).
+or the delivery forms in the [language matrix](../languages/matrix.md).
 
 ## Current Matrix
 
@@ -33,7 +33,7 @@ or the support levels in the [language matrix](../languages/matrix.md).
 | Go reference API and shared wire artifacts (events, errors, JSON Schema subset, plugin) | Implemented; verified per release revision | Normative files and vectors in `spec/`; does not prove live providers or product deployments |
 | Tool, Model, and Checkpoint wire descriptions | Implemented; descriptive at `SPEC_VERSION` 0.2.0 | Shared tool/model shapes and the checkpoint allowlist envelope are wire; Go checkpoint and parsed-tool-call projections are documented as `"wire": false` and are not frozen cross-language contracts |
 | Go, Python, TypeScript, and Java consumer starters | Implemented; verified at their cited revisions | Published-package installation, build, and deterministic allow/deny checks; integration evidence, not adoption evidence |
-| Ruby, PHP, Elixir, and Lua consumer starters | Implemented; source-mode checks passed locally for all four; RubyGems, Hex, LuaRocks, and Composer installs of the published versions passed locally, and the PHP `0.4.1` starter runs without an autoload bridge | Published-package installation, build, and deterministic allow/deny checks; extended-language starters, not the four-language governed pilot |
+| Ruby, PHP, Elixir, and Lua consumer starters | Implemented; source-mode checks passed locally for all four; RubyGems, Hex, LuaRocks, and Composer installs of the published versions passed locally, and the PHP `0.4.1` starter runs without an autoload bridge | Published-package installation, build, and deterministic allow/deny checks; consumer starters, not the four-language governed pilot |
 | Python published-package upgrade | Implemented; verified by CI | Installs PyPI `0.2.4`, upgrades the unchanged consumer to `0.3.0`, and reruns governed compatibility checks; one version pair, not a general upgrade guarantee |
 | TypeScript published-package upgrade | Implemented; verified by CI | Installs npm `0.1.5`, upgrades the unchanged consumer to `0.2.0`, and reruns starter/governed checks; one version pair, not a general upgrade guarantee |
 | Java published-package upgrade | Implemented; verified by CI | Resolves Maven Central `0.3.0`, upgrades the unchanged consumer to `0.4.0`, and reruns starter/governed checks; one version pair, not a general upgrade guarantee |

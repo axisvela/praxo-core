@@ -50,7 +50,7 @@ GitHub Latest Release 仅代表稳定的 Go 参考 Core `vX.Y.Z`。根工作流�
 `gh release create --latest`；语言、规范和适配器 GitHub Release 必须显式设置
 `--latest=false`（REST `make_latest: "false"`），不依赖 `legacy` 排序。
 只发布注册表、不创建 GitHub Release 的工作流无需该选项。
-手动 `language-source-release.yml` 仅为已有语言标签发布源码说明，使用
+手动 `release-language-source.yml` 仅为已有语言标签发布源码说明，使用
 `--verify-tag --latest=false`，不执行包门禁或注册表发布；必须在语言发布证据完成后触发。
 独立版本通过[语言发布索引](../languages/registry-status.md)发现。
 
@@ -83,16 +83,16 @@ Core 或适配器的源码标签不会自动完成包管理器发布。
 - 不要把语言发布说明移入根变更日志或共享发布页；根变更日志只保留跨语言摘要。
 
 Python 使用 PyPI Trusted Publishing，工作流为
-`.github/workflows/python-release.yml`。`python/vX.Y.Z` 标签必须与
+`.github/workflows/release-python.yml`。`python/vX.Y.Z` 标签必须与
 `pyproject.toml`、`praxo.__version__` 和 `praxo.SPEC_VERSION` 一致。手动触发默认
 只构建 `build-only`；发布到 TestPyPI 或 PyPI 必须显式选择。TestPyPI 需要单独的
 trusted publisher。首次创建标签前，必须在 PyPI 配置 owner、repository、workflow
 文件名和 environment。PyPI 的 workflow 字段必须
-精确填写 `python-release.yml`；填写通用的 `workflow.yml` 不会匹配本仓库。源码标签或构建成功都不
+精确填写 `release-python.yml`；填写通用的 `workflow.yml` 不会匹配本仓库。源码标签或构建成功都不
 代表 PyPI 已完成发布。
 
 TypeScript 使用独立的 npm 工作流
-`.github/workflows/typescript-release.yml`。它校验包名、repository URL、版本和
+`.github/workflows/release-typescript.yml`。它校验包名、repository URL、版本和
 `typescript/v*` 标签；标签默认只 stage 包，等待维护者批准。直接 `npm publish` 是
 显式手动目标，并需要在 npm trusted publisher 中允许该动作。首个 npm 包已用
 短期 bypass token 发布为 `0.1.2`，因为当时 staged 批准不可用；该版本不声明
@@ -101,54 +101,54 @@ trusted publisher。不要为日常发布使用长期自动化 token。手动触
 build-only。
 
 Rust 使用 crates.io Trusted Publishing，工作流为
-`.github/workflows/rust-release.yml`。`rust/vX.Y.Z` 标签必须与 `Cargo.toml`
+`.github/workflows/release-rust.yml`。`rust/vX.Y.Z` 标签必须与 `Cargo.toml`
 的包版本一致。构建 job 运行测试、conformance 和 API snapshot，然后执行
 `cargo publish --dry-run`；发布 job 使用 `rust-lang/crates-io-auth-action`
 获取短期 token，并跳过已发布的版本。首次创建标签前，必须在 crates.io 配置
-trusted publisher，workflow 文件名填 `rust-release.yml`，environment 填
+trusted publisher，workflow 文件名填 `release-rust.yml`，environment 填
 `crates-io`。手动触发默认只构建 `build-only`。
 
 Ruby 使用 RubyGems Trusted Publishing，工作流为
-`.github/workflows/ruby-release.yml`。`ruby/vX.Y.Z` 标签必须与
+`.github/workflows/release-ruby.yml`。`ruby/vX.Y.Z` 标签必须与
 `language/ruby/VERSION` 一致。Pending trusted publisher 的 workflow 文件名填
-`ruby-release.yml`，environment 填 `rubygems`；工作流会运行 conformance、API
+`release-ruby.yml`，environment 填 `rubygems`；工作流会运行 conformance、API
 snapshot、原生测试、构建 gem，并使用短期 RubyGems token 推送。手动触发默认只
 构建 `build-only`。
 
-Lua 使用 `.github/workflows/lua-release.yml`。`lua/vX.Y.Z` 标签必须与
+Lua 使用 `.github/workflows/release-lua.yml`。`lua/vX.Y.Z` 标签必须与
 `language/lua/VERSION` 和 `praxo-core-X.Y.Z-1.rockspec` 一致。构建 job 运行
 conformance、API snapshot 和原生测试，然后打包 source rock、在干净目录安装并运行
 安装后 smoke，再上传工件。发布前配置 environment `luarocks` 和仓库 secret
 `LUAROCKS_API_KEY`；发布 job 会跳过已发布的修订。手动触发默认只构建
 `build-only`。
 
-Perl 使用 `.github/workflows/perl-release.yml`。`perl/vX.Y.Z` 标签必须与
+Perl 使用 `.github/workflows/release-perl.yml`。`perl/vX.Y.Z` 标签必须与
 `language/perl/VERSION` 和 `Makefile.PL` 一致。构建 job 运行门禁、构建并测试发行包，
 然后上传 CPAN tarball；发布前配置 environment `cpan` 和 secret `PAUSE_USER`、
 `PAUSE_PASSWORD`。
 
-Haskell 使用 `.github/workflows/haskell-release.yml`。`haskell/vX.Y.Z` 标签必须与
+Haskell 使用 `.github/workflows/release-haskell.yml`。`haskell/vX.Y.Z` 标签必须与
 `language/haskell/praxo-core.cabal` 一致；构建 job 运行原生测试和 `cabal sdist`。
 发布前配置 environment `hackage` 和 secret `HACKAGE_TOKEN`。
 
-Elixir 使用 `.github/workflows/elixir-release.yml` 发布 Hex 包和 HexDocs。
+Elixir 使用 `.github/workflows/release-elixir.yml` 发布 Hex 包和 HexDocs。
 `elixir/vX.Y.Z` 标签必须与 `language/elixir/VERSION` 一致；发布前配置 environment
 `hex` 和 secret `HEX_API_KEY`。
 
-Julia 使用 `.github/workflows/julia-release.yml` 校验标签并运行测试，然后通过
+Julia 使用 `.github/workflows/release-julia.yml` 校验标签并运行测试，然后通过
 JuliaRegistrator 向 General Registry 提交 PR；不需要仓库 secret。
 
-R 使用 `.github/workflows/r-release.yml` 执行 `R CMD build` 和 `R CMD check`。
+R 使用 `.github/workflows/release-r.yml` 执行 `R CMD build` 和 `R CMD check`。
 r-universe 从 GitHub 仓库的 `language/r` 子目录构建；CRAN 提交仍需单独人工审核。
 
 Nim 通过 `nim-lang/packages` 的 PR 列表发布，使用
 `"subdir": "language/nim"`；Nimble 从 Git 标签推导版本。PowerShell Core
 发布构建 C# Core、打包 `Praxo.Core.dll`、运行包装与 API snapshot 检查，并通过
-`.github/workflows/powershell-release.yml` 发布 `praxo-core-ps`；配置 environment
+`.github/workflows/release-powershell.yml` 发布 `praxo-core-ps`；配置 environment
 `powershell-gallery` 和 secret `PSGALLERY_API_KEY`。桥接包
-`praxo-core-ps-br` 由 `.github/workflows/powershell-bridge-release.yml` 构建，
+`praxo-core-ps-br` 由 `.github/workflows/release-powershell-bridge.yml` 构建，
 并在包内附带 Linux、Windows 和 macOS 的 `cmd/praxo-bridge` 二进制。Objective-C 使用
-`.github/workflows/cocoapods-release.yml`，配置 environment `cocoapods` 和
+`.github/workflows/release-cocoapods.yml`，配置 environment `cocoapods` 和
 secret `COCOAPODS_TRUNK_TOKEN`。Swift、V 和桥接包需要按各自 `PUBLISHING.md`
 中的拆分仓库或包格式步骤发布。
 

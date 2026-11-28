@@ -42,7 +42,7 @@ python -m scripts.checks.check_example_coverage --depth-report
 | Checkpoint Allowlist | 31/31 | 无 | 15/31 |
 | Event Sink | 30/31 | PowerShell | 14/31 |
 | Retry | 8/31 | C、COBOL、C++、D、Dart、Delphi、Elixir、Erlang、Fortran、Haskell、Julia、Lua、MATLAB/Octave、Nim、Objective-C、OCaml、Perl、PowerShell、R、Swift、V、Zig | 13/31 |
-| Provider Fallback | 8/31 | 与 Retry 相同的扩展语言集合 | 13/31 |
+| Provider Fallback | 8/31 | 与 Retry 相同的语言子集 | 13/31 |
 | Streaming | 15/31 | COBOL、D、Dart、Delphi、Haskell、Julia、MATLAB/Octave、Nim、Objective-C、OCaml、Perl、PowerShell、Swift、V、Zig | 14/31 |
 | Structured Output | 31/31 | 无 | 16/31 |
 | Identity / Policy | 12/31 | D、Dart、Delphi、Elixir、Erlang、Haskell、Julia、Lua、MATLAB/Octave、Nim、Objective-C、OCaml、Perl、PowerShell、R、Swift、V、Zig | 15/31 |

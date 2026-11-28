@@ -153,8 +153,7 @@ profile 均不能证明满足这些要求。
 ## 语言边界与共享契约
 
 Go 保留为参考实现。契约定义在 `spec/` 中，并由共享一致性套件强制执行。
-Go、Python、TypeScript、Java 具备完整的二十场景行为覆盖；Rust、R、C# 也是
-agent-capable Core 实现：
+Go、Python、TypeScript、Java 提供场景级行为证据；其他 wired Core 使用原生套件证据：
 
 ```text
 spec/                    规范契约与向量
@@ -184,10 +183,9 @@ spec/                    规范契约与向量
 变成语言的取消原语；sentinel 错误变成稳定异常类。具体适配器、辅助函数和包内部
 实现不属于契约。
 
-行为覆盖与契约分层独立。Agent-capable 实现（Go、Python、TypeScript、Java、Rust、
-R、C#）以全部二十个行为实验场景为目标；extended 实现（PHP、C、Fortran、COBOL、
-Ruby、Elixir、Erlang、C++、Lua）在有明确消费者和维护者时逐场景推进；其他已声明
-实现属于 optional。缺失的场景覆盖记录为 `unsupported`，不视为已对齐。
+行为证据与契约交付形式分开，不存在能力层级。wired 集合运行二十个 Behavior Lab 场景；
+部分实现提供场景级证据，其他使用原生套件覆盖。缺失覆盖记录为 `unsupported`，不是
+parity。其他已声明实现不在当前实验计划内。
 
 wire 改名、事件变更、stream kind 变更或插件信封变更对所有 Core 都是破坏性变更，
 即使只有一个 Core 发布。参见[多语言 Core 设计](../contributing/core-design.md)和

@@ -29,7 +29,7 @@ developer can build now, not only by contract tier:
   Install, run a deterministic model, and prove allow/deny with the governed
   negative checks.
 - **Published-package allow/deny starter:** Ruby, PHP, Elixir, and Lua. These
-  extended-language starters prove installation and deterministic allow/deny,
+  consumer starters prove installation and deterministic allow/deny,
   not the full four-language governed matrix.
 - **Published package or source release with runnable examples:** Rust, C#, R,
   Dart, Erlang, Haskell, Perl, and PowerShell. Check the registry version before

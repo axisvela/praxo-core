@@ -20,15 +20,16 @@ This page expands the summary in [Behavior Lab](behavior-lab.md) into a scenario
 | Working tree dirty | False |
 | CI job | [GitHub Actions (revision above)](https://github.com/axisvela/praxo-core/actions/runs/41407891314/job/125153985339) |
 
-## Capability tiers
+## Evidence model
 
-The matrix now covers sixteen wired languages. Contract tier is separate from behavior tier; see the [support policy](support.md).
+The matrix covers sixteen wired languages. Contract delivery form is separate
+from behavior evidence; there is no capability tier.
 
-| Tier | Languages | Current status |
+| Evidence | Languages | Meaning |
 | --- | --- | --- |
-| Agent-capable | Go, Python, TypeScript, Java, Rust, R, CSharp | Targets all twenty scenarios; current coverage varies by language |
-| Extended | C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | Advances scenario by scenario with a named consumer and maintainer |
-| Optional | Other declared implementations | Outside the current behavior program |
+| Scenario-isolated | Go, Python, TypeScript, Java | Named test per scenario; strict-gated |
+| Native suite | C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua, Rust, R, C# | Full native suite; failure is not isolated to one scenario |
+| Outside lab | Other declared implementations | Contract conformance unchanged |
 
 ## Matrix legend
 

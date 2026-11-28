@@ -21,9 +21,9 @@ class BehaviorLabTests(unittest.TestCase):
                     self.assertTrue(step.argv)
                     self.assertTrue(step.cwd.is_dir())
 
-    def test_every_scenario_runs_in_core_languages(self):
+    def test_every_scenario_runs_in_scenario_isolated_languages(self):
         for item in lab.scenarios():
-            for language in lab.CORE_LANGUAGES:
+            for language in lab.SCENARIO_ISOLATED_LANGUAGES:
                 self.assertTrue(item.commands[language], (item.key, language))
                 self.assertNotEqual(item.coverage[language], "unsupported")
 
@@ -63,17 +63,17 @@ class BehaviorLabTests(unittest.TestCase):
                 "skipped": 0,
                 "not_run": 0,
                 "unsupported": 1,
-                "core_unsupported": 1,
+                "strict_unsupported": 1,
             },
         )
 
-    def test_exit_code_rejects_strict_not_run_and_core_unsupported(self):
+    def test_exit_code_rejects_strict_not_run_and_scenario_unsupported(self):
         report = {
             "summary": {
                 "failed": 0,
                 "not_run": 1,
                 "skipped": 0,
-                "core_unsupported": 0,
+                "strict_unsupported": 0,
             }
         }
         self.assertEqual(lab.exit_code(report, strict=False), 0)
@@ -83,7 +83,7 @@ class BehaviorLabTests(unittest.TestCase):
                 "failed": 0,
                 "not_run": 0,
                 "skipped": 1,
-                "core_unsupported": 0,
+                "strict_unsupported": 0,
             }
         }
         self.assertEqual(lab.exit_code(report, strict=True), 1)
@@ -92,7 +92,7 @@ class BehaviorLabTests(unittest.TestCase):
                 "failed": 0,
                 "not_run": 0,
                 "skipped": 0,
-                "core_unsupported": 1,
+                "strict_unsupported": 1,
                 "unsupported": 1,
             }
         }
@@ -103,7 +103,7 @@ class BehaviorLabTests(unittest.TestCase):
                 "failed": 0,
                 "not_run": 0,
                 "skipped": 0,
-                "core_unsupported": 0,
+                "strict_unsupported": 0,
                 "unsupported": 3,
             }
         }
@@ -113,7 +113,7 @@ class BehaviorLabTests(unittest.TestCase):
                 "failed": 1,
                 "not_run": 0,
                 "skipped": 0,
-                "core_unsupported": 0,
+                "strict_unsupported": 0,
             }
         }
         self.assertEqual(lab.exit_code(report, strict=False), 1)
@@ -131,7 +131,7 @@ class BehaviorLabTests(unittest.TestCase):
                 "skipped": 0,
                 "not_run": 0,
                 "unsupported": 1,
-                "core_unsupported": 1,
+                "strict_unsupported": 1,
             },
             "scenarios": [
                 {
@@ -169,7 +169,7 @@ class BehaviorLabTests(unittest.TestCase):
                     "skipped": 0,
                     "not_run": 0,
                     "unsupported": 0,
-                    "core_unsupported": 0,
+                    "strict_unsupported": 0,
                 },
             }
 

@@ -87,5 +87,5 @@ Composer 检查共 8 项通过，另有 166 项原生测试通过。
 | Zig | `zig/v0.9.0` | 无中央注册表 |
 | Tcl / Lisp / Prolog | `tcl/v0.1.0`、`lisp/v0.1.0`、`prolog/v0.1.1` | 桥接包；注册表发布待完成 |
 
-成熟度、支持级别和 consumer smoke 的区别见[支持政策](support.md)。包注册表可用性
+成熟度、行为证据和 consumer smoke 的区别见[支持政策](support.md)。
 不是生产就绪证据。

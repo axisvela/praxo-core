@@ -24,7 +24,7 @@ PRAXO-CORE 是 PRAXOVELA 及 AKROVELA 等其他嵌入它的 AxisVela 产品背�
 
 - **发布包治理 Starter：** Go、Python、TypeScript 和 Java。安装、运行确定性模型，并用
   治理负向检查证明 allow/deny。
-- **发布包 allow/deny Starter：** Ruby、PHP、Elixir 和 Lua。这些扩展语言 Starter 证明
+- **发布包 allow/deny Starter：** Ruby、PHP、Elixir 和 Lua。这些消费者 Starter 证明
   安装和确定性 allow/deny，不包含完整四语言治理矩阵。
 - **发布包或源码发布并可运行示例：** Rust、C#、R、Dart、Erlang、Haskell、Perl 和
   PowerShell。安装前先核对 Registry 版本。

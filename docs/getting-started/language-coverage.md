@@ -49,11 +49,11 @@ python -m scripts.checks.check_example_coverage --depth-report
 | Checkpoint allowlist | 31/31 | none | 15/31 |
 | Event sink | 30/31 | PowerShell | 14/31 |
 | Retry | 8/31 | C, COBOL, C++, D, Dart, Delphi, Elixir, Erlang, Fortran, Haskell, Julia, Lua, MATLAB/Octave, Nim, Objective-C, OCaml, Perl, PowerShell, R, Swift, V, Zig | 13/31 |
-| Provider fallback | 8/31 | Same extended-language set as Retry | 13/31 |
+| Provider fallback | 8/31 | Same language subset as Retry | 13/31 |
 | Streaming | 15/31 | COBOL, D, Dart, Delphi, Haskell, Julia, MATLAB/Octave, Nim, Objective-C, OCaml, Perl, PowerShell, Swift, V, Zig | 14/31 |
 | Structured output | 31/31 | none | 16/31 |
 | Identity and policy | 12/31 | D, Dart, Delphi, Elixir, Erlang, Haskell, Julia, Lua, MATLAB/Octave, Nim, Objective-C, OCaml, Perl, PowerShell, R, Swift, V, Zig | 15/31 |
-| HTTP service | 31/31 source entries | Several extended SDKs are transport-neutral handlers; executable servers exist for Go, Python, TypeScript, Java, C#, and Rust | 18/31 |
+| HTTP service | 31/31 source entries | Several SDKs are transport-neutral handlers; executable servers exist for Go, Python, TypeScript, Java, C#, and Rust | 18/31 |
 | MCP | 27/31 | C, MATLAB/Octave, PowerShell | 14/31 |
 | HITL | 31/31 | none | 10/31 |
 | Session checkpoint | 31/31 | none | 11/31 |

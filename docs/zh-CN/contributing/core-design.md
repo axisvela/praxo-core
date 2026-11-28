@@ -17,9 +17,9 @@ Go 是参考实现，[`spec/`](https://github.com/axisvela/praxo-core/tree/main/
 ## 行为覆盖
 
 契约层次不表示每个 Core 都实现全部 agent 场景。行为覆盖分为三个层级：
-agent-capable（Go、Python、TypeScript、Java、Rust、R、C#）以全部二十个行为实验
-场景为目标；extended（PHP、C、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua）
-在有明确消费者和维护者时推进；其他实现属于 optional。契约一致不代表行为对齐，
+行为证据不存在能力层级。wired 集合覆盖二十个 Behavior Lab 场景，使用场景级或原生套件证据；契约一致性不意味着行为等价，套件级测试也不等于场景级证据。
+行为证据不存在能力层级。wired 集合覆盖二十个 Behavior Lab 场景，使用场景级或原生套件证据；契约一致性不意味着行为等价，套件级测试也不等于场景级证据。
+行为证据不存在能力层级。wired 集合覆盖二十个 Behavior Lab 场景，使用场景级或原生套件证据；契约一致性不意味着行为等价，套件级测试也不等于场景级证据。
 套件级测试也不等于场景级证据。
 
 ## 语言目录结构

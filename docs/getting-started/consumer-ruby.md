@@ -4,7 +4,7 @@ Use published `praxo-core==0.10.2` in your own application with Ruby 3.1 or
 newer. No PRAXO-CORE source checkout, API key, model service, or AxisVela product
 is required. Installation needs RubyGems access or a cached gem.
 
-This is an extended-language starter. It demonstrates the allow/deny path but is
+This is a consumer starter. It demonstrates the allow/deny path but is
 not one of the four pilot languages that carry the governed negative matrix.
 
 ## Choose the Boundary

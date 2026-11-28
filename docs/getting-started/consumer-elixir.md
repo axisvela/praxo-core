@@ -4,7 +4,7 @@ Use published Hex `praxo_core` `0.11.0` in your own application with Elixir 1.14
 or newer. No PRAXO-CORE source checkout, API key, model service, or AxisVela
 product is required. Installation needs Hex access or a cached package.
 
-This is an extended-language starter. It demonstrates the allow/deny path but is
+This is a consumer starter. It demonstrates the allow/deny path but is
 not one of the four pilot languages that carry the governed negative matrix.
 
 ## Choose the Boundary

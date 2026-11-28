@@ -74,8 +74,7 @@ PRAXO-CORE 继续定位为**可治理、可嵌入的 Agent 执行框架**。路�
 | 范围 | 语言 | 路线图要求 |
 | --- | --- | --- |
 | 参考实现 | Go | 定义共享行为并引领参考示例 |
-| Agent-capable Core | Python、TypeScript、Java、Rust、R、C# | 共享采用阶段，并在可行时提供可运行的 Provider、Tool 和集成路径 |
-| Extended Core | C、PHP、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua | 在消费者和维护者需求充分时提供采用路径；高级能力可保持 Go 优先 |
+| 独立 Core 实现 | 矩阵中的 Core SDK | 共享采用阶段，并在可行时提供可运行的 Provider、Tool 和集成路径；运行时和生态限制按语言记录 |
 | 其他已声明实现 | 矩阵中的其他语言，以及 Bridge 和 Sample 条目 | 使用对应语言文档并明确差距；不承诺每个示例或功能都可用 |
 
 路线图不要求所有语言同时发布所有示例，但要求面向用户的路径明确标注目标语言和包，
@@ -172,7 +171,7 @@ PRAXO-CORE 继续定位为**可治理、可嵌入的 Agent 执行框架**。路�
 - [Ruby](../getting-started/consumer-ruby.md)、
   [PHP](../getting-started/consumer-php.md)、
   [Elixir](../getting-started/consumer-elixir.md)、
-  [Lua](../getting-started/consumer-lua.md) 扩展语言 Starter
+  [Lua](../getting-started/consumer-lua.md) 消费者 Starter
 - 各语言已提供的 [OpenAI-compatible Adapter](../reference/openai-compatible-adapter.md)
 
 ### 下一步工作
@@ -435,7 +434,7 @@ AKROVELA 是具身试点选定消费者，PRAXOVELA 是另一个独立产品消�
 `read_file` 能力。需定义不可绕过的父策略组合、跨兄弟任务累计预算、子任务数和深度限制、
 取消/截止时间传播及最终参数重授权。实现并版本化之前仍由应用强制执行。全部
 十六种 wired 语言都有应用级负向测试，覆盖范围收窄、父子策略组合、兄弟共享预算、
-子任务数/深度限制、取消后零效果和最终参数重授权；扩展实现使用原生测试套件或
+子任务数/深度限制、取消后零效果和最终参数重授权；其他实现使用原生测试套件或
 示例目录。它们不提供 Core 强制继承；公开 API 与 profile 变更仍需门禁。
 
 没有明确消费者和具体缺口时，不优先增加 ROS、Workspace Provider、新语言或通用异步

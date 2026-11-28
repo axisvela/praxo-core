@@ -26,7 +26,7 @@ tiers or production-readiness claims.
 | Path | Languages | What you get | Boundary |
 | --- | --- | --- | --- |
 | Published-package governed starter | Go, Python, TypeScript, Java | Install or build from a published package, run a deterministic model, and pass allow/deny plus governed negative checks | One recorded package revision per language; not adoption or production evidence |
-| Published-package allow/deny starter | Ruby, PHP, Elixir, Lua | A published package, deterministic allow/deny, and source examples | Extended-language starters; the governed negative matrix remains scoped to the four pilot languages |
+| Published-package allow/deny starter | Ruby, PHP, Elixir, Lua | A published package, deterministic allow/deny, and source examples | Consumer starters; the governed negative matrix remains scoped to the four pilot languages |
 | Published package or source release with runnable examples | Rust, C#, R, Dart, Erlang, Haskell, Perl, PowerShell | A registry or r-universe release plus deterministic examples for HITL, streaming, checkpoints, and related themes | Registry versions can lag source tags; check registry status and example depth |
 | Source Core with deterministic examples | C, C++, Fortran, COBOL, Julia, MATLAB/Octave, Swift, D, Nim, V, Zig, OCaml, Objective-C, Delphi / Free Pascal | Build from source and run deterministic examples, including HITL and session checkpoints | Some registry submissions are pending; platform and toolchain limits remain documented per language |
 | Shared-runtime sample | JavaScript, Kotlin, Scala, Groovy, Clojure, Visual Basic, F# | A usage sample over the TypeScript, Java, or .NET Core | Not an independent runtime or separately versioned package |
@@ -39,8 +39,8 @@ which themes invoke Core and which are mechanism checks, and
 
 See the [compatibility lab](compatibility-lab.md) for reproducible conformance
 evidence across selected implementations, and the [behavior lab](behavior-lab.md)
-for cross-language agent behavior scenarios. Behavior coverage uses separate
-agent-capable, extended, and optional tiers; see the [support policy](support.md).
+for cross-language agent behavior scenarios. Behavior evidence has no capability
+tier; see [Behavior Evidence](support.md#behavior-evidence).
 
 Framework is the default target for independently implemented, native-capable
 languages. Current Wire stages do not yet provide the full Framework; final
@@ -51,8 +51,8 @@ wire-only scope requires documented technical limitations. See the
 
 These are descriptive discovery tags, not support tiers, release gates, or a
 priority ranking. A language can appear in more than one category. Contract
-scope remains in the [matrix](matrix.md); behavior coverage and support levels
-remain in the [support policy](support.md).
+scope remains in the [matrix](matrix.md); behavior evidence and limits remain in
+the [support policy](support.md).
 
 | Category | Languages | How to read it |
 | --- | --- | --- |

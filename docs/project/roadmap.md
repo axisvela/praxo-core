@@ -96,9 +96,8 @@ installation, and feature coverage follow the
 | Scope | Languages | Roadmap expectation |
 | --- | --- | --- |
 | Reference | Go | Defines shared behavior and leads reference examples |
-| Agent-capable Core | Python, TypeScript, Java, Rust, R, C# | Share the adoption stages and receive runnable provider, tool, and integration paths where practical |
-| Extended Core | C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | Provide consumer paths as demand and maintainers justify them; advanced features may remain Go-first |
-| Other declared implementations | Other languages listed in the matrix, plus Bridge and Sample entries | Use per-language documentation and state gaps explicitly; no promise of every example or feature |
+| Independently implemented Core | Core SDKs listed in the matrix | Share adoption stages and receive runnable provider, tool, and integration paths where practical; runtime and ecosystem limits stay per language |
+| Shared-runtime, Bridge, and Sample entries | Other matrix entries | Use per-language documentation and state gaps explicitly; no promise of every example or feature |
 
 The roadmap does not require every language to publish every example at the same
 time. It does require user-facing paths to say which language and package they
@@ -211,7 +210,7 @@ suite, Behavior Lab, or compatibility report.
   [Python](../getting-started/consumer-python.md),
   [TypeScript](../getting-started/consumer-typescript.md), and
   [Java](../getting-started/consumer-java.md)
-- Extended-language starters for [Ruby](../getting-started/consumer-ruby.md),
+- Consumer starters for [Ruby](../getting-started/consumer-ruby.md),
   [PHP](../getting-started/consumer-php.md),
   [Elixir](../getting-started/consumer-elixir.md), and
   [Lua](../getting-started/consumer-lua.md)
@@ -558,7 +557,7 @@ reauthorization. Until implemented and versioned, enforcement is application-own
 All sixteen wired languages now have application-level negative tests covering
 scope narrowing, parent/child policy composition, shared sibling budgets,
 child/depth limits, cancellation before effects, and final-argument
-reauthorization. Extended implementations use native test suites or example
+reauthorization. Some implementations use native test suites or example
 directories. They do not provide Core-enforced inheritance; public API and
 profile work remain gated.
 

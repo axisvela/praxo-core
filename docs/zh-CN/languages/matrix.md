@@ -10,6 +10,6 @@
 
 备注是当前声明范围与证据，不代表与 Go 全部功能一致。C 在 wire 级 JSON 原语之外还提供公开 Core API，覆盖 memory、events、checkpoint、policy、context、middleware 和 agent 循环；其 agent 循环没有取消路径，调用上限状态不能跨并发 run 共享。具体 CI 任务和阶段门禁见[规范矩阵](https://github.com/axisvela/praxo-core/blob/main/spec/languages.md)和[语言实现支持政策](support.md)。备注保留规范矩阵中的英文，避免翻译副本与事实漂移。
 
-行为覆盖与契约阶段是不同层级，分为 agent-capable、extended 和 optional。语言列表与当前行为实验状态见[支持政策](support.md)。
+行为证据与契约交付形式分开，不存在能力层级。wired 集合、证据类型和当前 Behavior Lab 状态见[行为证据](support.md#行为证据)。
 
 <!-- language-support-matrix -->

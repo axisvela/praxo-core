@@ -5,15 +5,11 @@ risk tier that matches the work, not with the full repository test matrix.
 
 ## Language Support
 
-- **Agent-capable Core:** Go, Python, TypeScript, Java, Rust, R, and C#. These
-  have a native agent loop and are the first choices for the same integration
-  path across the primary SDKs.
-- **Extended Core:** C, C++, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, and Lua.
-  They provide the declared Core contract and runnable examples, but advanced
-  features and executable services may be narrower.
-- **Other declared implementations:** check the [language
-  matrix](../languages/matrix.md) and the per-language README before assuming an
-  example, adapter, or service shape is available.
+- **Independently implemented Core:** all Core SDKs in the [language
+  matrix](../languages/matrix.md). They implement the declared contract and have
+  runnable examples, with language-specific runtime and ecosystem limits.
+- **Shared-runtime, Bridge, and Sample entries:** check the per-language README
+  before assuming an independent agent loop, adapter, or service shape.
 
 The example catalog covers thirty-one languages across thirteen themes, but that
 does not mean every example is an executable production service. Some are
