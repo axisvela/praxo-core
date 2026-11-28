@@ -74,7 +74,7 @@ above and is not claimed for other implementations. Python, TypeScript, Java, an
 the other wired languages do not expose the same `OnToolResult` and task-end stream
 surface; their parallel result-finishing path returns the first error and
 cross-language notification completeness remains unverified. See EC-01 in the
-[Execution Correctness Suite](../project/execution-correctness.md).
+[Execution Correctness Suite](../project/planning/execution-correctness-model.md).
 
 ## Native-suite coverage
 

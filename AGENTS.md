@@ -29,7 +29,7 @@ this framework.
 - Keep provider credentials, tenant data, and secrets outside the framework.
 - Do not commit non-public email domains or `.internal` hostnames;
   `internal/spec/privacy_test.go` enforces the working-tree allowlist.
-- Preserve provenance in `docs/project/provenance.md`.
+- Preserve provenance in `docs/project/status/provenance.md`.
 - Add tests for every exported interface and loop behavior.
 - Prefer interfaces over concrete integrations.
 - Keep source files under 500 lines; split by responsibility instead of growing
@@ -362,7 +362,7 @@ These commands are implementation gates for the listed SDKs; consult
 - PRAXOVELA product versions are independent.
 - Breaking Go v2 changes require a new major version and module path. For `0.x`
   implementations, breaking changes require a minor bump and migration note.
-- Follow `docs/project/compatibility-policy.md` and the normative `spec/` rules;
+- Follow `docs/project/status/compatibility-policy.md` and the normative `spec/` rules;
   optional profiles do not bypass shared wire compatibility review.
 - Publish a compatibility note when a consumer (PRAXOVELA or an external
   product) upgrades.

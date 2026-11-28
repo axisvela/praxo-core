@@ -10,7 +10,7 @@ implementations on this machine and toolchain?
 It does not prove full Go feature parity, provider behavior, live-service
 integration, production readiness, or security. Use the
 [language support matrix](https://github.com/axisvela/praxo-core/blob/main/spec/languages.md)
-and the [verification evidence](../project/verification-evidence.md) page for
+and the [verification evidence](../project/evaluation/verification-evidence.md) page for
 those separate claims.
 
 ## Scope

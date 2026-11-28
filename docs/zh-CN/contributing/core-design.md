@@ -62,7 +62,7 @@ Core 实现应提供：
 
 `spec/SPEC_VERSION` 与 Core 独立版本化。wire 字段、事件、流类型、插件消息或错误码
 变更必须更新规范，并按对各 Core 的破坏性影响评估。参见
-[兼容政策](../project/compatibility-policy.md)、[API 稳定性](../project/api-stability.md)。
+[兼容政策](../project/status/compatibility-policy.md)、[API 稳定性](../project/status/api-stability.md)。
 
 共享契约不保证所有 Core 都有 Go 的全部功能，请查看[支持政策](../languages/support.md)
 与语言 API。Core 保持 MIT，依赖需要兼容许可，凭据与租户数据由调用方配置。

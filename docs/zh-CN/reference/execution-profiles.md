@@ -13,7 +13,7 @@
 | Embodied Integration Profile | 设计提案；AKROVELA 已选定；P1/F5 与 E1-E8 已通过；G1-G8 适用门禁通过（G2/G6 仿真不适用）；尚无已接受 P2/P3 运行 | 为已选定具身消费者增加远程动作与观测要求 |
 
 Go 参考实现是行为起点，其他语言需分别声明控制能力与证据；同名层次不代表语言能力对齐。
-参见[契约与证据状态](../project/contract-status.md)。
+参见[契约与证据状态](../project/status/contract-status.md)。
 
 ## Standard Embedding
 
@@ -59,7 +59,7 @@ Core、Effect PEP、远程权威和部署仍各自执行约束；配置校验与
 并存在 G2/G6 仿真不适用。真实 ROS 2/Gazebo 执行、独立验证者与已接受的 P2 运行仍待就位，之后才可称为
 实验性实现。
 
-[试点计划](../project/embodied-pilot.md)拟通过既有接缝交付消费者示例、单个中间件实验适配器和
+[试点计划](../project/planning/embodied-pilot.md)拟通过既有接缝交付消费者示例、单个中间件实验适配器和
 消费者局部操作/观测协议，复用治理装配并要求 G1-G8 加 E1-E8。新集成协议不自动成为
 Core API 或共享 Wire；晋级依赖消费者证据与兼容审查。
 
@@ -80,7 +80,7 @@ Core API 或共享 Wire；晋级依赖消费者证据与兼容审查。
 
 ## 声明与兼容性
 
-[Execution Correctness Suite 提案](../project/execution-correctness.md)按 EC-D、EC-I、EC-O
+[Execution Correctness Suite 提案](../project/planning/execution-correctness-model.md)按 EC-D、EC-I、EC-O
 轨道定义失败边界验收。它是清单，不证明任一 Profile 已实现或已通过。
 
 限定集成评估需记录层次/设计 revision、包版本与工件哈希、消费者场景、各要求的执行组件、配置、

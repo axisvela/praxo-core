@@ -96,7 +96,7 @@ Index: [language/python/Tutorial](https://github.com/axisvela/praxo-core/tree/ma
 
 No accepted end-to-end reference application is recorded for Python yet.
 Candidate goals are tracked in the
-[reference application portfolio](https://github.com/axisvela/praxo-core/blob/main/docs/project/roadmap.md#reference-application-portfolio).
+[reference application portfolio](https://github.com/axisvela/praxo-core/blob/main/docs/project/planning/roadmap.md#reference-application-portfolio).
 
 Planning context: [Tutorial Plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/), [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), and [Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/). Chinese: [教程计划](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/), [候选场景](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/), [教程目录](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/).
 

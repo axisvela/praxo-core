@@ -84,8 +84,8 @@ are optional and do not imply cross-language availability.
 `spec/SPEC_VERSION` versions the shared contract independently of Core releases.
 A wire field, event, stream kind, plugin envelope, or error-code change must
 update the specification and be evaluated as breaking for every affected Core.
-See [compatibility policy](../project/compatibility-policy.md) and
-[API stability](../project/api-stability.md).
+See [compatibility policy](../project/status/compatibility-policy.md) and
+[API stability](../project/status/api-stability.md).
 
 The shared contract is not a promise that all Core implementations expose every reference
 feature. Consult the [support policy](../languages/support.md) and Core-specific API.

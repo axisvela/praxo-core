@@ -79,5 +79,5 @@ Set `PRAXO_PROMPT` to change the request.
 - [MCP tool gateway](https://github.com/axisvela/praxo-core/tree/main/adapters/mcp)
 - [Reference workspace agent](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/reference)
 - [AxisVela ecosystem integration](../integrations/ecosystem.md)
-- [Comparison with other Go agent frameworks](../project/comparison.md)
+- [Comparison with other Go agent frameworks](../project/evaluation/comparison.md)
 - [Plugin authoring](../guides/plugins.md)

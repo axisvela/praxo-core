@@ -8,8 +8,8 @@ without external services.
 **Evidence level: L4 application pattern and L1 contract checks.** It
 demonstrates configured sink behavior; it does not prove durable event storage,
 acknowledgement, or production telemetry. See
-[EC-10](../../../../../docs/project/execution-correctness.md) and the
-[test and evidence taxonomy](../../../../../docs/project/test-taxonomy.md).
+[EC-10](../../../../../docs/project/planning/execution-correctness-model.md) and the
+[test and evidence taxonomy](../../../../../docs/project/evaluation/test-and-evidence-taxonomy.md).
 
 Run from this directory:
 

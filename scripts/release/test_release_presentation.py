@@ -89,7 +89,7 @@ class ReleasePresentationTests(unittest.TestCase):
             self.assertIn('java/v0.12.3', page)
             self.assertIn('Maven', page)
             self.assertIn('MATLAB', page)
-            release = (ROOT / 'docs' / prefix / 'project/releasing.md').read_text(encoding='utf-8')
+            release = (ROOT / 'docs' / prefix / 'project/release/releasing.md').read_text(encoding='utf-8')
             self.assertIn('--latest=false', release)
 
 

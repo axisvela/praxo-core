@@ -80,7 +80,7 @@ Discovery files and natural-language aliases help readers and search/coding
 tools identify the framework. They do not guarantee SEO ranking, generative
 engine citations, crawler indexing, package discovery, or adoption. Capability
 claims still come from [adapter status](adapter-status.md), each implementation's
-README, and [verification evidence](../project/verification-evidence.md).
+README, and [verification evidence](../project/evaluation/verification-evidence.md).
 
 ### Metadata Coverage
 

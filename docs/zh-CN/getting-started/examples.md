@@ -127,7 +127,7 @@ MQTT、OPC UA、Socket、设备命令或真实模型。本地 Zig 0.17.0 检查�
 | 应用教程 | 记录设置、输入到输出任务、失败处理和续跑 |
 
 运行记录是独立维度：必须注明 revision、工具链、命令、输出和限制。源码入口不等于
-可运行路径。机制检查主题与实际运行记录见[验证证据](../project/verification-evidence.md)。
+可运行路径。机制检查主题与实际运行记录见[验证证据](../project/evaluation/verification-evidence.md)。
 
 ## 按任务选择
 

@@ -35,7 +35,7 @@ tiers or production-readiness claims.
 A source entry is not an execution certificate. See the
 [example depth audit](../getting-started/language-coverage.md#depth-audit) for
 which themes invoke Core and which are mechanism checks, and
-[verification evidence](../project/verification-evidence.md) for recorded runs.
+[verification evidence](../project/evaluation/verification-evidence.md) for recorded runs.
 
 See the [compatibility lab](compatibility-lab.md) for reproducible conformance
 evidence across selected implementations, and the [behavior lab](behavior-lab.md)

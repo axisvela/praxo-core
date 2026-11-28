@@ -10,7 +10,7 @@
 也不承诺全部语言具备全部能力。100 个完整目标仍无已记录的端到端参考应用；
 切片按自身有界范围独立验收。
 
-下一阶段优先[参考应用组合](../project/delivery-history.md)：PHP、Java、Elixir/Erlang、Go、
+下一阶段优先[参考应用组合](../project/status/delivery-history.md)：PHP、Java、Elixir/Erlang、Go、
 C++/Rust、COBOL、Julia、Ruby。复用有用切片，证明宿主生态和运行时集成，而非再次证明
 该语言能实现通用 Agent Loop。
 
@@ -18,13 +18,13 @@ C++/Rust、COBOL、Julia、Ruby。复用有用切片，证明宿主生态和运�
 
 | 层级 | 位置 | 用途 |
 | --- | --- | --- |
-| 公开方向 | 本页与[路线图](../project/roadmap.md) | 范围、优先级、标准与证据链接 |
+| 公开方向 | 本页与[路线图](../project/planning/roadmap.md) | 范围、优先级、标准与证据链接 |
 | 唯一库存 | [教程总目录](tutorial-catalog.md) | 生成的场景、语言与源码入口 |
 | 各语言入口 | `language/<language>/Tutorial/README.md` | 运行时依据、命令和逐教程限制 |
 | 参考应用 | `language/<language>/application/README.md` | 宿主集成、安装/运行命令、证据与限制 |
 | 执行细节 | 内部 `PRAXOVELA-EE/docs/praxo-core/planning/shared-business-tutorials.md` | 顺序、验收、运行记录和产品事项 |
 | 共享业务 API | [agent-tutorial-services](https://github.com/axisvela/agent-tutorial-services) | 合成契约、fixture 和本地服务测试 |
-| 证据 | [验证证据](../project/verification-evidence.md) | 准确 revision、范围和限制 |
+| 证据 | [验证证据](../project/evaluation/verification-evidence.md) | 准确 revision、范围和限制 |
 
 `Tutorial/` 与 `language/go/examples/` 并列。参考应用统一放在
 `language/<language>/application/`，不进入生成的教程目录；它们以宿主集成为目标，
@@ -60,7 +60,7 @@ OTP 需要故障恢复测试，Flutter 需要真实入口，规则语言需要�
 
 ## 场景地图
 
-[路线图](../project/roadmap.md)规定下一轮宿主集成顺序；现有源码、能力和范围由
+[路线图](../project/planning/roadmap.md)规定下一轮宿主集成顺序；现有源码、能力和范围由
 [总目录](tutorial-catalog.md)索引。Laravel、Spring Boot、Rails 等参考应用是验收目标；八项优先级均已有源码，
 不代表现有 fixture 已完成完整生态应用。优先 PHP，先完成一条连贯路径再扩展。
 
@@ -119,13 +119,13 @@ OTP 需要故障恢复测试，Flutter 需要真实入口，规则语言需要�
 | MATLAB/Octave | 共享教程使用 Octave 执行 | 原生 MATLAB 仍未验证 |
 | Delphi / Free Pascal | 教程使用 Free Pascal | 商业 Delphi 仍未验证 |
 | 共享订单服务 | Python/TypeScript/Java/C# CLI 与 C# Web 接入 loopback 教学后端 | 确定性模型；不建立 Java Web 对真实后端、生产身份或外部采用 |
-| 生态原生参考应用 | 八项优先级均在 `language/<language>/application/` 下有源码。PHP Laravel 前驱（7/7）与 AI-native 工作室（9/9）使用 Core 0.8.1，应用 CI 也已在 `45655799714`、`92ba764c` 通过。PHP、Elixir、Erlang、Go、Rust、Julia、Ruby 共有七个托管 DeepSeek `deepseek-flash` 运行。详细本地检查与真实 trace 保留在[验证证据](../project/verification-evidence.md) | 源码覆盖不等于整个组合验收。Java 已在 `46018135957`、attempt 2（2026-11-28）限定范围通过托管确定性检查，仅重跑失败作业，其他应用跳过；无本地编译/测试或真实运行。C++ 在 `45655799714` 失败，仅静态库构建在 `45720963270`、`f8242fb3` 通过，其他应用作业全部跳过；无 C++ 运行时/真实模型证据。其他应用在早先两次运行中均被跳过，不能视为已验证。Go 使用本地 module replace，Rust 使用本地 path 依赖，不是 registry 安装。Elixir Hex 本地受 CA 阻塞；Erlang/COBOL/Julia/Ruby 使用源码运行时；COBOL 无捆绑 live transport。无 Drupal、真实支付、生产身份、独立消费者或生产部署 |
+| 生态原生参考应用 | 八项优先级均在 `language/<language>/application/` 下有源码。PHP Laravel 前驱（7/7）与 AI-native 工作室（9/9）使用 Core 0.8.1，应用 CI 也已在 `45655799714`、`92ba764c` 通过。PHP、Elixir、Erlang、Go、Rust、Julia、Ruby 共有七个托管 DeepSeek `deepseek-flash` 运行。详细本地检查与真实 trace 保留在[验证证据](../project/evaluation/verification-evidence.md) | 源码覆盖不等于整个组合验收。Java 已在 `46018135957`、attempt 2（2026-11-28）限定范围通过托管确定性检查，仅重跑失败作业，其他应用跳过；无本地编译/测试或真实运行。C++ 在 `45655799714` 失败，仅静态库构建在 `45720963270`、`f8242fb3` 通过，其他应用作业全部跳过；无 C++ 运行时/真实模型证据。其他应用在早先两次运行中均被跳过，不能视为已验证。Go 使用本地 module replace，Rust 使用本地 path 依赖，不是 registry 安装。Elixir Hex 本地受 CA 阻塞；Erlang/COBOL/Julia/Ruby 使用源码运行时；COBOL 无捆绑 live transport。无 Drupal、真实支付、生产身份、独立消费者或生产部署 |
 
 七个托管参考应用运行不验证 #31 单独跟踪的发布包 starter 托管端点路径。
 应用 CI 按路径过滤，`45720963270` 整体成功不是全部应用通过。
 
 之前本地记录与 CI 失败保留为历史证据，后续通过不抹去失败。
-准确运行和范围见[验证证据](../project/verification-evidence.md)。CI 不证明真实 Provider、
+准确运行和范围见[验证证据](../project/evaluation/verification-evidence.md)。CI 不证明真实 Provider、
 公共托管业务服务、生产就绪或独立采用。
 
 ## 共享业务服务

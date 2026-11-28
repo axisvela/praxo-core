@@ -51,7 +51,7 @@
 `OnToolResult`，同时批次仍返回首个错误。这不在上述二十个场景内，也不对其他实现作声明。
 Python、TypeScript、Java 与其他 wired 语言没有相同的 `OnToolResult` 和 task-end 流表面；其并行
 结果收尾路径返回首个错误，跨语言通知完整性仍未验证。参见
-[Execution Correctness Suite](../project/execution-correctness.md) 的 EC-01。
+[Execution Correctness Suite](../project/planning/execution-correctness-model.md) 的 EC-01。
 
 ## 扩展覆盖
 

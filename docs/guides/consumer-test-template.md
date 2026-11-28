@@ -79,7 +79,7 @@ starters:
 | Lua | Starter passed | Source mode, run from repository root |
 | Java | Did not finish within 180s locally | Local JVM launcher hang; use CI evidence |
 
-See [verification evidence](../project/verification-evidence.md) for the full
+See [verification evidence](../project/evaluation/verification-evidence.md) for the full
 record and limits. These runs validate that the template is executable; they do
 not establish an external consumer path.
 

@@ -17,10 +17,10 @@ REQUIRED = [
     "docs/getting-started/consumer-typescript.md",
     "docs/getting-started/consumer-java.md",
     "docs/guides/recipes.md",
-    "docs/project/roadmap.md",
+    "docs/project/planning/roadmap.md",
     "docs/reference/execution-profiles.md",
-    "docs/project/execution-correctness.md",
-    "docs/project/verification-evidence.md",
+    "docs/project/planning/execution-correctness-model.md",
+    "docs/project/evaluation/verification-evidence.md",
     "agent-skills/praxo-integration/SKILL.md",
     "CHANGELOG.md",
 ]

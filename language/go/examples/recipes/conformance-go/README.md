@@ -7,7 +7,7 @@ provider credentials, network services, or a model.
 **Evidence level: L1 contract/unit recipe.** It validates the adapter contracts
 in `pkg/model`, `pkg/tool`, and `pkg/retriever`; it does not prove live provider
 behavior, production credentials, or end-to-end agent quality. See the
-[test and evidence taxonomy](../../../../../docs/project/test-taxonomy.md).
+[test and evidence taxonomy](../../../../../docs/project/evaluation/test-and-evidence-taxonomy.md).
 
 Run from this directory:
 

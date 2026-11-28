@@ -35,4 +35,4 @@ differences are reported when the check fails.
 
 The snapshot is a release gate, not a generated build artifact. Review every
 difference and record intentional changes in `CHANGELOG.md` and
-`docs/project/compatibility.md`.
+`docs/project/status/version-compatibility.md`.

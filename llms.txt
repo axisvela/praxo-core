@@ -55,10 +55,10 @@
 - Architect: <https://axisvela.architect.pub>
 ## Boundaries and Evidence
 
-- [Public roadmap](https://github.com/axisvela/praxo-core/blob/main/docs/project/roadmap.md): acceptance stages and compatibility commitments.
+- [Public roadmap](https://github.com/axisvela/praxo-core/blob/main/docs/project/planning/roadmap.md): acceptance stages and compatibility commitments.
 - [Execution profiles](https://github.com/axisvela/praxo-core/blob/main/docs/reference/execution-profiles.md): Standard Embedding, Governed Execution, and Embodied Integration boundaries.
-- [Execution Correctness Suite](https://github.com/axisvela/praxo-core/blob/main/docs/project/execution-correctness.md): EC-01 through EC-14 and EC-D/EC-I/EC-O tracks.
-- [Verification evidence](https://github.com/axisvela/praxo-core/blob/main/docs/project/verification-evidence.md): claim levels, current results, and limits.
+- [Execution Correctness Suite](https://github.com/axisvela/praxo-core/blob/main/docs/project/planning/execution-correctness-model.md): EC-01 through EC-14 and EC-D/EC-I/EC-O tracks.
+- [Verification evidence](https://github.com/axisvela/praxo-core/blob/main/docs/project/evaluation/verification-evidence.md): claim levels, current results, and limits.
 - [Changelog](https://github.com/axisvela/praxo-core/blob/main/CHANGELOG.md): release history and compatibility notes.
 
 ## Do Not Infer

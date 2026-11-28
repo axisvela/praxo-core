@@ -1,6 +1,6 @@
 # 何时不应选择 PRAXO-CORE
 
-本页用于帮助团队尽早排除 PRAXO-CORE。它不是对其他框架的贬低，也不能替代[框架对比](../project/comparison.md)或[验证证据](../project/verification-evidence.md)。
+本页用于帮助团队尽早排除 PRAXO-CORE。它不是对其他框架的贬低，也不能替代[框架对比](../project/evaluation/comparison.md)或[验证证据](../project/evaluation/verification-evidence.md)。
 
 PRAXO-CORE 是一个可嵌入、MIT 许可的执行内核，提供显式的 policy、tool、checkpoint、event、memory 和 sandbox 接缝。它刻意不是一个完整的 Agent 平台。
 
@@ -52,7 +52,7 @@ PRAXO-CORE 是一个可嵌入、MIT 许可的执行内核，提供显式的 poli
 
 采用 PRAXO-CORE 并不意味着所有层都被同等锁定：
 
-- **Go 公开 API：** 导出的 `pkg/...` 声明遵循[兼容政策](../project/compatibility-policy.md)和 API 快照，是最稳定的部分。
+- **Go 公开 API：** 导出的 `pkg/...` 声明遵循[兼容政策](../project/status/compatibility-policy.md)和 API 快照，是最稳定的部分。
 - **适配器、示例和产品组装：** 具体适配器和示例不在同等冻结范围内。替换 provider 或 sandbox 可能需要适配器工作。
 - **语言实现：** Python、TypeScript、Java 等 Core 共享契约，但不共享 Go 的全部功能。迁移前应核对[语言矩阵](https://github.com/axisvela/praxo-core/blob/main/spec/languages.md)和 parity 清单，不能假设可以直接替换。
 - **Checkpoint 数据：** `pkg/checkpoint` 定义带 JSON 字段的 Go struct。持久化的 checkpoint 数据应按需要评审和迁移的集成格式处理，而不是永久冻结的跨厂商 schema。

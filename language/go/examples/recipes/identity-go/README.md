@@ -6,7 +6,7 @@ the principal in a trusted context; Core only invokes the policy hook.
 
 **Evidence level: L4 application recipe.** It is not an identity provider,
 policy decision service, durable approval store, or Core capability. See the
-[test and evidence taxonomy](../../../../../docs/project/test-taxonomy.md).
+[test and evidence taxonomy](../../../../../docs/project/evaluation/test-and-evidence-taxonomy.md).
 
 Run from this directory:
 

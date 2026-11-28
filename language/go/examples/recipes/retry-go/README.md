@@ -8,8 +8,8 @@ ledger.
 **Evidence level: L4 application pattern.** It demonstrates the retry mechanics
 and the application-owned status check. It does not prove target-side
 idempotency, provider status semantics, or exactly-once execution. See
-[EC-03](../../../../../docs/project/execution-correctness.md) and the
-[test and evidence taxonomy](../../../../../docs/project/test-taxonomy.md).
+[EC-03](../../../../../docs/project/planning/execution-correctness-model.md) and the
+[test and evidence taxonomy](../../../../../docs/project/evaluation/test-and-evidence-taxonomy.md).
 
 Run from this directory:
 

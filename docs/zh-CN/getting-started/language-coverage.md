@@ -28,7 +28,7 @@ GNU Octave 复用 `language/matlab/examples/` 下的共享 MATLAB 示例；`matl
 
 **审计日期：** 2026-11-22。**范围：** 对 31 种声明语言的十三个主题做源码级审查。
 审计读取每个示例的源码，并按 Core 引用情况归类为集成或机制/Handler 代码。它不执行
-每个示例，也不替代[验证证据](../project/verification-evidence.md)中的运行记录。
+每个示例，也不替代[验证证据](../project/evaluation/verification-evidence.md)中的运行记录。
 重新生成：
 
 ```bash
@@ -174,6 +174,6 @@ Delphi、PowerShell、MATLAB 和 Objective-C，入口位于
 运行时和 adapter 实现。部分 SDK 将相同检查放在原生测试套件中，而非
 `language/go/examples/advanced-delegation` 目录。Go 还提供长时操作、受治理 Workspace 和 Plugin 参考示例。Sample
 语言指向宿主 Core 的 chain/delegation 示例；Shell、Lisp、Tcl 和 Prolog 明确记录 Bridge
-契约没有本地委派接口。记录运行见[验证证据](../project/verification-evidence.md)，模式说明见
+契约没有本地委派接口。记录运行见[验证证据](../project/evaluation/verification-evidence.md)，模式说明见
 [高级示例](../guides/advanced-examples.md)，并运行
 `python -m scripts.checks.check_example_coverage --report-advanced` 查看当前逐语言报告。

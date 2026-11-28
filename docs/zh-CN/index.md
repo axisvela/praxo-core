@@ -50,11 +50,11 @@ go get github.com/axisvela/praxo-core/v2@v2.11.3
 | 目标 | 入口 |
 | --- | --- |
 | 选择任务和证明该任务的路径层级 | [阅读导览中的任务到路径表](getting-started/index.md) |
-| 评估是否适合自己的产品 | [采用指南](getting-started/adoption.md)、[框架对比](project/comparison.md) |
+| 评估是否适合自己的产品 | [采用指南](getting-started/adoption.md)、[框架对比](project/evaluation/comparison.md) |
 | 连接模型或外部工具 | [适配器目录](integrations/index.md)、[接入示例](guides/recipes.md) |
 | 理解运行时和安全边界 | [架构](reference/architecture.md)、[安全模型](security/index.md) |
 | 编写插件或委派任务 | [插件编写](guides/plugins.md)、[多 Agent 模式](guides/multi-agent.md) |
-| 升级已有集成 | [兼容性](project/compatibility.md)、[版本历史](releases/index.md) |
+| 升级已有集成 | [兼容性](project/status/version-compatibility.md)、[版本历史](releases/index.md) |
 
 ## 当前版本
 

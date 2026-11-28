@@ -108,7 +108,7 @@ epoch 重新绑定，不能仅信任更大的整数。仿真暂停/回拨需显�
 完整试点验收同时要求治理 G1-G8 与 E1-E8，并覆盖允许、负向与故障路径。
 配置校验和行为验收分别记录；必需证据缺失时不满足验收，部分实验必须缩小声明范围。
 
-[具身试点计划](../project/embodied-pilot.md)把 E1-E8 转化为确定性、仿真与可选硬件门禁，
+[具身试点计划](../project/planning/embodied-pilot.md)把 E1-E8 转化为确定性、仿真与可选硬件门禁，
 并规定必需证据与停止条件。AKROVELA 已选定为消费者并记录 P1、F5 与 E1-E8 确定性/本地组件
 证据，以及存在 G2/G6 仿真不适用的 G1-G8 适用矩阵；但没有已接受的 P2 运行或 E1-E8 试点验收，不是本
 Profile 的实现声明。
@@ -116,7 +116,7 @@ Profile 的实现声明。
 [长时操作配方](../guides/long-running-operations.md)提供响应丢失、状态恢复、取消和 fencing 的
 软件 fixture，但不提供观测、中间件、生产 lease 或具身消费者；配方测试通过不满足本 Profile。
 
-按[测试分类](../project/test-taxonomy.md)区分确定性 fixture、端到端仿真、硬件试验和生产观察。
+按[测试分类](../project/evaluation/test-and-evidence-taxonomy.md)区分确定性 fixture、端到端仿真、硬件试验和生产观察。
 仿真不是硬件或生产证据。每项限定结果应附限制和剩余风险；本文不声明完整 Profile 已通过。
 
 ## 非目标

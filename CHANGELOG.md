@@ -1345,7 +1345,7 @@ and `adapters/multiagent/v0.1.0`.
 
 ### Migration
 
-- See `docs/project/migration-v2.md`.
+- See `docs/project/release/migration-v2.md`.
 
 All notable changes to PRAXO-CORE are documented here.
 
@@ -1445,7 +1445,7 @@ All notable changes to PRAXO-CORE are documented here.
 
 ### Changed
 
-- Exported API frozen; see `docs/project/api-stability.md`.
+- Exported API frozen; see `docs/project/status/api-stability.md`.
 - Removed the deprecated `pkg/output`, `pkg/format`, and `pkg/tool/schema`
   aliases. Use `pkg/toolcall`, `pkg/formatter`, and `pkg/tool/jsonschema`.
 - API snapshot `api/1.0.0.txt`; the diff from `0.16.0` is alias removal only.
@@ -1476,7 +1476,7 @@ All notable changes to PRAXO-CORE are documented here.
   `pkg/formatter` (was `pkg/format`), and `pkg/tool/jsonschema` (was
   `pkg/tool/schema`). The old paths remain as deprecated aliases through the
   `0.16` line and are removed in `1.0.0`; migration is tracked in
-  `docs/project/api-stability.md`.
+  `docs/project/status/api-stability.md`.
 - `toolcall.ToolCall` documents `Operation`, `Resource`, `Risk`, `Reason`, and
   `IdempotencyKey` as optional product governance metadata; the parser does not
   interpret or validate them.

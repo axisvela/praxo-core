@@ -25,7 +25,7 @@ Language variants, overlapping themes, mechanism cells and tutorial slices are n
 Scenario goals: **100**; **100** have related slices. End-to-end reference applications: **0**. Tutorials are accepted at their own bounded scope and are not incomplete merely because the broader goal has no end-to-end app. Related slices may cover only a subset of the listed target languages.
 
 The MATLAB/Octave paths share an implementation, not two unique scenarios; native MATLAB is unverified.
-README and source existence is not runtime or CI verification. See [Tutorial status](tutorial-plan.md#current-status) and [verification evidence](../project/verification-evidence.md).
+README and source existence is not runtime or CI verification. See [Tutorial status](tutorial-plan.md#current-status) and [verification evidence](../project/evaluation/verification-evidence.md).
 
 ## By Industry And Scenario
 

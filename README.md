@@ -144,7 +144,7 @@ surface; each language implementation declares its own scope and evidence.
 | Multilingual | Shared specification and independent implementations | Each language's declared vectors and behavior coverage | Selection against that language's limitations; not assumed Go feature parity |
 | Multi-agent | Local subagent delegation | Launch, status, cancel, and optional update suites | Parent-to-child policy/tool-scope narrowing, distributed coordination, and durable orchestration if needed |
 
-See the [test taxonomy](docs/project/test-taxonomy.md) for evidence levels and
+See the [test taxonomy](docs/project/evaluation/test-and-evidence-taxonomy.md) for evidence levels and
 the [consumer starters](docs/getting-started/coding-agents.md) for package-level checks.
 
 One Kernel supports three [integration levels](docs/reference/execution-profiles.md):
@@ -158,7 +158,7 @@ entry points and actual effect boundaries, not by a profile name.
 It is a framework, not a hosted agent service, vector database, model provider,
 or turnkey chat UI. Review the [adoption guide](docs/getting-started/adoption.md),
 [security model](docs/security/index.md), and
-[framework comparison](docs/project/comparison.md) before choosing it.
+[framework comparison](docs/project/evaluation/comparison.md) before choosing it.
 
 ## Runtime Scope and Evidence
 
@@ -249,7 +249,7 @@ and the [unified Tutorial Catalog](docs/getting-started/tutorial-catalog.md).
 | 7 | Julia | [Scientific computing](language/julia/application) | Source implementation; acceptance pending |
 | 8 | Ruby | [Rails back-office](language/ruby/application) | Source implementation; acceptance pending |
 
-See the [reference application portfolio](docs/project/delivery-history.md#reference-application-portfolio)
+See the [reference application portfolio](docs/project/status/delivery-history.md#reference-application-portfolio)
 for acceptance criteria and current limits.
 
 ## Repository Map
@@ -265,7 +265,7 @@ for acceptance criteria and current limits.
 | [`docs/`](docs) | Public documentation grouped by user task |
 
 Go module paths remain unchanged. Language sources have moved under `language/` and `bindings/`; Go examples
-are under `language/go/examples/`; see the [source migration guide](docs/project/repository-layout.md).
+are under `language/go/examples/`; see the [source migration guide](docs/project/status/repository-layout.md).
 
 ## Framework and Ecosystem
 
@@ -291,8 +291,8 @@ shape. Optional adapters and Core implementations are versioned independently.
 - [Latest release notes](docs/releases/2.11.3.md)
 - [Release history](docs/releases/index.md)
 - [Language Release Index](docs/languages/registry-status.md)
-- [Compatibility policy](docs/project/compatibility-policy.md)
-- [v2 migration](docs/project/migration-v2.md)
+- [Compatibility policy](docs/project/status/compatibility-policy.md)
+- [v2 migration](docs/project/release/migration-v2.md)
 - [Public roadmap](ROADMAP.md)
 - [Contributing](CONTRIBUTING.md)
 - [Security reporting](SECURITY.md)
@@ -315,4 +315,4 @@ and adapter releases use independent tags and registry versions, not Latest.
 
 ## License
 
-MIT. See [LICENSE](LICENSE) and [provenance](docs/project/provenance.md).
+MIT. See [LICENSE](LICENSE) and [provenance](docs/project/status/provenance.md).

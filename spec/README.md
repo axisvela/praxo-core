@@ -59,7 +59,7 @@ transaction schema.
 
 ## Status Labels
 
-Use the status words in the [contract and evidence status](https://github.com/axisvela/praxo-core/blob/main/docs/project/contract-status.md)
+Use the status words in the [contract and evidence status](https://github.com/axisvela/praxo-core/blob/main/docs/project/status/contract-status.md)
 page. A design marked proposed does not change this specification. An
 experimental profile may reference these contracts but cannot relax them.
 

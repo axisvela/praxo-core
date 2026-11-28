@@ -8,7 +8,7 @@ bounded context, and UNLOADED/QUARANTINED are terminal.
 machine. It does not prove process/WASM isolation, manifest trust, signature
 verification, or production plugin hosting. See
 [plugin trust](../../../../../docs/security/plugin-trust.md) and the
-[test and evidence taxonomy](../../../../../docs/project/test-taxonomy.md).
+[test and evidence taxonomy](../../../../../docs/project/evaluation/test-and-evidence-taxonomy.md).
 
 Run from this directory:
 

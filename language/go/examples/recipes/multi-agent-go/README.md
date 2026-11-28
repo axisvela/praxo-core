@@ -8,7 +8,7 @@ runners and no model service or external agent.
 local task semantics. It does not prove durable child execution, remote agent
 identity, cross-process recovery, or product multi-agent safety. See the
 [multi-agent guide](../../../../../docs/guides/multi-agent.md) and the
-[test and evidence taxonomy](../../../../../docs/project/test-taxonomy.md).
+[test and evidence taxonomy](../../../../../docs/project/evaluation/test-and-evidence-taxonomy.md).
 
 Run from this directory:
 

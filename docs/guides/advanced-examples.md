@@ -27,7 +27,7 @@ reauthorization. They do not implement automatic parent-policy inheritance or
 cancellation propagation; those remain application responsibilities. The Go
 manager example has its own lifecycle scope. Source availability is not execution
 evidence for every package/toolchain; consult the recorded runs in the
-[verification evidence](../project/verification-evidence.md) before claiming one.
+[verification evidence](../project/evaluation/verification-evidence.md) before claiming one.
 
 This is not the Go `pkg/agent/delegation` contract. Durable workers, remote task
 queues, retries, cancellation propagation, and effect reconciliation remain

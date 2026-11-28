@@ -1,7 +1,7 @@
 # Release Overview
 
 Core `2.11.3` is the current framework release. Review the notes for the version
-you are adopting and follow the [compatibility policy](../project/compatibility-policy.md).
+you are adopting and follow the [compatibility policy](../project/status/compatibility-policy.md).
 Core and adapter versions are independent; see [Core support](../languages/support.md)
 and the [adapter directory](../integrations/index.md).
 
@@ -37,5 +37,5 @@ declared capability scope. Publication order does not imply a shared version.
 | 2.1.0 | [Changes and upgrade guidance](2.1.0.md) |
 
 See the [complete changelog](https://github.com/axisvela/praxo-core/blob/main/CHANGELOG.md)
-for earlier history and the [release requirements](../project/releasing.md) for
+for earlier history and the [release requirements](../project/release/releasing.md) for
 artifact verification.

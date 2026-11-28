@@ -272,7 +272,7 @@ a later success. Repair is not blind re-execution.
 
 ## Evidence and Promotion
 
-Use the proposed [Execution Correctness Suite](../project/execution-correctness.md)
+Use the proposed [Execution Correctness Suite](../project/planning/execution-correctness-model.md)
 to organize failure cases, keeping Core mechanics, actual enforcement and
 operational outcomes separately evidenced.
 

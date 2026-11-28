@@ -4,7 +4,7 @@
 2. 运行[快速开始](quickstart.md)，连接真实模型端点。
 3. 按语言选择使用发布包的[独立消费者](consumer-go.md)。
 4. 使用[采用指南](adoption.md)将首次运行扩展为应用集成。
-5. 按[公开路线图](../project/roadmap.md)继续原型、嵌入、加固和高级路径。
+5. 按[公开路线图](../project/planning/roadmap.md)继续原型、嵌入、加固和高级路径。
 
 ## 任务到路径表
 
@@ -42,5 +42,5 @@
 | 委派任务 | [多 Agent 模式](../guides/multi-agent.md) |
 | 理解契约 | [架构](../reference/architecture.md)、[基础能力](../reference/primitives.md)、[事件](../reference/events.md) |
 | 评估安全性 | [安全模型](../security/index.md) |
-| 升级 | [兼容性](../project/compatibility.md)、[版本总览](../releases/index.md) |
+| 升级 | [兼容性](../project/status/version-compatibility.md)、[版本总览](../releases/index.md) |
 | 贡献 Core | [Core 设计](../contributing/core-design.md)、[语言支持规范](../contributing/language-policy.md) |

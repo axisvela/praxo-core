@@ -2,8 +2,8 @@
 
 This page exists so teams can rule PRAXO-CORE out early. It is not a claim that
 other frameworks are worse, and it does not replace the
-[comparison](../project/comparison.md) or the
-[verification evidence](../project/verification-evidence.md).
+[comparison](../project/evaluation/comparison.md) or the
+[verification evidence](../project/evaluation/verification-evidence.md).
 
 PRAXO-CORE is an embeddable, MIT-licensed execution kernel with explicit policy,
 tool, checkpoint, event, memory, and sandbox seams. It is deliberately not a
@@ -62,7 +62,7 @@ framework or managed product may be the better choice.
 Adopting PRAXO-CORE does not lock every layer equally:
 
 - **Public Go API:** exported `pkg/...` declarations follow the
-  [compatibility policy](../project/compatibility-policy.md) and API snapshots.
+  [compatibility policy](../project/status/compatibility-policy.md) and API snapshots.
   These are the most stable part.
 - **Adapters, examples, and product wiring:** concrete adapters and examples are
   not covered by the same freeze. Replacing a provider or sandbox may require

@@ -86,7 +86,7 @@ Index: [language/csharp/Tutorial](https://github.com/axisvela/praxo-core/tree/ma
 | --- | --- |
 | Enterprise line-of-business / ASP.NET Core service | Candidate; no accepted end-to-end implementation |
 
-See the [reference application portfolio](https://github.com/axisvela/praxo-core/blob/main/docs/project/roadmap.md#reference-application-portfolio)
+See the [reference application portfolio](https://github.com/axisvela/praxo-core/blob/main/docs/project/planning/roadmap.md#reference-application-portfolio)
 for acceptance criteria and current limits.
 
 Planning context: [Tutorial Plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/), [100 candidate agent scenarios](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/), and [Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/). Chinese: [教程计划](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-plan/), [候选场景](https://axisvela.github.io/praxo-core/zh-CN/getting-started/agent-scenarios/), [教程目录](https://axisvela.github.io/praxo-core/zh-CN/getting-started/tutorial-catalog/).

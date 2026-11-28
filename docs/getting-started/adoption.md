@@ -106,16 +106,16 @@ variants.
 - Forward events to your observability pipeline.
 - Verify plugin signatures, SBOMs, and trust before starting a host.
 - Pin the framework version and run the compatibility checks in
-  [Compatibility](../project/compatibility.md).
+  [Compatibility](../project/status/version-compatibility.md).
 - Run `GOWORK=off go test -race ./...` in CI.
-- Track the [benchmarks](../project/benchmarks.md) for regressions.
+- Track the [benchmarks](../project/evaluation/benchmarks.md) for regressions.
 
 ## 5. Migration Notes
 
 - From LangChainGo, Eino, or ADK: map concepts rather than copying code. PRAXO-
   CORE keeps the loop, provider abstraction, tools, memory, events, policy, and
   plugins as separate contracts.
-- v1 consumers should follow the [v2 migration guide](../project/migration-v2.md).
+- v1 consumers should follow the [v2 migration guide](../project/release/migration-v2.md).
 - If you need AxisVela integration, start with the
   [ecosystem guide](../integrations/ecosystem.md) instead of adding product-specific code to
   a general-purpose framework.
@@ -138,6 +138,6 @@ variants.
 - [Quickstart](quickstart.md)
 - [Recipes](../guides/recipes.md)
 - [AxisVela ecosystem](../integrations/ecosystem.md)
-- [Comparison](../project/comparison.md)
+- [Comparison](../project/evaluation/comparison.md)
 - [Security model](../security/index.md)
 - [Reference workspace agent](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/reference)

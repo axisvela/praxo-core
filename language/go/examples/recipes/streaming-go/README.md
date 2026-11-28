@@ -8,7 +8,7 @@ provider credentials or network service.
 path. It does not prove live provider streaming, tool-call delta aggregation
 across providers, or production telemetry. See the
 [stream reference](../../../../../docs/reference/events.md) and the
-[test and evidence taxonomy](../../../../../docs/project/test-taxonomy.md).
+[test and evidence taxonomy](../../../../../docs/project/evaluation/test-and-evidence-taxonomy.md).
 
 Run from this directory:
 

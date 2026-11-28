@@ -66,7 +66,7 @@ authorization from AKROVELA commit
 `bc8ef5fd0ae34a81debf9d83a494a467adc46f36`,
 `backend/internal/satellite/agent.go`, `journal.go` and `agent_test.go`.
 No product package or third-party AGPL-only dependency is imported. AKROVELA's
-license remains unchanged; see [license and provenance](../../../../../docs/project/provenance.md).
+license remains unchanged; see [license and provenance](../../../../../docs/project/status/provenance.md).
 
 Consumers can adapt the copy-on-write, durable-start and fault-test patterns while
 retaining their own protocols, resource budgets, tenant scope and authority.

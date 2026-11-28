@@ -19,7 +19,7 @@ class ExecutionCorrectnessInventoryTests(unittest.TestCase):
         self.assertEqual([case['id'] for case in self.inventory['scenarios']],
                          [f'EC-{i:02d}' for i in range(1, 15)])
         for prefix in ('', 'zh-CN/'):
-            page = (ROOT / 'docs' / prefix / 'project/execution-correctness.md').read_text(encoding='utf-8')
+            page = (ROOT / 'docs' / prefix / 'project/planning/execution-correctness-model.md').read_text(encoding='utf-8')
             self.assertEqual(re.findall(r'^\| (EC-\d{2}) \|', page, re.MULTILINE),
                              [case['id'] for case in self.inventory['scenarios']])
         allowed = {'partial-core-evidence', 'core-gap-and-external',

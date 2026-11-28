@@ -1,7 +1,7 @@
 # 版本总览
 
 当前框架核心版本为 `2.11.3`。升级前请查看对应发布说明与
-[兼容政策](../project/compatibility-policy.md)。Core 和适配器独立版本化，分别见
+[兼容政策](../project/status/compatibility-policy.md)。Core 和适配器独立版本化，分别见
 [Core 支持政策](../languages/support.md)和[适配器目录](../integrations/index.md)。
 
 GitHub **Latest Release** 仅代表 Go 参考 Core（`vX.Y.Z`）。语言与适配器发布不得替换该入口。
@@ -34,4 +34,4 @@ GitHub **Latest Release** 仅代表 Go 参考 Core（`vX.Y.Z`）。语言与适�
 | 2.1.0 | [变更与升级说明](2.1.0.md) |
 
 更早记录见[完整变更日志](https://github.com/axisvela/praxo-core/blob/main/CHANGELOG.md)，
-工件验证规则见[发布要求](../project/releasing.md)。
+工件验证规则见[发布要求](../project/release/releasing.md)。

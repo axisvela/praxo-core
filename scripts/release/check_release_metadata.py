@@ -133,7 +133,7 @@ def _check_public_entry_points(root: Path, version: str, errors: list[str]) -> N
 
 
 def _check_evidence_labels(root: Path, errors: list[str]) -> None:
-    for relative in ("docs/project/verification-evidence.md", "docs/zh-CN/project/verification-evidence.md"):
+    for relative in ("docs/project/evaluation/verification-evidence.md", "docs/zh-CN/project/evaluation/verification-evidence.md"):
         text = _read(root / relative, errors)
         lowered = text.lower()
         if "current ci behavior job" in lowered or "当前 CI behavior job" in text:

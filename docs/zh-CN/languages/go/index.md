@@ -22,7 +22,7 @@ Middleware、Delegation 和 VFS 契约。具体 Provider 和产品控制面属�
 - [快速开始源码](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/quickstart)
 - [Checkpoint 示例](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/checkpoint)
 - [受治理 Workspace 示例](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/governed-workspace)
-- [兼容性](../../project/compatibility.md)
+- [兼容性](../../project/status/version-compatibility.md)
 
 ## 从源码验证
 

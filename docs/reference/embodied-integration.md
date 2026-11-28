@@ -155,7 +155,7 @@ with allowed, negative and fault paths. Configuration validation and behavioral
 acceptance are separate results. Missing mandatory evidence leaves acceptance
 unsatisfied; partial experiments must narrow their claims.
 
-The [embodied pilot plan](../project/embodied-pilot.md) turns E1-E8 into
+The [embodied pilot plan](../project/planning/embodied-pilot.md) turns E1-E8 into
 deterministic, simulation, and optional hardware gates with required evidence and
 stop conditions. AKROVELA is the selected consumer and records P1, F5, and
 E1-E8 deterministic/local component evidence plus an applicable G1-G8 matrix,
@@ -168,7 +168,7 @@ fencing. It does not supply observations, middleware, production leases or an
 embodied consumer; its passing tests do not satisfy this profile.
 
 Separate deterministic fixtures, end-to-end simulation, hardware trials and
-production observations under the [test taxonomy](../project/test-taxonomy.md).
+production observations under the [test taxonomy](../project/evaluation/test-and-evidence-taxonomy.md).
 Simulation is not hardware or production evidence. Publish limitations and
 residual risks with each scoped result; no complete profile pass is claimed here.
 

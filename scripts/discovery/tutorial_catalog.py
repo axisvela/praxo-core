@@ -308,8 +308,8 @@ def render(entries: list[dict], zh: bool = False) -> str:
                    f"Related slices may cover only a subset of the listed target languages.")]
     lines += ["", ("MATLAB/Octave 的两条入口共享实现，不是两个独立场景；未运行原生 MATLAB。" if zh else
                     "The MATLAB/Octave paths share an implementation, not two unique scenarios; native MATLAB is unverified."),
-              ("存在 README 与源码只证明入口存在，不证明已运行或通过 CI。运行证据见 [Tutorial 状态](tutorial-plan.md) 与 [验证证据](../project/verification-evidence.md)。" if zh else
-               "README and source existence is not runtime or CI verification. See [Tutorial status](tutorial-plan.md#current-status) and [verification evidence](../project/verification-evidence.md)."),
+              ("存在 README 与源码只证明入口存在，不证明已运行或通过 CI。运行证据见 [Tutorial 状态](tutorial-plan.md) 与 [验证证据](../project/evaluation/verification-evidence.md)。" if zh else
+               "README and source existence is not runtime or CI verification. See [Tutorial status](tutorial-plan.md#current-status) and [verification evidence](../project/evaluation/verification-evidence.md)."),
               "", "## 按行业与场景" if zh else "## By Industry And Scenario", ""]
     for industry, names in INDUSTRIES.items():
         if industry == "CORE":

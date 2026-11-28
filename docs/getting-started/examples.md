@@ -163,7 +163,7 @@ The catalog uses the depth labels from the
 A recorded run is separate from depth: it names the revision, toolchain, command,
 output, and limits. A source entry is not a working path. Check the depth audit
 for mechanism-only themes and the
-[verification evidence](../project/verification-evidence.md) for recorded runs.
+[verification evidence](../project/evaluation/verification-evidence.md) for recorded runs.
 
 ## Choose by Task
 

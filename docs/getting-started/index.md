@@ -7,7 +7,7 @@
    language.
 4. Use the [adoption guide](adoption.md) to turn the first run into an
    application integration.
-5. Follow the [public roadmap](../project/roadmap.md) for prototype, embedding,
+5. Follow the [public roadmap](../project/planning/roadmap.md) for prototype, embedding,
    hardening, and advanced paths.
 
 ## Task-to-Path Table
@@ -50,5 +50,5 @@ before assuming a package is installable.
 | Delegate work | [Multi-agent patterns](../guides/multi-agent.md) |
 | Inspect contracts | [Architecture](../reference/architecture.md), [primitives](../reference/primitives.md), [events](../reference/events.md) |
 | Evaluate safety | [Security model](../security/index.md) |
-| Upgrade | [Compatibility](../project/compatibility.md), [releases](../releases/index.md) |
+| Upgrade | [Compatibility](../project/status/version-compatibility.md), [releases](../releases/index.md) |
 | Contribute a Core implementation change | [Core design](../contributing/core-design.md), [language policy](../contributing/language-policy.md) |

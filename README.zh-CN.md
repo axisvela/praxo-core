@@ -99,7 +99,7 @@ Go 参考实现覆盖完整接口；各语言实现分别声明范围与证据�
 | Multilingual | 共享规范与独立语言实现 | 各语言声明的向量和行为覆盖 | 按语言限制选型，不假设完整 Go 功能对齐 |
 | Multi-Agent | 局部 Subagent 委派 | 启动、状态、取消和可选更新测试 | 按需实现父子策略/工具范围收窄、分布式协调与持久编排 |
 
-证据层次见[测试分类](docs/zh-CN/project/test-taxonomy.md)，发布包验证见
+证据层次见[测试分类](docs/zh-CN/project/evaluation/test-and-evidence-taxonomy.md)，发布包验证见
 [消费者 Starter](docs/zh-CN/getting-started/coding-agents.md)。
 
 一个 Kernel 支持三个[集成层次](docs/zh-CN/reference/execution-profiles.md)：
@@ -109,7 +109,7 @@ Go 参考实现覆盖完整接口；各语言实现分别声明范围与证据�
 
 它不是托管 Agent 服务、向量数据库、模型提供商或开箱即用的聊天产品。采用前请阅读
 [采用指南](docs/zh-CN/getting-started/adoption.md)、[安全模型](docs/zh-CN/security/index.md)
-和[框架对比](docs/zh-CN/project/comparison.md)。
+和[框架对比](docs/zh-CN/project/evaluation/comparison.md)。
 
 ## 选择语言
 
@@ -191,7 +191,7 @@ optional。当前覆盖见[行为实验](docs/zh-CN/languages/behavior-lab.md)�
 | 7 | Julia | [科学计算](language/julia/application) | 源码实现；端到端验收待完成 |
 | 8 | Ruby | [Rails 后台](language/ruby/application) | 源码实现；端到端验收待完成 |
 
-验收标准与当前限制见[参考应用组合](docs/zh-CN/project/roadmap.md)。
+验收标准与当前限制见[参考应用组合](docs/zh-CN/project/planning/roadmap.md)。
 
 ## 仓库导览
 
@@ -206,7 +206,7 @@ optional。当前覆盖见[行为实验](docs/zh-CN/languages/behavior-lab.md)�
 | [`docs/`](docs) | 按用户任务分类的公开文档 |
 
 Go 导入路径保持不变，语言源码已归入 `language/`、`bindings/` 和 `language/go/examples/`，
-使用方请查看[源码迁移说明](docs/zh-CN/project/repository-layout.md)。
+使用方请查看[源码迁移说明](docs/zh-CN/project/status/repository-layout.md)。
 
 ## 框架与生态
 
@@ -224,8 +224,8 @@ PRAXO-CORE 是独立的 MIT 框架。
 
 - [最新发布说明](docs/zh-CN/releases/2.11.3.md)
 - [版本历史](docs/zh-CN/releases/index.md)
-- [兼容政策](docs/zh-CN/project/compatibility-policy.md)
-- [v2 迁移](docs/zh-CN/project/migration-v2.md)
+- [兼容政策](docs/zh-CN/project/status/compatibility-policy.md)
+- [v2 迁移](docs/zh-CN/project/release/migration-v2.md)
 - [公开路线图](ROADMAP.md)
 - [贡献指南](CONTRIBUTING.md)
 - [安全问题报告](SECURITY.md)
@@ -245,4 +245,4 @@ PRAXO-CORE 是独立的 MIT 框架。
 
 ## 许可证
 
-MIT。参见 [LICENSE](LICENSE) 与[来源说明](docs/zh-CN/project/provenance.md)。
+MIT。参见 [LICENSE](LICENSE) 与[来源说明](docs/zh-CN/project/status/provenance.md)。

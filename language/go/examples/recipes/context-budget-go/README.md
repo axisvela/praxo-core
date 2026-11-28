@@ -7,8 +7,8 @@ summary model is a deterministic fixture.
 **Evidence level: L1 contract/application recipe.** It shows prompt fitting and
 mandatory-system preservation. It does not prove a general prompt-injection
 filter, source authenticity, or production context storage. See
-[EC-06](../../../../../docs/project/execution-correctness.md) and the
-[test and evidence taxonomy](../../../../../docs/project/test-taxonomy.md).
+[EC-06](../../../../../docs/project/planning/execution-correctness-model.md) and the
+[test and evidence taxonomy](../../../../../docs/project/evaluation/test-and-evidence-taxonomy.md).
 
 Run from this directory:
 

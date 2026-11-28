@@ -9,7 +9,7 @@ the schema subset. It does not prove every provider honors `ResponseFormat`, nor
 does it implement the unsupported JSON Schema keywords (`$ref`, composition,
 `additionalProperties`, `format`, and so on). See the
 [package documentation](../../../../../pkg/tool/jsonschema/jsonschema.go) and the
-[test and evidence taxonomy](../../../../../docs/project/test-taxonomy.md).
+[test and evidence taxonomy](../../../../../docs/project/evaluation/test-and-evidence-taxonomy.md).
 
 Run from this directory:
 

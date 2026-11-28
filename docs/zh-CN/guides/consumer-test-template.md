@@ -73,7 +73,7 @@ Go 消费者示例：
 | Lua | Starter 通过 | 源码模式，需从仓库根目录运行 |
 | Java | 本地 180 秒内未完成 | 本地 JVM 启动器挂起；使用 CI 证据 |
 
-完整记录和限制见[验证证据](../project/verification-evidence.md)。这些运行证明模板
+完整记录和限制见[验证证据](../project/evaluation/verification-evidence.md)。这些运行证明模板
 可执行，不证明存在外部消费者路径。
 
 ## 记忆与上下文信任

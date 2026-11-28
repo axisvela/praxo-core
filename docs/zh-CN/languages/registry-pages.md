@@ -70,7 +70,7 @@ python -m unittest discover -s scripts -t . -p test_discovery.py -v
 
 这些入口可以帮助读者、搜索工具和编程工具识别框架，但不保证 SEO 排名、生成式引擎引用、
 索引、包发现或采用。能力声明仍以[适配器状态](adapter-status.md)、各语言 README 和
-[验证证据](../project/verification-evidence.md)为准。
+[验证证据](../project/evaluation/verification-evidence.md)为准。
 
 ### 元数据覆盖
 

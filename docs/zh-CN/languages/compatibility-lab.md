@@ -4,7 +4,7 @@
 
 兼容性实验运行选定语言实现现有的确定性 Core 一致性检查，并生成可复现报告。它只回答一个很窄的问题：这些实现在当前机器和工具链上，声明的向量组和 parity 检查是否通过？
 
-它不证明与 Go 的完整功能对齐、provider 行为、真实服务集成、生产就绪或安全性。这些不同层次的主张请参见[语言支持矩阵](https://github.com/axisvela/praxo-core/blob/main/spec/languages.md)和[验证证据](../project/verification-evidence.md)。
+它不证明与 Go 的完整功能对齐、provider 行为、真实服务集成、生产就绪或安全性。这些不同层次的主张请参见[语言支持矩阵](https://github.com/axisvela/praxo-core/blob/main/spec/languages.md)和[验证证据](../project/evaluation/verification-evidence.md)。
 
 ## 范围
 

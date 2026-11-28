@@ -11,14 +11,14 @@ class RoadmapTests(unittest.TestCase):
     def test_adoption_stages_are_unique_and_bilingual(self):
         for prefix in ("", "zh-CN/"):
             with self.subTest(language=prefix):
-                text = (ROOT / "docs" / prefix / "project/roadmap.md").read_text(encoding="utf-8")
+                text = (ROOT / "docs" / prefix / "project/planning/roadmap.md").read_text(encoding="utf-8")
                 stages = re.findall(r"^\| ([0-5])\. ", text, re.MULTILINE)
                 self.assertEqual(stages, list("012345"))
 
     def test_memory_status_names_source_and_published_scope(self):
         for prefix in ("", "zh-CN/"):
             with self.subTest(language=prefix):
-                text = (ROOT / "docs" / prefix / "project/contract-status.md").read_text(encoding="utf-8")
+                text = (ROOT / "docs" / prefix / "project/status/contract-status.md").read_text(encoding="utf-8")
                 row = next(line for line in text.splitlines() if line.startswith("| ") and "73da5139" in line)
                 for marker in ("Go", "2.9.0", "system", "SDK"):
                     self.assertIn(marker, row)
@@ -35,16 +35,17 @@ class RoadmapTests(unittest.TestCase):
         expected = ["PHP", "Java", "Elixir / Erlang", "Go", "C++ / Rust", "COBOL", "Julia", "Ruby"]
         for prefix in ("", "zh-CN/"):
             with self.subTest(language=prefix):
-                text = (ROOT / "docs" / prefix / "project/roadmap.md").read_text(encoding="utf-8")
-                rows = re.findall(r"^\| ([1-8]) \| ([^|]+) \|", text, re.MULTILINE)
+                delivery = (ROOT / "docs" / prefix / "project/status/delivery-history.md").read_text(encoding="utf-8")
+                rows = re.findall(r"^\| ([1-8]) \| ([^|]+) \|", delivery, re.MULTILINE)
                 self.assertEqual(rows, [(str(i), name) for i, name in enumerate(expected, 1)])
+                roadmap = (ROOT / "docs" / prefix / "project/planning/roadmap.md").read_text(encoding="utf-8")
                 for marker in ("Laravel", "Spring Boot", "OTP", "Rails", "P0", "P1", "P2"):
-                    self.assertIn(marker, text)
+                    self.assertIn(marker, delivery + roadmap)
 
     def test_tutorial_ci_snapshot_replaces_pending_status(self):
         for prefix in ("", "zh-CN/"):
-            for page in ("project/roadmap.md", "getting-started/tutorial-plan.md",
-                         "getting-started/runtime-scenario-design.md", "project/verification-evidence.md"):
+            for page in ("project/planning/roadmap.md", "getting-started/tutorial-plan.md",
+                         "getting-started/runtime-scenario-design.md", "project/evaluation/verification-evidence.md"):
                 with self.subTest(language=prefix, page=page):
                     text = (ROOT / "docs" / prefix / page).read_text(encoding="utf-8")
                     self.assertIn("dfdfd558", text)
@@ -56,7 +57,7 @@ class RoadmapTests(unittest.TestCase):
     def test_selection_plan_keeps_unrun_status_and_existing_upgrade_evidence(self):
         for prefix in ("", "zh-CN/"):
             with self.subTest(language=prefix):
-                text = (ROOT / "docs" / prefix / "project/adoption-baseline.md").read_text(encoding="utf-8")
+                text = (ROOT / "docs" / prefix / "project/evaluation/adoption-baseline.md").read_text(encoding="utf-8")
                 self.assertIn("Agent Selection Benchmark", text)
                 self.assertIn("upgrade-python-002", text)
                 self.assertIn("top-1/top-3", text)
@@ -92,7 +93,7 @@ class RoadmapTests(unittest.TestCase):
             ("", "## Public Evidence Links", "## Not Claimed"),
             ("zh-CN/", "## 公开证据链接", "## 未声明"),
         ):
-            text = (ROOT / "docs" / prefix / "project/verification-evidence.md").read_text(encoding="utf-8")
+            text = (ROOT / "docs" / prefix / "project/evaluation/verification-evidence.md").read_text(encoding="utf-8")
             block = text.split(heading, 1)[1].split(end, 1)[0]
             for registry_name, label in packages:
                 with self.subTest(language=prefix, package=label):
@@ -115,8 +116,8 @@ class RoadmapTests(unittest.TestCase):
         self.assertIn("AI-native", ai_readme)
         precursor_readme = (php / "content-review/README.md").read_text(encoding="utf-8")
         self.assertIn("precursor", precursor_readme)
-        roadmap = (ROOT / "docs/project/roadmap.md").read_text(encoding="utf-8")
-        self.assertIn("language/<language>/application/", roadmap)
+        delivery = (ROOT / "docs/project/status/delivery-history.md").read_text(encoding="utf-8")
+        self.assertIn("language/<language>/application/", delivery)
 
     def test_readme_latest_release_notes_match_current_release(self):
         version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()

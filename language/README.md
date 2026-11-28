@@ -15,6 +15,6 @@ Groovy, JavaScript, Kotlin, OpenCL, and Scala are
 implementations. Visual Basic continues to consume the C# Core implementation
 under `csharp/samples/`.
 
-See [repository layout and source migration](../docs/project/repository-layout.md)
+See [repository layout and source migration](../docs/project/status/repository-layout.md)
 if your scripts previously used root-level language directories. Package names,
 Go imports, contract versions, and existing source tags are unchanged.

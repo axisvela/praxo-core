@@ -27,5 +27,5 @@ vendor/bin/phpunit
 Drupal is the next PHP host for the AI-native workflow. Drupal core is an external
 GPL dependency and is not vendored into this MIT repository.
 
-See [`../../../../docs/project/ai-native-reference-applications.md`](../../../../docs/project/ai-native-reference-applications.md)
+See [`../../../../docs/project/planning/ai-native-reference-applications.md`](../../../../docs/project/planning/ai-native-reference-applications.md)
 for the AI-native acceptance criteria and scenario map.

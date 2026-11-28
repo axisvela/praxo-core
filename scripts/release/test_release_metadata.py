@@ -56,8 +56,8 @@ class ReleaseMetadataTests(unittest.TestCase):
             f"go get github.com/axisvela/praxo-core/v2@v{version}\n\n"
             f"查看[最新发布说明](releases/{version}.md)\n",
         )
-        self.write("docs/project/verification-evidence.md", "CI behavior job at commit `b6218e5`.\n")
-        self.write("docs/zh-CN/project/verification-evidence.md", "commit `b6218e5` 的 CI behavior job。\n")
+        self.write("docs/project/evaluation/verification-evidence.md", "CI behavior job at commit `b6218e5`.\n")
+        self.write("docs/zh-CN/project/evaluation/verification-evidence.md", "commit `b6218e5` 的 CI behavior job。\n")
         self.write("docs/languages/behavior-lab-matrix.md", f"| Revision | `{'a' * 40}` |\n")
         self.write("docs/zh-CN/languages/behavior-lab-matrix.md", f"| Revision | `{'a' * 40}` |\n")
 
@@ -99,7 +99,7 @@ class ReleaseMetadataTests(unittest.TestCase):
 
     def test_recorded_ci_run_cannot_be_labeled_current(self):
         self.build()
-        self.write("docs/project/verification-evidence.md", "the current CI behavior job\n")
+        self.write("docs/project/evaluation/verification-evidence.md", "the current CI behavior job\n")
         self.assertTrue(any("must not be labeled current" in error for error in self.errors()))
 
     def test_behavior_matrix_requires_full_revision(self):

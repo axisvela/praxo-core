@@ -49,7 +49,7 @@ Missing translations fall back to English.
 
 Independent language implementations live under `language/`, runtime wrappers under
 `bindings/`, and shared-runtime samples under `language/go/examples/`. See the
-[source migration guide](docs/project/repository-layout.md) before updating
+[source migration guide](docs/project/status/repository-layout.md) before updating
 source-based consumer scripts. The Go root module and public imports stay unchanged.
 
 Each language has an entry under `docs/languages/`. Pages with `sdk_readme` metadata
@@ -79,7 +79,7 @@ not in a hidden or navigation-excluded directory in this public repository.
 
 Exported interfaces, struct fields, JSON tags, error sentinels, and wire
 formats are part of the compatibility contract. Document intentional API
-changes in `CHANGELOG.md` and `docs/project/compatibility.md`.
+changes in `CHANGELOG.md` and `docs/project/status/version-compatibility.md`.
 
 ## Commit Style
 
@@ -90,7 +90,7 @@ Keep commits small enough to review.
 
 By contributing, you agree that your contribution is licensed under the MIT
 License and that AxisVela may relicense contributed code as described in
-`docs/project/provenance.md`.
+`docs/project/status/provenance.md`.
 
 ## Security
 

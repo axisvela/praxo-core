@@ -35,7 +35,7 @@ file; a README-only directory does not count as an implementation.
 languages across the thirteen themes. The audit reads each example's source files
 and classifies Core references as integration or mechanism/handler code. It does
 not execute every example, and it does not replace the recorded runs in
-[verification evidence](../project/verification-evidence.md).
+[verification evidence](../project/evaluation/verification-evidence.md).
 Regenerate the table with:
 
 ```bash
@@ -196,7 +196,7 @@ suites rather than an `language/go/examples/advanced-delegation` directory. Go a
 reference examples for long-running operations, governed workspaces, and plugins. Sample languages point to their
 host Core's chain/delegation examples; Shell, Lisp, Tcl, and Prolog explicitly
 record that the bridge contract has no local delegation surface. See the
-[verification evidence](../project/verification-evidence.md) for recorded runs
+[verification evidence](../project/evaluation/verification-evidence.md) for recorded runs
 and [Advanced examples](../guides/advanced-examples.md) for the pattern. Run
 `python -m scripts.checks.check_example_coverage --report-advanced` for the current
 per-language report.

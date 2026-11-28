@@ -27,7 +27,7 @@ class DocumentationContentTests(unittest.TestCase):
     def test_current_scoped_java_and_php_evidence(self):
         for prefix in ("", "zh-CN/"):
             with self.subTest(language=prefix):
-                evidence = (ROOT / "docs" / prefix / "project/verification-evidence.md").read_text(encoding="utf-8")
+                evidence = (ROOT / "docs" / prefix / "project/evaluation/verification-evidence.md").read_text(encoding="utf-8")
                 for value in ("46018135957", "b531f6abdfc1775ce5122357c496d834428cfe63",
                               "46026595266", "02e736e4a57895dffafab51a8be85dbc9c9d9601",
                               "java-ai-commerce", "java-new-tutorials", "airport-recovery",
@@ -164,8 +164,8 @@ class DocumentationContentTests(unittest.TestCase):
         for prefix in ("", "zh-CN/"):
             page = (ROOT / "docs" / prefix / "getting-started/coding-agents.md").read_text(encoding="utf-8")
             self.assertIn("agent-skills/praxo-integration", page)
-        self.assertIn("skill template", (ROOT / "docs/project/contract-status.md").read_text(encoding="utf-8"))
-        self.assertIn("Skill 模板", (ROOT / "docs/zh-CN/project/contract-status.md").read_text(encoding="utf-8"))
+        self.assertIn("skill template", (ROOT / "docs/project/status/contract-status.md").read_text(encoding="utf-8"))
+        self.assertIn("Skill 模板", (ROOT / "docs/zh-CN/project/status/contract-status.md").read_text(encoding="utf-8"))
 
     def test_long_running_recipe(self):
         recipe = ROOT / "language/go/examples/recipes/long-running-go"
@@ -201,14 +201,14 @@ class DocumentationContentTests(unittest.TestCase):
             ("", ("L1 Core contract", "L4 Application recipe", "Do not internalize")),
             ("zh-CN/", ("L1 Core", "L4 应用配方", "不要仅因配方测试通过就内化")),
         ):
-            page = (ROOT / "docs" / prefix / "project/test-taxonomy.md").read_text(encoding="utf-8")
+            page = (ROOT / "docs" / prefix / "project/evaluation/test-and-evidence-taxonomy.md").read_text(encoding="utf-8")
             for term in terms:
                 self.assertIn(term, page)
-            self.assertIn("test-taxonomy.md", (ROOT / "docs" / prefix / "project/contract-status.md").read_text(encoding="utf-8"))
-        self.assertIn("consumer-go", (ROOT / "docs/project/test-taxonomy.md").read_text(encoding="utf-8"))
-        self.assertIn("test-taxonomy.md", (ROOT / "language/go/examples/consumer-go/README.md").read_text(encoding="utf-8"))
-        self.assertIn("project/test-taxonomy.md", (ROOT / "mkdocs.yml").read_text(encoding="utf-8"))
-        self.assertTrue((ROOT / "site/project/test-taxonomy/index.html").is_file())
+            self.assertIn("test-and-evidence-taxonomy.md", (ROOT / "docs" / prefix / "project/status/contract-status.md").read_text(encoding="utf-8"))
+        self.assertIn("consumer-go", (ROOT / "docs/project/evaluation/test-and-evidence-taxonomy.md").read_text(encoding="utf-8"))
+        self.assertIn("test-and-evidence-taxonomy.md", (ROOT / "language/go/examples/consumer-go/README.md").read_text(encoding="utf-8"))
+        self.assertIn("project/evaluation/test-and-evidence-taxonomy.md", (ROOT / "mkdocs.yml").read_text(encoding="utf-8"))
+        self.assertTrue((ROOT / "site/project/evaluation/test-and-evidence-taxonomy/index.html").is_file())
 
     def test_contract_status_vocabulary_and_links(self):
         expectations = {
@@ -216,23 +216,23 @@ class DocumentationContentTests(unittest.TestCase):
             "zh-CN/": ("已实现", "提案", "实验", "未运行", "未开始"),
         }
         for prefix, terms in expectations.items():
-            page = (ROOT / "docs" / prefix / "project/contract-status.md").read_text(encoding="utf-8")
+            page = (ROOT / "docs" / prefix / "project/status/contract-status.md").read_text(encoding="utf-8")
             for term in terms:
                 self.assertIn(term, page)
-            roadmap = (ROOT / "docs" / prefix / "project/roadmap.md").read_text(encoding="utf-8")
+            roadmap = (ROOT / "docs" / prefix / "project/planning/roadmap.md").read_text(encoding="utf-8")
             self.assertIn("contract-status.md", roadmap)
         spec = (ROOT / "spec/README.md").read_text(encoding="utf-8")
         self.assertIn("does not by itself authorize a shared\n   wire addition", spec)
-        policy = (ROOT / "docs/project/compatibility-policy.md").read_text(encoding="utf-8")
+        policy = (ROOT / "docs/project/status/compatibility-policy.md").read_text(encoding="utf-8")
         self.assertIn("does not by itself authorize a\n  new field in shared `spec/wire/`", policy)
-        chinese = (ROOT / "docs/zh-CN/project/compatibility-policy.md").read_text(encoding="utf-8")
+        chinese = (ROOT / "docs/zh-CN/project/status/compatibility-policy.md").read_text(encoding="utf-8")
         self.assertIn("不能单独授权", chinese)
         navigation = (ROOT / "mkdocs.yml").read_text(encoding="utf-8")
-        self.assertIn("project/contract-status.md", navigation)
+        self.assertIn("project/status/contract-status.md", navigation)
 
     def test_built_contract_status(self):
         for prefix in ("", "zh-CN/"):
-            html = (ROOT / "site" / prefix / "project/contract-status/index.html").read_text(encoding="utf-8")
+            html = (ROOT / "site" / prefix / "project/status/contract-status/index.html").read_text(encoding="utf-8")
             parser = Links()
             parser.feed(html)
             text = "".join(parser.text)

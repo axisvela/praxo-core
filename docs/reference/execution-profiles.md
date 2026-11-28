@@ -16,7 +16,7 @@ release line is created.
 
 The Go reference is the behavioral starting point. Other language implementations
 must declare their own supported controls and evidence; the same level name does
-not establish language parity. See [Contract and Evidence Status](../project/contract-status.md).
+not establish language parity. See [Contract and Evidence Status](../project/status/contract-status.md).
 
 ## Standard Embedding
 
@@ -81,7 +81,7 @@ gates, with G2/G6 simulation not applicable. Real ROS 2/Gazebo execution, an
 independent verifier, and an accepted P2 run remain open before this profile can
 be described as an experimental implementation.
 
-The [pilot plan](../project/embodied-pilot.md) proposes a consumer example, one
+The [pilot plan](../project/planning/embodied-pilot.md) proposes a consumer example, one
 experimental middleware adapter and a consumer-local operation/observation
 protocol using existing seams. It reuses governed assembly and requires G1-G8
 plus E1-E8. New integration protocol work does not automatically become Core API
@@ -107,7 +107,7 @@ Standard Embedding. Keep the ordinary embedding path available.
 
 ## Claims and Compatibility
 
-The proposed [Execution Correctness Suite](../project/execution-correctness.md)
+The proposed [Execution Correctness Suite](../project/planning/execution-correctness-model.md)
 defines failure-boundary acceptance across EC-D, EC-I and EC-O tracks. It is an
 inventory, not evidence that either profile is implemented or has passed.
 

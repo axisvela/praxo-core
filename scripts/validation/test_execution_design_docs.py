@@ -20,9 +20,9 @@ class ExecutionDesignDocumentationTests(unittest.TestCase):
                     self.assertIn(name, overview)
                 self.assertIn('governed-execution.md', overview)
                 self.assertIn('embodied-integration.md', overview)
-                self.assertIn('execution-correctness.md', overview)
+                self.assertIn('execution-correctness-model.md', overview)
                 self.assertIn('2026-11-08', overview)
-                status = (DOCS / prefix / 'project/contract-status.md').read_text(encoding='utf-8')
+                status = (DOCS / prefix / 'project/status/contract-status.md').read_text(encoding='utf-8')
                 for name in ('Standard Embedding', 'Governed Execution Profile',
                              'Embodied Integration Profile', 'Execution Correctness Suite'):
                     self.assertIn('| ' + name + ' |', status)
@@ -60,16 +60,16 @@ class ExecutionDesignDocumentationTests(unittest.TestCase):
 
     def test_ec_inventory_preserves_taxonomy_and_planned_status(self):
         for prefix in ('', 'zh-CN/'):
-            text = (DOCS / prefix / 'project/execution-correctness.md').read_text(encoding='utf-8')
+            text = (DOCS / prefix / 'project/planning/execution-correctness-model.md').read_text(encoding='utf-8')
             ids = re.findall(r'^\| (EC-\d{2}) \|', text, re.MULTILINE)
             self.assertEqual(ids, [f'EC-{i:02d}' for i in range(1, 15)])
             for term in ('EC-D', 'EC-I', 'EC-O', 'L1-L6', 'not-run',
                          'ShouldRetry', 'event.Sink.Emit', 'test-evidence.md'):
                 self.assertIn(term, text)
-            roadmap = (DOCS / prefix / 'project/roadmap.md').read_text(encoding='utf-8')
-            self.assertIn('execution-correctness.md', roadmap)
-            self.assertIn('execution-profiles.md', roadmap)
-        english = (DOCS / 'project/execution-correctness.md').read_text(encoding='utf-8')
+            delivery = (DOCS / prefix / 'project/status/delivery-history.md').read_text(encoding='utf-8')
+            self.assertIn('execution-correctness-model.md', delivery)
+            self.assertIn('execution-profiles.md', delivery)
+        english = (DOCS / 'project/planning/execution-correctness-model.md').read_text(encoding='utf-8')
         self.assertIn('EC-D Scope Runner', english)
         self.assertIn('execution_correctness.py', english)
         self.assertIn('scope-passed', english)
@@ -78,7 +78,7 @@ class ExecutionDesignDocumentationTests(unittest.TestCase):
 
     def test_embodied_pilot_plan_is_planned_and_bilingual(self):
         with self.subTest(language=""):
-            text = (DOCS / 'project/embodied-pilot.md').read_text(encoding='utf-8')
+            text = (DOCS / 'project/planning/embodied-pilot.md').read_text(encoding='utf-8')
             self.assertEqual(re.findall(r'^\| (E[1-8]) \|', text, re.MULTILINE),
                              [f'E{i}' for i in range(1, 9)])
             self.assertIn('proposed pilot plan', text)
@@ -89,7 +89,7 @@ class ExecutionDesignDocumentationTests(unittest.TestCase):
             self.assertIn('AKROVELA is the selected', text)
             self.assertIn('product component', text)
         with self.subTest(language='zh-CN/'):
-            text = (DOCS / 'zh-CN/project/embodied-pilot.md').read_text(encoding='utf-8')
+            text = (DOCS / 'zh-CN/project/planning/embodied-pilot.md').read_text(encoding='utf-8')
             self.assertEqual(re.findall(r'^\| (E[1-8]) \|', text, re.MULTILINE),
                              [f'E{i}' for i in range(1, 9)])
             self.assertIn('试点计划提案', text)
@@ -97,13 +97,13 @@ class ExecutionDesignDocumentationTests(unittest.TestCase):
             self.assertIn('governed-execution.md', text)
             self.assertIn('AKROVELA 已选定为消费者', text)
             self.assertIn('产品组件', text)
-        roadmap = (DOCS / 'project/roadmap.md').read_text(encoding='utf-8')
-        self.assertIn('embodied-pilot.md', roadmap)
-        self.assertIn('embodied-pilot.md', (DOCS / 'zh-CN/project/roadmap.md').read_text(encoding='utf-8'))
-        status = (DOCS / 'project/contract-status.md').read_text(encoding='utf-8')
+        delivery = (DOCS / 'project/status/delivery-history.md').read_text(encoding='utf-8')
+        self.assertIn('embodied-pilot.md', delivery)
+        self.assertIn('embodied-pilot.md', (DOCS / 'zh-CN/project/status/delivery-history.md').read_text(encoding='utf-8'))
+        status = (DOCS / 'project/status/contract-status.md').read_text(encoding='utf-8')
         self.assertIn('Embodied pilot plan', status)
         config = yaml.safe_load((ROOT / 'mkdocs.yml').read_text(encoding='utf-8'))
-        self.assertIn('project/embodied-pilot.md', str(config['nav']))
+        self.assertIn('project/planning/embodied-pilot.md', str(config['nav']))
 
     def test_adoption_baseline_protocol_is_proposed_and_tracked(self):
         for prefix, terms in (
@@ -114,21 +114,21 @@ class ExecutionDesignDocumentationTests(unittest.TestCase):
                         "指定集成", "升级维护", "## 非声明", "## 指标")),
         ):
             with self.subTest(language=prefix):
-                text = (DOCS / prefix / "project/adoption-baseline.md").read_text(encoding="utf-8")
+                text = (DOCS / prefix / "project/evaluation/adoption-baseline.md").read_text(encoding="utf-8")
                 for term in terms:
                     self.assertIn(term, text)
-        self.assertIn("adoption-baseline.md", (DOCS / "project/roadmap.md").read_text(encoding="utf-8"))
-        self.assertIn("adoption-baseline.md", (DOCS / "zh-CN/project/roadmap.md").read_text(encoding="utf-8"))
-        self.assertIn("Adoption baseline protocol", (DOCS / "project/contract-status.md").read_text(encoding="utf-8"))
-        self.assertIn("采用基线协议", (DOCS / "zh-CN/project/contract-status.md").read_text(encoding="utf-8"))
+        self.assertIn("adoption-baseline.md", (DOCS / "project/planning/roadmap.md").read_text(encoding="utf-8"))
+        self.assertIn("adoption-baseline.md", (DOCS / "zh-CN/project/planning/roadmap.md").read_text(encoding="utf-8"))
+        self.assertIn("Adoption baseline protocol", (DOCS / "project/status/contract-status.md").read_text(encoding="utf-8"))
+        self.assertIn("采用基线协议", (DOCS / "zh-CN/project/status/contract-status.md").read_text(encoding="utf-8"))
         config = yaml.safe_load((ROOT / "mkdocs.yml").read_text(encoding="utf-8"))
-        self.assertIn("project/adoption-baseline.md", str(config["nav"]))
+        self.assertIn("project/evaluation/adoption-baseline.md", str(config["nav"]))
 
     def test_design_pages_are_navigable_with_translations(self):
         config = yaml.safe_load((ROOT / 'mkdocs.yml').read_text(encoding='utf-8'))
         navigation = str(config['nav'])
         for page in ('reference/execution-profiles.md', 'reference/governed-execution.md',
-                     'reference/embodied-integration.md', 'project/execution-correctness.md'):
+                     'reference/embodied-integration.md', 'project/planning/execution-correctness-model.md'):
             self.assertIn(page, navigation)
             self.assertTrue((DOCS / 'zh-CN' / page).is_file())
 
@@ -147,7 +147,7 @@ class ExecutionDesignDocumentationTests(unittest.TestCase):
                 configurations.append(config)
                 self.assertIn('2026-11-08', text)
                 for path in ('reference/execution-profiles.md',
-                             'project/contract-status.md', 'project/embodied-pilot.md'):
+                             'project/status/contract-status.md', 'project/planning/embodied-pilot.md'):
                     page = (DOCS / prefix / path).read_text(encoding='utf-8')
                     self.assertIn('G1-G8', page, path)
         self.assertEqual(*configurations)
@@ -164,12 +164,12 @@ class ExecutionDesignDocumentationTests(unittest.TestCase):
         }
         for prefix, terms in expectations.items():
             with self.subTest(language=prefix):
-                text = (DOCS / prefix / 'project/embodied-pilot.md').read_text(encoding='utf-8')
+                text = (DOCS / prefix / 'project/planning/embodied-pilot.md').read_text(encoding='utf-8')
                 for term in terms:
                     self.assertIn(term, text)
                 headings = re.findall(r'^## .+', text, re.MULTILINE)
                 self.assertEqual(len(headings), len(set(headings)))
-        english = (DOCS / 'project/embodied-pilot.md').read_text(encoding='utf-8')
+        english = (DOCS / 'project/planning/embodied-pilot.md').read_text(encoding='utf-8')
         self.assertNotIn('confirmation, rejection, or timeout is recorded as unknown/pending', english)
 
     def test_embodied_product_roles_and_public_contract_boundaries(self):
@@ -185,12 +185,12 @@ class ExecutionDesignDocumentationTests(unittest.TestCase):
                 profile = (DOCS / prefix / 'reference/embodied-integration.md').read_text(encoding='utf-8')
                 for term in ('integrations/ecosystem.md', 'SafetyEnvelope', 'AGPL', 'epoch'):
                     self.assertIn(term, profile)
-        english = (DOCS / 'project/embodied-pilot.md').read_text(encoding='utf-8')
+        english = (DOCS / 'project/planning/embodied-pilot.md').read_text(encoding='utf-8')
         for term in ('experiment-attempt/Run/Mission', 'observer health',
                      'cleanup evidence', 'independent', 'published and reviewed',
                      'cross-attempt/tenant/epoch', 'declared absence'):
             self.assertIn(term, english)
-        chinese = (DOCS / 'zh-CN/project/embodied-pilot.md').read_text(encoding='utf-8')
+        chinese = (DOCS / 'zh-CN/project/planning/embodied-pilot.md').read_text(encoding='utf-8')
         for term in ('experiment-attempt/Run/Mission', '观测者健康', '清理证据',
                      '独立保障', '发布并审查', '跨 attempt/租户/epoch', '显式缺失'):
             self.assertIn(term, chinese)
@@ -215,7 +215,7 @@ class ExecutionDesignDocumentationTests(unittest.TestCase):
                 self.assertIn('PRAXOVELA', overview)
                 self.assertIn('AKROVELA', overview)
                 self.assertIn(embed_term, overview)
-                compatibility = (DOCS / prefix / 'project/compatibility.md').read_text(encoding='utf-8')
+                compatibility = (DOCS / prefix / 'project/status/version-compatibility.md').read_text(encoding='utf-8')
                 self.assertIn('AKROVELA', compatibility)
                 self.assertIn('AGPL', compatibility)
                 ecosystem = (DOCS / prefix / 'integrations/ecosystem.md').read_text(encoding='utf-8')
@@ -226,8 +226,8 @@ class ExecutionDesignDocumentationTests(unittest.TestCase):
     def test_edge_learning_targets_remain_optional_and_unimplemented(self):
         for prefix in ('', 'zh-CN/'):
             for relative in ('integrations/ecosystem.md',
-                             'project/contract-status.md', 'reference/embodied-integration.md',
-                             'project/embodied-pilot.md'):
+                             'project/status/contract-status.md', 'reference/embodied-integration.md',
+                             'project/planning/embodied-pilot.md'):
                 with self.subTest(language=prefix, page=relative):
                     text = (DOCS / prefix / relative).read_text(encoding='utf-8')
                     self.assertIn('AKROVELA', text)
@@ -235,12 +235,12 @@ class ExecutionDesignDocumentationTests(unittest.TestCase):
                     self.assertIn('0.1.0', text)
         english = (DOCS / 'reference/embodied-integration.md').read_text(encoding='utf-8')
         self.assertIn('AKROVELA is the selected pilot consumer', english)
-        pilot = (DOCS / 'project/embodied-pilot.md').read_text(encoding='utf-8')
+        pilot = (DOCS / 'project/planning/embodied-pilot.md').read_text(encoding='utf-8')
         self.assertIn('DIDACTOVELA', pilot)
-        roadmap = (DOCS / 'project/roadmap.md').read_text(encoding='utf-8')
-        self.assertIn('AKROVELA is the selected consumer', roadmap)
-        self.assertIn('PRAXOVELA', roadmap)
-        status = (DOCS / 'project/contract-status.md').read_text(encoding='utf-8')
+        delivery = (DOCS / 'project/status/delivery-history.md').read_text(encoding='utf-8')
+        self.assertIn('AKROVELA is the selected consumer', delivery)
+        self.assertIn('PRAXOVELA', delivery)
+        status = (DOCS / 'project/status/contract-status.md').read_text(encoding='utf-8')
         self.assertIn('AKROVELA is selected to embed PRAXO-CORE', status)
         profiles = (DOCS / 'reference/execution-profiles.md').read_text(encoding='utf-8')
         self.assertIn('AKROVELA is the named consumer', profiles)

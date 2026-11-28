@@ -25,7 +25,7 @@
 完整场景目标：**100**；其中 **100** 个关联已有局部切片。端到端参考应用：**0**。教程按自身有界范围独立验收，不因端到端目标未实现而被判未完成。切片可能只覆盖所列目标语言的一部分。
 
 MATLAB/Octave 的两条入口共享实现，不是两个独立场景；未运行原生 MATLAB。
-存在 README 与源码只证明入口存在，不证明已运行或通过 CI。运行证据见 [Tutorial 状态](tutorial-plan.md) 与 [验证证据](../project/verification-evidence.md)。
+存在 README 与源码只证明入口存在，不证明已运行或通过 CI。运行证据见 [Tutorial 状态](tutorial-plan.md) 与 [验证证据](../project/evaluation/verification-evidence.md)。
 
 ## 按行业与场景
 

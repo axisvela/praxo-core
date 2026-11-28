@@ -126,6 +126,13 @@ plugins:
             Containment: 路径隔离
             Plugin Trust: 插件信任
             Project: 项目信息
+            Project Overview: 项目概览
+            Status: 状态
+            Planning: 规划
+            Release: 发布
+            Evaluation: 评估
+            Version Compatibility: 版本兼容性
+            Execution Correctness Model: 执行正确性模型
             Compatibility: 兼容性
             Compatibility Policy: 兼容政策
             Contract Status: 契约状态
@@ -282,24 +289,30 @@ nav:
       - Containment: security/containment.md
       - Plugin Trust: security/plugin-trust.md
   - Project:
-      - Compatibility: project/compatibility.md
-      - Compatibility Policy: project/compatibility-policy.md
-      - Contract Status: project/contract-status.md
-      - Test and Evidence Taxonomy: project/test-taxonomy.md
-      - Execution Correctness: project/execution-correctness.md
-      - Execution Correctness Evidence: project/execution-correctness-evidence.md
-      - Adoption Baseline: project/adoption-baseline.md
-      - Embodied Pilot Plan: project/embodied-pilot.md
-      - API Stability: project/api-stability.md
-      - v2 Migration: project/migration-v2.md
-      - Comparison: project/comparison.md
-      - Benchmarks: project/benchmarks.md
-      - Roadmap: project/roadmap.md
-      - Delivery History: project/delivery-history.md
-      - AI-Native Reference Applications: project/ai-native-reference-applications.md
-      - Verification Evidence: project/verification-evidence.md
-      - License and Provenance: project/provenance.md
-      - Repository Layout: project/repository-layout.md
+      - Project Overview: project/index.md
+      - Status: project/status/index.md
+      - Contract Status: project/status/contract-status.md
+      - Delivery History: project/status/delivery-history.md
+      - API Stability: project/status/api-stability.md
+      - Version Compatibility: project/status/version-compatibility.md
+      - Compatibility Policy: project/status/compatibility-policy.md
+      - Repository Layout: project/status/repository-layout.md
+      - License and Provenance: project/status/provenance.md
+      - Planning: project/planning/index.md
+      - Roadmap: project/planning/roadmap.md
+      - AI-Native Reference Applications: project/planning/ai-native-reference-applications.md
+      - Embodied Pilot Plan: project/planning/embodied-pilot.md
+      - Execution Correctness Model: project/planning/execution-correctness-model.md
+      - Release: project/release/index.md
+      - Release Process: project/release/releasing.md
+      - v2 Migration: project/release/migration-v2.md
+      - Evaluation: project/evaluation/index.md
+      - Verification Evidence: project/evaluation/verification-evidence.md
+      - Execution Correctness Evidence: project/evaluation/execution-correctness-evidence.md
+      - Adoption Baseline: project/evaluation/adoption-baseline.md
+      - Comparison: project/evaluation/comparison.md
+      - Benchmarks: project/evaluation/benchmarks.md
+      - Test and Evidence Taxonomy: project/evaluation/test-and-evidence-taxonomy.md
   - Contributing:
       - Core Design: contributing/core-design.md
       - Core and Adapter Layout: contributing/adapter-layout.md
@@ -309,4 +322,4 @@ nav:
   - Releases:
       - Release Overview: releases/index.md
       - Latest Release: releases/2.11.3.md
-      - Release Process: project/releasing.md
+      - Release Process: project/release/releasing.md

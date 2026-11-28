@@ -13,7 +13,7 @@ It is not a release schedule, independent adoption, or a promise of every featur
 in every language. No end-to-end reference application for the hundred full goals
 is recorded. A bounded slice is accepted against its own scope.
 
-The next-stage priority is the [reference application portfolio](../project/delivery-history.md#reference-application-portfolio):
+The next-stage priority is the [reference application portfolio](../project/status/delivery-history.md#reference-application-portfolio):
 PHP, Java, Elixir/Erlang, Go, C++/Rust, COBOL, Julia, then Ruby. Reuse useful slices,
 but demonstrate the host ecosystem and runtime rather than another generic loop.
 
@@ -21,13 +21,13 @@ but demonstrate the host ecosystem and runtime rather than another generic loop.
 
 | Layer | Location | Purpose |
 | --- | --- | --- |
-| Public direction | This page and the [roadmap](../project/roadmap.md) | Scope, priorities, standards and evidence links |
+| Public direction | This page and the [roadmap](../project/planning/roadmap.md) | Scope, priorities, standards and evidence links |
 | Canonical inventory | [Tutorial Catalog](tutorial-catalog.md) | Generated scenario, language and source-path index |
 | Per-language entry | `language/<language>/Tutorial/README.md` | Runtime rationale, commands and per-tutorial limits |
 | Reference application | `language/<language>/application/README.md` | Host integration, install/run commands, evidence and limits |
 | Execution detail | Internal `PRAXOVELA-EE/docs/praxo-core/planning/shared-business-tutorials.md` | Sequencing, acceptance, run records and product notes |
 | Shared business APIs | [agent-tutorial-services](https://github.com/axisvela/agent-tutorial-services) | Synthetic contracts, fixtures and local service tests |
-| Evidence | [Verification Evidence](../project/verification-evidence.md) | Exact revision, scope and limits |
+| Evidence | [Verification Evidence](../project/evaluation/verification-evidence.md) | Exact revision, scope and limits |
 
 `Tutorial/` is a sibling of `language/go/examples/`. Reference applications live at
 `language/<language>/application/` and are not part of the generated tutorial
@@ -76,7 +76,7 @@ This is a claim-quality gate, not a requirement to deepen every unused tutorial.
 
 ## Scenario Map
 
-The [reference application portfolio](../project/delivery-history.md#reference-application-portfolio)
+The [reference application portfolio](../project/status/delivery-history.md#reference-application-portfolio)
 defines the next ordered host integrations. Existing source paths and their
 capabilities are indexed in the [catalog](tutorial-catalog.md); the roadmap's host
 names are acceptance targets. Source implementations exist for all eight priorities,
@@ -143,14 +143,14 @@ defines each command and runner; success is not proof of arbitrary later revisio
 | MATLAB/Octave | Shared tutorial jobs run with Octave | Native MATLAB remains unverified |
 | Delphi / Free Pascal | Tutorial jobs use Free Pascal | Commercial Delphi remains unverified |
 | Shared orders service | Python/TypeScript/Java/C# CLI and C# Web integration against loopback teaching backend | Deterministic model; Java Web-to-real-backend, production identity and external adoption not established |
-| Ecosystem-native reference applications | All eight priorities have source implementations under `language/<language>/application/`. PHP Laravel precursor (7/7) and AI-native studio (9/9), using Core 0.8.1, also passed application CI in `45655799714` at `92ba764c`. Seven hosted DeepSeek `deepseek-flash` runs cover PHP, Elixir, Erlang, Go, Rust, Julia and Ruby. Detailed local checks and live traces remain in [Verification Evidence](../project/verification-evidence.md#reference-applications) | Source coverage is not portfolio acceptance. Java has a scoped hosted deterministic pass in `46018135957`, attempt 2 (2026-11-28), with only the failed job rerun and other apps skipped; no local compile/test or live run. C++ failed in `45655799714`; only its static-library build passed in `45720963270` at `f8242fb3`, with every other application job skipped. No C++ runtime/live evidence. Other applications were skipped in both earlier runs, not verified by them. Go uses a local module replace; Rust uses a local path dependency, not registry installs. Elixir Hex is locally CA-blocked; Erlang/COBOL/Julia/Ruby use source runtimes. COBOL has no bundled live transport. No Drupal, real payment, production identity, independent consumer or production deployment |
+| Ecosystem-native reference applications | All eight priorities have source implementations under `language/<language>/application/`. PHP Laravel precursor (7/7) and AI-native studio (9/9), using Core 0.8.1, also passed application CI in `45655799714` at `92ba764c`. Seven hosted DeepSeek `deepseek-flash` runs cover PHP, Elixir, Erlang, Go, Rust, Julia and Ruby. Detailed local checks and live traces remain in [Verification Evidence](../project/evaluation/verification-evidence.md#reference-applications) | Source coverage is not portfolio acceptance. Java has a scoped hosted deterministic pass in `46018135957`, attempt 2 (2026-11-28), with only the failed job rerun and other apps skipped; no local compile/test or live run. C++ failed in `45655799714`; only its static-library build passed in `45720963270` at `f8242fb3`, with every other application job skipped. No C++ runtime/live evidence. Other applications were skipped in both earlier runs, not verified by them. Go uses a local module replace; Rust uses a local path dependency, not registry installs. Elixir Hex is locally CA-blocked; Erlang/COBOL/Julia/Ruby use source runtimes. COBOL has no bundled live transport. No Drupal, real payment, production identity, independent consumer or production deployment |
 
 The seven hosted reference-app runs do not verify the separate published-package
 starter hosted-endpoint path tracked in #31. Application CI is path-filtered;
 the overall success of `45720963270` is not an all-application pass.
 
 Earlier local verification and CI failures remain historical evidence; the later
-passing run does not erase them. See [Verification Evidence](../project/verification-evidence.md)
+passing run does not erase them. See [Verification Evidence](../project/evaluation/verification-evidence.md)
 for exact runs and scope. In particular, CI does not establish a live provider,
 public hosted business service, production readiness or independent adoption.
 

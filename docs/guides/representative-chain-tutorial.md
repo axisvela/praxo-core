@@ -119,9 +119,9 @@ execution, or general prompt-injection prevention.
 Deterministic counterparts exist for all other Core SDK languages under their
 representative-chain examples or native test suites. They cover the same MCP,
 authorization, delegation, OTel/Harmovela, and denial seams without a live
-provider; see the [verification evidence](../project/verification-evidence.md)
+provider; see the [verification evidence](../project/evaluation/verification-evidence.md)
 for the recorded set and its limits.
 
-See the [verification evidence](../project/verification-evidence.md) and
+See the [verification evidence](../project/evaluation/verification-evidence.md) and
 [multi-agent patterns](multi-agent.md) for the wider evidence and delegation
 boundaries.

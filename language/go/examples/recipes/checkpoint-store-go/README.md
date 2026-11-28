@@ -8,7 +8,7 @@ loads the persisted checkpoint, and a leftover temporary file is ignored.
 pattern. It is not a concurrent database, a power-loss proof, a tenant authority,
 or an exactly-once guarantee. See the
 [checkpoint example](../../checkpoint/) and the
-[test and evidence taxonomy](../../../../../docs/project/test-taxonomy.md).
+[test and evidence taxonomy](../../../../../docs/project/evaluation/test-and-evidence-taxonomy.md).
 
 Run from this directory:
 

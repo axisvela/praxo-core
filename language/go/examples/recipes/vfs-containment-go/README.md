@@ -7,9 +7,9 @@ services.
 **Evidence level: L1 contract recipe.** It shows path, traversal, NUL-byte,
 root-delete, and symlink handling on the host filesystem. It is not real
 sandbox/container/VM isolation and does not prove deployment-level containment.
-See [EC-11](../../../../../docs/project/execution-correctness.md),
+See [EC-11](../../../../../docs/project/planning/execution-correctness-model.md),
 [containment](../../../../../docs/security/containment.md), and the
-[test and evidence taxonomy](../../../../../docs/project/test-taxonomy.md).
+[test and evidence taxonomy](../../../../../docs/project/evaluation/test-and-evidence-taxonomy.md).
 
 Run from this directory:
 

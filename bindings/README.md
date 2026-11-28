@@ -10,4 +10,4 @@ Core wrapper lives under [`language/powershell/`](../language/powershell/README.
 - [Lisp bridge](lisp/README.md)
 - [Tcl bridge](tcl/README.md)
 - [Bridge contract](../spec/bridge.md)
-- [Source path migration](../docs/project/repository-layout.md)
+- [Source path migration](../docs/project/status/repository-layout.md)

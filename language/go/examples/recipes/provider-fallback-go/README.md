@@ -6,7 +6,7 @@ It works with deterministic fixtures and needs no provider credentials.
 
 **Evidence level: L4 application pattern.** It demonstrates one fallback policy.
 It is not a provider SLA, failover service, or production capacity claim. See
-the [test and evidence taxonomy](../../../../../docs/project/test-taxonomy.md).
+the [test and evidence taxonomy](../../../../../docs/project/evaluation/test-and-evidence-taxonomy.md).
 
 Run from this directory:
 

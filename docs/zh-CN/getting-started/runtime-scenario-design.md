@@ -9,7 +9,7 @@
 [运行 45537631891](https://github.com/axisvela/praxo-core/actions/runs/45537631891) 的教程作业均通过。
 末列保留最初本地快照，“远端 CI 未核验”只描述当时，不是当前 CI 状态。
 托管执行不证明真实 Provider、硬件、生产或独立采用。这些有界路径是
-[参考应用组合](../project/delivery-history.md)的可复用输入，不代替完整宿主集成。
+[参考应用组合](../project/status/delivery-history.md)的可复用输入，不代替完整宿主集成。
 
 | 语言 | 主教程方向 | 关联目标 | 生态依据 | 必须真实执行 | 最初本地快照（CI 以上述更新为准） |
 | --- | --- | --- | --- | --- | --- |

@@ -92,15 +92,15 @@ Java 应用可从 [Java 独立消费者](consumer-java.md)开始。
 - 对长时间运行或有副作用的运行持久化检查点。
 - 将事件转发到可观测性管线。
 - 启动插件宿主前验证签名、SBOM 和信任。
-- 固定框架版本，并运行 [兼容性](../project/compatibility.md) 中的检查。
+- 固定框架版本，并运行 [兼容性](../project/status/version-compatibility.md) 中的检查。
 - 在 CI 中运行 `GOWORK=off go test -race ./...`。
-- 跟踪 [基准测试](../project/benchmarks.md) 以检测回归。
+- 跟踪 [基准测试](../project/evaluation/benchmarks.md) 以检测回归。
 
 ## 5. 迁移说明
 
 - 从 LangChainGo、Eino 或 ADK 迁移时，映射概念而不是复制代码。PRAXO-CORE
   将循环、提供商抽象、工具、记忆、事件、策略和插件拆分为独立契约。
-- v1 使用方应遵循 [v2 迁移指南](../project/migration-v2.md)。
+- v1 使用方应遵循 [v2 迁移指南](../project/release/migration-v2.md)。
 - 如果需要 AxisVela 集成，应优先使用 [生态指南](../integrations/ecosystem.md)，而不是
   在通用框架上叠加产品专用代码。
 
@@ -121,6 +121,6 @@ Java 应用可从 [Java 独立消费者](consumer-java.md)开始。
 - [快速开始](quickstart.md)
 - [Recipes](../guides/recipes.md)
 - [AxisVela 生态](../integrations/ecosystem.md)
-- [对比](../project/comparison.md)
+- [对比](../project/evaluation/comparison.md)
 - [安全模型](../security/index.md)
 - [Reference workspace agent](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/reference)

@@ -25,7 +25,7 @@ def task(**changes):
 def manifest(**changes):
     value = {
         "schemaVersion": 1,
-        "protocol": "docs/project/adoption-baseline.md",
+        "protocol": "docs/project/evaluation/adoption-baseline.md",
         "tool": {"name": "example-tool", "version": "1.0.0"},
         "model": {"name": "example-model", "version": "2026-11-01"},
         "environment": {

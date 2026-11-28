@@ -8,7 +8,7 @@ published Core `2.7.0`; it does not add a Core API.
 **Evidence level: L4 application recipe.** These tests validate the reference
 integration and its failure boundaries, not Core-owned durable operations,
 HTTP authentication, verification, or leases. See the
-[test and evidence taxonomy](../../../../../docs/project/test-taxonomy.md).
+[test and evidence taxonomy](../../../../../docs/project/evaluation/test-and-evidence-taxonomy.md).
 
 Run from this directory:
 

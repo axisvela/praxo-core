@@ -59,11 +59,11 @@ above; source tags do not imply package-registry availability.
 | Your goal | Start here |
 | --- | --- |
 | Choose a task and the path layer that proves it | [Start Here task-to-path table](getting-started/index.md#task-to-path-table) |
-| Evaluate whether it fits your product | [Adoption guide](getting-started/adoption.md) and [comparison](project/comparison.md) |
+| Evaluate whether it fits your product | [Adoption guide](getting-started/adoption.md) and [comparison](project/evaluation/comparison.md) |
 | Connect a model or external tool | [Adapter directory](integrations/index.md) and [recipes](guides/recipes.md) |
 | Understand runtime boundaries | [Architecture](reference/architecture.md) and [security](security/index.md) |
 | Build plugins or delegate work | [Plugin guide](guides/plugins.md) and [multi-agent patterns](guides/multi-agent.md) |
-| Upgrade an existing integration | [Compatibility](project/compatibility.md) and [release history](releases/index.md) |
+| Upgrade an existing integration | [Compatibility](project/status/version-compatibility.md) and [release history](releases/index.md) |
 
 ## Current Release
 

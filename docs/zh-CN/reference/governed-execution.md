@@ -208,7 +208,7 @@ Checkpoint 不构成事务；执行返回错误也不证明外部业务效果没
 
 ## 证据与晋级
 
-按[Execution Correctness Suite 提案](../project/execution-correctness.md)组织失败场景，
+按[Execution Correctness Suite 提案](../project/planning/execution-correctness-model.md)组织失败场景，
 Core 机制、实际执行约束和运行结果分别提供证据。
 
 当前只有部分证据：四种发布语言消费者测试覆盖应用拒绝缺失 Policy/范围、最终参数和审批编辑

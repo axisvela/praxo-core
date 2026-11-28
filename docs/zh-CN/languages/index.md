@@ -28,7 +28,7 @@ Model、MCP 与 Harmovela 覆盖见[适配器状态](adapter-status.md)。
 
 源码入口不等于执行证明。哪些主题真正调用 Core、哪些只是机制检查，见
 [示例深度审计](../getting-started/language-coverage.md)，实际运行记录见
-[验证证据](../project/verification-evidence.md)。
+[验证证据](../project/evaluation/verification-evidence.md)。
 
 选定实现的可复现一致性证据见[兼容性实验](compatibility-lab.md)，跨语言 agent 行为场景见[行为实验](behavior-lab.md)。行为证据不存在能力层级，见[行为证据](support.md#行为证据)。
 

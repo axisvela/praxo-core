@@ -21,7 +21,7 @@
 在 Core SDK 集合中，治理示例还检查子 scope 收窄、父子策略组合、兄弟共享预算、
 子任务数与深度限制、取消后零效果以及最终参数重授权。它们不实现自动父策略继承或
 取消传播，这些仍由应用负责。Go 管理器示例另有生命周期范围。源码存在不代表每个包和
-工具链均已实测；运行声明必须对应[验证证据](../project/verification-evidence.md)
+工具链均已实测；运行声明必须对应[验证证据](../project/evaluation/verification-evidence.md)
 中的记录。
 
 这不是 Go `pkg/agent/delegation` 契约。持久 worker、远程任务队列、重试、取消传播和效果
