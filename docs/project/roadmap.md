@@ -701,12 +701,14 @@ application jobs were skipped. Neither run is full portfolio acceptance.
 
 Priority 2 has a Spring Boot AI commerce source at
 [`language/java/application`](https://github.com/axisvela/praxo-core/tree/main/language/java/application).
-It uses published `com.axisvela:praxo-core:0.12.2` and implements intent ->
+It uses published `com.axisvela:praxo-core:0.12.3` and implements intent ->
 catalog/inventory -> cart draft -> review-only checkout, with checkout always
 denied. The source now records model rationale and `agent_trace`, but the local
 Windows JVM remains blocked, so it has not been compiled or tested locally and no
-live-model run is recorded. The Linux CI job is added but has not run. Do not
-treat Java as verified until that job passes.
+live-model run is recorded. Hosted deterministic `java-ai-commerce` passed on
+2026-11-28 in `46018135957`, attempt 2, at `b531f6abdfc1775ce5122357c496d834428cfe63`.
+The original attempt failed Maven resolution of Core `0.12.3`; only the failed
+job was rerun, with other applications skipped. This is not portfolio acceptance.
 
 Priority 3 has an Elixir OTP AI ops copilot at
 [`language/elixir/application`](https://github.com/axisvela/praxo-core/tree/main/language/elixir/application).
@@ -770,7 +772,7 @@ a Rails 8 commerce host passes five deterministic checks and a hosted DeepSeek
 `deepseek-flash` live run records `model=live`, model-selected tools, a
 review-only draft, and zero payment/refund effects. All eight portfolio
 priorities now have source implementations, not full host-integration acceptance.
-Java remains unverified; C++ has build-only evidence. Go's module replace and
+Java has a scoped hosted deterministic CI pass, not live-model evidence; C++ has build-only evidence. Go's module replace and
 Rust's path dependency do not establish published-package installation.
 Other languages target AI-native applications directly.
 

@@ -1,12 +1,13 @@
 # AI-Native Reference Applications
 
-**Status:** design accepted 2026-11-25; evidence audited 2026-11-26. Source
+**Status:** design accepted 2026-11-25; evidence updated 2026-11-28. Source
 implementation is not full host-integration acceptance. PHP v1 harness is
 implemented locally at
 `language/php/application/ai-editorial-studio`; the sibling `content-review`
 application remains a host-integration precursor. Java v1 source is added at
-`language/java/application` using Spring Boot and published Core 0.12.2, but the
-local Windows JVM is blocked, so Java has not been compiled or tested locally.
+`language/java/application` using Spring Boot and published Core 0.12.3. Hosted
+deterministic CI passed; the local Windows JVM is blocked, so Java has not been
+compiled or tested locally, and no Java live-model run is recorded.
 Elixir v1 harness is implemented locally at `language/elixir/application` with a
 supervised telemetry store and remediation executor; source-mode tests pass 6/6,
 including tenant denial and supervisor restart, and the result records model
@@ -47,7 +48,12 @@ at `92ba764c` (2026-11-25); that run failed on C++ configuration, while other
 applications were skipped. The follow-up
 [45720963270](https://github.com/axisvela/praxo-core/actions/runs/45720963270)
 at `f8242fb3` passed only the C++ static-library build; all other application
-jobs were skipped. Java remains unverified and C++ has no runtime/live evidence.
+jobs were skipped. On 2026-11-28, `java-ai-commerce` passed in
+[46018135957, attempt 2](https://github.com/axisvela/praxo-core/actions/runs/46018135957/attempts/2)
+at `b531f6abdfc1775ce5122357c496d834428cfe63`. The original attempt failed
+Maven resolution of Core `0.12.3`; only the failed job was rerun, and other
+applications were skipped. Java has hosted deterministic evidence, not a
+live-model run; C++ has no runtime/live evidence.
 These are per-job results, not an SDK-wide CI or portfolio acceptance claim.
 The seven hosted reference-app runs do not verify the separate hosted
 published-package starter path tracked in #31.
@@ -273,7 +279,7 @@ recorded live-model reasoning runs with hosted DeepSeek `deepseek-flash`.
   a `$105.84` quoted total, `payment_charges=0`, `refunds=0`, and
   `mutating_actions=[]`. The Windows transport used `curl.exe --ssl-no-revoke`.
 
-Java remains source-only and is not locally compiled; it has no live-model run.
+Java has a scoped hosted deterministic CI pass but is not locally compiled; it has no live-model run.
 Deterministic harness tests remain separate evidence and are not a substitute for
 the live runs.
 

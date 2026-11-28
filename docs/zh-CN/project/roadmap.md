@@ -546,10 +546,11 @@ AI-native 两个版本；其他语言直接实现 AI-native 流程，不再先�
 
 优先级 2 已有 Spring Boot AI 电商源码：
 [`language/java/application`](https://github.com/axisvela/praxo-core/tree/main/language/java/application)。
-它使用已发布 `com.axisvela:praxo-core:0.12.2`，实现意图 -> 商品/库存 -> 购物车草案 ->
+它使用已发布 `com.axisvela:praxo-core:0.12.3`，实现意图 -> 商品/库存 -> 购物车草案 ->
 仅审阅结算，checkout 始终拒绝。源码现已记录模型理由与 `agent_trace`，但本地 Windows JVM
-仍阻塞，因此尚未本地编译或测试，也没有真实模型运行记录；Linux CI 作业已添加但尚未运行。
-在该作业通过前，不把 Java 视为已验证。
+仍阻塞，因此尚未本地编译或测试，也没有真实模型运行记录。托管确定性 `java-ai-commerce`
+已于 2026-11-28 在 `46018135957`、attempt 2、`b531f6abdfc1775ce5122357c496d834428cfe63`
+通过。首次因 Maven 解析 Core `0.12.3` 失败；仅重跑失败作业，其他应用跳过，不是整个组合验收。
 
 优先级 3 已有 Elixir OTP AI 运维 Copilot：
 [`language/elixir/application`](https://github.com/axisvela/praxo-core/tree/main/language/elixir/application)。
@@ -597,7 +598,7 @@ diagnosis/rationale，`executions=0`。Go CI 已添加但尚未运行。
 [`language/ruby/application`](https://github.com/axisvela/praxo-core/tree/main/language/ruby/application)
 实现：Rails 8 商务宿主通过五项确定性检查，托管 DeepSeek `deepseek-flash` 真实运行记录
 `model=live`、模型选择工具、只读订单草案和零支付/退款效果。参考应用组合的八项优先级均已
-有源码实现，不等于完整宿主集成验收。Java 仍未验证，C++ 仅有构建证据；Go 的 module replace
+有源码实现，不等于完整宿主集成验收。Java 已有限定范围的托管确定性 CI 通过，不是真实模型证据；C++ 仅有构建证据；Go 的 module replace
 与 Rust 的 path 依赖不证明发布包安装。其他语言以直接实现 AI-native 应用为目标。
 
 确定性 harness 测试不是真实模型推理证据。PHP、Elixir、Erlang、Go、Rust、Julia、Ruby

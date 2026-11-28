@@ -45,6 +45,13 @@ platforms. This is deterministic fixture/CI evidence, not verification of every
 SDK feature, later revisions, live models, full reference applications, or
 independent consumers. Earlier failed runs remain failures at their revisions.
 
+On 2026-11-28, `java-new-tutorials` (airport-recovery) passed in
+[46026595266, attempt 2](https://github.com/axisvela/praxo-core/actions/runs/46026595266/attempts/2)
+at `02e736e4a57895dffafab51a8be85dbc9c9d9601`. Only the failed job was rerun;
+the aggregate remains `CANCELLED` because unrelated jobs were previously
+cancelled. This is a scoped hosted deterministic pass, not an entire tutorial
+workflow pass or live-model verification; the local Windows JVM remains blocked.
+
 Separately, adapter workflow [45541181220](https://github.com/axisvela/praxo-core/actions/runs/45541181220)
 passed at `71f78a7a`, including `adapters/otel` module-security after the
 OpenTelemetry `1.47.0` update. Comprehensive workflow `45533451233` failed at
@@ -291,8 +298,16 @@ at `f8242fb33a84a66b5c0590ea1de50266b5bd46ce`, only the C++ static-library
 build and archive-presence check passed; every other application job, including
 PHP and Java, was skipped. This is not an all-application or SDK-wide CI pass.
 
+On 2026-11-28, `java-ai-commerce` passed in `ci-applications`
+[46018135957, attempt 2](https://github.com/axisvela/praxo-core/actions/runs/46018135957/attempts/2)
+at `b531f6abdfc1775ce5122357c496d834428cfe63`. The original attempt failed
+while Maven resolved Core `0.12.3`; only the failed job was rerun, and other
+applications were skipped. This is hosted deterministic build/test evidence,
+not a portfolio pass. The local Windows JVM is still blocked; no Java live-model
+run is recorded.
+
 All eight portfolio priorities have source implementations, not full host
-acceptance. Java remains unverified; C++ is build-only with no runtime/live run.
+acceptance. Java has the scoped hosted deterministic pass above; C++ is build-only with no runtime/live run.
 Go's module replace and Rust's path dependency use local Core source, not registry
 packages. The seven hosted PHP/Elixir/Erlang/Go/Rust/Julia/Ruby reference-app runs
 do not verify the separate published-package starter hosted-endpoint path (#31).

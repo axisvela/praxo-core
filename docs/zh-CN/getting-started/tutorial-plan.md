@@ -119,7 +119,7 @@ OTP 需要故障恢复测试，Flutter 需要真实入口，规则语言需要�
 | MATLAB/Octave | 共享教程使用 Octave 执行 | 原生 MATLAB 仍未验证 |
 | Delphi / Free Pascal | 教程使用 Free Pascal | 商业 Delphi 仍未验证 |
 | 共享订单服务 | Python/TypeScript/Java/C# CLI 与 C# Web 接入 loopback 教学后端 | 确定性模型；不建立 Java Web 对真实后端、生产身份或外部采用 |
-| 生态原生参考应用 | 八项优先级均在 `language/<language>/application/` 下有源码。PHP Laravel 前驱（7/7）与 AI-native 工作室（9/9）使用 Core 0.8.1，应用 CI 也已在 `45655799714`、`92ba764c` 通过。PHP、Elixir、Erlang、Go、Rust、Julia、Ruby 共有七个托管 DeepSeek `deepseek-flash` 运行。详细本地检查与真实 trace 保留在[验证证据](../project/verification-evidence.md) | 源码覆盖不等于整个组合验收。Java 仍未验证，无本地编译/测试或真实运行。C++ 在 `45655799714` 失败，仅静态库构建在 `45720963270`、`f8242fb3` 通过，其他应用作业全部跳过；无 C++ 运行时/真实模型证据。其他应用在两次运行中均被跳过，不能视为已验证。Go 使用本地 module replace，Rust 使用本地 path 依赖，不是 registry 安装。Elixir Hex 本地受 CA 阻塞；Erlang/COBOL/Julia/Ruby 使用源码运行时；COBOL 无捆绑 live transport。无 Drupal、真实支付、生产身份、独立消费者或生产部署 |
+| 生态原生参考应用 | 八项优先级均在 `language/<language>/application/` 下有源码。PHP Laravel 前驱（7/7）与 AI-native 工作室（9/9）使用 Core 0.8.1，应用 CI 也已在 `45655799714`、`92ba764c` 通过。PHP、Elixir、Erlang、Go、Rust、Julia、Ruby 共有七个托管 DeepSeek `deepseek-flash` 运行。详细本地检查与真实 trace 保留在[验证证据](../project/verification-evidence.md) | 源码覆盖不等于整个组合验收。Java 已在 `46018135957`、attempt 2（2026-11-28）限定范围通过托管确定性检查，仅重跑失败作业，其他应用跳过；无本地编译/测试或真实运行。C++ 在 `45655799714` 失败，仅静态库构建在 `45720963270`、`f8242fb3` 通过，其他应用作业全部跳过；无 C++ 运行时/真实模型证据。其他应用在早先两次运行中均被跳过，不能视为已验证。Go 使用本地 module replace，Rust 使用本地 path 依赖，不是 registry 安装。Elixir Hex 本地受 CA 阻塞；Erlang/COBOL/Julia/Ruby 使用源码运行时；COBOL 无捆绑 live transport。无 Drupal、真实支付、生产身份、独立消费者或生产部署 |
 
 七个托管参考应用运行不验证 #31 单独跟踪的发布包 starter 托管端点路径。
 应用 CI 按路径过滤，`45720963270` 整体成功不是全部应用通过。
@@ -151,7 +151,7 @@ OTP 需要故障恢复测试，Flutter 需要真实入口，规则语言需要�
 
 ## 下一步
 
-1. 基于已记录的 PHP Laravel CI 结果争取消费者复现，补齐宿主/验收缺口；Java 应用 CI 通过前不声称已验证。
+1. 基于已记录的 PHP Laravel 与 Java 确定性 CI 结果争取消费者复现，补齐宿主/验收缺口；不将 Java 的限定范围通过视为真实模型或整个组合验收。
 2. 使用宿主真实服务、身份和业务边界，分别公开确定性与真实模型命令。
 3. 验证拒绝、依赖失败和运行时行为，再获取消费者复现和持续使用证据。
 4. 用有界选型基准发现路径阻力，不把基准作为参考应用交付的前置条件。

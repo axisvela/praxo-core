@@ -1,9 +1,9 @@
 # AI-Native 参考应用设计
 
-**状态：** 设计于 2026-11-25 采纳，证据于 2026-11-26 审核。源码实现不等于完整宿主集成验收。PHP v1 harness 已在
+**状态：** 设计于 2026-11-25 采纳，证据于 2026-11-28 更新。源码实现不等于完整宿主集成验收。PHP v1 harness 已在
 `language/php/application/ai-editorial-studio` 本地实现；同级 `content-review`
 应用仍是宿主集成前驱。Java v1 源码已添加到 `language/java/application`，使用 Spring Boot
-和已发布 Core 0.12.2，但本地 Windows JVM 阻塞，因此 Java 尚未本地编译或测试。
+和已发布 Core 0.12.3。托管确定性 CI 已通过，但本地 Windows JVM 阻塞，因此 Java 尚未本地编译或测试，也没有真实模型运行。
 Elixir v1 harness 已在 `language/elixir/application` 本地实现：监督树中的遥测存储与修复
 执行器，源码模式测试 6/6 通过，包含租户拒绝与监督进程重启；结果记录模型
 diagnosis/rationale 与 `agent_trace`。本地 Hex 安装遇到 unknown-CA 失败，因此 CI
@@ -30,7 +30,10 @@ DeepSeek `deepseek-flash` 真实运行记录 `model=live`、模型选择工具�
 [45655799714](https://github.com/axisvela/praxo-core/actions/runs/45655799714)、
 `92ba764c` 通过；该运行因 C++ 配置失败而整体失败，其他应用作业被跳过。
 后续 [45720963270](https://github.com/axisvela/praxo-core/actions/runs/45720963270)、
-`f8242fb3` 仅通过 C++ 静态库构建，其他应用作业全部跳过。Java 仍未验证，C++ 无运行时/真实模型证据。
+`f8242fb3` 仅通过 C++ 静态库构建，其他应用作业全部跳过。2026-11-28，`java-ai-commerce` 在
+[46018135957，attempt 2](https://github.com/axisvela/praxo-core/actions/runs/46018135957/attempts/2)、
+`b531f6abdfc1775ce5122357c496d834428cfe63` 通过。首次因 Maven 解析 Core `0.12.3` 失败；
+仅重跑失败作业，其他应用跳过。Java 已有托管确定性证据，不是真实模型运行；C++ 无运行时/真实模型证据。
 这些是逐作业结果，不是 SDK 全面 CI 或整个组合验收。七个托管参考应用运行不验证 #31
 单独跟踪的发布包 starter 托管端点路径。
 
@@ -227,7 +230,7 @@ AI-native 推理声明需要一次记录在案的真实模型运行，并展示�
   `payment_charges=0`、`refunds=0` 和 `mutating_actions=[]`。Windows transport 使用
   `curl.exe --ssl-no-revoke`。
 
-Java 仍仅有源码且未本地编译，没有真实模型运行。确定性 harness 测试是单独证据，不能
+Java 已有限定范围的托管确定性 CI 通过，但未本地编译，没有真实模型运行。确定性 harness 测试是单独证据，不能
 替代真实运行。
 
 ## 证据标准

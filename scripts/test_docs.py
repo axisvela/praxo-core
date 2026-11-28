@@ -35,6 +35,19 @@ class Links(HTMLParser):
 
 
 class DocumentationTests(unittest.TestCase):
+    def test_current_scoped_java_and_php_evidence(self):
+        for prefix in ("", "zh-CN/"):
+            with self.subTest(language=prefix):
+                evidence = (ROOT / "docs" / prefix / "project/verification-evidence.md").read_text(encoding="utf-8")
+                for value in ("46018135957", "b531f6abdfc1775ce5122357c496d834428cfe63",
+                              "46026595266", "02e736e4a57895dffafab51a8be85dbc9c9d9601",
+                              "java-ai-commerce", "java-new-tutorials", "airport-recovery",
+                              "CANCELLED", "2026-11-28"):
+                    self.assertIn(value, evidence)
+                status = (ROOT / "docs" / prefix / "languages/registry-status.md").read_text(encoding="utf-8")
+                for value in ("0.10.1", "src/PluginProcessHost.php", "46030983730", "166"):
+                    self.assertIn(value, status)
+
     def test_go_governed_acceptance_docs(self):
         source = (ROOT / "language/go/examples/consumer-go/governed_test.go").read_text(encoding="utf-8")
         self.assertGreaterEqual(source.count("func TestGoverned"), 5)

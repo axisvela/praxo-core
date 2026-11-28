@@ -35,6 +35,12 @@
 具体命令和平台以固定工作流及各作业为准。这是确定性 fixture/CI 证据，不是全部 SDK
 能力、后续 revision、真实模型、完整参考应用或独立消费者验证；早先失败仍是对应版本的失败。
 
+2026-11-28，`java-new-tutorials`（airport-recovery）在
+[46026595266，attempt 2](https://github.com/axisvela/praxo-core/actions/runs/46026595266/attempts/2)、
+`02e736e4a57895dffafab51a8be85dbc9c9d9601` 通过。仅重跑失败作业；无关作业此前已取消，
+因此整体仍为 `CANCELLED`。这是限定范围的托管确定性通过，不是整个教程工作流通过或真实模型
+验证；本地 Windows JVM 仍阻塞。
+
 另，适配器 [运行 45541181220](https://github.com/axisvela/praxo-core/actions/runs/45541181220)
 在 `71f78a7a` 通过，包含升级 OpenTelemetry `1.47.0` 后的 `adapters/otel` 安全检查。
 综合运行 `45533451233` 在 `d7916382` 因该模块安全作业失败；后续适配器通过不等于
@@ -239,7 +245,13 @@ uby language/ruby/examples/service/service.rb 在 Ruby 3.4.12 下通过（2026-1
 `f8242fb33a84a66b5c0590ea1de50266b5bd46ce` 仅通过 C++ 静态库构建与归档存在检查，
 包括 PHP、Java 在内的其他应用作业全部跳过。这不是全部应用或 SDK 全面 CI 通过。
 
-八项优先级均有源码，不等于完整宿主验收。Java 仍未验证；C++ 仅构建，无运行时/真实模型运行。
+2026-11-28，`ci-applications` 的 `java-ai-commerce` 在
+[46018135957，attempt 2](https://github.com/axisvela/praxo-core/actions/runs/46018135957/attempts/2)、
+`b531f6abdfc1775ce5122357c496d834428cfe63` 通过。首次因 Maven 解析 Core `0.12.3` 失败；
+仅重跑失败作业，其他应用跳过。这是托管确定性构建/测试证据，不是整个组合通过。
+本地 Windows JVM 仍阻塞，Java 没有真实模型运行记录。
+
+八项优先级均有源码，不等于完整宿主验收。Java 已有上述限定范围的托管确定性通过；C++ 仅构建，无运行时/真实模型运行。
 Go 的 module replace 与 Rust 的 path 依赖使用本地 Core 源码，不是 registry 包。
 PHP/Elixir/Erlang/Go/Rust/Julia/Ruby 的七个托管参考应用运行不验证 #31 单独跟踪的
 发布包 starter 托管端点路径。

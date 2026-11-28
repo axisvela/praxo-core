@@ -15,7 +15,8 @@ PHP (Drupal/Laravel), Java (Spring Boot), Elixir/Erlang (OTP), Go
 (infrastructure), C++/Rust (edge/embodied), COBOL (batch exceptions), Julia
 (scientific computing/optimization), then Ruby (Rails). All eight priorities have
 source implementations, not full portfolio acceptance or parallel delivery promises.
-PHP has passing application CI; Java remains unverified, C++ is build-only, and
+PHP has passing application CI; Java has a scoped hosted deterministic CI pass
+(2026-11-28), not live-model verification; C++ is build-only, and
 Go/Rust use local source dependencies. Seven reference applications have hosted
 live-model runs; these do not verify the separate published-package starter path.
 A bounded coding-agent selection benchmark supports those paths; it does not
