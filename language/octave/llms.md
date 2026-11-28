@@ -7,10 +7,10 @@ This is a language-specific discovery entry, not a guarantee of indexing or adop
 ## Package
 
 - package: `praxo-core`
-- registry: [GitHub release (Octave package index pending)](https://github.com/axisvela/praxo-core/releases/download/octave/v0.9.0/praxo-core-0.9.0.tar.gz)
+- registry: [Octave Packages](https://gnu-octave.github.io/packages/praxo-core/)
 - source_version: `0.9.0`
 - published_version: `0.9.0`
-- install_published: `pkg install https://github.com/axisvela/praxo-core/releases/download/octave/v0.9.0/praxo-core-0.9.0.tar.gz`
+- install_published: `pkg install -forge praxo-core`
 - install_source: `Source checkout: language/octave and language/matlab-octave-core (see README)`
 - source_tag: `octave/v0.9.0`
 - tier: Core

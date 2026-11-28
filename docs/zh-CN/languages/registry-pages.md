@@ -107,9 +107,9 @@ Latest 的问题，不代表已补齐 Core Release 或修复不可变包 README 
 | Python | [PyPI](https://pypi.org/project/praxo-core/0.11.2/) | `0.11.2` | 源码未记录缺陷 | 页面复审待完成 |
 | TypeScript | [npm](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.10.1) | `0.10.1` | 源码未记录缺陷 | 页面复审待完成 |
 | Java | [Maven POM](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.12.3/praxo-core-0.12.3.pom) | `0.12.3` | SCM tag 为 `java/v0.12.3` | 页面复审待完成 |
-| Rust | [crates.io](https://crates.io/crates/praxo-core/0.11.0) | `0.11.0` | 包内 README 安装 `0.9.2` | 未通过 |
+| Rust | [crates.io](https://crates.io/crates/praxo-core/0.11.1) | `0.11.1` | 0.11.0 快照记录 README 安装命令陈旧；0.11.1 页面尚未复审计 | 待复审计 |
 | C# | [NuGet](https://www.nuget.org/packages/Praxo.Core/0.11.1) | `0.11.1` | 源码未记录缺陷 | 页面复审待完成 |
-| Dart | [pub.dev](https://pub.dev/packages/praxo_core/versions/0.8.0) | `0.8.0` | 包内 README 安装 `0.7.0` | 未通过 |
+| Dart | [pub.dev](https://pub.dev/packages/praxo_core/versions/0.8.2) | `0.8.2` | 0.8.0 快照记录 README 安装命令陈旧；0.8.2 页面尚未复审计 | 待复审计 |
 | Haskell | [Hackage](https://hackage.haskell.org/package/praxo-core-0.9.0) | `0.9.0` | 包内 README 安装 `0.7.1` | 未通过 |
 
 Go 发布文档日期为 2026-11-27；
@@ -117,9 +117,8 @@ Go 发布文档日期为 2026-11-27；
 为 2026-11-27 UTC，均不支持此前的 2026-11-16 页面验收或 2026-11-20 发布日期。
 本次不声称远端修复完成。
 
-其他发布证据见[Registry 发布状态](registry-status.md)。SPI 已索引 Swift split 包 `0.7.2`，
-其非流式范围不等于主仓库 `swift/v0.9.0` 的流式范围。R r-universe `0.12.0` 的实际构建
-HEAD 为 `9b417e3`，检查有 warnings，不是全部无警告通过。发布可用性不代表页面质量或运行时兼容性验收。
+其他发布证据见[Registry 发布状态](registry-status.md)。SPI 已索引 Swift split 包 `0.9.0`（含流式范围）。
+R r-universe `0.12.0` 由实际构建 HEAD `9b417e3` 产生；检查有 warnings，并非全部通过且无警告。Registry 可用性不代表页面质量或运行时兼容性。
 
 ## 面向编程 Agent
 

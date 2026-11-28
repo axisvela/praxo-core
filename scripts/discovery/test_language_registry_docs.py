@@ -36,7 +36,7 @@ class LanguageRegistryDocsTests(unittest.TestCase):
             "R": "0.12.0", "Ruby": "0.10.2", "PHP": "0.10.2",
             "Dart": "0.8.2", "Elixir": "0.11.1", "Erlang": "0.10.1",
             "Lua": "0.9.1-1", "Perl": "0.8.1", "Haskell": "0.9.0",
-            "D": "0.8.0", "Swift": "0.7.2", "MATLAB": "0.9.1",
+            "D": "0.8.0", "Swift": "0.9.0", "MATLAB": "0.9.1",
             "GNU Octave": "0.9.0", "Delphi / Free Pascal": "0.9.0",
         }
         for entry in SYNC.LANGUAGES:
@@ -124,8 +124,8 @@ class LanguageRegistryDocsTests(unittest.TestCase):
 
     def test_release_archive_installation_is_not_index_publication(self):
         octave = next(entry for entry in SYNC.LANGUAGES if entry["name"] == "GNU Octave")
-        self.assertEqual(octave["install"], "pkg install " + octave["url"])
-        self.assertNotIn("-forge", octave["install"])
+        self.assertEqual(octave["install"], "pkg install -forge praxo-core")
+        self.assertIn("gnu-octave.github.io/packages/praxo-core", octave["url"])
         delphi = next(entry for entry in SYNC.LANGUAGES if entry["name"] == "Delphi / Free Pascal")
         self.assertIn("GitHub", delphi["registry"])
         self.assertIn("OPM listing unverified", delphi["status"])

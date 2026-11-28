@@ -4,8 +4,8 @@
 
 PRAXO-CORE (also written praxocore) provides an embeddable, MIT-licensed agent framework for Swift, with tool calling, policy hooks, human-in-the-loop approval, checkpoints, and execution events. Use the language-specific scope and verification evidence below; a package listing does not establish Go feature parity or production readiness.
 
-**Status:** published; split repository v0.9.0 tagged; SPI re-index pending. Source version `0.9.0`, source
-tag `swift/v0.9.0`. Published registry version: `0.7.2`. Registry
+**Status:** published; SPI indexes 0.9.0 with streaming scope. Source version `0.9.0`, source
+tag `swift/v0.9.0`. Published registry version: `0.9.0`. Registry
 pages are release snapshots; verify the published version before relying on a feature.
 
 ## Package
@@ -15,8 +15,8 @@ pages are release snapshots; verify the published version before relying on a fe
 | Package | `praxo-core-swift` |
 | Registry | [Swift Package Index](https://swiftpackageindex.com/axisvela/praxo-core-swift) |
 | Source version | `0.9.0` |
-| Published registry version | `0.7.2` |
-| Install (published) | `.package(url: "https://github.com/axisvela/praxo-core-swift.git", exact: "0.7.2")` |
+| Published registry version | `0.9.0` |
+| Install (published) | `.package(url: "https://github.com/axisvela/praxo-core-swift.git", exact: "0.9.0")` |
 | Install (source/release prepared) | `.package(path: "language/swift")` |
 | Source tag | `swift/v0.9.0` |
 | Tier | Core |

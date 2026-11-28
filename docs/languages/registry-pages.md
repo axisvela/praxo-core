@@ -123,9 +123,9 @@ do not repair them. A new publication and a fresh audit are still required.
 | Python | [PyPI](https://pypi.org/project/praxo-core/0.11.2/) | `0.11.2` | None recorded in source | Not accepted |
 | TypeScript | [npm](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.10.1) | `0.10.1` | None recorded in source | Rendered-page re-audit pending |
 | Java | [Maven POM](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.12.3/praxo-core-0.12.3.pom) | `0.12.3` | SCM tag is `java/v0.12.3` | Rendered-page re-audit pending |
-| Rust | [crates.io](https://crates.io/crates/praxo-core/0.11.0) | `0.11.0` | Packaged README installs `0.9.2` | Not accepted |
+| Rust | [crates.io](https://crates.io/crates/praxo-core/0.11.1) | `0.11.1` | 0.11.0 snapshot recorded a stale README install; 0.11.1 page not re-audited | Rendered-page re-audit pending |
 | C# | [NuGet](https://www.nuget.org/packages/Praxo.Core/0.11.1) | `0.11.1` | None recorded in source | Rendered-page re-audit pending |
-| Dart | [pub.dev](https://pub.dev/packages/praxo_core/versions/0.8.0) | `0.8.0` | Packaged README installs `0.7.0` | Not accepted |
+| Dart | [pub.dev](https://pub.dev/packages/praxo_core/versions/0.8.2) | `0.8.2` | 0.8.0 snapshot recorded a stale README install; 0.8.2 page not re-audited | Rendered-page re-audit pending |
 | Haskell | [Hackage](https://hackage.haskell.org/package/praxo-core-0.9.0) | `0.9.0` | Packaged README installs `0.7.1` | Not accepted |
 
 The Go release documentation date is 2026-11-27; the
@@ -134,8 +134,7 @@ is 2026-11-27 UTC. Neither supports the earlier claimed 2026-11-16 page acceptan
 or 2026-11-20 release date. No remote correction is claimed here.
 
 Other publication evidence is in [Registry Publication Status](registry-status.md).
-Swift Package Index lists split package `0.7.2`, whose non-streaming scope must
-not be confused with monorepo `swift/v0.9.0` streaming scope. R r-universe
+Swift Package Index lists split package `0.9.0` with streaming scope. R r-universe
 `0.12.0` was built from actual HEAD `9b417e3`; its checks include warnings, not
 an all-clean result. Registry availability alone accepts neither page quality
 nor runtime compatibility.

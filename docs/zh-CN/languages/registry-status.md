@@ -46,14 +46,15 @@ GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
 | PHP | Packagist | `0.10.2` | https://packagist.org/packages/axisvela/praxo-core#v0.10.2 | 已发布；修复不完整的 `0.10.1` split 产物；全新 dist 安装和 allow/deny 已验证 |
 | Dart | pub.dev | `0.8.2` | https://pub.dev/packages/praxo_core/versions/0.8.2 | 已发布；公共 API 已有 dartdoc 注释覆盖 |
 | D | DUB | `0.8.0` | https://code.dlang.org/packages/praxo-core/versions/0.8.0 | 已发布；与源码 `d/v0.8.0` 一致 |
-| Swift | Swift Package Index | `0.7.2` | https://swiftpackageindex.com/axisvela/praxo-core-swift | SPI 索引 split `0.7.2`；split 仓库已打 tag `0.9.0`（流式范围）；SPI 重新索引待完成 |
+| Swift | Swift Package Index | `0.9.0` | https://swiftpackageindex.com/axisvela/praxo-core-swift | SPI 已索引 split `0.9.0`（含流式范围）；未记录消费者 smoke |
 | MATLAB | MATLAB File Exchange | `0.9.1` | https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core | 已发布；源码 `matlab/v0.9.0`；引用仍为 `0.2.1`；MATLAB 兼容性未验证 |
+| Octave | Octave Packages | `0.9.0` | https://gnu-octave.github.io/packages/praxo-core/ | 已于 2026-11-26 索引；未记录消费者安装 smoke |
 | PowerShell Core | PowerShell Gallery | `0.9.1` | https://www.powershellgallery.com/packages/praxo-core-ps/0.9.1 | 已发布；发布工作流 45922472866 |
 | PowerShell Bridge | PowerShell Gallery | `0.1.0` | https://www.powershellgallery.com/packages/praxo-core-ps-br/0.1.0 | 已发布 |
 | Perl | CPAN | `0.8.1` | https://metacpan.org/dist/Praxo-Core | 已发布；README.pod 包含示例、教程、参考应用状态和社区信息 |
 | Haskell | Hackage | `0.9.0` | https://hackage.haskell.org/package/praxo-core-0.9.0 | 已发布；README 缺陷见页面审计 |
 | R | r-universe | `0.12.0` | https://axisvela.r-universe.dev/praxocore | 实际构建 HEAD `9b417e3`；检查有 warnings，非全部通过且无警告；未发布 CRAN |
-| Nim | nim-lang/packages（Nimble） | `0.1.1` | https://github.com/axisvela/praxo-core-nim | split 仓库 `v0.8.0` 已打 tag；nim-lang/packages PR #3600 已于 2026-11-05 合并；nimpkgs 待重新抓取 |
+| Nim | nim-lang/packages（Nimble） | `unversioned` | https://github.com/axisvela/praxo-core-nim | git 索引条目已合并；split 仓库 `v0.8.0` 已打 tag；nimpkgs 重新抓取与消费者安装 smoke 未验证 |
 
 ### PHP 0.10.1 缺陷与 0.10.2 修正（2026-11-28）
 
@@ -72,7 +73,6 @@ Composer 检查共 8 项通过，另有 166 项原生测试通过。
 | 语言 | 注册表 | 版本 | 地址 | 状态 |
 | --- | --- | --- | --- | --- |
 | Julia | Julia General Registry | 未注册 | https://github.com/JuliaRegistries/General/pull/176393 | PR 已更新为 `0.9.0`，待审核；mirror 已打 `0.9.0`；mirror tag 不等于 General 可用 |
-| Octave | Octave Packages | `0.9.0` | https://github.com/axisvela/praxo-core/releases/tag/octave%2Fv0.9.0 | 0.9.0 release tarball 已发布；包索引 PR 待完成 |
 | V | VPM | 未验证 | https://github.com/axisvela/praxo-core-v | registry 可用性未验证；split 仓库 `0.8.0` 已打 tag；VPM 提交待完成 |
 | Delphi / Free Pascal | OPM / GitHub release | `0.9.0` | https://github.com/axisvela/praxo-core/releases/tag/delphi%2Fv0.9.0 | 0.9.0 OPM 资产已发布；OPM 收录待完成 |
 

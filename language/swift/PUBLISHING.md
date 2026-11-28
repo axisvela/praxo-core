@@ -4,9 +4,9 @@
 
 Source tag `swift/v0.9.0` maps to library `PraxoCore` version `0.9.0`. The
 SPM mirror `axisvela/praxo-core-swift` is tagged `0.9.0` with the full Core
-scope, including streaming. Swift Package Index listing PR:
+scope, including streaming. Swift Package Index lists `0.9.0` with streaming scope.
 <https://github.com/SwiftPackageIndex/PackageList/pull/16032>; SPI re-indexing
-of `0.9.0` is pending.
+
 
 Local Windows full `swift test` is not reproducible with the current toolchain;
 `swiftc -typecheck` passes for `Sources/PraxoCore`. macOS CI remains the

@@ -417,16 +417,16 @@
       ]
     },
     "docs": "https://axisvela.github.io/praxo-core/languages/octave/",
-    "install": "pkg install https://github.com/axisvela/praxo-core/releases/download/octave/v0.9.0/praxo-core-0.9.0.tar.gz",
+    "install": "pkg install -forge praxo-core",
     "package": "praxo-core",
     "published_version": "0.9.0",
-    "registry": "GitHub release (Octave package index pending)",
+    "registry": "Octave Packages",
     "source_install": "Source checkout: language/octave and language/matlab-octave-core (see README)",
     "source_version": "0.9.0",
-    "status": "published release tarball 0.9.0; package index PR pending",
+    "status": "published; indexed 2026-11-26; consumer install smoke not recorded",
     "tag": "octave/v0.9.0",
     "tier": "Core",
-    "url": "https://github.com/axisvela/praxo-core/releases/download/octave/v0.9.0/praxo-core-0.9.0.tar.gz"
+    "url": "https://gnu-octave.github.io/packages/praxo-core/"
   },
   "Go": {
     "dir": ".",
@@ -1100,13 +1100,13 @@
       ]
     },
     "docs": "https://axisvela.github.io/praxo-core/languages/swift/",
-    "install": ".package(url: \"https://github.com/axisvela/praxo-core-swift.git\", exact: \"0.7.2\")",
+    "install": ".package(url: \"https://github.com/axisvela/praxo-core-swift.git\", exact: \"0.9.0\")",
     "package": "praxo-core-swift",
-    "published_version": "0.7.2",
+    "published_version": "0.9.0",
     "registry": "Swift Package Index",
     "source_install": ".package(path: \"language/swift\")",
     "source_version": "0.9.0",
-    "status": "published; split repository v0.9.0 tagged; SPI re-index pending",
+    "status": "published; SPI indexes 0.9.0 with streaming scope",
     "tag": "swift/v0.9.0",
     "tier": "Core",
     "url": "https://swiftpackageindex.com/axisvela/praxo-core-swift"

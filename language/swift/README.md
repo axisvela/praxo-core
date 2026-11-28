@@ -24,7 +24,7 @@ PRAXO-CORE (also written praxocore) provides an embeddable, MIT-licensed agent f
 - Provider credentials, authentication, retries, and durable state remain
   application-owned.
 - MCP uses caller-supplied transports; no remote MCP service is bundled.
-- The split package `0.7.2` is documentation-only and non-streaming; SSE
+- The split package `0.9.0` includes the streaming scope; use the versioned split repository for SPM consumption.
   streaming is available in source tag `swift/v0.9.0`, not in the split package.
 - Go remains the reference implementation; full Go feature parity is not
   claimed.
@@ -86,7 +86,7 @@ seams.
 ## Install
 
 ```swift
-.package(url: "https://github.com/axisvela/praxo-core-swift.git", exact: "0.7.2")
+.package(url: "https://github.com/axisvela/praxo-core-swift.git", exact: "0.9.0")
 ```
 
 ## Build and test

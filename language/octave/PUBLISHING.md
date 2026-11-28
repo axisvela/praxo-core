@@ -22,7 +22,7 @@ SHA256: `f8c7182a1e166f4f83742f580ec863c0d1fccbabe151f42cf6963057a1ebc972`.
 
 ## Octave Packages
 
-The package entry is in PR #875:
+The package entry is indexed in Octave Packages (PR #875 merged):
 <https://github.com/gnu-octave/packages/pull/875>. The PR targets version
 `0.9.0` with the archive SHA256 above; it uses package name and permalink
 `praxo-core` and dependencies `octave (>= 7.0.0)` and `pkg`.

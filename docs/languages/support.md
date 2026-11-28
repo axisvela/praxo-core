@@ -103,14 +103,14 @@ acceptance, and no new consumer smoke or remote correction is claimed here.
 | PHP | `php/v0.10.1` | Packagist `axisvela/praxo-core==0.10.1` published | Historical Composer allow/deny passed for `0.8.1` on 2026-11-18; `0.10.1` smoke not recorded |
 | Dart | `dart/v0.8.2` | pub.dev `praxo_core==0.8.2` published | public API has dartdoc coverage |
 | D | `d/v0.8.0` | DUB `praxo-core==0.8.0` published | Consumer smoke not recorded for `0.8.0` |
-| Swift | `swift/v0.9.0` | SPI split package `0.7.2` indexed; split repository tagged `0.9.0` with streaming scope; SPI re-index pending | Local Windows full test blocked; typecheck passed; consumer smoke not recorded |
+| Swift | `swift/v0.9.0` | SPI split package `0.9.0` indexed with streaming scope | Local Windows full test blocked; typecheck passed; consumer smoke not recorded |
 | Julia | `julia/v0.9.0` | General Registry PR #176393 updated to 0.9.0; merge pending | Not recorded |
 | MATLAB | `matlab/v0.9.0` | MATLAB File Exchange `185166` published (`0.9.1`) | Citation still `0.2.1`; broad compatibility and native MATLAB execution unverified |
-| Octave | `octave/v0.9.0` | Octave `0.9.0` release tarball published; Octave Packages PR #875 pending | Not recorded; Octave 11.3.0 local execution only |
+| Octave | `octave/v0.9.0` | Indexed in Octave Packages as `0.9.0` (2026-11-26) | Consumer install smoke not recorded; Octave 11.3.0 local execution only |
 | R | `r/v0.12.0` | r-universe `praxocore==0.12.0` published; CRAN not published | Actual build HEAD `9b417e3`; checks include warnings, not all clean. Post-publication consumer install not recorded; CRAN requires `R CMD check --as-cran` |
 | Perl | `perl/v0.8.1` | CPAN `Praxo-Core==0.8.1` published | README.pod includes examples, tutorials, reference-application status, and community |
 | PowerShell | `powershell/v0.9.1` | PowerShell Gallery `praxo-core-ps==0.9.1` published | Release workflow run `45922472866` published 0.9.1 with example, tutorial, and reference-application lists in the Gallery description |
-| Nim | `nim/v0.8.0` | Split repository `v0.8.0` tagged; nim-lang/packages PR #3600 merged; nimpkgs re-crawl pending | Not recorded |
+| Nim | `nim/v0.8.0` | Git index entry merged; split repository `v0.8.0` tagged; nimpkgs recrawl pending | Not recorded |
 | OCaml | `ocaml/v0.11.1` | Not published to opam; replacement submission pending | Split source aligned to `0.11.1`; native-fixture package suite validated locally; registry acceptance pending |
 | Haskell | `haskell/v0.9.0` | Hackage `praxo-core==0.9.0` published | Consumer install not recorded for `0.9.0` |
 | Delphi / Free Pascal | `delphi/v0.9.0` | OPM `0.9.0`; 0.9.0 OPM assets published; OPM listing pending | Not recorded; commercial Delphi unverified |
@@ -136,14 +136,14 @@ its latest version matches the manifest at the release tag.
 | Dart | 0.8.2 | pub.dev `0.8.2` | version matches; docs coverage added |
 | Julia | 0.9.0 | General Registry PR #176393 updated; merge pending | PR targets 0.9.0; pending |
 | MATLAB | 0.9.0 | File Exchange `185166` (`0.9.1`) | different source/registry versions; citation stale; MATLAB unverified |
-| Octave | 0.9.0 | 0.9.0 release tarball; Octave Packages PR #875 pending | archive available; index pending |
+| Octave | 0.9.0 | Octave Packages `0.9.0` | indexed; consumer smoke not recorded |
 | Perl | 0.8.1 | CPAN `0.8.1` | version matches |
 | PowerShell | 0.9.1 | PowerShell Gallery `0.9.1` | version matches |
 | Haskell | 0.9.0 | Hackage `0.9.0` | version matches; README stale |
 | R | 0.12.0 | r-universe `0.12.0` | version matches; check warnings; CRAN not published |
-| Nim | 0.8.0 | split source tagged; registry index pending | split repository `v0.8.0` tagged; Nimble/nimpkgs re-crawl pending |
+| Nim | 0.8.0 | git index entry merged; split source tagged | nimpkgs recrawl and consumer smoke pending |
 | OCaml | 0.11.1 | not published to opam; replacement submission pending | split source aligned and native-fixture package validated |
-| Swift | 0.9.0 | SPI `0.7.2` | split repository `0.9.0` tagged; SPI re-index pending |
+| Swift | 0.9.0 | SPI `0.9.0` | streaming scope indexed; consumer smoke pending |
 | V | 0.8.0 | split repository `0.8.0` tagged | VPM submission pending; not accepted |
 | Delphi / Free Pascal | 0.9.0 | GitHub release assets `0.9.0` | OPM listing unverified |
 | D | 0.8.0 | DUB `0.8.0` | version matches |
@@ -253,8 +253,8 @@ installation index. Use the tables above and
 - Octave has source tag `octave/v0.3.0` with all eleven vector groups, native
   tests, and API snapshot/parity under GNU Octave 11.3.0. It shares
   `language/matlab-octave-core/+praxo` with MATLAB. The package archive is
-  published on the `octave/v0.3.0` GitHub release and Octave Packages PR #875
-  is open.
+  published on the `octave/v0.3.0` GitHub release; Octave Packages now indexes
+  0.9.0, as recorded in the current registry status.
 - OCaml has source tag `ocaml/v0.4.0` with all eleven vector groups, native
   tests, and API snapshot/parity. The split package repository
    `axisvela/praxo-core-ocaml` prepared package `praxo-core` 0.3.0 with module `Praxo_core`;
@@ -276,7 +276,7 @@ installation index. Use the tables above and
   repository is tagged `0.8.0`, while VPM submission is pending and registry
   availability remains unverified. Objective-C remains source-only. Swift
    publishes SPM tag `0.9.0` from `axisvela/praxo-core-swift`; Swift Package
-   Index `0.7.2` remains indexed while `0.9.0` re-indexing is pending. Production readiness and complete Go parity are not
+   Swift Package Index lists split package `0.9.0` with streaming scope. Production readiness and complete Go parity are not
   claimed; optional Go hooks and provider adapters are not included.
 - Erlang source tag `erlang/v0.5.0` adds HITL interrupt decisions to policy
   hooks, middleware, final-tool allowlist checks, reauthorization, lifecycle

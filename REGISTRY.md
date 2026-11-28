@@ -35,14 +35,14 @@ require separately configured providers and credentials.
 | OCaml | `praxo-core` | [opam (pending)](https://github.com/axisvela/praxo-core-ocaml) | not published | https://axisvela.github.io/praxo-core/languages/ocaml/ |
 | Haskell | `praxo-core` | [Hackage](https://hackage.haskell.org/package/praxo-core-0.9.0) | `0.9.0` | https://axisvela.github.io/praxo-core/languages/haskell/ |
 | Julia | `PraxoCore` | [Julia General (pending)](https://github.com/axisvela/praxo-core-Julia) | not published | https://axisvela.github.io/praxo-core/languages/julia/ |
-| Swift | `praxo-core-swift` | [Swift Package Index](https://swiftpackageindex.com/axisvela/praxo-core-swift) | `0.7.2` | https://axisvela.github.io/praxo-core/languages/swift/ |
+| Swift | `praxo-core-swift` | [Swift Package Index](https://swiftpackageindex.com/axisvela/praxo-core-swift) | `0.9.0` | https://axisvela.github.io/praxo-core/languages/swift/ |
 | Nim | `praxo_core` | [Nimble/nim-lang packages (unverified)](https://github.com/axisvela/praxo-core-nim) | not published | https://axisvela.github.io/praxo-core/languages/nim/ |
 | V | `praxo-core` | [VPM (pending)](https://github.com/axisvela/praxo-core-v) | not published | https://axisvela.github.io/praxo-core/languages/v/ |
 | D | `praxo-core` | [DUB](https://code.dlang.org/packages/praxo-core) | `0.8.0` | https://axisvela.github.io/praxo-core/languages/d/ |
 | PowerShell | `praxo-core-ps` | [PowerShell Gallery](https://www.powershellgallery.com/packages/praxo-core-ps/0.9.1) | `0.9.1` | https://axisvela.github.io/praxo-core/languages/powershell/ |
 | R | `praxocore` | [r-universe](https://axisvela.r-universe.dev/praxocore) | `0.12.0` | https://axisvela.github.io/praxo-core/languages/r/ |
 | MATLAB | `PRAXO-CORE` | [MATLAB File Exchange](https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core) | `0.9.1` | https://axisvela.github.io/praxo-core/languages/matlab/ |
-| GNU Octave | `praxo-core` | [GitHub release (Octave package index pending)](https://github.com/axisvela/praxo-core/releases/download/octave/v0.9.0/praxo-core-0.9.0.tar.gz) | `0.9.0` | https://axisvela.github.io/praxo-core/languages/octave/ |
+| GNU Octave | `praxo-core` | [Octave Packages](https://gnu-octave.github.io/packages/praxo-core/) | `0.9.0` | https://axisvela.github.io/praxo-core/languages/octave/ |
 | Delphi / Free Pascal | `PRAXO-CORE` | [GitHub release (OPM listing unverified)](https://github.com/axisvela/praxo-core/releases/tag/delphi%2Fv0.9.0) | `0.9.0` | https://axisvela.github.io/praxo-core/languages/delphi/ |
 | Objective-C | `praxo-core-objc` | Source | not published | https://axisvela.github.io/praxo-core/languages/objc/ |
 | C | `praxo-core-c` | [xmake](https://packages.xmake.io/packages/praxo-core) | `0.13.0` | https://axisvela.github.io/praxo-core/languages/c/ |

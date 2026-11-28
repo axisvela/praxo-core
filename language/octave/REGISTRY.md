@@ -4,7 +4,7 @@
 
 PRAXO-CORE (also written praxocore) provides an embeddable, MIT-licensed agent framework for GNU Octave, with tool calling, policy hooks, human-in-the-loop approval, checkpoints, and execution events. Use the language-specific scope and verification evidence below; a package listing does not establish Go feature parity or production readiness.
 
-**Status:** published release tarball 0.9.0; package index PR pending. Source version `0.9.0`, source
+**Status:** published; indexed 2026-11-26; consumer install smoke not recorded. Source version `0.9.0`, source
 tag `octave/v0.9.0`. Published registry version: `0.9.0`. Registry
 pages are release snapshots; verify the published version before relying on a feature.
 
@@ -13,10 +13,10 @@ pages are release snapshots; verify the published version before relying on a fe
 | Field | Value |
 | --- | --- |
 | Package | `praxo-core` |
-| Registry | [GitHub release (Octave package index pending)](https://github.com/axisvela/praxo-core/releases/download/octave/v0.9.0/praxo-core-0.9.0.tar.gz) |
+| Registry | [Octave Packages](https://gnu-octave.github.io/packages/praxo-core/) |
 | Source version | `0.9.0` |
 | Published registry version | `0.9.0` |
-| Install (published) | `pkg install https://github.com/axisvela/praxo-core/releases/download/octave/v0.9.0/praxo-core-0.9.0.tar.gz` |
+| Install (published) | `pkg install -forge praxo-core` |
 | Install (source/release prepared) | `Source checkout: language/octave and language/matlab-octave-core (see README)` |
 | Source tag | `octave/v0.9.0` |
 | Tier | Core |

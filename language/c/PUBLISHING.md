@@ -1,6 +1,6 @@
 # Publishing the C Core
 
-Source tag `c/v0.6.0`. There is no central C package registry publication.
+Source tag `c/v0.14.0`.
 
 Candidate registries:
 

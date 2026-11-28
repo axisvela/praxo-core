@@ -75,14 +75,14 @@ Kotlin、VB.NET、Scala 等仅示例实现保留在本仓库，作为宿主 Core
 | PHP | `php/v0.10.1` | Packagist `axisvela/praxo-core==0.10.1` 已发布 | 历史 Composer 于 2026-11-18 通过 `0.8.1` allow/deny；未记录 `0.10.1` smoke |
 | Dart | `dart/v0.8.2` | pub.dev `praxo_core==0.8.2` 已发布 | 公共 API 已有 dartdoc 注释覆盖 |
 | D | `d/v0.8.0` | DUB `praxo-core==0.8.0` 已发布 | 未记录 `0.8.0` 消费者 smoke |
-| Swift | `swift/v0.9.0` | SPI split 包 `0.7.2` 已索引；split 仓库已打 tag `0.9.0`（流式范围）；SPI 重新索引待完成 | 本地 Windows 完整测试受阻；typecheck 通过；未记录消费者 smoke |
+| Swift | `swift/v0.9.0` | SPI split 包 `0.9.0` 已索引（含流式范围） | 本地 Windows 完整测试受阻；typecheck 通过；未记录消费者 smoke |
 | Julia | `julia/v0.9.0` | General Registry PR #176393 已更新为 0.9.0，待合并 | 未记录 |
 | MATLAB | `matlab/v0.9.0` | MATLAB File Exchange `185166` 已发布（`0.9.1`） | 引用仍为 `0.2.1`；广泛兼容性和原生 MATLAB 执行未验证 |
-| Octave | `octave/v0.9.0` | Octave `0.9.0` release tarball 已发布；Octave Packages PR #875 待合并 | 未记录；仅 Octave 11.3.0 本地执行 |
+| Octave | `octave/v0.9.0` | 已作为 `0.9.0` 索引到 Octave Packages（2026-11-26） | 未记录消费者安装 smoke；仅记录 Octave 11.3.0 本地执行 |
 | R | `r/v0.12.0` | r-universe `praxocore==0.12.0` 已发布；CRAN 未发布 | 实际构建 HEAD `9b417e3`；检查有 warnings，并非全部无警告通过。未记录发布后消费者安装；CRAN 需 `R CMD check --as-cran` |
 | Perl | `perl/v0.8.1` | CPAN `Praxo-Core==0.8.1` 已发布 | README.pod 包含示例、教程、参考应用状态和社区信息 |
 | PowerShell | `powershell/v0.9.1` | PowerShell Gallery `praxo-core-ps==0.9.1` 已发布 | 发布工作流 run `45922472866` 发布了 0.9.1，Gallery 描述包含示例、教程和参考应用列表 |
-| Nim | `nim/v0.8.0` | split 仓库包 `0.1.1`；nim-lang/packages PR #3600 已于 2026-11-05 合并；nimpkgs 待重新抓取 | 未记录 |
+| Nim | `nim/v0.8.0` | git 索引条目已合并；split 仓库 `v0.8.0` 已打 tag；nimpkgs 待重新抓取 | 未记录 |
 | OCaml | `ocaml/v0.11.1` | 未发布到 opam；替代提交待审核 | split 源码已对齐到 `0.11.1`；原生 fixture 包测试已在本地验证；等待 registry 接受 |
 | Haskell | `haskell/v0.9.0` | Hackage `praxo-core==0.9.0` 已发布 | 未记录 `0.9.0` 消费者安装 |
 | Delphi / Free Pascal | `delphi/v0.9.0` | OPM `0.9.0`；0.9.0 OPM 资产已发布；OPM 收录待完成 | 未记录；商业 Delphi 未验证 |
@@ -108,14 +108,14 @@ Kotlin、VB.NET、Scala 等仅示例实现保留在本仓库，作为宿主 Core
 | Dart | 0.8.2 | pub.dev `0.8.2` | 版本一致；文档覆盖已增加 |
 | Julia | 0.9.0 | General Registry PR #176393 已更新为 0.9.0，待合并 | 待完成 |
 | MATLAB | 0.9.0 | File Exchange `185166`（`0.9.1`） | 源码与 registry 版本不同；引用陈旧；MATLAB 未验证 |
-| Octave | 0.9.0 | 0.9.0 release tarball；Octave Packages PR #875 待合并 | 归档可用；索引待合并 |
+| Octave | 0.9.0 | Octave Packages `0.9.0` | 已索引；未记录消费者 smoke |
 | Perl | 0.8.1 | CPAN `0.8.1` | 版本一致 |
 | PowerShell | 0.9.1 | PowerShell Gallery `0.9.1` | 版本一致 |
 | Haskell | 0.9.0 | Hackage `0.9.0` | 版本一致；README 陈旧 |
 | R | 0.12.0 | r-universe `0.12.0` | 版本一致；检查有 warnings；未发布 CRAN |
-| Nim | 0.8.0 | split 源码已打 tag；registry 索引待更新 | split 仓库 `v0.8.0` 已打 tag；Nimble/nimpkgs 待重新抓取 |
+| Nim | 0.8.0 | git 索引条目已合并；split 源码已打 tag | nimpkgs 重新抓取与消费者 smoke 待完成 |
 | OCaml | 0.11.1 | 未发布到 opam；替代提交待审核 | split 源码已对齐且原生 fixture 包已验证 |
-| Swift | 0.9.0 | SPI `0.7.2` | split 仓库 `0.9.0` 已打 tag；SPI 重新索引待完成 |
+| Swift | 0.9.0 | SPI `0.9.0` | 流式范围已索引；消费者 smoke 待记录 |
 | V | 0.8.0 | split 仓库 `0.8.0` 已打 tag | VPM 提交待完成，未验收 |
 | Delphi / Free Pascal | 0.9.0 | GitHub Release 资产 `0.9.0` | OPM 收录未验证 |
 | D | 0.8.0 | DUB `0.8.0` | 版本一致 |
@@ -180,7 +180,7 @@ Kotlin、VB.NET、Scala 等仅示例实现保留在本仓库，作为宿主 Core
   MATLAB File Exchange `185166`（`0.3.0`）已发布；MATLAB 运行时兼容性和真实提供商行为未声明。
 - Octave 已有源码标签 `octave/v0.3.0`，在 GNU Octave 11.3.0 下通过全部 11 个向量组、
   原生测试和 API 快照/parity。它与 MATLAB 共享 `language/matlab-octave-core/+praxo`。
-  包归档已发布到 `octave/v0.3.0` GitHub release，Octave Packages PR #875 待合并。
+  包归档已发布于 `octave/v0.3.0` GitHub release；Octave Packages 现已索引 0.9.0，当前状态见上方 registry 表。
 - OCaml 已有源码标签 `ocaml/v0.4.0`，包含全部 11 个向量组、原生测试和 API
    快照/parity。split 包仓库 `axisvela/praxo-core-ocaml` 准备了包
    `praxo-core` 0.3.0（模块 `Praxo_core`），不等于 opam 发布；PR #31222 已关闭。原生 `ocamlopt` 编译和

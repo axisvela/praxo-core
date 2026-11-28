@@ -2,7 +2,7 @@
 
 ## Status
 
-Source tag `cpp/v0.4.0`. There is no central C++ package-registry publication.
+Source tag `cpp/v0.10.0`.
 
 ## Candidate registries
 
