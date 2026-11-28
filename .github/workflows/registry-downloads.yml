@@ -1,0 +1,40 @@
+name: registry-downloads
+
+on:
+  workflow_dispatch:
+    inputs:
+      commit:
+        description: Commit the collected snapshot to main
+        type: boolean
+        default: false
+  schedule:
+    - cron: "17 4 * * 1"
+
+permissions:
+  contents: write
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Collect public registry download metrics
+        run: python -m scripts.metrics.registry_downloads
+      - name: Upload collected data
+        uses: actions/upload-artifact@v4
+        with:
+          name: registry-downloads
+          path: data/registry-downloads
+      - name: Check collected data
+        run: python -m scripts.metrics.registry_downloads --check
+      - name: Commit snapshot
+        if: github.event_name == 'workflow_dispatch' && inputs.commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/registry-downloads
+          git diff --cached --quiet || git commit -m "chore(metrics): collect registry downloads"
+          git push

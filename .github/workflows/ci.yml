@@ -27,6 +27,7 @@ on:
       - "!scripts/checks/**"
       - "!scripts/release/**"
       - "!scripts/execution/**"
+      - "!scripts/metrics/**"
       - "!scripts/validation/**"
       - "!language/discovery.json"
       - "!language/registry-metadata.json"

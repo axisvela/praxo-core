@@ -16,6 +16,7 @@ DOCS_SCRIPT_PREFIXES = (
     "scripts/checks/",
     "scripts/release/",
     "scripts/execution/",
+    "scripts/metrics/",
     "scripts/validation/",
 )
 CI_SCRIPT_PREFIXES = ("scripts/ci/",)
