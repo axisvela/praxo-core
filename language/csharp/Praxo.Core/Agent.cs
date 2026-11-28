@@ -69,6 +69,8 @@ public sealed class AgentOptions
 
 public sealed class Agent
 {
+    private static long _runSequence;
+
     private readonly AgentOptions _options;
     private readonly string _systemPrompt;
     private readonly List<IMiddleware> _middleware;
@@ -132,7 +134,8 @@ public sealed class Agent
     {
         ThrowIfCancelled();
         var maxSteps = _options.MaxSteps > 0 ? _options.MaxSteps : 8;
-        var runId = $"run-{DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()}";
+        var runId = $"run-{DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()}-"
+            + $"{Environment.ProcessId}-{Interlocked.Increment(ref _runSequence)}";
         var messages = session.Messages.Select(Clone).ToList();
         if (!string.IsNullOrEmpty(_systemPrompt))
         {
@@ -151,10 +154,10 @@ public sealed class Agent
             AfterRun(entered, null, AsPraxoException(startupError));
             throw;
         }
-        Emit("run.started", session.Id, runId, null);
         var afterRunInvoked = false;
         try
         {
+            Emit("run.started", session.Id, runId, null);
             for (var step = 1; step <= maxSteps; step++)
             {
                 ThrowIfCancelled();

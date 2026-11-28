@@ -307,6 +307,7 @@ public sealed class CallLimitMiddleware : IMiddleware
     private readonly int _modelLimit;
     private readonly int _toolLimit;
     private readonly Dictionary<string, (int Models, int Tools)> _counts = new(StringComparer.Ordinal);
+    private readonly RunScopes _runs = new();
 
     public CallLimitMiddleware(int modelLimit, int toolLimit)
     {
@@ -318,6 +319,7 @@ public sealed class CallLimitMiddleware : IMiddleware
 
     public void BeforeRun(RunState state)
     {
+        _runs.Push(state.RunId);
         _counts[state.RunId] = (0, 0);
     }
 
@@ -345,9 +347,10 @@ public sealed class CallLimitMiddleware : IMiddleware
 
     public void AfterRun(RunResult? result, PraxoException? error)
     {
-        if (result != null)
+        var runId = _runs.Pop() ?? result?.RunId;
+        if (runId != null)
         {
-            _counts.Remove(result.RunId);
+            _counts.Remove(runId);
         }
     }
 }
@@ -361,6 +364,7 @@ public sealed class ToolSelectionMiddleware : IMiddleware
 {
     private readonly IToolSelector _selector;
     private readonly Dictionary<string, HashSet<string>> _selected = new(StringComparer.Ordinal);
+    private readonly RunScopes _runs = new();
 
     public ToolSelectionMiddleware(IToolSelector selector)
     {
@@ -373,6 +377,7 @@ public sealed class ToolSelectionMiddleware : IMiddleware
     {
         var names = _selector.Select(LastUserMessage(call.Request.Messages), call.Request.Tools);
         var chosen = names.ToHashSet(StringComparer.Ordinal);
+        _runs.Push(call.RunId);
         _selected[call.RunId] = chosen;
         call.Request.Tools = call.Request.Tools.Where(spec => chosen.Contains(spec.Name)).ToList();
     }
@@ -387,9 +392,10 @@ public sealed class ToolSelectionMiddleware : IMiddleware
 
     public void AfterRun(RunResult? result, PraxoException? error)
     {
-        if (result != null)
+        var runId = _runs.Pop() ?? result?.RunId;
+        if (runId != null)
         {
-            _selected.Remove(result.RunId);
+            _selected.Remove(runId);
         }
     }
 
@@ -425,4 +431,42 @@ public static class ModelFallback
 
     public static ModelMiddleware FallbackWithContent(string content)
         => Fallback(new StaticModel(content));
+}
+
+internal sealed class RunScopes
+{
+    private sealed class Frame
+    {
+        public Frame(string runId, Frame? previous)
+        {
+            RunId = runId;
+            Previous = previous;
+        }
+
+        public string RunId { get; }
+
+        public Frame? Previous { get; }
+    }
+
+    private readonly AsyncLocal<Frame?> _current = new();
+
+    public void Push(string runId)
+    {
+        if (_current.Value?.RunId == runId)
+        {
+            return;
+        }
+        _current.Value = new Frame(runId, _current.Value);
+    }
+
+    public string? Pop()
+    {
+        var frame = _current.Value;
+        if (frame == null)
+        {
+            return null;
+        }
+        _current.Value = frame.Previous;
+        return frame.RunId;
+    }
 }

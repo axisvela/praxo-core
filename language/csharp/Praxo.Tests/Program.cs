@@ -37,6 +37,8 @@ internal static class Program
         TestInitialDenial();
         TestHitl();
         TestStartupCleanup();
+        TestStartupEventCleanup();
+        TestRunIdsUnique();
         TestAfterRunContinues();
         TestCleanupFailClosed();
         TestOpenAiStreamCompletion();
@@ -214,6 +216,22 @@ internal static class Program
             rejected = true;
         }
         Check(rejected, "call limit state is isolated by run");
+
+        var failed = new CallLimitMiddleware(1, 0);
+        var failedRun = new ModelCall { RunId = "failed" };
+        failed.BeforeRun(new RunState { RunId = "failed" });
+        failed.BeforeModel(failedRun);
+        failed.AfterRun(null, new PraxoException("RUN_FAILED", "run failed"));
+        rejected = false;
+        try
+        {
+            failed.BeforeModel(failedRun);
+        }
+        catch (PraxoException ex) when (ex.Code == "AGENT_MODEL_CALL_LIMIT")
+        {
+            rejected = true;
+        }
+        Check(!rejected, "call limit releases failed run state");
     }
 
     private static void TestCapacityFailClosed()
@@ -663,6 +681,60 @@ internal static class Program
         Check(sink.Events.Count == 0, "startup emits no run events");
     }
 
+    private static void TestStartupEventCleanup()
+    {
+        var calls = new List<string>();
+        var events = new List<string>();
+        var options = new AgentOptions(new FailingTestModel("model must not run"));
+        options.Events = new DelegateSink(@event =>
+        {
+            events.Add(@event.Type);
+            if (@event.Type == "run.started")
+            {
+                throw new PraxoException("SINK_FAILED", "sink unavailable");
+            }
+        });
+        options.Middleware.Add(new LifecycleMiddleware
+        {
+            Before = () => calls.Add("acquire"),
+            After = (_, error) => calls.Add($"release:{error?.Code}"),
+        });
+        var failure = "";
+        try
+        {
+            new Agent(options).Run(new Session("s1"), "go");
+        }
+        catch (PraxoException ex)
+        {
+            failure = ex.Message;
+        }
+        Check(failure == "sink unavailable", "startup event failure preserved");
+        Check(calls.SequenceEqual(new[] { "acquire", "release:SINK_FAILED" }),
+            "startup event cleanup");
+        Check(events.SequenceEqual(new[] { "run.started", "run.failed" }),
+            "startup event failure events");
+    }
+
+    private static void TestRunIdsUnique()
+    {
+        var ids = new System.Collections.Concurrent.ConcurrentDictionary<string, bool>();
+        var options = new AgentOptions(new StaticTestModel());
+        options.Events = new DelegateSink(@event =>
+        {
+            if (@event.Type == "run.started"
+                && !ids.TryAdd(@event.RunId!, true))
+            {
+                throw new PraxoException("DUPLICATE_RUN_ID", "duplicate run id");
+            }
+        });
+        var agent = new Agent(options);
+        var tasks = Enumerable.Range(0, 2000)
+            .Select(_ => Task.Run(() => agent.Run(new Session("s1"), "go")))
+            .ToArray();
+        Task.WaitAll(tasks);
+        Check(ids.Count == 2000, "unique run ids: " + ids.Count);
+    }
+
     private static void TestAfterRunContinues()
     {
         var calls = new List<string>();
@@ -999,6 +1071,18 @@ internal static class Program
         {
             Events.Add(@event);
         }
+    }
+
+    private sealed class DelegateSink : IEventSink
+    {
+        private readonly System.Action<Event> _emit;
+
+        public DelegateSink(System.Action<Event> emit)
+        {
+            _emit = emit;
+        }
+
+        public void Emit(Event @event) => _emit(@event);
     }
 
     private sealed class StaticTestModel : IModel
