@@ -1,4 +1,5 @@
 import { ToolNotSelectedError } from "../errors";
+import { withRunCleanup } from "../internal/runscope";
 import {
   Message,
   Model,
@@ -33,7 +34,7 @@ export function toolSelectionMiddleware(
 ): Middleware {
   const selected = new Map<string, Set<string>>();
 
-  return {
+  const middleware: Middleware = {
     name: "tool-selection",
     async beforeModel(call: ModelCall): Promise<void> {
       if (!call.request || !selector) return;
@@ -59,6 +60,9 @@ export function toolSelectionMiddleware(
       if (runId) selected.delete(runId);
     },
   };
+  return withRunCleanup(middleware, (runId) => {
+    selected.delete(runId);
+  });
 }
 
 export function lastUserMessage(messages: Message[]): string {

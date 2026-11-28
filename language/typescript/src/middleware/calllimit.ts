@@ -2,6 +2,7 @@ import {
   ModelCallLimitError,
   ToolCallLimitError,
 } from "../errors";
+import { withRunCleanup } from "../internal/runscope";
 import {
   Middleware,
   MiddlewareToolCall,
@@ -20,7 +21,7 @@ export function callLimitMiddleware(
 ): Middleware {
   const counts = new Map<string, Count>();
 
-  return {
+  const middleware: Middleware = {
     name: "call-limit",
     beforeRun(state: RunState): void {
       counts.set(state.runId, { models: 0, tools: 0 });
@@ -48,4 +49,7 @@ export function callLimitMiddleware(
       if (runId) counts.delete(runId);
     },
   };
+  return withRunCleanup(middleware, (runId) => {
+    counts.delete(runId);
+  });
 }

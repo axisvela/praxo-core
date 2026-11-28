@@ -62,8 +62,16 @@ import {
   Usage,
   usage,
 } from "./model";
+import { cleanupRunScoped } from "./internal/runscope";
 import { Action, Decision, Hook } from "./policy";
 import { Registry, Tool } from "./tool";
+
+let runSequence = 0;
+
+function nextRunId(): string {
+  runSequence = (runSequence + 1) % Number.MAX_SAFE_INTEGER;
+  return `run-${Date.now()}-${process.pid}-${runSequence}`;
+}
 
 export interface Session {
   id: string;
@@ -177,7 +185,7 @@ export class Agent {
     this.throwIfAborted();
     const maxSteps =
       (this.options.maxSteps ?? 8) > 0 ? this.options.maxSteps ?? 8 : 8;
-    const runId = `run-${Date.now() * 1000 + Math.floor(Math.random() * 1000)}`;
+    const runId = nextRunId();
     const messages: Message[] = [...(session.messages ?? [])];
     if (this.systemPrompt) {
       messages.unshift({
@@ -197,11 +205,12 @@ export class Agent {
       } catch {
         // preserve the startup error and emit no run events
       }
+      cleanupRunScoped(entered, runId);
       throw error;
     }
-    await this.emit({ type: "run.started", sessionId: session.id, runId });
     let afterRunInvoked = false;
     try {
+      await this.emit({ type: "run.started", sessionId: session.id, runId });
       for (let step = 1; step <= maxSteps; step += 1) {
         this.throwIfAborted();
         await this.authorize({
@@ -299,6 +308,8 @@ export class Agent {
         // event sinks must not mask the run error
       }
       throw error;
+    } finally {
+      cleanupRunScoped(entered, runId);
     }
   }
 

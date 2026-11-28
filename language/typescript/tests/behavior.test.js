@@ -198,3 +198,91 @@ test("context budget fails closed", async () => {
     (error) => error instanceof praxo.ContextBudgetError
   );
 });
+
+test("startup event failure runs afterRun cleanup", async () => {
+  const trace = [];
+  const agent = new praxo.Agent({
+    model: {
+      async generate() {
+        throw new Error("model must not run");
+      },
+    },
+    events: {
+      async emit(event) {
+        if (event.type === "run.started") {
+          throw new Error("sink unavailable");
+        }
+      },
+    },
+    middleware: [
+      {
+        name: "resource",
+        beforeRun: () => trace.push("acquire"),
+        afterRun: (result, error) => trace.push(`release:${error.message}`),
+      },
+    ],
+  });
+  await assert.rejects(agent.run({ id: "s1" }, "go"), /sink unavailable/);
+  assert.deepEqual(trace, ["acquire", "release:sink unavailable"]);
+});
+
+test("concurrent runs keep unique run ids", async () => {
+  const ids = [];
+  const agent = new praxo.Agent({
+    model: {
+      async generate() {
+        return { message: { role: "assistant", content: "ok" } };
+      },
+    },
+    events: {
+      async emit(event) {
+        if (event.type === "run.started") ids.push(event.runId);
+      },
+    },
+    modelCallLimit: 1,
+  });
+  const results = await Promise.allSettled(
+    Array.from({ length: 2000 }, () => agent.run({ id: "s1" }, "go"))
+  );
+  assert.equal(results.filter((item) => item.status === "rejected").length, 0);
+  assert.equal(ids.length, 2000);
+  assert.equal(new Set(ids).size, ids.length);
+});
+
+test("call limit releases failed run state", () => {
+  const { cleanupRunScoped } = require("../dist/internal/runscope.js");
+  const middleware = praxo.callLimitMiddleware(1, 0);
+  middleware.beforeRun({ runId: "failed" });
+  middleware.beforeModel({
+    runId: "failed",
+    sessionId: "s1",
+    request: { messages: [] },
+  });
+  cleanupRunScoped([middleware], "failed");
+  middleware.beforeModel({
+    runId: "failed",
+    sessionId: "s1",
+    request: { messages: [] },
+  });
+});
+
+test("tool selection releases failed run state", async () => {
+  const { cleanupRunScoped } = require("../dist/internal/runscope.js");
+  const middleware = praxo.toolSelectionMiddleware({
+    select: () => ["echo"],
+  });
+  await middleware.beforeModel({
+    runId: "failed",
+    sessionId: "s1",
+    request: {
+      messages: [],
+      tools: [{ name: "echo" }, { name: "other" }],
+    },
+  });
+  cleanupRunScoped([middleware], "failed");
+  middleware.beforeTool({
+    runId: "failed",
+    sessionId: "s1",
+    call: { id: "c1", name: "other", arguments: {} },
+  });
+});
